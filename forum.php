@@ -174,7 +174,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->parse('topiclist_footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
-				'forum_moderators' => sprintf($lang['ModeratorsInThisForum'], $forum_moderators)
+				'forum_moderators' => sprintf($lang['ModeratorsInThisForumLarge'], $forum_moderators)
 			));
 				
 			$template->parse('location_bar', 'global', array(

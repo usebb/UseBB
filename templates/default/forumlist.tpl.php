@@ -52,11 +52,11 @@ $templates['forumlist_cat_header'] = '
 
 $templates['forumlist_forum'] = '
 		<tr>
-			<td><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
-			<td>{forum_name}<p class="forumdescr">{forum_descr}</p></td>
-			<td>{total_topics}</td>
-			<td>{total_posts}</td>
-			<td>{latest_post}<br />{author_date}<br /></td>
+			<td class="icon"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
+			<td>{forum_name}<p class="forumdescr">{forum_descr}</p><p class="forummods">{forum_mods}</p></td>
+			<td class="count">{total_topics}</td>
+			<td class="count">{total_posts}</td>
+			<td class="postinfo">{latest_post}<br />{by_author}<br />{on_date}</td>
 		</tr>
 ';
 

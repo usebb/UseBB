@@ -85,7 +85,6 @@ if ( !$functions->get_stats('forums') ) {
 	// Loop through the forums
 	//
 	while ( $forumdata = $db->fetch_result($result) ) {
-		
 		//
 		// If this user can view this forum
 		//
@@ -149,10 +148,41 @@ if ( !$functions->get_stats('forums') ) {
 				// this forum is in has been chosen
 				//
 				
+				//
+				// Get a list of forum moderators
+				//
+				if ( !($result2 = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forumdata['id']." AND m.user_id = u.id ORDER BY u.name")) )
+					$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
+				if ( !$db->num_rows($result2) ) {
+					
+					$forum_moderators = $lang['Nobody'];
+					
+				} else {
+					
+					$forum_moderators = array();
+					
+					while ( $modsdata = $db->fetch_result($result2) ) {
+						
+						//
+						// Array containing links to moderators
+						//
+						$forum_moderators[] = $functions->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+						
+					}
+					
+					//
+					// Join all values in the array
+					//
+					$forum_moderators = join(', ', $forum_moderators);
+					
+				}
+				
 				if ( $forumdata['topics'] == 0 ) {
 					
 					$latest_post = $lang['NoPosts'];
 					$author_date = '-';
+					$by_author = '-';
+					$on_date = '-';
 					
 				} else {
 					
@@ -166,6 +196,8 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
 					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
+					$by_author = sprintf($lang['ByAuthor'], $author);
+					$on_date = sprintf($lang['OnDate'], $functions->make_date($forumdata['post_time']));
 					
 				}
 				
@@ -174,10 +206,13 @@ if ( !$functions->get_stats('forums') ) {
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
+					'forum_mods' => sprintf($lang['ModeratorsInThisForumSmall'], $forum_moderators),
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,
-					'author_date' => $author_date
+					'author_date' => $author_date,
+					'by_author' => $by_author,
+					'on_date' => $on_date
 				));
 				
 			}

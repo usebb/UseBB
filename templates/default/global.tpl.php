@@ -314,6 +314,27 @@ table.maintable td.forumcat {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }
+table.maintable td.icon {
+	background-color: #E8E8E8;
+	width: 1%;
+}
+table.maintable td .forumdescr {
+	font-size: 8pt;
+	font-style: italic;
+	margin: 0px 0px 0px 10px;
+}
+table.maintable td .forummods {
+	font-size: 8pt;
+}
+table.maintable td.count {
+	background-color: #E8E8E8;
+	width: 1%;
+	text-align: center;
+}
+table.maintable td.postinfo {
+	font-size: 8pt;
+	width: 225px;
+}
 table.maintable td.toolbar {
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;

@@ -74,7 +74,8 @@ class template {
 	
 	function set_page_title($title) {
 		
-		$this->requests[0]['vars']['page_title'] = $title;
+		foreach ( $this->requests as $key => $val )
+			$this->requests[$key]['vars']['page_title'] = $title;
 		
 	}
 	

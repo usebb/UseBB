@@ -47,6 +47,12 @@ if ( intval($_POST['step']) > 1 ) {
 	
 }
 
+function to_step($step) {
+	
+	return '<form action="'.$_SERVER['PHP_SELF'].'" method="post"><p><input type="hidden" name="step" value="'.$step.'" /><input type="submit" value="' . ( ( $_POST['step'] == $step ) ? 'Retry step '.$step : 'Continue to step '.$step ) . '" /></p></form>';
+	
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -91,12 +97,6 @@ if ( intval($_POST['step']) > 1 ) {
 <h1>Installation</h1>
 <div id="wrap">
 <?php
-
-function to_step($step) {
-	
-	return '<form action="'.$_SERVER['PHP_SELF'].'" method="post"><p><input type="hidden" name="step" value="'.$step.'" /><input type="submit" value="Continue to step '.$step.'" /></p></form>';
-	
-}
 
 if ( empty($_POST['step']) ) {
 	

@@ -81,7 +81,7 @@ if ( !isset($_GET['act']) ) {
 				$enable_sig = ( $postdata['poster_id'] && !empty($postdata['signature']) && !empty($_POST['enable_sig']) ) ? 1 : 0;
 				$enable_html = ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) && !empty($_POST['enable_html']) ) ? 1 : 0;
 				
-				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."posts SET content = '".$_POST['content']."'".$update_poster_guest.", enable_bbcode = ".$enable_bbcode.", enable_smilies = ".$enable_smilies.", enable_sig = ".$enable_sig.", enable_html = ".$enable_html." WHERE id = ".$_GET['post'])) )
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."posts SET content = '".$_POST['content']."'".$update_poster_guest.", enable_bbcode = ".$enable_bbcode.", enable_smilies = ".$enable_smilies.", enable_sig = ".$enable_sig.", enable_html = ".$enable_html.", post_edit_time = ".time().", post_edit_by = ".$session->sess_info['user_id']." WHERE id = ".$_GET['post'])) )
 					$functions->usebb_die('SQL', 'Unable to edit post!', __FILE__, __LINE__);
 				
 				if ( $postdata['first_post_id'] == $_GET['post'] ) {

@@ -54,6 +54,7 @@ $templates['config'] = array(
 	'sig_format'						=> '<div class="signature">_______________<br />%s</div>',
 	'quote_format'						=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
 	'code_format'						=> '<pre class="code">%s</pre>',
+	'post_editinfo_format'				=> '<div class="editinfo">&laquo;%s&raquo;</div>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',
@@ -477,6 +478,14 @@ table.maintable td.postcontent .post {
 table.maintable td.postcontent .signature {
 	color: #444444;
 	font-size: 8pt;
+}
+table.maintable td.postcontent .editinfo {
+	margin: 5px 0px 0px 0px;
+	border-top: 1px solid silver;
+	padding: 5px 0px 0px 0px;
+	color: #444444;
+	font-size: 8pt;
+	font-style: italic;
 }
 table.maintable td.postcontent .poster-ip-addr {
 	color: #666666;

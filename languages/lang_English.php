@@ -342,3 +342,4 @@ $lang['Preview'] = 'Preview';
 $lang['DeletePost'] = 'Delete post';
 $lang['ConfirmDeletePost'] = 'Are you sure you want to delete this post in the topic %s? This is irreversible!';
 $lang['EditPost'] = 'Edit post';
+$lang['PostEditInfo'] = 'Last edited by %s on %s.';

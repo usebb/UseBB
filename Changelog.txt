@@ -16,6 +16,7 @@ UseBB 0.3 Changelog
 - Added preview feature for posting new topics and replies.
 - Added edit post feature.
 - Added delete post feature.
+- Added edit information viewing in topics.
 - Added FAQ page.
 - Added MySQL 4.1 (mysqli) enhanced support.
 - Added viewing IP addresses in topics when being admin.

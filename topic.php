@@ -171,7 +171,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
 			
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
 			$i = ( $page - 1 ) * $functions->get_config('posts_per_page');
@@ -266,6 +266,19 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				else
 					$post_links = '';
 				
+				if ( $postsdata['post_edit_time'] ) {
+					
+					if ( !($result2 = $db->query("SELECT name, level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by'])) )
+						$functions->usebb_die('SQL', 'Unable to get post editer!', __FILE__, __LINE__);
+					$editer_info = $db->fetch_result($result2);
+					$post_editinfo = sprintf($template->get_config('post_editinfo_format'), sprintf($lang['PostEditInfo'], $functions->make_profile_link($postsdata['post_edit_by'], $editer_info['name'], $editer_info['level']), $functions->make_date($postsdata['post_edit_time'])));
+					
+				} else {
+					
+					$post_editinfo = '';
+					
+				}
+				
 				//
 				// Output the post
 				//
@@ -282,6 +295,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'post_links' => $post_links,
 					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
+					'post_editinfo' => $post_editinfo,
 					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == 3 ) ? sprintf($lang['ViewingIP'], $postsdata['poster_ip_addr']) : '',
 					'colornum' => $colornum
 				));

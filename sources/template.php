@@ -57,7 +57,7 @@ class template {
 			
 			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/global.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
-				$functions->usebb_die('General', 'Unable to load global templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+				$functions->usebb_die('Template', 'Unable to load global templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 			else
 				require($templates_file);
 			
@@ -82,7 +82,7 @@ class template {
 			
 			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
-				$functions->usebb_die('General', 'Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+				$functions->usebb_die('Template', 'Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 			else
 				require($templates_file);
 			
@@ -96,11 +96,16 @@ class template {
 		$vars['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
 		
 		if ( !isset($this->templates[$name]) )
-			$functions->usebb_die('General', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+			$functions->usebb_die('Template', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 		
 		$current_template = $this->templates[$name];
-		foreach ( $vars as $key => $val )
+		foreach ( $vars as $key => $val ) {
+			
+			if ( is_array($val) )
+				$functions->usebb_die('Template', 'Unable to translate "{'.$key.'}" to an array!', __FILE__, __LINE__);
 			$current_template = str_replace('{'.$key.'}', $val, $current_template);
+			
+		}
 		$this->body .= $current_template;
 		
 	}

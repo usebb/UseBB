@@ -41,13 +41,14 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 	//
 	if ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
 		
-		if ( !($result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."posts WHERE id = ".$_GET['post'])) )
+		if ( !($result = $db->query("SELECT p1.topic_id, COUNT(p2.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."posts p2 WHERE p1.id = ".$_GET['post']." AND t.id = p1.topic_id AND p2.topic_id = p1.topic_id AND p2.id <= ".$_GET['post']." GROUP BY p1.topic_id")) )
 			$functions->usebb_die('SQL', 'Unable to get parent topic!', __FILE__, __LINE__);
 		
 		if ( $db->num_rows($result) ) {
 			
 			$out = $db->fetch_result($result);
 			$requested_topic = $out['topic_id'];
+			$post_in_topic = $out['post_in_topic'];
 			
 		} else {
 			
@@ -144,36 +145,13 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Get page number
 			//
 			$numpages = ceil(intval($topicdata['count_replies']) / $functions->get_config('posts_per_page'));
-			$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+			if ( empty($post_in_topic) )
+				$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+			else
+				$page = ceil(intval($post_in_topic) / $functions->get_config('posts_per_page'));
 			$limit_start = ( $page - 1 ) * $functions->get_config('posts_per_page');
 			$limit_end = $functions->get_config('posts_per_page');
-			
-			if ( intval($topicdata['count_replies']) > $functions->get_config('posts_per_page') ) {
-				
-				$page_links = array();
-					
-				if ( $page > 1 )
-					$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $page-1)).'">&laquo;</a>';
-				
-				for ( $i = 1; $i <= $numpages; $i++ ) {
-					
-					if ( $page != $i )
-						$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $i)).'">'.$i.'</a>';
-					else
-						$page_links[] = $i;
-					
-				}
-					
-				if ( $page < $numpages )
-					$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $page+1)).'">&raquo;</a>';
-				
-				$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
-				
-			} else {
-				
-				$page_links = sprintf($lang['PageLinks'], '1');
-				
-			}
+			$page_links = $functions->make_page_links($numpages, $page, $topicdata['count_replies'], $functions->get_config('posts_per_page'), 'topic.php', $requested_topic);
 			
 			//
 			// Output the posts

@@ -316,9 +316,9 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
 					'content' => $lang['Content'],
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content"></textarea>',
-					'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',
+					'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" /><input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" />',
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
-					'form_end' => '<input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" /></form>'
+					'form_end' => '</form>'
 				));
 				
 			}

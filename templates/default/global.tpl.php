@@ -354,7 +354,7 @@ table.maintable td.icon {
 
 table.maintable td.forumcat {
 	font-weight: bold;
-	background-image: url({img_dir}menubg.gif);
+	background-image: url({img_dir}topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }
@@ -473,7 +473,7 @@ table.maintable td.actionlinks {
 
 table.maintable td.faqheading {
 	font-weight: bold;
-	background-image: url({img_dir}menubg.gif);
+	background-image: url({img_dir}topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }

@@ -37,7 +37,6 @@ class functions {
 	var $board_config;
 	var $statistics;
 	var $enabled_templates;
-	var $avail_languages;
 	var $mod_auth;
 	
 	//
@@ -659,76 +658,6 @@ class functions {
 		$string = preg_replace("#\s+#", ' ', $string);
 		$string = str_replace("\0", "\n", $string);
 		return $string;
-		
-	}
-	
-	//
-	// Get all enabled templates
-	//
-	function get_enabled_templates() {
-		
-		global $db;
-		
-		if ( !is_array($this->enabled_templates) ) {
-			
-			if ( !($result = $db->query("SELECT c1.content AS fullname, c1.template AS shortname FROM ".TABLE_PREFIX."templates_config c1, ".TABLE_PREFIX."templates_config c2 WHERE c1.template = c2.template AND c1.name = 'template_name' AND c2.name = 'is_enabled' AND c2.content = '1' ORDER BY c1.content ASC")) )
-				$this->usebb_die('SQL', 'Could not query enabled templates!', __FILE__, __LINE__);
-			
-			if ( $db->num_rows($result) ) {
-				
-				$this->enabled_templates = array();
-				while ( $data = $db->fetch_result($result) ) {
-					
-					$this->enabled_templates[] = array(
-						'fullname' => stripslashes($data['fullname']),
-						'shortname' => stripslashes($data['shortname'])
-					);
-					
-				}
-				
-			} else {
-				
-				$this->usebb_die('General', 'No enabled templates found!', __FILE__, __LINE__);
-				
-			}
-			
-		}
-		
-		return $this->enabled_templates;
-		
-	}
-	
-	//
-	// Get all available languages
-	//
-	function get_avail_languages() {
-		
-		global $db;
-		
-		if ( !is_array($this->avail_languages) ) {
-			
-			if ( !($result = $db->query("SELECT language FROM ".TABLE_PREFIX."language ORDER BY language ASC")) )
-				$this->usebb_die('SQL', 'Could not query available languages!', __FILE__, __LINE__);
-			
-			if ( $db->num_rows($result) ) {
-				
-				$this->avail_languages = array();
-				while ( $data = $db->fetch_result($result) ) {
-					
-					if ( !in_array($data['language'], $this->avail_languages) )
-						$this->avail_languages[] = $data['language'];
-					
-				}
-				
-			} else {
-				
-				$this->usebb_die('General', 'No available languages found!', __FILE__, __LINE__);
-				
-			}
-			
-		}
-		
-		return $this->avail_languages;
 		
 	}
 	

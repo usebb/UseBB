@@ -90,3 +90,5 @@ $conf['dst'] = '0';
 $conf['enable_quickreply'] = '1';
 $conf['return_to_topic_after_posting'] = '1';
 $conf['kick_user_to_only_viewable_forum'] = '0';
+$conf['available_languages'] = array('English');
+$conf['available_templates'] = array('default');

@@ -24,6 +24,7 @@ UseBB 0.3 Changelog
 	unavailable.
 - Configuration, templates and translations moved to file system out of SQL DB.
 - Adjusted template engine and configuration and translation functions.
+- Adjusted options panel to fit with new template and language system.
 - Some adjustments and upgrades to several templates.
 - Removed non-standard opacity attributes for small buttons at the page bottom.
 

@@ -39,12 +39,9 @@ if ( !empty($_POST['submitted']) ) {
 	//
 	// Update the user's preferences
 	//
-	$avail_templates = array();
-	foreach ( $functions->get_enabled_templates() as $single_template )
-		$avail_templates[] = $single_template['shortname'];
 	
-	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_avail_languages()) ) ? $_POST['language'] : $functions->get_config('language');
-	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $avail_templates) ) ? $_POST['template'] : $functions->get_config('template');
+	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_config('available_languages')) ) ? $_POST['language'] : $functions->get_config('language');
+	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_config('available_templates')) ) ? $_POST['template'] : $functions->get_config('template');
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
@@ -73,15 +70,15 @@ if ( !empty($_POST['submitted']) ) {
 	
 } else {
 	
-	if ( count($functions->get_avail_languages()) < 2 ) {
+	if ( count($functions->get_config('available_languages')) < 2 ) {
 		
-		$single_language = $functions->get_avail_languages();
+		$single_language = $functions->get_config('available_languages');
 		$language_input = $single_language[0];
 		
 	} else {
 		
 		$language_input = '<select name="language">';
-		foreach ( $functions->get_avail_languages() as $single_language ) {
+		foreach ( $functions->get_config('available_languages') as $single_language ) {
 			
 			$selected = ( $functions->get_config('language') == $single_language ) ? ' selected="selected"' : '';
 			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
@@ -92,18 +89,18 @@ if ( !empty($_POST['submitted']) ) {
 		
 	}
 	
-	if ( count($functions->get_enabled_templates()) < 2 ) {
+	if ( count($functions->get_config('available_templates')) < 2 ) {
 		
-		$single_template = $functions->get_enabled_templates();
-		$template_input = $single_template[0]['fullname'];
+		$single_template = $functions->get_config('available_templates');
+		$template_input = $single_template;
 		
 	} else {
 		
 		$template_input = '<select name="template">';
-		foreach ( $functions->get_enabled_templates() as $single_template ) {
+		foreach ( $functions->get_config('available_templates') as $single_template ) {
 			
-			$selected = ( $functions->get_config('template') == $single_template['shortname'] ) ? ' selected="selected"' : '';
-			$template_input .= '<option value="'.$single_template['shortname'].'"'.$selected.'>'.$single_template['fullname'].'</option>';
+			$selected = ( $functions->get_config('template') == $single_template ) ? ' selected="selected"' : '';
+			$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';
 			
 		}
 		$template_input .= '</select>';

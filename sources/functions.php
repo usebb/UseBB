@@ -257,6 +257,29 @@ class functions {
 	}
 	
 	//
+	// Attaches a SID to URLs which should contain one (e.g. referer URLs)
+	//
+	function attach_sid($url) {
+		
+		global $functions;
+		
+		$SID = SID;
+		if ( !empty($SID) && !preg_match("/".str_replace('/', '\/', $SID)."$/", $url) ) {
+			
+			if ( strpos($url, '?') )
+				return $url.'&'.$SID;
+			else
+				return $url.'?'.$SID;
+			
+		} else {
+			
+			return $url;
+			
+		}
+		
+	}
+	
+	//
 	// Kick a user to the login form
 	//
 	function redir_to_login() {

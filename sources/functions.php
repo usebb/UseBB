@@ -1064,13 +1064,12 @@ class functions {
 			// output. This should also work on FreeBSD. The var $tmp
 			// is unnecessary at this moment.
 			//
-			$out = exec('uptime', $tmp, $retval);
-			unset($tmp);
+			$out = @exec('uptime', $tmp, $retval);
 			
 			if ( !$retval ) {
 				
 				//
-				// $retval contains the exit code 0 when run successfully...
+				// $retval contains the exit code 0 when ran successfully...
 				//
 				$out = explode(' ', str_replace(',', '', substr($out, -16)));
 				return $out[0]; // we use the load average value of the past 1 minute

@@ -160,18 +160,19 @@ class template {
 			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
 			$parsetime = round($timer['end'] - $timer['begin'], 2);
 			
-			//
-			// Get the server load, use '?' when lookup fails
-			//
-			if ( !($serverload = $functions->get_server_load()) )
-				$serverload = '?';
+			$debug_info = array();
+			$debug_info[] = $lang['ParseTime'].': '.$parsetime.' s';
+			if ( $serverload = $functions->get_server_load() )
+				$debug_info[] = $lang['ServerLoad'].': '.$serverload;
+			$debug_info[] = $lang['TemplateSections'].': '.count($this->loaded_sections);
+			$debug_info[] = $lang['SQLQueries'].': '.count($db->get_used_queries());
 			
 			if ( $functions->get_config('debug') === 1 ) {
 				
 				//
 				// List parsetime and queries in short
 				//
-				$debug_info_small = sprintf($this->get_config('debug_info_small'), $lang['ParseTime'].': '.$parsetime.' s '.$this->get_config('item_delimiter').' '.$lang['ServerLoad'].': '.$serverload.' '.$this->get_config('item_delimiter').' '.$lang['TemplateSections'].': '.count($this->loaded_sections).' '.$this->get_config('item_delimiter').' '.$lang['SQLQueries'].': '.count($db->get_used_queries()));
+				$debug_info_small = sprintf($this->get_config('debug_info_small'), join(' '.$this->get_config('item_delimiter').' ', $debug_info));
 				$debug_info_large = '';
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
@@ -180,7 +181,7 @@ class template {
 				// Lists parsetime and queries fully
 				//
 				$debug_info_small = '';
-				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<div><strong>'.$lang['DebugMode'].'</strong> '.$this->get_config('item_delimiter').' '.$lang['ParseTime'].': '.$parsetime.' s '.$this->get_config('item_delimiter').' '.$lang['ServerLoad'].': '.$serverload.' '.$this->get_config('item_delimiter').' '.$lang['TemplateSections'].': '.join(', ', $this->loaded_sections).' '.$this->get_config('item_delimiter').' '.$lang['SQLQueries'].' ('.count($db->get_used_queries()).'):</div><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea>');
+				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<div><strong>'.$lang['DebugMode'].'</strong> '.$this->get_config('item_delimiter').' '.join(' '.$this->get_config('item_delimiter').' ', $debug_info).':</div><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea>');
 				
 			}
 			

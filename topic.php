@@ -250,7 +250,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					if ( !empty($postsdata['rank']) ) {
 						
-						$poster_rank = stripslashes($postsdata['rank']);
+						$poster_rank = htmlspecialchars(stripslashes($postsdata['rank']));
 						
 					} else {
 						

@@ -146,7 +146,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'userid_v'      => $_GET['id'],
 				'real_name_v'   => htmlspecialchars(stripslashes($profiledata['real_name'])),
 				'level_v'       => $level,
-				'rank_v'        => ( !empty($profiledata['rank']) ) ? stripslashes($profiledata['rank']) : '',
+				'rank_v'        => htmlspecialchars(stripslashes($profiledata['rank'])),
 				'avatar_v'      => $avatar,
 				'regdate_v'     => $functions->make_date($profiledata['regdate']),
 				'posts_v'       => $profiledata['posts'],

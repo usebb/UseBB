@@ -18,4 +18,5 @@ RewriteRule ^edit-post([0-9]+)\.html$ edit.php?post=$1
 RewriteRule ^edit-post([0-9]+)-delete\.html$ edit.php?post=$1&act=delete
 RewriteRule ^edit-topic([0-9]+)-(delete|move|lock|sticky|unlock|unsticky)\.html$ edit.php?topic=$1&act=$2
 RewriteRule ^online-([0-9]+)\.html$ online.php?page=$1
+RewriteRule ^members-([0-9]+)\.html$ members.php?page=$1
 RewriteRule ^members-staff\.html$ members.php?act=staff

@@ -5,6 +5,7 @@ UseBB 0.3 Changelog
 
 - Fixed bug with MySQL 3.x that gave error on forum view.
 - Fixed quick reply, now only visible when the user is actually allowed to reply.
+- Fixed plain spaces with &nbsp; between buttons in the footer template.
 
 UseBB 0.2 Changelog
 ------------------------------

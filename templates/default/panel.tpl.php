@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['panel_menu'] = '
-	<p id="panelmenu">{panel_home} &middot; {view_profile} &middot; {panel_profile} &middot; {panel_options} &middot; {panel_passwd}</p>
+	<p id="panelmenu">{panel_home} &middot; {panel_subscriptions} &middot; {view_profile} &middot; {panel_profile} &middot; {panel_options} &middot; {panel_passwd}</p>
 ';
 
 $templates['panel_sess_info'] = '
@@ -63,6 +63,31 @@ $templates['panel_sess_info'] = '
 		<tr>
 			<td class="fieldtitle">{al}</td><td>{al_status} ({al_change})</td>
 		</tr>
+	</table>
+';
+
+$templates['subscriptions_header'] = '
+	<table class="maintable">
+		<tr>
+			<th></th>
+			<th>{topic}</th>
+			<th>{author}</th>
+			<th>{latest_post}</th>
+			<th>{unsubscribe}</th>
+		</tr>
+';
+
+$templates['subscriptions_topic'] = '
+		<tr>
+			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
+			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
+			<td class="author">{author}</td>
+			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
+			<td class="minimal">{unsubscribe}</td>
+		</tr>
+';
+
+$templates['subscriptions_footer'] = '
 	</table>
 ';
 

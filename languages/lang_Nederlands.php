@@ -364,3 +364,5 @@ $lang['SubscribedTopic'] = 'Je bent nu op dit onderwerp ingeschreven.';
 $lang['UnsubscribedTopic'] = 'Je bent nu van dit onderwerp uitgeschreven.';
 $lang['SubscribeToThisTopic'] = 'Inschrijven op dit onderwerp.';
 $lang['OK'] = 'OK';
+$lang['Subscriptions'] = 'Subscripties';
+$lang['NoSubscribedTopics'] = 'Je bent op dit moment op geen enkel onderwerp ingeschreven.';

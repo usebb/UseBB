@@ -68,7 +68,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	require(ROOT_PATH.'sources/panel_sendpwd.php');
 	
-} elseif ( in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
+} elseif ( in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd', 'subscriptions')) ) {
 	
 	//
 	// Update and get the session information
@@ -88,11 +88,12 @@ if ( $_GET['act'] == 'login' ) {
 		
 		$template->parse('panel_menu', 'panel', array(
 			'yourpanel' => $lang['YourPanel'],
-			'panel_home' => ( $_GET['act'] != 'panel_home' ) ? '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>' : '<a href="'.$functions->make_url('panel.php').'"><strong>'.$lang['PanelHome'].'</strong></a>',
+			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">' . ( ( $_GET['act'] != 'panel_home' ) ? $lang['PanelHome'] : '<strong>'.$lang['PanelHome'].'</strong>' ) . '</a>',
+			'panel_subscriptions' => '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">' . ( ( $_GET['act'] != 'subscriptions' ) ? $lang['Subscriptions'] : '<strong>'.$lang['Subscriptions'].'</strong>' ) . '</a>',
 			'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-			'panel_profile' => ( $_GET['act'] != 'editprofile' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'"><strong>'.$lang['EditProfile'].'</strong></a>',
-			'panel_options' => ( $_GET['act'] != 'editoptions' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'"><strong>'.$lang['EditOptions'].'</strong></a>',
-			'panel_passwd' => ( $_GET['act'] != 'editpwd' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'"><strong>'.$lang['EditPasswd'].'</strong></a>',
+			'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">' . ( ( $_GET['act'] != 'editprofile' ) ? $lang['EditProfile'] : '<strong>'.$lang['EditProfile'].'</strong>' ) . '</a>',
+			'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">' . ( ( $_GET['act'] != 'editoptions' ) ? $lang['EditOptions'] : '<strong>'.$lang['EditOptions'].'</strong>' ) . '</a>',
+			'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">' . ( ( $_GET['act'] != 'editpwd' ) ? $lang['EditPasswd'] : '<strong>'.$lang['EditPasswd'].'</strong>' ) .'</a>'
 		));
 		
 		switch ( $_GET['act'] ) {
@@ -108,6 +109,9 @@ if ( $_GET['act'] == 'login' ) {
 				break;
 			case 'editpwd':
 				require(ROOT_PATH.'sources/panel_editpwd.php');
+				break;
+			case 'subscriptions':
+				require(ROOT_PATH.'sources/panel_subscriptions.php');
 				break;
 			
 		}

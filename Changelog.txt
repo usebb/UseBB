@@ -8,13 +8,12 @@ UseBB 0.4 Changelog
 - Added feature #301: Search engine friendly URL's.
 - Added changable password min length.
 - Added block when lower leveled tries to edit posts of higher leveled.
-- Added topic subscription feature.
-- Better template parser.
-- Nicer debug info.
+- Added topic subscription feature + subscriptions overview in panel.
 - Fixed bug #336: Problems on SF.net.
 - Fixed bug #331: cyrillic languages+entities.
 - Fixed a bug where everything is marked unread as a result of session data lost.
 - Fixed various bbcode parser bugs.
+- Better template parser.
 - Various template improvements and translation corrections.
 - Added more security with additional code.
 - Better general error message without information disclosure.

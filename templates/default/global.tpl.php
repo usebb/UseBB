@@ -542,9 +542,17 @@ table.maintable td.attopic {
 
 /* */
 
+table.maintable td.minimal {
+	background-color: #E8E8E8;
+	width: 1%;
+	white-space: nowrap;
+	text-align: center;
+	font-weight: bold;
+	color: #333333;
+}
 p#panelmenu {
 	color: #323232;
-	text-align: left;
+	text-align: center;
 	padding: 3px;
 	margin-bottom: 10px;
 	margin-top: -10px;

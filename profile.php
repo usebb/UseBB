@@ -95,6 +95,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				$template->parse('panel_menu', 'panel', array(
 					'yourpanel' => $lang['YourPanel'],
 					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
+					'panel_subscriptions' => '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">'.$lang['Subscriptions'].'</a>',
 					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'"><strong>'.$lang['ViewProfile'].'</strong></a>',
 					'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
 					'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',

@@ -54,7 +54,7 @@ $conf = array();
 //
 $conf['admin_email'] = 'email@example.net';
 $conf['allow_multi_sess'] = 1;
-$conf['available_languages'] = array('English', 'Deutsch');
+$conf['available_languages'] = array('English', 'Deutsch', 'Nederlands');
 $conf['available_templates'] = array('default');
 $conf['board_closed'] = 0;
 $conf['board_closed_reason'] = 'Just closed...';

@@ -374,7 +374,12 @@ class functions {
 	//
 	function make_date($stamp) {
 		
-		return gmdate($this->get_config('date_format'), $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
+		global $lang;
+		
+		$date = gmdate($this->get_config('date_format'), $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
+		if ( $this->get_config('language') != 'English' )
+			$date = strtr($date, $lang['date_translations']);
+		return ucfirst($date);
 		
 	}
 	

@@ -392,3 +392,47 @@ $lang['RealName'] = 'Echte naam';
 $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
+
+//
+// Date translations
+//
+$lang['date_translations'] = array(
+	'Mon' => 'maa',
+	'Tue' => 'din',
+	'Wed' => 'woe',
+	'Thu' => 'don',
+	'Fri' => 'vri',
+	'Sat' => 'zat',
+	'Sun' => 'zon',
+	'Monday' => 'maandag',
+	'Tuesday' => 'dinsdag',
+	'Wednesday' => 'woensdag',
+	'Thursday' => 'donderdag',
+	'Friday' => 'vrijdag',
+	'Saturday' => 'zaterdag',
+	'Sunday' => 'zondag',
+	'Jan' => 'jan',
+	'Feb' => 'feb',
+	'Mar' => 'maa',
+	'Apr' => 'apr',
+	'May' => 'mei',
+	'Jun' => 'jun',
+	'Jul' => 'jul',
+	'Aug' => 'aug',
+	'Sep' => 'sep',
+	'Oct' => 'okt',
+	'Nov' => 'nov',
+	'Dec' => 'dec',
+	'January' => 'januari',
+	'February' => 'februari',
+	'March' => 'maart',
+	'April' => 'april',
+	'May' => 'mei',
+	'June' => 'juni',
+	'July' => 'juli',
+	'August' => 'augustus',
+	'September' => 'september',
+	'October' => 'oktober',
+	'November' => 'november',
+	'December' => 'december',
+);

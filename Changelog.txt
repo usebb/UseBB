@@ -9,6 +9,7 @@ UseBB 0.4 Changelog
 - Added feature #337: Allow all kinds of user names.
 - Added feature #338: Allow users to delete their own posts.
 - Added feature #358: Disable sending information e-mails.
+- Added feature #370: Date and Time Translation.
 - Added block when lower leveled tries to edit posts of higher leveled.
 - Added real name and Skype profile fields.
 - Added changable password min length.

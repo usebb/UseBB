@@ -62,7 +62,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 } else {
 	
 	//
-	// Some various session infromation
+	// Some various session information
 	//
 	if ( $functions->isset_al() ) {
 		
@@ -85,7 +85,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		'updated' => $lang['Updated'],
 		'updated_v' => $functions->make_date($session->sess_info['updated']),
 		'total_time' => $lang['TotalTime'],
-		'total_time_v' => end($functions->time_past($session->sess_info['started'])),
+		'total_time_v' => end($functions->time_past($session->sess_info['started'], $session->sess_info['updated'])),
 		'pages' => $lang['Pages'],
 		'pages_v' => $session->sess_info['pages'],
 		'al' => $lang['AutoLogin'],

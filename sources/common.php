@@ -36,10 +36,10 @@ $timer['begin'] = explode(' ', microtime());
 $timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
 
 //
-// Disable notices of uninitialized
-// variables and the magic quotes runtime
+// Show all errors so that we avoid making stupid
+// but dangerous mistakes + disable that annoying
+// magic quotes runtime.
 //
-#error_reporting(E_ALL & ~E_NOTICE);
 error_reporting(E_ALL);
 set_magic_quotes_runtime(0);
 
@@ -50,17 +50,6 @@ require(ROOT_PATH.'sources/functions.php');
 require(ROOT_PATH.'config.php');
 require(ROOT_PATH.'sources/session.php');
 require(ROOT_PATH.'sources/template.php');
-
-//
-// Define some constants
-//
-define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.2.3');
-define('USER_PREG', '#^[a-z0-9\.\-\+\[\]_ ]+$#is');
-define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
-define('PWD_PREG', '#^[^\'\"\s]+$#is');
-define('WEB_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?$#is');
-define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#is');
 
 //
 // Create objects
@@ -115,6 +104,17 @@ if ( !get_magic_quotes_gpc() ) {
 $_GET = $functions->trim_global($_GET); // trim get vars
 $_POST = $functions->trim_global($_POST); // trim post vars
 $_COOKIE = $functions->trim_global($_COOKIE); // trim cookie vars
+
+//
+// Define some constants
+//
+define('TABLE_PREFIX', $dbs['prefix']);
+define('USEBB_VERSION', '0.2.3');
+define('USER_PREG', '#^[a-z0-9\.\-\+\[\]_ ]+$#is');
+define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
+define('PWD_PREG', '#^[^\'\"\s]+$#is');
+define('WEB_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?$#is');
+define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#is');
 
 //
 // Connect to DB

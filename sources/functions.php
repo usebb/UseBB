@@ -254,6 +254,7 @@ class functions {
 		$body = $rawbody;
 		$bodyvars['board_name'] = $this->get_config('board_name');
 		$bodyvars['board_link'] = $this->get_config('board_url');
+		$bodyvars['admin_email'] = $this->get_config('admin_email');
 		
 		foreach ( $bodyvars as $key => $val )
 			$body = str_replace('['.$key.']', $val, $body);

@@ -740,36 +740,41 @@ class functions {
 		
 		if ( $bbcode ) {
 			
-			//
-			// Needed by some BBCode regexps
-			//
-			$string = ' '.$string.' ';
-			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
 			//
-			// Encode [ and ] in code tags first then parse them
+			// Difficult parsing of code tags
 			//
 			if ( preg_match('#\[code\](.*?)\[/code\]#is', $string) ) {
 				
-				$string_parts = preg_split('#\[code\]#is', $string);
+				$string_parts = preg_split('#(\[code\])#is', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 				$new_string_parts = array();
 				foreach ( $string_parts as $string_part ) {
 					
-					if ( preg_match('#\[/code\]#is', $string_part) ) {
+					if ( preg_match_all('#(\[/code\])#is', $string_part, $matches) ) {
 						
-						$string_parts2 = preg_split('#\[/code\]#is', $string_part);
+						$end_tags_count = count($matches[0]);
+						$string_parts2 = preg_split('#(\[/code\])#is', $string_part, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 						$i = 1;
 						$string_part = '';
 						foreach ( $string_parts2 as $string_part2 ) {
 							
-							if ( $i === (count($string_parts2)-1) )
-								$string_part .= $string_part2.'[/code]';
-							elseif ( $i === count($string_parts2) )
-								$string_part .= $string_part2;
-							else
-								$string_part .= $string_part2.'&#91;/code&#93;';
-							$i++;
+							if ( preg_match('#\[/code\]#is', $string_part2) ) {
+								
+								if ( $i < $end_tags_count )
+									$string_part .= preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2);
+								else
+									$string_part .= $string_part2;
+								$i++;
+								
+							} else {
+								
+								if ( $i === $end_tags_count )
+									$string_part .= preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2);
+								else
+									$string_part .= $string_part2;
+								
+							}
 							
 						}
 						
@@ -777,7 +782,7 @@ class functions {
 					$new_string_parts[] = $string_part;
 					
 				}
-				$string = join('[code]', $new_string_parts);
+				$string = join('', $new_string_parts);
 				preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
 				foreach ( $matches[1] as $oldpart ) {
 					
@@ -788,6 +793,11 @@ class functions {
 				$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 				
 			}
+			
+			//
+			// Needed by some BBCode regexps
+			//
+			$string = ' '.$string.' ';
 			
 			//
 			// All kinds of regexps
@@ -835,7 +845,7 @@ class functions {
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
-			$string = substr($string, 1, strlen($string)-1);
+			$string = trim($string);
 			
 		}
 		

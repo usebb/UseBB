@@ -83,7 +83,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<h2 id="boarddescr">{board_descr}</h2>
 	
 	<div id="topmenu"><ul>
-		<li><a href="{link_home}">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><!--<li><a href="{link_search}">{search}</a></li>--><li><a href="{link_active}">{active}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
+		<li><a href="{link_home}">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
 	</ul></div>
 	<div id="topmenu-shadow"></div>
 ';

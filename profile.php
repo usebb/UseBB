@@ -74,7 +74,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 		}
 		
-		if ( $db->num_rows($result) === 1 || $own_profile ) {
+		if ( $db->num_rows($result) || $own_profile ) {
 			
 			//
 			// The user exists, show its profile

@@ -124,7 +124,7 @@ html, body {
 	cursor: default;
 }
 #pagebox-bg {
-	width: 765px;
+	width: 785px;
 	background-image: url({img_dir}pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFFFFF;
@@ -136,7 +136,7 @@ html, body {
 	background-position: left;
 }
 #shadow-right {
-	padding: 20px 20px 15px 20px;
+	padding: 20px 30px 15px 30px;
 	background-image: url({img_dir}pageshadow_right.png);
 	background-repeat: repeat-y;
 	background-position: right;

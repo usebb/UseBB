@@ -12,13 +12,18 @@ UseBB 0.3 Changelog
 - Fixed bug 935924: Session ID's are passed twice on some PHP config (+ revised once).
 - Fixed htmlentities() problem in user signatures.
 - Fixed $errors array that wasn't being initialized in various files.
+- Fixed guest's username length, it's now checked when posting.
 - Optimalizations in template.php, debug also works without </body> tag and more 
 	powerful and better output compression method.
 - Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]
 	tags anymore to be parsed.
 - Member's avatar is now checked if it's actually an image (+ revised once).
-- Changes to CSS template: label{cursor:pointer;}.
-- Return to topic after posting can now be turned of for posting new topics too.
+- Many changes to templates: the background color and border, the position of the
+	location bar (now before the quick reply box), the table rows containing the posts
+	that don't have the inner vertical border anymore, the spacing between the rank and
+	avatar, the registration date, the post count, the location, the topic title above
+	the post and the buttons (made by Jemo).
+- Return to topic after posting can now be turned off for posting new topics too.
 - Valid URL checking for profile's website field.
 - Better registration process with terms of use accepting page.
 

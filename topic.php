@@ -129,16 +129,12 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			// Get all the posts in one query
 			//
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank, u.avatar_type, u.avatar_remote, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank, u.avatar_type, u.avatar_remote, u.posts, u.regdate, u.location, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
-			//
-			// Topic links for posting new topics and replying
-			//
-			$topic_links = array();
-			$topic_links[] = ( $topicdata['forum_status'] ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['PostNewTopic'].'</a>' : '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['ForumIsLocked'].'</a>';
-			$topic_links[] = ( !$topicdata['status_locked'] ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'">'.$lang['PostReply'].'</a>' : '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'">'.$lang['TopicIsLocked'].'</a>';
-			$topic_links = join(' '.$template->get_config('item_delimiter').' ', $topic_links);
+			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('new_topic_icon').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
+			
+			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('reply_icon').'" alt="'.$lang['PostReply'].'" /></a>' : '';
 			
 			//
 			// Output the posts
@@ -146,7 +142,8 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$template->parse('topic_header', array(
 				'author' => $lang['Author'],
 				'post' => $lang['Post'],
-				'topic_links' => $topic_links
+				'new_topic_link' => $new_topic_link,
+				'reply_link' => $reply_link
 			));
 			
 			while ( $postsdata = $db->fetch_result($result) ) {
@@ -155,12 +152,20 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				// Loop through the posts
 				//
 				
+				//
+				// Used for switching colors in template
+				//
 				$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
+				
+				//
+				// Post count
+				//
+				$i = ( !isset($i) ) ? 1 : $i+1;
 				
 				//
 				// This poster was logged in
 				//
-				if ( !empty($postsdata['poster_name']) ) {
+				if ( !empty($postsdata['poster_id']) ) {
 					
 					//
 					// Its name and profile link
@@ -212,29 +217,24 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					
 				}
 				
+				
+				$topic_title  = ( $i > 1 ) ? $lang['Re'].' ' : '';
+					$topic_title .= htmlentities(stripslashes($topicdata['topic_title']));
+				
 				//
 				// Links used to control posts: quote, edit, delete...
 				//
 				$post_links = array();
 				if ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'">'.$lang['Edit'].'</a>';
+					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('edit_icon').'" alt="'.$lang['Edit'].'" /></a>';
 				if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'">'.$lang['Delete'].'</a>';
-				$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'">'.$lang['Quote'].'</a>';
-				$post_links = join(' '.$template->get_config('item_delimiter').' ', $post_links);
-				
-				//
-				// Make the post content
-				// Add the signature if needed
-				//
-				$post_content = $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']);
-				if ( !empty($postsdata['signature']) && $postsdata['enable_sig'] )
-					$post_content .= sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')));
-				
-				//
-				// Used for switching colors in template
-				//
-				$i = ( !isset($i) ) ? 1 : $i+1;
+					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('delete_icon').'" alt="'.$lang['Delete'].'" /></a>';
+				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
+					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('quote_icon').'" alt="'.$lang['Quote'].'" /></a>';
+				if ( count($post_links) )
+					$post_links = join(' ', $post_links);
+				else
+					$post_links = '';
 				
 				//
 				// Output the post
@@ -243,10 +243,15 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'poster_name' => $poster_name,
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
+					'posts' => ( !empty($postsdata['poster_id']) ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
+					'registered' => ( !empty($postsdata['poster_id']) ) ? $lang['Registered'].': '.date('M y', $postsdata['regdate']) : '',
+					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) ) ? $lang['Location'].': '.htmlentities(stripslashes($postsdata['location'])) : '',
+					'topic_title' => $topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
-					'post_content' => $post_content,
+					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
+					'poster_sig' => ( !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'colornum' => $colornum
 				));
 				
@@ -279,8 +284,13 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$action_links = join(' '.$template->get_config('item_delimiter').' ', $action_links);
 			
 			$template->parse('topic_footer', array(
-				'topic_links' => $topic_links,
+				'new_topic_link' => $new_topic_link,
+				'reply_link' => $reply_link,
 				'action_links' => $action_links
+			));
+			
+			$template->parse('location_bar', array(
+				'location_bar' => $location_bar
 			));
 			
 			//
@@ -302,10 +312,6 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				));
 				
 			}
-			
-			$template->parse('location_bar', array(
-				'location_bar' => $location_bar
-			));
 			
 			//
 			// Update views count

@@ -70,7 +70,7 @@ if ( !$db->num_rows($result) ) {
 		$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 		$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ) && !empty($_POST['subject']) && !empty($_POST['content']) ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) ) {
 			
 			$poster_id = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_id'] : 0;
 			$poster_guest = ( !$session->sess_info['user_id'] ) ? $_POST['user'] : '';

@@ -83,21 +83,18 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'location_bar' => $location_bar
 			));
 			
-			//
-			// Posting links
-			//
-			$forum_links = ( $forumdata['status'] ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['ForumIsLocked'].'</a>';
+			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('new_topic_icon').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
 			//
 			// Output the topic list
 			//
 			$template->parse('topiclist_header', array(
+				'new_topic_link' => $new_topic_link,
 				'topic' => $lang['Topic'],
 				'author' => $lang['Author'],
 				'replies' => $lang['Replies'],
 				'views' => $lang['Views'],
-				'latest_post' => $lang['LatestPost'],
-				'forum_links' => $forum_links
+				'latest_post' => $lang['LatestPost']
 			));
 			
 			if ( $forumdata['topics'] ) {
@@ -178,7 +175,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			
 			$template->parse('topiclist_footer', array(
-				'forum_links' => $forum_links,
+				'new_topic_link' => $new_topic_link,
 				'forum_moderators' => sprintf($lang['ModeratorsInThisForum'], $forum_moderators)
 			));
 			

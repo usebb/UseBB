@@ -203,21 +203,18 @@ class template {
 		foreach ( $this->requests as $request ) {
 			
 			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
-			
 			$current_template = $this->templates[$request['section']][$request['template_name']];
-			
+			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
+				
+				foreach ( $lang as $key => $val )
+					$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
+				
+			}
 			foreach ( $request['variables'] as $key => $val ) {
 				
 				if ( is_array($val) )
 					$functions->usebb_die('Template', 'Unable to translate "{'.$key.'}" to an array!', __FILE__, __LINE__);
 				$current_template = str_replace('{'.$key.'}', $val, $current_template);
-				
-			}
-			
-			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
-				
-				foreach ( $lang as $key => $val )
-					$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
 				
 			}
 			$this->body .= $current_template;

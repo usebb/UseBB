@@ -69,9 +69,12 @@ function unhtml($string) {
 	
 }
 
+//
+// Find the length of a string containing entities
+//
 function entities_length($string) {
 	
-	return strlen(preg_replace('#&\#[0-9]+;#', '.', $string));
+	return strlen(preg_replace('#&\#?[a-z0-9]+;#', '.', $string));
 	
 }
 

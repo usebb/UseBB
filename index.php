@@ -179,7 +179,7 @@ if ( !$functions->get_stats('forums') ) {
 				} else {
 					
 					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
-					if ( entities_length(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
+					if ( strlen(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
 						$last_topic_title .= unhtml(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
 					else
 						$last_topic_title .= unhtml(stripslashes($forumdata['topic_title']));

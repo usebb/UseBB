@@ -78,13 +78,19 @@ $_COOKIE = slash_trim_global($_COOKIE);
 //
 // Define some constants
 //
+// NOTE!
+// We don't allow non-alphanumeric characters anymore for usernames and passwords
+// in order to avoid problems with different encodings used on the board.
+// One can however set a publicly displayed name, eventually with non-alphanumeric
+// characters.
+//
 define('TABLE_PREFIX', $dbs['prefix']);
 define('USEBB_VERSION', '0.5-CVS');
-define('USER_PREG', '##is');
-define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
-define('PWD_PREG', '#^[^\'\"\s]+$#is'); # don't change - dangerous!
-define('WEB_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?$#is');
-define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#is');
+define('USER_PREG', '#^[A-Za-z0-9_-]+$#');
+define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
+define('PWD_PREG', '#^[A-Za-z0-9]+$#');
+define('WEB_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?$#i');
+define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#i');
 
 //
 // Create objects

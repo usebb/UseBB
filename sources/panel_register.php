@@ -50,7 +50,7 @@ $_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && entities_length($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && entities_length($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Check if this username already exists
@@ -223,11 +223,11 @@ if ( preg_match(USER_PREG, $_POST['user']) && entities_length($_POST['user']) <=
 		// Define missing fields
 		//
 		$errors = array();
-		if ( !preg_match(USER_PREG, $_POST['user']) || entities_length($_POST['user']) > $functions->get_config('username_max_length') )
+		if ( !preg_match(USER_PREG, $_POST['user']) || strlen($_POST['user']) > $functions->get_config('username_max_length') )
 			$errors[] = $lang['Username'];
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
-		if ( entities_length($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+		if ( strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
 			$errors[] = $lang['Password'];
 		
 		//

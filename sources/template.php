@@ -136,7 +136,7 @@ class template {
 	//
 	// Output the page body
 	//
-	function body($enable_compression=true, $enable_debugmessages=true) {
+	function body($enable_debugmessages=true) {
 		
 		global $db, $functions, $timer;
 		

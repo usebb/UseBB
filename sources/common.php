@@ -108,9 +108,9 @@ function error_handler($errno, $error, $file, $line) {
 set_error_handler('error_handler');
 
 //
-// Activate gzip compression if needed, BEFORE doing a session_start() (bug #1035507)
+// Activate gzip compression if needed, BEFORE doing a session_start()
 //
-if ( ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
+if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
 	ob_start('ob_gzhandler');
 
 //

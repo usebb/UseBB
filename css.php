@@ -25,6 +25,7 @@
 
 define('INCLUDED', true);
 define('ROOT_PATH', './');
+define('NO_GZIP', true);
 
 //
 // Include usebb engine
@@ -49,6 +50,6 @@ $template->parse('css', 'global');
 //
 // Output the body
 //
-$template->body(false, false);
+$template->body(false);
 
 ?>

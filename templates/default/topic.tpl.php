@@ -53,12 +53,12 @@ $templates['topic_post'] = '
 			</td>
 			<td class="td2">
 				<div class="postlinks">{post_links}</div>
-				<small>{post_anchor} <b>&laquo;{topic_title}&raquo;</b></small>
+				{post_anchor} <b>&laquo;{topic_title}&raquo;</b>
 			</td>
 		</tr>
 		<tr class="post">
 			<td class="td1">
-				<small>{poster_rank}</small>
+				{poster_rank}
 				<div class="avatar">{poster_avatar}</div>
 				<div class="posterinfo">{registered}<br />{posts}<br />{location}<br /><br />{post_date}</div>
 			</td>
@@ -76,7 +76,7 @@ $templates['topic_footer'] = '
 		</tr>
 		<tr>
 			<td colspan="2" class="td2">
-				<small><b>{action_links}</b></small>
+				<b>{action_links}</b>
 			</td>
 		</tr>
 	</table>

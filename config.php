@@ -92,6 +92,7 @@ $conf['sig_allow_smilies'] = 1;
 $conf['target_blank'] = 0;
 $conf['template'] = 'default';
 $conf['timezone'] = 0;
+$conf['topics_per_page'] = 15;
 $conf['username_max_length'] = 25;
 $conf['users_must_activate'] = 0;
 $conf['view_hidden_email_addresses_min_level'] = 3;

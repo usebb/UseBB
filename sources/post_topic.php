@@ -135,20 +135,6 @@ if ( !$db->num_rows($result) ) {
 			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
-				//
-				// Get session saved guest's username if there is one
-				//
-				$_POST['user'] = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
-				
-				$enable_bbcode_checked = ' checked="checked"';
-				$enable_smilies_checked = ' checked="checked"';
-				$enable_sig_checked = ' checked="checked"';
-				$enable_html_checked = '';
-				$lock_topic_checked = '';
-				$sticky_topic_checked = '';
-				
-			} else {
-				
 				$errors = array();
 				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
 					$errors[] = $lang['Username'];
@@ -172,6 +158,20 @@ if ( !$db->num_rows($result) ) {
 				$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
 				$lock_topic_checked = ( !empty($_POST['lock_topic']) ) ? ' checked="checked"' : '';
 				$sticky_topic_checked = ( !empty($_POST['sticky_topic']) ) ? ' checked="checked"' : '';
+				
+			} else {
+				
+				//
+				// Get session saved guest's username if there is one
+				//
+				$_POST['user'] = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
+				
+				$enable_bbcode_checked = ' checked="checked"';
+				$enable_smilies_checked = ' checked="checked"';
+				$enable_sig_checked = ' checked="checked"';
+				$enable_html_checked = '';
+				$lock_topic_checked = '';
+				$sticky_topic_checked = '';
 				
 			}
 			

@@ -80,65 +80,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'location_bar' => $location_bar
 			));
 			
-			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
-			
-			//
-			// Output the topic list
-			//
-			$template->parse('topiclist_header', 'topiclist', array(
-				'new_topic_link' => $new_topic_link,
-				'topic' => $lang['Topic'],
-				'author' => $lang['Author'],
-				'replies' => $lang['Replies'],
-				'views' => $lang['Views'],
-				'latest_post' => $lang['LatestPost']
-			));
-			
-			if ( $forumdata['topics'] ) {
-				
-				//
-				// Get the topic list information in one query
-				//
-				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC")) )
-					$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
-				
-				while ( $topicdata = $db->fetch_result($result) ) {
-					
-					//
-					// Loop through the topics, generating output...
-					//
-					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>';
-					if ( $topicdata['status_sticky'] )
-						$topic_name = $lang['Sticky'].': '.$topic_name;
-					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
-					
-					//
-					// Parse the topic template
-					//
-					$template->parse('topiclist_topic', 'topiclist', array(
-						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
-						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
-						'topic_name' => $topic_name,
-						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
-						'replies' => $topicdata['count_replies'],
-						'views' => $topicdata['count_views'],
-						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
-						'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
-					));
-					
-				}
-				
-			} else {
-				
-				//
-				// There are no topics yet...
-				//
-				$template->parse('topiclist_notopics', 'topiclist', array(
-					'notopics' => $lang['NoTopics']
-				));
-				
-			}
-			
 			//
 			// Get a list of forum moderators
 			//
@@ -168,12 +109,106 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 			}
 			
+			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
+			
+			//
+			// Get page number
+			//
+			$page = ( !empty($_GET['p']) && is_numeric($_GET['p']) ) ? intval($_GET['p']) : 1;
+			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
+			$limit_end = $functions->get_config('topics_per_page');
+			
+			if ( intval($forumdata['topics']) > $functions->get_config('topics_per_page') ) {
+				
+				$numpages = ceil(intval($forumdata['topics']) / $functions->get_config('topics_per_page'));
+				$page_links = array();
+				
+				for ( $i = 1; $i <= $numpages; $i++ ) {
+					
+					if ( $page != $i )
+						$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'p' => $i)).'">'.$i.'</a>';
+					else
+						$page_links[] = $i;
+					
+				}
+				
+				$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
+				
+			} else {
+				
+				$page_links = sprintf($lang['PageLinks'], '1');
+				
+			}
+			
+			//
+			// Output the topic list
+			//
+			$template->parse('topiclist_header', 'topiclist', array(
+				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
+				'forum_moderators' => sprintf($lang['ModeratorsInThisForumLarge'], $forum_moderators),
+				'new_topic_link' => $new_topic_link,
+				'page_links' => $page_links,
+				'topic' => $lang['Topic'],
+				'author' => $lang['Author'],
+				'replies' => $lang['Replies'],
+				'views' => $lang['Views'],
+				'latest_post' => $lang['LatestPost']
+			));
+			
+			if ( $forumdata['topics'] ) {
+				
+				//
+				// Get the topic list information in one query
+				//
+				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end)) )
+					$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
+				
+				while ( $topicdata = $db->fetch_result($result) ) {
+					
+					//
+					// Loop through the topics, generating output...
+					//
+					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>';
+					if ( $topicdata['status_sticky'] )
+						$topic_name = $lang['Sticky'].': '.$topic_name;
+					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
+					
+					//
+					// Parse the topic template
+					//
+					$template->parse('topiclist_topic', 'topiclist', array(
+						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
+						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
+						'topic_name' => $topic_name,
+						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
+						'replies' => $topicdata['count_replies'],
+						'views' => $topicdata['count_views'],
+						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
+						'by_author' => sprintf($lang['ByAuthor'], $last_post_author),
+						'on_date' => sprintf($lang['OnDate'], $functions->make_date($topicdata['last_post_time'])),
+						'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
+					));
+					
+				}
+				
+			} else {
+				
+				//
+				// There are no topics yet...
+				//
+				$template->parse('topiclist_notopics', 'topiclist', array(
+					'notopics' => $lang['NoTopics']
+				));
+				
+			}
+			
 			//
 			// Topiclist footer and location bar
 			//
 			
 			$template->parse('topiclist_footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
+				'page_links' => $page_links,
 				'forum_moderators' => sprintf($lang['ModeratorsInThisForumLarge'], $forum_moderators)
 			));
 				

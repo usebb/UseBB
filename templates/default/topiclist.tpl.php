@@ -34,20 +34,19 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['topiclist_header'] = '
+	<h3 id="forumname">{forum_name}</h3>
+	<p id="forummods">{forum_moderators}</p>
+	<p id="toolbartop">{new_topic_link}</p>
+	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
-	<tr>
-		<td colspan="6" class="toolbar"><div align="right">
-			{new_topic_link}
-		</div></td>
-	</tr>
-	<tr class="tablehead">
-		<th></th>
-		<th width="100%">{topic}</th>
-		<th>{author}</th>
-		<th>{replies}</th>
-		<th>{views}</th>
-		<th nowrap="nowrap">{latest_post}</th>
-	</tr>
+		<tr class="tablehead">
+			<th></th>
+			<th>{topic}</th>
+			<th>{author}</th>
+			<th>{replies}</th>
+			<th>{views}</th>
+			<th>{latest_post}</th>
+		</tr>
 ';
 
 $templates['topiclist_notopics'] = '
@@ -60,27 +59,19 @@ $templates['topiclist_notopics'] = '
 
 $templates['topiclist_topic'] = '
 		<tr>
-			<td class="td2" width="1"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td class="td1" width="100%">{topic_name}</td>
-			<td class="td2" nowrap="nowrap"><div align="center"><small>{author}</small></div></td>
-			<td class="td2"><div align="center">{replies}</div></td>
-			<td class="td2"><div align="center">{views}</div></td>
-			<td class="td1" nowrap="nowrap"><small>{author_date} <a href="{last_post_url}">&raquo;</a></small></td>
+			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
+			<td>{topic_name}</td>
+			<td class="author">{author}</td>
+			<td class="count">{replies}</td>
+			<td class="count">{views}</td>
+			<td class="postinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
 		</tr>
 ';
 
 $templates['topiclist_footer'] = '
-		<tr>
-			<td colspan="6" class="toolbar">
-				<div align="right">{new_topic_link}</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="6" class="td2">
-				<small>{forum_moderators}</small>
-			</td>
-		</tr>
 	</table>
+	<p id="toolbarbottom">{new_topic_link}</p>
+	<p id="pagelinksbottom">{page_links}</p>
 ';
 
 ?>

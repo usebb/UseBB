@@ -113,7 +113,7 @@ $templates['css'] = '
 }
 html, body {
 	min-height: 100%;
-	font-size: 10pt;
+	font-size: 8pt;
 	font-family: verdana, sans-serif;
 	text-align: center;
 	background-image: url({img_dir}body_bg.png);
@@ -155,7 +155,7 @@ a.moderator:link, a.moderator:active, a.moderator:visited {
 	color: blue;
 }
 input, select, textarea {
-	font-size: 10pt !important;
+	font-size: 8pt !important;
 }
 textarea {
 	width: 99%;
@@ -168,7 +168,6 @@ pre {
 	display: block;
 	margin: 0px;
 	padding: 5px;
-	font-size: 8pt;
 	font-family: monospace;
 	color: #7F0000;
 	background-color: #FFFFFF;
@@ -179,7 +178,6 @@ fieldset {
 	display: block;
 	margin: 0px 25px 0px 25px;
 	padding: 10px;
-	font-size: 8pt;
 	color: #333333;
 	background-color: #FFFFFF;
 	border: 1px solid #BFBFBF;
@@ -187,9 +185,6 @@ fieldset {
 }
 fieldset legend {
 	font-weight: bold;
-}
-small {
-	font-size: 8pt;
 }
 #logo {
 	float: left;
@@ -216,7 +211,6 @@ h2#boarddescr {
 	line-height: 30px !important;
 }
 #topmenu * {
-	font-size: 8pt;
 	text-align: right;
 }
 #topmenu {
@@ -269,7 +263,6 @@ h2#boarddescr {
 p.locationbar {
 	clear: both;
 	text-align: left;
-	font-size: 8pt;
 	font-style: italic;
 	color: #333333;
 	margin-bottom: 10px;
@@ -279,7 +272,11 @@ p.locationbar {
 p.locationbar a {
 	font-style: normal;
 }
+
+/* Global styles */
+
 table.maintable, table.msgbox, table.confirmform {
+	clear: both;
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
@@ -290,7 +287,6 @@ table.maintable, table.msgbox, table.confirmform {
 table.maintable th, table.msgbox th, table.confirmform th {
 	color: #EBD6AD;
 	font-weight: bold;
-	font-size: 8pt;
 	background-color: #336699;
 	background-image: url({img_dir}tableheadbg.gif);
 	background-position: top;
@@ -308,23 +304,13 @@ table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 	border-top: 1px solid silver;
 	vertical-align: middle;
 }
-table.maintable td.forumcat {
-	font-weight: bold;
-	background-image: url({img_dir}menubg.gif);
-	background-repeat: repeat-x;
-	background-color: #E8E8E8;
+table.msgbox td, table.confirmform td.msg, td.msg {
+	padding: 18px 36px 18px 36px !important;
 }
-table.maintable td.icon {
-	background-color: #E8E8E8;
-	width: 1%;
-}
-table.maintable td .forumdescr {
-	font-size: 8pt;
-	font-style: italic;
-	margin: 0px 0px 0px 10px;
-}
-table.maintable td .forummods {
-	font-size: 8pt;
+td.formcontrols {
+	background-color: #E8E8E8 !important;
+	text-align: center !important;
+	padding: 6px !important;
 }
 table.maintable td.count {
 	background-color: #E8E8E8;
@@ -332,17 +318,69 @@ table.maintable td.count {
 	text-align: center;
 }
 table.maintable td.postinfo {
-	font-size: 8pt;
-	width: 225px;
+	width: 195px;
 }
-table.maintable td.toolbar {
+table.maintable td.icon {
+	background-color: #E8E8E8;
+	width: 1%;
+}
+
+/* Forumlist styles */
+
+table.maintable td.forumcat {
+	font-weight: bold;
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }
-table.maintable td.toolbar img {
-	margin-left: 5px;
+table.maintable td .forumdescr {
+	font-style: italic;
+	margin: 0px 0px 0px 10px;
 }
+
+/* Topiclist styles */
+
+#forumname {
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;
+}
+#forumname a:link, #forumname a:hover, #forumname a:active, #forumname a:visited {
+	text-decoration: none;
+}
+#forummods {
+	text-align: left;
+	margin: 0px 0px 6px 0px;
+}
+#toolbartop {
+	float: right;
+	text-align: right;
+	margin: 0px 0px 6px 0px;
+}
+#pagelinkstop {
+	text-align: left;
+	line-height: 23px;
+	font-weight: bold;
+}
+#toolbarbottom {
+	float: right;
+	text-align: right;
+	margin: -14px 0px 10px 0px;
+}
+#pagelinksbottom {
+	text-align: left;
+	line-height: 23px;
+	font-weight: bold;
+	margin: -14px 0px 10px 0px;
+}
+table.maintable td.author {
+	text-align: center;
+	width: 1%;
+	white-space: nowrap;
+}
+
+/* Topic styles */
+
 table.maintable td.td1 {
 	background-color: #EFEFEF;
 }
@@ -359,14 +397,6 @@ table.maintable td.fieldtitle {
 	background-color: #E8E8E8;
 	width: 25%;
 }
-table.msgbox td, table.confirmform td, td.msg {
-	padding: 18px 36px 18px 36px;
-}
-td.formcontrols {
-	background-color: #E8E8E8 !important;
-	text-align: center !important;
-	padding: 6px !important;
-}
 .avatar {
 	margin-top: 10px;
 }
@@ -374,21 +404,21 @@ td.formcontrols {
 	margin-bottom: 10px;
 }
 .posterinfo {
-	font-size: 8pt;
 	color: #3F3F3F;
 }
 .postlinks {
 	float: right;
-	font-size: 8pt;
 }
 .postcontent {
 	padding-top: 6px;
 	padding-bottom: 6px;
 	overflow: auto;
 }
+
+/* */
+
 p#panelmenu {
 	color: #323232;
-	font-size: 8pt;
 	text-align: left;
 	padding: 3px;
 	margin-bottom: 10px;
@@ -396,7 +426,6 @@ p#panelmenu {
 }
 p#linkbar {
 	color: #323232;
-	font-size: 8pt;
 	text-align: center;
 	margin-bottom: 20px;
 }
@@ -409,7 +438,6 @@ p#linkbar {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	border: 1px solid #336699;
-	font-size: 8pt;
 	font-style: normal;
 	text-align: right;
 	color: #333333;
@@ -452,7 +480,7 @@ $templates['confirm_form'] = '
 			<th>{title}</th>
 		</tr>
 		<tr>
-			<td>{content}</td>
+			<td class="msg">{content}</td>
 		</tr>
 		<tr>
 			<td class="formcontrols">{submit_button}&nbsp;{cancel_button}</td>

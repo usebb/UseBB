@@ -55,10 +55,10 @@ $templates['login_form'] = '
 			<th colspan="2">{login}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{user}</td><td>{user_input}<br /><small>{link_reg}</small></td>
+			<td class="fieldtitle">{user}</td><td>{user_input}<br />{link_reg}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{password}</td><td>{password_input}<br /><small>{link_sendpwd}</small></td>
+			<td class="fieldtitle">{password}</td><td>{password_input}<br />{link_sendpwd}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{remember}</td><td>{remember_input}</td>
@@ -89,7 +89,7 @@ $templates['mail_form'] = '
 			<td colspan="2">{body_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><small>{everything_required}</small></td>
+			<td colspan="2">{everything_required}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -133,7 +133,7 @@ $templates['post_form'] = '
 			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
-			<td class="td2">{content}<br /><br /><small>{options_input}</small></td><td>{content_input}</td>
+			<td class="td2">{content}<br /><br />{options_input}</td><td>{content_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -187,7 +187,7 @@ $templates['profile'] = '
 			<td class="fieldtitle">{interests}</td><td>{interests_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{signature}</td><td><small>{signature_v}</small></td>
+			<td class="fieldtitle">{signature}</td><td>{signature_v}</td>
 		</tr>
 		<tr>
 			<th colspan="2">{contact_info}</th>
@@ -232,7 +232,7 @@ $templates['register_form'] = '
 			<td class="fieldtitle">{passwd2}</td><td>{passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><small>{everything_required}</small></td>
+			<td colspan="2">{everything_required}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -254,7 +254,7 @@ $templates['sendpwd_form'] = '
 			<td class="fieldtitle">{email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><small>{everything_required}</small></td>
+			<td colspan="2">{everything_required}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

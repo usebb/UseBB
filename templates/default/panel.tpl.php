@@ -61,7 +61,7 @@ $templates['panel_sess_info'] = '
 			<td class="fieldtitle">{pages}</td><td>{pages_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{al}</td><td>{al_status} <small>({al_change})</small></td>
+			<td class="fieldtitle">{al}</td><td>{al_status} ({al_change})</td>
 		</tr>
 	</table>
 ';
@@ -73,7 +73,7 @@ $templates['edit_profile'] = '
 			<th colspan="2">{edit_profile}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email} <small>({required})</small></td><td>{email_input}</td>
+			<td class="fieldtitle">{email} ({required})</td><td>{email_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{avatar}</td><td>{avatar_input}</td>
@@ -137,7 +137,7 @@ $templates['edit_options'] = '
 			<td class="fieldtitle">{hide_from_online_list}</td><td>{hide_from_online_list_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{date_format}</td><td>{date_format_input}<br /><small>{date_format_help}</small></td>
+			<td class="fieldtitle">{date_format}</td><td>{date_format_input}<br />{date_format_help}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{timezone}</td><td>{timezone_input}</td>
@@ -183,7 +183,7 @@ $templates['editpwd_form'] = '
 			<td class="fieldtitle">{new_passwd_again}</td><td>{new_passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><small>{everything_required}</small></td>
+			<td colspan="2">{everything_required}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

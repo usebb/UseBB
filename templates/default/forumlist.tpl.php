@@ -39,7 +39,7 @@ $templates['forumlist_header'] = '
 $templates['forumlist_cat_header'] = '
 	<table class="maintable">
 		<tr>
-			<td colspan="5" class="forumcat"><small>&raquo;</small> {cat_name}</td>
+			<td colspan="5" class="forumcat">&raquo; {cat_name}</td>
 		</tr>
 		<tr>
 			<th></th>
@@ -53,7 +53,7 @@ $templates['forumlist_cat_header'] = '
 $templates['forumlist_forum'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
-			<td>{forum_name}<p class="forumdescr">{forum_descr}</p><p class="forummods">{forum_mods}</p></td>
+			<td>{forum_name}<div class="forumdescr">{forum_descr}</div>{forum_mods}</td>
 			<td class="count">{total_topics}</td>
 			<td class="count">{total_posts}</td>
 			<td class="postinfo">{latest_post}<br />{by_author}<br />{on_date}</td>

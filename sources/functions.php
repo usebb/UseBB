@@ -372,11 +372,13 @@ class functions {
 	//
 	// Generate a date given a timestamp
 	//
-	function make_date($stamp) {
+	function make_date($stamp, $format='') {
 		
 		global $lang;
 		
-		$date = gmdate($this->get_config('date_format'), $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
+		$format = ( !empty($format) ) ? $format : $this->get_config('date_format');
+		
+		$date = gmdate($format, $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
 		if ( $this->get_config('language') != 'English' )
 			$date = strtr($date, $lang['date_translations']);
 		return ucfirst($date);

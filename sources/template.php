@@ -199,8 +199,12 @@ class template {
 			$current_template = $this->templates[$request['section']][$request['template_name']];
 			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
 				
-				foreach ( $lang as $key => $val )
-					$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
+				foreach ( $lang as $key => $val ) {
+					
+					if ( !is_array($val) )
+						$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
+					
+				}
 				
 			}
 			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';

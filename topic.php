@@ -342,7 +342,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
 					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
-					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.date('M y', $postsdata['regdate']) : '',
+					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M y') : '',
 					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.htmlspecialchars(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',

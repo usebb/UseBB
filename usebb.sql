@@ -285,6 +285,7 @@ INSERT INTO usebb_language VALUES ('NoTopics', 'English', 'This forum does not c
 INSERT INTO usebb_language VALUES ('NotPermitted', 'English', 'You don\'t have the appropriate permissions to do this. If in doubt, contact the administrator.');
 INSERT INTO usebb_language VALUES ('Language', 'English', 'Language');
 INSERT INTO usebb_language VALUES ('Template', 'English', 'Template');
+INSERT INTO usebb_language VALUES ('NoSuchMember', 'English', 'The member %s does not exist at this board.');
 
 # --------------------------------------------------------
 

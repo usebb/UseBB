@@ -68,7 +68,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchUser'], '<i>'.$_POST['user'].'</i>').' '.$lang['RegisterIt']
+			'content' => sprintf($lang['NoSuchMember'], '<i>'.$_POST['user'].'</i>').' '.$lang['RegisterIt']
 		));
 		
 	} elseif ( $userdata['banned'] ) {

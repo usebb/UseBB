@@ -115,7 +115,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// Set a remember cookie if the user chose to
 		//
-		if ( !empty($_POST['remember']) && $_POST['remember'] == 'yes' )
+		if ( !empty($_POST['remember']) )
 			$functions->set_al($userdata['id'], $userdata['passwd']);
 		
 		//
@@ -166,6 +166,18 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		}
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
+		if ( count($_COOKIE) < 1 ) {
+			
+			$remember_input = $lang['FeatureDisabledBecauseCookiesDisabled'];
+			
+		} else {
+			
+			$remember_input = '<input type="checkbox" name="remember" id="remember" value="1" /><label for="remember"> '.$lang['Yes'].'</label>';
+			
+		}
+		
+		$disabled = ( count($_COOKIE) < 1 ) ? ' disabled="disabled"' : '';
+		
 		$template->parse('login_form', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],
@@ -174,7 +186,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'password'       => $lang['Password'],
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" />',
 			'remember'       => $lang['RememberMe'],
-			'remember_input' => '<input type="checkbox" name="remember" id="remember" value="yes" /> <label for="remember">'.$lang['Yes'].'</label>',
+			'remember_input' => $remember_input,
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" />',
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',

@@ -34,9 +34,9 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['PanelHome']);
 
-if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
+if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	
-	if ( $_GET['al'] == 1 ) {
+	if ( $_GET['al'] ) {
 		
 		//
 		// Set the AL cookie
@@ -44,7 +44,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		$functions->set_al($session->sess_info['user_id'], $session->sess_info['user_info']['passwd']);
 		$msgbox_content = $lang['AutoLoginSet'];
 		
-	} elseif ( $_GET['al'] == 0 ) {
+	} elseif ( !$_GET['al'] ) {
 		
 		//
 		// Unset the AL cookie
@@ -64,7 +64,11 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	// Some various session information
 	//
-	if ( $functions->isset_al() ) {
+	if ( count($_COOKIE) < 1 ) {
+		
+		$al_controls = $lang['FeatureDisabledBecauseCookiesDisabled'];
+		
+	} elseif ( $functions->isset_al() ) {
 		
 		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
 		

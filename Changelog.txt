@@ -1,6 +1,6 @@
 $Header$
 
-UseBB 0.5 Changelog
+UseBB 0.4.1 Changelog
 ------------------------------
 
 - Don't do length check of password on login form.

@@ -451,6 +451,10 @@ table.maintable td.posterinfo {
 }
 table.maintable td.posterinfo .avatar {
 	margin-top: 10px;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	overflow: hidden;
 }
 table.maintable td.posterinfo .avatar img {
 	margin-bottom: 10px;

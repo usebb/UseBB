@@ -143,7 +143,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	if ( !$session->sess_info['user_id'] ) {
 		
-		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) && !preg_match("/act=(login|logout|register|activate|sendpwd)/", $_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->make_url('index.php', array(), false);
+		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) && !preg_match('#act=(login|logout|register|activate|sendpwd)#', $_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->make_url('index.php', array(), false);
 		$_SESSION['refere_to'] = ( !empty($_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $_SERVER['HTTP_REFERER'];
 		unset($_SESSION['referer']);
 		

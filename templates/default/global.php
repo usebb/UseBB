@@ -164,7 +164,7 @@ textarea {
 	font-size: 8pt;
 }
 .main {
-	width: 85%;
+	width: 750px;
 	padding: 20px;
 	margin-top: 20px;
 	margin-bottom: 20px;

@@ -222,6 +222,14 @@ $templates['register_form'] = '
 			<td class="td1">{email_input}</td>
 		</tr>
 		<tr>
+			<td width="25%" class="td2">{passwd1}</td>
+			<td class="td1">{passwd1_input}</td>
+		</tr>
+		<tr>
+			<td width="25%" class="td2">{passwd2}</td>
+			<td class="td1">{passwd2_input}</td>
+		</tr>
+		<tr>
 			<td colspan="2" class="td1"><small>{everything_required}</small></td>
 		</tr>
 		<tr>

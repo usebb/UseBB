@@ -12,6 +12,7 @@ UseBB 0.3 Changelog
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.
 - Fixed bug 997622: Source code compression strips newlines out of textareas.
+- Fixed bug 998619: Registration needs valid e-mail.
 - Fixed bug 1035507: ob_gzhandler + URL-Rewriter error.
 - Fixed bug 1037973: No error on invalid website URL (profile).
 - Fixed bug 1037971: Color-bbcode uses font-tags.

@@ -44,11 +44,13 @@ $template->set_page_title($lang['Register']);
 $_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 $_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 $_POST['email'] = ( !empty($_POST['email']) ) ? $_POST['email'] : '';
+$_POST['passwd1'] = ( !empty($_POST['passwd1']) ) ? $_POST['passwd1'] : '';
+$_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
 
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && !empty($_POST['accepted']) ) {
+if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['accepted']) ) {
 	
 	//
 	// Check if this username already exists
@@ -161,12 +163,10 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			else
 				$level = 1;
 			
-			$password = $functions->random_key();
-			
 			//
 			// Create a new row in the user table
 			//
-			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting')." )")) )
+			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting')." )")) )
 				$functions->usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
 			
 			if ( $functions->get_config('users_must_activate') ) {
@@ -177,7 +177,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $db->last_id(), 'key' => $active_key), false),
-					'password' => $password
+					'password' => $_POST['passwd1']
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			} else {
@@ -187,7 +187,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				//
 				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
 					'account_name' => $_POST['user'],
-					'password' => $password
+					'password' => $_POST['passwd1']
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			}
@@ -230,6 +230,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			$errors[] = $lang['Username'];
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
+		if ( strlen($_POST['passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+			$errors[] = $lang['Password'];
 		
 		//
 		// Show an error message
@@ -257,6 +259,10 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
 		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
+		'passwd1'             => $lang['Password'],
+		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
+		'passwd2'             => $lang['PasswordAgain'],
+		'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
 		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" name="submit" value="'.$lang['Register'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',

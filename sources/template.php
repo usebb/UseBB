@@ -58,7 +58,7 @@ class template {
 	//
 	function get_config($setting) {
 		
-		global $db;
+		global $db, $functions;
 		
 		if ( !isset($this->config) ) {
 			
@@ -74,7 +74,7 @@ class template {
 		if ( isset($this->config[$setting]) )
 			return $this->config[$setting];
 		else
-			$this->usebb_die('General', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+			$functions->usebb_die('General', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	

@@ -60,7 +60,7 @@ INSERT INTO usebb_config VALUES ('sess_max_lifetime', '60');
 INSERT INTO usebb_config VALUES ('template', 'default');
 INSERT INTO usebb_config VALUES ('output_compression', '0');
 INSERT INTO usebb_config VALUES ('language', 'English');
-INSERT INTO usebb_config VALUES ('board_name', 'My Board');
+INSERT INTO usebb_config VALUES ('board_name', 'Tes"ti\'ng');
 INSERT INTO usebb_config VALUES ('board_descr', 'My Board');
 INSERT INTO usebb_config VALUES ('enable_memberlist', '1');
 INSERT INTO usebb_config VALUES ('enable_stafflist', '1');
@@ -283,6 +283,8 @@ INSERT INTO usebb_language VALUES ('Weeks', 'English', 'Weeks');
 INSERT INTO usebb_language VALUES ('TotalTime', 'English', 'Total time');
 INSERT INTO usebb_language VALUES ('NoTopics', 'English', 'This forum does not contain any topics. You could post the first one!');
 INSERT INTO usebb_language VALUES ('NotPermitted', 'English', 'You don\'t have the appropriate permissions to do this. If in doubt, contact the administrator.');
+INSERT INTO usebb_language VALUES ('Language', 'English', 'Language');
+INSERT INTO usebb_language VALUES ('Template', 'English', 'Template');
 
 # --------------------------------------------------------
 
@@ -353,7 +355,7 @@ CREATE TABLE usebb_stats (
 INSERT INTO usebb_stats VALUES ('forums', '0');
 INSERT INTO usebb_stats VALUES ('topics', '0');
 INSERT INTO usebb_stats VALUES ('posts', '0');
-INSERT INTO usebb_stats VALUES ('members', '0');
+INSERT INTO usebb_stats VALUES ('members', '1');
 
 # --------------------------------------------------------
 
@@ -365,7 +367,6 @@ CREATE TABLE usebb_templates (
   name varchar(255) NOT NULL default '',
   template varchar(255) NOT NULL default '',
   content text NOT NULL
-  PRIMARY KEY  (name)
 ) TYPE=MyISAM;
 
 #
@@ -389,7 +390,7 @@ INSERT INTO usebb_templates VALUES ('forumlist_stats', 'default', '  <table clas
 INSERT INTO usebb_templates VALUES ('edit_profile', 'default', '  {form_begin}\r\n  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{edit_profile}</th>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{email}</td><td class="td1">{email_input}&nbsp;<span class="small">{required}</span></td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{avatar}</td><td class="td1">{avatar_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{location}</td><td class="td1">{location_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{website}</td><td class="td1">{website_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{occupation}</td><td class="td1">{occupation_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{interests}</td><td class="td1">{interests_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{signature}</td><td class="td1">{signature_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{msnm}</td><td class="td1">{msnm_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{yahoom}</td><td class="td1">{yahoom_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{aim}</td><td class="td1">{aim_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{icq}</td><td class="td1">{icq_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{jabber}</td><td class="td1">{jabber_input}</td>\r\n    </tr>\r\n    <tr>\r\n      <td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>\r\n    </tr>\r\n  </tbody>\r\n  </table>\r\n  {form_end}');
 INSERT INTO usebb_templates VALUES ('mail_form', 'default', '  {form_begin}\r\n  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{sendemail}</th>\r\n    </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{from}</td>\r\n    <td class="td1">{from_v}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{to}</td>\r\n    <td class="td1">{to_v}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{subject}</td>\r\n    <td class="td1">{subject_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td class="td1" colspan="2"><div align="center">{body_input}</div></td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td1"><div class="small">{everything_required}</div></td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>\r\n  </tr>\r\n  </tbody>\r\n  </table>\r\n  {form_end}');
 INSERT INTO usebb_templates VALUES ('panel_sess_info', 'default', '  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{title}</th>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{sess_id}</td><td class="td1">{sess_id_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{ip_addr}</td><td class="td1">{ip_addr_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{started}</td><td class="td1">{started_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{updated}</td><td class="td1">{updated_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{total_time}</td><td class="td1">{total_time_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{pages}</td><td class="td1">{pages_v}</td>\r\n    </tr>\r\n    <tr>\r\n      <td width="25%" class="td2">{al}</td><td class="td1">{al_v}</td>\r\n    </tr>\r\n  </tbody>\r\n  </table>');
-INSERT INTO usebb_templates VALUES ('edit_options', 'default', '  {form_begin}\r\n  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{edit_options}</th>\r\n    </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{email_show}</td>\r\n    <td class="td1">{email_show_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{last_login_show}</td>\r\n    <td class="td1">{last_login_show_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{date_format}</td>\r\n    <td class="td1">{date_format_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>\r\n  </tr>\r\n  </tbody>\r\n  </table>\r\n  {form_end}');
+INSERT INTO usebb_templates VALUES ('edit_options', 'default', '  {form_begin}\r\n  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{edit_options}</th>\r\n    </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{language}</td>\r\n    <td class="td1">{language_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{template}</td>\r\n    <td class="td1">{template_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{email_show}</td>\r\n    <td class="td1">{email_show_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{last_login_show}</td>\r\n    <td class="td1">{last_login_show_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{date_format}</td>\r\n    <td class="td1">{date_format_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>\r\n  </tr>\r\n  </tbody>\r\n  </table>\r\n  {form_end}');
 INSERT INTO usebb_templates VALUES ('editpwd_form', 'default', '  {form_begin}\r\n  <table class="maintable">\r\n  <tbody>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{edit_pwd}</th>\r\n    </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{current_passwd}</td>\r\n    <td class="td1">{current_passwd_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{new_passwd}</td>\r\n    <td class="td1">{new_passwd1_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td width="25%" class="td2">{new_passwd_again}</td>\r\n    <td class="td1">{new_passwd2_input}</td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td1"><div class="small">{everything_required}</div></td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>\r\n  </tr>\r\n  </tbody>\r\n  </table>\r\n  {form_end}');
 INSERT INTO usebb_templates VALUES ('location_bar', 'default', '  <div class="locationbar">\r\n    {location_bar}\r\n  </div>');
 INSERT INTO usebb_templates VALUES ('topiclist_header', 'default', '  <table class="maintable">\r\n  <tbody>\r\n    <tr>\r\n      <td colspan="6"><div align="right">\r\n        {forum_links}\r\n      </div></td>\r\n    </tr>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{topic}</th>\r\n      <th>{author}</th>\r\n      <th width="1%">{replies}</th>\r\n      <th width="1%">{views}</th>\r\n      <th>{latest_post}</th>\r\n    </tr>');
@@ -405,14 +406,16 @@ INSERT INTO usebb_templates VALUES ('topiclist_footer', 'default', '  </tbody>\r
 CREATE TABLE usebb_templates_config (
   name varchar(255) NOT NULL default '',
   template varchar(255) NOT NULL default '',
-  content text NOT NULL,
-  PRIMARY KEY  (name)
+  content text NOT NULL
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `usebb_templates_config`
 #
 
+INSERT INTO usebb_templates_config VALUES ('item_delimiter', 'default', '&bull;');
+INSERT INTO usebb_templates_config VALUES ('is_enabled', 'default', '1');
+INSERT INTO usebb_templates_config VALUES ('template_name', 'default', 'UseBB Default Template');
 
 # --------------------------------------------------------
 

@@ -54,7 +54,7 @@ if ( $functions->get_config('enable_contactadmin') )
 #####
 
 $template->parse('normal_footer', array(
-	'link_bar' => ( count($link_bar) > 0 ) ? join(' - ', $link_bar) : '',
+	'link_bar' => ( count($link_bar) > 0 ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
 	'copyright' => 'Powered by <a href="http://usebb.sourceforge.net" target="_blank">UseBB</a> '.USEBB_VERSION.' - Copyright &copy; 2003-2004 UseBB Team'
 ));
 

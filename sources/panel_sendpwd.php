@@ -136,12 +136,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	
 	if ( !empty($_POST['submitted']) ) {
 		
+		$errors = array();
 		if ( !preg_match(USER_PREG, $_POST['user']) )
 			$errors[] = strtolower($lang['Username']);
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = strtolower($lang['Email']);
 		
-		if ( is_array($errors) ) {
+		if ( count($errors) ) {
 			
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Error'],

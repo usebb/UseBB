@@ -67,6 +67,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		//
 		// Define missing fields
 		//
+		$errors = array();
 		if ( md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = strtolower($lang['CurrentPassword']);
 		if ( strlen($_POST['new_passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
@@ -75,7 +76,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		//
 		// Show an error message
 		//
-		if ( is_array($errors) ) {
+		if ( count($errors) ) {
 			
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Error'],

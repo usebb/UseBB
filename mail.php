@@ -127,6 +127,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						//
 						// Some fields have not been filled in,
 						//
+						$errors = array();
 						if ( empty($_POST['subject']) )
 							$errors[] = strtolower($lang['Subject']);
 						if ( empty($_POST['body']) )
@@ -135,7 +136,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						//
 						// Show an error message
 						//
-						if ( is_array($errors) ) {
+						if ( count($errors) ) {
 							
 							$template->parse('msgbox', array(
 								'box_title' => $lang['Error'],

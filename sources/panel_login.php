@@ -149,12 +149,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		
 		if ( !empty($_POST['submitted']) ) {
 			
+			$errors = array();
 			if ( !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = strtolower($lang['Username']);
 			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < 5 )
 				$errors[] = strtolower($lang['Password']);
 			
-			if ( is_array($errors) ) {
+			if ( count($errors) ) {
 				
 				$template->parse('msgbox', array(
 					'box_title' => $lang['Error'],

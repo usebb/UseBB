@@ -153,12 +153,13 @@ if ( !$db->num_rows($result) ) {
 				
 			} else {
 				
+				$errors = array();
 				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
 					$errors[] = strtolower($lang['Username']);
 				if ( empty($_POST['content']) )
 					$errors[] = strtolower($lang['Content']);
 				
-				if ( is_array($errors) ) {
+				if ( count($errors) ) {
 					
 					$template->parse('msgbox', array(
 						'box_title' => $lang['Error'],

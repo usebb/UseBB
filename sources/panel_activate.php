@@ -2,7 +2,7 @@
 
 /*
 	Copyright (C) 2003-2004 UseBB Team
-	http://usebb.sourceforge.net
+	http://www.usebb.net
 	
 	$Header$
 	

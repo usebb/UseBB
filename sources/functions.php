@@ -2,7 +2,7 @@
 
 /*
 	Copyright (C) 2003-2004 UseBB Team
-	http://usebb.sourceforge.net
+	http://www.usebb.net
 	
 	$Header$
 	
@@ -132,7 +132,7 @@ class functions {
 		if ( $errtype == 'SQL' )
 			$html_msg .= '<br /><br />Query causing the error:<br />'.end($db->queries);
 		$html_msg .= '</code></blockquote><p>We are sorry for the inconvenience.</p><hr />';
-		$html_msg .= '<address><a href="http://usebb.sourceforge.net">UseBB</a> '.USEBB_VERSION.' running on '.preg_replace('/<\/?address>/i', '', $_SERVER['SERVER_SIGNATURE']).'</address></body></html>';
+		$html_msg .= '<address><a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION.' running on '.preg_replace('/<\/?address>/i', '', $_SERVER['SERVER_SIGNATURE']).'</address></body></html>';
 		die($html_msg);
 		
 	}

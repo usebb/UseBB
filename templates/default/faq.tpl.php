@@ -42,7 +42,7 @@ $templates['faq_header'] = '
 
 $templates['faq_heading'] = '
 		<tr>
-			<td class="faqheading">&raquo; <a href="#{heading_anchor}" name="{heading_anchor}">{heading_title}</a></td>
+			<td class="faqheading"><a href="#{heading_anchor}" name="{heading_anchor}">&raquo;</a> {heading_title}</td>
 		</tr>
 ';
 

@@ -34,18 +34,18 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['stafflist_header'] = '
-';
-
-$templates['stafflist_cat_header'] = '
 	<table class="maintable">
-		<tr>
-			<td colspan="4" class="forumcat">{level}</td>
-		</tr>
 		<tr>
 			<th>{l_Username}</th>
 			<th>{l_RealName}</th>
 			<th>{l_Rank}</th>
 			<th>{l_Email}</th>
+		</tr>
+';
+
+$templates['stafflist_cat_header'] = '
+		<tr>
+			<td colspan="4" class="forumcat">&raquo; {level}</td>
 		</tr>
 ';
 
@@ -59,10 +59,10 @@ $templates['stafflist_user'] = '
 ';
 
 $templates['stafflist_cat_footer'] = '
-	</table>
 ';
 
 $templates['stafflist_footer'] = '
+	</table>
 ';
 
 ?>

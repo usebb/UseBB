@@ -1045,6 +1045,8 @@ class functions {
 	//
 	function get_server_load() {
 		
+		$found_load = false;
+		
 		if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
 			
 			//
@@ -1054,10 +1056,14 @@ class functions {
 			$fh = fopen('/proc/loadavg', 'r');
 			$out = fread($fh, 14);
 			fclose($fh);
-			$out = explode(' ', $out);
-			return $out[0]; // we use the load average value of the past 1 minute
+			if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) )
+				return $match[1]; // we use the load average value of the past 1 minute
+			else
+				$found_load = false;
 			
-		} else {
+		}
+		
+		if ( !$found_load ) {
 			
 			//
 			// Another way is running the uptime command and using its
@@ -1071,8 +1077,10 @@ class functions {
 				//
 				// $retval contains the exit code 0 when ran successfully...
 				//
-				$out = explode(' ', str_replace(',', '', substr($out, -16)));
-				return $out[0]; // we use the load average value of the past 1 minute
+				if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) )
+					return $match[1]; // we use the load average value of the past 1 minute
+				else
+					return false;
 				
 			} else {
 				

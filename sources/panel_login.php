@@ -121,7 +121,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// Get us back to the previous page
 		//
-		$page = ( !empty($_POST['referer']) && !preg_match("/panel\.php\?a=activate/", $_POST['referer']) ) ? $_POST['referer'] : 'index.php';
+		$page = ( !empty($_POST['referer']) && !preg_match("/activate/is", $_POST['referer']) ) ? $_POST['referer'] : 'index.php';
 		header('Location: '.$page);
 		
 	} else {

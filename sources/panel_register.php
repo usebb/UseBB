@@ -169,12 +169,6 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."users ( id, name, email, passwd, regdate, level, active, active_key ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."' )")) )
 				$functions->usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
 			
-			//
-			// Update the statistics
-			//
-			if ( !($result = $db->query("UPDATE usebb_stats SET content = content+1 WHERE name = 'members'")) )
-				$functions->usebb_die('SQL', 'Unable to update statistics!', __FILE__, __LINE__);
-			
 			if ( $functions->get_config('users_must_activate') ) {
 				
 				//
@@ -197,6 +191,12 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			}
+			
+			//
+			// Update the statistics
+			//
+			if ( !($result = $db->query("UPDATE usebb_stats SET content = content+1 WHERE name = 'members'")) )
+				$functions->usebb_die('SQL', 'Unable to update statistics!', __FILE__, __LINE__);
 			
 			//
 			// Registration was succesful!

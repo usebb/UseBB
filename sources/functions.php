@@ -373,6 +373,8 @@ class functions {
 		foreach ( $bodyvars as $key => $val )
 			$body = str_replace('['.$key.']', $val, $body);
 		
+		$body = str_replace('&amp;', '&', $body);
+		
 		if ( !mail($to, $subject, $body, 'From: '.$from_name.' <'.$from_email.'>'."\r\n".'X-Mailer: UseBB '.USEBB_VERSION) )
 			$this->usebb_die('Mail', 'Unable to send e-mail!', __FILE__, __LINE__);
 		

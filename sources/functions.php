@@ -399,9 +399,8 @@ class functions {
 			// Make a seed for the random key generator
 			// This is needed on PHP < 4.2.0
 			//
-			$seed0 = explode(' ', microtime());
-			$seed = (float)$seed0[1] + ((float)$seed0[0] * 100000);
-			mt_srand($seed);
+			$seed = explode(' ', microtime());
+			mt_srand($seed[0] * $seed[1]);
 			$key .= $characters[mt_rand(0, strlen($characters)-1)];
 			
 		}

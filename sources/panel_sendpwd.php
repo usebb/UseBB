@@ -61,7 +61,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		$template->parse('msgbox', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchUser'], '<i>'.htmlentities($_POST['user']).'</i>')
+			'content' => sprintf($lang['NoSuchMember'], '<i>'.htmlentities($_POST['user']).'</i>')
 		));
 		
 	} elseif ( $userdata['banned'] ) {

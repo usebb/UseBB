@@ -9,6 +9,7 @@ UseBB 0.3 Changelog
 - Added feature 954754: Go to topic list if only one forum is viewable.
 - Added feature 973978: Show server load.
 - Fixed server load to work on some systems.
+- Fixed Undefined index: NoSuchUser on send new password page.
 - Added feature 978099: Strip off long topic names in topic list.
 - Added feature that saves the guest's username in the session.
 - Avatars now have an empty alternate text - looks better in Mozilla when image is

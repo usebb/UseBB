@@ -73,7 +73,7 @@ $templates['subscriptions_header'] = '
 			<th>{topic}</th>
 			<th>{author}</th>
 			<th>{latest_post}</th>
-			<th>{unsubscribe}</th>
+			<th></th>
 		</tr>
 ';
 

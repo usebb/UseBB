@@ -44,7 +44,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
+	if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
 		$functions->usebb_die('SQL', 'Unable to get post information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -66,7 +66,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		// Only if the user can edit posts
 		//
-		if ( $session->sess_info['user_id'] && $postdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) {
+		if ( $session->sess_info['user_id'] && ( $postdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) && strlen($_POST['poster_guest']) <= $functions->get_config('username_max_length') ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
 				
@@ -198,7 +198,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	if ( !($result = $db->query("SELECT p.poster_id, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
+	if ( !($result = $db->query("SELECT p.poster_id, u.level AS poster_level, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
 		$functions->usebb_die('SQL', 'Unable to get post information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -220,7 +220,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		// Only if the user can delete posts
 		//
-		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && $postdata['last_post_id'] == $_GET['post'] ) || $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) ) {
+		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && $postdata['last_post_id'] == $_GET['post'] ) || $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

@@ -258,10 +258,10 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				$post_links = array();
 				
-				if ( $session->sess_info['user_id'] && ( $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) ) )
+				if ( $session->sess_info['user_id'] && ( $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('edit_button').'" alt="'.$lang['Edit'].'" /></a>';
 				
-				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) )
+				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('delete_button').'" alt="'.$lang['Delete'].'" /></a>';
 				
 				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )

@@ -166,7 +166,7 @@ if ( empty($_POST['step']) ) {
 		
 	}
 	$queries[] = "INSERT INTO usebb_cats VALUES ( '', 'Test Category', '0' )";
-	$queries[] = "INSERT INTO usebb_forums VALUES ( '', 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1', '1', '0', '0011222223', '0', '0' )";
+	$queries[] = "INSERT INTO usebb_forums VALUES ( '', 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1', '1', '0', '0011222223', '0', '1' )";
 	$queries[] = "UPDATE usebb_stats SET content = '1' WHERE name = 'forums'";
 	$queries[] = "INSERT INTO usebb_topics VALUES ( '', '1', 'Test Topic', '1', '1', '0', '0', '0', '0' )";
 	$queries[] = "INSERT INTO usebb_posts VALUES ( '', '1', '0', 'UseBB Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."', '0', '0', '1', '1', '1', '0' )";
@@ -193,7 +193,7 @@ if ( empty($_POST['step']) ) {
 		
 		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'panel.php?act=register">your UseBB board</a> and register a first account. It will automatically be an administrator.</p>';
 		echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
-		echo '<p><strong>Tip:</strong> you might want to use <a href="http://www.usebb.net/docs/index.php/Administration_without_ACP">this manual</a> to further set up your forum.</p>';
+		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp">this manual</a> to further set up your forum.</p>';
 		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
 		
 	}

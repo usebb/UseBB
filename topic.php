@@ -324,10 +324,19 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				
 				if ( $postsdata['post_edit_time'] ) {
 					
-					if ( !($result2 = $db->query("SELECT name, level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by'])) )
-						$functions->usebb_die('SQL', 'Unable to get post editer!', __FILE__, __LINE__);
-					$editer_info = $db->fetch_result($result2);
-					$post_editinfo = sprintf($template->get_config('post_editinfo_format'), sprintf($lang['PostEditInfo'], $functions->make_profile_link($postsdata['post_edit_by'], $editer_info['name'], $editer_info['level']), $functions->make_date($postsdata['post_edit_time'])));
+					if ( $postsdata['post_edit_by'] === $postsdata['poster_id'] ) {
+						
+						$editer_info = $postsdata;
+						
+					} else {
+						
+						if ( !($result2 = $db->query("SELECT name AS poster_name, level AS poster_level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by'])) )
+							$functions->usebb_die('SQL', 'Unable to get post editer!', __FILE__, __LINE__);
+						$editer_info = $db->fetch_result($result2);
+						
+					}
+					
+					$post_editinfo = sprintf($template->get_config('post_editinfo_format'), sprintf($lang['PostEditInfo'], $functions->make_profile_link($postsdata['post_edit_by'], $editer_info['poster_name'], $editer_info['poster_level']), $functions->make_date($postsdata['post_edit_time'])));
 					
 				} else {
 					

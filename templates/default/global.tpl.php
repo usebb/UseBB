@@ -407,6 +407,7 @@ table.maintable td.forumcat {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	color: #333333;
+	border-top: 2px solid silver;
 }
 table.maintable td .forumname {
 	font-weight: bold;
@@ -417,6 +418,13 @@ table.maintable td .forumdescr {
 table.maintable td .forummods {
 	margin: 3px 0px 0px 3px;
 	color: #444444;
+}
+table.maintable td.online {
+	font-weight: bold;
+	background-image: url({img_dir}topmenu_bg.png);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+	color: #333333;
 }
 
 /* Topiclist styles */

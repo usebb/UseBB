@@ -44,6 +44,46 @@ require(ROOT_PATH.'sources/page_head.php');
 $template->set_page_title($lang['FAQ']);
 
 //
+// Get FAQ variables
+//
+$faq_file = ROOT_PATH.'languages/faq_'.$functions->get_config('language').'.php';
+if ( !file_exists($faq_file) || !is_readable($faq_file) )
+	$functions->usebb_die('General', 'Unable to get "'.$functions->get_config('language').'" FAQ!', __FILE__, __LINE__);
+else
+	require($faq_file);
+
+$template->parse('faq_header', 'faq', array(
+	'title' => $lang['FAQ']
+));
+
+$hi = $qi = 0;
+
+foreach ( $faq as $item ) {
+	
+	if ( $item[0] == '--' ) {
+		
+		$hi++;
+		
+		$template->parse('faq_heading', 'faq', array(
+			'heading_title' => '<a href="#h'.$hi.'">'.$item[1].'</a>'
+		));
+		
+	} else {
+		
+		$qi++;
+		
+		$template->parse('faq_question', 'faq', array(
+			'question_title' => '<a href="#q'.$qi.'">'.$item[0].'</a>',
+			'question_answer' => $item[1]
+		));
+		
+	}
+	
+}
+
+$template->parse('faq_footer', 'faq');
+
+//
 // Include the page footer
 //
 require(ROOT_PATH.'sources/page_foot.php');

@@ -462,6 +462,21 @@ table.maintable td.actionlinks {
 	font-weight: bold;
 }
 
+/* FAQ styles */
+
+table.maintable td.faqheading {
+	font-weight: bold;
+	background-image: url({img_dir}menubg.gif);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+}
+table.maintable td .questiontitle {
+	font-weight: bold;
+}
+table.maintable td .questionanswer {
+	margin: 0px 0px 0px 20px;
+}
+
 /* */
 
 p#panelmenu {

@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $lang_file = ROOT_PATH.'languages/lang_'.$functions->get_config('language').'.php';
 if ( !file_exists($lang_file) || !is_readable($lang_file) )
-	$functions->usebb_die('General', 'Unable to get translation for "'.$functions->get_config('language').'"!', __FILE__, __LINE__);
+	$functions->usebb_die('General', 'Unable to get "'.$functions->get_config('language').'" translation!', __FILE__, __LINE__);
 else
 	require($lang_file);
 

@@ -47,17 +47,23 @@ $templates['topic_header'] = '
 ';
 
 $templates['topic_post'] = '
-		<tr class="post">
+		<tr class="posttop">
 			<td class="td2" width="150">
-				<b>{poster_name}</b><br />
+				<b>{poster_name}</b>
+			</td>
+			<td class="td2">
+				<div class="postlinks">{post_links}</div>
+				<small><acronym title="{post_date}">{post_anchor}</acronym> <b>&laquo;{topic_title}&raquo;</b></small>
+			</td>
+		</tr>
+		<tr class="post">
+			<td class="td1">
 				<small>{poster_rank}</small>
 				<div class="avatar">{poster_avatar}</div>
 				<div class="posterinfo">{registered}<br />{posts}<br />{location}</div>
 			</td>
 			<td class="td1">
-				<div class="postlinks">{post_links}</div>
-				<small><acronym title="{post_date}">{post_anchor}</acronym> <b>&laquo;{topic_title}&raquo;</b></small>
-				<hr /><div class="postcontent">{post_content}</div>{poster_sig}
+				<div class="postcontent">{post_content}</div>{poster_sig}
 			</td>
 		</tr>
 ';

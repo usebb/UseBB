@@ -23,6 +23,7 @@ UseBB 0.3 Changelog
 - Fixed IP Spoofing Vulnerability.
 - Fixed Undefined index: NoSuchUser on send new password page.
 - Fixed a security vulnerability.
+- Some changes in defining classes with vars defined with 'var' for PHP5 compatibility.
 - Removed all strtolower() occasions - improves translation possibilities.
 - Server load in template parser moved to function class.
 - Forum stats box moved to function class.

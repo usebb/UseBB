@@ -64,49 +64,45 @@ $templates['config'] = array(
 // Globally needed templates
 //
 
-$templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+$templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<title>{board_name}: {page_title}</title>
+	<title>UseBB &mdash; The Usable Forum Software</title>
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />
 </head>
 <body>
-	<div align="center">
-	<div class="main">
+	<div id="pagewrapper">
+	<div id="pagebox">
 	
 	<table class="header">
 		<tr>
 			<td class="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{home}" /></a></td>
-			<td class="namebox" nowrap="nowrap"><div class="title">{board_name}</div><div class="descr">{board_descr}</div></td>
+			<!--<td class="namebox" nowrap="nowrap"><div class="title">{board_name}</div><div class="descr">{board_descr}</div></td>-->
 		</tr>
 	</table>
 	
-	<div class="menu">
-		<a href="{link_home}" accesskey="h">{home}</a><a href="{link_reg_panel}">{reg_panel}</a><a href="{link_faq}">{faq}</a><a href="{link_search}">{search}</a><a href="{link_active}">{active}</a><a href="{link_log_inout}">{log_inout}</a>
-	</div>
+	<div id="topmenu"><ul>
+		<li><a href="{link_home}" accesskey="h">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li><a href="{link_log_inout}">{log_inout}</a><li>
+	</ul></div>
+	<div id="topmenu-shadow"></div>
 ';
 
 $templates['normal_footer'] = '
 	<div class="linkbar">
 		{link_bar}
 	</div>
-	<div class="banners">
-		<a href="http://www.usebb.net"><img src="{img_dir}powered-by-usebb.png" alt="Powered by UseBB" /></a>
-		<a href="http://validator.w3.org/check/referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" /></a>
-		<a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" /></a>
-		<a href="http://www.php.net"><img src="{img_dir}php-power-white.gif" alt="Powered by PHP" /></a>
-		<a href="http://www.mysql.com"><img src="{img_dir}powered-by-mysql-88x31.png" alt="Powered by MySQL" /></a>
-	</div>
-	<div class="copyright">
+	<div id="bottom">
 		<!--
 			We request not to remove the following copyright notice including the link to the UseBB Home Page.
 			This shows your respect to everyone involved in UseBB\'s development and promotes the use of UseBB.
 			If you don\'t want to show the Copyright notice, just leave the Powered by UseBB line. If you
 			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
 		-->
-		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} - Copyright &copy; 2003-2004 UseBB Team
+		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2004 UseBB Team
 	</div>
+	<div id="bottom-shadow"></div>
 	
 	</div>
 	</div>
@@ -115,15 +111,32 @@ $templates['normal_footer'] = '
 ';
 
 $templates['css'] = '
-body {
+* {
 	margin: 0px;
 	padding: 0px;
-	background-color: #E6E6E6;
 }
-body, td, th {
-	font-family: verdana, sans-serif;
+html, body {
+	min-height: 100%;
 	font-size: 10pt;
-	color: #000000;
+	font-family: verdana, sans-serif;
+	text-align: center;
+	background-image: url({img_dir}body_bg.png);
+	background-color: #CCCCCC;
+}
+#pagewrapper {
+	width: 765px;
+	margin: 0px auto 0px auto;
+	padding: 0px 10px 0px 10px;
+	background-image: url({img_dir}pagewrapper_bg.png);
+	background-repeat: repeat-y;
+	background-position: center;
+}
+#pagebox {
+	padding: 20px 20px 15px 20px;
+	text-align: left;
+	background-image: url({img_dir}pagebox_bg.png);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
 }
 img {
 	border: 0px;
@@ -197,7 +210,7 @@ fieldset legend {
 .header {
 	border-collapse: collapse;
 	width: 100%;
-	margin-bottom: 10px;
+	margin-bottom: 4px;
 }
 .header td {
 	padding: 0px;
@@ -222,33 +235,69 @@ fieldset legend {
 	font-style: italic;
 	padding-top: 2px;
 }
-.menu {
-	border: 1px solid #336699;
-	background-image: url({img_dir}menubg.gif);
-	background-repeat: repeat-x;
-	background-color: #E5E5E5;
-	text-align: left;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	margin-bottom: 20px;
-	font-size: 8pt;
+
+
+#topmenu *
+{
+font-size: 8pt;
 }
-.menu a, .menu a:visited {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	text-decoration: none;
-	border-right: 1px solid #336699;
+
+#topmenu
+{
+float: left;
+width: 723px;
+background-image: url({img_dir}topmenu_bg.png);
+background-repeat: repeat-x;
+background-color: #E8E8E8 /* temp */;
+border: 1px solid #336699;
+padding: 3px 0px 3px 0px;
 }
-.menu a:hover {
-	background-image: url({img_dir}menubg2.gif);
-	background-repeat: repeat-x;
-	background-color: #FFFFFF;
-	text-decoration: none;
-	border-right: 1px solid #336699;
+
+#topmenu ul
+{
+list-style: none;
 }
+
+#topmenu ul li
+{
+display: inline;
+}
+
+#topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover
+{
+text-decoration: none;
+padding: 3px 7px 3px 7px;
+border-right: 1px solid #336699;
+}
+
+#topmenu ul li a:link, #topmenu ul li a:visited
+{
+color: #336699;
+}
+
+#topmenu ul li a:active, #topmenu ul li a:hover
+{
+color: #7F0000;
+background-image: url({img_dir}topmenu_bg_reverse.png);
+background-repeat: repeat-x;
+background-color: #FFFFFF;
+}
+
+#topmenu-shadow
+{
+clear: both;
+height: 5px;
+background-image: url({img_dir}topmenu_shadow.png);
+background-repeat: repeat-x;
+background-color: #FFFFFF;
+line-height: 100%;
+overflow: hidden;
+margin: 0px 0px 15px 0px;
+}
+
+
 .locationbar {
+	clear: both;
 	text-align: left;
 	font-size: 8pt;
 	font-style: italic;
@@ -262,9 +311,9 @@ fieldset legend {
 }
 .maintable, .msgbox, .confirmform {
 	border-collapse: collapse;
-	border-left: 1px solid #336699;
-	border-right: 1px solid #336699;
-	border-bottom: 2px solid #336699;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
 	margin-bottom: 20px;
 }
 .maintable th, .msgbox th, .confirmform th {
@@ -279,15 +328,15 @@ fieldset legend {
 	padding: 6px;
 	padding-top: 3px;
 	padding-bottom: 3px;
-	border-left: 1px solid #336699;
-	border-top: 1px solid #336699;
+	border-left: 1px solid silver;
+	border-top: 1px solid silver;
 }
 .maintable td, .msgbox td, .confirmform td, td.msg {
-	background-color: #EFEFEF;
+	background-color: #F3F3F3 /* temp */;
 	padding: 6px;
 	text-align: left;
-	border-left: 1px solid #336699;
-	border-top: 1px solid #336699;
+	border-left: 1px solid silver;
+	border-top: 1px solid silver;
 	vertical-align: middle;
 }
 .maintable {
@@ -297,28 +346,27 @@ fieldset legend {
 	font-weight: bold;
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;
-	background-color: #E5E5E5;
+	background-color: #E8E8E8 /* temp */;
 }
 .maintable td.toolbar {
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;
-	background-color: #E5E5E5;
+	background-color: #E8E8E8 /* temp */;
 }
 .maintable td.toolbar img {
 	margin-left: 5px;
 }
 .maintable td.td1 {
-	background-color: #EFEFEF;
+	background-color: #F3F3F3 /* temp */;
 }
 .maintable td.td2 {
-	background-color: #E5E5E5;
+	background-color: #E8E8E8 /* temp */;
 }
-.maintable tr.post {
-	border-left: 1px solid #336699;
+.maintable tr.posttop td {
+	padding: 2px 2px 2px 5px;
 }
 .maintable tr.post td {
 	vertical-align: top;
-	border-left: 0px;
 }
 .msgbox td, .confirmform td.content, td.msg {
 	padding: 18px;
@@ -326,7 +374,7 @@ fieldset legend {
 	padding-right: 36px;
 }
 .confirmform td.buttons {
-	background-color: #E5E5E5;
+	background-color: #E8E8E8 /* temp */;
 }
 .avatar {
 	margin-top: 10px;
@@ -349,34 +397,61 @@ fieldset legend {
 }
 .panelmenu {
 	border-collapse: collapse;
-	border-left: 1px solid #336699;
-	border-right: 1px solid #336699;
-	border-bottom: 1px solid #336699;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
 	margin-bottom: 20px;
 }
 .panelmenu td {
-	background-color: #E5E5E5;
+	background-color: #E8E8E8 /* temp */;
 	padding: 5px;
 	padding-left: 15px;
 	padding-right: 15px;
 	text-align: center;
-	border-left: 1px solid #336699;
-	border-top: 1px solid #336699;
+	border-left: 1px solid silver;
+	border-top: 1px solid silver;
 	vertical-align: middle;
 	font-size: 8pt;
 }
 .linkbar {
 	color: #323232;
-	margin-bottom: 20px;
 	font-size: 8pt;
+	text-align: center;
+	margin-bottom: 20px;
 }
 .banners {
 	text-align: center;
 }
-.copyright {
-	margin-top: 2px;
-	color: #323232;
-	font-size: 8pt;
+#bottom
+{
+clear: both;
+float: left;
+width: 705px;
+padding: 3px 9px 3px 9px;
+background-image: url({img_dir}topmenu_bg.png);
+background-repeat: repeat-x;
+background-color: #E8E8E8 /* temp */;
+border: 1px solid #336699;
+font-size: 8pt;
+font-style: normal;
+text-align: right;
+color: #333333;
+}
+
+#bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited
+{
+text-decoration: none;
+}
+
+#bottom-shadow
+{
+clear: both;
+height: 5px;
+background-image: url({img_dir}topmenu_shadow.png);
+background-repeat: repeat-x;
+background-color: #FFFFFF;
+line-height: 100%;
+overflow: hidden;
 }
 ';
 

@@ -143,14 +143,14 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->queries).'</small></div>';
+				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries()).'</small></div>';
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
 				
 				//
 				// Lists parsetime and queries fully
 				//
-				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div>';
+				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->get_used_queries())).'</textarea></div>';
 				
 			}
 			

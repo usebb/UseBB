@@ -58,6 +58,11 @@ class db {
 		if ( !(@mysql_select_db($config['dbname'], $this->connection)) )
 			$functions->usebb_die('General', 'Unable to connect to the database!', __FILE__, __LINE__);
 		
+		//
+		// Initialize used queries array
+		//
+		$this->queries = array();
+		
 	}
 	
 	//
@@ -82,7 +87,6 @@ class db {
 		
 	}
 	
-	
 	//
 	// Count row number
 	//
@@ -100,6 +104,15 @@ class db {
 		
 		$id = mysql_insert_id($this->connection);
 		return $id;
+		
+	}
+	
+	//
+	// Get used queries array
+	//
+	function get_used_queries() {
+		
+		return $this->queries;
 		
 	}
 	

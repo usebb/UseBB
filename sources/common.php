@@ -52,6 +52,15 @@ require(ROOT_PATH.'sources/session.php');
 require(ROOT_PATH.'sources/template.php');
 
 //
+// Load the database class
+//
+$db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
+if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
+	$functions->usebb_die('General', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
+else
+	require($db_class_file);
+
+//
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
@@ -68,6 +77,7 @@ define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#is');
 $functions = new functions;
 $session = new session;
 $template = new template;
+$db = new db;
 
 //
 // Set the UseBB error handler
@@ -91,17 +101,6 @@ set_error_handler('error_handler');
 //
 if ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 )
 	ob_start('ob_gzhandler');
-
-$db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
-if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
-	$functions->usebb_die('General', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
-else
-	require($db_class_file);
-
-//
-// Create objects
-//
-$db = new db;
 
 //
 // Add slashes to get, post and cookie variables if magic

@@ -131,7 +131,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
 						'replies' => $topicdata['count_replies'],
 						'views' => $topicdata['count_views'],
-						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, '<a href="'.$functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id'].'">'.$functions->make_date($topicdata['last_post_time']).'</a>'),
+						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
+						'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
 					));
 					
 				}

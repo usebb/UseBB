@@ -64,7 +64,7 @@ $templates['topiclist_topic'] = '
 			<td class="td1" nowrap="nowrap"><div align="center"><small>{author}</small></div></td>
 			<td class="td2"><div align="center">{replies}</div></td>
 			<td class="td2"><div align="center">{views}</div></td>
-			<td class="td1" nowrap="nowrap"><small>{author_date}</small></td>
+			<td class="td1" nowrap="nowrap"><small>{author_date} <a href="{last_post_url}">&raquo;</a></small></td>
 		</tr>
 ';
 

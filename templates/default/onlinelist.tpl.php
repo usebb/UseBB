@@ -37,9 +37,9 @@ $templates['onlinelist_header'] = '
 	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
 		<tr>
-			<th>{username}</th>
-			<th>{location}</th>
-			<th>{latest_update}</th>
+			<th>{l_Username}</th>
+			<th>{l_Location}</th>
+			<th>{l_LatestUpdate}</th>
 		</tr>
 ';
 

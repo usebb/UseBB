@@ -95,14 +95,7 @@ if ( !$functions->get_stats('topics') ) {
 			'location_bar' => $location_bar
 		));
 		
-		$template->parse('topiclist_header', 'activetopics', array(
-			'topic' => $lang['Topic'],
-			'forum' => $lang['Forum'],
-			'author' => $lang['Author'],
-			'replies' => $lang['Replies'],
-			'views' => $lang['Views'],
-			'latest_post' => $lang['LatestPost']
-		));
+		$template->parse('topiclist_header', 'activetopics');
 		
 		if ( !($result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$functions->get_config('topics_per_page'))) )
 			$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);

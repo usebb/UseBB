@@ -40,8 +40,8 @@ $templates['topic_header'] = '
 	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
 		<tr>
-			<th>{author}</th>
-			<th>{post}</th>
+			<th>{l_Author}</th>
+			<th>{l_Post}</th>
 		</tr>
 ';
 
@@ -85,10 +85,10 @@ $templates['quick_reply'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{quick_reply}</th>
+			<th colspan="2">{l_QuickReply}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{username}</td><td>{username_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{content_input}</td>

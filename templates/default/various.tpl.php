@@ -80,19 +80,19 @@ $templates['mail_form'] = '
 			<th colspan="2">{sendemail}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{from}</td><td>{from_v}</td>
+			<td class="fieldtitle">{l_From}</td><td>{from_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{to}</td><td>{to_v}</td>
+			<td class="fieldtitle">{l_To}</td><td>{to_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
+			<td class="fieldtitle">{l_Subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{body_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{everything_required}</td>
+			<td colspan="2">{l_EverythingRequired}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -154,70 +154,70 @@ $templates['profile'] = '
 			<th colspan="3">{title}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{username}</td><td>{username_v}</td><td rowspan="5" class="minimal">{avatar_v}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="5" class="minimal">{avatar_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{userid}</td><td>{userid_v}</td>
+			<td class="fieldtitle">{l_UserID}</td><td>{userid_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{level}</td><td>{level_v}</td>
+			<td class="fieldtitle">{l_Level}</td><td>{level_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{rank}</td><td>{rank_v}</td>
+			<td class="fieldtitle">{l_Rank}</td><td>{rank_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{real_name}</td><td>{real_name_v}</td>
+			<td class="fieldtitle">{l_RealName}</td><td>{real_name_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{regdate}</td><td colspan="2">{regdate_v}</td>
+			<td class="fieldtitle">{l_Registered}</td><td colspan="2">{regdate_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{posts}</td><td colspan="2">{posts_v}</td>
+			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{postsperday}</td><td colspan="2">{postsperday_v}</td>
+			<td class="fieldtitle">{l_PostsPerDay}</td><td colspan="2">{postsperday_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{lastlogin}</td><td colspan="2">{lastlogin_v}</td>
+			<td class="fieldtitle">{l_LastLogin}</td><td colspan="2">{lastlogin_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{location}</td><td colspan="2">{location_v}</td>
+			<td class="fieldtitle">{l_Location}</td><td colspan="2">{location_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{website}</td><td colspan="2">{website_v}</td>
+			<td class="fieldtitle">{l_Website}</td><td colspan="2">{website_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{occupation}</td><td colspan="2">{occupation_v}</td>
+			<td class="fieldtitle">{l_Occupation}</td><td colspan="2">{occupation_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{interests}</td><td colspan="2">{interests_v}</td>
+			<td class="fieldtitle">{l_Interests}</td><td colspan="2">{interests_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{signature}</td><td colspan="2">{signature_v}</td>
+			<td class="fieldtitle">{l_Signature}</td><td colspan="2">{signature_v}</td>
 		</tr>
 		<tr>
-			<th colspan="3">{contact_info}</th>
+			<th colspan="3">{l_ContactInfo}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email}</td><td colspan="2">{email_v}</td>
+			<td class="fieldtitle">{l_Email}</td><td colspan="2">{email_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{msnm}</td><td colspan="2">{msnm_v}</td>
+			<td class="fieldtitle">{l_MSNM}</td><td colspan="2">{msnm_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{yahoom}</td><td colspan="2">{yahoom_v}</td>
+			<td class="fieldtitle">{l_YahooM}</td><td colspan="2">{yahoom_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{aim}</td><td colspan="2">{aim_v}</td>
+			<td class="fieldtitle">{l_AIM}</td><td colspan="2">{aim_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{icq}</td><td colspan="2">{icq_v} {icq_status}</td>
+			<td class="fieldtitle">{l_ICQ}</td><td colspan="2">{icq_v} {icq_status}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{jabber}</td><td colspan="2">{jabber_v}</td>
+			<td class="fieldtitle">{l_Jabber}</td><td colspan="2">{jabber_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{skype}</td><td colspan="2">{skype_v}</td>
+			<td class="fieldtitle">{l_Skype}</td><td colspan="2">{skype_v}</td>
 		</tr>
 	</table>
 ';

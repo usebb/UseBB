@@ -43,10 +43,10 @@ $templates['forumlist_cat_header'] = '
 		</tr>
 		<tr>
 			<th></th>
-			<th>{forum}</th>
-			<th>{topics}</th>
-			<th>{posts}</th>
-			<th>{latest_post}</th>
+			<th>{l_Forum}</th>
+			<th>{l_Topics}</th>
+			<th>{l_Posts}</th>
+			<th>{l_LatestPost}</th>
 		</tr>
 ';
 

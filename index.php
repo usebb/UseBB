@@ -138,12 +138,7 @@ if ( !$functions->get_stats('forums') ) {
 			
 		}
 		
-		$template->parse('forumlist_header', 'forumlist', array(
-			'forum' => $lang['Forum'],
-			'topics' => $lang['Topics'],
-			'posts' => $lang['Posts'],
-			'latest_post' => $lang['LatestPost']
-		));
+		$template->parse('forumlist_header', 'forumlist');
 		
 		$seen_forums = array();
 		
@@ -166,10 +161,6 @@ if ( !$functions->get_stats('forums') ) {
 				// If we didn't parse this category yet, than do it now
 				//
 				$template->parse('forumlist_cat_header', 'forumlist', array(
-					'forum' => $lang['Forum'],
-					'topics' => $lang['Topics'],
-					'posts' => $lang['Posts'],
-					'latest_post' => $lang['LatestPost'],
 					'cat_name' => htmlspecialchars(stripslashes($forumdata['cat_name'])),
 					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id']
 				));
@@ -230,10 +221,6 @@ if ( !$functions->get_stats('forums') ) {
 				// If we didn't parse this category footer yet, than do it now
 				//
 				$template->parse('forumlist_cat_footer', 'forumlist', array(
-					'forum' => $lang['Forum'],
-					'topics' => $lang['Topics'],
-					'posts' => $lang['Posts'],
-					'latest_post' => $lang['LatestPost'],
 					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlspecialchars(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				

@@ -37,12 +37,12 @@ $templates['topiclist_header'] = '
 	<table class="maintable">
 		<tr>
 			<th></th>
-			<th>{forum}</th>
-			<th>{topic}</th>
-			<th>{author}</th>
-			<th>{replies}</th>
-			<th>{views}</th>
-			<th>{latest_post}</th>
+			<th>{l_Forum}</th>
+			<th>{l_Topic}</th>
+			<th>{l_Author}</th>
+			<th>{l_Replies}</th>
+			<th>{l_Views}</th>
+			<th>{l_LatestPost}</th>
 		</tr>
 ';
 

@@ -175,9 +175,6 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	));
 	
 	$template->parse('onlinelist_header', 'onlinelist', array(
-		'username' => $lang['Username'],
-		'location' => $lang['Location'],
-		'latest_update' => $lang['LatestUpdate'],
 		'page_links' => $page_links
 	));
 	

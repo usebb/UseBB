@@ -102,12 +102,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
 				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
-				'page_links' => $page_links,
-				'topic' => $lang['Topic'],
-				'author' => $lang['Author'],
-				'replies' => $lang['Replies'],
-				'views' => $lang['Views'],
-				'latest_post' => $lang['LatestPost']
+				'page_links' => $page_links
 			));
 			
 			if ( $forumdata['topics'] ) {
@@ -154,9 +149,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				//
 				// There are no topics yet...
 				//
-				$template->parse('topiclist_notopics', 'topiclist', array(
-					'notopics' => $lang['NoTopics']
-				));
+				$template->parse('topiclist_notopics', 'topiclist');
 				
 			}
 			

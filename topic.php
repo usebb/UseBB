@@ -213,9 +213,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
-				'page_links' => $page_links,
-				'author' => $lang['Author'],
-				'post' => $lang['Post']
+				'page_links' => $page_links
 			));
 			
 			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
@@ -427,10 +425,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				
 				$template->parse('quick_reply', 'topic', array(
 					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" method="post">',
-					'quick_reply' => $lang['QuickReply'],
-					'username' => $lang['Username'],
 					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
-					'content' => $lang['Content'],
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content"></textarea>',
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" /><input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',

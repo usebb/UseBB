@@ -41,18 +41,18 @@ $templates['topiclist_header'] = '
 	<table class="maintable">
 		<tr>
 			<th></th>
-			<th>{topic}</th>
-			<th>{author}</th>
-			<th>{replies}</th>
-			<th>{views}</th>
-			<th>{latest_post}</th>
+			<th>{l_Topic}</th>
+			<th>{l_Author}</th>
+			<th>{l_Replies}</th>
+			<th>{l_Views}</th>
+			<th>{l_LatestPost}</th>
 		</tr>
 ';
 
 $templates['topiclist_notopics'] = '
 		<tr>
 			<td class="msg" colspan="6">
-				{notopics}
+				{l_NoTopics}
 			</td>
 		</tr>
 ';

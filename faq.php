@@ -57,9 +57,7 @@ if ( !file_exists($faq_file) || !is_readable($faq_file) )
 else
 	require($faq_file);
 
-$template->parse('faq_header', 'faq', array(
-	'title' => $lang['FAQ']
-));
+$template->parse('faq_header', 'faq');
 
 $hi = $qi = 0;
 

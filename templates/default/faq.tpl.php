@@ -36,7 +36,7 @@ if ( !defined('INCLUDED') )
 $templates['faq_header'] = '
 	<table class="maintable">
 		<tr>
-			<th>{title}</th>
+			<th>{l_FAQ}</th>
 		</tr>
 ';
 

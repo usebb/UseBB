@@ -761,13 +761,18 @@ class functions {
 		
 		global $template, $lang;
 		
+		//
+		// Needed by some BBCode regexps and smilies
+		//
+		$string = ' '.$string.' ';
+		
 		if ( !$html )
 			$string = unhtml($string);
 		
 		if ( $smilies ) {
 			
 			foreach ( $template->get_config('smilies') as $key => $val )
-				$string = str_replace($key, '<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />', $string);
+				$string = str_replace(' '.$key.' ', '<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />', $string);
 			
 		}
 		
@@ -839,11 +844,6 @@ class functions {
 			}
 			
 			//
-			// Needed by some BBCode regexps
-			//
-			$string = ' '.$string.' ';
-			
-			//
 			// All kinds of regexps
 			//
 			$regexps = array(
@@ -889,8 +889,6 @@ class functions {
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
-			$string = trim($string);
-			
 		}
 		
 		if ( !$html ) {
@@ -900,7 +898,7 @@ class functions {
 			
 		}
 		
-		return $string;
+		return trim($string);
 		
 	}
 	

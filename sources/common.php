@@ -30,6 +30,13 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
+// Check PHP version by checking the presence of version_compare()
+// (available since PHP 4.1.0)
+//
+if ( !function_exists('version_compare') )
+	die('<h1>Warning!</h1><p>UseBB does not work on PHP '.phpversion().'. You need at least <strong>4.1.0</strong>. Get a recent version from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>');
+
+//
 // Timer for checking parsetime
 //
 $timer['begin'] = explode(' ', microtime());

@@ -3,6 +3,7 @@ $Header$
 UseBB 0.2 Changelog
 ------------------------------
 
+- Fixed random key generator with seed for mt_rand on PHP < 4.2.0.
 - Password edit form now requests current password.
 
 UseBB 0.1.1 Changelog

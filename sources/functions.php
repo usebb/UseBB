@@ -195,8 +195,18 @@ function usebb_random_key() {
 	$length = 10;
 	$key = '';
 	
-	for ( $i=0; $i<$length; $i++ )
+	for ( $i=0; $i<$length; $i++ ) {
+		
+		//
+		// Make a seed for the random key generator
+		// This is needed on PHP < 4.2.0
+		//
+		$seed0 = explode(' ', microtime());
+		$seed = (float)$seed0[1] + ((float)$seed0[0] * 100000);
+		mt_srand($seed);
 		$key .= $characters[mt_rand(0, strlen($characters)-1)];
+		
+	}
 	
 	return $key;
 	

@@ -5,6 +5,7 @@ UseBB 0.2 Changelog
 
 - Fixed random key generator with seed for mt_rand on PHP < 4.2.0.
 - Password edit form now requests current password.
+- Replaced smaller version of the license with the official one.
 
 UseBB 0.1.1 Changelog
 ------------------------------

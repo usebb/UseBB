@@ -195,7 +195,7 @@ class functions {
 		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];
 		else
-			$this->usebb_die('General', 'The configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+			return '';
 		
 	}
 	

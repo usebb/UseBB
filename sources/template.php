@@ -138,14 +138,14 @@ class template {
 			if ( !($serverload = $functions->get_server_load()) )
 				$serverload = '?';
 			
-			if ( intval($functions->get_config('debug')) === 1 ) {
+			if ( $functions->get_config('debug') === 1 ) {
 				
 				//
 				// List parsetime and queries in short
 				//
 				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->queries).'</small></div>';
 				
-			} elseif ( intval($functions->get_config('debug')) === 2 ) {
+			} elseif ( $functions->get_config('debug') === 2 ) {
 				
 				//
 				// Lists parsetime and queries fully
@@ -164,7 +164,7 @@ class template {
 		//
 		// Compression and output
 		//
-		if ( intval($functions->get_config('output_compression')) === 1 || intval($functions->get_config('output_compression')) === 3 )
+		if ( $functions->get_config('output_compression') === 1 || $functions->get_config('output_compression') === 3 )
 			$this->body = $functions->compress_sourcecode($this->body);
 		
 		echo $this->body;

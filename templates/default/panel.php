@@ -171,6 +171,14 @@ $templates['edit_options'] = '
 			<td class="td1">{target_blank_input}</td>
 		</tr>
 		<tr>
+			<td width="25%" class="td2">{hide_avatars}</td>
+			<td class="td1">{hide_avatars_input}</td>
+		</tr>
+		<tr>
+			<td width="25%" class="td2">{hide_signatures}</td>
+			<td class="td1">{hide_signatures_input}</td>
+		</tr>
+		<tr>
 			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
 		</tr>
 	</table>

@@ -50,6 +50,8 @@ if ( !empty($_POST['submitted']) ) {
 	$_POST['quickreply'] = ( !empty($_POST['quickreply']) ) ? 1 : 0;
 	$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;
 	$_POST['target_blank'] = ( !empty($_POST['target_blank']) ) ? 1 : 0;
+	$_POST['hide_avatars'] = ( !empty($_POST['hide_avatars']) ) ? 1 : 0;
+	$_POST['hide_signatures'] = ( !empty($_POST['hide_signatures']) ) ? 1 : 0;
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		language        = '".$_POST['language']."',
@@ -57,11 +59,13 @@ if ( !empty($_POST['submitted']) ) {
 		email_show      = ".$_POST['email_show'].",
 		last_login_show = ".$_POST['last_login_show'].",
 		date_format     = '".$_POST['date_format']."',
-		timezone	= '".$_POST['timezone']."',
-		dst		= ".$_POST['dst'].",
+		timezone        = '".$_POST['timezone']."',
+		dst             = ".$_POST['dst'].",
 		enable_quickreply		= ".$_POST['quickreply'].",
 		return_to_topic_after_posting		= ".$_POST['return_to_topic'].",
-		target_blank		= ".$_POST['target_blank']."
+		target_blank    = ".$_POST['target_blank'].",
+		hide_avatars    = ".$_POST['hide_avatars'].",
+		hide_signatures = ".$_POST['hide_signatures']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
@@ -125,6 +129,8 @@ if ( !empty($_POST['submitted']) ) {
 	$quickreply_checked = ( $session->sess_info['user_info']['enable_quickreply'] ) ? ' checked="checked"' : '';
 	$return_to_topic_checked = ( $session->sess_info['user_info']['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
 	$target_blank_checked = ( $session->sess_info['user_info']['target_blank'] ) ? ' checked="checked"' : '';
+	$hide_avatars_checked = ( $session->sess_info['user_info']['hide_avatars'] ) ? ' checked="checked"' : '';
+	$hide_signatures_checked = ( $session->sess_info['user_info']['hide_signatures'] ) ? ' checked="checked"' : '';
 	
 	$template->parse('edit_options', 'global', array(
 		'form_begin'            => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',
@@ -149,6 +155,10 @@ if ( !empty($_POST['submitted']) ) {
 		'return_to_topic_input'	=> '<input type="checkbox" name="return_to_topic" id="return_to_topic" value="1"'.$return_to_topic_checked.' /><label for="return_to_topic"> '.$lang['Yes'].'</label>',
 		'target_blank'	         => $lang['OpenLinksNewWindow'],
 		'target_blank_input'    => '<input type="checkbox" name="target_blank" id="target_blank" value="1"'.$target_blank_checked.' /><label for="target_blank"> '.$lang['Yes'].'</label>',
+		'hide_avatars'	         => $lang['HideAllAvatars'],
+		'hide_avatars_input'    => '<input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label>',
+		'hide_signatures'       => $lang['HideAllSignatures'],
+		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '<input type="hidden" name="submitted" value="true" /></form>'

@@ -201,7 +201,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					// User's avatar
 					//
-					if ( !$postsdata['avatar_type'] )
+					if ( !$postsdata['avatar_type'] || $functions->get_config('hide_avatars') )
 						$avatar = '';
 					elseif ( intval($postsdata['avatar_type']) === 1 )
 						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="" />';
@@ -251,7 +251,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
 					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
-					'poster_sig' => ( !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
+					'poster_sig' => ( !empty($postsdata['signature']) && $postsdata['enable_sig'] && !$functions->get_config('hide_signatures') ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'colornum' => $colornum
 				));
 				

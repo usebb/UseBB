@@ -128,7 +128,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
 		if ( !empty($_POST['avatar']) && !preg_match(IMG_PREG, $_POST['avatar']) )
-			$errors[] = $lang['Avatar'];
+			$errors[] = $lang['AvatarURL'];
 		if ( !empty($_POST['website']) && !preg_match(WEB_PREG, $_POST['website']) )
 			$errors[] = $lang['Website'];
 		
@@ -159,7 +159,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		'required'         => $lang['Required'],
 		'email'            => $lang['Email'],
 		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
-		'avatar'           => $lang['Avatar'],
+		'avatar'           => $lang['AvatarURL'],
 		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$session->sess_info['user_info']['avatar_remote'].'" />',
 		'location'         => $lang['Location'],
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.htmlentities(stripslashes($session->sess_info['user_info']['location'])).'" />',

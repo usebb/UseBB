@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2004 UseBB Team
+	Copyright (C) 2003-2005 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -96,7 +96,7 @@ $templates['normal_footer'] = '
 			If you don\'t want to show the Copyright notice, just leave the Powered by UseBB line. If you
 			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
 		-->
-		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2004 UseBB Team
+		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2005 UseBB Team
 	</address>
 	<div id="bottom-shadow"></div>
 	

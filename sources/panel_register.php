@@ -278,18 +278,28 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 	//
 	// The user did not agree yet to the terms of use
 	//
-	
-	$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
-	$_SESSION['saltcode'] = $saltcode = $functions->random_key();
-	
-	$template->parse('confirm_form', 'global', array(
-		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
-		'title' => $lang['TermsOfUse'],
-		'content' => nl2br(htmlspecialchars($lang['TermsOfUseContent'])),
-		'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
-		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
-		'form_end' => '</form>'
-	));
+	if ( !$session->sess_info['user_id'] ) {
+		
+		$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
+		$_SESSION['saltcode'] = $saltcode = $functions->random_key();
+		
+		$template->parse('confirm_form', 'global', array(
+			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
+			'title' => $lang['TermsOfUse'],
+			'content' => nl2br(htmlspecialchars($lang['TermsOfUseContent'])),
+			'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
+			'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
+			'form_end' => '</form>'
+		));
+		
+	} else {
+		
+		//
+		// If he/she is logged in, return to index
+		//
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+		
+	}
 	
 }
 

@@ -86,6 +86,28 @@ if ( $_GET['act'] == 'login' ) {
 		//
 		require(ROOT_PATH.'sources/page_head.php');
 		
+		switch ( $_GET['act'] ) {
+			
+			case 'subscriptions':
+				$location = $lang['Subscriptions'];
+				break;
+			case 'editprofile':
+				$location = $lang['EditProfile'];
+				break;
+			case 'editoptions':
+				$location = $lang['EditOptions'];
+				break;
+			case 'editpwd':
+				$location = $lang['EditPasswd'];
+				break;
+			
+		}
+		
+		if ( $_GET['act'] == 'panel_home' )
+			$template->set_page_title($lang['YourPanel']);
+		else
+			$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a> '.$template->get_config('locationbar_item_delimiter').' '.$location);
+		
 		$template->parse('panel_menu', 'panel', array(
 			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">' . ( ( $_GET['act'] != 'panel_home' ) ? $lang['PanelHome'] : '<strong>'.$lang['PanelHome'].'</strong>' ) . '</a>',
 			'panel_subscriptions' => '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">' . ( ( $_GET['act'] != 'subscriptions' ) ? $lang['Subscriptions'] : '<strong>'.$lang['Subscriptions'].'</strong>' ) . '</a>',

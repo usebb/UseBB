@@ -37,22 +37,11 @@ class template {
 	//
 	// Variables
 	//
-	var $loaded_sections;
-	var $templates;
-	var $requests;
-	var $body;
-	
-	//
-	// Define arrays
-	//
-	function template() {
-		
-		$this->loaded_sections = array();
-		$this->templates = array();
-		$this->requests = array();
-		$this->body = '';
-		
-	}
+	var $loaded_sections=array();
+	var $templates=array();
+	var $requests=array();
+	var $global_vars=array();
+	var $body='';
 	
 	//
 	// Load a given template section in the template array
@@ -121,18 +110,13 @@ class template {
 	
 	//
 	// Add global template variables
-	// You can overwite existing variables with this function
 	//
-	function add_global_vars($variables, $overwrite=false) {
+	function add_global_vars($variables) {
 		
-		foreach ( $this->requests as $request_key => $null ) {
+		foreach ( $variables as $key => $val ) {
 			
-			foreach ( $variables as $key => $val ) {
-				
-				if ( $overwrite || !array_key_exists($key, $this->requests[$request_key]['variables']) )
-					$this->requests[$request_key]['variables'][$key] = $val;
-				
-			}
+			if ( !array_key_exists($key, $this->global_vars) )
+				$this->global_vars[$key] = $val;
 			
 		}
 		
@@ -143,7 +127,12 @@ class template {
 	//
 	function set_page_title($page_title) {
 		
-		$this->add_global_vars(array('page_title' => $page_title));
+		global $functions;
+		
+		$this->add_global_vars(array(
+			'page_title' => strip_tags($page_title),
+			'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$this->get_config('locationbar_item_delimiter').' '.$page_title
+		));
 		
 	}
 	
@@ -207,7 +196,6 @@ class template {
 		//
 		foreach ( $this->requests as $request ) {
 			
-			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
 			$current_template = $this->templates[$request['section']][$request['template_name']];
 			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
 				
@@ -215,6 +203,8 @@ class template {
 					$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
 				
 			}
+			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
+			$request['variables'] = array_merge($this->global_vars, $request['variables']);
 			foreach ( $request['variables'] as $key => $val )
 				$current_template = str_replace('{'.$key.'}', $val, $current_template);
 			$this->body .= $current_template;

@@ -91,10 +91,6 @@ if ( !isset($_GET['act']) ) {
 			} else {
 				
 				$template->set_page_title($lang['EditPost']);
-				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.htmlspecialchars(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost'];
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
-				));
 				
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					
@@ -162,9 +158,6 @@ if ( !isset($_GET['act']) ) {
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 					'form_end' => '</form>'
-				));
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
 				));
 				
 			}

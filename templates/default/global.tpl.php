@@ -88,9 +88,17 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 		<li><a href="{link_home}">{l_Home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{l_FAQ}</a></li><li><a href="{link_search}">{l_Search}</a></li><li><a href="{link_active}">{l_ActiveTopics}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
 	</ul></div>
 	<div id="topmenu-shadow"></div>
+	
+	<p class="locationbar">
+		&bull; {location_bar}
+	</p>
 ';
 
 $templates['normal_footer'] = '
+	<p class="locationbar">
+		&bull; {location_bar}
+	</p>
+	
 	<p id="linkbar">
 		{link_bar}
 	</p>
@@ -548,12 +556,22 @@ table.maintable td.minimal {
 	white-space: nowrap;
 	text-align: center;
 }
-p#panelmenu {
-	color: #323232;
+ul#panelmenu {
+	list-style: none;
+	margin: 0px 0px 10px 0px;
+	padding: 5px;
 	text-align: center;
-	padding: 3px;
-	margin-bottom: 10px;
-	margin-top: -10px;
+	background-color: #EFEFEF;
+	border: 1px solid silver;
+	color: #333333;
+}
+ul#panelmenu li {
+	display: inline;
+	padding: 0px 10px 0px 10px;
+	border-left: 2px solid silver;
+}
+ul#panelmenu li#first {
+	border-left: 0px;
 }
 p#linkbar {
 	color: #323232;
@@ -610,11 +628,7 @@ p#linkbar {
 }
 ';
 
-$templates['location_bar'] = '
-	<p class="locationbar">
-		&bull; {location_bar}
-	</p>
-';
+$templates['location_bar'] = '';
 
 $templates['msgbox'] = '
 	<table class="msgbox">

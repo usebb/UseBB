@@ -75,12 +75,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$_SESSION['viewed_items']['forum:'.$_GET['id']] = time();
 			
-			$template->set_page_title(stripslashes($forumdata['name']));
-			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($forumdata['name']));
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
-			));
+			$template->set_page_title(htmlspecialchars(stripslashes($forumdata['name'])));
 			
 			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
@@ -161,10 +156,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
 				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators)
-			));
-				
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
 			));
 			
 			//

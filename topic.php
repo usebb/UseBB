@@ -122,21 +122,13 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			
 			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
 			
-			$template->set_page_title(htmlspecialchars(stripslashes($topicdata['topic_title'])));
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($topicdata['topic_title'])));
 			
 			//
 			// Update views count
 			//
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic)) )
 				$functions->usebb_die('SQL', 'Unable to update topic views count!', __FILE__, __LINE__);
-			
-			//
-			// Make the location bar
-			//
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($topicdata['topic_title']));
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
-			));
 			
 			//
 			// Eventually (un)subscribe user to topic
@@ -434,10 +426,6 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				));
 				
 			}
-			
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
-			));
 			
 		} else {
 			

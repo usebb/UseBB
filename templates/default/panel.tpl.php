@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['panel_menu'] = '
-	<p id="panelmenu">{panel_home} &middot; {panel_subscriptions} &middot; {view_profile} &middot; {panel_profile} &middot; {panel_options} &middot; {panel_passwd}</p>
+	<ul id="panelmenu"><li id="first">{panel_subscriptions}</li><li>{view_profile}</li><li>{panel_profile}</li><li>{panel_options}</li><li>{panel_passwd}</li></ul>
 ';
 
 $templates['panel_sess_info'] = '

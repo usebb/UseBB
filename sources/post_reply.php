@@ -161,12 +161,8 @@ if ( !$db->num_rows($result) ) {
 			
 		} else {
 			
-			$template->set_page_title(sprintf($lang['ReplyTo'], htmlspecialchars(stripslashes($topicdata['topic_title']))));
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostReply']);
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostReply'];
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
-			));
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
 				$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
@@ -259,10 +255,6 @@ if ( !$db->num_rows($result) ) {
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
 				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
-			));
-			
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
 			));
 			
 		}

@@ -104,11 +104,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 				$template->set_page_title(sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name']))));
 				
-				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name'])));
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
-				));
-				
 				$_POST['subject'] = ( !empty($_POST['subject']) ) ? stripslashes($_POST['subject']) : '';
 				$_POST['body'] = ( !empty($_POST['body']) ) ? stripslashes($_POST['body']) : '';
 				if ( !empty($_POST['subject']) && !empty($_POST['body']) ) {
@@ -171,10 +166,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					));
 					
 				}
-				
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
-				));
 				
 			}
 			

@@ -49,7 +49,7 @@ class session {
 		//
 		// Set some PHP session cookie configuration options
 		//
-		session_set_cookie_params($functions->get_config('sess_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
+		session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
 		
 		//
 		// Set the session name
@@ -118,9 +118,9 @@ class session {
 		//
 		// Remove outdated sessions if needed
 		//
-		if ( $functions->get_config('sess_max_lifetime') ) {
+		if ( $functions->get_config('session_max_lifetime') ) {
 			
-			$min_updated = $current_time - ( $functions->get_config('sess_max_lifetime') * 60 );
+			$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
 			$add_to_remove_query[] = "updated < ".$min_updated;
 			
 		}

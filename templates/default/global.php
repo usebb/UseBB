@@ -231,11 +231,15 @@ textarea {
 .locationbar {
 	text-align: left;
 	font-size: 8pt;
+	font-style: italic;
 	color: #333333;
 	margin-bottom: 20px;
 	padding: 3px;
 	background-color: #EFEFEF;
 	border: 1px solid #BFBFBF;
+}
+.locationbar a {
+	font-style: normal;
 }
 .maintable, .msgbox, .confirmform {
 	border-collapse: collapse;

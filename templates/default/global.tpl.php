@@ -447,11 +447,12 @@ table.maintable td.postinfo .postlinks {
 table.maintable td.posterinfo {
 	vertical-align: top;
 	text-align: center;
-	width: 135px !important;
-	overflow: hidden;
+	width: 135px;
 }
 table.maintable td.posterinfo .avatar {
 	margin-top: 10px;
+	width: 120px;
+	overflow: hidden;
 }
 table.maintable td.posterinfo .avatar img {
 	margin-bottom: 10px;

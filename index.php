@@ -149,7 +149,7 @@ if ( !$functions->get_stats('forums') ) {
 					$author = ( $forumdata['poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $forumdata['poster_id'])).'">'.$forumdata['poster_name'].'</a>' : $forumdata['poster_guest'];
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('p' => $forumdata['last_post_id'])).'#'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
-					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($profiledata['post_time']));
+					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
 					
 				}
 				

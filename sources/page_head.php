@@ -115,12 +115,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 //
 if ( !$functions->get_config('guests_can_access_board') && $session->sess_info['user_id'] == 0 && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
 	
-	$template->set_page_title($lang['Note']);
-	
-	$template->parse('msgbox', array(
-		'box_title' => $lang['Note'],
-		'content' => $lang['NeedToBeLoggedInGlobal']
-	));
+	$functions->redir_to_login();
 	
 	//
 	// Include the page footer

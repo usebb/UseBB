@@ -217,10 +217,11 @@ class functions {
 	//
 	// Interactive URL builder
 	//
-	function make_url($filename, $vars='', $html=true) {
+	function make_url($filename, $vars=array(), $html=true) {
 		
 		$url = $filename;
-		if ( is_array($vars) ) {
+		
+		if ( count($vars) >= 1 ) {
 			
 			$url .= '?';
 			
@@ -248,7 +249,21 @@ class functions {
 	//
 	function redir_to_login() {
 		
-		header('Location: '.$this->make_url('panel.php', array('act' => 'login', 'referer' => str_replace('?', '&', substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/')+1))), false));
+		global $session, $template, $lang;
+		
+		if ( !$session->sess_info['user_id'] ) {
+			
+			header('Location: '.$this->make_url('panel.php', array('act' => 'login', 'referer' => str_replace('?', '&', substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/')+1))), false));
+			
+		} else {
+			
+			$template->set_page_title($lang['Note']);
+			$template->parse('msgbox', array(
+				'box_title' => $lang['Note'],
+				'content' => $lang['NotPermitted']
+			));
+			
+		}
 		
 	}
 	

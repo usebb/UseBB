@@ -69,9 +69,9 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		//
 		$errors = array();
 		if ( md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
-			$errors[] = strtolower($lang['CurrentPassword']);
+			$errors[] = $lang['CurrentPassword'];
 		if ( strlen($_POST['new_passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
-			$errors[] = strtolower($lang['NewPassword']);
+			$errors[] = $lang['NewPassword'];
 		
 		//
 		// Show an error message

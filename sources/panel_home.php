@@ -70,11 +70,11 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		
 	} elseif ( $functions->isset_al() ) {
 		
-		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
+		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.$lang['Disable'].')</a>';
 		
 	} else {
 		
-		$al_controls = $lang['Disabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 1)).'">('.strtolower($lang['Enable']).')</a>';
+		$al_controls = $lang['Disabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 1)).'">('.$lang['Enable'].')</a>';
 		
 	}
 	

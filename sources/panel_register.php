@@ -227,9 +227,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		$errors = array();
 		if ( !preg_match(USER_PREG, $_POST['user']) )
-			$errors[] = strtolower($lang['Username']);
+			$errors[] = $lang['Username'];
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
-			$errors[] = strtolower($lang['Email']);
+			$errors[] = $lang['Email'];
 		
 		//
 		// Show an error message

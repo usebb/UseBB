@@ -369,7 +369,7 @@ class functions {
 		
 		$string_parts = array();
 		foreach ( $times as $key => $val )
-			$string_parts[] = $val.' '.strtolower($lang[ucfirst($key)]);
+			$string_parts[] = $val.' '.$lang[ucfirst($key)];
 		$string = join(', ', $string_parts);
 		
 		return array($times, $string);

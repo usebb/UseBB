@@ -166,9 +166,9 @@ if ( !$db->num_rows($result) ) {
 				
 				$errors = array();
 				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
-					$errors[] = strtolower($lang['Username']);
+					$errors[] = $lang['Username'];
 				if ( empty($_POST['content']) )
-					$errors[] = strtolower($lang['Content']);
+					$errors[] = $lang['Content'];
 				
 				if ( count($errors) ) {
 					

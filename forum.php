@@ -154,7 +154,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
 			if ( !$db->num_rows($result) ) {
 				
-				$forum_moderators = strtolower($lang['Nobody']);
+				$forum_moderators = $lang['Nobody'];
 				
 			} else {
 				

@@ -129,9 +129,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						//
 						$errors = array();
 						if ( empty($_POST['subject']) )
-							$errors[] = strtolower($lang['Subject']);
+							$errors[] = $lang['Subject'];
 						if ( empty($_POST['body']) )
-							$errors[] = strtolower($lang['Body']);
+							$errors[] = $lang['Body'];
 						
 						//
 						// Show an error message

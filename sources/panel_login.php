@@ -151,9 +151,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			
 			$errors = array();
 			if ( !preg_match(USER_PREG, $_POST['user']) )
-				$errors[] = strtolower($lang['Username']);
+				$errors[] = $lang['Username'];
 			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < 5 )
-				$errors[] = strtolower($lang['Password']);
+				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {
 				

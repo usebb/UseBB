@@ -362,3 +362,4 @@ Klik op de volgende link om jezelf van het onderwerp uit te schrijven (vereist l
 $lang['NewReplyEmailSubject'] = 'Nieuw antwoord in "%s"';
 $lang['SubscribedTopic'] = 'Je bent nu op dit onderwerp ingeschreven.';
 $lang['UnsubscribedTopic'] = 'Je bent nu van dit onderwerp uitgeschreven.';
+$lang['SubscribeToThisTopic'] = 'Inschrijven op dit onderwerp.';

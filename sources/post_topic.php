@@ -116,6 +116,16 @@ if ( !$db->num_rows($result) ) {
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
 				$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
 			
+			//
+			// Subscribe user to topic
+			//
+			if ( $session->sess_info['user_id'] && !empty($_POST['subscribe_topic']) ) {
+				
+				if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$inserted_topic_id.", ".$session->sess_info['user_id'].")")) )
+					$functions->usebb_die('SQL', 'Unable to subscribe user to topic!', __FILE__, __LINE__);		
+				
+			}
+			
 			if ( $functions->get_config('return_to_topic_after_posting') )
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
 			else
@@ -138,6 +148,7 @@ if ( !$db->num_rows($result) ) {
 				$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
 				$lock_topic_checked = ( !empty($_POST['lock_topic']) ) ? ' checked="checked"' : '';
 				$sticky_topic_checked = ( !empty($_POST['sticky_topic']) ) ? ' checked="checked"' : '';
+				$subscribe_topic_checked = ( !empty($_POST['subscribe_topic']) ) ? ' checked="checked"' : '';
 				
 				$errors = array();
 				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
@@ -176,6 +187,7 @@ if ( !$db->num_rows($result) ) {
 				$enable_html_checked = '';
 				$lock_topic_checked = '';
 				$sticky_topic_checked = '';
+				$subscribe_topic_checked = '';
 				
 			}
 			
@@ -194,6 +206,8 @@ if ( !$db->num_rows($result) ) {
 				$options_input[] = '<input type="checkbox" name="lock_topic" id="lock_topic" value="1"'.$lock_topic_checked.' /><label for="lock_topic"> '.$lang['LockTopicAfterPost'].'</label>';
 			if ( $functions->auth($forumdata['auth'], 'sticky', $_GET['forum']) )
 				$options_input[] = '<input type="checkbox" name="sticky_topic" id="sticky_topic" value="1"'.$sticky_topic_checked.' /><label for="sticky_topic"> '.$lang['MakeTopicSticky'].'</label>';
+			if ( $session->sess_info['user_id'] )
+				$options_input[] = '<input type="checkbox" name="subscribe_topic" id="subscribe_topic" value="1"'.$subscribe_topic_checked.' /><label for="subscribe_topic"> '.$lang['SubscribeToThisTopic'].'</label>';
 			$options_input = join('<br />', $options_input);
 			
 			$template->parse('post_form', 'various', array(

@@ -69,7 +69,7 @@ class template {
 			else
 				require($templates_file);
 			
-			$this->templates = array_merge($this->templates, $templates);
+			$this->templates[$section] = $templates;
 			$this->loaded_sections[] = $section;
 			unset($templates);
 			
@@ -89,8 +89,8 @@ class template {
 		//
 		$this->load_section('global');
 		
-		if ( isset($this->templates['config'][$setting]) )
-			return $this->templates['config'][$setting];
+		if ( isset($this->templates['global']['config'][$setting]) )
+			return $this->templates['global']['config'][$setting];
 		else
 			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
@@ -108,10 +108,11 @@ class template {
 		//
 		$this->load_section($section);
 		
-		if ( !isset($this->templates[$name]) )
+		if ( !array_key_exists($name, $this->templates[$section]) )
 			$functions->usebb_die('Template', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 		
 		$this->requests[] = array(
+			'section' => $section,
 			'template_name' => $name,
 			'variables' => ( is_array($variables) && count($variables) ) ? $variables : array()
 		);
@@ -203,7 +204,7 @@ class template {
 			
 			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
 			
-			$current_template = $this->templates[$request['template_name']];
+			$current_template = $this->templates[$request['section']][$request['template_name']];
 			
 			foreach ( $request['variables'] as $key => $val ) {
 				

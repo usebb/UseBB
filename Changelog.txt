@@ -9,9 +9,12 @@ UseBB 0.5 Changelog
 - Usernames and passwords only take alphanumeric characters.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.
+- Fixed too much stripping of backslashes.
 - Don't send subscription mail to poster himself.
 - Make edit post location bar contain full path.
+- Several fixes to guarantee security.
 - Graphical buttons replaced by HTML ones.
+- Various template improvements.
 
 UseBB 0.4.1 Changelog
 ------------------------------

@@ -133,7 +133,6 @@ html, body {
 	padding: 20px 20px 15px 20px;
 	background-image: url({img_dir}pagebox_bg.png);
 	background-repeat: repeat-x;
-	background-color: #FFFFFF;
 }
 a img {
 	border: 0px;

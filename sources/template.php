@@ -37,6 +37,7 @@ class template {
 	//
 	// Variables
 	//
+	var $config;
 	var $needed;
 	var $requests;
 	var $templates;
@@ -49,6 +50,31 @@ class template {
 		$this->needed = array();
 		$this->requests = array();
 		$this->templates = array();
+		
+	}
+	
+	//
+	// Get configuration variables
+	//
+	function get_config($setting) {
+		
+		global $db;
+		
+		if ( !isset($this->config) ) {
+			
+			$this->config = array();
+			
+			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates_config WHERE template = '".$functions->get_config('template')."'")) )
+				$this->usebb_die('SQL', 'Unable to get template configuration!', __FILE__, __LINE__);
+			while ( $out = $db->fetch_result($result) )
+				$this->config[$out['name']] = stripslashes($out['content']);
+			
+		}
+		
+		if ( isset($this->config[$setting]) )
+			return $this->config[$setting];
+		else
+			$this->usebb_die('General', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	

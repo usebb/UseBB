@@ -365,6 +365,7 @@ CREATE TABLE usebb_templates (
   name varchar(255) NOT NULL default '',
   template varchar(255) NOT NULL default '',
   content text NOT NULL
+  PRIMARY KEY  (name)
 ) TYPE=MyISAM;
 
 #
@@ -394,6 +395,24 @@ INSERT INTO usebb_templates VALUES ('location_bar', 'default', '  <div class="lo
 INSERT INTO usebb_templates VALUES ('topiclist_header', 'default', '  <table class="maintable">\r\n  <tbody>\r\n    <tr>\r\n      <td colspan="6"><div align="right">\r\n        {forum_links}\r\n      </div></td>\r\n    </tr>\r\n    <tr class="tablehead">\r\n      <th colspan="2">{topic}</th>\r\n      <th>{author}</th>\r\n      <th width="1%">{replies}</th>\r\n      <th width="1%">{views}</th>\r\n      <th>{latest_post}</th>\r\n    </tr>');
 INSERT INTO usebb_templates VALUES ('forumlist_forum', 'default', '    <tr>\n      <td class="td1" width="1"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>\n      <td class="td1">{forum_name}<br /><div class="small">{forum_descr}</div></td>\n      <td class="td2" width="1%"><div align="center">{total_topics}</div></td>\n      <td class="td2" width="1%"><div align="center">{total_posts}</div></td>\n      <td class="td1" nowrap="nowrap">{latest_post}<div class="small">{author_date}</div></td>\n    </tr>');
 INSERT INTO usebb_templates VALUES ('topiclist_footer', 'default', '  </tbody>\r\n  </table>');
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `usebb_templates_config`
+#
+
+CREATE TABLE usebb_templates_config (
+  name varchar(255) NOT NULL default '',
+  template varchar(255) NOT NULL default '',
+  content text NOT NULL,
+  PRIMARY KEY  (name)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `usebb_templates_config`
+#
+
 
 # --------------------------------------------------------
 

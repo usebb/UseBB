@@ -172,7 +172,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'hide_userinfo_input'   => '<input type="checkbox" name="hide_userinfo" id="hide_userinfo" value="1"'.$hide_userinfo_checked.' /><label for="hide_userinfo"> '.$lang['Yes'].'</label>',
 		'hide_signatures'       => $lang['HideAllSignatures'],
 		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',
-		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
+		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '</form>'
 	));

@@ -98,7 +98,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		'new_passwd_again'     => $lang['NewPasswordAgain'],
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
 		'everything_required'  => $lang['EverythingRequired'],
-		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['EditPasswd'].'" />',
+		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'             => '</form>'
 	));

@@ -362,7 +362,7 @@ if ( $_GET['act'] == 'delete' ) {
 					'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a>',
 					'new_forum' => $lang['NewForum'],
 					'new_forum_input' => $new_forum_input,
-					'submit_button' => '<input type="submit" name="move" value="'.$lang['MoveTopic'].'" />',
+					'submit_button' => '<input type="submit" name="move" value="'.$lang['OK'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'
 				));

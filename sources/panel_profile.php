@@ -181,7 +181,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['icq'])).'" />',
 		'jabber'           => $lang['Jabber'],
 		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['jabber'])).'" />',
-		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['EditProfile'].'" />',
+		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'         => '</form>'
 	));

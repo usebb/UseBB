@@ -259,7 +259,7 @@ if ( !$db->num_rows($result) ) {
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$_POST['content'].'</textarea>',
 				'options' => $lang['Options'],
 				'options_input' => $options_input,
-				'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',
+				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
 				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'

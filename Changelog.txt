@@ -4,11 +4,11 @@ UseBB 0.5 Changelog
 ------------------------------
 
 - Added topic review feature.
-- Usernames and passwords only take alfanumeric characters.
-- New displayed name option, able to set all kinds of names.
+- Added displayed name option, able to set all kinds of names.
+- Usernames and passwords only take alphanumeric characters.
 - Fixed security issue concerning quoting posts.
-- Make edit post location bar contain full path.
 - Fixed bad smiley parsing code.
+- Make edit post location bar contain full path.
 
 UseBB 0.4.1 Changelog
 ------------------------------

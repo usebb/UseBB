@@ -166,7 +166,7 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_Rank}</td><td>{rank_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Registered}</td><td colspan="2">{regdate_v}</td>
+			<td class="fieldtitle">{l_Registered}</td><td>{regdate_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v}</td>

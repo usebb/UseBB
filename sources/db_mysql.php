@@ -65,8 +65,8 @@ class db {
 	//
 	function query($query) {
 		
-		$query = preg_replace("/\s+/", ' ', $query);
-		$this->queries[] = $query;
+		$add_query = preg_replace("/\s+/", ' ', $query);
+		$this->queries[] = $add_query;
 		$result = @mysql_query($query, $this->connection);
 		return $result;
 		

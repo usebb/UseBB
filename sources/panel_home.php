@@ -84,20 +84,12 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	$total_time = $functions->time_past($session->sess_info['started'], $session->sess_info['updated']);
 	
 	$template->parse('panel_sess_info', 'panel', array(
-		'title' => $lang['SessionInfo'],
-		'sess_id' => $lang['SessionID'],
 		'sess_id_v' => $session->sess_info['sess_id'],
-		'ip_addr' => $lang['IPAddress'],
 		'ip_addr_v' => $session->sess_info['ip_addr'],
-		'started' => $lang['Started'],
 		'started_v' => $functions->make_date($session->sess_info['started']),
-		'updated' => $lang['Updated'],
 		'updated_v' => $functions->make_date($session->sess_info['updated']),
-		'total_time' => $lang['TotalTime'],
 		'total_time_v' => $total_time[1],
-		'pages' => $lang['Pages'],
 		'pages_v' => $session->sess_info['pages'],
-		'al' => $lang['AutoLogin'],
 		'al_status' => $al_status,
 		'al_change' => $al_change
 	));

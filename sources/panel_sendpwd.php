@@ -160,12 +160,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('sendpwd_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
-		'sendpwd'             => $lang['SendPassword'],
-		'user'                => $lang['Username'],
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
-		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
-		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" value="'.$lang['SendPassword'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'            => '</form>'

@@ -119,7 +119,7 @@ if ( $config['board_closed'] ) {
 //
 // Guests must log in
 //
-if ( !$config['guests_can_access_board'] && $sess_info['user_id'] == 0 && $sess_info['location'] != 'login' && $sess_info['location'] != 'register' && $sess_info['location'] != 'activate' && $sess_info['location'] != 'sendpwd' ) {
+if ( !$config['guests_can_access_board'] && $sess_info['user_id'] == 0 && !in_array($sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
 	
 	$template->set_page_title($lang['Note']);
 	

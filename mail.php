@@ -46,7 +46,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// Update and get the session information
 	//
-	$sess_info = $session->update('sendemail');
+	$sess_info = $session->update('sendemail:'.$_GET['id']);
 	
 	//
 	// Include the page header

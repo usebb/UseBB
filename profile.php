@@ -39,7 +39,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// Update and get the session information
 	//
-	$sess_info = $session->update('profile');
+	$sess_info = $session->update('profile:'.$_GET['id']);
 	
 	//
 	// Include the page header

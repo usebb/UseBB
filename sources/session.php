@@ -59,7 +59,7 @@ class session {
 	//
 	// Update the session table for this session
 	//
-	function update($location='', $user_id='') {
+	function update($location=NULL, $user_id=NULL) {
 		
 		global $functions, $db;
 		
@@ -228,7 +228,7 @@ class session {
 				//
 				// Update the location and page count if a page has been passed
 				//
-				if ( empty($location) ) {
+				if ( is_null($location) ) {
 					
 					$location = $current_sess_info['location'];
 					$pages = $current_sess_info['pages'];
@@ -241,7 +241,7 @@ class session {
 				
 			} else {
 				
-				if ( empty($user_id) )
+				if ( is_null($user_id) )
 					$user_id = 0;
 				
 				$pages = 1;

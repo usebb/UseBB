@@ -355,12 +355,8 @@ if ( $_GET['act'] == 'delete' ) {
 				
 				$template->parse('move_topic_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',
-					'move_topic' => $lang['MoveTopic'],
-					'topic' => $lang['Topic'],
 					'topic_v' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>',
-					'old_forum' => $lang['OldForum'],
 					'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a>',
-					'new_forum' => $lang['NewForum'],
 					'new_forum_input' => $new_forum_input,
 					'submit_button' => '<input type="submit" name="move" value="'.$lang['OK'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',

@@ -254,17 +254,11 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
-		'register_form'       => $lang['Register'],
-		'user'                => $lang['Username'],
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
-		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
-		'passwd1'             => $lang['Password'],
 		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
-		'passwd2'             => $lang['PasswordAgain'],
 		'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
-		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.$_POST['saltcode'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'            => '</form>'

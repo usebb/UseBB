@@ -9,7 +9,7 @@ UseBB 0.4 Changelog
 - Added feature #337: Allow all kinds of user names.
 - Added feature #338: Allow users to delete their own posts.
 - Added block when lower leveled tries to edit posts of higher leveled.
-- Added real name and skype profile fields.
+- Added real name and Skype profile fields.
 - Added changable password min length.
 - Added Google's rel="nofollow" for links in BBCode (globally adjustable).
 - Added text direction (dir="") settable via language file.
@@ -20,6 +20,7 @@ UseBB 0.4 Changelog
 - Fixed various BBCode parser bugs.
 - Location bar is now more populated over the board.
 - Template parser now collects all info and parses at the end (more possibilities).
+- Language variables in templates are not defined in PHP code anymore but with {l_*}.
 - Various template improvements and translation corrections.
 - Added more security with additional code.
 - Better general error message without information disclosure.

@@ -181,12 +181,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		
 		$template->parse('login_form', 'various', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
-			'login'          => $lang['LogIn'],
-			'user'           => $lang['Username'],
 			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
-			'password'       => $lang['Password'],
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" />',
-			'remember'       => $lang['RememberMe'],
 			'remember_input' => $remember_input,
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" />',
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',

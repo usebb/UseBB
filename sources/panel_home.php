@@ -66,8 +66,8 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	if ( count($_COOKIE) < 1 ) {
 		
-		$al_status = $lang['FeatureDisabledBecauseCookiesDisabled'];
-		$al_change = '';
+		$al_status = $lang['Disabled'];
+		$al_change = $lang['FeatureDisabledBecauseCookiesDisabled'];
 		
 	} elseif ( $functions->isset_al() ) {
 		

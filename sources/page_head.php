@@ -67,15 +67,11 @@ $template->parse('normal_header', 'global', array(
 	'board_descr' => $functions->get_config('board_descr'),
 	'css_url' => $functions->make_url('css.php'),
 	'link_home' => $functions->make_url('index.php'),
-	'home' => $lang['Home'],
 	'link_reg_panel' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
 	'reg_panel' => ( $session->sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],
 	'link_faq' => $functions->make_url('faq.php'),
-	'faq' => $lang['FAQ'],
 	'link_search' => $functions->make_url('search.php'),
-	'search' => $lang['Search'],
 	'link_active' => $functions->make_url('active.php'),
-	'active' => $lang['ActiveTopics'],
 	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
 	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn']
 ));

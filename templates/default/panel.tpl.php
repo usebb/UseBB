@@ -40,28 +40,28 @@ $templates['panel_menu'] = '
 $templates['panel_sess_info'] = '
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{title}</th>
+			<th colspan="2">{l_SessionInfo}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{sess_id}</td><td>{sess_id_v}</td>
+			<td class="fieldtitle">{l_SessionID}</td><td>{sess_id_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{ip_addr}</td><td>{ip_addr_v}</td>
+			<td class="fieldtitle">{l_IPAddress}</td><td>{ip_addr_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{started}</td><td>{started_v}</td>
+			<td class="fieldtitle">{l_Started}</td><td>{started_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{updated}</td><td>{updated_v}</td>
+			<td class="fieldtitle">{l_Updated}</td><td>{updated_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{total_time}</td><td>{total_time_v}</td>
+			<td class="fieldtitle">{l_TotalTime}</td><td>{total_time_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{pages}</td><td>{pages_v}</td>
+			<td class="fieldtitle">{l_Pages}</td><td>{pages_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{al}</td><td>{al_status} ({al_change})</td>
+			<td class="fieldtitle">{l_AutoLogin}</td><td>{al_status} ({al_change})</td>
 		</tr>
 	</table>
 ';
@@ -70,9 +70,9 @@ $templates['subscriptions_header'] = '
 	<table class="maintable">
 		<tr>
 			<th></th>
-			<th>{topic}</th>
-			<th>{author}</th>
-			<th>{latest_post}</th>
+			<th>{l_Topic}</th>
+			<th>{l_Author}</th>
+			<th>{l_LatestPost}</th>
 			<th></th>
 		</tr>
 ';
@@ -95,49 +95,49 @@ $templates['edit_profile'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{edit_profile}</th>
+			<th colspan="2">{l_EditProfile}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email} ({required})</td><td>{email_input}</td>
+			<td class="fieldtitle">{l_Email} ({l_Required})</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{avatar}</td><td>{avatar_input}</td>
+			<td class="fieldtitle">{l_AvatarURL}</td><td>{avatar_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{real_name}</td><td>{real_name_input}</td>
+			<td class="fieldtitle">{l_RealName}</td><td>{real_name_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{location}</td><td>{location_input}</td>
+			<td class="fieldtitle">{l_Location}</td><td>{location_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{website}</td><td>{website_input}</td>
+			<td class="fieldtitle">{l_Website}</td><td>{website_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{occupation}</td><td>{occupation_input}</td>
+			<td class="fieldtitle">{l_Occupation}</td><td>{occupation_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{interests}</td><td>{interests_input}</td>
+			<td class="fieldtitle">{l_Interests}</td><td>{interests_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{signature}</td><td>{signature_input}</td>
+			<td class="fieldtitle">{l_Signature}</td><td>{signature_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{msnm}</td><td>{msnm_input}</td>
+			<td class="fieldtitle">{l_MSNM}</td><td>{msnm_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{yahoom}</td><td>{yahoom_input}</td>
+			<td class="fieldtitle">{l_YahooM}</td><td>{yahoom_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{aim}</td><td>{aim_input}</td>
+			<td class="fieldtitle">{l_AIM}</td><td>{aim_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{icq}</td><td>{icq_input}</td>
+			<td class="fieldtitle">{l_ICQ}</td><td>{icq_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{jabber}</td><td>{jabber_input}</td>
+			<td class="fieldtitle">{l_Jabber}</td><td>{jabber_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{skype}</td><td>{skype_input}</td>
+			<td class="fieldtitle">{l_Skype}</td><td>{skype_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -150,49 +150,49 @@ $templates['edit_options'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{edit_options}</th>
+			<th colspan="2">{l_EditOptions}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{language}</td><td>{language_input}</td>
+			<td class="fieldtitle">{l_Language}</td><td>{language_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{template}</td><td>{template_input}</td>
+			<td class="fieldtitle">{l_Template}</td><td>{template_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email_show}</td><td>{email_show_input}</td>
+			<td class="fieldtitle">{l_PublicEmail}</td><td>{email_show_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{last_login_show}</td><td>{last_login_show_input}</td>
+			<td class="fieldtitle">{l_PublicLastLogin}</td><td>{last_login_show_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{hide_from_online_list}</td><td>{hide_from_online_list_input}</td>
+			<td class="fieldtitle">{l_HideFromOnlineList}</td><td>{hide_from_online_list_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{date_format}</td><td>{date_format_input}<br />{date_format_help}</td>
+			<td class="fieldtitle">{l_DateFormat}</td><td>{date_format_input}<br />{date_format_help}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{timezone}</td><td>{timezone_input}</td>
+			<td class="fieldtitle">{l_Timezone}</td><td>{timezone_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{dst}</td><td>{dst_input}</td>
+			<td class="fieldtitle">{l_DST}</td><td>{dst_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{quickreply}</td><td>{quickreply_input}</td>
+			<td class="fieldtitle">{l_QuickReply}</td><td>{quickreply_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{return_to_topic}</td><td>{return_to_topic_input}</td>
+			<td class="fieldtitle">{l_ReturnToTopicAfterPosting}</td><td>{return_to_topic_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{target_blank}</td><td>{target_blank_input}</td>
+			<td class="fieldtitle">{l_OpenLinksNewWindow}</td><td>{target_blank_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{hide_avatars}</td><td>{hide_avatars_input}</td>
+			<td class="fieldtitle">{l_HideAllAvatars}</td><td>{hide_avatars_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{hide_userinfo}</td><td>{hide_userinfo_input}</td>
+			<td class="fieldtitle">{l_HideUserinfo}</td><td>{hide_userinfo_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{hide_signatures}</td><td>{hide_signatures_input}</td>
+			<td class="fieldtitle">{l_HideAllSignatures}</td><td>{hide_signatures_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -205,22 +205,22 @@ $templates['editpwd_form'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{edit_pwd}</th>
+			<th colspan="2">{l_EditPasswd}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{current_passwd}</td><td>{current_passwd_input}</td>
+			<td class="fieldtitle">{l_CurrentPassword}</td><td>{current_passwd_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{new_passwd}</td><td>{new_passwd1_input}<br />{passwd_info}</td>
+			<td class="fieldtitle">{l_NewPassword}</td><td>{new_passwd1_input}<br />{passwd_info}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{new_passwd_again}</td><td>{new_passwd2_input}</td>
+			<td class="fieldtitle">{l_NewPasswordAgain}</td><td>{new_passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{everything_required}</td>
+			<td colspan="2">{l_EverythingRequired}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}

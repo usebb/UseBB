@@ -89,15 +89,10 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 	
 	$template->parse('editpwd_form', 'panel', array(
 		'form_begin'           => '<form action="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'" method="post">',
-		'edit_pwd'             => $lang['EditPasswd'],
-		'current_passwd'       => $lang['CurrentPassword'],
 		'current_passwd_input' => '<input type="password" name="current_passwd" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
-		'new_passwd'           => $lang['NewPassword'],
 		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
-		'new_passwd_again'     => $lang['NewPasswordAgain'],
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
-		'everything_required'  => $lang['EverythingRequired'],
 		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'             => '</form>'

@@ -46,16 +46,7 @@ if ( !$db->num_rows($result) ) {
 	
 } else {
 	
-	$template->parse('subscriptions_header', 'panel', array(
-		'active_topics' => '<a href="'.$functions->make_url('active.php').'">'.$lang['ActiveTopics'].'</a>',
-		'topic' => $lang['Topic'],
-		'forum' => $lang['Forum'],
-		'author' => $lang['Author'],
-		'replies' => $lang['Replies'],
-		'views' => $lang['Views'],
-		'latest_post' => $lang['LatestPost'],
-		'unsubscribe' => $lang['UnsubscribeTopic']
-	));
+	$template->parse('subscriptions_header', 'panel');
 	
 	while ( $topicdata = $db->fetch_result($result) ) {
 		

@@ -36,7 +36,7 @@ if ( !defined('INCLUDED') )
 $templates['forum_stats_box'] = '
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{stats_title}</th>
+			<th colspan="2">{l_Statistics}</th>
 		</tr>
 		<tr>
 			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
@@ -55,16 +55,16 @@ $templates['login_form'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{login}</th>
+			<th colspan="2">{l_LogIn}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{user}</td><td>{user_input}<br />{link_reg}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}<br />{link_reg}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{password}</td><td>{password_input}<br />{link_sendpwd}</td>
+			<td class="fieldtitle">{l_Password}</td><td>{password_input}<br />{link_sendpwd}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{remember}</td><td>{remember_input}</td>
+			<td class="fieldtitle">{l_RememberMe}</td><td>{remember_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -105,16 +105,16 @@ $templates['move_topic_form'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{move_topic}</th>
+			<th colspan="2">{l_MoveTopic}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{topic}</td><td>{topic_v}</td>
+			<td class="fieldtitle">{l_Topic}</td><td>{topic_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{old_forum}</td><td>{old_forum_v}</td>
+			<td class="fieldtitle">{l_OldForum}</td><td>{old_forum_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{new_forum}</td><td>{new_forum_input}</td>
+			<td class="fieldtitle">{l_NewForum}</td><td>{new_forum_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{cancel_button}</td>
@@ -130,16 +130,16 @@ $templates['post_form'] = '
 			<th colspan="2">{post_title}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{username}</td><td>{username_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
+			<td class="fieldtitle">{l_Subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{content}</td><td>{content_input}</td>
+			<td class="fieldtitle">{l_Content}</td><td>{content_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{options}</td><td>{options_input}</td>
+			<td class="fieldtitle">{l_Options}</td><td>{options_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{preview_button}&nbsp;{reset_button}</td>
@@ -226,22 +226,22 @@ $templates['register_form'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{register_form}</th>
+			<th colspan="2">{l_Register}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{user}</td><td>{user_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email}</td><td>{email_input}</td>
+			<td class="fieldtitle">{l_Email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{passwd1}</td><td>{passwd1_input}<br />{passwd_info}</td>
+			<td class="fieldtitle">{l_Password}</td><td>{passwd1_input}<br />{passwd_info}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{passwd2}</td><td>{passwd2_input}</td>
+			<td class="fieldtitle">{l_PasswordAgain}</td><td>{passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{everything_required}</td>
+			<td colspan="2">{l_EverythingRequired}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
@@ -254,16 +254,16 @@ $templates['sendpwd_form'] = '
 	{form_begin}
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{sendpwd}</th>
+			<th colspan="2">{l_SendPassword}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{user}</td><td>{user_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{email}</td><td>{email_input}</td>
+			<td class="fieldtitle">{l_Email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{everything_required}</td>
+			<td colspan="2">{l_EverythingRequired}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

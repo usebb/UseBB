@@ -295,9 +295,12 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 }
 
 //
-// Guest count
+// Online list
 //
-$guest_count = count($online_guests);
+if ( !$config['enable_online_list'] || ( !$config['guests_can_view_online_list'] && $sess_info['user_id'] == 0 ) )
+	$online_list_link = '';
+else
+	$online_list_link = ' - <a href="'.usebb_make_url('online.php').'">'.$lang['DetailedList'].'</a>';
 
 //
 // Parse the online box
@@ -305,8 +308,8 @@ $guest_count = count($online_guests);
 $template->parse('forumlist_stats', array(
 	'stats_title' => $lang['VariousInfo'],
 	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']).$lastuser,
-	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), $guest_count, $config['online_min_updated']),
-	'members' => ( count($online_members) == 0 ) ? '' : join(', ', $online_members)
+	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $config['online_min_updated']).$online_list_link,
+	'members' => ( count($online_members) > 0 ) ? join(', ', $online_members) : ''
 ));
 
 //

@@ -129,7 +129,7 @@ if ( !$db->num_rows($result) ) {
 				//
 				// E-mail subscribed users
 				//
-				if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id")) )
+				if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id AND s.user_id <> ".$session->sess_info['user_id'])) )
 					$functions->usebb_die('SQL', 'Unable to get subscribed users!', __FILE__, __LINE__);			
 				if ( $db->num_rows($result) ) {
 					

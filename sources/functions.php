@@ -670,6 +670,14 @@ class functions {
 		if ( $bbcode ) {
 			
 			//
+			// Portions of this parser copyrighted by the phpBB Group
+			//
+			// --
+			//
+			// This whole parser needs to be replaced for more flexibility
+			//
+			
+			//
 			// Needed by some BBCode parsers
 			//
 			$string = ' '.$string.' ';
@@ -681,19 +689,19 @@ class functions {
 			// [u]text[/u]
 				$string = preg_replace("#\[u\](.*?)\[/u\]#is", '<u>\\1</u>', $string);
 			// [img]image[/img]
-				$string = preg_replace("#\[img\](https?|ftp)://([a-z0-9\-]+)\.([a-z0-9\-]+)(\.[a-z0-9\-]+)*/([^\s]+/)*([^\s]+)\.(gif|png|jpe?g)\[/img\]#is", '<img src="\\1://\\2.\\3\\4/\\5\\6.\\7" alt="'.$lang['UserPostedImage'].'" />', $string);
+				$string = preg_replace("#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is", '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />', $string);
 			// [url]http://www.usebb.net[/url]
-				$string = preg_replace("#\[url\]([a-z]{3}[a-z]*)://([a-z0-9\-]+)\.([a-z0-9\-]+)(\.[a-z0-9\-]+)*([^\s\[\]]+)*\[/url\]#is", '<a href="\\1://\\2.\\3\\4\\5" target="_blank">\\1://\\2.\\3\\4\\5</a>', $string);
+				$string = preg_replace("#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is", '<a href="\\1" target="_blank">\\1</a>', $string);
 			// [url=http://www.usebb.net]UseBB[/url]
-				$string = preg_replace("#\[url=([a-z]{3}[a-z]*)://([a-z0-9\-]+)\.([a-z0-9\-]+)(\.[a-z0-9\-]+)*([^\s\[\]]+)*\](.*?)\[/url\]#is", '<a href="\\1://\\2.\\3\\4\\5" target="_blank">\\6</a>', $string);
+				$string = preg_replace("#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is", '<a href="\\1" target="_blank">\\2</a>', $string);
 			// http://www.usebb.net
-				$string = preg_replace("#\s([a-z]{3}[a-z]*)://([a-z0-9\-]+)\.([a-z0-9\-]+)(\.[a-z0-9\-]+)*([^\s\[\]]+)*\s#is", ' <a href="\\1://\\2.\\3\\4\\5" target="_blank">\\1://\\2.\\3\\4\\5</a> ', $string);
+				$string = preg_replace("#\s([\w]+?://[^ \"\n\r\t<]*?)\s#is", ' <a href="\\1" target="_blank">\\1</a> ', $string);
 			// [mailto]somebody@nonexistent.com[/mailto]
-				$string = preg_replace("#\[mailto\]([a-z0-9\.\-_]+)@([a-z0-9\-]+)(\.[a-z0-9\-]+)*\.([a-z]+)\[/mailto\]#is", '<a href="mailto:\\1@\\2\\3.\\4">\\1@\\2\\3.\\4</a>', $string);
+				$string = preg_replace("#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is", '<a href="mailto:\\1">\\1</a>', $string);
 			// [mailto=somebody@nonexistent.com]mail me[/mailto]
-				$string = preg_replace("#\[mailto=([a-z0-9\.\-_]+)@([a-z0-9\-]+)(\.[a-z0-9\-]+)*\.([a-z]+)\](.*?)\[/mailto\]#is", '<a href="mailto:\\1@\\2\\3.\\4">\\5</a>', $string);
+				$string = preg_replace("#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is", '<a href="mailto:\\1">\\3</a>', $string);
 			// somebody@nonexistent.com
-				$string = preg_replace("#\s([a-z0-9\.\-_]+)@([a-z0-9\-]+)(\.[a-z0-9\-]+)*\.([a-z]+)\s#is", ' <a href="mailto:\\1@\\2\\3.\\4">\\1@\\2\\3.\\4</a> ', $string);
+				$string = preg_replace("#\s([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\s#is", ' <a href="mailto:\\1">\\1</a> ', $string);
 			// [color=red]text[/color]
 				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<font color="\\1">\\2</font>', $string);
 			

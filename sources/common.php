@@ -55,12 +55,12 @@ require(ROOT_PATH.'sources/template.php');
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.3-CVS');
+define('USEBB_VERSION', '0.2.1');
 define('USER_PREG', '/^[a-z0-9\.\-\+\[\]_ ]+$/is');
-define('EMAIL_PREG', '/^[a-z0-9\.\-_]+@[a-z0-9\-]+(\.[a-z0-9\-]+)*\.[a-z]+$/is');
-define('PWD_PREG', '/^[^\'\"\s]+$/is');
-define('WEB_PREG', '/^[a-z]{3}[a-z]*:\/\/[a-z0-9\-]+\.[a-z0-9\-]+(\.[a-z0-9\-]+)*([^\s\[\]]+)*$/is');
-define('IMG_PREG', '/^(https?|ftp):\/\/[a-z0-9\-]+\.[a-z0-9\-]+(\.[a-z0-9\-]+)*\/([^\s]+\/)*[^\s]+\.(gif|png|jpe?g)$/is');
+define('EMAIL_PREG', '/^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$/is');
+define('PWD_PREG', '/^[^\'\"\s\\]+$/is');
+define('WEB_PREG', '/^[\w]+?://[^ \"\n\r\t<]*?$/is');
+define('IMG_PREG', '/^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$/is');
 
 //
 // Create objects

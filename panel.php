@@ -84,47 +84,48 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	$session->update($_GET['act']);
 	
-	if ( $session->sess_info['user_id'] <= 0 ) {
+	if ( !$session->sess_info['user_id'] ) {
 		
-		header('Location: index.php');
-		exit();
+		$functions->redir_to_login();
+		
+	} else {
+		
+		//
+		// Include the page header
+		//
+		require(ROOT_PATH.'sources/page_head.php');
+		
+		$template->parse('panel_menu', array(
+			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
+			'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
+			'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
+			'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
+			'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
+		));
+		
+		switch ( $_GET['act'] ) {
+			
+			case 'panel_home':
+				require(ROOT_PATH.'sources/panel_home.php');
+				break;
+			case 'editprofile':
+				require(ROOT_PATH.'sources/panel_profile.php');
+				break;
+			case 'editoptions':
+				require(ROOT_PATH.'sources/panel_options.php');
+				break;
+			case 'editpwd':
+				require(ROOT_PATH.'sources/panel_editpwd.php');
+				break;
+			
+		}
+		
+		//
+		// Include the page footer
+		//
+		require(ROOT_PATH.'sources/page_foot.php');
 		
 	}
-	
-	//
-	// Include the page header
-	//
-	require(ROOT_PATH.'sources/page_head.php');
-	
-	$template->parse('panel_menu', array(
-		'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
-		'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-		'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
-		'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
-		'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
-	));
-	
-	switch ( $_GET['act'] ) {
-		
-		case 'panel_home':
-			require(ROOT_PATH.'sources/panel_home.php');
-			break;
-		case 'editprofile':
-			require(ROOT_PATH.'sources/panel_profile.php');
-			break;
-		case 'editoptions':
-			require(ROOT_PATH.'sources/panel_options.php');
-			break;
-		case 'editpwd':
-			require(ROOT_PATH.'sources/panel_editpwd.php');
-			break;
-		
-	}
-	
-	//
-	// Include the page footer
-	//
-	require(ROOT_PATH.'sources/page_foot.php');
 	
 }
 

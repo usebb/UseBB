@@ -122,7 +122,8 @@ class functions {
 			2047 => 'E_ALL'
 		);
 		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
-		$line--;
+		if ( $errtype == 'SQL' )
+			$line--;
 		
 		$html_msg  = '<html><head><title>UseBB General Error</title></head><body><h1>UseBB General Error</h1><blockquote><code>';
 		$html_msg .= 'In file '.$file.' on line '.$line.':<br /><br />'.$errtype.' - '.$error;
@@ -216,18 +217,38 @@ class functions {
 	//
 	// Interactive URL builder
 	//
-	function make_url($filename, $vars='') {
+	function make_url($filename, $vars='', $html=true) {
 		
 		$url = $filename;
 		if ( is_array($vars) ) {
 			
 			$url .= '?';
-			foreach ( $vars as $key => $val )
-				$safe[] = urlencode($key).'='.urlencode($val);
-			$url .= join('&amp;', $safe);
+			
+			if ( $html ) {
+				
+				foreach ( $vars as $key => $val )
+					$safe[] = urlencode($key).'='.urlencode($val);
+				$url .= join('&amp;', $safe);
+				
+			} else {
+				
+				foreach ( $vars as $key => $val )
+					$safe[] = $key.'='.$val;
+				$url .= join('&', $safe);
+				
+			}
 			
 		}
 		return $url;
+		
+	}
+	
+	//
+	// Kick a user to the login form
+	//
+	function redir_to_login() {
+		
+		header('Location: '.$this->make_url('panel.php', array('act' => 'login', 'referer' => str_replace('?', '&', substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/')+1))), false));
 		
 	}
 	
@@ -372,8 +393,6 @@ class functions {
 		
 		foreach ( $bodyvars as $key => $val )
 			$body = str_replace('['.$key.']', $val, $body);
-		
-		$body = str_replace('&amp;', '&', $body);
 		
 		if ( !mail($to, $subject, $body, 'From: '.$from_name.' <'.$from_email.'>'."\r\n".'X-Mailer: UseBB '.USEBB_VERSION) )
 			$this->usebb_die('Mail', 'Unable to send e-mail!', __FILE__, __LINE__);

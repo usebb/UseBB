@@ -144,6 +144,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	if ( $session->sess_info['user_id'] == 0 ) {
 		
+		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+		$referer_file = $_GET['referer'];
+		$referer_vars = $_GET;
+		unset($referer_vars['act']);
+		unset($referer_vars['referer']);
+		$referer_url = ( !empty($referer_file) ) ? $functions->make_url($referer_file, $referer_vars) : $_SERVER['HTTP_REFERER'];
+		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
@@ -158,7 +165,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
-			'form_end'       => '<input type="hidden" name="referer" value="'.$_SERVER['HTTP_REFERER'].'" /></form>'
+			'form_end'       => '<input type="hidden" name="referer" value="'.$referer_url.'" /></form>'
 		));
 		
 	} else {

@@ -55,11 +55,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	
 	if ( $session->sess_info['user_id'] == 0 ) {
 		
-		$template->set_page_title($lang['Note']);
-		$template->parse('msgbox', array(
-			'box_title' => $lang['Note'],
-			'content' => $lang['NeedToBeLoggedIn']
-		));
+		$functions->redir_to_login();
 		
 	} else {
 		

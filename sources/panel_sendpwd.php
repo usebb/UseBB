@@ -100,7 +100,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				//
 				$functions->usebb_mail($lang['SendpwdActivationEmailSubject'], $lang['SendpwdActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
-					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $userdata['id'], 'key' => $active_key)),
+					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $userdata['id'], 'key' => $active_key), false),
 					'password' => $new_password
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				

@@ -147,6 +147,7 @@ if ( empty($_POST['step']) ) {
 	$queries[] = "UPDATE usebb_stats SET content = '1' WHERE name = 'forums'";
 	$queries[] = "INSERT INTO usebb_topics VALUES ( '', '1', 'Test Topic', '1', '1', '0', '0', '0', '0' )";
 	$queries[] = "INSERT INTO usebb_posts VALUES ( '', '1', '0', 'UseBB Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."', '0', '0', '1', '1', '1', '0' )";
+	$queries[] = "UPDATE usebb_stats SET content = '1' WHERE name IN ('topics', 'posts')";
 	
 	$error = false;
 	foreach ( $queries as $query ) {

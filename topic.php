@@ -204,7 +204,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					if ( !$postsdata['avatar_type'] )
 						$avatar = '';
 					elseif ( intval($postsdata['avatar_type']) === 1 )
-						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="'.$postsdata['poster_name'].'" />';
+						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="" />';
 					
 				} else {
 					

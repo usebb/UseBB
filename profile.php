@@ -125,7 +125,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			if ( !$profiledata['avatar_type'] )
 				$avatar = '';
 			elseif ( intval($profiledata['avatar_type']) === 1 )
-				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="'.$profiledata['name'].'" />';
+				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="" />';
 			
 			$days_since_registration = ( ( gmmktime() - $profiledata['regdate'] ) / 86400 );
 			if ( $days_since_registration <= 1 )

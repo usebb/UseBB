@@ -114,13 +114,12 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			// Get page number
 			//
-			$page = ( !empty($_GET['p']) && is_numeric($_GET['p']) ) ? intval($_GET['p']) : 1;
+			$numpages = ceil(intval($forumdata['topics']) / $functions->get_config('topics_per_page'));
+			$page = ( !empty($_GET['p']) && is_numeric($_GET['p']) && intval($_GET['p']) <= $numpages ) ? intval($_GET['p']) : 1;
 			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
 			$limit_end = $functions->get_config('topics_per_page');
 			
 			if ( intval($forumdata['topics']) > $functions->get_config('topics_per_page') ) {
-				
-				$numpages = ceil(intval($forumdata['topics']) / $functions->get_config('topics_per_page'));
 				$page_links = array();
 				
 				for ( $i = 1; $i <= $numpages; $i++ ) {

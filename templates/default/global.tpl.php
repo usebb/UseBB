@@ -547,8 +547,6 @@ table.maintable td.minimal {
 	width: 1%;
 	white-space: nowrap;
 	text-align: center;
-	font-weight: bold;
-	color: #333333;
 }
 p#panelmenu {
 	color: #323232;

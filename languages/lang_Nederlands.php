@@ -435,4 +435,7 @@ $lang['date_translations'] = array(
 	'October' => 'oktober',
 	'November' => 'november',
 	'December' => 'december',
+	'st' => 'ste',
+	'nd' => 'de',
+	'th' => 'de'
 );

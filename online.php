@@ -227,6 +227,12 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 			case 'onlinelist':
 				$location = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
 				break;
+			case 'memberlist':
+				$location = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
+				break;
+			case 'stafflist':
+				$location = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
+				break;
 			
 		}
 		

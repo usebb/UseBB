@@ -1,4 +1,4 @@
-$Header$
+t$Header$
 
 UseBB 0.3 Changelog
 ------------------------------
@@ -21,20 +21,14 @@ UseBB 0.3 Changelog
 - Fixed bug 1037973: No error on invalid website URL (profile).
 - Fixed bug 1037971: Color-bbcode uses font-tags.
 - Fixed IP Spoofing Vulnerability.
+- Fixed session ID vulnerability.
 - Fixed Undefined index: NoSuchUser on send new password page.
-- Fixed a security vulnerability.
 - Some changes in defining classes with vars defined with 'var' for PHP5 compatibility.
 - Removed all strtolower() occasions - improves translation possibilities.
-- Server load in template parser moved to function class.
-- Forum stats box moved to function class.
-- Avatars now have an empty alternate text - looks better in Mozilla when image is
-	unavailable.
 - Configuration, templates and translations moved to file system out of SQL DB.
 - Adjusted template engine and configuration and translation functions.
-- Adjusted options panel to fit with new template and language system.
-- Check if template variable is not an array.
-- Some adjustments and upgrades to several templates.
-- Removed non-standard opacity attributes for small buttons at the page bottom.
+- New default template (usebb.net look).
+- Many code improvements, duplicates removed, etc...
 
 UseBB 0.2.3 Changelog
 ------------------------------
@@ -76,7 +70,7 @@ UseBB 0.2.1 Changelog
 	that don't have the inner vertical border anymore, the spacing between the rank and
 	avatar, the registration date, the post count, the location, the topic title above
 	the post, the markup of msgbox and confirm_form, the font size in <th />, the font
-	size of the signature in the user's profile and the	buttons (made by Jemo).
+	size of the signature in the user's profile and the buttons (made by Jemo).
 - Return to topic after posting can now be turned off for posting new topics too.
 - Valid URL checking for profile's website field.
 - Better registration process with terms of use accepting page.

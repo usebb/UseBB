@@ -18,6 +18,7 @@ UseBB 0.3 Changelog
 - Member's avatar is now checked if it's actually an image.
 - Changes to CSS template: label{cursor:pointer;}.
 - Return to topic after posting can now be turned of for posting new topics too.
+- Valid URL checking for profile's website field.
 
 UseBB 0.2 Changelog
 ------------------------------

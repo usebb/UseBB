@@ -226,7 +226,7 @@ $templates['register_form'] = '
 			<th colspan="2">{l_Register}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{user_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}<br />{l_UsernameInfo}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Email}</td><td>{email_input}</td>

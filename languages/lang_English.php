@@ -395,3 +395,4 @@ $lang['SortBy'] = 'Sort by: %s';
 $lang['TopicReview'] = 'Topic review';
 $lang['ViewMorePosts'] = 'View more posts';
 $lang['DisplayedName'] = 'Displayed name';
+$lang['UsernameInfo'] = 'A username can only contain alphanumeric characters, _ and - (no spaces).';

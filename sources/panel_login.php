@@ -155,8 +155,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'remember_input' => '<input type="checkbox" name="remember" id="remember" value="yes" /> <label for="remember">'.$lang['Yes'].'</label>',
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" />',
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
-			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('a' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
-			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('a' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
+			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
+			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
 			'form_end'       => '<input type="hidden" name="referer" value="'.$_SERVER['HTTP_REFERER'].'" /></form>'
 		));
 		

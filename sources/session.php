@@ -51,7 +51,7 @@ class session {
 		//
 		$proposed_save_path = $functions->get_config('session_save_path');
 		if ( !empty($proposed_save_path) )
-			session_save_path($functions->get_config('session_save_path'));
+			session_save_path($proposed_save_path);
 		
 		//
 		// Set some PHP session cookie configuration options

@@ -17,6 +17,7 @@ UseBB 0.3 Changelog
 	tags anymore to be parsed.
 - Member's avatar is now checked if it's actually an image.
 - Changes to CSS template: label{cursor:pointer;}.
+- Return to topic after posting can now be turned of for posting new topics too.
 
 UseBB 0.2 Changelog
 ------------------------------

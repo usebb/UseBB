@@ -110,7 +110,10 @@ if ( !$db->num_rows($result) ) {
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
 				$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
 			
-			header('Location: '.$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
+			if ( $functions->get_config('return_to_topic_after_posting') )
+				header('Location: '.$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
+			else
+				header('Location: '.$functions->make_url('forum.php', array('id' => $_GET['forum']), false));
 			
 		} else {
 			

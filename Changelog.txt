@@ -14,9 +14,8 @@ UseBB 0.3 Changelog
 - Fixed bug 1035507: ob_gzhandler + URL-Rewriter error.
 - Fixed bug 1037973: No error on invalid website URL (profile).
 - Fixed bug 1037971: Color-bbcode uses font-tags.
-- Fixed server load to work on some systems.
 - Fixed Undefined index: NoSuchUser on send new password page.
-- Fixed a security exploit.
+- Fixed a security vulnerability.
 - Removed all strtolower() occasions - improves translation possibilities.
 - Server load in template parser moved to function class.
 - Forum stats box moved to function class.

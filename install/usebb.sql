@@ -101,6 +101,7 @@ CREATE TABLE usebb_members (
   hide_signatures int(1) NOT NULL default '0',
   avatar_type int(1) NOT NULL default '0',
   avatar_remote varchar(255) NOT NULL default '',
+  displayed_name varchar(255) NOT NULL default '',
   real_name varchar(255) NOT NULL default '',
   signature text NOT NULL,
   location varchar(255) NOT NULL default '',

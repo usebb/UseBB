@@ -58,7 +58,7 @@ function to_step($step) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>UseBB Upgrade 0.3.x</title>
+<title>UseBB Upgrade 0.4.x</title>
 <style type="text/css">
 	body {
 		font-family: sans-serif;
@@ -94,14 +94,14 @@ function to_step($step) {
 </head>
 <body>
 <p id="logo"><img src="../templates/default/gfx/usebb.png" alt="" /></p>
-<h1>Upgrade 0.3.x</h1>
+<h1>Upgrade 0.4.x</h1>
 <div id="wrap">
 <?php
 
 if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Welcome</h2>';
-	echo '<p>Welcome to the UseBB upgrade 0.3.x wizard. This wizard will help you upgrade UseBB <strong>0.3.x</strong> to version <strong>0.4</strong>.</p>';
+	echo '<p>Welcome to the UseBB upgrade 0.4.x wizard. This wizard will help you upgrade UseBB <strong>0.4.x</strong> to version <strong>0.5</strong>.</p>';
 	echo to_step(1);
 	
 } elseif ( intval($_POST['step']) === 1 ) {
@@ -114,7 +114,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>First, upload UseBB 0.4 to the same location as 0.3.x, overwriting the old files. Then edit the configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
+		echo '<p>First, upload UseBB 0.5 to the same location as 0.4.x, overwriting the old files. Then edit the configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
 		echo '<p><strong>Tip:</strong> if you already use MySQL 4.1, it might be interesting to set <code>$dbs[\'type\']</code> to <code>\'mysqli\'</code>. If you don\'t know which version you are running, leave the default value.</p>';
 		echo '<p><strong>Another tip:</strong> you might want to check <a href="http://usebb.sourceforge.net/docs/doku.php?id=config.php_guide" target="_blank">this document</a> out to change config.php.</p>';
 		echo to_step(2);
@@ -143,10 +143,6 @@ if ( empty($_POST['step']) ) {
 	echo '<h2>Step 3</h2>';
 	
 	$queries = array(
-		"CREATE TABLE ".$dbs['prefix']."subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
-		"ALTER TABLE `".$dbs['prefix']."members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
-		"ALTER TABLE `".$dbs['prefix']."members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`",
-		"ALTER TABLE `".$dbs['prefix']."forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `displayed_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
 		"UPDATE ".$dbs['prefix']."members SET displayed_name = name WHERE displayed_name = ''"
 	);

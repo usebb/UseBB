@@ -301,7 +301,7 @@ else
 // Parse the online box
 //
 $template->parse('forumlist_stats', array(
-	'stats_title' => ( $functions->get_config('enable_stats') ) ? '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>' : $lang['Statistics'],
+	'stats_title' => $lang['Statistics'],
 	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']),
 	'newest_member' => ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>'),
 	'online_title' => $lang['OnlineUsers'],

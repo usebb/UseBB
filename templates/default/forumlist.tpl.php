@@ -71,10 +71,10 @@ $templates['forumlist_stats'] = '
 		</tr>
 		<tr>
 			<td rowspan="2" class="td2"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
-			<td width="100%">{small_stats}<br />{newest_member}</td>
+			<td width="100%"><small>{small_stats}<br />{newest_member}</small></td>
 		</tr>
 		<tr>
-			<td>{users_online}<br /><small>{members_online}</small></td>
+			<td><small>{users_online}<br />{members_online}</small></td>
 		</tr>
 	</table>
 ';

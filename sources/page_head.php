@@ -32,11 +32,30 @@ if ( !defined('INCLUDED') )
 //
 // Get language variables
 //
+
+//
+// Read the always updated English language file (if present)
+//
+$lang_file = ROOT_PATH.'languages/lang_English.php';
+if ( $functions->get_config('language') != 'English' && file_exists($lang_file) && is_readable($lang_file) ) {
+	
+	require($lang_file);
+	$lang_English = $lang;
+	
+}
+
 $lang_file = ROOT_PATH.'languages/lang_'.$functions->get_config('language').'.php';
 if ( !file_exists($lang_file) || !is_readable($lang_file) )
 	$functions->usebb_die('General', 'Unable to get "'.$functions->get_config('language').'" translation!', __FILE__, __LINE__);
 else
 	require($lang_file);
+
+//
+// Overwrite the English language array with the translation
+// so we don't get errors when the translation isn't uptodate
+//
+if ( isset($lang_English) )
+	$lang = array_merge($lang_English, $lang);
 
 //
 // Page header

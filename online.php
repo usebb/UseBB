@@ -32,13 +32,21 @@ define('ROOT_PATH', './');
 require(ROOT_PATH.'sources/common.php');
 
 $session->update('onlinelist');
-	
+
 //
 // Include the page header
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-if ( $functions->get_config('enable_detailed_online_list') && $functions->get_user_level() >= $functions->get_config('view_detailed_online_list_min_level') ) {
+if ( !$functions->get_config('enable_detailed_online_list') ) {
+	
+	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	
+} elseif ( $functions->get_user_level() < $functions->get_config('view_detailed_online_list_min_level') ) {
+	
+	$functions->redir_to_login();
+	
+} else {
 	
 	$min_updated = time() - ( $functions->get_config('online_min_updated') * 60 );
 	
@@ -266,12 +274,8 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 		'page_links' => $page_links
 	));
 	
-} else {
-	
-	$functions->redir_to_login();
-	
 }
-	
+
 //
 // Include the page footer
 //

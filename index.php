@@ -180,7 +180,6 @@ if ( !$functions->get_stats('forums') ) {
 				} else {
 					
 					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
-					#$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
 					if ( strlen(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
 						$last_topic_title .= htmlentities(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
 					else
@@ -194,14 +193,12 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				$moderators = sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods));
-				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => $moderators,
+					'forum_mods' => sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)),
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

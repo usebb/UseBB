@@ -39,7 +39,7 @@ $templates['forumlist_header'] = '
 $templates['forumlist_cat_header'] = '
 	<table class="maintable">
 		<tr>
-			<td colspan="5" class="forumcat">&raquo; {cat_name}</td>
+			<td colspan="5" class="forumcat"><a href="{cat_url}">&raquo;</a> {cat_name}</td>
 		</tr>
 		<tr>
 			<th></th>

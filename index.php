@@ -169,7 +169,8 @@ if ( !$functions->get_stats('forums') ) {
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
 					'latest_post' => $lang['LatestPost'],
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlspecialchars(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => htmlspecialchars(stripslashes($forumdata['cat_name'])),
+					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id']
 				));
 				
 			}

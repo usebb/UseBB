@@ -176,7 +176,7 @@ pre {
 }
 fieldset {
 	display: block;
-	margin: 0px;
+	margin: 0px 25px 0px 25px;
 	padding: 10px;
 	font-size: 8pt;
 	color: #333333;

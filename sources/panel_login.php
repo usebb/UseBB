@@ -121,8 +121,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// Get us back to the previous page
 		//
-		$page = ( !empty($_POST['referer']) && !preg_match("/activate/is", $_POST['referer']) ) ? $_POST['referer'] : 'index.php';
-		header('Location: '.$page);
+		header('Location: '.$_SESSION['referer']);
+		unset($_SESSION['referer']);
 		
 	} else {
 		
@@ -145,8 +145,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	if ( $session->sess_info['user_id'] == 0 ) {
 		
 		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
-		$referer_url = ( !empty($_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
-		unset($_SESSION['referer']);
+		$_SESSION['referer'] = ( !empty($_SESSION['referer']) && !preg_match("/act=activate/", $_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(
@@ -162,7 +161,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
-			'form_end'       => '<input type="hidden" name="referer" value="'.$referer_url.'" /></form>'
+			'form_end'       => '</form>'
 		));
 		
 	} else {

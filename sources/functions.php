@@ -221,15 +221,18 @@ class functions {
 		
 		$url = $filename;
 		
-		$sid = SID;
-		if ( !empty($sid) ) {
+		$SID = SID;
+		if ( !empty($SID) ) {
 			
-			$sid = explode('=', $sid, 2);
-			$vars[$sid[0]] = $sid[1];
+			if ( !is_array($vars) )
+				$vars = array();
+			
+			$SID = explode('=', $SID, 2);
+			$vars[$SID[0]] = $SID[1];
 			
 		}
 		
-		if ( count($vars) >= 1 ) {
+		if ( is_array($vars) && count($vars) >= 1 ) {
 			
 			$url .= '?';
 			
@@ -408,7 +411,10 @@ class functions {
 	//
 	// Send an email
 	//
-	function usebb_mail($subject, $rawbody, $bodyvars='', $from_name, $from_email, $to) {
+	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to) {
+		
+		if ( !is_array($bodyvars) )
+			$bodyvars = array();
 		
 		$body = $rawbody;
 		$bodyvars['board_name'] = $this->get_config('board_name');
@@ -491,7 +497,8 @@ class functions {
 			'edit' => 4,
 			'delete' => 5,
 			'lock' => 6,
-			'sticky' => 7
+			'sticky' => 7,
+			'html' => 8
 		);
 		$min_level = intval($authint[$actions[$action]]);
 		
@@ -509,7 +516,7 @@ class functions {
 	//
 	// Apply BBCode and smilies to a string
 	//
-	function markup($string, $bbcode, $smilies) {
+	function markup($string, $bbcode=true, $smilies=true) {
 		
 		$string = nl2br($string);
 		return $string;

@@ -30,3 +30,11 @@ INSERT INTO usebb_templates_config VALUES ('forumlist_topic_rtrim_completion', '
 #
 
 INSERT INTO usebb_config VALUES ('kick_user_to_only_viewable_forum', '1');
+
+# --------------------------------------------------------
+
+#
+# Dumping data for table `usebb_language`
+#
+
+UPDATE usebb_language SET name = 'TermsOfUseContent', language = 'English', content = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.\r\n\r\nYou agree not to post any abusive, offensive, obscene or inappropriate content or content that is forbidden by law on these forums. Doing so can cause your account on these forums to get banned or removed and your internet service provider eventually noticed about your behaviour. Therefore, your IP address is stored with every post you place. You also agree that administrators and moderators are permitted to edit, delete, move or lock your topics when they think this is needed.\r\n\r\nAll information you post to these forums is being stored in a database system for future reference. The board administrators will not redistribute this information without your permission or obligation by legal issues. However, nor the webmaster, administrators or moderators nor the UseBB Team can be held responsible when any information is being leaked as a result of a hacking attempt.\r\n\r\nThis board uses cookies to store temporary information needed by the forum system on your local computer. Also, a cookie can store your user ID and your password in an encrypted form to enable automatic login of your account if you chose to enable this. If you don\'t want any cookies to be stored on your computer, refer to your browser\'s manual about disabling cookies.\r\n\r\nBy clicking the "I accept" button, you agree to these terms and conditions.';

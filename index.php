@@ -115,10 +115,21 @@ if ( !$functions->get_stats('forums') ) {
 		//
 		if ( !($result = $db->query("SELECT m.forum_id, u.id, u.name, u.level FROM ".TABLE_PREFIX."moderators m, ".TABLE_PREFIX."members u WHERE m.forum_id IN(".join(', ', $forum_ids).") AND m.user_id = u.id ORDER BY u.name")) )
 			$functions->usebb_die('SQL', 'Unable to get forums moderators!', __FILE__, __LINE__);
-		$all_mods = array();
+		$all_mods = $mods_per_forum = array();
 		while ( $mods_data = $db->fetch_result($result) ) {
 			
+			if ( !array_key_exists($mods_data['forum_id'], $mods_per_forum) )
+				$mods_per_forum[$mods_data['forum_id']] = 1;
+			else
+				$mods_per_forum[$mods_data['forum_id']]++;
+			
 			$all_mods[] = $mods_data;
+			
+		}
+		foreach ( $forum_ids as $forum_id ) {
+			
+			if ( !array_key_exists($forum_id, $mods_per_forum) )
+				$mods_per_forum[$forum_id] = 0;
 			
 		}
 		
@@ -200,7 +211,7 @@ if ( !$functions->get_stats('forums') ) {
 					'forum_status' => $forum_status,
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)),
+					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

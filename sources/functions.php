@@ -30,58 +30,31 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Add slashes to a global variable
+// Add slashes to and trim variables
 //
-function slashes_to_global($global) {
+function slash_trim_global($global) {
 	
 	if ( is_array($global) ) {
 		
 		foreach ( $global as $key => $val ) {
 			
-			if ( is_array($global[$key]) ) {
+			if ( is_array($val) ) {
 				
-				foreach ( $global[$key] as $key1 => $val1 )
-					$global[$key][$key1] = addslashes($val1);
-				
+				$global[$key] = slash_trim_global($val);
+			
 			} else {
 				
-				$global[$key] = addslashes($val);
-				
-			}
-			
-		}
-		
-		return $global;
-		
-	}
-	
-}
-
-//
-// Remove spaces before and after variables
-//
-function trim_global($global) {
-	
-	if ( is_array($global) ) {
-		
-		foreach ( $global as $key => $val ) {
-			
-			if ( is_array($global[$key]) ) {
-				
-				foreach ( $global[$key] as $key1 => $val1 )
-					$global[$key][$key1] = trim($val1);
-				
-			} else {
-				
+				if ( !get_magic_quotes_gpc() )
+					$val = addslashes($val);
 				$global[$key] = trim($val);
 				
 			}
 			
 		}
 		
-		return $global;
-		
 	}
+	
+	return $global;
 	
 }
 

@@ -67,6 +67,13 @@ require(ROOT_PATH.'sources/functions.php');
 require(ROOT_PATH.'config.php');
 require(ROOT_PATH.'sources/session.php');
 require(ROOT_PATH.'sources/template.php');
+	
+//
+// Add slashes and trim get, post and cookie variables
+//
+$_GET = slash_trim_global($_GET);
+$_POST = slash_trim_global($_POST);
+$_COOKIE = slash_trim_global($_COOKIE);
 
 //
 // Define some constants
@@ -122,25 +129,6 @@ set_error_handler('error_handler');
 //
 if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
 	ob_start('ob_gzhandler');
-
-//
-// Add slashes to get, post and cookie variables if magic
-// quotes gpc is off. This is necessary for security reasons.
-//
-if ( !get_magic_quotes_gpc() ) {
-	
-	$_GET = slashes_to_global($_GET); // slashes to get vars
-	$_POST = slashes_to_global($_POST); // slashes to post vars
-	$_COOKIE = slashes_to_global($_COOKIE); // slashes to cookie vars
-	
-}
-	
-//
-// Trim get, post and cookie variables
-//
-$_GET = trim_global($_GET); // trim get vars
-$_POST = trim_global($_POST); // trim post vars
-$_COOKIE = trim_global($_COOKIE); // trim cookie vars
 
 //
 // Connect to DB

@@ -128,9 +128,6 @@ if ( !$db->num_rows($result) ) {
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
-			
-			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
 				$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
@@ -193,6 +190,9 @@ if ( !$db->num_rows($result) ) {
 				$lock_topic_checked = '';
 				
 			}
+			
+			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
+			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
 			
 			$options_input = array();
 			$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';

@@ -687,11 +687,11 @@ class functions {
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
 			// [b]text[/b]
-				$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<b>\\1</b>', $string);
+				$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<strong>\\1</strong>', $string);
 			// [i]text[/i]
-				$string = preg_replace("#\[i\](.*?)\[/i\]#is", '<i>\\1</i>', $string);
+				$string = preg_replace("#\[i\](.*?)\[/i\]#is", '<em>\\1</em>', $string);
 			// [u]text[/u]
-				$string = preg_replace("#\[u\](.*?)\[/u\]#is", '<u>\\1</u>', $string);
+				$string = preg_replace("#\[u\](.*?)\[/u\]#is", '<em class="underline">\\1</em>', $string);
 			// [img]image[/img]
 				$string = preg_replace("#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is", '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />', $string);
 			// [url]http://www.usebb.net[/url]
@@ -714,9 +714,12 @@ class functions {
 				$string = preg_replace("#\[google=(.*?)\](.*?)\[/google\]#is", '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>', $string);
 			// [code]text[/code]
 				$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
+			// [quote]text[/quote]
+				while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
+					$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format_simple'), '\\1'), $string);
 			// [quote=user]text[/quote]
 				while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
-					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format_named'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
 			$string = substr($string, 1, strlen($string)-1);
 			

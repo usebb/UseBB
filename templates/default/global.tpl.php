@@ -51,8 +51,9 @@ $templates['config'] = array(
 	'quote_button'						=> 'quote.gif',
 	'edit_button'						=> 'edit.gif',
 	'delete_button'						=> 'delete.gif',
-	'sig_format'						=> '<div class="signature">_______________<br />%s</small>',
-	'quote_format'						=> '<fieldset class="quote"><legend>%s</legend>%s</fieldset>',
+	'sig_format'						=> '<div class="signature">_______________<br />%s</div>',
+	'quote_format_simple'				=> '<fieldset class="quote">%s</fieldset>',
+	'quote_format_named'				=> '<fieldset class="quote"><legend>%s</legend>%s</fieldset>',
 	'code_format'						=> '<pre class="code">%s</pre>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
@@ -165,15 +166,16 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 	padding: 0px 10px 0px 10px;
 	cursor: pointer;
 }
-pre {
+pre.code {
 	display: block;
-	margin: 0px;
-	padding: 5px;
+	margin: 0px 25px 0px 25px;
+	padding: 10px;
 	font-family: monospace;
 	color: #7F0000;
 	background-color: #FFFFFF;
 	border: 1px solid #CDCDCD;
 	overflow: auto;
+	font-size: 8pt;
 }
 fieldset {
 	display: block;
@@ -183,9 +185,19 @@ fieldset {
 	background-color: #FFFFFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
+	font-size: 8pt;
 }
 fieldset legend {
 	font-weight: bold;
+}
+strong {
+	font-weight: bold;
+}
+em {
+	font-style: italic;
+}
+em.underline {
+	text-decoration: underline;
 }
 #logo {
 	float: left;

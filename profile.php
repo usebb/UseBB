@@ -124,7 +124,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			if ( !$profiledata['avatar_type'] )
 				$avatar = '';
-			elseif ( $profiledata['avatar_type'] == 1 )
+			elseif ( intval($profiledata['avatar_type']) === 1 )
 				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="'.$profiledata['name'].'" />';
 			
 			$template->parse('profile', array(

@@ -43,6 +43,10 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['ForumIndex']);
 
+$template->parse('location_bar', array(
+	'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a>'
+));
+
 //
 // Parse the forums
 //
@@ -121,7 +125,7 @@ if ( !$functions->get_stats('forums') ) {
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
 					'latest_post' => $lang['LatestPost'],
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				//
 				// *Now* we've seen this category... :)
@@ -148,7 +152,7 @@ if ( !$functions->get_stats('forums') ) {
 					$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
 					$author = ( $forumdata['poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $forumdata['poster_id'])).'">'.$forumdata['poster_name'].'</a>' : $forumdata['poster_guest'];
 					
-					$latest_post = '<a href="'.$functions->make_url('topic.php', array('p' => $forumdata['last_post_id'])).'#'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
+					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
 					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
 					
 				}

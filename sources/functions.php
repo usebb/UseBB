@@ -539,9 +539,14 @@ class functions {
 	//
 	// Apply BBCode and smilies to a string
 	//
-	function markup($string, $bbcode=true, $smilies=true) {
+	function markup($string, $bbcode=true, $smilies=true, $html=false) {
 		
-		$string = nl2br($string);
+		if ( !$html ) {
+			
+			$string = htmlentities($string);
+			$string = nl2br($string);
+			
+		}
 		return $string;
 		
 	}

@@ -69,7 +69,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>{board_name}: {page_title} - Powered by UseBB</title>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=iso-8859-1" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />
 	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
 </head>

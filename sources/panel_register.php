@@ -32,6 +32,7 @@ if ( !defined('INCLUDED') )
 //
 // User wants to register
 //
+$session->update('register');
 
 //
 // Include the page header

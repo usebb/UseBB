@@ -32,6 +32,7 @@ if ( !defined('INCLUDED') )
 //
 // User wants a new password
 //
+$session->update('sendpwd');
 
 //
 // Include the page header

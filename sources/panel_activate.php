@@ -32,6 +32,7 @@ if ( !defined('INCLUDED') )
 //
 // User wants to activate
 //
+$session->update('activate');
 
 //
 // Include the page header

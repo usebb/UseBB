@@ -32,6 +32,7 @@ if ( !defined('INCLUDED') )
 //
 // User wants to login
 //
+$session->update('login');
 
 //
 // Include the page header

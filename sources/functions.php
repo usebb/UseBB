@@ -294,7 +294,7 @@ class functions {
 	//
 	function get_al() {
 		
-		$data = explode(':', $_COOKIE[$functions->get_config('session_name').'_al'], 2);
+		$data = explode(':', $_COOKIE[$this->get_config('session_name').'_al'], 2);
 		return $data;
 		
 	}

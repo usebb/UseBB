@@ -38,7 +38,6 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Log In
 	//
-	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_login.php');
 	
 } elseif ( $_GET['act'] == 'logout' ) {
@@ -47,7 +46,7 @@ if ( $_GET['act'] == 'login' ) {
 	// Log Out
 	//
 	$session->update(NULL, 0);
-	$page = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+	$page = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : $functions->make_url('index.php');
 	header('Location: '.$page);
 	
 } elseif ( $_GET['act'] == 'register' ) {
@@ -55,7 +54,6 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Register
 	//
-	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_register.php');
 	
 } elseif ( $_GET['act'] == 'activate' && !empty($_GET['id']) && is_numeric($_GET['id']) && !empty($_GET['key']) ) {
@@ -63,7 +61,6 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Activate
 	//
-	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_activate.php');
 	
 } elseif ( $_GET['act'] == 'sendpwd' ) {
@@ -71,7 +68,6 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Send Password
 	//
-	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_sendpwd.php');
 	
 } else {
@@ -83,6 +79,9 @@ if ( $_GET['act'] == 'login' ) {
 		
 	}
 	
+	//
+	// Update and get the session information
+	//
 	$session->update($_GET['act']);
 	
 	if ( $session->sess_info['user_id'] <= 0 ) {

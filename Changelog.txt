@@ -5,6 +5,7 @@ UseBB 0.3 Changelog
 
 - Added feature 954754: Go to topic list if only one forum is viewable.
 - Added feature 973978: Show server load.
+- Added feature 973980 BBCode: quote, code, size, Google.
 - Added feature 978099: Strip off long topic names in topic list.
 - Added feature that saves the guest's username in the session.
 - Added terms of use text in translations.

@@ -164,9 +164,25 @@ class session {
 			//
 			// Get information about the current session
 			//
-			if ( !($result = $db->query("SELECT user_id, started, location, pages FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."' AND ip_addr = '".$ip_addr."'")) )
+			if ( !($result = $db->query("SELECT user_id, started, location, pages, ip_addr FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'")) )
 				$functions->usebb_die('SQL', 'Unable to get current session info!', __FILE__, __LINE__);
 			$current_sess_info = $db->fetch_result($result);
+			
+			//
+			// If this session ID exists in database and if it doesn't belong to this IP address
+			//
+			if ( is_array($current_sess_info) && $current_sess_info['ip_addr'] != $ip_addr ) {
+				
+				//
+				// Destroy the session and reload the page, stripping the wrong session ID in the URl (if present)
+				//
+				$SID = SID;
+				$goto = ( !empty($SID) ) ? str_replace($SID, '', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+				session_destroy();
+				header('Location: '.$goto);
+				die();
+				
+			}
 			
 			//
 			// Auto login

@@ -1,4 +1,4 @@
-t$Header$
+$Header$
 
 UseBB 0.3 Changelog
 ------------------------------

@@ -87,7 +87,7 @@ if ( !$db->num_rows($result) ) {
 			
 		}
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && entities_length($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
 			
 			//
 			// Save the guest's username in the session

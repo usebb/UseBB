@@ -154,7 +154,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			$errors = array();
 			if ( !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < $functions->get_config('passwd_min_length') )
+			if ( !preg_match(PWD_PREG, $_POST['passwd']) || entities_length($_POST['passwd']) < $functions->get_config('passwd_min_length') )
 				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {

@@ -5,6 +5,7 @@ UseBB 0.5 Changelog
 
 - Added topic review feature.
 - Fixed security issue concerning quoting posts.
+- Make length check work better with entities.
 - Make edit post location bar contain full path.
 - Fixed bad smiley parsing code.
 

@@ -69,6 +69,12 @@ function unhtml($string) {
 	
 }
 
+function entities_length($string) {
+	
+	return strlen(preg_replace('#&\#[0-9]+;#', '.', $string));
+	
+}
+
 class functions {
 	
 	var $board_config;

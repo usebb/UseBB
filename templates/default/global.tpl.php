@@ -287,6 +287,7 @@ h2#boarddescr {
 	line-height: 100%;
 	overflow: hidden;
 	margin: 0px 0px 15px 0px;
+	width: 100%; /* Be nice to Safari */
 }
 p.locationbar {
 	clear: both;
@@ -571,6 +572,7 @@ p#linkbar {
 	background-color: #FFFFFF;
 	line-height: 100%;
 	overflow: hidden;
+	width: 100%; /* Be nice to Safari */
 }
 ';
 

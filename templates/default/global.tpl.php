@@ -356,8 +356,11 @@ table.maintable td .forumname {
 	font-size: 10pt;
 }
 table.maintable td .forumdescr {
-	font-style: italic;
-	margin: 0px 0px 0px 10px;
+	margin: 3px 0px 0px 3px;
+}
+table.maintable td .forummods {
+	margin: 3px 0px 0px 3px;
+	color: #444444;
 }
 
 /* Topiclist styles */

@@ -55,7 +55,7 @@ class template {
 		
 		if ( !in_array('global', $this->loaded_sections) ) {
 			
-			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/global.php';
+			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/global.tpl.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
 				$functions->usebb_die('Template', 'Unable to load global templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 			else
@@ -80,7 +80,7 @@ class template {
 		
 		if ( !in_array($section, $this->loaded_sections) ) {
 			
-			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.php';
+			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.tpl.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
 				$functions->usebb_die('Template', 'Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 			else

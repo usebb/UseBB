@@ -35,6 +35,7 @@ if ( !defined('INCLUDED') )
 $template->set_page_title($lang['EditProfile']);
 
 $_POST['email'] = ( !empty($_POST['email']) ) ? $_POST['email'] : '';
+$_POST['avatar'] = ( !empty($_POST['avatar']) && preg_match(IMG_PREG, $_POST['avatar']) ) ? $_POST['avatar'] : '';
 
 if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	

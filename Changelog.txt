@@ -9,6 +9,7 @@ UseBB 0.4 Changelog
 - Fixed bug #336: Problems on SF.net.
 - Possible fix for bug #331 (cyrillic languages+entities).
 - Fixed a bug where everything is marked unread as a result of session data lost.
+- Fixed various bbcode parser bugs.
 - Various template improvements and translation corrections.
 - Added more security with additional code.
 - Better general error message without information disclosure.

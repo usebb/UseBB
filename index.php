@@ -104,6 +104,11 @@ if ( !$functions->get_stats('forums') ) {
 			
 			if ( !isset($headershown) ) {
 				
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a>';
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
+				
 				//
 				// A forumlist heading needs to be parsed because there is at least
 				// one viewable forum. Parse it if this hasn't been done yet.
@@ -208,6 +213,10 @@ if ( !$functions->get_stats('forums') ) {
 		// so parse the forumlist footer
 		//
 		$template->parse('forumlist_footer', 'forumlist');
+		
+		$template->parse('location_bar', 'global', array(
+			'location_bar' => $location_bar
+		));
 		
 	}
 	

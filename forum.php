@@ -75,19 +75,10 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->set_page_title(stripslashes($forumdata['name']));
 			
-			//
-			// Location bar :)
-			// Only show this if this forum is not the only (viewable) one or the
-			// forum hasn't been set up to kick the user to the only (viewable) forum
-			//
-			if ( !$functions->get_config('kick_user_to_only_viewable_forum') || intval($functions->get_stats('forums')) > 1 ) {
-				
-				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($forumdata['name']));
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
-				));
-				
-			}
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($forumdata['name']));
+			$template->parse('location_bar', 'global', array(
+				'location_bar' => $location_bar
+			));
 			
 			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
@@ -185,6 +176,10 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'new_topic_link' => $new_topic_link,
 				'forum_moderators' => sprintf($lang['ModeratorsInThisForum'], $forum_moderators)
 			));
+				
+			$template->parse('location_bar', 'global', array(
+				'location_bar' => $location_bar
+			));
 			
 			//
 			// If this is the only (viewable) forum and the forum has been set up
@@ -193,12 +188,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			if ( $functions->get_config('kick_user_to_only_viewable_forum') && intval($functions->get_stats('forums')) === 1 ) {
 				
 				$functions->forum_stats_box();
-				
-			} else {
-				
-				$template->parse('location_bar', 'global', array(
-					'location_bar' => $location_bar
-				));
 				
 			}
 			

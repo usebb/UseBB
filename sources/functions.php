@@ -686,16 +686,16 @@ class functions {
 			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
-			$matches = 0;
-			preg_match_all("#\[code](.*?)\[/code\]#is", $string, $matches);
-			foreach ( $matches[1] as $oldpart ) {
-				
-				$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
-				$string = str_replace($oldpart, $newpart, $string);
-				
-			}
-			$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
-			
+			// [code]text[/code]
+				$matches = 0;
+				preg_match_all("#\[code](.*?)\[/code\]#is", $string, $matches);
+				foreach ( $matches[1] as $oldpart ) {
+					
+					$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
+					$string = str_replace($oldpart, $newpart, $string);
+					
+				}
+				$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			// [b]text[/b]
 				$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<strong>\\1</strong>', $string);
 			// [i]text[/i]
@@ -724,10 +724,10 @@ class functions {
 				$string = preg_replace("#\[google=(.*?)\](.*?)\[/google\]#is", '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>', $string);
 			// [quote]text[/quote]
 				while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
-					$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format_simple'), '\\1'), $string);
+					$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
 			// [quote=user]text[/quote]
 				while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
-					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format_named'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
 			$string = substr($string, 1, strlen($string)-1);
 			

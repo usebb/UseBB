@@ -194,7 +194,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				$moderators = $functions->get_mods_list($forumdata['id'], $all_mods);
+				$moderators = sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods));
 				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),

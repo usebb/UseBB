@@ -597,7 +597,7 @@ class functions {
 			foreach ( $listarray as $modsdata ) {
 				
 				if ( $modsdata['forum_id'] == $forum )
-					$forum_moderators[] = 'een';
+					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
 				
 			}
 			

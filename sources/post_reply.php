@@ -207,7 +207,7 @@ if ( !$db->num_rows($result) ) {
 				
 				if ( !empty($_GET['quotepost']) && is_numeric($_GET['quotepost']) ) {
 					
-					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost'])) )
+					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic'])) )
 						$functions->usebb_die('SQL', 'Unable to get quoted post!', __FILE__, __LINE__);
 					
 					if ( $db->num_rows($result) ) {

@@ -186,19 +186,19 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = '<a href="'.$functions->make_url('index.php').'">'.$lang['ForumIndex'].'</a>';
 				break;
 			case 'panel_home':
-				$location = '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>';
+				$location = $lang['PanelHome'];
 				break;
 			case 'editprofile':
-				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>';
+				$location = $lang['EditProfile'];
 				break;
 			case 'editoptions':
-				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>';
+				$location = $lang['EditOptions'];
 				break;
 			case 'editpwd':
-				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>';
+				$location = $lang['EditPasswd'];
 				break;
 			case 'subscriptions':
-				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">'.$lang['Subscriptions'].'</a>';
+				$location = $lang['Subscriptions'];
 				break;
 			case 'faq':
 				$location = '<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>';
@@ -225,7 +225,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = $lang['SendPassword'];
 				break;
 			case 'onlinelist':
-				$location = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
+				$location = $lang['DetailedOnlineList'];
 				break;
 			case 'memberlist':
 				$location = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';

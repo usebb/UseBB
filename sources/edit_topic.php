@@ -337,32 +337,41 @@ if ( $_GET['act'] == 'delete' ) {
 				
 				$template->set_page_title($lang['MoveTopic']);
 				
-				if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
+				if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
 					$functions->usebb_die('SQL', 'Unable to get available forums!', __FILE__, __LINE__);
 				
-				//
-				// Get a list of available forums to move to
-				//
-				$new_forum_input = '<select name="new_forum_id">';
-				$seen_cats = array();
-				while ( $forumdata = $db->fetch_result($result) ) {
+				if ( $db->num_rows($result) === 1 ) {
 					
-					if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
+					$forumdata = $db->fetch_result($result);
+					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
+					
+				} else {
+					
+					//
+					// Get a list of available forums to move to
+					//
+					$new_forum_input = '<select name="new_forum_id">';
+					$seen_cats = array();
+					while ( $forumdata = $db->fetch_result($result) ) {
 						
-						if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+						if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
 							
-							$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-							$new_forum_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
-							$seen_cats[] = $forumdata['cat_id'];
+							if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+								
+								$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
+								$new_forum_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
+								$seen_cats[] = $forumdata['cat_id'];
+								
+							}
+							
+							$new_forum_input .= '<option value="'.$forumdata['id'].'">'.htmlentities(stripslashes($forumdata['name'])).'</option>';
 							
 						}
 						
-						$new_forum_input .= '<option value="'.$forumdata['id'].'">'.htmlentities(stripslashes($forumdata['name'])).'</option>';
-						
 					}
+					$new_forum_input .= '</optgroup></select>';
 					
 				}
-				$new_forum_input .= '</optgroup></select>';
 				
 				$template->parse('move_topic_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',

@@ -56,7 +56,7 @@ $templates['topic_post'] = '
 			</td>
 			<td class="td{colornum}">
 				<div class="postlinks">{post_links}</div>
-				<b>{topic_title}</b><br /><small>{post_anchor} - {post_date}</small>
+				<small><b>&laquo;{topic_title}&raquo;</b><br />{post_anchor} - {post_date}</small>
 				<hr /><div class="postcontent">{post_content}</div>{poster_sig}
 			</td>
 		</tr>

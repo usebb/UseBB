@@ -650,7 +650,7 @@ class functions {
 				$string = str_replace($oldpart, $newpart, $string);
 				
 			}
-			$string = str_replace('\n', '<br />', $string);
+			$string = nl2br($string);
 			$string = str_replace("\0", "\n", $string);
 			
 		}

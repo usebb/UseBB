@@ -226,11 +226,6 @@ $stats['users'] = $db->num_rows($result);
 $stats['lastuser'] = $db->fetch_result($result);
 
 //
-// Small statistics
-//
-$lastuser = ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['IndexLastUser'], '<a href="'.$functions->make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>');
-
-//
 // Online users
 //
 
@@ -300,16 +295,18 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
 	$online_list_link = '';
 else
-	$online_list_link = ' <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
+	$online_list_link = ' - <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
 
 //
 // Parse the online box
 //
 $template->parse('forumlist_stats', array(
-	'stats_title' => $lang['VariousInfo'],
-	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']).$lastuser,
-	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')).$online_list_link,
-	'members' => ( count($online_members) > 0 ) ? join(', ', $online_members) : ''
+	'stats_title' => ( $functions->get_config('enable_stats') ) ? '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>' : $lang['Statistics'],
+	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']),
+	'newest_member' => ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>'),
+	'online_title' => $lang['OnlineUsers'],
+	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')),
+	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).$online_list_link : ''.$online_list_link
 ));
 
 //

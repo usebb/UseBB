@@ -514,6 +514,9 @@ class functions {
 		
 		global $session, $db;
 		
+		if ( $session->sess_info['ip_banned'] || ( $this->get_config('board_closed') && $this->get_user_level() < 3 ) )
+			return FALSE;
+		
 		//
 		// Define the user level
 		//
@@ -544,7 +547,10 @@ class functions {
 			
 		} else {
 			
-			$userlevel = 0;
+			if ( !$this->get_config('guests_can_access_board') )
+				return FALSE;
+			else
+				$userlevel = 0;
 			
 		}
 		

@@ -98,7 +98,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 	//
 	// Admins can still enter the board
 	//
-	if ( $functions->get_user_level() != 3 ) {
+	if ( $functions->get_user_level() < 3 ) {
 		
 		//
 		// Include the page footer

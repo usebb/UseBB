@@ -407,7 +407,6 @@ table.maintable td.forumcat {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	color: #333333;
-	border-top: 2px solid silver;
 }
 table.maintable td .forumname {
 	font-weight: bold;

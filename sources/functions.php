@@ -586,38 +586,49 @@ class functions {
 	//
 	// Return a list of moderators, clickable and seperated with commas
 	//
-	function get_mods_list($forum) {
+	function get_mods_list($forum, $listarray=false) {
 		
 		global $db, $lang;
 		
-		//
-		// Get a list of forum moderators
-		//
-		if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.name")) )
-			$this->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
-		if ( !$db->num_rows($result) ) {
+		$forum_moderators = array();
+		
+		if ( is_array($listarray) && count($listarray) ) {
 			
-			return $lang['Nobody'];
-			
-		} else {
-			
-			$forum_moderators = array();
-			
-			while ( $modsdata = $db->fetch_result($result) ) {
+			foreach ( $listarray as $modsdata ) {
 				
-				//
-				// Array containing links to moderators
-				//
-				$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+				if ( $modsdata['forum_id'] == $forum )
+					$forum_moderators[] = 'een';
 				
 			}
 			
-			//
-			// Join all values in the array
-			//
-			return join(', ', $forum_moderators);
+			if ( !count($forum_moderators) ) {
+				
+				return $lang['Nobody'];
+				
+			}
+			
+		} else {
+			
+			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.name")) )
+				$this->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
+				
+			if ( !$db->num_rows($result) ) {
+				
+				return $lang['Nobody'];
+				
+			} else {
+				
+				while ( $modsdata = $db->fetch_result($result) )
+					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+				
+			}
 			
 		}
+		
+		//
+		// Join all values in the array
+		//
+		return join(', ', $forum_moderators);
 		
 	}
 	

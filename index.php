@@ -72,6 +72,7 @@ if ( !$functions->get_stats('forums') ) {
 	
 	$categories = array();
 	$forums = array();
+	$forum_ids = array();
 	while ( $forumdata = $db->fetch_result($result) ) {
 		
 		if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
@@ -81,6 +82,7 @@ if ( !$functions->get_stats('forums') ) {
 			else
 				$categories[$forumdata['cat_id']]++;
 			$forums[] = $forumdata;
+			$forum_ids[] = $forumdata['id'];
 			
 		}
 		
@@ -107,7 +109,19 @@ if ( !$functions->get_stats('forums') ) {
 		exit();
 		
 	} else {
+		
+		//
+		// Get all the moderators
+		//
+		if ( !($result = $db->query("SELECT m.forum_id, u.id, u.name, u.level FROM ".TABLE_PREFIX."moderators m, ".TABLE_PREFIX."members u WHERE m.forum_id IN(".join(', ', $forum_ids).") AND m.user_id = u.id ORDER BY u.name")) )
+			$functions->usebb_die('SQL', 'Unable to get forums moderators!', __FILE__, __LINE__);
+		$all_mods = array();
+		while ( $mods_data = $db->fetch_result($result) ) {
 			
+			$all_mods[] = $mods_data;
+			
+		}
+		
 		$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a>';
 		$template->parse('location_bar', 'global', array(
 			'location_bar' => $location_bar
@@ -180,14 +194,14 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				$moderators = $functions->get_mods_list($forumdata['id']);
+				$moderators = $functions->get_mods_list($forumdata['id'], $all_mods);
 				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => ( $moderators != $lang['Nobody'] ) ? sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'])) : '',
+					'forum_mods' => $moderators,
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

@@ -25,7 +25,7 @@
 
 define('INCLUDED', true);
 define('ROOT_PATH', './');
-define('NO_GZIP', true);
+define('IS_CSS', true);
 
 //
 // Include usebb engine

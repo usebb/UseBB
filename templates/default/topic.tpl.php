@@ -64,7 +64,8 @@ $templates['topic_post'] = '
 				<div class="field">{location}</div>
 			</td>
 			<td class="postcontent">
-				<div class="post">{post_content}</div>{poster_sig}
+				<div class="post">{post_content}{poster_sig}</div>
+				<div class="poster-ip-addr">{poster_ip_addr}</div>
 			</td>
 		</tr>
 		<tr class="postseperator">

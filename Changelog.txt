@@ -16,6 +16,7 @@ UseBB 0.3 Changelog
 - Added preview feature for posting new topics and replies.
 - Added FAQ page.
 - Added MySQL 4.1 (mysqli) enhanced support.
+- Added viewing IP addresses in topics when being admin.
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.
 - Fixed bug 997622: Source code compression strips newlines out of textareas.

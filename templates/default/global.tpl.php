@@ -476,6 +476,12 @@ table.maintable td.postcontent .post {
 }
 table.maintable td.postcontent .signature {
 	color: #444444;
+	font-size: 8pt;
+}
+table.maintable td.postcontent .poster-ip-addr {
+	color: #666666;
+	font-size: 7pt;
+	text-align: right;
 }
 table.maintable tr.postseperator td {
 	font-size: 0pt;

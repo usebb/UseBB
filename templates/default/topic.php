@@ -49,14 +49,14 @@ $templates['topic_header'] = '
 $templates['topic_post'] = '
 		<tr class="post">
 			<td class="td{colornum}" width="15%">
-				{poster_name}<br />
+				<b>{poster_name}</b><br />
 				<small>{poster_rank}</small>
 				<div class="avatar">{poster_avatar}</div>
 				<div class="posterinfo">{registered}<br />{posts}<br />{location}</div>
 			</td>
 			<td class="td{colornum}">
 				<div class="postlinks">{post_links}</div>
-				{post_anchor} - {topic_title}<br /><small>{post_date}</small>
+				<b>{topic_title}</b><br /><small>{post_anchor} - {post_date}</small>
 				<hr /><div class="postcontent">{post_content}</div>{poster_sig}
 			</td>
 		</tr>

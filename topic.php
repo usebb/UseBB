@@ -129,7 +129,12 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			// Get all the posts in one query
 			//
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank, u.avatar_type, u.avatar_remote, u.posts, u.regdate, u.location, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
+			
+			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
+			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
+			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
+			
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.", u.posts, u.regdate, u.location".$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
 			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
@@ -201,7 +206,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					// User's avatar
 					//
-					if ( !$postsdata['avatar_type'] || $functions->get_config('hide_avatars') )
+					if ( $functions->get_config('hide_avatars') || !$postsdata['avatar_type'] )
 						$avatar = '';
 					elseif ( intval($postsdata['avatar_type']) === 1 )
 						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="" />';
@@ -251,7 +256,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
 					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
-					'poster_sig' => ( !empty($postsdata['signature']) && $postsdata['enable_sig'] && !$functions->get_config('hide_signatures') ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
+					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'colornum' => $colornum
 				));
 				

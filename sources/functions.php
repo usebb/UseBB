@@ -118,6 +118,9 @@ class functions {
 		);
 		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
 		
+		if ( $errtype == 'SQL' )
+			$line--;
+		
 		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
 		error_log($log_msg);
 		
@@ -146,9 +149,16 @@ class functions {
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
-		if ( $errtype == 'SQL' )
-			$html_msg .= '
+		if ( $errtype == 'SQL' ) {
+			
+			if ( $this->get_config('debug') )
+				$html_msg .= '
 			<p>SQL query causing the error:<br /><textarea rows="5" cols="50" readonly="readonly">'.end($db->get_used_queries()).'</textarea></p>';
+			else 
+				$html_msg .= '
+			<p>Enable debug mode to see the erroneous SQL query.</p>';
+			
+		}
 		$html_msg .= '
 		</blockquote>
 		<p>This error should probably not have occured, so please report it to the webmaster. Thank you for your help.</p>
@@ -252,7 +262,7 @@ class functions {
 	//
 	function make_url($filename, $vars=array(), $html=true) {
 		
-		if ( $this->get_config('friendly_urls') && in_array($filename, array('index.php', 'panel.php', 'faq.php', 'active.php', 'forum.php', 'topic.php', 'profile.php', 'post.php', 'edit.php')) ) {
+		if ( $this->get_config('friendly_urls') && in_array($filename, array('index.php', 'panel.php', 'faq.php', 'search.php', 'active.php', 'forum.php', 'topic.php', 'profile.php', 'post.php', 'edit.php')) ) {
 			
 			$url = str_replace('.php', '', $filename);
 			foreach ( $vars as $key => $val ) {

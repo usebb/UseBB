@@ -5,6 +5,7 @@ UseBB 0.4 Changelog
 
 - Added feature #338: Allow users to delete their own posts.
 - Added feature #301: Search engine friendly URL's.
+- Fixed bug #336: Problems on SF.net.
 - Possible fix for bug #331 (cyrillic languages+entities).
 - Various template improvements and translation corrections.
 - Added more security with additional code.

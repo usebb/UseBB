@@ -90,6 +90,7 @@ $conf['posts_per_page'] = 25;
 $conf['return_to_topic_after_posting'] = 1;
 $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';
+$conf['session_save_path'] = '';
 $conf['sig_allow_bbcode'] = 1;
 $conf['sig_allow_smilies'] = 1;
 $conf['target_blank'] = 0;

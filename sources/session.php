@@ -47,6 +47,12 @@ class session {
 		global $functions;
 		
 		//
+		// Eventually set the session save path
+		//
+		if ( !empty($functions->get_config('session_save_path')) )
+			session_save_path($functions->get_config('session_save_path'));
+		
+		//
 		// Set some PHP session cookie configuration options
 		//
 		session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));

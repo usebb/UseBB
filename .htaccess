@@ -11,6 +11,7 @@ RewriteRule ^topic-([0-9]+)-([0-9]+)\.html$ topic.php?id=$1&page=$2
 RewriteRule ^topic-([0-9]+)-((un)?subscribe)\.html$ topic.php?id=$1&act=$2
 RewriteRule ^topic-post([0-9]+)\.html$ topic.php?post=$1
 RewriteRule ^profile-([0-9]+)\.html$ profile.php?id=$1
+RewriteRule ^mail-([0-9]+)\.html$ mail.php?id=$1
 RewriteRule ^post-forum([0-9]+)\.html$ post.php?forum=$1
 RewriteRule ^post-topic([0-9]+)\.html$ post.php?topic=$1
 RewriteRule ^post-topic([0-9]+)-quotepost([0-9]+)\.html$ post.php?topic=$1&quotepost=$2

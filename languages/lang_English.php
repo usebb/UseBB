@@ -88,7 +88,22 @@ $lang['RegisteredNotActivated'] = 'Your account %s has now been created. An e-ma
 $lang['RegisteredActivated'] = 'Your account %s has now been created. An e-mail has been dispatched to %s with your login details.';
 $lang['Never'] = 'Never';
 $lang['Member'] = 'Member';
-$lang['RegistrationActivationEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. You have just registered an account named [account_name], but it has not been activated yet. Please click the link below to activate your account:\r\n\r\n[activate_link]\r\n\r\nor copy-n-paste it to your browser. Then you can log in using this username and password:\r\n\r\nUsername: [account_name]\r\nPassword: [password]\r\n\r\nIf you forget your password, you can request a new one via the link on the login form. Thank you for registering!\r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]';
+$lang['RegistrationActivationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just registered an account named [account_name], but it has not been activated yet. Please click the link below to activate your account:
+
+[activate_link]
+
+or copy-n-paste it to your browser. Then you can log in using this username and password:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form. Thank you for registering!
+
+[board_name]
+[board_link]
+[admin_email]';
 $lang['SendpwdActivationEmailSubject'] = 'New Password';
 $lang['NoForums'] = 'This is an empty board. The administrator has not yet created any forums.';
 $lang['AlreadyActivated'] = 'Account with ID %d has already been activated.';
@@ -97,14 +112,48 @@ $lang['Activated'] = 'Your account %s has now been (re)activated. You are now ab
 $lang['WrongActivationKey'] = 'We were unable to activate your account with ID %d. The activation key is incorrect. Are you sure you didn\'t request a new password in the mean time?';
 $lang['RegisterIt'] = 'You can create it via the \'Register\' link.';
 $lang['BoardClosed'] = 'Board Closed';
-$lang['SendpwdActivationEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. Please click the link below to reactivate your account:\r\n\r\n[activate_link]\r\n\r\nor copy-n-paste it to your browser. Then you can log in using this username and password:\r\n\r\nUsername: [account_name]\r\nPassword: [password]\r\n\r\nIf you forget your password, you can request a new one via the link on the login form. \r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]';
-$lang['SendpwdEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. You can log in using this username and password:\r\n\r\nUsername: [account_name]\r\nPassword: [password]\r\n\r\nIf you forget your password, you can request a new one via the link on the login form. \r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]';
+$lang['SendpwdActivationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. Please click the link below to reactivate your account:
+
+[activate_link]
+
+or copy-n-paste it to your browser. Then you can log in using this username and password:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form. 
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['SendpwdEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. You can log in using this username and password:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form. 
+
+[board_name]
+[board_link]
+[admin_email]';
 $lang['SendpwdEmailSubject'] = 'New Password';
 $lang['SendpwdActivated'] = 'The new password for your account %s has been sent to %s. You are now able to login with your new password.';
 $lang['SendpwdNotActivated'] = 'The new password for your account %s has been sent to %s, together with information on how to reactivate your account.';
 $lang['ForumIndex'] = 'Forum Index';
 $lang['MissingFields'] = 'The following fields were missing or incorrect: %s.';
-$lang['TermsOfUseContent'] = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.\r\n\r\nYou agree not to post any abusive, offensive, obscene or inappropriate content or content that is forbidden by law on these forums. Doing so can cause your account on these forums to get banned or removed and your internet service provider eventually noticed about your behaviour. Therefore, your IP address is stored with every post you place. You also agree that administrators and moderators are permitted to edit, delete, move or lock your topics when they think this is needed.\r\n\r\nAll information you post to these forums is being stored in a database system for future reference. The board administrators will not redistribute this information without your permission or obligation by legal issues. However, nor the webmaster, administrators or moderators nor the UseBB Team can be held responsible when any information is being leaked as a result of a hacking attempt.\r\n\r\nThis board uses cookies to store temporary information needed by the forum system on your local computer. Also, a cookie can store your user ID and your password in an encrypted form to enable automatic login of your account if you chose to enable this. If you don\'t want any cookies to be stored on your computer, refer to your browser\'s manual about disabling cookies.\r\n\r\nBy clicking the "I accept" button, you agree to these terms and conditions.';
+$lang['TermsOfUseContent'] = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.
+
+You agree not to post any abusive, offensive, obscene or inappropriate content or content that is forbidden by law on these forums. Doing so can cause your account on these forums to get banned or removed and your internet service provider eventually noticed about your behaviour. Therefore, your IP address is stored with every post you place. You also agree that administrators and moderators are permitted to edit, delete, move or lock your topics when they think this is needed.
+
+All information you post to these forums is being stored in a database system for future reference. The board administrators will not redistribute this information without your permission or obligation by legal issues. However, nor the webmaster, administrators or moderators nor the UseBB Team can be held responsible when any information is being leaked as a result of a hacking attempt.
+
+This board uses cookies to store temporary information needed by the forum system on your local computer. Also, a cookie can store your user ID and your password in an encrypted form to enable automatic login of your account if you chose to enable this. If you don\'t want any cookies to be stored on your computer, refer to your browser\'s manual about disabling cookies.
+
+By clicking the "I accept" button, you agree to these terms and conditions.';
 $lang['TermsOfUse'] = 'Terms Of Use';
 $lang['RegistrationActivationEmailSubject'] = 'Account Activation';
 $lang['NeedToBeLoggedIn'] = 'You need to be logged in in order to do this. Click the \'Log In\' link to log in or \'Register\' to create a new account.';
@@ -142,7 +191,17 @@ $lang['Re'] = 'Re:';
 $lang['MailForm'] = 'Send an e-mail to %s';
 $lang['SendEmail'] = 'Send a message to %s';
 $lang['NoMails'] = 'This user has chosen not to receive any e-mails.';
-$lang['UserEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. The user [username] has sent this message to you via our board. The message body follows.\r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]\r\n\r\n-----\r\n\r\n[body]';
+$lang['UserEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. The user [username] has sent this message to you via our board. The message body follows.
+
+[board_name]
+[board_link]
+[admin_email]
+
+-----
+
+[body]';
 $lang['EmailSent'] = 'Your e-mail to %s has been sent succesfully!';
 $lang['To'] = 'To';
 $lang['From'] = 'From';
@@ -156,7 +215,22 @@ $lang['PanelHome'] = 'Panel Home';
 $lang['NewEmailNotActivated'] = 'Your profile has been edited succesfully. Because you have changed your e-mail address for your account %s, you need to reactivate it. An e-mail has been sent to %s with instructions on how to do this. You will be logged out in the mean time.';
 $lang['Required'] = 'Required';
 $lang['ViewProfile'] = 'View Profile';
-$lang['NewEmailActivationEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. You have just altered the e-mail address of your account [account_name], but these has not been reactivated yet. Please click the link below to reactivate your account:\r\n\r\n[activate_link]\r\n\r\nor copy-n-paste it to your browser. Then you can log in using this username and password:\r\n\r\nUsername: [account_name]\r\nPassword: [password]\r\n\r\nIf you forget your password, you can request a new one via the link on the login form.\r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]';
+$lang['NewEmailActivationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just altered the e-mail address of your account [account_name], but these has not been reactivated yet. Please click the link below to reactivate your account:
+
+[activate_link]
+
+or copy-n-paste it to your browser. Then you can log in using this username and password:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form.
+
+[board_name]
+[board_link]
+[admin_email]';
 $lang['NewEmailActivationEmailSubject'] = 'Account Reactivation';
 $lang['Signature'] = 'Signature';
 $lang['SessionInfo'] = 'Session Information';
@@ -172,7 +246,18 @@ $lang['Enable'] = 'Enable';
 $lang['Disable'] = 'Disable';
 $lang['AutoLoginSet'] = 'The auto login cookie has now been set.';
 $lang['AutoLoginUnset'] = 'The auto login cookie has now been unset.';
-$lang['RegistrationEmailBody'] = 'Hello,\r\n\r\nThis is the forum software of [board_name] speaking. You have just registered an account named [account_name]. You can log in using this username and password:\r\n\r\nUsername: [account_name]\r\nPassword: [password]\r\n\r\nIf you forget your password, you can request a new one via the link on the login form. Thank you for registering!\r\n\r\n[board_name]\r\n[board_link]\r\n[admin_email]';
+$lang['RegistrationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just registered an account named [account_name]. You can log in using this username and password:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form. Thank you for registering!
+
+[board_name]
+[board_link]
+[admin_email]';
 $lang['RegistrationEmailSubject'] = 'Account Registration';
 $lang['PublicEmail'] = 'Public e-mail address';
 $lang['PublicLastLogin'] = 'Public last login time';

@@ -39,7 +39,7 @@ $session->update('posttopic:'.$_GET['forum']);
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-if ( !($result = $db->query("SELECT name, status, auth FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum'])) )
+if ( !($result = $db->query("SELECT name, status, auth, increase_post_count FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum'])) )
 	$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
 
 if ( !$db->num_rows($result) ) {
@@ -103,7 +103,7 @@ if ( !$db->num_rows($result) ) {
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+1, last_topic_id = ".$inserted_topic_id." WHERE id = ".$_GET['forum'])) )
 				$functions->usebb_die('SQL', 'Unable to update forum!', __FILE__, __LINE__);
 			
-			if ( $session->sess_info['user_id'] ) {
+			if ( $session->sess_info['user_id'] && $forumdata['increase_post_count'] ) {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
 					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);

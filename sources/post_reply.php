@@ -39,7 +39,7 @@ $session->update('reply:'.$_GET['topic']);
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, t.count_replies, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.auto_lock FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
+if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, t.count_replies, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.auto_lock, f.increase_post_count FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 	$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
 
 if ( !$db->num_rows($result) ) {
@@ -114,7 +114,7 @@ if ( !$db->num_rows($result) ) {
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts+1, last_topic_id = ".$_GET['topic']." WHERE id = ".$topicdata['forum_id'])) )
 				$functions->usebb_die('SQL', 'Unable to update forum!', __FILE__, __LINE__);
 			
-			if ( $session->sess_info['user_id'] ) {
+			if ( $session->sess_info['user_id'] && $topicdata['increase_post_count'] ) {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
 					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);

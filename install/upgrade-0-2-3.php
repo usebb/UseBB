@@ -147,7 +147,8 @@ if ( empty($_POST['step']) ) {
 		"ALTER TABLE `usebb_members` ADD `target_blank` INT( 1 ) NOT NULL AFTER `return_to_topic_after_posting` , ADD `hide_avatars` INT( 1 ) NOT NULL AFTER `target_blank` , ADD `hide_userinfo` INT( 1 ) NOT NULL AFTER `hide_avatars` , ADD `hide_signatures` INT( 1 ) NOT NULL AFTER `hide_userinfo`",
 		"CREATE TABLE usebb_subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
 		"ALTER TABLE `usebb_members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
-		"ALTER TABLE `usebb_members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`"
+		"ALTER TABLE `usebb_members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`",
+		"ALTER TABLE `usebb_forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL"
 	);
 	
 	$error = false;

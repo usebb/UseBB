@@ -1015,31 +1015,31 @@ class functions {
 	
 	//
 	// Define the icon for forums and topics
-	//
-	function forum_topic_icon($status, $open_status, $post_time, $poster_id) {
+	//	
+	function forum_topic_icon($status, $open_status, $post_time, $poster_id, $item_type, $item_id) {
 		
 		global $session, $template, $lang;
 		
-		if ( $status == $open_status ) {
+		if ( $session->sess_info['user_id'] && $session->sess_info['user_id'] != $poster_id && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($item_type.':'.$item_id, $_SESSION['viewed_items']) || $_SESSION['viewed_items'][$item_type.':'.$item_id] < $post_time ) ) {
 			
-			if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && $poster_id != $session->sess_info['user_id'] ) {
+			if ( $status == $open_status ) {
 				
 				$forum_icon = $template->get_config('open_newposts_icon');
 				$forum_status = $lang['NewPosts'];
 				
 			} else {
 				
-				$forum_icon = $template->get_config('open_nonewposts_icon');
-				$forum_status = $lang['NoNewPosts'];
+				$forum_icon = $template->get_config('closed_newposts_icon');
+				$forum_status = $lang['LockedNewPosts'];
 				
 			}
 			
 		} else {
 			
-			if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && $poster_id != $session->sess_info['user_id']) {
+			if ( $status == $open_status ) {
 				
-				$forum_icon = $template->get_config('closed_newposts_icon');
-				$forum_status = $lang['LockedNewPosts'];
+				$forum_icon = $template->get_config('open_nonewposts_icon');
+				$forum_status = $lang['NoNewPosts'];
 				
 			} else {
 				

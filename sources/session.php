@@ -225,6 +225,7 @@ class session {
 							$user_id = $cookie_data[0];
 							$functions->set_al($user_info['id'], $user_info['passwd']);
 							$_SESSION['previous_visit'] = $user_info['last_pageview'];
+							$_SESSION['viewed_items'] = array();
 							
 						} else {
 							
@@ -346,6 +347,8 @@ class session {
 			);
 			if ( isset($user_info) )
 				$this->sess_info['user_info'] = $user_info;
+			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && is_numeric($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
+			$_SESSION['viewed_items'] = ( isset($_SESSION['viewed_items']) && is_array($_SESSION['viewed_items']) ) ? $_SESSION['viewed_items'] : array();
 			
 		}
 		

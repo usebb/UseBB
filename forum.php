@@ -73,6 +73,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// User is allowed to view this forum
 			//
 			
+			$_SESSION['viewed_items']['forum:'.$_GET['id']] = time();
+			
 			$template->set_page_title(stripslashes($forumdata['name']));
 			
 			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($forumdata['name']));
@@ -126,7 +128,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						$topic_name = $lang['Sticky'].': '.$topic_name;
 					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
 					
-					list($topic_icon, $topic_status) = $functions->forum_topic_icon($topicdata['status_locked'], 0, $topicdata['last_post_time'] , $topicdata['last_poster_id']);
+					list($topic_icon, $topic_status) = $functions->forum_topic_icon($topicdata['status_locked'], 0, $topicdata['last_post_time'] , $topicdata['last_poster_id'], 'topic', $topicdata['id']);
 					
 					//
 					// Parse the topic template

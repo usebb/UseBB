@@ -120,6 +120,8 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// The user may view this topic
 			//
 			
+			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
+			
 			$template->set_page_title(htmlentities(stripslashes($topicdata['topic_title'])));
 			
 			//

@@ -41,6 +41,9 @@ class template {
 	var $templates;
 	var $body;
 	
+	//
+	// Define arrays
+	//
 	function template() {
 		
 		$this->loaded_sections = array();
@@ -49,32 +52,10 @@ class template {
 		
 	}
 	
-	function get_config($setting) {
-		
-		global $functions;
-		
-		if ( !in_array('global', $this->loaded_sections) ) {
-			
-			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/global.tpl.php';
-			if ( !file_exists($templates_file) || !is_readable($templates_file) )
-				$functions->usebb_die('Template', 'Unable to load global templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
-			else
-				require($templates_file);
-			
-			$this->templates = array_merge($this->templates, $templates);
-			$this->loaded_sections[] = $section;
-			unset($templates);
-			
-		}
-		
-		if ( isset($this->templates['config'][$setting]) )
-			return $this->templates['config'][$setting];
-		else
-			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
-		
-	}
-	
-	function parse($name='', $section, $vars=array()) {
+	//
+	// Load a given template section in the template array
+	//
+	function load_section($section) {
 		
 		global $functions;
 		
@@ -91,6 +72,39 @@ class template {
 			unset($templates);
 			
 		}
+		
+	}
+	
+	//
+	// Get the template config
+	//
+	function get_config($setting) {
+		
+		global $functions;
+		
+		//
+		// Load the template set
+		//
+		$this->load_section('global');
+		
+		if ( isset($this->templates['config'][$setting]) )
+			return $this->templates['config'][$setting];
+		else
+			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+		
+	}
+	
+	//
+	// Parse a template
+	//
+	function parse($name='', $section, $vars=array()) {
+		
+		global $functions;
+		
+		//
+		// Load the template set
+		//
+		$this->load_section($section);
 		
 		$vars = ( is_array($vars) && count($vars) ) ? $vars : array();
 		$vars['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
@@ -110,12 +124,18 @@ class template {
 		
 	}
 	
+	//
+	// Set the page title
+	//
 	function set_page_title($title) {
 		
 		$this->body = str_replace('{page_title}', $title, $this->body);
 		
 	}
 	
+	//
+	// Output the page body
+	//
 	function body($enable_compression=true, $enable_debugmessages=true) {
 		
 		global $db, $functions, $timer;

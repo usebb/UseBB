@@ -182,60 +182,17 @@ class template {
 		if ( $functions->get_config('debug') && $enable_debugmessages ) {
 			
 			//
-			// Server load
-			//
-			if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
-				
-				//
-				// We use the Linux method of getting the 3 average load
-				// values of the server. This only works on Linux afaik...
-				//
-				$fh = fopen('/proc/loadavg', 'r');
-				$out = fread($fh, 14);
-				$out = explode(' ', $out);
-				$serverload = $out[0]; // we use the load average value of the past 1 minute
-				#$serverload = $out[1]; // we use the load average value of the past 5 minutes
-				#$serverload = $out[2]; // we use the load average value of the past 15 minutes
-				fclose($fh);
-				
-			} else {
-			
-				//
-				// Another way is running the uptime command and using its
-				// output. This should also work on FreeBSD. The var $tmp
-				// is unnecessary at this moment.
-				//
-				$out = exec('uptime', $tmp, $retval);
-				unset($tmp);
-				
-				if ( !$retval ) {
-					
-					//
-					// uptime returns exit code 0 when run successfully...
-					//
-					$out = explode(' ', str_replace(',', '', substr($out, -16)));
-					$serverload = $out[0]; // we use the load average value of the past 1 minute
-					#$serverload = $out[1]; // we use the load average value of the past 5 minutes
-					#$serverload = $out[2]; // we use the load average value of the past 15 minutes
-					
-				} else {
-					
-					//
-					// We can't determine the server load... The server can't access
-					// /proc/loadavg, can't run uptime or is running MS Windows ...
-					//
-					$serverload = '?';
-					
-				}
-				
-			}
-			
-			//
 			// Timer for checking parsetime
 			//
 			$timer['end'] = explode(' ', microtime());
 			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
 			$parsetime = round($timer['end'] - $timer['begin'], 2);
+			
+			//
+			// Get the server load, use '?' when lookup fails
+			//
+			if ( !($serverload = $functions->get_server_load()) )
+				$serverload = '?';
 			
 			if ( intval($functions->get_config('debug')) === 1 ) {
 				

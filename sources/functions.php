@@ -900,6 +900,55 @@ class functions {
 		
 	}
 	
+	//
+	// Get the server's load avarage value
+	//
+	function get_server_load() {
+		
+		if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
+			
+			//
+			// We use the Linux method of getting the 3 average load
+			// values of the server. This only works on Linux afaik...
+			//
+			$fh = fopen('/proc/loadavg', 'r');
+			$out = fread($fh, 14);
+			fclose($fh);
+			$out = explode(' ', $out);
+			return $out[0]; // we use the load average value of the past 1 minute
+			
+		} else {
+			
+			//
+			// Another way is running the uptime command and using its
+			// output. This should also work on FreeBSD. The var $tmp
+			// is unnecessary at this moment.
+			//
+			$out = exec('uptime', $tmp, $retval);
+			unset($tmp);
+			
+			if ( !$retval ) {
+				
+				//
+				// $retval contains the exit code 0 when run successfully...
+				//
+				$out = explode(' ', str_replace(',', '', substr($out, -16)));
+				return $out[0]; // we use the load average value of the past 1 minute
+				
+			} else {
+				
+				//
+				// We can't determine the server load... The server can't access
+				// /proc/loadavg, can't run uptime or is running an unsupported OS
+				//
+				return false;
+				
+			}
+			
+		}
+		
+	}
+	
 }
 
 ?>

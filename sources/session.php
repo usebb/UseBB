@@ -222,7 +222,7 @@ class session {
 			//
 			if ( $current_sess_info['started'] ) {
 				
-				if ( empty($user_id) && $user_id !== 0 )
+				if ( is_null($user_id) )
 					$user_id = $current_sess_info['user_id'];
 				
 				//
@@ -281,7 +281,7 @@ class session {
 			//
 			if ( $current_sess_info['user_id'] != $user_id ) {
 				
-				if ( $user_id !== 0 ) {
+				if ( $user_id > 0 ) {
 					
 					if ( !$db->query("UPDATE ".TABLE_PREFIX."users SET last_login = ".$current_time." WHERE id = ".$user_id) )
 						$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);

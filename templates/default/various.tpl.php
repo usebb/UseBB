@@ -226,19 +226,19 @@ $templates['register_form'] = '
 			<th colspan="2">{l_Register}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{user_input}<br />{l_UsernameInfo}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Password}</td><td>{passwd1_input}<br />{passwd_info}</td>
+			<td class="fieldtitle">{l_Password}</td><td>{passwd1_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_PasswordAgain}</td><td>{passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{l_EverythingRequired}</td>
+			<td colspan="2">{l_UsernameInfo} {passwd_info} {l_EverythingRequired}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

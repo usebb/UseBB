@@ -583,6 +583,41 @@ class functions {
 		
 	}
 	
+	function get_mods_list($forum) {
+		
+		global $db, $lang;
+		
+		//
+		// Get a list of forum moderators
+		//
+		if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.name")) )
+			$this->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
+		if ( !$db->num_rows($result) ) {
+			
+			return $lang['Nobody'];
+			
+		} else {
+			
+			$forum_moderators = array();
+			
+			while ( $modsdata = $db->fetch_result($result) ) {
+				
+				//
+				// Array containing links to moderators
+				//
+				$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+				
+			}
+			
+			//
+			// Join all values in the array
+			//
+			return join(', ', $forum_moderators);
+			
+		}
+		
+	}
+	
 	//
 	// Apply BBCode and smilies to a string
 	//

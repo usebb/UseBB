@@ -34,16 +34,15 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['topic_header'] = '
+	<h3 id="forumname">{topic_name}</h3>
+	<p id="forummods">{forum_moderators}</p>
+	<p id="toolbartop">{new_topic_link} {reply_link}</p>
+	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
-	 <tr>
-		 <td colspan="2" class="toolbar">
-			 <div align="right">{new_topic_link}{reply_link}</div>
-		 </td>
-	 </tr>
-	 <tr class="tablehead">
-		 <th>{author}</th>
-		 <th>{post}</th>
-	 </tr>
+		<tr>
+			<th>{author}</th>
+			<th>{post}</th>
+		</tr>
 ';
 
 $templates['topic_post'] = '
@@ -70,22 +69,19 @@ $templates['topic_post'] = '
 
 $templates['topic_footer'] = '
 		<tr>
-			<td colspan="2" class="toolbar">
-				<div align="right">{new_topic_link}{reply_link}</div>
-			</td>
-		</tr>
-		<tr>
 			<td colspan="2" class="td2">
 				<b>{action_links}</b>
 			</td>
 		</tr>
 	</table>
+	<p id="toolbarbottom">{new_topic_link} {reply_link}</p>
+	<p id="pagelinksbottom">{page_links}</p>
 ';
 
 $templates['quick_reply'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{quick_reply}</th>
 		</tr>
 		<tr>

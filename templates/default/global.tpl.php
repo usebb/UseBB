@@ -350,6 +350,7 @@ table.maintable td .forumdescr {
 }
 #forummods {
 	text-align: left;
+	font-style: italic;
 	margin: 0px 0px 6px 0px;
 }
 #toolbartop {
@@ -396,6 +397,7 @@ table.maintable tr.post td {
 table.maintable td.fieldtitle {
 	background-color: #E8E8E8;
 	width: 25%;
+	font-weight: bold;
 }
 .avatar {
 	margin-top: 10px;

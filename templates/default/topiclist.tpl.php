@@ -39,7 +39,7 @@ $templates['topiclist_header'] = '
 	<p id="toolbartop">{new_topic_link}</p>
 	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th></th>
 			<th>{topic}</th>
 			<th>{author}</th>

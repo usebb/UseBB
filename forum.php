@@ -80,34 +80,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'location_bar' => $location_bar
 			));
 			
-			//
-			// Get a list of forum moderators
-			//
-			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id ORDER BY u.name")) )
-				$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
-			if ( !$db->num_rows($result) ) {
-				
-				$forum_moderators = $lang['Nobody'];
-				
-			} else {
-				
-				$forum_moderators = array();
-				
-				while ( $modsdata = $db->fetch_result($result) ) {
-					
-					//
-					// Array containing links to moderators
-					//
-					$forum_moderators[] = $functions->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
-					
-				}
-				
-				//
-				// Join all values in the array
-				//
-				$forum_moderators = join(', ', $forum_moderators);
-				
-			}
+			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
 			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
@@ -151,7 +124,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			$template->parse('topiclist_header', 'topiclist', array(
 				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
-				'forum_moderators' => sprintf($lang['ModeratorsInThisForumLarge'], $forum_moderators),
+				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
 				'topic' => $lang['Topic'],
@@ -215,7 +188,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$template->parse('topiclist_footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
-				'forum_moderators' => sprintf($lang['ModeratorsInThisForumLarge'], $forum_moderators)
+				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators)
 			));
 				
 			$template->parse('location_bar', 'global', array(

@@ -47,7 +47,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 		if ( $db->num_rows($result) ) {
 			
 			$out = $db->fetch_result($result);
-			$_GET['id'] = $out['topic_id'];
+			$requested_topic = $out['topic_id'];
 			
 		} else {
 			
@@ -79,19 +79,23 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			
 		}
 		
+	} else {
+		
+		$requested_topic = $_GET['id'];
+		
 	}
 	
 	//
 	// Update and get the session information
 	//
-	$session->update('topic:'.$_GET['id']);
+	$session->update('topic:'.$requested_topic);
 	
 	//
 	// Include the page header
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.forum_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['id']." AND f.id = t.forum_id")) )
+	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -102,7 +106,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['id'])
+			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$requested_topic)
 		));
 		
 	} else {
@@ -130,26 +134,68 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Get all the posts in one query
 			//
 			
-			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
-			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
-			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
-			
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.", u.posts, u.regdate, u.location".$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
-				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
+			$forum_moderators = $functions->get_mods_list($topicdata['forum_id']);
 			
 			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
-			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('reply_button').'" alt="'.$lang['PostReply'].'" /></a>' : '';
+			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('reply_button').'" alt="'.$lang['PostReply'].'" /></a>' : '';
+			
+			//
+			// Get page number
+			//
+			$numpages = ceil(intval($topicdata['count_replies']) / $functions->get_config('posts_per_page'));
+			$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+			$limit_start = ( $page - 1 ) * $functions->get_config('posts_per_page');
+			$limit_end = $functions->get_config('posts_per_page');
+			
+			if ( intval($topicdata['count_replies']) > $functions->get_config('posts_per_page') ) {
+				
+				$page_links = array();
+					
+				if ( $page > 1 )
+					$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $page-1)).'">&laquo;</a>';
+				
+				for ( $i = 1; $i <= $numpages; $i++ ) {
+					
+					if ( $page != $i )
+						$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $i)).'">'.$i.'</a>';
+					else
+						$page_links[] = $i;
+					
+				}
+					
+				if ( $page < $numpages )
+					$page_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'page' => $page+1)).'">&raquo;</a>';
+				
+				$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
+				
+			} else {
+				
+				$page_links = sprintf($lang['PageLinks'], '1');
+				
+			}
 			
 			//
 			// Output the posts
 			//
 			$template->parse('topic_header', 'topic', array(
-				'author' => $lang['Author'],
-				'post' => $lang['Post'],
+				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>',
+				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
-				'reply_link' => $reply_link
+				'reply_link' => $reply_link,
+				'page_links' => $page_links,
+				'author' => $lang['Author'],
+				'post' => $lang['Post']
 			));
+			
+			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
+			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
+			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
+			
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.", u.posts, u.regdate, u.location".$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
+				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
+			
+			$i = ( $page - 1 ) * $functions->get_config('posts_per_page');
 			
 			while ( $postsdata = $db->fetch_result($result) ) {
 				
@@ -165,7 +211,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				// Post count
 				//
-				$i = ( !isset($i) ) ? 1 : $i+1;
+				$i++;
 				
 				//
 				// This poster was logged in
@@ -235,7 +281,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('delete_button').'" alt="'.$lang['Delete'].'" /></a>';
 				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('quote_button').'" alt="'.$lang['Quote'].'" /></a>';
+					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic, 'quotepost' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('quote_button').'" alt="'.$lang['Quote'].'" /></a>';
 				if ( count($post_links) )
 					$post_links = join(' ', $post_links);
 				else
@@ -267,23 +313,23 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			$action_links = array();
 			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
-				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
+				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
 			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('forums')) > 1 )
-				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';
+				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';
 			if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_locked'] )
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'unlock')).'">'.$lang['UnlockTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unlock')).'">'.$lang['UnlockTopic'].'</a>';
 				else
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'lock')).'">'.$lang['LockTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'lock')).'">'.$lang['LockTopic'].'</a>';
 				
 			}
 			if ( $functions->auth($topicdata['auth'], 'sticky', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_sticky'] )
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'unsticky')).'">'.$lang['MakeNormalTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unsticky')).'">'.$lang['MakeNormalTopic'].'</a>';
 				else
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'sticky')).'">'.$lang['MakeSticky'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'sticky')).'">'.$lang['MakeSticky'].'</a>';
 				
 			}
 			$action_links = join(' '.$template->get_config('item_delimiter').' ', $action_links);
@@ -291,6 +337,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$template->parse('topic_footer', 'topic', array(
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
+				'page_links' => $page_links,
 				'action_links' => $action_links
 			));
 			
@@ -310,7 +357,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				$username = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
 				
 				$template->parse('quick_reply', 'topic', array(
-					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'" method="post">',
+					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" method="post">',
 					'quick_reply' => $lang['QuickReply'],
 					'username' => $lang['Username'],
 					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
@@ -326,7 +373,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			// Update views count
 			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$_GET['id'])) )
+			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic)) )
 				$functions->usebb_die('SQL', 'Unable to update topic views count!', __FILE__, __LINE__);
 			
 		} else {

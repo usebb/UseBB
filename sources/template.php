@@ -212,12 +212,27 @@ class template {
 		}
 		
 		//
-		// Output compression
+		// Compression and output
 		//
-		if ( $functions->get_config('output_compression') )
-			$body = preg_replace("/\s+/", ' ', $body);
-		
-		echo $body;
+		if ( !$functions->get_config('output_compression') ) {
+			
+			echo $body;
+			
+		} elseif ( intval($functions->get_config('output_compression')) === 1 ) {
+			
+			echo preg_replace("/\s+/", ' ', $body);
+			
+		} elseif ( intval($functions->get_config('output_compression')) === 2 ) {
+			
+			ob_start('ob_gzhandler');
+			echo $body;
+			
+		} elseif ( intval($functions->get_config('output_compression')) === 3 ) {
+			
+			ob_start('ob_gzhandler');
+			echo preg_replace("/\s+/", ' ', $body);
+			
+		}
 		
 	}
 	

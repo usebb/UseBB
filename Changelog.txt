@@ -26,6 +26,8 @@ UseBB 0.3 Changelog
 - Return to topic after posting can now be turned off for posting new topics too.
 - Valid URL checking for profile's website field.
 - Better registration process with terms of use accepting page.
+- Multiple levels of output compression: none, compress whitespace, gzip and gzip +
+	compress whitespace.
 
 UseBB 0.2 Changelog
 ------------------------------

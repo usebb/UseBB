@@ -127,6 +127,12 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			elseif ( intval($profiledata['avatar_type']) === 1 )
 				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="'.$profiledata['name'].'" />';
 			
+			$days_since_registration = ( ( gmmktime() - $profiledata['regdate'] ) / 86400 );
+			if ( $days_since_registration <= 1 )
+				$posts_per_day = $profiledata['posts'];
+			else
+				$posts_per_day = round($profiledata['posts'] / $days_since_registration, 2);
+			
 			$template->parse('profile', array(
 				'title'         => sprintf($lang['Profile'], $profiledata['name']),
 				'username'      => $lang['Username'],
@@ -144,7 +150,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'posts'         => $lang['Posts'],
 				'posts_v'       => $profiledata['posts'],
 				'postsperday'   => $lang['PostsPerDay'],
-				'postsperday_v' => round($profiledata['posts'] / ( ( gmmktime() - $profiledata['regdate'] ) / 86400 ), 2),
+				'postsperday_v' => $posts_per_day,
 				'lastlogin'     => $lang['LastLogin'],
 				'lastlogin_v'   => $last_login,
 				'location'      => $lang['Location'],

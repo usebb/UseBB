@@ -126,9 +126,9 @@ if ( $_GET['act'] == 'delete' ) {
 					if ( !($result = $db->query("SELECT poster_id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$_GET['topic'])) )
 						$functions->usebb_die('SQL', 'Unable to get posts information!', __FILE__, __LINE__);
 					
+					$users_posted = array();
 					while ( $postsdata = $db->fetch_result($result) ) {
 						
-						$users_posted = array();
 						if ( !isset($users_posted[$postsdata['poster_id']]) )
 							$users_posted[$postsdata['poster_id']] = 1;
 						else

@@ -494,8 +494,9 @@ INSERT INTO usebb_templates_config VALUES ('open_nonewposts_icon', 'default', 'o
 INSERT INTO usebb_templates_config VALUES ('closed_nonewposts_icon', 'default', 'closed_nonewposts.gif');
 INSERT INTO usebb_templates_config VALUES ('location_arrow', 'default', '&gt;');
 INSERT INTO usebb_templates_config VALUES ('sig_format', 'default', '<hr /><div class="small">%s</div>');
-INSERT INTO usebb_templates_config VALUES ('quick_reply_textarea_rows', 'default', '5');
+INSERT INTO usebb_templates_config VALUES ('textarea_rows', 'default', '10');
 INSERT INTO usebb_templates_config VALUES ('textarea_cols', 'default', '60');
+INSERT INTO usebb_templates_config VALUES ('quick_reply_textarea_rows', 'default', '5');
 
 # --------------------------------------------------------
 

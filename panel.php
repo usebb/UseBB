@@ -70,14 +70,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	require(ROOT_PATH.'sources/panel_sendpwd.php');
 	
-} else {
-	
-	if ( !in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
-		
-		header('Location: '.$functions->make_url('index.php', array(), false));
-		exit();
-		
-	}
+} elseif ( in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
 	
 	//
 	// Update and get the session information
@@ -96,11 +89,11 @@ if ( $_GET['act'] == 'login' ) {
 		require(ROOT_PATH.'sources/page_head.php');
 		
 		$template->parse('panel_menu', array(
-			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
+			'panel_home' => ( $_GET['act'] != 'panel_home' ) ? '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>' : $lang['PanelHome'],
 			'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-			'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
-			'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
-			'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
+			'panel_profile' => ( $_GET['act'] != 'editprofile' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>' : $lang['EditProfile'],
+			'panel_options' => ( $_GET['act'] != 'editoptions' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>' : $lang['EditOptions'],
+			'panel_passwd' => ( $_GET['act'] != 'editpwd' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>' : $lang['EditPasswd'],
 		));
 		
 		switch ( $_GET['act'] ) {
@@ -126,6 +119,10 @@ if ( $_GET['act'] == 'login' ) {
 		require(ROOT_PATH.'sources/page_foot.php');
 		
 	}
+	
+} else {
+	
+	header('Location: '.$functions->make_url('index.php', array(), false));
 	
 }
 

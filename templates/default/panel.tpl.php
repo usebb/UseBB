@@ -104,6 +104,9 @@ $templates['edit_profile'] = '
 			<td class="fieldtitle">{avatar}</td><td>{avatar_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{real_name}</td><td>{real_name_input}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{location}</td><td>{location_input}</td>
 		</tr>
 		<tr>
@@ -132,6 +135,9 @@ $templates['edit_profile'] = '
 		</tr>
 		<tr>
 			<td class="fieldtitle">{jabber}</td><td>{jabber_input}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{skype}</td><td>{skype_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

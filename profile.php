@@ -142,6 +142,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'username_v'    => htmlspecialchars(stripslashes($profiledata['name'])),
 				'userid'        => $lang['UserID'],
 				'userid_v'      => $_GET['id'],
+				'real_name'     => $lang['RealName'],
+				'real_name_v'   => htmlspecialchars(stripslashes($profiledata['real_name'])),
 				'level'         => $lang['Level'],
 				'level_v'       => $level,
 				'rank'          => $lang['Rank'],
@@ -179,7 +181,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : htmlspecialchars(stripslashes($profiledata['icq'])),
 				'icq_status'    => ( is_numeric($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
 				'jabber'        => $lang['Jabber'],
-				'jabber_v'      => htmlspecialchars(stripslashes($profiledata['jabber']))
+				'jabber_v'      => htmlspecialchars(stripslashes($profiledata['jabber'])),
+				'skype'         => $lang['Skype'],
+				'skype_v'       => htmlspecialchars(stripslashes($profiledata['skype']))
 			));
 			
 		} else {

@@ -85,16 +85,18 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		email         = '".$_POST['email']."',
 		avatar_type   = ".$avatar_type.",
 		avatar_remote = '".$avatar_remote."',
+		real_name     = '".$_POST['real_name']."',
 		location      = '".$_POST['location']."',
 		website       = '".$_POST['website']."',
 		occupation    = '".$_POST['occupation']."',
 		interests     = '".$_POST['interests']."',
+		signature     = '".$_POST['signature']."',
 		msnm          = '".$_POST['msnm']."',
 		yahoom        = '".$_POST['yahoom']."',
 		aim           = '".$_POST['aim']."',
 		icq           = '".$_POST['icq']."',
 		jabber        = '".$_POST['jabber']."',
-		signature     = '".$_POST['signature']."'
+		skype         = '".$_POST['skype']."'
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
@@ -161,6 +163,8 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
 		'avatar'           => $lang['AvatarURL'],
 		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$session->sess_info['user_info']['avatar_remote'].'" />',
+		'real_name'        => $lang['RealName'],
+		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['real_name'])).'" />',
 		'location'         => $lang['Location'],
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['location'])).'" />',
 		'website'          => $lang['Website'],
@@ -181,6 +185,8 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['icq'])).'" />',
 		'jabber'           => $lang['Jabber'],
 		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['jabber'])).'" />',
+		'skype'            => $lang['Skype'],
+		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.htmlspecialchars(stripslashes($session->sess_info['user_info']['skype'])).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'         => '</form>'

@@ -144,8 +144,10 @@ if ( empty($_POST['step']) ) {
 	$queries = array(
 		"ALTER TABLE `usebb_users` RENAME `usebb_members`",
 		"ALTER TABLE `usebb_members` ADD `last_pageview` INT( 10 ) NOT NULL AFTER `last_login_show` , ADD `hide_from_online_list` INT( 1 ) NOT NULL AFTER `last_pageview`",
-		"ALTER TABLE `usebb_members` ADD `target_blank` INT( 1 ) NOT NULL AFTER `return_to_topic_after_posting` , ADD `hide_avatars` INT( 1 ) NOT NULL AFTER `target_blank` , ADD `hide_userinfo` INT( 1 ) NOT NULL AFTER `hide_avatars` , ADD `hide_signatures` INT( 1 ) NOT NULL AFTER `hide_userinfo` ;",
-		"CREATE TABLE usebb_subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM;"
+		"ALTER TABLE `usebb_members` ADD `target_blank` INT( 1 ) NOT NULL AFTER `return_to_topic_after_posting` , ADD `hide_avatars` INT( 1 ) NOT NULL AFTER `target_blank` , ADD `hide_userinfo` INT( 1 ) NOT NULL AFTER `hide_avatars` , ADD `hide_signatures` INT( 1 ) NOT NULL AFTER `hide_userinfo`",
+		"CREATE TABLE usebb_subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
+		"ALTER TABLE `usebb_members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
+		"ALTER TABLE `usebb_members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`"
 	);
 	
 	$error = false;

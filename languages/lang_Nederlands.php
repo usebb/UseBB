@@ -380,3 +380,5 @@ $lang['ParseTime'] = 'Verwerkingstijd';
 $lang['ServerLoad'] = 'Serverbelasting';
 $lang['TemplateSections'] = 'Templatesecties';
 $lang['SQLQueries'] = 'SQL-queries';
+$lang['RealName'] = 'Echte naam';
+$lang['Skype'] = 'Skype';

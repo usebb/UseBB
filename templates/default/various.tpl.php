@@ -169,6 +169,9 @@ $templates['profile'] = '
 			<td class="fieldtitle">{avatar}</td><td>{avatar_v}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{real_name}</td><td>{real_name_v}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{regdate}</td><td>{regdate_v}</td>
 		</tr>
 		<tr>
@@ -215,6 +218,9 @@ $templates['profile'] = '
 		</tr>
 		<tr>
 			<td class="fieldtitle">{jabber}</td><td>{jabber_v}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{skype}</td><td>{skype_v}</td>
 		</tr>
 	</table>
 ';

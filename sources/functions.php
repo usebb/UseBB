@@ -613,8 +613,6 @@ class functions {
 				$string = preg_replace("#\[mailto=([a-z0-9\.\-_]+)@([a-z0-9\-]+)(\.[a-z0-9\-]+)*\.([a-z]+)\](.*?)\[/mailto\]#is", '<a href="mailto:\\1@\\2\\3.\\4">\\5</a>', $string);
 			// somebody@nonexistent.com
 				$string = preg_replace("#\s([a-z0-9\.\-_]+)@([a-z0-9\-]+)(\.[a-z0-9\-]+)*\.([a-z]+)\s#is", ' <a href="mailto:\\1@\\2\\3.\\4">\\1@\\2\\3.\\4</a> ', $string);
-			echo '<pre>'.$string.'</pre><hr />
-			';
 			// [color=red]text[/color]
 				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<font color="\\1">\\2</font>', $string);
 			

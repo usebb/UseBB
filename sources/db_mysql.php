@@ -65,7 +65,7 @@ class db {
 	//
 	function query($query) {
 		
-		$query = ereg_replace("[ \t\r\n]+", ' ', $query);
+		$query = preg_replace("/\s+/", ' ', $query);
 		$this->queries[] = $query;
 		$result = @mysql_query($query, $this->connection);
 		return $result;

@@ -144,10 +144,8 @@ class template {
 			//
 			// Lists parsetime and queries
 			//
-			$body .= '<hr /><code>Parse Time: '.$parsetime.'</code><ol><code>';
-			foreach ( $db->queries as $query )
-				$body .= '<li>'.$query.'</li>';
-			$body .= '</code></ol>';
+			$debugqueries = join("\n\n", $db->queries);
+			$body = str_replace('</body>', '<hr /><b>Debug Mode</b><br />Parse Time: '.$parsetime.'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.$debugqueries.'</textarea></body>', $body);
 			
 		}
 		

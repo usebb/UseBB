@@ -101,6 +101,8 @@ class functions {
 	//
 	function usebb_die($errno, $error, $file, $line) {
 		
+		global $db;
+		
 		$log_msg = '[UseBB Error]['.$errno.']['.$error.']['.$file.':'.$line.']';
 		error_log($log_msg);
 		
@@ -122,6 +124,8 @@ class functions {
 		
 		$html_msg  = '<html><head><title>UseBB General Error</title></head><body><h1>UseBB General Error</h1><blockquote><code>';
 		$html_msg .= 'In file '.$file.' on line '.$line.':<br /><br />'.$errtype.' - '.$error;
+		if ( $errtype == 'SQL' )
+			$html_msg .= '<br /><br />Query causing error:<br />'.end($db->queries).'';
 		$html_msg .= '</code></blockquote><p>We are sorry for the inconvenience.</p><hr />';
 		$html_msg .= '<address><a href="http://usebb.sourceforge.net">UseBB</a> '.USEBB_VERSION.' running on '.preg_replace('/<\/?address>/i', '', $_SERVER['SERVER_SIGNATURE']).'</address></body></html>';
 		die($html_msg);

@@ -7,6 +7,7 @@ UseBB 0.2 Changelog
 - Endless updates in core, functions moved to functions class, arrays replaced by new functions, ...
 - Added more detailed location info for use in detailed online list.
 - Many panel pages now give a confirmation message.
+- Better viewing of debug information and SQL errors.
 - Replaced smaller version of the license with the official one.
 
 UseBB 0.1.1 Changelog

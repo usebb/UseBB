@@ -180,7 +180,7 @@ class session {
 				//
 				$SID = SID;
 				$goto = ( !empty($SID) ) ? str_replace($SID, '', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
-				setcookie($this->get_config('session_name').'_sid', '', time()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+				setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
 				session_destroy();
 				header('Location: '.$goto);
 				die();

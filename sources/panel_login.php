@@ -45,7 +45,7 @@ $_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 $_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 $_POST['passwd'] = ( !empty($_POST['user']) ) ? $_POST['passwd'] : '';
 
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) && strlen($_POST['passwd']) >= $functions->get_config('passwd_min_length') ) {
+if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) ) {
 	
 	//
 	// The user already passed a username and password

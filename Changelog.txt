@@ -15,6 +15,7 @@ UseBB 0.3 Changelog
 - Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]
 	tags anymore to be parsed.
 - Member's avatar is now checked if it's actually an image.
+- Changes to CSS template: label{cursor:pointer;}.
 
 UseBB 0.2 Changelog
 ------------------------------

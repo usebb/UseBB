@@ -261,30 +261,34 @@ if ( !$db->num_rows($result) ) {
 				'form_end' => '</form>'
 			));
 			
-			//
-			// Topic review feature
-			//
-			if ( !($result = $db->query("SELECT p.poster_id, u.name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
-				$functions->usebb_die('SQL', 'Unable to get reviewed posts!', __FILE__, __LINE__);
-			
-			$template->parse('topicreview_header', 'topicreview');
-			
-			while ( $postsdata = $db->fetch_result($result) ) {
+			if ( $functions->get_config('topicreview_posts') ) {
 				
-				$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
+				//
+				// Topic review feature
+				//
+				if ( !($result = $db->query("SELECT p.poster_id, u.name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
+					$functions->usebb_die('SQL', 'Unable to get reviewed posts!', __FILE__, __LINE__);
 				
-				$template->parse('topicreview_post', 'topicreview', array(
-					'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
-					'post_date' => $functions->make_date($postsdata['post_time']),
-					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
-					'colornum' => $colornum
+				$template->parse('topicreview_header', 'topicreview');
+				
+				while ( $postsdata = $db->fetch_result($result) ) {
+					
+					$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
+					
+					$template->parse('topicreview_post', 'topicreview', array(
+						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
+						'post_date' => $functions->make_date($postsdata['post_time']),
+						'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
+						'colornum' => $colornum
+					));
+					
+				}
+				
+				$template->parse('topicreview_footer', 'topicreview', array(
+					'view_more_posts' => ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : ''
 				));
 				
 			}
-			
-			$template->parse('topicreview_footer', 'topicreview', array(
-				'view_more_posts' => ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : ''
-			));
 			
 		}
 		

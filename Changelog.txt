@@ -5,6 +5,7 @@ UseBB 0.5 Changelog
 
 - Added topic review feature.
 - Added displayed name option, able to set all kinds of names.
+- Added BBCode and smiley controls on post form.
 - Usernames and passwords only take alphanumeric characters.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.

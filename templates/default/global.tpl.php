@@ -94,6 +94,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={character_encoding}" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />
 	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
+	<script type="text/javascript" src="sources/javascript.js"></script>
 </head>
 <body>
 	<div id="pagebox-bg">
@@ -374,6 +375,7 @@ table.msgbox td, table.confirmform td.msg, td.msg {
 table.maintable td.fieldtitle {
 	background-color: #E8E8E8;
 	width: 25%;
+	height: 1%;
 	font-weight: bold;
 }
 td.formcontrols {
@@ -641,6 +643,16 @@ p#linkbar {
 	color: #323232;
 	text-align: center;
 	margin-bottom: 20px;
+}
+#bbcode-controls, #smiley-controls {
+	margin: 0px 0px 5px 0px;
+}
+#bbcode-controls input {
+	margin: 0px 3px 0px 0px;
+	padding: 0px 3px 0px 3px;
+}
+#smiley-controls a {
+	margin: 0px 3px 0px 0px;
 }
 #bottom {
 	clear: both;

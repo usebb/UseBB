@@ -206,11 +206,13 @@ if ( !$db->num_rows($result) ) {
 			$options_input = join('<br />', $options_input);
 			
 			$template->parse('post_form', 'various', array(
-				'form_begin' => '<form action="'.$functions->make_url('post.php', array('forum' => $_GET['forum'])).'" method="post">',
+				'form_begin' => '<form action="'.$functions->make_url('post.php', array('forum' => $_GET['forum'])).'" method="post" name="postform">',
 				'post_title' => $lang['PostNewTopic'],
 				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 				'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$_POST['content'].'</textarea>',
+				'bbcode_controls' => $functions->get_bbcode_controls(),
+				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',

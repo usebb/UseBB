@@ -136,10 +136,15 @@ $templates['post_form'] = '
 			<td class="fieldtitle">{l_Subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Content}</td><td>{content_input}</td>
+			<td class="fieldtitle">{l_Content}</td>
+			<td rowspan="2">
+				<div id="bbcode-controls">{bbcode_controls}</div>
+				<div id="smiley-controls">{smiley_controls}</div>
+				{content_input}
+			</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Options}</td><td>{options_input}</td>
+			<td>{options_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{preview_button}&nbsp;{reset_button}</td>

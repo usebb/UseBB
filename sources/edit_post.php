@@ -148,11 +148,13 @@ if ( !isset($_GET['act']) ) {
 				$options_input = join('<br />', $options_input);
 				
 				$template->parse('post_form', 'various', array(
-					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',
+					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post" name="postform">',
 					'post_title' => $lang['EditPost'],
 					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" />',
 					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$content.'</textarea>',
+				'bbcode_controls' => $functions->get_bbcode_controls(),
+				'smiley_controls' => $functions->get_smiley_controls(),
 					'options_input' => $options_input,
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',

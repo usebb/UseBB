@@ -885,6 +885,53 @@ class functions {
 	}
 	
 	//
+	// Return the BBCode control buttons
+	//
+	function get_bbcode_controls() {
+		
+		$controls = array(
+			array('[b]', '[/b]', 'B', 'font-weight: bold'),
+			array('[i]', '[/i]', 'I', 'font-style: italic'),
+			array('[u]', '[/u]', 'U', 'text-decoration: underline'),
+			array('[img]', '[/img]', 'IMG', ''),
+			array('[url=http://www.example.com]', '[/url]', 'URL', ''),
+			array('[mailto=mail@example.com]', '[/mailto]', 'E-mail', ''),
+			array('[color=red]', '[/color]', 'Color', ''),
+			array('[size=14]', '[/size]', 'Size', ''),
+			array('[google=UseBB]', '[/google]', 'Google', ''),
+		);
+		
+		$out = '';
+		foreach ( $controls as $data ) {
+			
+			$out .= '<input type="button" value="'.$data[2].'" style="'.$data[3].'" onclick="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\', \'text\')" />';
+			
+		}
+		
+		return $out;
+		
+	}
+	
+	//
+	// Return the smiley control graphics
+	//
+	function get_smiley_controls() {
+		
+		global $template;
+		
+		$smilies = $template->get_config('smilies');
+		$out = '';
+		foreach ( $smilies as $key => $val ) {
+			
+			$out .= '<a href="javascript:insert_tags(\'\', \' '.addslashes($key).' \', \'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" /></a>';
+			
+		}
+		
+		return $out;
+		
+	}
+	
+	//
 	// Replace all whitespace by a space except in <textarea /> and <pre />
 	//
 	function compress_sourcecode($string) {

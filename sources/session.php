@@ -216,7 +216,7 @@ class session {
 						// If the encrypted password in the cookie equals to the password in the database
 						// the user is active and not banned and [ the board is not closed or the user is an admin ]
 						//
-						if ( $cookie_data[1] == $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == 3 ) ) {
+						if ( $cookie_data[1] === $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == 3 ) ) {
 							
 							//
 							// Change the user id that will be entered in the DB below

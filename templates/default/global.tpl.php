@@ -52,7 +52,7 @@ $templates['config'] = array(
 	'edit_button'						=> 'edit.gif',
 	'delete_button'						=> 'delete.gif',
 	'sig_format'						=> '<div class="signature">_______________<br />%s</div>',
-	'quote_format'						=> '<fieldset class="quote"><legend>%s</legend>%s</fieldset>',
+	'quote_format'						=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
 	'code_format'						=> '<pre class="code">%s</pre>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
@@ -188,9 +188,15 @@ pre.code {
 	overflow: auto;
 	font-size: 8pt;
 }
-fieldset.quote {
-	display: block;
+blockquote.quote {
 	margin: 0px 25px 0px 25px;
+	font-size: 8pt;
+}
+blockquote.quote .title {
+	font-weight: bold;
+	padding: 3px;
+}
+blockquote.quote .content {
 	padding: 10px;
 	color: #333333;
 	background-image: url({img_dir}quote_bg.png);
@@ -199,10 +205,6 @@ fieldset.quote {
 	background-color: #FFFFFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
-	font-size: 8pt;
-}
-fieldset.quote legend {
-	font-weight: bold;
 }
 strong {
 	font-weight: bold;

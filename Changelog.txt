@@ -1,6 +1,6 @@
 $Header$
 
-UseBB 0.3 Changelog
+UseBB 0.2.1 Changelog
 ------------------------------
 
 - Fixed bug with MySQL 3.x that gave error on forum view.

@@ -8,6 +8,8 @@ UseBB 0.3 Changelog
 - Fixed plain spaces with &nbsp; between buttons in the footer template.
 - Optimalizations in template.php, debug also works without </body> tag and more 
 	powerful and better output compression method.
+- Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]
+	tags anymore to be parsed.
 
 UseBB 0.2 Changelog
 ------------------------------

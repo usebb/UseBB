@@ -51,6 +51,16 @@ error_reporting(E_ALL);
 set_magic_quotes_runtime(0);
 
 //
+// Unregister globals for more security.
+//
+if ( @ini_get('register_globals') ) {
+	
+	foreach ( $_REQUEST as $var_name => $null )
+		unset($$var_name);
+	
+}
+
+//
 // Include all necessary files
 //
 require(ROOT_PATH.'sources/functions.php');
@@ -112,16 +122,6 @@ set_error_handler('error_handler');
 //
 if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
 	ob_start('ob_gzhandler');
-
-//
-// Unregister globals for more security.
-//
-if ( @ini_get('register_globals') ) {
-	
-	foreach ( $_REQUEST as $var_name => $void )
-		unset($$var_name);
-	
-}
 
 //
 // Add slashes to get, post and cookie variables if magic

@@ -108,6 +108,10 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 			}
 			
+			$username = unhtml(stripslashes($profiledata['displayed_name']));
+			if ( $functions->get_user_level() == 3 )
+				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
+			
 			switch ( $profiledata['level'] ) {
 				
 				case 3:
@@ -149,7 +153,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->parse('profile', 'various', array(
 				'title'         => sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))),
-				'username_v'    => unhtml(stripslashes($profiledata['displayed_name'])),
+				'username_v'    => $username,
 				'userid_v'      => $_GET['id'],
 				'real_name_v'   => unhtml(stripslashes($profiledata['real_name'])),
 				'level_v'       => $level,

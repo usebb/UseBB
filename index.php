@@ -144,8 +144,12 @@ if ( !$functions->get_stats('forums') ) {
 					
 				} else {
 					
-					$last_topic_title  = ( $forumdata['count_replies'] > 0 ) ? $lang['Re'].' ' : '';
-					$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
+					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
+					#$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
+					if ( strlen(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
+						$last_topic_title .= htmlentities(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
+					else
+						htmlentities(stripslashes($forumdata['topic_title']));
 					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : $forumdata['poster_guest'];
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';

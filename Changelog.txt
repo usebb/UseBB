@@ -5,6 +5,7 @@ UseBB 0.3 Changelog
 
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.
+- Fixed bug 997622: Source code compression strips newlines out of textareas.
 - Added feature 973978: Show server load.
 - Fixed server load to work on some systems.
 - Added feature 978099: Strip off long topic names in topic list.

@@ -646,6 +646,27 @@ class functions {
 	}
 	
 	//
+	// Replace all whitespace by a space except in <textarea /> and <pre />
+	//
+	function compress_sourcecode($string) {
+		
+		$matches = array();
+		preg_match_all("#<textarea.*?>(.*?)</textarea>#is", $string, $matches[0]);
+		preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches[1]);
+		$matches = array_merge($matches[0][0], $matches[1][0]);
+		foreach ( $matches as $oldpart ) {
+			
+			$newpart = str_replace("\n", "\0", $oldpart);
+			$string = str_replace($oldpart, $newpart, $string);
+			
+		}
+		$string = preg_replace("#\s+#", ' ', $string);
+		$string = str_replace("\0", "\n", $string);
+		return $string;
+		
+	}
+	
+	//
 	// Get all enabled templates
 	//
 	function get_enabled_templates() {

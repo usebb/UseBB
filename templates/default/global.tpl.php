@@ -510,8 +510,12 @@ p#linkbar {
 	text-align: right;
 	color: #333333;
 }
-#bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
+#bottom a:link, #bottom a:active, #bottom a:visited {
 	color: #336699;
+	text-decoration: none;
+}
+#bottom a:hover {
+	color: #7F0000;
 	text-decoration: none;
 }
 #bottom-shadow {

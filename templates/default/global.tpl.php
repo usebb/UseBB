@@ -164,6 +164,12 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 	padding: 0px 10px 0px 10px;
 	cursor: pointer;
 }
+optgroup {
+	padding: 1px 1px 5px 1px;
+}
+optgroup option {
+	padding: 1px 1px 1px 5px;
+}
 pre.code {
 	display: block;
 	margin: 0px 25px 0px 25px;
@@ -375,7 +381,7 @@ table.maintable td .forummods {
 }
 #forummods {
 	text-align: left;
-	font-style: italic;
+	color: #444444;
 	margin: 0px 0px 6px 0px;
 }
 #toolbartop {

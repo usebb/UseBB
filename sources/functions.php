@@ -158,7 +158,7 @@ function usebb_show_email($user) {
 	
 	global $sess_info, $config, $lang;
 	
-	if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] >= $config['view_hidden_email_addresses_min_level'] ) {
+	if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] >= intval($config['view_hidden_email_addresses_min_level']) ) {
 		
 		//
 		// The viewing user is an administrator
@@ -245,11 +245,11 @@ function usebb_unset_al() {
 
 //
 // Authorization function
-// Defines wether a user has permission to take a certain action.
+// Defines whether a user has permission to take a certain action.
 //
 function usebb_auth($authint, $action) {
 	
-	global $sess_info, $sess_info;
+	global $sess_info;
 	
 	//
 	// Define the user level

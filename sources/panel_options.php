@@ -48,13 +48,17 @@ if ( !empty($_POST['submitted']) ) {
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
+	$_POST['timezone'] = ( is_numeric($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $functions->get_config('timezone');
+	$_POST['dst'] = ( !empty($_POST['dst']) ) ? 1 : 0;
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET
 		language        = '".$_POST['language']."',
 		template        = '".$_POST['template']."',
 		email_show      = ".$_POST['email_show'].",
 		last_login_show = ".$_POST['last_login_show'].",
-		date_format     = '".$_POST['date_format']."'
+		date_format     = '".$_POST['date_format']."',
+		timezone	= '".$_POST['timezone']."',
+		dst		= ".$_POST['dst']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
@@ -98,13 +102,23 @@ if ( !empty($_POST['submitted']) ) {
 			$template_input .= '<option value="'.$single_template['shortname'].'"'.$selected.'>'.$single_template['fullname'].'</option>';
 			
 		}
-		
 		$template_input .= '</select>';
 		
 	}
 	
 	$email_show_checked = ( $session->sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
 	$last_login_show_checked = ( $session->sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
+
+	$timezone_input = '<select name="timezone">';
+	foreach ( $functions->timezone_handler('get_zones') as $key => $val ) {
+		
+		$selected = ( $functions->get_config('timezone') == $key ) ? ' selected="selected"' : '';
+		$timezone_input .= '<option value="'.$key.'"'.$selected.'>'.$val.'</option>';
+		
+	}
+	$timezone_input .= '</select>';
+
+	$dst_checked = ( $functions->get_config('dst') ) ? ' checked="checked"' : '';
 	
 	$template->parse('edit_options', array(
 		'form_begin'            => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',
@@ -114,11 +128,15 @@ if ( !empty($_POST['submitted']) ) {
 		'template'              => $lang['Template'],
 		'template_input'        => $template_input,
 		'email_show'            => $lang['PublicEmail'],
-		'email_show_input'      => '<input type="checkbox" name="email_show" id="email_show" value="1"'.$email_show_checked.' /> <label for="email_show">'.$lang['Yes'].'</label>',
+		'email_show_input'      => '<input type="checkbox" name="email_show" id="email_show" value="1"'.$email_show_checked.' /><label for="email_show"> '.$lang['Yes'].'</label>',
 		'last_login_show'       => $lang['PublicLastLogin'],
-		'last_login_show_input' => '<input type="checkbox" name="last_login_show" id="last_login_show" value="1"'.$last_login_show_checked.' /> <label for="last_login_show">'.$lang['Yes'].'</label>',
+		'last_login_show_input' => '<input type="checkbox" name="last_login_show" id="last_login_show" value="1"'.$last_login_show_checked.' /><label for="last_login_show"> '.$lang['Yes'].'</label>',
 		'date_format'           => $lang['DateFormat'],
 		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$functions->get_config('date_format').'" />',
+		'timezone'              => $lang['Timezone'],
+		'timezone_input'	=> $timezone_input,
+		'dst'			=> $lang['DST'],
+		'dst_input'		=> '<input type="checkbox" name="dst" id="dst" value="1"'.$dst_checked.' /><label for="dst"> '.$lang['Enabled'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '<input type="hidden" name="submitted" value="true" /></form>'

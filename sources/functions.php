@@ -307,8 +307,7 @@ class functions {
 	//
 	function make_date($stamp) {
 		
-		$date = date($this->get_config('date_format'), $stamp);
-		return $date;
+		return date($this->get_config('date_format'), $stamp + ( (float)$this->get_config('timezone') * 3600 ) + ( intval($this->get_config('dst')) * 3600 ));
 		
 	}
 	
@@ -614,6 +613,59 @@ class functions {
 		}
 		
 		return $this->avail_languages;
+		
+	}
+	
+	//
+	// Timezone handling
+	//
+	function timezone_handler($action, $param=NULL) {
+		
+		$timezones = array(
+			'-12' => 'GMT -12:00',
+			'-11' => 'GMT -11:00',
+			'-10' => 'GMT -10:00',
+			'-9' => 'GMT -9:00',
+			'-8' => 'GMT -8:00',
+			'-7' => 'GMT -7:00',
+			'-6' => 'GMT -6:00',
+			'-5' => 'GMT -5:00',
+			'-4' => 'GMT -4:00',
+			'-3.5' => 'GMT -3:30',
+			'-3' => 'GMT -3:00',
+			'-2' => 'GMT -2:00',
+			'-1' => 'GMT -1:00',
+			'0' => 'GMT',
+			'+1' => 'GMT +1:00',
+			'+2' => 'GMT +2:00',
+			'+3' => 'GMT +3:00',
+			'+3.5' => 'GMT +3:30',
+			'+4' => 'GMT +4:00',
+			'+4.5' => 'GMT +4:30',
+			'+5' => 'GMT +5:00',
+			'+5.5' => 'GMT +5:30',
+			'+6' => 'GMT +6:00',
+			'+7' => 'GMT +7:00',
+			'+8' => 'GMT +8:00',
+			'+9' => 'GMT +9:00',
+			'+9.5' => 'GMT +9:30',
+			'+10' => 'GMT +10:00',
+			'+11' => 'GMT +11:00',
+			'+12' => 'GMT +12:00',
+		);
+		
+		if ( $action == 'get_zones' ) {
+			
+			return $timezones;
+			
+		} elseif ( $action == 'check_existance' ) {
+			
+			if ( !empty($timezones[$param]) )
+				return TRUE;
+			else
+				return FALSE;
+			
+		}
 		
 	}
 	

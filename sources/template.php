@@ -123,11 +123,16 @@ class template {
 	// Add global template variables
 	// You can overwite existing variables with this function
 	//
-	function add_global_vars($variables) {
+	function add_global_vars($variables, $overwrite=false) {
 		
 		foreach ( $this->requests as $request_key => $null ) {
 			
-			$this->requests[$request_key]['variables'] = array_merge($this->requests[$request_key]['variables'], $variables);
+			foreach ( $variables as $key => $val ) {
+				
+				if ( $overwrite || !array_key_exists($key, $this->requests[$request_key]['variables']) )
+					$this->requests[$request_key]['variables'][$key] = $val;
+				
+			}
 			
 		}
 		
@@ -210,13 +215,8 @@ class template {
 					$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
 				
 			}
-			foreach ( $request['variables'] as $key => $val ) {
-				
-				if ( is_array($val) )
-					$functions->usebb_die('Template', 'Unable to translate "{'.$key.'}" to an array!', __FILE__, __LINE__);
+			foreach ( $request['variables'] as $key => $val )
 				$current_template = str_replace('{'.$key.'}', $val, $current_template);
-				
-			}
 			$this->body .= $current_template;
 			
 		}

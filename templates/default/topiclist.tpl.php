@@ -35,25 +35,26 @@ if ( !defined('INCLUDED') )
 
 $templates['topiclist_header'] = '
 	<table class="maintable">
-	 <tr>
-		 <td colspan="6" class="toolbar"><div align="right">
-			 {new_topic_link}
-		 </div></td>
-	 </tr>
-	 <tr class="tablehead">
-		 <th colspan="2" width="100%">{topic}</th>
-		 <th>{author}</th>
-		 <th>{replies}</th>
-		 <th>{views}</th>
-		 <th nowrap="nowrap">{latest_post}</th>
-	 </tr>
+	<tr>
+		<td colspan="6" class="toolbar"><div align="right">
+			{new_topic_link}
+		</div></td>
+	</tr>
+	<tr class="tablehead">
+		<th></th>
+		<th width="100%">{topic}</th>
+		<th>{author}</th>
+		<th>{replies}</th>
+		<th>{views}</th>
+		<th nowrap="nowrap">{latest_post}</th>
+	</tr>
 ';
 
 $templates['topiclist_notopics'] = '
 		<tr>
-		 <td class="msg" colspan="6">
-			 {notopics}
-		 </td>
+			<td class="msg" colspan="6">
+				{notopics}
+			</td>
 		</tr>
 ';
 

@@ -36,7 +36,8 @@ if ( !defined('INCLUDED') )
 $templates['forumlist_header'] = '
 	<table class="maintable">
 		<tr class="tablehead">
-			<th colspan="2">{forum}</th>
+			<th></th>
+			<th>{forum}</th>
 			<th>{topics}</th>
 			<th>{posts}</th>
 			<th nowrap="nowrap">{latest_post}</th>
@@ -69,8 +70,8 @@ $templates['forumlist_stats'] = '
 			<th colspan="2">{stats_title}</th>
 		</tr>
 		<tr>
-			<td rowspan="2" width="1" class="td2"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
-			<td>{small_stats}<br />{newest_member}</td>
+			<td rowspan="2" class="td2"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
+			<td width="100%">{small_stats}<br />{newest_member}</td>
 		</tr>
 		<tr>
 			<td>{users_online}<br /><small>{members_online}</small></td>

@@ -6,7 +6,6 @@ UseBB 0.4.1 Changelog
 - Added force avatars width and height config settings.
 - Install and upgrade scripts now take care of DB table prefix.
 - Elements from header and footer now globally available.
-- Updated German translation.
 - Final fix for Cyrillic (and other) character sets.
 - Fixes for UseBB to work on PHP 4.1.0.
 - Don't do length check of password on login form.

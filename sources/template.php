@@ -120,7 +120,7 @@ class template {
 	//
 	// Build and echo the page body
 	//
-	function body($enable_compression=true) {
+	function body($enable_compression=true, $enable_debugmessages=true) {
 		
 		global $functions, $db, $timer;
 		
@@ -179,7 +179,7 @@ class template {
 		//
 		// Debug features
 		//
-		if ( $functions->get_config('debug') ) {
+		if ( $functions->get_config('debug') && $enable_debugmessages ) {
 			
 			//
 			// Timer for checking parsetime

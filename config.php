@@ -99,9 +99,4 @@ $conf['username_max_length'] = 25;
 $conf['users_must_activate'] = 1;
 $conf['view_hidden_email_addresses_min_level'] = 3;
 
-//
-// Comment out the following line
-//
-#die('Please edit your config.php file first!');
-
 ?>

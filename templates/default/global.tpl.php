@@ -157,10 +157,10 @@ a:hover {
 	text-decoration: none;
 }
 a.administrator:link, a.administrator:active, a.administrator:visited {
-	color: red !important;
+	color: #BF0000 !important;
 }
 a.moderator:link, a.moderator:active, a.moderator:visited {
-	color: blue !important;
+	color: #0000BF !important;
 }
 input, select, textarea {
 	font-size: 8pt !important;

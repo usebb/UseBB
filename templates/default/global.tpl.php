@@ -55,6 +55,7 @@ $templates['config'] = array(
 	'quote_format'						=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
 	'code_format'						=> '<pre class="code">%s</pre>',
 	'post_editinfo_format'				=> '<div class="editinfo">&laquo;%s&raquo;</div>',
+	'poster_ip_addr_format' 			=> '<div class="poster-ip-addr">%s</div>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',

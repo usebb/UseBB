@@ -1,4 +1,13 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-To upgrade, run upgrade-0-2-3.php in your web browser.
+Current version: 0.3.1
+
+* Upgrading from 0.3:
+	Just reupload all files. No database changes.
+
+* Upgrading from 0.2.3(a):
+	To upgrade, run upgrade-0-2-3.php in your web browser.
+
+* Upgrading from 0.2.2 or earlier:
+	First upgrade to 0.2.3a, then run upgrade-0-2-3.php.

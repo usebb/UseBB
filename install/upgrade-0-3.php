@@ -142,10 +142,10 @@ if ( empty($_POST['step']) ) {
 	echo '<h2>Step 3</h2>';
 	
 	$queries = array(
-		"CREATE TABLE usebb_subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
-		"ALTER TABLE `usebb_members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
-		"ALTER TABLE `usebb_members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`",
-		"ALTER TABLE `usebb_forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL"
+		"CREATE TABLE ".$dbs['prefix']."subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
+		"ALTER TABLE `".$dbs['prefix']."members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
+		"ALTER TABLE `".$dbs['prefix']."members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`",
+		"ALTER TABLE `".$dbs['prefix']."forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL"
 	);
 	
 	$error = false;

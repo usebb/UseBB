@@ -156,7 +156,7 @@ if ( empty($_POST['step']) ) {
 			
 			if ( preg_match('#;$#', $sql) ) {
 				
-				$query = trim(preg_replace("#\s#", ' ', $queries[$i]));
+				$query = trim(str_replace('usebb_', $dbs['prefix'], preg_replace("#\s#", ' ', $queries[$i])));
 				$queries[$i] = substr($query, 0, strlen($query)-1);
 				$i++;
 				
@@ -165,12 +165,12 @@ if ( empty($_POST['step']) ) {
 		}
 		
 	}
-	$queries[] = "INSERT INTO usebb_cats VALUES ( '', 'Test Category', '0' )";
-	$queries[] = "INSERT INTO usebb_forums VALUES ( '', 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1', '1', '0', '0011222223', '0', '1' )";
-	$queries[] = "UPDATE usebb_stats SET content = '1' WHERE name = 'forums'";
-	$queries[] = "INSERT INTO usebb_topics VALUES ( '', '1', 'Test Topic', '1', '1', '0', '0', '0', '0' )";
-	$queries[] = "INSERT INTO usebb_posts VALUES ( '', '1', '0', 'UseBB Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."', '0', '0', '1', '1', '1', '0' )";
-	$queries[] = "UPDATE usebb_stats SET content = '1' WHERE name IN ('topics', 'posts')";
+	$queries[] = "INSERT INTO ".$dbs['prefix']."cats VALUES ( '', 'Test Category', '0' )";
+	$queries[] = "INSERT INTO ".$dbs['prefix']."forums VALUES ( '', 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1', '1', '0', '0011222223', '0', '1' )";
+	$queries[] = "UPDATE ".$dbs['prefix']."stats SET content = '1' WHERE name = 'forums'";
+	$queries[] = "INSERT INTO ".$dbs['prefix']."topics VALUES ( '', '1', 'Test Topic', '1', '1', '0', '0', '0', '0' )";
+	$queries[] = "INSERT INTO ".$dbs['prefix']."posts VALUES ( '', '1', '0', 'UseBB Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."', '0', '0', '1', '1', '1', '0' )";
+	$queries[] = "UPDATE ".$dbs['prefix']."stats SET content = '1' WHERE name IN ('topics', 'posts')";
 	
 	$error = false;
 	foreach ( $queries as $query ) {

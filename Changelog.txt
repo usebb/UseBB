@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4.1 Changelog
 ------------------------------
 
+- Install and upgrade scripts now take care of DB table prefix.
 - Elements from header and footer now globally available.
 - Updated German translation.
 - Final fix for Cyrillic (and other) character sets.

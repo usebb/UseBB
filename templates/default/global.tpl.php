@@ -511,6 +511,7 @@ p#linkbar {
 	color: #333333;
 }
 #bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
+	color: #336699;
 	text-decoration: none;
 }
 #bottom-shadow {

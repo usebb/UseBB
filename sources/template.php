@@ -54,7 +54,7 @@ class template {
 			$this->config = array();
 			
 			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates_config WHERE template = '".$functions->get_config('template')."'")) )
-				$this->usebb_die('SQL', 'Unable to get template configuration!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to get template configuration!', __FILE__, __LINE__);
 			while ( $out = $db->fetch_result($result) )
 				$this->config[$out['name']] = stripslashes($out['content']);
 			
@@ -63,7 +63,7 @@ class template {
 		if ( isset($this->config[$setting]) )
 			return $this->config[$setting];
 		else
-			$functions->usebb_die('General', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	
@@ -182,30 +182,56 @@ class template {
 		if ( $functions->get_config('debug') && $enable_debugmessages ) {
 			
 			//
+			// Server load
+			//
+			if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
+				
+				//
+				// We use the Linux method of getting the 3 average load
+				// values of the server. This only works on Linux afaik...
+				//
+				$fh = fopen('/proc/loadavg', 'r');
+				$fc = fread($fh, 14);
+				$fc = explode(' ', $fc);
+				$serverload = trim($fc[0]); // we use the load average value of the past 1 minute
+				#$serverload = trim($fc[1]); // we use the load average value of the past 5 minutes
+				#$serverload = trim($fc[2]); // we use the load average value of the past 15 minutes
+				fclose($fh);
+				
+			} else {
+				
+				//
+				// We can't determine the server load...
+				//
+				$serverload = '?';
+				
+			}
+			
+			//
 			// Timer for checking parsetime
 			//
 			$timer['end'] = explode(' ', microtime());
 			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
-			$parsetime = round($timer['end'] - $timer['begin'], 5).'s';
+			$parsetime = round($timer['end'] - $timer['begin'], 2);
 			
-			if ( intval($functions->get_config('debug')) == 1 ) {
+			if ( intval($functions->get_config('debug')) === 1 ) {
 				
 				//
 				// List parsetime and queries in short
 				//
-				$debug_output = '<div align="center"><small>Parse time: '.$parsetime.' - Used templates: '.count($this->needed).' - Used queries: '.count($db->queries).'</small></div>';
+				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPL: '.count($this->needed).' - SQL: '.count($db->queries).'</small></div>';
 				
-			} elseif ( intval($functions->get_config('debug')) == 2 ) {
+			} elseif ( intval($functions->get_config('debug')) === 2 ) {
 				
 				//
 				// Lists parsetime and queries fully
 				//
-				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Used templates ('.count($this->needed).'): '.join(', ', $this->needed).'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div>';
+				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used templates ('.count($this->needed).'): <select size="1"><option value="">'.join('</option><option value="">', $this->needed).'</option></select><br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div>';
 				
 			}
 			
-			if ( preg_match("/<\/body>/i", $body) )
-				$body = preg_replace("/<\/body>/i", $debug_output.'</body>', $body);
+			if ( preg_match('#</body>#i', $body) )
+				$body = preg_replace('#</body>#i', $debug_output.'</body>', $body);
 			else
 				$body .= $debug_output;
 			

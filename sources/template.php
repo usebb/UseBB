@@ -145,7 +145,7 @@ class template {
 			// Lists parsetime and queries
 			//
 			$debugqueries = join("\n\n", $db->queries);
-			$body = str_replace('</body>', '<hr /><b>Debug Mode</b><br />Parse Time: '.$parsetime.'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.$debugqueries.'</textarea></body>', $body);
+			$body = str_replace('</body>', '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.$debugqueries.'</textarea></div></body>', $body);
 			
 		}
 		

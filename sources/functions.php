@@ -222,8 +222,16 @@ class functions {
 		
 		$url = $filename;
 		
+		//
+		// Session IDs will be passed in the URL if
+		//		- no cookies are accepted
+		// AND
+		//		- PHP isn't configured to pass SIDs by default
+		// This allows users not using browsers supporting cookies
+		// to stay logged in or use the same session ID.
+		//
 		$SID = SID;
-		if ( !empty($SID) ) {
+		if ( !empty($SID) && !ini_get('session.use_trans_sid') ) {
 			
 			if ( !is_array($vars) )
 				$vars = array();

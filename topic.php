@@ -125,13 +125,63 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$template->set_page_title(htmlspecialchars(stripslashes($topicdata['topic_title'])));
 			
 			//
+			// Update views count
+			//
+			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic)) )
+				$functions->usebb_die('SQL', 'Unable to update topic views count!', __FILE__, __LINE__);
+			
+			//
 			// Make the location bar
 			//
-			
 			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($topicdata['topic_title']));
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
+			
+			//
+			// Eventually (un)subscribe user to topic
+			//
+			if ( $session->sess_info['user_id'] ) {
+				
+				if ( !($result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id'])) )
+					$functions->usebb_die('SQL', 'Unable to get subscription information!', __FILE__, __LINE__);
+				
+				$subscribed = ( !$db->num_rows($result) ) ? false : true;
+				
+			}
+			if ( !empty($_GET['act']) && in_array($_GET['act'], array('subscribe', 'unsubscribe')) ) {
+				
+				if ( !$session->sess_info['user_id'] ) {
+					
+					$functions->redir_to_login();
+					
+				} else {
+					
+					if ( !$subscribed && $_GET['act'] == 'subscribe' ) {
+						
+						if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$requested_topic.", ".$session->sess_info['user_id'].")")) )
+							$functions->usebb_die('SQL', 'Unable to subscribe user to topic!', __FILE__, __LINE__);
+						$subscribed = true;
+						$template->parse('msgbox', 'global', array(
+							'box_title' => $lang['Note'],
+							'content' => $lang['SubscribedTopic']
+						));
+						
+					} elseif ( $subscribed && $_GET['act'] == 'unsubscribe' ) {
+						
+						if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id'])) )
+							$functions->usebb_die('SQL', 'Unable to subscribe user to topic!', __FILE__, __LINE__);
+						$subscribed = false;
+						$template->parse('msgbox', 'global', array(
+							'box_title' => $lang['Note'],
+							'content' => $lang['UnsubscribedTopic']
+						));
+						
+					}
+					
+				}
+				
+			}
 			
 			//
 			// Get all the posts in one query
@@ -312,10 +362,22 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Links for controlling topics: delete, move, lock, sticky...
 			//
 			$action_links = array();
+			
+			if ( $session->sess_info['user_id'] ) {
+				
+				if ( !$subscribed )
+					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'subscribe')).'">'.$lang['SubscribeTopic'].'</a>';
+				else
+					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'unsubscribe')).'">'.$lang['UnsubscribeTopic'].'</a>';
+				
+			}
+			
 			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
+			
 			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('forums')) > 1 )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';
+			
 			if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_locked'] )
@@ -324,6 +386,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'lock')).'">'.$lang['LockTopic'].'</a>';
 				
 			}
+			
 			if ( $functions->auth($topicdata['auth'], 'sticky', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_sticky'] )
@@ -332,6 +395,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'sticky')).'">'.$lang['MakeSticky'].'</a>';
 				
 			}
+			
 			$action_links = join(' '.$template->get_config('item_delimiter').' ', $action_links);
 			
 			$template->parse('topic_footer', 'topic', array(
@@ -370,12 +434,6 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
-			
-			//
-			// Update views count
-			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic)) )
-				$functions->usebb_die('SQL', 'Unable to update topic views count!', __FILE__, __LINE__);
 			
 		} else {
 			

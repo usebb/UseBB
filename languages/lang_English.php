@@ -348,3 +348,17 @@ $lang['ConfirmDeletePost'] = 'Are you sure you want to delete this post in the t
 $lang['EditPost'] = 'Edit post';
 $lang['PostEditInfo'] = 'Last edit by %s on %s.';
 $lang['PasswdInfo'] = 'The password cannot contain spaces or quotes. Minimum length is %d characters.';
+$lang['SubscribeTopic'] = 'Subscribe';
+$lang['UnsubscribeTopic'] = 'Unsubscribe';
+$lang['NewReplyEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. Someone ([poster_name]) posted a reply to a topic you are subscribed to ("[topic_title]"). To view the reply, please click the following link: [topic_link].
+
+Click the following link if you wish to unsubscribe from the topic (requires login): [unsubscribe_link].
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['NewReplyEmailSubject'] = 'New reply in "%s"';
+$lang['SubscribedTopic'] = 'You are now subscribed to this topic.';
+$lang['UnsubscribedTopic'] = 'You are now unsubscribed to this topic.';

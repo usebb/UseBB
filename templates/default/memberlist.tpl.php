@@ -58,6 +58,9 @@ $templates['memberlist_user'] = '
 ';
 
 $templates['memberlist_footer'] = '
+		<tr>
+			<td colspan="6" class="formcontrols">{sort_by_links}</td>
+		</tr>
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

@@ -391,3 +391,4 @@ $lang['RealName'] = 'Real name';
 $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
+$lang['SortBy'] = 'Sort by: %s';

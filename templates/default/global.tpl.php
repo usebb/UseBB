@@ -360,6 +360,9 @@ td.formcontrols {
 	text-align: center !important;
 	padding: 6px !important;
 }
+td.formcontrols input {
+	font-weight: bold;
+}
 table.maintable td.count {
 	background-color: #E8E8E8;
 	width: 1%;

@@ -709,7 +709,7 @@ class functions {
 	//
 	// Return a clickable list of pages
 	//
-	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val=NULL, $back_forward_links=TRUE) {
+	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val=NULL, $back_forward_links=TRUE, $url_vars=array()) {
 		
 		global $lang;
 		
@@ -722,9 +722,10 @@ class functions {
 				if ( $current_page != $i ) {
 					
 					if ( is_numeric($page_id_val) )
-						$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $i)).'">'.$i.'</a>';
-					else
-						$page_links[] = '<a href="'.$this->make_url($page_name, array('page' => $i)).'">'.$i.'</a>';
+						$url_vars['id'] = $page_id_val;
+					$url_vars['page'] = $i;
+					
+					$page_links[] = '<a href="'.$this->make_url($page_name, $url_vars).'">'.$i.'</a>';
 					
 				} else {
 					
@@ -736,11 +737,25 @@ class functions {
 			
 			$page_links = join(' ',$page_links);
 			
-			if ( $current_page > 1 && $back_forward_links )
-				$page_links = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&lt;</a> '.$page_links;
-			
-			if ( $current_page < $pages_number && $back_forward_links )
-				$page_links .= ' <a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page+1)).'">&gt;</a>';
+			if ( $back_forward_links ) {
+				
+				if ( is_numeric($page_id_val) )
+					$url_vars['id'] = $page_id_val;
+				
+				if ( $current_page > 1 ) {
+					
+					$url_vars['page'] = $current_page-1;
+					$page_links = '<a href="'.$this->make_url($page_name, $url_vars).'">&lt;</a> '.$page_links;
+					
+				}
+				if ( $current_page < $pages_number ) {
+					
+					$url_vars['page'] = $current_page+1;
+					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars).'">&gt;</a>';
+					
+				}
+				
+			}
 			
 			$page_links = sprintf($lang['PageLinks'], $page_links);
 			

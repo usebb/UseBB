@@ -391,6 +391,7 @@ $lang['RealName'] = 'Echte naam';
 $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
+$lang['SortBy'] = 'Sorteren op: %s';
 
 //
 // Date translations

@@ -52,6 +52,8 @@ if ( empty($_GET['act']) ) {
 		
 		$template->set_page_title($lang['MemberList']);
 		
+		$_GET['sortby'] = ( !empty($_GET['sortby']) ) ? $_GET['sortby'] : 'regdate';
+		
 		//
 		// Get page number
 		//
@@ -59,7 +61,7 @@ if ( empty($_GET['act']) ) {
 		$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 		$limit_start = ( $page - 1 ) * $functions->get_config('members_per_page');
 		$limit_end = $functions->get_config('members_per_page');
-		$page_links = $functions->make_page_links($numpages, $page, $functions->get_stats('members'), $functions->get_config('members_per_page'), 'members.php');
+		$page_links = $functions->make_page_links($numpages, $page, $functions->get_stats('members'), $functions->get_config('members_per_page'), 'members.php', NULL, TRUE, array('sortby' => $_GET['sortby']));
 		
 		$template->parse('memberlist_header', 'memberlist', array(
 			'page_links' => $page_links
@@ -68,7 +70,24 @@ if ( empty($_GET['act']) ) {
 		//
 		// Get members information
 		//
-		if ( !($result = $db->query("SELECT id, name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY id ASC LIMIT ".$limit_start.", ".$limit_end)) )
+		switch ( $_GET['sortby'] ) {
+			
+			case 'username':
+				$sort_by_sql_part = 'name ASC';
+				break;
+			case 'level':
+				$sort_by_sql_part = 'level DESC';
+				break;
+			case 'regdate':
+				$sort_by_sql_part = 'regdate ASC';
+				break;
+			case 'posts':
+				$sort_by_sql_part = 'posts DESC';
+				break;
+			
+		}
+		
+		if ( !($result = $db->query("SELECT id, name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY ".$sort_by_sql_part." LIMIT ".$limit_start.", ".$limit_end)) )
 			$functions->usebb_die('SQL', 'Unable to get members information!', __FILE__, __LINE__);
 		
 		while ( $userdata = $db->fetch_result($result) ) {
@@ -99,8 +118,16 @@ if ( empty($_GET['act']) ) {
 			
 		}
 		
+		$sort_by_links = array(
+			'<a href="'.$functions->make_url('members.php', array('sortby' => 'username', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'username' ) ? $lang['Username'] : '<strong>'.$lang['Username'].'</strong>' ) . '</a>',
+			'<a href="'.$functions->make_url('members.php', array('sortby' => 'level', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'level' ) ? $lang['Level'] : '<strong>'.$lang['Level'].'</strong>' ) . '</a>',
+			'<a href="'.$functions->make_url('members.php', array('sortby' => 'regdate', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'regdate' ) ? $lang['Registered'] : '<strong>'.$lang['Registered'].'</strong>' ) . '</a>',
+			'<a href="'.$functions->make_url('members.php', array('sortby' => 'posts', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'posts' ) ? $lang['Posts'] : '<strong>'.$lang['Posts'].'</strong>' ) . '</a>',
+		);
+		
 		$template->parse('memberlist_footer', 'memberlist', array(
-			'page_links' => $page_links
+			'page_links' => $page_links,
+			'sort_by_links' => sprintf($lang['SortBy'], join(', ', $sort_by_links))
 		));
 		
 	}

@@ -62,7 +62,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 	
 } else {
 	
-	if ( !empty($_POST['submitted']) ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		//
 		// Define missing fields
@@ -99,7 +99,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		'everything_required'  => $lang['EverythingRequired'],
 		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['EditPasswd'].'" />',
 		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'             => '<input type="hidden" name="submitted" value="true" /></form>'
+		'form_end'             => '</form>'
 	));
 	
 }

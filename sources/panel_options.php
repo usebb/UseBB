@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditOptions']);
 
-if ( !empty($_POST['submitted']) ) {
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
 	//
 	// Update the user's preferences
@@ -169,7 +169,7 @@ if ( !empty($_POST['submitted']) ) {
 		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'              => '<input type="hidden" name="submitted" value="true" /></form>'
+		'form_end'              => '</form>'
 	));
 	
 }

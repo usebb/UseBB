@@ -54,21 +54,18 @@ $templates['login_form'] = '
 		<tr>
 			<th colspan="2">{login}</th>
 		</tr>
-	<tr>
-		<td width="25%" class="td2">{user}</td>
-		<td class="td1">{user_input}<br /><small>{link_reg}</small></td>
-	</tr>
-	<tr>
-		<td width="25%" class="td2">{password}</td>
-		<td class="td1">{password_input}<br /><small>{link_sendpwd}</small></td>
-	</tr>
-	<tr>
-		<td width="25%" class="td2">{remember}</td>
-		<td class="td1">{remember_input}</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
-	</tr>
+		<tr>
+			<td class="fieldtitle">{user}</td><td>{user_input}<br /><small>{link_reg}</small></td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{password}</td><td>{password_input}<br /><small>{link_sendpwd}</small></td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{remember}</td><td>{remember_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+		</tr>
 	</table>
 	{form_end}
 ';
@@ -79,27 +76,24 @@ $templates['mail_form'] = '
 		<tr>
 			<th colspan="2">{sendemail}</th>
 		</tr>
-	<tr>
-		<td width="25%" class="td2">{from}</td>
-		<td class="td1">{from_v}</td>
-	</tr>
-	<tr>
-		<td width="25%" class="td2">{to}</td>
-		<td class="td1">{to_v}</td>
-	</tr>
-	<tr>
-		<td width="25%" class="td2">{subject}</td>
-		<td class="td1">{subject_input}</td>
-	</tr>
-	<tr>
-		<td class="td1" colspan="2">{body_input}</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="td1"><small>{everything_required}</small></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
-	</tr>
+		<tr>
+			<td class="fieldtitle">{from}</td><td>{from_v}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{to}</td><td>{to_v}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2">{body_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2"><small>{everything_required}</small></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+		</tr>
 	</table>
 	{form_end}
 ';
@@ -111,16 +105,16 @@ $templates['move_topic_form'] = '
 			<th colspan="2">{move_topic}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{topic}</td><td class="td1">{topic_v}</td>
+			<td class="fieldtitle">{topic}</td><td>{topic_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{old_forum}</td><td class="td1">{old_forum_v}</td>
+			<td class="fieldtitle">{old_forum}</td><td>{old_forum_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{new_forum}</td><td class="td1">{new_forum_input}</td>
+			<td class="fieldtitle">{new_forum}</td><td>{new_forum_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{cancel_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{cancel_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -133,17 +127,16 @@ $templates['post_form'] = '
 			<th colspan="2">{post_title}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{username}</td><td class="td1">{username_input}</td>
+			<td class="fieldtitle">{username}</td><td>{username_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{subject}</td><td class="td1">{subject_input}</td>
+			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
-			<td class="td2">{content}<br /><br /><small>{options_input}</small></td>
-			<td class="td1">{content_input}</td>
+			<td class="td2">{content}<br /><br /><small>{options_input}</small></td><td>{content_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -227,26 +220,22 @@ $templates['register_form'] = '
 			<th colspan="2">{register_form}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{user}</td>
-			<td class="td1">{user_input}</td>
+			<td class="fieldtitle">{user}</td><td>{user_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{email}</td>
-			<td class="td1">{email_input}</td>
+			<td class="fieldtitle">{email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{passwd1}</td>
-			<td class="td1">{passwd1_input}</td>
+			<td class="fieldtitle">{passwd1}</td><td>{passwd1_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{passwd2}</td>
-			<td class="td1">{passwd2_input}</td>
+			<td class="fieldtitle">{passwd2}</td><td>{passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td1"><small>{everything_required}</small></td>
+			<td colspan="2"><small>{everything_required}</small></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -259,18 +248,16 @@ $templates['sendpwd_form'] = '
 			<th colspan="2">{sendpwd}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{user}</td>
-			<td class="td1">{user_input}</td>
+			<td class="fieldtitle">{user}</td><td>{user_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{email}</td>
-			<td class="td1">{email_input}</td>
+			<td class="fieldtitle">{email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td1"><small>{everything_required}</small></td>
+			<td colspan="2"><small>{everything_required}</small></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}

@@ -188,6 +188,9 @@ fieldset {
 fieldset legend {
 	font-weight: bold;
 }
+small {
+	font-size: 8pt;
+}
 #logo {
 	float: left;
 }
@@ -335,17 +338,13 @@ table.maintable td.fieldtitle {
 	background-color: #E8E8E8;
 	width: 25%;
 }
-table.maintable td.formcontrols {
-	background-color: #E8E8E8;
-	text-align: center;
+table.msgbox td, table.confirmform td, td.msg {
+	padding: 18px 36px 18px 36px;
 }
-table.msgbox td, table.confirmform td.content, td.msg {
-	padding: 18px;
-	padding-left: 36px;
-	padding-right: 36px;
-}
-table.confirmform td.buttons {
-	background-color: #E8E8E8;
+td.formcontrols {
+	background-color: #E8E8E8 !important;
+	text-align: center !important;
+	padding: 6px !important;
 }
 .avatar {
 	margin-top: 10px;
@@ -432,10 +431,10 @@ $templates['confirm_form'] = '
 			<th>{title}</th>
 		</tr>
 		<tr>
-			<td class="content">{content}</td>
+			<td>{content}</td>
 		</tr>
 		<tr>
-			<td class="buttons">{submit_button}&nbsp;{cancel_button}</td>
+			<td class="formcontrols">{submit_button}&nbsp;{cancel_button}</td>
 		</tr>
 	</table>
 	{form_end}

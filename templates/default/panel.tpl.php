@@ -122,59 +122,46 @@ $templates['edit_options'] = '
 			<th colspan="2">{edit_options}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{language}</td>
-			<td class="td1">{language_input}</td>
+			<td class="fieldtitle">{language}</td><td>{language_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{template}</td>
-			<td class="td1">{template_input}</td>
+			<td class="fieldtitle">{template}</td><td>{template_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{email_show}</td>
-			<td class="td1">{email_show_input}</td>
+			<td class="fieldtitle">{email_show}</td><td>{email_show_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{last_login_show}</td>
-			<td class="td1">{last_login_show_input}</td>
+			<td class="fieldtitle">{last_login_show}</td><td>{last_login_show_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{hide_from_online_list}</td>
-			<td class="td1">{hide_from_online_list_input}</td>
+			<td class="fieldtitle">{hide_from_online_list}</td><td>{hide_from_online_list_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{date_format}</td>
-			<td class="td1">{date_format_input}<br /><small>{date_format_help}</small></td>
+			<td class="fieldtitle">{date_format}</td><td>{date_format_input}<br /><small>{date_format_help}</small></td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{timezone}</td>
-			<td class="td1">{timezone_input}</td>
+			<td class="fieldtitle">{timezone}</td><td>{timezone_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{dst}</td>
-			<td class="td1">{dst_input}</td>
+			<td class="fieldtitle">{dst}</td><td>{dst_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{quickreply}</td>
-			<td class="td1">{quickreply_input}</td>
+			<td class="fieldtitle">{quickreply}</td><td>{quickreply_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{return_to_topic}</td>
-			<td class="td1">{return_to_topic_input}</td>
+			<td class="fieldtitle">{return_to_topic}</td><td>{return_to_topic_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{target_blank}</td>
-			<td class="td1">{target_blank_input}</td>
+			<td class="fieldtitle">{target_blank}</td><td>{target_blank_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{hide_avatars}</td>
-			<td class="td1">{hide_avatars_input}</td>
+			<td class="fieldtitle">{hide_avatars}</td><td>{hide_avatars_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{hide_signatures}</td>
-			<td class="td1">{hide_signatures_input}</td>
+			<td class="fieldtitle">{hide_signatures}</td><td>{hide_signatures_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -187,22 +174,19 @@ $templates['editpwd_form'] = '
 			<th colspan="2">{edit_pwd}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{current_passwd}</td>
-			<td class="td1">{current_passwd_input}</td>
+			<td class="fieldtitle">{current_passwd}</td><td>{current_passwd_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{new_passwd}</td>
-			<td class="td1">{new_passwd1_input}</td>
+			<td class="fieldtitle">{new_passwd}</td><td>{new_passwd1_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{new_passwd_again}</td>
-			<td class="td1">{new_passwd2_input}</td>
+			<td class="fieldtitle">{new_passwd_again}</td><td>{new_passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td1"><small>{everything_required}</small></td>
+			<td colspan="2"><small>{everything_required}</small></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}

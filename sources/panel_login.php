@@ -121,9 +121,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// Get us back to the previous page
 		//
-		$redirect_to = $_SESSION['referer'];
-		unset($_SESSION['referer']);
-		header('Location: '.$redirect_to);
+		header('Location: '.$_SESSION['refere_to']);
 		
 	} else {
 		
@@ -146,7 +144,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	if ( !$session->sess_info['user_id'] ) {
 		
 		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
-		$_SESSION['referer'] = ( !empty($_SESSION['referer']) && !preg_match("/act=activate/", $_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
+		$_SESSION['refere_to'] = ( !empty($_SESSION['referer']) && !preg_match("/act=activate/", $_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
+		unset($_SESSION['referer']);
 		
 		if ( !empty($_POST['submitted']) ) {
 			

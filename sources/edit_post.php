@@ -30,9 +30,173 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Delete posts
+// Edit posts
 //
-if ( $_GET['act'] == 'delete' ) {
+if ( !isset($_GET['act']) ) {
+	
+	$session->update('editpost:'.$_GET['post']);
+	
+	//
+	// Get info about the post
+	//
+	if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
+		$functions->usebb_die('SQL', 'Unable to get post information!', __FILE__, __LINE__);
+	
+	if ( !$db->num_rows($result) ) {
+		
+		//
+		// This post does not exist
+		//
+		
+		//
+		// Include the page header
+		//
+		require(ROOT_PATH.'sources/page_head.php');
+		
+		$template->set_page_title($lang['Error']);
+		$template->parse('msgbox', 'global', array(
+			'box_title' => $lang['Error'],
+			'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
+		));
+		
+		//
+		// Include the page footer
+		//
+		require(ROOT_PATH.'sources/page_foot.php');
+		
+	} else {
+		
+		$postdata = $db->fetch_result($result);
+		
+		//
+		// Only if the user can edit posts
+		//
+		if ( $session->sess_info['user_id'] && $postdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) {
+			
+			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) && strlen($_POST['poster_guest']) <= $functions->get_config('username_max_length') ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
+				
+				$update_poster_guest = ( !$postdata['poster_id'] ) ? ", poster_guest = '".$_POST['poster_guest']."'" : '';
+				$enable_bbcode = ( !empty($_POST['enable_bbcode']) ) ? 1 : 0;
+				$enable_smilies = ( !empty($_POST['enable_smilies']) ) ? 1 : 0;
+				$enable_sig = ( $postdata['poster_id'] && !empty($postdata['signature']) && !empty($_POST['enable_sig']) ) ? 1 : 0;
+				$enable_html = ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) && !empty($_POST['enable_html']) ) ? 1 : 0;
+				
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."posts SET content = '".$_POST['content']."'".$update_poster_guest.", enable_bbcode = ".$enable_bbcode.", enable_smilies = ".$enable_smilies.", enable_sig = ".$enable_sig.", enable_html = ".$enable_html." WHERE id = ".$_GET['post'])) )
+					$functions->usebb_die('SQL', 'Unable to edit post!', __FILE__, __LINE__);
+				
+				if ( $postdata['first_post_id'] == $_GET['post'] ) {
+					
+					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET topic_title = '".$_POST['topic_title']."' WHERE id = ".$postdata['topic_id'])) )
+						$functions->usebb_die('SQL', 'Unable to adjust topic title!', __FILE__, __LINE__);
+					
+				}
+				
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $_GET['post']), false).'#post'.$_GET['post']);
+				
+			} else {
+				
+				//
+				// Include the page header
+				//
+				require(ROOT_PATH.'sources/page_head.php');
+				
+				$template->set_page_title($lang['EditPost']);
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.htmlentities(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlentities(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost'];
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
+				
+				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+					
+					$poster_guest = ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ? $_POST['poster_guest'] : '';
+					$topic_title = ( !empty($_POST['topic_title']) ) ? htmlentities(stripslashes($_POST['topic_title'])) : '';
+					$content = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
+					$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
+					$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
+					$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
+					$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
+					
+					$errors = array();
+					if ( ( !$postdata['poster_id'] ) && ( empty($_POST['poster_guest']) || !preg_match(USER_PREG, $_POST['poster_guest']) || strlen($_POST['poster_guest']) > $functions->get_config('username_max_length') ) )
+						$errors[] = $lang['Username'];
+					if ( $postdata['first_post_id'] == $_GET['post'] && empty($_POST['topic_title']) )
+						$errors[] = $lang['Subject'];
+					if ( empty($_POST['content']) )
+						$errors[] = $lang['Content'];
+					
+					if ( count($errors) ) {
+						
+						$template->parse('msgbox', 'global', array(
+							'box_title' => $lang['Error'],
+							'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+						));
+						
+					} elseif ( !empty($_POST['preview']) ) {
+						
+						$template->parse('msgbox', 'global', array(
+							'box_title' => $lang['Preview'],
+							'content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+						));
+						
+					}
+					
+				} else {
+					
+					$poster_guest = $postdata['poster_guest'];
+					$topic_title = htmlentities(stripslashes($postdata['topic_title']));
+					$content = htmlentities(stripslashes($postdata['content']));
+					$enable_bbcode_checked = ( $postdata['enable_bbcode'] ) ? ' checked="checked"' : '';
+					$enable_smilies_checked = ( $postdata['enable_smilies'] ) ? ' checked="checked"' : '';
+					$enable_sig_checked = ( $postdata['enable_sig'] ) ? ' checked="checked"' : '';
+					$enable_html_checked = ( $postdata['enable_html'] ) ? ' checked="checked"' : '';
+					
+				}
+				
+				$options_input = array();
+				$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';
+				$options_input[] = '<input type="checkbox" name="enable_smilies" id="enable_smilies" value="1"'.$enable_smilies_checked.' /><label for="enable_smilies"> '.$lang['EnableSmilies'].'</label>';
+				if ( $postdata['poster_id'] && !empty($postdata['signature']) )
+					$options_input[] = '<input type="checkbox" name="enable_sig" id="enable_sig" value="1"'.$enable_sig_checked.' /><label for="enable_sig"> '.$lang['EnableSig'].'</label>';
+				if ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) )
+					$options_input[] = '<input type="checkbox" name="enable_html" id="enable_html" value="1"'.$enable_html_checked.' /><label for="enable_html"> '.$lang['EnableHTML'].'</label>';
+				$options_input = join('<br />', $options_input);
+				
+				$template->parse('post_form', 'various', array(
+					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',
+					'post_title' => $lang['EditPost'],
+					'username' => $lang['Username'],
+					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.$postdata['poster_name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.$poster_guest.'" />',
+					'subject' => $lang['Subject'],
+					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlentities(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
+					'content' => $lang['Content'],
+					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$content.'</textarea>',
+					'options' => $lang['Options'],
+					'options_input' => $options_input,
+					'submit_button' => '<input type="submit" name="submit" value="'.$lang['EditPost'].'" />',
+					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
+					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
+					'form_end' => '</form>'
+				));
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
+				
+				//
+				// Include the page footer
+				//
+				require(ROOT_PATH.'sources/page_foot.php');
+				
+			}
+			
+		} else {
+			
+			$functions->redir_to_login();
+			
+		}
+		
+	}
+	
+} elseif ( $_GET['act'] == 'delete' ) {
 	
 	$session->update('deletepost:'.$_GET['post']);
 	

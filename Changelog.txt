@@ -3,15 +3,15 @@ $Header$
 UseBB 0.3 Changelog
 ------------------------------
 
+- Added feature 954754: Go to topic list if only one forum is viewable.
+- Added feature 973978: Show server load.
+- Added feature 978099: Strip off long topic names in topic list.
+- Added feature that saves the guest's username in the session.
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.
 - Fixed bug 997622: Source code compression strips newlines out of textareas.
-- Added feature 954754: Go to topic list if only one forum is viewable.
-- Added feature 973978: Show server load.
 - Fixed server load to work on some systems.
 - Fixed Undefined index: NoSuchUser on send new password page.
-- Added feature 978099: Strip off long topic names in topic list.
-- Added feature that saves the guest's username in the session.
 - Avatars now have an empty alternate text - looks better in Mozilla when image is
 	unavailable.
 - Some adjustments and upgrades to several templates.

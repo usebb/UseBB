@@ -61,6 +61,7 @@ if ( isset($lang_English) )
 // Page header
 //
 $template->parse('normal_header', 'global', array(
+	'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 	'character_encoding' => ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1',
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),

@@ -12,6 +12,7 @@ UseBB 0.4 Changelog
 - Added real name and skype profile fields.
 - Added changable password min length.
 - Added Google's rel="nofollow" for links in BBCode (globally adjustable).
+- Added text direction (dir="") settable via language file.
 - Fixed bug #331: cyrillic languages+entities.
 - Fixed bug #336: Problems on SF.net.
 - Fixed a bug where everything is marked unread as a result of session data lost.

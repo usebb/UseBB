@@ -37,6 +37,11 @@ if ( !isset($_GET['act']) ) {
 	$session->update('editpost:'.$_GET['post']);
 	
 	//
+	// Include the page header
+	//
+	require(ROOT_PATH.'sources/page_head.php');
+	
+	//
 	// Get info about the post
 	//
 	if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
@@ -48,21 +53,11 @@ if ( !isset($_GET['act']) ) {
 		// This post does not exist
 		//
 		
-		//
-		// Include the page header
-		//
-		require(ROOT_PATH.'sources/page_head.php');
-		
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
 		));
-		
-		//
-		// Include the page footer
-		//
-		require(ROOT_PATH.'sources/page_foot.php');
 		
 	} else {
 		
@@ -94,11 +89,6 @@ if ( !isset($_GET['act']) ) {
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $_GET['post']), false).'#post'.$_GET['post']);
 				
 			} else {
-				
-				//
-				// Include the page header
-				//
-				require(ROOT_PATH.'sources/page_head.php');
 				
 				$template->set_page_title($lang['EditPost']);
 				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.htmlentities(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlentities(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost'];
@@ -181,11 +171,6 @@ if ( !isset($_GET['act']) ) {
 					'location_bar' => $location_bar
 				));
 				
-				//
-				// Include the page footer
-				//
-				require(ROOT_PATH.'sources/page_foot.php');
-				
 			}
 			
 		} else {
@@ -196,9 +181,19 @@ if ( !isset($_GET['act']) ) {
 		
 	}
 	
+	//
+	// Include the page footer
+	//
+	require(ROOT_PATH.'sources/page_foot.php');
+	
 } elseif ( $_GET['act'] == 'delete' ) {
 	
 	$session->update('deletepost:'.$_GET['post']);
+	
+	//
+	// Include the page header
+	//
+	require(ROOT_PATH.'sources/page_head.php');
 	
 	//
 	// Get info about the post
@@ -212,21 +207,11 @@ if ( !isset($_GET['act']) ) {
 		// This post does not exist
 		//
 		
-		//
-		// Include the page header
-		//
-		require(ROOT_PATH.'sources/page_head.php');
-		
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
 		));
-		
-		//
-		// Include the page footer
-		//
-		require(ROOT_PATH.'sources/page_foot.php');
 		
 	} else {
 		
@@ -377,11 +362,6 @@ if ( !isset($_GET['act']) ) {
 				
 			} else {
 				
-				//
-				// Include the page header
-				//
-				require(ROOT_PATH.'sources/page_head.php');
-				
 				$template->set_page_title($lang['DeletePost']);
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'], 'act' => 'delete')).'" method="post">',
@@ -392,11 +372,6 @@ if ( !isset($_GET['act']) ) {
 					'form_end' => '</form>'
 				));
 				
-				//
-				// Include the page footer
-				//
-				require(ROOT_PATH.'sources/page_foot.php');
-				
 			}
 			
 		} else {
@@ -406,6 +381,11 @@ if ( !isset($_GET['act']) ) {
 		}
 		
 	}
+	
+	//
+	// Include the page footer
+	//
+	require(ROOT_PATH.'sources/page_foot.php');
 	
 }
 

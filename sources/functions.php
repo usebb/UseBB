@@ -283,7 +283,7 @@ class functions {
 	//
 	function redir_to_login() {
 		
-		global $session, $template, $lang;
+		global $session, $template, $lang, $functions;
 		
 		if ( !$session->sess_info['user_id'] ) {
 			

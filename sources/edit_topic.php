@@ -37,6 +37,11 @@ if ( $_GET['act'] == 'delete' ) {
 	$session->update('deletetopic:'.$_GET['topic']);
 	
 	//
+	// Include the page header
+	//
+	require(ROOT_PATH.'sources/page_head.php');
+	
+	//
 	// Get info about the topic
 	//
 	if ( !($result = $db->query("SELECT t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic'])) )
@@ -48,21 +53,11 @@ if ( $_GET['act'] == 'delete' ) {
 		// This topic does not exist
 		//
 		
-		//
-		// Include the page header
-		//
-		require(ROOT_PATH.'sources/page_head.php');
-		
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
 		));
-		
-		//
-		// Include the page footer
-		//
-		require(ROOT_PATH.'sources/page_foot.php');
 		
 	} else {
 		
@@ -171,11 +166,6 @@ if ( $_GET['act'] == 'delete' ) {
 				
 			} else {
 				
-				//
-				// Include the page header
-				//
-				require(ROOT_PATH.'sources/page_head.php');
-				
 				$template->set_page_title($lang['DeleteTopic']);
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
@@ -185,11 +175,6 @@ if ( $_GET['act'] == 'delete' ) {
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'
 				));
-				
-				//
-				// Include the page footer
-				//
-				require(ROOT_PATH.'sources/page_foot.php');
 				
 			}
 			
@@ -201,6 +186,11 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	}
 	
+	//
+	// Include the page footer
+	//
+	require(ROOT_PATH.'sources/page_foot.php');
+	
 } elseif ( $_GET['act'] == 'move' ) {
 	
 	//
@@ -208,6 +198,11 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	
 	$session->update('movetopic:'.$_GET['topic']);
+	
+	//
+	// Include the page header
+	//
+	require(ROOT_PATH.'sources/page_head.php');
 	
 	//
 	// Get topic information
@@ -221,21 +216,11 @@ if ( $_GET['act'] == 'delete' ) {
 		// I didn't see that topic!?
 		//
 		
-		//
-		// Include the page header
-		//
-		require(ROOT_PATH.'sources/page_head.php');
-		
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
 		));
-		
-		//
-		// Include the page footer
-		//
-		require(ROOT_PATH.'sources/page_foot.php');
 		
 	} else {
 		
@@ -330,11 +315,6 @@ if ( $_GET['act'] == 'delete' ) {
 				
 			} else {
 				
-				//
-				// Include the page header
-				//
-				require(ROOT_PATH.'sources/page_head.php');
-				
 				$template->set_page_title($lang['MoveTopic']);
 				
 				if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
@@ -387,11 +367,6 @@ if ( $_GET['act'] == 'delete' ) {
 					'form_end' => '</form>'
 				));
 				
-				//
-				// Include the page footer
-				//
-				require(ROOT_PATH.'sources/page_foot.php');
-				
 			}
 			
 		} else {
@@ -401,6 +376,11 @@ if ( $_GET['act'] == 'delete' ) {
 		}
 		
 	}
+	
+	//
+	// Include the page footer
+	//
+	require(ROOT_PATH.'sources/page_foot.php');
 	
 } elseif ( $_GET['act'] == 'lock' ) {
 	
@@ -421,7 +401,17 @@ if ( $_GET['act'] == 'delete' ) {
 		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'lock', $topicdata['id']) ) {
 			
+			//
+			// Include the page header
+			//
+			require(ROOT_PATH.'sources/page_head.php');
+			
 			$functions->redir_to_login();
+			
+			//
+			// Include the page footer
+			//
+			require(ROOT_PATH.'sources/page_foot.php');
 			
 		} else {
 			
@@ -461,7 +451,17 @@ if ( $_GET['act'] == 'delete' ) {
 		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'lock', $topicdata['id']) ) {
 			
+			//
+			// Include the page header
+			//
+			require(ROOT_PATH.'sources/page_head.php');
+			
 			$functions->redir_to_login();
+			
+			//
+			// Include the page footer
+			//
+			require(ROOT_PATH.'sources/page_foot.php');
 			
 		} else {
 			
@@ -501,7 +501,17 @@ if ( $_GET['act'] == 'delete' ) {
 		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'sticky', $topicdata['id']) ) {
 			
+			//
+			// Include the page header
+			//
+			require(ROOT_PATH.'sources/page_head.php');
+			
 			$functions->redir_to_login();
+			
+			//
+			// Include the page footer
+			//
+			require(ROOT_PATH.'sources/page_foot.php');
 			
 		} else {
 			
@@ -542,7 +552,17 @@ if ( $_GET['act'] == 'delete' ) {
 		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'sticky', $topicdata['id']) ) {
 			
+			//
+			// Include the page header
+			//
+			require(ROOT_PATH.'sources/page_head.php');
+			
 			$functions->redir_to_login();
+			
+			//
+			// Include the page footer
+			//
+			require(ROOT_PATH.'sources/page_foot.php');
 			
 		} else {
 			

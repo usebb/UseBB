@@ -16,6 +16,7 @@ UseBB 0.4 Changelog
 - Added Google's rel="nofollow" for links in BBCode (globally adjustable).
 - Added text direction (dir="") settable via language file.
 - Added "do not increase post count" feature settable per forum.
+- Added smiley graphics.
 - Fixed bug #331: cyrillic languages+entities.
 - Fixed bug #336: Problems on SF.net.
 - Fixed a bug where everything is marked unread as a result of session data lost.

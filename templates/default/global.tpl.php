@@ -61,6 +61,26 @@ $templates['config'] = array(
 	'quick_reply_textarea_cols'			=> '60',
 	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
+	'smilies' => array(
+		':)' => 'smile.gif',
+		';)' => 'wink.gif',
+		':D' => 'biggrin.gif',
+		'8)' => 'cool.gif',
+		':P' => 'razz.gif',
+		':o' => 'surprised.gif',
+		':?' => 'confused.gif',
+		':(' => 'sad.gif',
+		':x' => 'mad.gif',
+		':|' => 'neutral.gif',
+		':\'(' => 'cry.gif',
+		':lol:' => 'lol.gif',
+		':mrgreen:' => 'mrgreen.gif',
+		':oops:' => 'redface.gif',
+		':shock:' => 'eek.gif',
+		':roll:' => 'rolleyes.gif',
+		':evil:' => 'evil.gif',
+		':twisted:' => 'twisted.gif',
+	)
 );
 
 //

@@ -779,6 +779,13 @@ class functions {
 		if ( !$html )
 			$string = htmlspecialchars($string);
 		
+		if ( $smilies ) {
+			
+			foreach ( $template->get_config('smilies') as $key => $val )
+				$string = str_replace($key, '<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />', $string);
+			
+		}
+		
 		if ( $bbcode ) {
 			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
@@ -803,18 +810,28 @@ class functions {
 							
 							if ( preg_match('#\[/code\]#is', $string_part2) ) {
 								
-								if ( $i < $end_tags_count )
-									$string_part .= preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2);
-								else
+								if ( $i < $end_tags_count ) {
+									
+									$string_part .= preg_replace('#<img src="(.*?)" alt="(.*?)" />#', '\\2', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									
+								} else {
+									
 									$string_part .= $string_part2;
+									
+								}
 								$i++;
 								
 							} else {
 								
-								if ( $i === $end_tags_count )
-									$string_part .= preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2);
-								else
+								if ( $i === $end_tags_count ) {
+									
+									$string_part .= preg_replace('#<img src="(.*?)" alt="(.*?)" />#', '\\2', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									
+								} else {
+									
 									$string_part .= $string_part2;
+									
+								}
 								
 							}
 							

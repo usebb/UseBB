@@ -133,7 +133,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo 'The database settings are OK!';
+		echo '<p>The database settings are OK!</p>';
 		echo to_step(3);
 		
 	}

@@ -91,7 +91,6 @@ if ( !$functions->get_stats('topics') ) {
 		$template->set_page_title($lang['ActiveTopics']);
 		
 		$template->parse('topiclist_header', 'activetopics', array(
-			'active_topics' => '<a href="'.$functions->make_url('active.php').'">'.$lang['ActiveTopics'].'</a>',
 			'topic' => $lang['Topic'],
 			'forum' => $lang['Forum'],
 			'author' => $lang['Author'],

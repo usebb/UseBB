@@ -9,6 +9,7 @@ UseBB 0.4 Changelog
 - Added changable password min length.
 - Added block when lower leveled tries to edit posts of higher leveled.
 - Added topic subscription feature + subscriptions overview in panel.
+- Added detailed online list.
 - Fixed bug #336: Problems on SF.net.
 - Fixed bug #331: cyrillic languages+entities.
 - Fixed a bug where everything is marked unread as a result of session data lost.

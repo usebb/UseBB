@@ -262,7 +262,7 @@ class functions {
 	//
 	function make_url($filename, $vars=array(), $html=true) {
 		
-		if ( $this->get_config('friendly_urls') && in_array($filename, array('index.php', 'panel.php', 'faq.php', 'search.php', 'active.php', 'forum.php', 'topic.php', 'profile.php', 'post.php', 'edit.php')) ) {
+		if ( $this->get_config('friendly_urls') && in_array($filename, array('index.php', 'panel.php', 'faq.php', 'search.php', 'active.php', 'forum.php', 'topic.php', 'profile.php', 'post.php', 'edit.php', 'online.php')) ) {
 			
 			$url = str_replace('.php', '', $filename);
 			foreach ( $vars as $key => $val ) {
@@ -974,7 +974,7 @@ class functions {
 	//
 	function forum_stats_box() {
 		
-		global $db, $template, $lang;
+		global $db, $template, $lang, $session;
 		
 		//
 		// Timestamp for defining last updated sessions
@@ -1018,40 +1018,15 @@ class functions {
 		}
 		
 		//
-		// Online list
-		//
-		if ( !$this->get_config('enable_detailed_online_list') || ( !$this->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
-			$online_list_link = '';
-		else
-			$online_list_link = '<a href="'.$this->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
-		
-		//
-		// Members online
-		//
-		if ( count($online_members) ) {
-			
-			$members_online = join(', ', $online_members);
-			if ( !empty($online_list_link) )
-				$members_online = $online_list_link.' '.$template->get_config('item_delimiter').' '.$members_online;
-			
-		} else {
-			
-			$members_online = '';
-			if ( !empty($online_list_link) )
-				$members_online .= $online_list_link;
-			
-		}
-		
-		//
 		// Parse the online box
 		//
 		$template->parse('forum_stats_box', 'various', array(
 			'stats_title' => $lang['Statistics'],
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.htmlentities(stripslashes(next($this->get_stats('latest_member')))).'</a>'),
-			'online_title' => $lang['OnlineUsers'],
 			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
-			'members_online' => $members_online
+			'members_online' => ( count($online_members) ) ? join(', ', $online_members) : '',
+			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && ( $this->get_config('guests_can_view_detailed_online_list') || $session->sess_info['user_id'] ) ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
 		));
 		
 	}

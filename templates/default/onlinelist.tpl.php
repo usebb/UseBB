@@ -30,35 +30,27 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Topic list templates
+// Online list templates
 //
 
-$templates['topiclist_header'] = '
+$templates['onlinelist_header'] = '
 	<table class="maintable">
 		<tr>
-			<th></th>
-			<th>{forum}</th>
-			<th>{topic}</th>
-			<th>{author}</th>
-			<th>{replies}</th>
-			<th>{views}</th>
-			<th>{latest_post}</th>
+			<th>{username}</th>
+			<th>{location}</th>
+			<th>{last_update}</th>
 		</tr>
 ';
 
-$templates['topiclist_topic'] = '
+$templates['onlinelist_user'] = '
 		<tr>
-			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td class="atforum">{forum}</td>
-			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
-			<td class="author">{author}</td>
-			<td class="count">{replies}</td>
-			<td class="count">{views}</td>
-			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
+			<td>{username}</td>
+			<td>{location}</td>
+			<td>{last_update}</td>
 		</tr>
 ';
 
-$templates['topiclist_footer'] = '
+$templates['onlinelist_footer'] = '
 	</table>
 ';
 

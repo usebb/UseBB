@@ -387,7 +387,7 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Lock topics
 	//
-	$session->update('locktopic:'.$_GET['topic']);
+	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
@@ -437,7 +437,7 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Unlock topics
 	//
-	$session->update('unlocktopic:'.$_GET['topic']);
+	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
@@ -487,7 +487,7 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Sticky topics
 	//
-	$session->update('stickytopic:'.$_GET['topic']);
+	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
@@ -538,7 +538,7 @@ if ( $_GET['act'] == 'delete' ) {
 	// "Unsticky" topics
 	// -does that word exist?-
 	//
-	$session->update('unstickytopic:'.$_GET['topic']);
+	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);

@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Page footer
 //
 $link_bar = array();
-/*if ( $functions->get_user_level() == 3 )
+if ( $functions->get_user_level() == 3 )
 	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
 if ( $functions->get_config('enable_memberlist') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
@@ -42,7 +42,7 @@ if ( $functions->get_config('enable_stafflist') )
 if ( $functions->get_config('enable_rss') )
 	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 if ( $functions->get_config('enable_stats') )
-	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';*/
+	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 if ( $functions->get_config('enable_contactadmin') )
 	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
 
@@ -54,7 +54,7 @@ if ( $functions->get_config('enable_contactadmin') )
 #####
 
 $template->parse('normal_footer', 'global', array(
-	'link_bar' => ( count($link_bar) > 0 ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
+	'link_bar' => ( count($link_bar) ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
 	'usebb_version' => USEBB_VERSION
 ));
 

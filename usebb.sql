@@ -83,7 +83,7 @@ INSERT INTO usebb_config VALUES ('guests_can_access_board', '1');
 INSERT INTO usebb_config VALUES ('email_view_level', '1');
 INSERT INTO usebb_config VALUES ('view_hidden_email_addresses_min_level', '3');
 INSERT INTO usebb_config VALUES ('guests_can_view_online_list', '1');
-INSERT INTO usebb_config VALUES ('enable_online_list', '1');
+INSERT INTO usebb_config VALUES ('enable_online_list', '0');
 
 # --------------------------------------------------------
 
@@ -326,6 +326,27 @@ CREATE TABLE usebb_sessions (
 # Dumping data for table `usebb_sessions`
 #
 
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `usebb_stats`
+#
+
+CREATE TABLE usebb_stats (
+  name varchar(255) NOT NULL default '',
+  content text NOT NULL,
+  PRIMARY KEY  (name)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `usebb_stats`
+#
+
+INSERT INTO usebb_stats VALUES ('forums', '0');
+INSERT INTO usebb_stats VALUES ('topics', '0');
+INSERT INTO usebb_stats VALUES ('posts', '0');
+INSERT INTO usebb_stats VALUES ('members', '0');
 
 # --------------------------------------------------------
 

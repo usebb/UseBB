@@ -932,7 +932,7 @@ class functions {
 		$out = '';
 		foreach ( $smilies_unique as $img => $pattern ) {
 			
-			$out .= '<a href="javascript:insert_tags(\'\', \' '.addslashes(unhtml($pattern)).' \', \'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
+			$out .= '<a href="javascript:insert_smiley(\' '.addslashes(unhtml($pattern)).' \')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 			
 		}
 		

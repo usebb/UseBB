@@ -21,15 +21,16 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/*
-	Apply BBCode and smilies to selection.
-	
-	This function is borrowed from DokuWiki. Uses portions of code by:
-	- phpBB development team
-	- MediaWiki development team
-	- Andreas Gohr <andi@splitbrain.org>
-	- Jim Raynor <jim_raynor@web.de>
-*/
+//
+//	Apply BBCode and smilies to selection.
+//	
+//	This function is borrowed from DokuWiki. Uses portions of code by:
+//	- phpBB development team
+//	- MediaWiki development team
+//	- Andreas Gohr <andi@splitbrain.org>
+//	- Jim Raynor <jim_raynor@web.de>
+//
+
 function insert_tags(tagOpen, tagClose, sampleText) {
 	var txtarea = document.postform.content;
 	// IE
@@ -111,4 +112,11 @@ function insert_tags(tagOpen, tagClose, sampleText) {
 	}
 	// reposition cursor if possible
 	if (txtarea.createTextRange) txtarea.caretPos = document.selection.createRange().duplicate();
+}
+
+//
+// Shortcut for smiley adding code
+//
+function insert_smiley(code) {
+	insert_tags('', code, '');
 }

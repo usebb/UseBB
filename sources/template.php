@@ -55,12 +55,14 @@ class template {
 	//
 	// Add a template request and variables to the $requests var
 	//
-	function parse($name, $vars='') {
+	function parse($name, $vars=array()) {
 		
 		global $functions;
 		
 		if ( !in_array($name, $this->needed) )
 			$this->needed[] = $name;
+		
+		$vars = ( !is_array($vars) ) ? array() : $vars;
 		
 		$vars['img_dir'] = 'gfx/'.$functions->get_config('template').'/';
 		$vars['lang'] = $functions->get_config('language');
@@ -74,8 +76,12 @@ class template {
 	
 	function set_page_title($title) {
 		
-		foreach ( $this->requests as $key => $val )
-			$this->requests[$key]['vars']['page_title'] = $title;
+		foreach ( $this->requests as $key => $val ) {
+			
+			if ( is_array($this->requests[$key]['vars']) )
+				$this->requests[$key]['vars']['page_title'] = $title;
+			
+		}
 		
 	}
 	
@@ -107,7 +113,7 @@ class template {
 			//
 			// When variables has been passed
 			//
-			if ( !empty($request['vars']) ) {
+			if ( is_array($request['vars']) && count($request['vars']) > 0 ) {
 				
 				//
 				// Parse the variables and add it to the body

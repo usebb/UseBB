@@ -81,7 +81,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<h2 id="boarddescr">{board_descr}</h2>
 	
 	<div id="topmenu"><ul>
-		<li><a href="{link_home}">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li id="logout"><a href="{link_log_inout}">{log_inout}</a></li>
+		<li><a href="{link_home}">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
 	</ul></div>
 	<div id="topmenu-shadow"></div>
 ';
@@ -226,7 +226,7 @@ h2#boarddescr {
 	line-height: 30px !important;
 }
 #topmenu * {
-	text-align: right;
+	text-align: left;
 }
 #topmenu {
 	float: left;
@@ -242,10 +242,7 @@ h2#boarddescr {
 	list-style: none;
 }
 #topmenu ul li {
-	float: left;
-}
-#topmenu ul li#logout {
-	float: none;
+	display: inline;
 }
 #topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover {
 	text-decoration: none;
@@ -346,7 +343,7 @@ table.maintable td.lastpostinfo {
 }
 table.maintable td.icon {
 	background-color: #E8E8E8;
-	width: 1%;
+	width: 1px;
 }
 
 /* Forumlist styles */
@@ -386,7 +383,7 @@ table.maintable td .forumdescr {
 	margin: 0px 0px 6px 0px;
 }
 #pagelinkstop {
-	text-align: left;
+	float: left;
 	line-height: 23px;
 	font-weight: bold;
 	margin: 0px 0px 6px 0px;
@@ -400,7 +397,7 @@ table.maintable td .forumdescr {
 	margin: -14px 0px 20px 0px;
 }
 #pagelinksbottom {
-	text-align: left;
+	float: left;
 	line-height: 23px;
 	font-weight: bold;
 	margin: -14px 0px 20px 0px;
@@ -460,8 +457,10 @@ table.maintable td.postcontent .signature {
 	color: #444444;
 }
 table.maintable tr.postseperator td {
+	font-size: 0pt;
 	background-color: #D8D8D8;
-	padding: 2px;
+	padding: 0px;
+	height: 4px;
 }
 table.maintable td.actionlinks {
 	background-color: #E8E8E8;

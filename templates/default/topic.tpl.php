@@ -68,7 +68,7 @@ $templates['topic_post'] = '
 			</td>
 		</tr>
 		<tr class="postseperator">
-			<td colspan="2"></td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 ';
 

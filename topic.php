@@ -176,7 +176,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
-			$i = ( $page - 1 ) * $functions->get_config('posts_per_page');
+			$i = (( $page - 1 ) * $functions->get_config('posts_per_page') - 1);
 			
 			while ( $postsdata = $db->fetch_result($result) ) {
 				

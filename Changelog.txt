@@ -1,4 +1,9 @@
-$Id$
+$Header$
+
+UseBB 0.2 Changelog
+------------------------------
+
+- Password edit form now requests current password.
 
 UseBB 0.1.1 Changelog
 ------------------------------

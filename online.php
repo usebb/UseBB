@@ -38,7 +38,7 @@ $session->update('onlinelist');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-if ( $functions->get_config('enable_detailed_online_list') && ( $functions->get_config('guests_can_view_detailed_online_list') || $session->sess_info['user_id'] ) ) {
+if ( $functions->get_config('enable_detailed_online_list') && $functions->get_user_level() >= $functions->get_config('view_detailed_online_list_min_level') ) {
 	
 	$min_updated = time() - ( $functions->get_config('online_min_updated') * 60 );
 	
@@ -132,109 +132,108 @@ if ( $functions->get_config('enable_detailed_online_list') && ( $functions->get_
 	
 	foreach ( $sessions as $sessiondata ) {
 		
-		if ( !$sessiondata['hide_from_online_list'] || $functions->get_user_level() == 3 ) {
+		if ( !$sessiondata['hide_from_online_list'] || $functions->get_user_level() == 3 )
+			continue;
 		
-			if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
-				continue;
+		if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
+			continue;
+		
+		if ( !$sessiondata['user_id'] && in_array($sessiondata['ip_addr'], $seen_ips) )
+			continue;
+		
+		$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['name'], $sessiondata['level']) : $lang['Guest'];
+		
+		if ( $functions->get_user_level() == 3 )
+			$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';
+		
+		switch ( $sessiondata['location'] ) {
 			
-			if ( !$sessiondata['user_id'] && in_array($sessiondata['ip_addr'], $seen_ips) )
-				continue;
-			
-			$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['name'], $sessiondata['level']) : $lang['Guest'];
-			
-			if ( $functions->get_user_level() == 3 )
-				$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';
-			
-			switch ( $sessiondata['location'] ) {
-				
-				case 'index':
-					$location = '<a href="'.$functions->make_url('index.php').'">'.$lang['ForumIndex'].'</a>';
-					break;
-				case 'panel_home':
-					$location = '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>';
-					break;
-				case 'editprofile':
-					$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>';
-					break;
-				case 'editoptions':
-					$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>';
-					break;
-				case 'editpwd':
-					$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>';
-					break;
-				case 'subscriptions':
-					$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">'.$lang['Subscriptions'].'</a>';
-					break;
-				case 'faq':
-					$location = '<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>';
-					break;
-				case 'search':
-					$location = '<a href="'.$functions->make_url('search.php').'">'.$lang['Search'].'</a>';
-					break;
-				case 'activetopics':
-					$location = '<a href="'.$functions->make_url('active.php').'">'.$lang['ActiveTopics'].'</a>';
-					break;
-				case 'login':
-					$location = $lang['LogIn'];
-					break;
-				case 'logout':
-					$location = $lang['LogOut'];
-					break;
-				case 'register':
-					$location = $lang['Register'];
-					break;
-				case 'activate':
-					$location = $lang['Activate'];
-					break;
-				case 'sendpwd':
-					$location = $lang['SendPassword'];
-					break;
-				case 'onlinelist':
-					$location = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
-					break;
-				
-			}
-			
-			if ( empty($location) ) {
-				
-				if ( preg_match('#^forum:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
-					$location = '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>';
-				elseif ( preg_match('#^posttopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
-					$location = sprintf($lang['PostingTopic'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^topic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-					$location = '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>';
-				elseif ( preg_match('#^reply:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-					$location = sprintf($lang['PostingReply'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^movetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-					$location = sprintf($lang['MovingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^deletetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-					$location = sprintf($lang['DeletingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^editpost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
-					$location = sprintf($lang['EditingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^deletepost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
-					$location = sprintf($lang['DeletingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^profile:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
-					$location = sprintf($lang['Profile'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
-				elseif ( preg_match('#^sendemail:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
-					$location = sprintf($lang['SendEmail'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
-				else
-					$location = $lang['Unknown'];
-				
-			}
-			
-			$template->parse('onlinelist_user', 'onlinelist', array(
-				'username' => $username,
-				'location' => $location,
-				'last_update' => $functions->make_date($sessiondata['updated']),
-			));
-			
-			if ( $sessiondata['user_id'] )
-				$seen_members[] = $sessiondata['user_id'];
-			else
-				$seen_ips[] = $sessiondata['ip_addr'];
-			unset($location);
+			case 'index':
+				$location = '<a href="'.$functions->make_url('index.php').'">'.$lang['ForumIndex'].'</a>';
+				break;
+			case 'panel_home':
+				$location = '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>';
+				break;
+			case 'editprofile':
+				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>';
+				break;
+			case 'editoptions':
+				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>';
+				break;
+			case 'editpwd':
+				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>';
+				break;
+			case 'subscriptions':
+				$location = '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">'.$lang['Subscriptions'].'</a>';
+				break;
+			case 'faq':
+				$location = '<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>';
+				break;
+			case 'search':
+				$location = '<a href="'.$functions->make_url('search.php').'">'.$lang['Search'].'</a>';
+				break;
+			case 'activetopics':
+				$location = '<a href="'.$functions->make_url('active.php').'">'.$lang['ActiveTopics'].'</a>';
+				break;
+			case 'login':
+				$location = $lang['LogIn'];
+				break;
+			case 'logout':
+				$location = $lang['LogOut'];
+				break;
+			case 'register':
+				$location = $lang['Register'];
+				break;
+			case 'activate':
+				$location = $lang['Activate'];
+				break;
+			case 'sendpwd':
+				$location = $lang['SendPassword'];
+				break;
+			case 'onlinelist':
+				$location = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
+				break;
 			
 		}
+		
+		if ( empty($location) ) {
+			
+			if ( preg_match('#^forum:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
+				$location = '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>';
+			elseif ( preg_match('#^posttopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
+				$location = sprintf($lang['PostingTopic'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^topic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
+				$location = '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>';
+			elseif ( preg_match('#^reply:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
+				$location = sprintf($lang['PostingReply'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^movetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
+				$location = sprintf($lang['MovingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^deletetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
+				$location = sprintf($lang['DeletingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^editpost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
+				$location = sprintf($lang['EditingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^deletepost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
+				$location = sprintf($lang['DeletingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^profile:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
+				$location = sprintf($lang['Profile'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^sendemail:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
+				$location = sprintf($lang['SendEmail'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
+			else
+				$location = $lang['Unknown'];
+			
+		}
+		
+		$template->parse('onlinelist_user', 'onlinelist', array(
+			'username' => $username,
+			'location' => $location,
+			'last_update' => $functions->make_date($sessiondata['updated']),
+		));
+		
+		if ( $sessiondata['user_id'] )
+			$seen_members[] = $sessiondata['user_id'];
+		else
+			$seen_ips[] = $sessiondata['ip_addr'];
+		unset($location);
 		
 	}
 	

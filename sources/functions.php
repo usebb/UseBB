@@ -1026,7 +1026,7 @@ class functions {
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.htmlentities(stripslashes(next($this->get_stats('latest_member')))).'</a>'),
 			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
 			'members_online' => ( count($online_members) ) ? join(', ', $online_members) : '',
-			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && ( $this->get_config('guests_can_view_detailed_online_list') || $session->sess_info['user_id'] ) ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
+			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
 		));
 		
 	}

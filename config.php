@@ -77,7 +77,6 @@ $conf['enable_stafflist'] = 1;
 $conf['enable_stats'] = 1;
 $conf['friendly_urls'] = 1;
 $conf['guests_can_access_board'] = 1;
-$conf['guests_can_view_detailed_online_list'] = 1;
 $conf['guests_can_view_profiles'] = 1;
 $conf['hide_avatars'] = 0;
 $conf['hide_signatures'] = 0;
@@ -100,6 +99,7 @@ $conf['timezone'] = 0;
 $conf['topics_per_page'] = 25;
 $conf['username_max_length'] = 25;
 $conf['users_must_activate'] = 1;
+$conf['view_detailed_online_list_min_level'] = 3;
 $conf['view_hidden_email_addresses_min_level'] = 3;
 
 ?>

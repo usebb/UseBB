@@ -34,19 +34,19 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['forumlist_header'] = '
+';
+
+$templates['forumlist_cat_header'] = '
 	<table class="maintable">
+		<tr>
+			<td colspan="5" class="forumcat"><small>&raquo;</small> {cat_name}</td>
+		</tr>
 		<tr class="tablehead">
 			<th></th>
 			<th>{forum}</th>
 			<th>{topics}</th>
 			<th>{posts}</th>
 			<th nowrap="nowrap">{latest_post}</th>
-		</tr>
-';
-
-$templates['forumlist_cat'] = '
-		<tr>
-			<td colspan="5" class="forumcat"><small>&raquo;</small> {cat_name}</td>
 		</tr>
 ';
 
@@ -60,8 +60,11 @@ $templates['forumlist_forum'] = '
 		</tr>
 ';
 
-$templates['forumlist_footer'] = '
+$templates['forumlist_cat_footer'] = '
 	</table>
+';
+
+$templates['forumlist_footer'] = '
 ';
 
 $templates['forumlist_stats'] = '

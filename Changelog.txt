@@ -11,6 +11,7 @@ UseBB 0.3 Changelog
 - Added feature that saves the guest's username in the session.
 - Avatars now have an empty alternate text - looks better in Mozilla when image is
 	unavailable.
+- Some adjustments to several templates.
 
 UseBB 0.2.3 Changelog
 ------------------------------

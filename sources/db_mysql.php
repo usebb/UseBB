@@ -3,6 +3,8 @@
 /*
     Copyright (C) 2003-2004 UseBB Team
 	http://usebb.sourceforge.net
+	
+	$Header$
 
 	This file is part of UseBB.
 

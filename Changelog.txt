@@ -1,0 +1,11 @@
+$Id$
+
+UseBB 0.1.1 Changelog
+------------------------------
+
+- Fixed uninitialized arrays error in sources/template.php on Win32.
+- Fixed buggy guests count on index.php.
+- Fixed bug causes admins not seeing hidden e-mail addresses.
+- Fixed broken ICQ status icon when no ICQ number is given.
+- Added CVS Header keywords to php files.
+- Cosmetic changes with spaces that should be tabs in php files.

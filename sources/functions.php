@@ -583,6 +583,9 @@ class functions {
 		
 	}
 	
+	//
+	// Return a list of moderators, clickable and seperated with commas
+	//
 	function get_mods_list($forum) {
 		
 		global $db, $lang;
@@ -615,6 +618,44 @@ class functions {
 			return join(', ', $forum_moderators);
 			
 		}
+		
+	}
+	
+	//
+	// Return a clickable list of pages
+	//
+	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val) {
+		
+		global $lang;
+		
+		if ( intval($items_number) > intval($items_per_page) ) {
+			
+			$page_links = array();
+				
+			if ( $current_page > 1 )
+				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&laquo;</a>';
+			
+			for ( $i = 1; $i <= $pages_number; $i++ ) {
+				
+				if ( $current_page != $i )
+					$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $i)).'">'.$i.'</a>';
+				else
+					$page_links[] = $i;
+				
+			}
+				
+			if ( $current_page < $pages_number )
+				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page+1)).'">&raquo;</a>';
+				
+			$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
+			
+		} else {
+			
+			$page_links = sprintf($lang['PageLinks'], '1');
+			
+		}
+		
+		return $page_links;
 		
 	}
 	

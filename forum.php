@@ -91,33 +91,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
 			$limit_end = $functions->get_config('topics_per_page');
-			
-			if ( intval($forumdata['topics']) > $functions->get_config('topics_per_page') ) {
-				
-				$page_links = array();
-					
-				if ( $page > 1 )
-					$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'page' => $page-1)).'">&laquo;</a>';
-				
-				for ( $i = 1; $i <= $numpages; $i++ ) {
-					
-					if ( $page != $i )
-						$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'page' => $i)).'">'.$i.'</a>';
-					else
-						$page_links[] = $i;
-					
-				}
-					
-				if ( $page < $numpages )
-					$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'page' => $page+1)).'">&raquo;</a>';
-				
-				$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
-				
-			} else {
-				
-				$page_links = sprintf($lang['PageLinks'], '1');
-				
-			}
+			$page_links = $functions->make_page_links($numpages, $page, $forumdata['topics'], $functions->get_config('topics_per_page'), 'forum.php', $_GET['id']);
 			
 			//
 			// Output the topic list

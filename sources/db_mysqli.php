@@ -41,7 +41,7 @@ class db {
 	// Variables in this class
 	//
 	var $connection;
-	var $queries;
+	var $queries = array();
 	
 	//
 	// Make a connection to the MySQL server
@@ -61,11 +61,6 @@ class db {
 		if ( !(@mysqli_select_db($config['dbname'], $this->connection)) )
 			$functions->usebb_die('General', 'Unable to connect to the database!', __FILE__, __LINE__);
 		
-		//
-		// Initialize used queries array
-		//
-		$this->queries = array();
-		
 	}
 	
 	//
@@ -75,8 +70,7 @@ class db {
 		
 		$add_query = preg_replace("/\s+/", ' ', $query);
 		$this->queries[] = $add_query;
-		$result = @mysqli_query($query, $this->connection);
-		return $result;
+		return @mysqli_query($query, $this->connection);
 		
 	}
 	
@@ -85,8 +79,7 @@ class db {
 	//
 	function fetch_result($result) {
 		
-		$out = mysqli_fetch_array($result, MYSQL_ASSOC);
-		return $out;
+		return mysqli_fetch_array($result, MYSQL_ASSOC);
 		
 	}
 	
@@ -95,8 +88,7 @@ class db {
 	//
 	function num_rows($result) {
 		
-		$out = mysqli_num_rows($result);
-		return $out;
+		return mysqli_num_rows($result);
 		
 	}
 	
@@ -105,8 +97,7 @@ class db {
 	//
 	function last_id() {
 		
-		$id = mysqli_insert_id($this->connection);
-		return $id;
+		return mysqli_insert_id($this->connection);
 		
 	}
 	

@@ -750,15 +750,16 @@ class functions {
 			//
 			// Encode [ and ] in code tags first then parse them
 			//
-			$matches = 0;
-			preg_match_all("#\[code](.*?)\[/code\]#is", $string, $matches);
-			foreach ( $matches[1] as $oldpart ) {
+			preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
+			foreach ( $matches[0] as $oldpart ) {
 				
 				$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
+				$newpart = str_replace('&#91;code&#93;', '[code]', $newpart);
+				$newpart = str_replace('&#91;/code&#93;', '[/code]', $newpart);
 				$string = str_replace($oldpart, $newpart, $string);
 				
 			}
-			$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
+			$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			
 			//
 			// All kinds of regexps

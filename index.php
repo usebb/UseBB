@@ -260,8 +260,8 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 		// Guests will only be counted per IP address
 		//
 		
-		if ( !in_array($onlinedata['ip_addr'], $online_guests) )
-			$online_guests[$onlinedata['ip_addr']] = $onlinedata['ip_addr'];
+		if ( !isset($online_guests[$onlinedata['ip_addr']]) )
+			$online_guests[$onlinedata['ip_addr']] = TRUE;
 		
 	} else {
 		
@@ -287,7 +287,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 			
 		}
 		
-		if ( !in_array($onlinedata['id'], $online_members) )
+		if ( !isset($online_members[$onlinedata['id']]) )
 			$online_members[$onlinedata['id']] = '<a href="'.usebb_make_url('profile.php', array('id' => $onlinedata['id'])).'"'.$levelclass.'>'.$onlinedata['name'].'</a>';
 		
 	}

@@ -86,6 +86,7 @@ $conf['kick_user_to_only_viewable_forum'] = 0;
 $conf['language'] = 'English';
 $conf['online_min_updated'] = 30;
 $conf['output_compression'] = 0;
+$conf['passwd_min_length'] = 8;
 $conf['posts_per_page'] = 25;
 $conf['return_to_topic_after_posting'] = 1;
 $conf['session_max_lifetime'] = 60;

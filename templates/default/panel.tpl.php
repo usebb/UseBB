@@ -180,7 +180,7 @@ $templates['editpwd_form'] = '
 			<td class="fieldtitle">{current_passwd}</td><td>{current_passwd_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{new_passwd}</td><td>{new_passwd1_input}</td>
+			<td class="fieldtitle">{new_passwd}</td><td>{new_passwd1_input}<br />{passwd_info}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{new_passwd_again}</td><td>{new_passwd2_input}</td>

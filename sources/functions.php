@@ -257,7 +257,7 @@ class functions {
 			$url = str_replace('.php', '', $filename);
 			foreach ( $vars as $key => $val ) {
 				
-				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost')) )
+				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )
 					$url .= '-'.$key.$val;
 				else
 					$url .= '-'.$val;

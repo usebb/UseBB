@@ -347,3 +347,4 @@ $lang['DeletePost'] = 'Delete post';
 $lang['ConfirmDeletePost'] = 'Are you sure you want to delete this post in the topic %s? This is irreversible!';
 $lang['EditPost'] = 'Edit post';
 $lang['PostEditInfo'] = 'Last edit by %s on %s.';
+$lang['PasswdInfo'] = 'Minimum length is %d characters.';

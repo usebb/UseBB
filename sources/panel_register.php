@@ -50,7 +50,7 @@ $_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Check if this username already exists
@@ -230,7 +230,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 			$errors[] = $lang['Username'];
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
-		if ( strlen($_POST['passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+		if ( strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
 			$errors[] = $lang['Password'];
 		
 		//
@@ -261,6 +261,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'passwd1'             => $lang['Password'],
 		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
+		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
 		'passwd2'             => $lang['PasswordAgain'],
 		'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
 		'everything_required' => $lang['EverythingRequired'],

@@ -232,7 +232,7 @@ $templates['register_form'] = '
 			<td class="fieldtitle">{email}</td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{passwd1}</td><td>{passwd1_input}</td>
+			<td class="fieldtitle">{passwd1}</td><td>{passwd1_input}<br />{passwd_info}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{passwd2}</td><td>{passwd2_input}</td>

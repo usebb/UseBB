@@ -38,7 +38,7 @@ $_POST['current_passwd'] = ( !empty($_POST['current_passwd']) ) ? $_POST['curren
 $_POST['new_passwd1'] = ( !empty($_POST['new_passwd1']) ) ? $_POST['new_passwd1'] : '';
 $_POST['new_passwd2'] = ( !empty($_POST['new_passwd2']) ) ? $_POST['new_passwd2'] : '';
 
-if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
+if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
 	
 	//
 	// Update the password
@@ -70,7 +70,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		$errors = array();
 		if ( md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = $lang['CurrentPassword'];
-		if ( strlen($_POST['new_passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
+		if ( strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
 			$errors[] = $lang['NewPassword'];
 		
 		//
@@ -92,6 +92,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		'edit_pwd'             => $lang['EditPasswd'],
 		'current_passwd'       => $lang['CurrentPassword'],
 		'current_passwd_input' => '<input type="password" name="current_passwd" size="25" maxlength="255" />',
+		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
 		'new_passwd'           => $lang['NewPassword'],
 		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
 		'new_passwd_again'     => $lang['NewPasswordAgain'],

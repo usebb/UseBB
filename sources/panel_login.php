@@ -45,7 +45,7 @@ $_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 $_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 $_POST['passwd'] = ( !empty($_POST['user']) ) ? $_POST['passwd'] : '';
 
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) && strlen($_POST['passwd']) >= 5 ) {
+if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) && strlen($_POST['passwd']) >= $functions->get_config('passwd_min_length') ) {
 	
 	//
 	// The user already passed a username and password
@@ -154,7 +154,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			$errors = array();
 			if ( !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < 5 )
+			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < $functions->get_config('passwd_min_length') )
 				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {

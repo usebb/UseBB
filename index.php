@@ -195,7 +195,7 @@ if ( !$functions->get_stats('forums') ) {
 				
 				if ( $forumdata['status'] ) {
 					
-					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] ) {
+					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] && $forumdata['poster_id'] != $session->sess_info['user_id'] ) {
 						
 						$forum_icon = $template->get_config('open_newposts_icon');
 						$forum_status = $lang['NewPosts'];
@@ -209,7 +209,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 				} else {
 					
-					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] ) {
+					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] && $forumdata['poster_id'] != $session->sess_info['user_id']) {
 						
 						$forum_icon = $template->get_config('closed_newposts_icon');
 						$forum_status = $lang['LockedNewPosts'];

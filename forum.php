@@ -128,7 +128,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					
 					if ( !$topicdata['status_locked'] ) {
 						
-						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] ) {
+						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] && $topicdata['last_poster_id'] != $session->sess_info['user_id'] ) {
 							
 							$topic_icon = $template->get_config('open_newposts_icon');
 							$topic_status = $lang['NewPosts'];
@@ -142,7 +142,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						
 					} else {
 						
-						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] ) {
+						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] && $topicdata['last_poster_id'] != $session->sess_info['user_id'] ) {
 							
 							$topic_icon = $template->get_config('closed_newposts_icon');
 							$topic_status = $lang['LockedNewPosts'];

@@ -164,7 +164,7 @@ class session {
 			//
 			// Auto login
 			//
-			if ( $functions->isset_al() && $current_sess_info['user_id'] == 0 ) {
+			if ( $functions->isset_al() && !$current_sess_info['user_id'] ) {
 				
 				//
 				// If there is a remember cookie
@@ -172,7 +172,7 @@ class session {
 				//
 				$cookie_data = $functions->get_al();
 				
-				if ( !is_numeric($cookie_data[0]) || $cookie_data[0] <= 0 ) {
+				if ( !is_numeric($cookie_data[0]) || $cookie_data[0] < 1 ) {
 					
 					$user_id = 0;
 					$functions->unset_al();
@@ -222,26 +222,26 @@ class session {
 			//
 			if ( $current_sess_info['started'] ) {
 				
-				if ( is_null($user_id) )
+				if ( empty($user_id) || !is_numeric($user_id) || $user_id < 1 )
 					$user_id = $current_sess_info['user_id'];
 				
 				//
 				// Update the location and page count if a page has been passed
 				//
-				if ( is_null($location) ) {
+				if ( empty($location) ) {
 					
 					$location = $current_sess_info['location'];
 					$pages = $current_sess_info['pages'];
 					
 				} else {
 					
-					$pages = $current_sess_info['pages'] + 1;
+					$pages = $current_sess_info['pages']+1;
 					
 				}
 				
 			} else {
 				
-				if ( is_null($user_id) )
+				if ( empty($user_id) || !is_numeric($user_id) || $user_id < 1 )
 					$user_id = 0;
 				
 				$pages = 1;

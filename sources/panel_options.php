@@ -39,12 +39,18 @@ if ( !empty($_POST['submitted']) ) {
 	//
 	// Update the user's preferences
 	//
-	$_POST['template'] = ( !empty($_POST['template']) ) ? $_POST['template'] : $functions->get_config('template');
+	$avail_templates = array();
+	foreach ( $functions->get_enabled_templates() as $single_template )
+		$avail_templates[] = $single_template['shortname'];
+	
+	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_avail_languages()) ) ? $_POST['language'] : $functions->get_config('language');
+	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $avail_templates) ) ? $_POST['template'] : $functions->get_config('template');
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET
+		language        = '".$_POST['language']."',
 		template        = '".$_POST['template']."',
 		email_show      = ".$_POST['email_show'].",
 		last_login_show = ".$_POST['last_login_show'].",
@@ -59,7 +65,24 @@ if ( !empty($_POST['submitted']) ) {
 	
 } else {
 	
-	$language_input = '';
+	if ( count($functions->get_avail_languages()) < 2 ) {
+		
+		$single_language = $functions->get_avail_languages();
+		$language_input = $single_language[0];
+		
+	} else {
+		
+		$language_input = '<select name="language">';
+		foreach ( $functions->get_avail_languages() as $single_language ) {
+			
+			$selected = ( $functions->get_config('language') == $single_language ) ? ' selected="selected"' : '';
+			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
+			
+		}
+		
+		$language_input .= '</select>';
+		
+	}
 	
 	if ( count($functions->get_enabled_templates()) < 2 ) {
 		
@@ -68,7 +91,7 @@ if ( !empty($_POST['submitted']) ) {
 		
 	} else {
 		
-		$template_input = '<select name="template"'.$disabled.'>';
+		$template_input = '<select name="template">';
 		foreach ( $functions->get_enabled_templates() as $single_template ) {
 			
 			$selected = ( $functions->get_config('template') == $single_template['shortname'] ) ? ' selected="selected"' : '';

@@ -37,6 +37,7 @@ class functions {
 	var $board_config;
 	var $statistics;
 	var $enabled_templates;
+	var $avail_languages;
 	
 	//
 	// Add slashes to a global variable
@@ -260,8 +261,6 @@ class functions {
 	// Attaches a SID to URLs which should contain one (e.g. referer URLs)
 	//
 	function attach_sid($url) {
-		
-		global $functions;
 		
 		$SID = SID;
 		if ( !empty($SID) && !preg_match("/".str_replace('/', '\/', $SID)."$/", $url) ) {
@@ -557,7 +556,7 @@ class functions {
 		
 		if ( !is_array($this->enabled_templates) ) {
 			
-			if ( !($result = $db->query("SELECT c1.content AS fullname, c1.template AS shortname FROM usebb_templates_config c1, usebb_templates_config c2 WHERE c1.template = c2.template AND c1.name = 'template_name' AND c2.name = 'is_enabled' AND c2.content = '1' ORDER BY c1.content")) )
+			if ( !($result = $db->query("SELECT c1.content AS fullname, c1.template AS shortname FROM ".TABLE_PREFIX."templates_config c1, ".TABLE_PREFIX."templates_config c2 WHERE c1.template = c2.template AND c1.name = 'template_name' AND c2.name = 'is_enabled' AND c2.content = '1' ORDER BY c1.content ASC")) )
 				$this->usebb_die('SQL', 'Could not query enabled templates!', __FILE__, __LINE__);
 			
 			if ( $db->num_rows($result) ) {
@@ -581,6 +580,40 @@ class functions {
 		}
 		
 		return $this->enabled_templates;
+		
+	}
+	
+	//
+	// Get all available languages
+	//
+	function get_avail_languages() {
+		
+		global $db;
+		
+		if ( !is_array($this->avail_languages) ) {
+			
+			if ( !($result = $db->query("SELECT language FROM ".TABLE_PREFIX."language ORDER BY language ASC")) )
+				$this->usebb_die('SQL', 'Could not query available languages!', __FILE__, __LINE__);
+			
+			if ( $db->num_rows($result) ) {
+				
+				$this->avail_languages = array();
+				while ( $data = $db->fetch_result($result) ) {
+					
+					if ( !in_array($data['language'], $this->avail_languages) )
+						$this->avail_languages[] = $data['language'];
+					
+				}
+				
+			} else {
+				
+				$this->usebb_die('General', 'No available languages found!', __FILE__, __LINE__);
+				
+			}
+			
+		}
+		
+		return $this->avail_languages;
 		
 	}
 	

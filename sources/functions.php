@@ -753,8 +753,8 @@ class functions {
 		
 		if ( $smilies ) {
 			
-			foreach ( $template->get_config('smilies') as $key => $val )
-				$string = preg_replace('#([\s\]\[])'.preg_quote($key).'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />\\2', $string);
+			foreach ( $template->get_config('smilies') as $pattern => $img )
+				$string = preg_replace('#([\s\]\[])'.preg_quote($pattern).'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\2', $string);
 			
 		}
 		
@@ -889,18 +889,18 @@ class functions {
 	//
 	function get_bbcode_controls() {
 		
+		global $lang;
+		
 		$controls = array(
 			array('[b]', '[/b]', 'B', 'font-weight: bold'),
 			array('[i]', '[/i]', 'I', 'font-style: italic'),
 			array('[u]', '[/u]', 'U', 'text-decoration: underline'),
-			array('[img]', '[/img]', 'IMG', ''),
-			array('[url=http://www.example.com]', '[/url]', 'URL', ''),
-			array('[mailto=mail@example.com]', '[/mailto]', 'E-mail', ''),
-			array('[color=red]', '[/color]', 'Color', ''),
-			array('[size=14]', '[/size]', 'Size', ''),
-			array('[google=UseBB]', '[/google]', 'Google', ''),
-			array('[code]', '[/code]', 'Code', ''),
-			array('[quote]', '[/quote]', 'Quote', ''),
+			array('[quote]', '[/quote]', $lang['Quote'], ''),
+			array('[code]', '[/code]', $lang['Code'], ''),
+			array('[img]', '[/img]', $lang['Img'], ''),
+			array('[url=http://www.example.com]', '[/url]', $lang['URL'], ''),
+			array('[color=red]', '[/color]', $lang['Color'], ''),
+			array('[size=14]', '[/size]', $lang['Size'], '')
 		);
 		
 		$out = '';
@@ -922,10 +922,17 @@ class functions {
 		global $template;
 		
 		$smilies = $template->get_config('smilies');
-		$out = '';
-		foreach ( $smilies as $key => $val ) {
+		$smilies_unique = array();
+		foreach ( $smilies as $pattern => $img ) {
 			
-			$out .= '<a href="javascript:insert_tags(\'\', \' '.addslashes($key).' \', \'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" /></a>';
+			if ( !array_key_exists($img, $smilies_unique) )
+				$smilies_unique[$img] = $pattern;
+			
+		}
+		$out = '';
+		foreach ( $smilies_unique as $img => $pattern ) {
+			
+			$out .= '<a href="javascript:insert_tags(\'\', \' '.addslashes(unhtml($pattern)).' \', \'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 			
 		}
 		

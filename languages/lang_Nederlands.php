@@ -396,6 +396,11 @@ $lang['TopicReview'] = 'Onderwerp herbekijken';
 $lang['ViewMorePosts'] = 'Meer berichten weergeven';
 $lang['DisplayedName'] = 'Weergegeven naam';
 $lang['UsernameInfo'] = 'Een gebruikersnaam kan enkel alfanumerieke karakters, _ en - bevatten (geen spaties).';
+$lang['Code'] = 'Code';
+$lang['Img'] = 'Afb';
+$lang['URL'] = 'URL';
+$lang['Color'] = 'Kleur';
+$lang['Size'] = 'Grootte';
 
 //
 // Date translations

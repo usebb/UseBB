@@ -34,43 +34,34 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['panel_menu'] = '
-	<table class="panelmenu">
-		<tr>
-			<td class="td2"><b>{yourpanel}</b></td>
-			<td>{panel_home}</td>
-			<td>{view_profile}</td>
-			<td>{panel_profile}</td>
-			<td>{panel_options}</td>
-			<td>{panel_passwd}</td>
-		</tr>
-	</table>
+	<p id="panelmenu">{panel_home} &middot; {view_profile} &middot; {panel_profile} &middot; {panel_options} &middot; {panel_passwd}</p>
 ';
 
 $templates['panel_sess_info'] = '
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{title}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{sess_id}</td><td class="td1">{sess_id_v}</td>
+			<td class="fieldtitle">{sess_id}</td><td>{sess_id_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{ip_addr}</td><td class="td1">{ip_addr_v}</td>
+			<td class="fieldtitle">{ip_addr}</td><td>{ip_addr_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{started}</td><td class="td1">{started_v}</td>
+			<td class="fieldtitle">{started}</td><td>{started_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{updated}</td><td class="td1">{updated_v}</td>
+			<td class="fieldtitle">{updated}</td><td>{updated_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{total_time}</td><td class="td1">{total_time_v}</td>
+			<td class="fieldtitle">{total_time}</td><td>{total_time_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{pages}</td><td class="td1">{pages_v}</td>
+			<td class="fieldtitle">{pages}</td><td>{pages_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{al}</td><td class="td1">{al_v}</td>
+			<td class="fieldtitle">{al}</td><td>{al_status} <small>({al_change})</small></td>
 		</tr>
 	</table>
 ';
@@ -78,47 +69,47 @@ $templates['panel_sess_info'] = '
 $templates['edit_profile'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{edit_profile}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{email}</td><td class="td1">{email_input}&nbsp;<span class="small">{required}</span></td>
+			<td class="fieldtitle">{email} <small>({required})</small></td><td>{email_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{avatar}</td><td class="td1">{avatar_input}</td>
+			<td class="fieldtitle">{avatar}</td><td>{avatar_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{location}</td><td class="td1">{location_input}</td>
+			<td class="fieldtitle">{location}</td><td>{location_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{website}</td><td class="td1">{website_input}</td>
+			<td class="fieldtitle">{website}</td><td>{website_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{occupation}</td><td class="td1">{occupation_input}</td>
+			<td class="fieldtitle">{occupation}</td><td>{occupation_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{interests}</td><td class="td1">{interests_input}</td>
+			<td class="fieldtitle">{interests}</td><td>{interests_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{signature}</td><td class="td1">{signature_input}</td>
+			<td class="fieldtitle">{signature}</td><td>{signature_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{msnm}</td><td class="td1">{msnm_input}</td>
+			<td class="fieldtitle">{msnm}</td><td>{msnm_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{yahoom}</td><td class="td1">{yahoom_input}</td>
+			<td class="fieldtitle">{yahoom}</td><td>{yahoom_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{aim}</td><td class="td1">{aim_input}</td>
+			<td class="fieldtitle">{aim}</td><td>{aim_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{icq}</td><td class="td1">{icq_input}</td>
+			<td class="fieldtitle">{icq}</td><td>{icq_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{jabber}</td><td class="td1">{jabber_input}</td>
+			<td class="fieldtitle">{jabber}</td><td>{jabber_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -127,7 +118,7 @@ $templates['edit_profile'] = '
 $templates['edit_options'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{edit_options}</th>
 		</tr>
 		<tr>
@@ -152,7 +143,7 @@ $templates['edit_options'] = '
 		</tr>
 		<tr>
 			<td width="25%" class="td2">{date_format}</td>
-			<td class="td1">{date_format_input}</td>
+			<td class="td1">{date_format_input}<br /><small>{date_format_help}</small></td>
 		</tr>
 		<tr>
 			<td width="25%" class="td2">{timezone}</td>
@@ -192,7 +183,7 @@ $templates['edit_options'] = '
 $templates['editpwd_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{edit_pwd}</th>
 		</tr>
 		<tr>

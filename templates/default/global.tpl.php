@@ -51,9 +51,9 @@ $templates['config'] = array(
 	'quote_button'						=> 'quote.gif',
 	'edit_button'						=> 'edit.gif',
 	'delete_button'						=> 'delete.gif',
-	'sig_format'						=> '<hr /><small>%s</small>',
-	'quote_format'						=> '<fieldset><legend>%s</legend>%s</fieldset>',
-	'code_format'						=> '<pre>%s</pre>',
+	'sig_format'						=> '_______________<div class="signature">%s</small>',
+	'quote_format'						=> '<fieldset class="quote"><legend>%s</legend>%s</fieldset>',
+	'code_format'						=> '<pre class="code">%s</pre>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',
@@ -69,31 +69,27 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 <head>
 	<title>{board_name}: {page_title} - Powered by UseBB</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />
 </head>
 <body>
 	<div id="pagewrapper">
 	<div id="pagebox">
 	
-	<table class="header">
-		<tr>
-			<td class="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{home}" /></a></td>
-			<!--<td class="namebox" nowrap="nowrap"><div class="title">{board_name}</div><div class="descr">{board_descr}</div></td>-->
-		</tr>
-	</table>
+	<p id="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{home}" /></a></p>
+	<h1 id="boardname"><span id="line">{board_name}</span></h1>
+	<h2 id="boarddescr">{board_descr}</h2>
 	
 	<div id="topmenu"><ul>
-		<li><a href="{link_home}" accesskey="h">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li><a href="{link_log_inout}">{log_inout}</a><li>
+		<li><a href="{link_home}">{home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{faq}</a></li><li><a href="{link_search}">{search}</a></li><li><a href="{link_active}">{active}</a></li><li id="logout"><a href="{link_log_inout}">{log_inout}</a></li>
 	</ul></div>
 	<div id="topmenu-shadow"></div>
 ';
 
 $templates['normal_footer'] = '
-	<div class="linkbar">
+	<p id="linkbar">
 		{link_bar}
-	</div>
-	<div id="bottom">
+	</p>
+	<address id="bottom">
 		<!--
 			We request not to remove the following copyright notice including the link to the UseBB Home Page.
 			This shows your respect to everyone involved in UseBB\'s development and promotes the use of UseBB.
@@ -101,7 +97,7 @@ $templates['normal_footer'] = '
 			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
 		-->
 		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2004 UseBB Team
-	</div>
+	</address>
 	<div id="bottom-shadow"></div>
 	
 	</div>
@@ -122,6 +118,7 @@ html, body {
 	text-align: center;
 	background-image: url({img_dir}body_bg.png);
 	background-color: #CCCCCC;
+	cursor: default;
 }
 #pagewrapper {
 	width: 765px;
@@ -133,27 +130,15 @@ html, body {
 }
 #pagebox {
 	padding: 20px 20px 15px 20px;
-	text-align: left;
 	background-image: url({img_dir}pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFFFFF;
 }
-img {
+a img {
 	border: 0px;
-}
-form {
-	margin: 0px;
 }
 label {
 	cursor: pointer;
-}
-hr {
-	border: 0px solid silver;
-	border-top-width: 1px;
-	height: 0px;
-}
-small {
-	font-size: 8pt;
 }
 a:link, a:active, a:visited {
 	color: #336699;
@@ -170,11 +155,14 @@ a.moderator:link, a.moderator:active, a.moderator:visited {
 	color: blue;
 }
 input, select, textarea {
-	font-size: 10pt;
+	font-size: 10pt !important;
 }
 textarea {
-	font-family: verdana, sans-serif;
-	font-size: 8pt;
+	width: 99%;
+}
+input[type="submit"], input[type="reset"], input[type="button"] {
+	padding: 0px 10px 0px 10px;
+	cursor: pointer;
 }
 pre {
 	display: block;
@@ -200,103 +188,82 @@ fieldset {
 fieldset legend {
 	font-weight: bold;
 }
-.main {
-	width: 750px;
-	padding: 15px 20px 20px 20px;
-	background-color: #FFFFFF;
-	border-left: 1px solid silver;
-	border-right: 1px solid silver;
+#logo {
+	float: left;
 }
-.header {
-	border-collapse: collapse;
-	width: 100%;
-	margin-bottom: 4px;
+h1#boardname {
+	text-align: right;
+	font-size: 13pt;
+	font-weight: bold;
+	color: #336699;
+	height: 30px !important;
+	line-height: 30px !important;
 }
-.header td {
-	padding: 0px;
-	vertical-align: bottom;
+h1#boardname #line {
+	padding: 0px 0px 2px 0px;
+	border-bottom: 2px solid #EBD6AD;
 }
-.header td.logo {
-	text-align: left;
-	width: 100%;
+h2#boarddescr {
+	text-align: right;
+	font-size: 10pt;
+	font-weight: normal;
+	font-style: italic;
+	color: #7F7F7F;
+	height: 30px !important;
+	line-height: 30px !important;
 }
-.header td.namebox {
+#topmenu * {
+	font-size: 8pt;
 	text-align: right;
 }
-.header td.namebox .title {
-	font-family: "trebuchet ms", sans-serif;
-	font-size: 16pt;
-	font-weight: bold;
-	letter-spacing: 1px;
+#topmenu {
+	float: left;
+	width: 723px;
+	background-image: url({img_dir}topmenu_bg.png);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+	border: 1px solid #336699;
+	padding: 3px 0px 3px 0px;
+	margin: 4px 0px 0px 0px;
+}
+#topmenu ul {
+	list-style: none;
+}
+#topmenu ul li {
+	float: left;
+}
+#topmenu ul li#logout {
+	float: none;
+}
+#topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover {
+	text-decoration: none;
+	padding: 3px 7px 3px 7px;
+	border-right: 1px solid #336699;
+}
+#topmenu ul li#logout a:link, #topmenu ul li#logout a:visited, #topmenu ul li#logout a:hover {
+	border-right: 0px;
+	border-left: 1px solid #336699;
+}
+#topmenu ul li a:link, #topmenu ul li a:visited {
 	color: #336699;
-	border-bottom: 2px solid #ebd6ad;
 }
-.header td.namebox .descr {
-	font-style: italic;
-	padding-top: 2px;
+#topmenu ul li a:active, #topmenu ul li a:hover {
+	color: #7F0000;
+	background-image: url({img_dir}topmenu_bg_reverse.png);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
 }
-
-
-#topmenu *
-{
-font-size: 8pt;
+#topmenu-shadow {
+	clear: both;
+	height: 5px;
+	background-image: url({img_dir}topmenu_shadow.png);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
+	line-height: 100%;
+	overflow: hidden;
+	margin: 0px 0px 15px 0px;
 }
-
-#topmenu
-{
-float: left;
-width: 723px;
-background-image: url({img_dir}topmenu_bg.png);
-background-repeat: repeat-x;
-background-color: #E8E8E8 /* temp */;
-border: 1px solid #336699;
-padding: 3px 0px 3px 0px;
-}
-
-#topmenu ul
-{
-list-style: none;
-}
-
-#topmenu ul li
-{
-display: inline;
-}
-
-#topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover
-{
-text-decoration: none;
-padding: 3px 7px 3px 7px;
-border-right: 1px solid #336699;
-}
-
-#topmenu ul li a:link, #topmenu ul li a:visited
-{
-color: #336699;
-}
-
-#topmenu ul li a:active, #topmenu ul li a:hover
-{
-color: #7F0000;
-background-image: url({img_dir}topmenu_bg_reverse.png);
-background-repeat: repeat-x;
-background-color: #FFFFFF;
-}
-
-#topmenu-shadow
-{
-clear: both;
-height: 5px;
-background-image: url({img_dir}topmenu_shadow.png);
-background-repeat: repeat-x;
-background-color: #FFFFFF;
-line-height: 100%;
-overflow: hidden;
-margin: 0px 0px 15px 0px;
-}
-
-
-.locationbar {
+p.locationbar {
 	clear: both;
 	text-align: left;
 	font-size: 8pt;
@@ -306,17 +273,18 @@ margin: 0px 0px 15px 0px;
 	margin-top: -10px;
 	padding: 3px;
 }
-.locationbar a {
+p.locationbar a {
 	font-style: normal;
 }
-.maintable, .msgbox, .confirmform {
+table.maintable, table.msgbox, table.confirmform {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
-	margin-bottom: 20px;
+	margin: 0px 0px 20px 0px;
+	width: 100%;
 }
-.maintable th, .msgbox th, .confirmform th {
+table.maintable th, table.msgbox th, table.confirmform th {
 	color: #EBD6AD;
 	font-weight: bold;
 	font-size: 8pt;
@@ -325,56 +293,59 @@ margin: 0px 0px 15px 0px;
 	background-position: top;
 	background-repeat: repeat-x;
 	text-align: left;
-	padding: 6px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding: 4px 6px 4px 6px;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-.maintable td, .msgbox td, .confirmform td, td.msg {
-	background-color: #F3F3F3 /* temp */;
+table.maintable td, table.msgbox td, table.confirmform td, td.msg {
+	background-color: #EFEFEF;
 	padding: 6px;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 	vertical-align: middle;
 }
-.maintable {
-	width: 100%;
-}
-.maintable td.forumcat {
+table.maintable td.forumcat {
 	font-weight: bold;
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;
-	background-color: #E8E8E8 /* temp */;
+	background-color: #E8E8E8;
 }
-.maintable td.toolbar {
+table.maintable td.toolbar {
 	background-image: url({img_dir}menubg.gif);
 	background-repeat: repeat-x;
-	background-color: #E8E8E8 /* temp */;
+	background-color: #E8E8E8;
 }
-.maintable td.toolbar img {
+table.maintable td.toolbar img {
 	margin-left: 5px;
 }
-.maintable td.td1 {
-	background-color: #F3F3F3 /* temp */;
+table.maintable td.td1 {
+	background-color: #EFEFEF;
 }
-.maintable td.td2 {
-	background-color: #E8E8E8 /* temp */;
+table.maintable td.td2 {
+	background-color: #E8E8E8;
 }
-.maintable tr.posttop td {
+table.maintable tr.posttop td {
 	padding: 2px 2px 2px 5px;
 }
-.maintable tr.post td {
+table.maintable tr.post td {
 	vertical-align: top;
 }
-.msgbox td, .confirmform td.content, td.msg {
+table.maintable td.fieldtitle {
+	background-color: #E8E8E8;
+	width: 25%;
+}
+table.maintable td.formcontrols {
+	background-color: #E8E8E8;
+	text-align: center;
+}
+table.msgbox td, table.confirmform td.content, td.msg {
 	padding: 18px;
 	padding-left: 36px;
 	padding-right: 36px;
 }
-.confirmform td.buttons {
-	background-color: #E8E8E8 /* temp */;
+table.confirmform td.buttons {
+	background-color: #E8E8E8;
 }
 .avatar {
 	margin-top: 10px;
@@ -395,75 +366,57 @@ margin: 0px 0px 15px 0px;
 	padding-bottom: 6px;
 	overflow: auto;
 }
-.panelmenu {
-	border-collapse: collapse;
-	border-left: 1px solid silver;
-	border-right: 1px solid silver;
-	border-bottom: 1px solid silver;
-	margin-bottom: 20px;
-}
-.panelmenu td {
-	background-color: #E8E8E8 /* temp */;
-	padding: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	text-align: center;
-	border-left: 1px solid silver;
-	border-top: 1px solid silver;
-	vertical-align: middle;
+p#panelmenu {
+	color: #323232;
 	font-size: 8pt;
+	text-align: left;
+	padding: 3px;
+	margin-bottom: 10px;
+	margin-top: -10px;
 }
-.linkbar {
+p#linkbar {
 	color: #323232;
 	font-size: 8pt;
 	text-align: center;
 	margin-bottom: 20px;
 }
-.banners {
-	text-align: center;
+#bottom {
+	clear: both;
+	float: left;
+	width: 705px;
+	padding: 3px 9px 3px 9px;
+	background-image: url({img_dir}topmenu_bg.png);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+	border: 1px solid #336699;
+	font-size: 8pt;
+	font-style: normal;
+	text-align: right;
+	color: #333333;
 }
-#bottom
-{
-clear: both;
-float: left;
-width: 705px;
-padding: 3px 9px 3px 9px;
-background-image: url({img_dir}topmenu_bg.png);
-background-repeat: repeat-x;
-background-color: #E8E8E8 /* temp */;
-border: 1px solid #336699;
-font-size: 8pt;
-font-style: normal;
-text-align: right;
-color: #333333;
+#bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
+	text-decoration: none;
 }
-
-#bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited
-{
-text-decoration: none;
-}
-
-#bottom-shadow
-{
-clear: both;
-height: 5px;
-background-image: url({img_dir}topmenu_shadow.png);
-background-repeat: repeat-x;
-background-color: #FFFFFF;
-line-height: 100%;
-overflow: hidden;
+#bottom-shadow {
+	clear: both;
+	height: 5px;
+	background-image: url({img_dir}topmenu_shadow.png);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
+	line-height: 100%;
+	overflow: hidden;
 }
 ';
 
 $templates['location_bar'] = '
-	<div class="locationbar">
+	<p class="locationbar">
 		&bull; {location_bar}
-	</div>
+	</p>
 ';
 
 $templates['msgbox'] = '
 	<table class="msgbox">
-		<tr class="tablehead">
+		<tr>
 			<th>{box_title}</th>
 		</tr>
 		<tr>
@@ -475,14 +428,14 @@ $templates['msgbox'] = '
 $templates['confirm_form'] = '
 	{form_begin}
 	<table class="confirmform">
-		<tr class="tablehead">
+		<tr>
 			<th>{title}</th>
 		</tr>
 		<tr>
 			<td class="content">{content}</td>
 		</tr>
 		<tr>
-			<td class="buttons"><div align="center">{submit_button}&nbsp;{cancel_button}</div></td>
+			<td class="buttons">{submit_button}&nbsp;{cancel_button}</td>
 		</tr>
 	</table>
 	{form_end}

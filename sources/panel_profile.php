@@ -122,7 +122,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 	
 } else {
 	
-	if ( !empty($_POST['submitted']) ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		$errors = array();
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
@@ -155,7 +155,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
-		'edit_profile'      => $lang['EditProfile'],
+		'edit_profile'     => $lang['EditProfile'],
 		'required'         => $lang['Required'],
 		'email'            => $lang['Email'],
 		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
@@ -183,7 +183,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.htmlentities(stripslashes($session->sess_info['user_info']['jabber'])).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['EditProfile'].'" />',
 		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'         => '<input type="hidden" name="submitted" value="true" /></form>'
+		'form_end'         => '</form>'
 	));
 	
 }

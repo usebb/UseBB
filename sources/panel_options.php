@@ -119,7 +119,7 @@ if ( !empty($_POST['submitted']) ) {
 	$last_login_show_checked = ( $session->sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
 	$hide_from_online_list_checked = ( $session->sess_info['user_info']['hide_from_online_list'] ) ? ' checked="checked"' : '';
 
-	$timezone_input = '<select name="timezone">';
+	$timezone_input = 'UTC/GMT <select name="timezone">';
 	foreach ( $functions->timezone_handler('get_zones') as $key => $val ) {
 		
 		$selected = ( $functions->get_config('timezone') == $key ) ? ' selected="selected"' : '';
@@ -134,6 +134,8 @@ if ( !empty($_POST['submitted']) ) {
 	$target_blank_checked = ( $session->sess_info['user_info']['target_blank'] ) ? ' checked="checked"' : '';
 	$hide_avatars_checked = ( $session->sess_info['user_info']['hide_avatars'] ) ? ' checked="checked"' : '';
 	$hide_signatures_checked = ( $session->sess_info['user_info']['hide_signatures'] ) ? ' checked="checked"' : '';
+	
+	$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 	
 	$template->parse('edit_options', 'global', array(
 		'form_begin'            => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',
@@ -150,17 +152,18 @@ if ( !empty($_POST['submitted']) ) {
 		'hide_from_online_list_input' => '<input type="checkbox" name="hide_from_online_list" id="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /><label for="hide_from_online_list"> '.$lang['Yes'].'</label>',
 		'date_format'           => $lang['DateFormat'],
 		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$functions->get_config('date_format').'" />',
+		'date_format_help'		=> sprintf($lang['DateFormatHelp'], '<a href="http://www.php.net/date"'.$target_blank.'>date()</a>'),
 		'timezone'              => $lang['Timezone'],
-		'timezone_input'	      => $timezone_input,
-		'dst'		            	=> $lang['DST'],
+		'timezone_input'	    => $timezone_input,
+		'dst'		            => $lang['DST'],
 		'dst_input'	         	=> '<input type="checkbox" name="dst" id="dst" value="1"'.$dst_checked.' /><label for="dst"> '.$lang['Enabled'].'</label>',
 		'quickreply'	   		=> $lang['QuickReply'],
 		'quickreply_input'		=> '<input type="checkbox" name="quickreply" id="quickreply" value="1"'.$quickreply_checked.' /><label for="quickreply"> '.$lang['Enabled'].'</label>',
-		'return_to_topic'			=> $lang['ReturnToTopicAfterPosting'],
+		'return_to_topic'		=> $lang['ReturnToTopicAfterPosting'],
 		'return_to_topic_input'	=> '<input type="checkbox" name="return_to_topic" id="return_to_topic" value="1"'.$return_to_topic_checked.' /><label for="return_to_topic"> '.$lang['Yes'].'</label>',
-		'target_blank'	         => $lang['OpenLinksNewWindow'],
+		'target_blank'	        => $lang['OpenLinksNewWindow'],
 		'target_blank_input'    => '<input type="checkbox" name="target_blank" id="target_blank" value="1"'.$target_blank_checked.' /><label for="target_blank"> '.$lang['Yes'].'</label>',
-		'hide_avatars'	         => $lang['HideAllAvatars'],
+		'hide_avatars'	        => $lang['HideAllAvatars'],
 		'hide_avatars_input'    => '<input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label>',
 		'hide_signatures'       => $lang['HideAllSignatures'],
 		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',

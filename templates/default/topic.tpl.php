@@ -48,19 +48,19 @@ $templates['topic_header'] = '
 
 $templates['topic_post'] = '
 		<tr class="posttop">
-			<td class="td2" width="150">
+			<td class="td2" width="175">
 				<b>{poster_name}</b>
 			</td>
 			<td class="td2">
 				<div class="postlinks">{post_links}</div>
-				<small><acronym title="{post_date}">{post_anchor}</acronym> <b>&laquo;{topic_title}&raquo;</b></small>
+				<small>{post_anchor} <b>&laquo;{topic_title}&raquo;</b></small>
 			</td>
 		</tr>
 		<tr class="post">
 			<td class="td1">
 				<small>{poster_rank}</small>
 				<div class="avatar">{poster_avatar}</div>
-				<div class="posterinfo">{registered}<br />{posts}<br />{location}</div>
+				<div class="posterinfo">{registered}<br />{posts}<br />{location}<br /><br />{post_date}</div>
 			</td>
 			<td class="td1">
 				<div class="postcontent">{post_content}</div>{poster_sig}
@@ -89,10 +89,10 @@ $templates['quick_reply'] = '
 			<th colspan="2">{quick_reply}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{username}</td><td class="td1">{username_input}</td>
+			<td width="25%" class="td2">{username}</td><td>{username_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{content}</td><td class="td1">{content_input}</td>
+			<td colspan="2">{content_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="td2"><div align="center">{submit_button}</div></td>

@@ -41,22 +41,22 @@ $templates['forumlist_cat_header'] = '
 		<tr>
 			<td colspan="5" class="forumcat"><small>&raquo;</small> {cat_name}</td>
 		</tr>
-		<tr class="tablehead">
+		<tr>
 			<th></th>
 			<th>{forum}</th>
 			<th>{topics}</th>
 			<th>{posts}</th>
-			<th nowrap="nowrap">{latest_post}</th>
+			<th>{latest_post}</th>
 		</tr>
 ';
 
 $templates['forumlist_forum'] = '
 		<tr>
-			<td class="td2"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
-			<td class="td1" width="100%">{forum_name}<br /><small>{forum_descr}</small></td>
-			<td class="td2"><div align="center">{total_topics}</div></td>
-			<td class="td2"><div align="center">{total_posts}</div></td>
-			<td class="td1" nowrap="nowrap"><small>{latest_post}<br />{author_date}</small></td>
+			<td><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
+			<td>{forum_name}<p class="forumdescr">{forum_descr}</p></td>
+			<td>{total_topics}</td>
+			<td>{total_posts}</td>
+			<td>{latest_post}<br />{author_date}<br /></td>
 		</tr>
 ';
 

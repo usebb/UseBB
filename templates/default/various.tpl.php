@@ -35,7 +35,7 @@ if ( !defined('INCLUDED') )
 
 $templates['forum_stats_box'] = '
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{stats_title}</th>
 		</tr>
 		<tr>
@@ -51,7 +51,7 @@ $templates['forum_stats_box'] = '
 $templates['login_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{login}</th>
 		</tr>
 	<tr>
@@ -76,7 +76,7 @@ $templates['login_form'] = '
 $templates['mail_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{sendemail}</th>
 		</tr>
 	<tr>
@@ -92,7 +92,7 @@ $templates['mail_form'] = '
 		<td class="td1">{subject_input}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="td2">{body}</td><td class="td1">{body_input}</td>
+		<td class="td1" colspan="2">{body_input}</td>
 	</tr>
 	<tr>
 		<td colspan="2" class="td1"><small>{everything_required}</small></td>
@@ -107,7 +107,7 @@ $templates['mail_form'] = '
 $templates['move_topic_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{move_topic}</th>
 		</tr>
 		<tr>
@@ -129,7 +129,7 @@ $templates['move_topic_form'] = '
 $templates['post_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{post_title}</th>
 		</tr>
 		<tr>
@@ -139,10 +139,8 @@ $templates['post_form'] = '
 			<td width="25%" class="td2">{subject}</td><td class="td1">{subject_input}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{content}</td><td class="td1">{content_input}</td>
-		</tr>
-		<tr>
-			<td width="25%" class="td2">{options}</td><td class="td1"><small>{options_input}</small></td>
+			<td class="td2">{content}<br /><br /><small>{options_input}</small></td>
+			<td class="td1">{content_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
@@ -153,71 +151,71 @@ $templates['post_form'] = '
 
 $templates['profile'] = '
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{title}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{username}</td><td class="td1">{username_v}</td>
+			<td class="fieldtitle">{username}</td><td>{username_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{userid}</td><td class="td1">{userid_v}</td>
+			<td class="fieldtitle">{userid}</td><td>{userid_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{level}</td><td class="td1">{level_v}</td>
+			<td class="fieldtitle">{level}</td><td>{level_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{rank}</td><td class="td1">{rank_v}</td>
+			<td class="fieldtitle">{rank}</td><td>{rank_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{avatar}</td><td class="td1">{avatar_v}</td>
+			<td class="fieldtitle">{avatar}</td><td>{avatar_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{regdate}</td><td class="td1">{regdate_v}</td>
+			<td class="fieldtitle">{regdate}</td><td>{regdate_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{posts}</td><td class="td1">{posts_v}</td>
+			<td class="fieldtitle">{posts}</td><td>{posts_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{postsperday}</td><td class="td1">{postsperday_v}</td>
+			<td class="fieldtitle">{postsperday}</td><td>{postsperday_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{lastlogin}</td><td class="td1">{lastlogin_v}</td>
+			<td class="fieldtitle">{lastlogin}</td><td>{lastlogin_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{location}</td><td class="td1">{location_v}</td>
+			<td class="fieldtitle">{location}</td><td>{location_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{website}</td><td class="td1">{website_v}</td>
+			<td class="fieldtitle">{website}</td><td>{website_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{occupation}</td><td class="td1">{occupation_v}</td>
+			<td class="fieldtitle">{occupation}</td><td>{occupation_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{interests}</td><td class="td1">{interests_v}</td>
+			<td class="fieldtitle">{interests}</td><td>{interests_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{signature}</td><td class="td1"><small>{signature_v}</small></td>
+			<td class="fieldtitle">{signature}</td><td><small>{signature_v}</small></td>
 		</tr>
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{contact_info}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{email}</td><td class="td1">{email_v}</td>
+			<td class="fieldtitle">{email}</td><td>{email_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{msnm}</td><td class="td1">{msnm_v}</td>
+			<td class="fieldtitle">{msnm}</td><td>{msnm_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{yahoom}</td><td class="td1">{yahoom_v}</td>
+			<td class="fieldtitle">{yahoom}</td><td>{yahoom_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{aim}</td><td class="td1">{aim_v}</td>
+			<td class="fieldtitle">{aim}</td><td>{aim_v}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{icq}</td><td class="td1">{icq_v} {icq_status}</td>
+			<td class="fieldtitle">{icq}</td><td>{icq_v} {icq_status}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{jabber}</td><td class="td1">{jabber_v}</td>
+			<td class="fieldtitle">{jabber}</td><td>{jabber_v}</td>
 		</tr>
 	</table>
 ';
@@ -225,7 +223,7 @@ $templates['profile'] = '
 $templates['register_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{register_form}</th>
 		</tr>
 		<tr>
@@ -257,7 +255,7 @@ $templates['register_form'] = '
 $templates['sendpwd_form'] = '
 	{form_begin}
 	<table class="maintable">
-		<tr class="tablehead">
+		<tr>
 			<th colspan="2">{sendpwd}</th>
 		</tr>
 		<tr>

@@ -66,17 +66,22 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	if ( count($_COOKIE) < 1 ) {
 		
-		$al_controls = $lang['FeatureDisabledBecauseCookiesDisabled'];
+		$al_status = $lang['FeatureDisabledBecauseCookiesDisabled'];
+		$al_change = '';
 		
 	} elseif ( $functions->isset_al() ) {
 		
-		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.$lang['Disable'].')</a>';
+		$al_status = $lang['Enabled'];
+		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 0)).'">'.$lang['Disable'].'</a>';
 		
 	} else {
 		
-		$al_controls = $lang['Disabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 1)).'">('.$lang['Enable'].')</a>';
+		$al_status = $lang['Disabled'];
+		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 1)).'">'.$lang['Enable'].'</a>';
 		
 	}
+	
+	$total_time = $functions->time_past($session->sess_info['started'], $session->sess_info['updated']);
 	
 	$template->parse('panel_sess_info', 'panel', array(
 		'title' => $lang['SessionInfo'],
@@ -89,11 +94,12 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		'updated' => $lang['Updated'],
 		'updated_v' => $functions->make_date($session->sess_info['updated']),
 		'total_time' => $lang['TotalTime'],
-		'total_time_v' => end($functions->time_past($session->sess_info['started'], $session->sess_info['updated'])),
+		'total_time_v' => $total_time[1],
 		'pages' => $lang['Pages'],
 		'pages_v' => $session->sess_info['pages'],
 		'al' => $lang['AutoLogin'],
-		'al_v' => $al_controls
+		'al_status' => $al_status,
+		'al_change' => $al_change
 	));
 	
 }

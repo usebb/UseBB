@@ -101,7 +101,7 @@ CREATE TABLE usebb_forums (
   posts int(11) NOT NULL default '0',
   last_topic_id int(11) NOT NULL default '0',
   sort_id int(11) NOT NULL default '0',
-  auth varchar(8) NOT NULL default '001122223',
+  auth varchar(9) NOT NULL default '001122223',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

@@ -88,20 +88,26 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			else
 				$user_to_mail = $db->fetch_result($result);
 			
-			$template->set_page_title(sprintf($lang['SendEmail'], $user_to_mail['name']));
-			
 			if ( !$user_to_mail['email_show'] && $functions->get_user_level() < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				
 				//
 				// You can't e-mail this user if he/she chose not to receive e-mails
 				// unless you are an admin or your are trying to e-mail yourself :p
 				//
+				$template->set_page_title($lang['Error']);
 				$template->parse('msgbox', 'global', array(
 					'box_title' => $lang['Error'],
 					'content' => $lang['NoMails']
 				));
 				
 			} else {
+				
+				$template->set_page_title(sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name']))));
+				
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name'])));
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
 				
 				$_POST['subject'] = ( !empty($_POST['subject']) ) ? stripslashes($_POST['subject']) : '';
 				$_POST['body'] = ( !empty($_POST['body']) ) ? stripslashes($_POST['body']) : '';
@@ -116,8 +122,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					), stripslashes($session->sess_info['user_info']['name']), $session->sess_info['user_info']['email'], $user_to_mail['email']);
 					
 					$template->parse('msgbox', 'global', array(
-						'box_title' => sprintf($lang['SendEmail'], $user_to_mail['name']),
-						'content' => sprintf($lang['EmailSent'], '<em>'.$user_to_mail['name'].'</em>')
+						'box_title' => sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name']))),
+						'content' => sprintf($lang['EmailSent'], '<em>'.htmlspecialchars(stripslashes($user_to_mail['name'])).'</em>')
 					));
 					
 				} else {
@@ -154,7 +160,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					$_POST['body'] = ( !empty($_POST['body']) ) ? htmlspecialchars($_POST['body']) : '';
 					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
-						'sendemail' => sprintf($lang['SendEmail'], $user_to_mail['name']),
+						'sendemail' => sprintf($lang['SendEmail'], htmlspecialchars(stripslashes($user_to_mail['name']))),
 						'to' => $lang['To'],
 						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.htmlspecialchars(stripslashes($user_to_mail['name'])).'</a>',
 						'from' => $lang['From'],
@@ -170,6 +176,10 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					));
 					
 				}
+				
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
 				
 			}
 			

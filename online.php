@@ -169,6 +169,11 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$template->set_page_title($lang['DetailedOnlineList']);
 	
+	$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['DetailedOnlineList'];
+	$template->parse('location_bar', 'global', array(
+		'location_bar' => $location_bar
+	));
+	
 	$template->parse('onlinelist_header', 'onlinelist', array(
 		'username' => $lang['Username'],
 		'location' => $lang['Location'],
@@ -272,6 +277,10 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$template->parse('onlinelist_footer', 'onlinelist', array(
 		'page_links' => $page_links
+	));
+	
+	$template->parse('location_bar', 'global', array(
+		'location_bar' => $location_bar
 	));
 	
 }

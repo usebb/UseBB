@@ -102,6 +102,13 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
 				));
 				
+			} else {
+				
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name'])));
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
+				
 			}
 			
 			switch ( $profiledata['level'] ) {
@@ -185,6 +192,14 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'skype'         => $lang['Skype'],
 				'skype_v'       => htmlspecialchars(stripslashes($profiledata['skype']))
 			));
+			
+			if ( !$own_profile ) {
+				
+				$template->parse('location_bar', 'global', array(
+					'location_bar' => $location_bar
+				));
+				
+			}
 			
 		} else {
 			

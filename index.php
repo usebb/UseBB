@@ -43,6 +43,11 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['ForumIndex']);
 
+$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a>';
+$template->parse('location_bar', 'global', array(
+	'location_bar' => $location_bar
+));
+
 //
 // Parse the forums
 //
@@ -133,10 +138,6 @@ if ( !$functions->get_stats('forums') ) {
 			
 		}
 		
-		$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a>';
-		$template->parse('location_bar', 'global', array(
-			'location_bar' => $location_bar
-		));
 		$template->parse('forumlist_header', 'forumlist', array(
 			'forum' => $lang['Forum'],
 			'topics' => $lang['Topics'],
@@ -245,13 +246,13 @@ if ( !$functions->get_stats('forums') ) {
 		//
 		$template->parse('forumlist_footer', 'forumlist');
 		
-		$template->parse('location_bar', 'global', array(
-			'location_bar' => $location_bar
-		));
-		
 	}
 	
 }
+
+$template->parse('location_bar', 'global', array(
+	'location_bar' => $location_bar
+));
 
 $functions->forum_stats_box();
 

@@ -43,6 +43,11 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['FAQ']);
 
+$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['FAQ'];
+$template->parse('location_bar', 'global', array(
+	'location_bar' => $location_bar
+));
+
 //
 // Get FAQ variables
 //
@@ -84,6 +89,10 @@ foreach ( $faq as $item ) {
 }
 
 $template->parse('faq_footer', 'faq');
+
+$template->parse('location_bar', 'global', array(
+	'location_bar' => $location_bar
+));
 
 //
 // Include the page footer

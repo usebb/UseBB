@@ -90,6 +90,11 @@ if ( !$functions->get_stats('topics') ) {
 		
 		$template->set_page_title($lang['ActiveTopics']);
 		
+		$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['ActiveTopics'];
+		$template->parse('location_bar', 'global', array(
+			'location_bar' => $location_bar
+		));
+		
 		$template->parse('topiclist_header', 'activetopics', array(
 			'topic' => $lang['Topic'],
 			'forum' => $lang['Forum'],
@@ -135,6 +140,10 @@ if ( !$functions->get_stats('topics') ) {
 		}
 		
 		$template->parse('topiclist_footer', 'activetopics');
+		
+		$template->parse('location_bar', 'global', array(
+			'location_bar' => $location_bar
+		));
 		
 	}
 	

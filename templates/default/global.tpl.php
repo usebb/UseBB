@@ -352,6 +352,7 @@ table.maintable td.count {
 	background-color: #E8E8E8;
 	width: 1%;
 	text-align: center;
+	font-weight: bold;
 }
 table.maintable td.lastpostinfo {
 	width: 195px;
@@ -521,6 +522,15 @@ table.maintable td.faqquestion .questiontitle {
 }
 table.maintable td.faqquestion .questionanswer {
 	margin: 0px 0px 0px 20px;
+}
+
+/* Active topics styles */
+
+table.maintable td.atforum {
+	font-size: 7pt;
+	width: 1%;
+}
+table.maintable td.attopic {
 }
 
 /* */

@@ -40,8 +40,8 @@ $templates['topiclist_header'] = '
 		</tr>
 		<tr>
 			<th></th>
-			<th>{topic}</th>
 			<th>{forum}</th>
+			<th>{topic}</th>
 			<th>{author}</th>
 			<th>{replies}</th>
 			<th>{views}</th>
@@ -52,8 +52,8 @@ $templates['topiclist_header'] = '
 $templates['topiclist_topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td>{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
-			<td>{forum}</td>
+			<td class="atforum">{forum}</td>
+			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
 			<td class="author">{author}</td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>

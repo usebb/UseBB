@@ -124,21 +124,25 @@ if ( !$db->num_rows($result) ) {
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
 				$functions->usebb_die('SQL', 'Unable to update stats!', __FILE__, __LINE__);
 			
-			//
-			// E-mail subscribed users
-			//
-			if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id")) )
-				$functions->usebb_die('SQL', 'Unable to get subscribed users!', __FILE__, __LINE__);			
-			if ( $db->num_rows($result) ) {
+			if ( !$functions->get_config('disable_info_emails') ) {
 				
-				while ( $subscribed_users = $db->fetch_result($result) ) {
+				//
+				// E-mail subscribed users
+				//
+				if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id")) )
+					$functions->usebb_die('SQL', 'Unable to get subscribed users!', __FILE__, __LINE__);			
+				if ( $db->num_rows($result) ) {
 					
-					$functions->usebb_mail(sprintf($lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $lang['NewReplyEmailBody'], array(
-						'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['name']) : stripslashes($poster_guest),
-						'topic_title' => stripslashes($topicdata['topic_title']),
-						'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
-						'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
-					), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_users['email']);
+					while ( $subscribed_users = $db->fetch_result($result) ) {
+						
+						$functions->usebb_mail(sprintf($lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $lang['NewReplyEmailBody'], array(
+							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['name']) : stripslashes($poster_guest),
+							'topic_title' => stripslashes($topicdata['topic_title']),
+							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
+							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
+						), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_users['email']);
+						
+					}
 					
 				}
 				

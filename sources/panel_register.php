@@ -180,11 +180,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 					'password' => $_POST['passwd1']
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
-			} else {
+			} elseif ( !$functions->get_config('disable_info_emails') ) {
 				
-				//
-				// Send the activation e-mail if necessary
-				//
 				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
 					'account_name' => stripslashes($_POST['user']),
 					'password' => $_POST['passwd1']

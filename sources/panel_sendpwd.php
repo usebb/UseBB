@@ -104,11 +104,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 					'password' => $new_password
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
-			} else {
+			} elseif ( !$functions->get_config('disable_info_emails') ) {
 				
-				//
-				// Send email containing the new password
-				//
 				$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
 					'account_name' => stripslashes($_POST['user']),
 					'password' => $new_password

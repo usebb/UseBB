@@ -66,6 +66,7 @@ $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
 $conf['debug'] = 1;
+$conf['disable_info_emails'] = 0;
 $conf['dst'] = 0;
 $conf['email_view_level'] = 1;
 $conf['enable_contactadmin'] = 1;

@@ -90,6 +90,7 @@ INSERT INTO usebb_config VALUES ('timezone', '0');
 INSERT INTO usebb_config VALUES ('dst', '0');
 INSERT INTO usebb_config VALUES ('enable_quickreply', '1');
 INSERT INTO usebb_config VALUES ('return_to_topic_after_posting', '1');
+INSERT INTO usebb_config VALUES ('kick_user_to_only_viewable_forum', '1');
 
 # --------------------------------------------------------
 

@@ -86,11 +86,22 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	while ( $forumdata = $db->fetch_result($result) ) {
 		
+		//
+		// If this user can view this forum
+		//
 		if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
 			
 			//
-			// If this user can view this forum
+			// If this is the only (viewable) forum and the forum has been set up
+			// to kick the user to this only (viewable) forum ...
 			//
+			if ( $functions->get_config('kick_user_to_only_viewable_forum') && intval($functions->get_stats('forums')) === 1 ) {
+				
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $forumdata['id'])));
+				exit();
+				
+			}
+			
 			if ( !isset($headershown) ) {
 				
 				//
@@ -202,88 +213,7 @@ if ( !$functions->get_stats('forums') ) {
 	
 }
 
-//
-// Online users
-//
-
-//
-// Timestamp for defining last updated sessions
-//
-$min_updated = gmmktime() - ( $functions->get_config('online_min_updated') * 60 );
-
-//
-// Get the session and user information
-//
-if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."users u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-	$functions->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
-
-//
-// Arrays for holding a list of online guests and members.
-//
-$online_guests = array();
-$online_members = array();
-
-while ( $onlinedata = $db->fetch_result($result) ) {
-	
-	if ( $onlinedata['id'] == 0 ) {
-		
-		//
-		// This is a guest
-		// Guests will only be counted per IP address
-		//
-		
-		if ( !isset($online_guests[$onlinedata['ip_addr']]) )
-			$online_guests[$onlinedata['ip_addr']] = TRUE;
-		
-	} else {
-		
-		//
-		// This is a member
-		//
-		
-		if ( !isset($online_members[$onlinedata['id']]) )
-			$online_members[$onlinedata['id']] = $functions->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
-		
-	}
-	
-}
-
-//
-// Online list
-//
-if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
-	$online_list_link = '';
-else
-	$online_list_link = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
-
-//
-// Members online
-//
-if ( count($online_members) > 0 ) {
-	
-	$members_online = join(', ', $online_members);
-	if ( !empty($online_list_link) )
-		$members_online .= ' '.$template->get_config('item_delimiter').' '.$online_list_link;
-	
-} else {
-	
-	$members_online = '';
-	if ( !empty($online_list_link) )
-		$members_online .= $online_list_link;
-	
-}
-
-//
-// Parse the online box
-//
-$template->parse('forumlist_stats', array(
-	'stats_title' => $lang['Statistics'],
-	'small_stats' => sprintf($lang['IndexStats'], $functions->get_stats('posts'), $functions->get_stats('topics'), $functions->get_stats('members')),
-	'newest_member' => ( !$functions->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => current($functions->get_stats('latest_member')))).'">'.next($functions->get_stats('latest_member')).'</a>'),
-	'online_title' => $lang['OnlineUsers'],
-	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')),
-	'members_online' => $members_online
-));
+$functions->forum_stats_box();
 
 //
 // Include the page footer

@@ -22,3 +22,11 @@ UPDATE usebb_templates SET content = '  <div class="linkbar">\r\n    {link_bar}\
 
 INSERT INTO usebb_templates_config VALUES ('forumlist_topic_rtrim_length', 'default', '20');
 INSERT INTO usebb_templates_config VALUES ('forumlist_topic_rtrim_completion', 'default', '...');
+
+# --------------------------------------------------------
+
+#
+# Dumping data for table `usebb_config`
+#
+
+INSERT INTO usebb_config VALUES ('kick_user_to_only_viewable_forum', '1');

@@ -812,6 +812,94 @@ class functions {
 		
 	}
 	
+	//
+	// Create a forum statistics box like on the forum index
+	//
+	function forum_stats_box() {
+		
+		global $db, $template, $lang;
+		
+		//
+		// Timestamp for defining last updated sessions
+		//
+		$min_updated = gmmktime() - ( $this->get_config('online_min_updated') * 60 );
+		
+		//
+		// Get the session and user information
+		//
+		if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."users u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+			$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
+		
+		//
+		// Arrays for holding a list of online guests and members.
+		//
+		$online_guests = array();
+		$online_members = array();
+		
+		while ( $onlinedata = $db->fetch_result($result) ) {
+			
+			if ( !$onlinedata['id'] ) {
+				
+				//
+				// This is a guest
+				// Guests will only be counted per IP address
+				//
+				
+				if ( !isset($online_guests[$onlinedata['ip_addr']]) )
+					$online_guests[$onlinedata['ip_addr']] = TRUE;
+				
+			} else {
+				
+				//
+				// This is a member
+				//
+				
+				if ( !isset($online_members[$onlinedata['id']]) )
+					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
+				
+			}
+			
+		}
+		
+		//
+		// Online list
+		//
+		if ( !$this->get_config('enable_online_list') || ( !$this->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
+			$online_list_link = '';
+		else
+			$online_list_link = '<a href="'.$this->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
+		
+		//
+		// Members online
+		//
+		if ( count($online_members) ) {
+			
+			$members_online = join(', ', $online_members);
+			if ( !empty($online_list_link) )
+				$members_online .= ' '.$template->get_config('item_delimiter').' '.$online_list_link;
+			
+		} else {
+			
+			$members_online = '';
+			if ( !empty($online_list_link) )
+				$members_online .= $online_list_link;
+			
+		}
+		
+		//
+		// Parse the online box
+		//
+		$template->parse('forumlist_stats', array(
+			'stats_title' => $lang['Statistics'],
+			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
+			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.next($this->get_stats('latest_member')).'</a>'),
+			'online_title' => $lang['OnlineUsers'],
+			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
+			'members_online' => $members_online
+		));
+		
+	}
+	
 }
 
 ?>

@@ -374,7 +374,7 @@ table.maintable td.forumcat {
 	color: #333333;
 }
 table.maintable td .forumname {
-	font-size: 10pt;
+	font-weight: bold;
 }
 table.maintable td .forumdescr {
 	margin: 3px 0px 0px 3px;

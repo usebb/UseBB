@@ -73,15 +73,11 @@ $templates['topic_post'] = '
 ';
 
 $templates['topic_footer'] = '
-		<tr>
-			<td colspan="2" class="actionlinks">
-				{action_links}
-			</td>
-		</tr>
 	</table>
 	<p id="toolbarbottom">{new_topic_link} {reply_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>
 	<div id="bottomfix"></div>
+	<p id="actionlinks">{action_links}</p>
 ';
 
 $templates['quick_reply'] = '

@@ -481,9 +481,12 @@ table.maintable tr.postseperator td {
 	padding: 0px;
 	height: 4px;
 }
-table.maintable td.actionlinks {
-	background-color: #E8E8E8;
-	font-weight: bold;
+#actionlinks {
+	color: #323232;
+	text-align: left;
+	padding: 3px;
+	margin-bottom: 10px;
+	margin-top: -10px;
 }
 
 /* FAQ styles */

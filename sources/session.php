@@ -292,6 +292,8 @@ class session {
 					
 					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != 3 ) )
 						$user_id = 0;
+					elseif ( !isset($_SESSION['previous_visit']) || $_SESSION['previous_visit'] == 0 )
+						$_SESSION['previous_visit'] = $user_info['last_pageview'];
 					
 				} else {
 					

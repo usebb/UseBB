@@ -142,10 +142,28 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	// Show the login form, if the user is not logged in
 	//
-	if ( $session->sess_info['user_id'] == 0 ) {
+	if ( !$session->sess_info['user_id'] ) {
 		
 		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
 		$_SESSION['referer'] = ( !empty($_SESSION['referer']) && !preg_match("/act=activate/", $_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
+		
+		if ( !empty($_POST['submitted']) ) {
+			
+			if ( !preg_match(USER_PREG, $_POST['user']) )
+				$errors[] = strtolower($lang['Username']);
+			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < 5 )
+				$errors[] = strtolower($lang['Password']);
+			
+			if ( is_array($errors) ) {
+				
+				$template->parse('msgbox', array(
+					'box_title' => $lang['Error'],
+					'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+				));
+				
+			}
+			
+		}
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(
@@ -161,7 +179,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
-			'form_end'       => '</form>'
+			'form_end'       => '<input type="hidden" name="submitted" value="true" /></form>'
 		));
 		
 	} else {
@@ -169,7 +187,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// If he/she is logged in, return to index
 		//
-		header('Location: index.php');
+		header('Location: '.$functions->make_url('index.php', array(), false));
 		
 	}
 	

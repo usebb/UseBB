@@ -133,6 +133,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			else
 				$posts_per_day = round($profiledata['posts'] / $days_since_registration, 2);
 			
+			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
+			
 			$template->parse('profile', 'various', array(
 				'title'         => sprintf($lang['Profile'], $profiledata['name']),
 				'username'      => $lang['Username'],
@@ -156,7 +158,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'location'      => $lang['Location'],
 				'location_v'    => htmlentities(stripslashes($profiledata['location'])),
 				'website'       => $lang['Website'],
-				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.htmlentities(stripslashes($profiledata['website'])).'" target="_blank">'.htmlentities(stripslashes($profiledata['website'])).'</a>' : '',
+				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.htmlentities(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.htmlentities(stripslashes($profiledata['website'])).'</a>' : '',
 				'occupation'    => $lang['Occupation'],
 				'occupation_v'  => htmlentities(stripslashes($profiledata['occupation'])),
 				'interests'     => $lang['Interests'],
@@ -167,13 +169,13 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'email'         => $lang['Email'],
 				'email_v'       => $functions->show_email($profiledata),
 				'msnm'          => $lang['MSNM'],
-				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'" target="_blank">'.$profiledata['msnm'].'</a>' : htmlentities(stripslashes($profiledata['msnm'])),
+				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : htmlentities(stripslashes($profiledata['msnm'])),
 				'yahoom'        => $lang['YahooM'],
-				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.htmlentities(stripslashes($profiledata['yahoom'])).'" target="_blank">'.htmlentities(stripslashes($profiledata['yahoom'])).'</a>' : '',
+				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.htmlentities(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.htmlentities(stripslashes($profiledata['yahoom'])).'</a>' : '',
 				'aim'           => $lang['AIM'],
 				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.htmlentities(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.htmlentities(stripslashes($profiledata['aim'])).'</a>' : '',
 				'icq'           => $lang['ICQ'],
-				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://web.icq.com/whitepages/about_me/1,,,00.html?Uin='.intval($profiledata['icq']).'" target="_blank">'.intval($profiledata['icq']).'</a>' : htmlentities(stripslashes($profiledata['icq'])),
+				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://web.icq.com/whitepages/about_me/1,,,00.html?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : htmlentities(stripslashes($profiledata['icq'])),
 				'icq_status'    => ( is_numeric($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
 				'jabber'        => $lang['Jabber'],
 				'jabber_v'      => htmlentities(stripslashes($profiledata['jabber']))

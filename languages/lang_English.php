@@ -326,3 +326,4 @@ $lang['OldForum'] = 'Old forum';
 $lang['NewForum'] = 'New forum';
 $lang['IAccept'] = 'I accept';
 $lang['IDontAccept'] = 'I don\'t accept';
+$lang['OpenLinksNewWindow'] = 'Open external links in new windows';

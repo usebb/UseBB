@@ -167,6 +167,10 @@ $templates['edit_options'] = '
 			<td class="td1">{return_to_topic_input}</td>
 		</tr>
 		<tr>
+			<td width="25%" class="td2">{target_blank}</td>
+			<td class="td1">{target_blank_input}</td>
+		</tr>
+		<tr>
 			<td colspan="2" class="td2"><div align="center">{submit_button}&nbsp;{reset_button}</div></td>
 		</tr>
 	</table>

@@ -606,6 +606,8 @@ class functions {
 			//
 			$string = ' '.$string.' ';
 			
+			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
+			
 			// [b]text[/b]
 				$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<b>\\1</b>', $string);
 			// [i]text[/i]
@@ -615,11 +617,11 @@ class functions {
 			// [img]image[/img]
 				$string = preg_replace("#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is", '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />', $string);
 			// [url]http://www.usebb.net[/url]
-				$string = preg_replace("#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is", '<a href="\\1" target="_blank">\\1</a>', $string);
+				$string = preg_replace("#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is", '<a href="\\1"'.$target_blank.'>\\1</a>', $string);
 			// [url=http://www.usebb.net]UseBB[/url]
-				$string = preg_replace("#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is", '<a href="\\1" target="_blank">\\2</a>', $string);
+				$string = preg_replace("#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is", '<a href="\\1"'.$target_blank.'>\\2</a>', $string);
 			// http://www.usebb.net
-				$string = preg_replace("#\s([\w]+?://[^ \"\n\r\t<]*?)\s#is", ' <a href="\\1" target="_blank">\\1</a> ', $string);
+				$string = preg_replace("#\s([\w]+?://[^ \"\n\r\t<]*?)\s#is", ' <a href="\\1"'.$target_blank.'>\\1</a> ', $string);
 			// [mailto]somebody@nonexistent.com[/mailto]
 				$string = preg_replace("#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is", '<a href="mailto:\\1">\\1</a>', $string);
 			// [mailto=somebody@nonexistent.com]mail me[/mailto]

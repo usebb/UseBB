@@ -90,11 +90,11 @@ $templates['normal_footer'] = '
 		{link_bar}
 	</div>
 	<div class="banners">
-		<a href="http://www.usebb.net" target="_blank"><img src="{img_dir}powered-by-usebb.gif" alt="Powered by UseBB" /></a>
-		<a href="http://validator.w3.org/check/referer" target="_blank"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" /></a>
-		<a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" /></a>
-		<a href="http://www.php.net" target="_blank"><img src="{img_dir}php-power-white.gif" alt="Powered by PHP" /></a>
-		<a href="http://www.mysql.com" target="_blank"><img src="{img_dir}powered-by-mysql-88x31.png" alt="Powered by MySQL" /></a>
+		<a href="http://www.usebb.net"><img src="{img_dir}powered-by-usebb.gif" alt="Powered by UseBB" /></a>
+		<a href="http://validator.w3.org/check/referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" /></a>
+		<a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" /></a>
+		<a href="http://www.php.net"><img src="{img_dir}php-power-white.gif" alt="Powered by PHP" /></a>
+		<a href="http://www.mysql.com"><img src="{img_dir}powered-by-mysql-88x31.png" alt="Powered by MySQL" /></a>
 	</div>
 	<div class="copyright">
 		<!--
@@ -103,7 +103,7 @@ $templates['normal_footer'] = '
 			If you don\'t want to show the Copyright notice, just leave the Powered by UseBB line. If you
 			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
 		-->
-		Powered by <a href="http://www.usebb.net" target="_blank">UseBB</a> {usebb_version} - Copyright &copy; 2003-2004 UseBB Team
+		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} - Copyright &copy; 2003-2004 UseBB Team
 	</div>
 	
 	</div>

@@ -52,7 +52,6 @@ class functions {
 					
 					foreach ( $global[$key] as $key1 => $val1 )
 						$global[$key][$key1] = addslashes($val1);
-					@reset($global[$key]);
 					
 				} else {
 					
@@ -62,7 +61,6 @@ class functions {
 				
 			}
 			
-			@reset($global);
 			return $global;
 			
 		}
@@ -82,7 +80,6 @@ class functions {
 					
 					foreach ( $global[$key] as $key1 => $val1 )
 						$global[$key][$key1] = trim($val1);
-					@reset($global[$key]);
 					
 				} else {
 					
@@ -92,7 +89,6 @@ class functions {
 				
 			}
 			
-			@reset($global);
 			return $global;
 			
 		}

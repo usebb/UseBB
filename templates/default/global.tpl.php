@@ -59,6 +59,8 @@ $templates['config'] = array(
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',
 	'quick_reply_textarea_cols'			=> '60',
+	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
+	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
 );
 
 //
@@ -92,6 +94,7 @@ $templates['normal_footer'] = '
 	<p id="linkbar">
 		{link_bar}
 	</p>
+	{debug_info_small}
 	<address id="bottom">
 		<!--
 			We request not to remove the following copyright notice including the link to the UseBB Home Page.
@@ -102,7 +105,7 @@ $templates['normal_footer'] = '
 		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2005 UseBB Team
 	</address>
 	<div id="bottom-shadow"></div>
-	
+	{debug_info_large}
 	</div>
 	</div>
 	</div>
@@ -576,6 +579,26 @@ p#linkbar {
 	line-height: 100%;
 	overflow: hidden;
 	width: 100%; /* Be nice to Safari */
+}
+
+#debug-info-small {
+	margin: 0px 0px 20px 0px;
+	padding: 3px;
+	text-align: center;
+	background-color: #E8E8E8;
+	border: 1px solid silver;
+	color: #333333;
+}
+
+#debug-info-large {
+	margin: 20px 0px 0px 0px;
+	font-size: 7pt;
+	text-align: left;
+	color: #333333;
+}
+#debug-info-large select, #debug-info-large textarea {
+	color: #333333;
+	font-size: 7pt !important;
 }
 ';
 

@@ -39,6 +39,7 @@ class template {
 	//
 	var $loaded_sections;
 	var $templates;
+	var $requests;
 	var $body;
 	
 	//
@@ -48,6 +49,7 @@ class template {
 		
 		$this->loaded_sections = array();
 		$this->templates = array();
+		$this->requests = array();
 		$this->body = '';
 		
 	}
@@ -97,7 +99,7 @@ class template {
 	//
 	// Parse a template
 	//
-	function parse($name='', $section, $vars=array()) {
+	function parse($name='', $section, $variables=array()) {
 		
 		global $functions;
 		
@@ -106,30 +108,36 @@ class template {
 		//
 		$this->load_section($section);
 		
-		$vars = ( is_array($vars) && count($vars) ) ? $vars : array();
-		$vars['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
-		
 		if ( !isset($this->templates[$name]) )
 			$functions->usebb_die('Template', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 		
-		$current_template = $this->templates[$name];
-		foreach ( $vars as $key => $val ) {
+		$this->requests[] = array(
+			'template_name' => $name,
+			'variables' => ( is_array($variables) && count($variables) ) ? $variables : array()
+		);
+		
+	}
+	
+	//
+	// Add global template variables
+	// You can overwite existing variables with this function
+	//
+	function add_global_vars($variables) {
+		
+		foreach ( $this->requests as $request_key => $null ) {
 			
-			if ( is_array($val) )
-				$functions->usebb_die('Template', 'Unable to translate "{'.$key.'}" to an array!', __FILE__, __LINE__);
-			$current_template = str_replace('{'.$key.'}', $val, $current_template);
+			$this->requests[$request_key]['variables'] = array_merge($this->requests[$request_key]['variables'], $variables);
 			
 		}
-		$this->body .= $current_template;
 		
 	}
 	
 	//
 	// Set the page title
 	//
-	function set_page_title($title) {
+	function set_page_title($page_title) {
 		
-		$this->body = str_replace('{page_title}', $title, $this->body);
+		$this->add_global_vars(array('page_title' => $page_title));
 		
 	}
 	
@@ -163,21 +171,41 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_output = '<div style="text-align:center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries()).'</small></div>';
+				$this->add_global_vars(array(
+					'debug_info_small' => sprintf($this->get_config('debug_info_small'), 'PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries())),
+					'debug_info_large' => ''
+				));
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
 				
 				//
 				// Lists parsetime and queries fully
 				//
-				$debug_output = '<div><strong>Debug mode</strong><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea></div>';
+				$this->add_global_vars(array(
+					'debug_info_large' => sprintf($this->get_config('debug_info_large'), '<strong>Debug mode</strong><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea>'),
+					'debug_info_small' => ''
+				));
 				
 			}
 			
-			if ( preg_match('#</body>#i', $this->body) )
-				$this->body = preg_replace('#</body>#i', $debug_output.'</body>', $this->body);
-			else
-				$this->body .= $debug_output;
+		}
+		
+		//
+		// Parse all templates
+		//
+		foreach ( $this->requests as $request ) {
+			
+			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
+			
+			$current_template = $this->templates[$request['template_name']];
+			foreach ( $request['variables'] as $key => $val ) {
+				
+				if ( is_array($val) )
+					$functions->usebb_die('Template', 'Unable to translate "{'.$key.'}" to an array!', __FILE__, __LINE__);
+				$current_template = str_replace('{'.$key.'}', $val, $current_template);
+				
+			}
+			$this->body .= $current_template;
 			
 		}
 		

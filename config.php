@@ -103,3 +103,5 @@ $conf['view_hidden_email_addresses_min_level'] = 3;
 // Comment out the following line
 //
 #die('Please edit your config.php file first!');
+
+?>

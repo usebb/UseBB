@@ -122,7 +122,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			
 			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($topicdata['topic_title'])));
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.unhtml(stripslashes($topicdata['topic_title'])));
 			
 			//
 			// Update views count
@@ -201,7 +201,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Output the posts
 			//
 			$template->parse('topic_header', 'topic', array(
-				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>',
+				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
 				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
@@ -250,7 +250,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					if ( !empty($postsdata['rank']) ) {
 						
-						$poster_rank = htmlspecialchars(stripslashes($postsdata['rank']));
+						$poster_rank = unhtml(stripslashes($postsdata['rank']));
 						
 					} else {
 						
@@ -283,7 +283,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					// The poster was a guest
 					//
-					$poster_name = htmlspecialchars(stripslashes($postsdata['poster_guest']));
+					$poster_name = unhtml(stripslashes($postsdata['poster_guest']));
 					$poster_rank = $lang['Guest'];
 					$avatar = '';
 					
@@ -291,7 +291,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				
 				
 				$topic_title  = ( $i > 1 ) ? $lang['Re'].' ' : '';
-					$topic_title .= htmlspecialchars(stripslashes($topicdata['topic_title']));
+					$topic_title .= unhtml(stripslashes($topicdata['topic_title']));
 				
 				//
 				// Links used to control posts: quote, edit, delete...
@@ -343,7 +343,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'poster_avatar' => $avatar,
 					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
 					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M y') : '',
-					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.htmlspecialchars(stripslashes($postsdata['location'])) : '',
+					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.unhtml(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
 					'post_date' => $functions->make_date($postsdata['post_time']),
@@ -413,11 +413,11 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				// Get session saved guest's username if there is one
 				//
-				$username = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? htmlspecialchars(stripslashes($_SESSION['user'])) : '';
+				$username = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? unhtml(stripslashes($_SESSION['user'])) : '';
 				
 				$template->parse('quick_reply', 'topic', array(
 					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" method="post">',
-					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
+					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content"></textarea>',
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" /><input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',

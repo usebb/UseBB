@@ -55,10 +55,10 @@ if ( !$session->sess_info['user_id'] ) {
 		
 		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->make_url('index.php', array(), false);
 		
-		$template->set_page_title(sprintf($lang['LogOut'], htmlspecialchars(stripslashes($session->sess_info['user_info']['name']))));
+		$template->set_page_title(sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))));
 		$template->parse('confirm_form', 'global', array(
 			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'logout')).'" method="post">',
-			'title' => sprintf($lang['LogOut'], htmlspecialchars(stripslashes($session->sess_info['user_info']['name']))),
+			'title' => sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))),
 			'content' => $lang['LogOutConfirm'],
 			'submit_button' => '<input type="submit" name="logout" value="'.$lang['Yes'].'" />',
 			'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',

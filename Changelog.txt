@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4.1 Changelog
 ------------------------------
 
+- Final fix for Cyrillic (and other) character sets.
 - Fixes for UseBB to work on PHP 4.1.0.
 - Don't do length check of password on login form.
 

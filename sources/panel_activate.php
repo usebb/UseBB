@@ -77,7 +77,7 @@ if ( $db->num_rows($result) === 1 ) {
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Activate'],
-			'content' => sprintf($lang['Activated'], '<em>'.htmlspecialchars(stripslashes($userdata['name'])).'</em>')
+			'content' => sprintf($lang['Activated'], '<em>'.unhtml(stripslashes($userdata['name'])).'</em>')
 		));
 		
 	//

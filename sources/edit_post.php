@@ -95,8 +95,8 @@ if ( !isset($_GET['act']) ) {
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					
 					$poster_guest = ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ? $_POST['poster_guest'] : '';
-					$topic_title = ( !empty($_POST['topic_title']) ) ? htmlspecialchars(stripslashes($_POST['topic_title'])) : '';
-					$content = ( !empty($_POST['content']) ) ? htmlspecialchars(stripslashes($_POST['content'])) : '';
+					$topic_title = ( !empty($_POST['topic_title']) ) ? unhtml(stripslashes($_POST['topic_title'])) : '';
+					$content = ( !empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
 					$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
 					$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
 					$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
@@ -129,8 +129,8 @@ if ( !isset($_GET['act']) ) {
 				} else {
 					
 					$poster_guest = $postdata['poster_guest'];
-					$topic_title = htmlspecialchars(stripslashes($postdata['topic_title']));
-					$content = htmlspecialchars(stripslashes($postdata['content']));
+					$topic_title = unhtml(stripslashes($postdata['topic_title']));
+					$content = unhtml(stripslashes($postdata['content']));
 					$enable_bbcode_checked = ( $postdata['enable_bbcode'] ) ? ' checked="checked"' : '';
 					$enable_smilies_checked = ( $postdata['enable_smilies'] ) ? ' checked="checked"' : '';
 					$enable_sig_checked = ( $postdata['enable_sig'] ) ? ' checked="checked"' : '';
@@ -150,8 +150,8 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('post_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',
 					'post_title' => $lang['EditPost'],
-					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.htmlspecialchars(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.htmlspecialchars(stripslashes($poster_guest)).'" />',
-					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
+					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" />',
+					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$content.'</textarea>',
 					'options_input' => $options_input,
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
@@ -355,7 +355,7 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeletePost'],
-					'content' => sprintf($lang['ConfirmDeletePost'], '<em>'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</em>'),
+					'content' => sprintf($lang['ConfirmDeletePost'], '<em>'.unhtml(stripslashes($postdata['topic_title'])).'</em>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'

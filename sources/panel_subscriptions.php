@@ -53,7 +53,7 @@ if ( !$db->num_rows($result) ) {
 		//
 		// Loop through the topics, generating output...
 		//
-		$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>';
+		$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>';
 		if ( $topicdata['status_sticky'] )
 			$topic_name = $lang['Sticky'].': '.$topic_name;
 		$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
@@ -68,8 +68,8 @@ if ( !$db->num_rows($result) ) {
 			'topic_status' => $topic_status,
 			'topic_name' => $topic_name,
 			'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
-			'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a>',
-			'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : htmlspecialchars(stripslashes($topicdata['poster_guest'])),
+			'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>',
+			'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : unhtml(stripslashes($topicdata['poster_guest'])),
 			'replies' => $topicdata['count_replies'],
 			'views' => $topicdata['count_views'],
 			'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),

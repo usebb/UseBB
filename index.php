@@ -156,7 +156,7 @@ if ( !$functions->get_stats('forums') ) {
 				// If we didn't parse this category yet, than do it now
 				//
 				$template->parse('forumlist_cat_header', 'forumlist', array(
-					'cat_name' => htmlspecialchars(stripslashes($forumdata['cat_name'])),
+					'cat_name' => unhtml(stripslashes($forumdata['cat_name'])),
 					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id']
 				));
 				
@@ -180,10 +180,10 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
 					if ( strlen(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
-						$last_topic_title .= htmlspecialchars(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
+						$last_topic_title .= unhtml(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
 					else
-						$last_topic_title .= htmlspecialchars(stripslashes($forumdata['topic_title']));
-					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : htmlspecialchars(stripslashes($forumdata['poster_guest']));
+						$last_topic_title .= unhtml(stripslashes($forumdata['topic_title']));
+					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : unhtml(stripslashes($forumdata['poster_guest']));
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
 					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
@@ -197,7 +197,7 @@ if ( !$functions->get_stats('forums') ) {
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => $forum_icon,
 					'forum_status' => $forum_status,
-					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
+					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
 					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['ModeratorList'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
 					'total_topics' => $forumdata['topics'],
@@ -216,7 +216,7 @@ if ( !$functions->get_stats('forums') ) {
 				// If we didn't parse this category footer yet, than do it now
 				//
 				$template->parse('forumlist_cat_footer', 'forumlist', array(
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlspecialchars(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.unhtml(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				
 			}

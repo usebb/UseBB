@@ -81,7 +81,7 @@ $template->parse('normal_header', 'global', array(
 	'link_search' => $functions->make_url('search.php'),
 	'link_active' => $functions->make_url('active.php'),
 	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
-	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn']
+	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn']
 ));
 
 //

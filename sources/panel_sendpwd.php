@@ -115,14 +115,14 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['SendPassword'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email'])
 			));
 			
 		} else {
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
+				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 			));
 			
 		}

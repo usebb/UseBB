@@ -88,7 +88,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			} else {
 				
 				$profiledata = $db->fetch_result($result);
-				$template->set_page_title(sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))));
+				$template->set_page_title(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['name']))));
 				
 			}
 			
@@ -141,30 +141,30 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
 			$template->parse('profile', 'various', array(
-				'title'         => sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))),
-				'username_v'    => htmlspecialchars(stripslashes($profiledata['name'])),
+				'title'         => sprintf($lang['Profile'], unhtml(stripslashes($profiledata['name']))),
+				'username_v'    => unhtml(stripslashes($profiledata['name'])),
 				'userid_v'      => $_GET['id'],
-				'real_name_v'   => htmlspecialchars(stripslashes($profiledata['real_name'])),
+				'real_name_v'   => unhtml(stripslashes($profiledata['real_name'])),
 				'level_v'       => $level,
-				'rank_v'        => htmlspecialchars(stripslashes($profiledata['rank'])),
+				'rank_v'        => unhtml(stripslashes($profiledata['rank'])),
 				'avatar_v'      => $avatar,
 				'regdate_v'     => $functions->make_date($profiledata['regdate']),
 				'posts_v'       => $profiledata['posts'],
 				'postsperday_v' => $posts_per_day,
 				'lastlogin_v'   => $last_login,
-				'location_v'    => htmlspecialchars(stripslashes($profiledata['location'])),
-				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.htmlspecialchars(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.htmlspecialchars(stripslashes($profiledata['website'])).'</a>' : '',
-				'occupation_v'  => htmlspecialchars(stripslashes($profiledata['occupation'])),
-				'interests_v'   => htmlspecialchars(stripslashes($profiledata['interests'])),
+				'location_v'    => unhtml(stripslashes($profiledata['location'])),
+				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.unhtml(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['website'])).'</a>' : '',
+				'occupation_v'  => unhtml(stripslashes($profiledata['occupation'])),
+				'interests_v'   => unhtml(stripslashes($profiledata['interests'])),
 				'signature_v'   => $functions->markup(stripslashes($profiledata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
 				'email_v'       => $functions->show_email($profiledata),
-				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : htmlspecialchars(stripslashes($profiledata['msnm'])),
-				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.htmlspecialchars(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.htmlspecialchars(stripslashes($profiledata['yahoom'])).'</a>' : '',
-				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.htmlspecialchars(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.htmlspecialchars(stripslashes($profiledata['aim'])).'</a>' : '',
-				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : htmlspecialchars(stripslashes($profiledata['icq'])),
+				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm'])),
+				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.unhtml(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['yahoom'])).'</a>' : '',
+				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.unhtml(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.unhtml(stripslashes($profiledata['aim'])).'</a>' : '',
+				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : unhtml(stripslashes($profiledata['icq'])),
 				'icq_status'    => ( is_numeric($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
-				'jabber_v'      => htmlspecialchars(stripslashes($profiledata['jabber'])),
-				'skype_v'       => htmlspecialchars(stripslashes($profiledata['skype']))
+				'jabber_v'      => unhtml(stripslashes($profiledata['jabber'])),
+				'skype_v'       => unhtml(stripslashes($profiledata['skype']))
 			));
 			
 		} else {

@@ -30,70 +30,78 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Various functions
+// Add slashes to a global variable
 //
+function slashes_to_global($global) {
+	
+	if ( is_array($global) ) {
+		
+		foreach ( $global as $key => $val ) {
+			
+			if ( is_array($global[$key]) ) {
+				
+				foreach ( $global[$key] as $key1 => $val1 )
+					$global[$key][$key1] = addslashes($val1);
+				
+			} else {
+				
+				$global[$key] = addslashes($val);
+				
+			}
+			
+		}
+		
+		return $global;
+		
+	}
+	
+}
+
+//
+// Remove spaces before and after variables
+//
+function trim_global($global) {
+	
+	if ( is_array($global) ) {
+		
+		foreach ( $global as $key => $val ) {
+			
+			if ( is_array($global[$key]) ) {
+				
+				foreach ( $global[$key] as $key1 => $val1 )
+					$global[$key][$key1] = trim($val1);
+				
+			} else {
+				
+				$global[$key] = trim($val);
+				
+			}
+			
+		}
+		
+		return $global;
+		
+	}
+	
+}
+
+//
+// Replacement for htmlspecialchars()
+// Doesn't mess up Cyrillic (and other) characters
+// which are sent in entities by a browser
+//
+function unhtml($string) {
+	
+	return preg_replace('#<([\/]?.*?)>#is', '&lt;\\1&gt;', $string);
+	
+}
+
 class functions {
 	
 	var $board_config;
 	var $statistics;
 	var $enabled_templates;
 	var $mod_auth;
-	
-	//
-	// Add slashes to a global variable
-	//
-	function slashes_to_global($global) {
-		
-		if ( is_array($global) ) {
-			
-			foreach ( $global as $key => $val ) {
-				
-				if ( is_array($global[$key]) ) {
-					
-					foreach ( $global[$key] as $key1 => $val1 )
-						$global[$key][$key1] = addslashes($val1);
-					
-				} else {
-					
-					$global[$key] = addslashes($val);
-					
-				}
-				
-			}
-			
-			return $global;
-			
-		}
-		
-	}
-	
-	//
-	// Remove spaces before and after variables
-	//
-	function trim_global($global) {
-		
-		if ( is_array($global) ) {
-			
-			foreach ( $global as $key => $val ) {
-				
-				if ( is_array($global[$key]) ) {
-					
-					foreach ( $global[$key] as $key1 => $val1 )
-						$global[$key][$key1] = trim($val1);
-					
-				} else {
-					
-					$global[$key] = trim($val);
-					
-				}
-				
-			}
-			
-			return $global;
-			
-		}
-		
-	}
 	
 	//
 	// General error die function
@@ -777,7 +785,7 @@ class functions {
 		global $template, $lang;
 		
 		if ( !$html )
-			$string = htmlspecialchars($string);
+			$string = unhtml($string);
 		
 		if ( $smilies ) {
 			
@@ -1013,7 +1021,7 @@ class functions {
 			
 		}
 		
-		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.htmlspecialchars(stripslashes($username)).'</a>';
+		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.unhtml(stripslashes($username)).'</a>';
 		
 	}
 	
@@ -1065,12 +1073,14 @@ class functions {
 			
 		}
 		
+		$latest_member = $this->get_stats('latest_member');
+		
 		//
 		// Parse the online box
 		//
 		$template->parse('forum_stats_box', 'various', array(
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
-			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.htmlentities(stripslashes(next($this->get_stats('latest_member')))).'</a>'),
+			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['name'])).'</a>'),
 			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
 			'members_online' => ( count($online_members) ) ? join(', ', $online_members) : '',
 			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''

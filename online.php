@@ -239,25 +239,25 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		if ( empty($location) ) {
 			
 			if ( preg_match('#^forum:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
-				$location = '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>';
+				$location = '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>';
 			elseif ( preg_match('#^posttopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
-				$location = sprintf($lang['PostingTopic'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['forums'][$matches[1]])).'</a>');
+				$location = sprintf($lang['PostingTopic'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^topic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>';
+				$location = '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>';
 			elseif ( preg_match('#^reply:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = sprintf($lang['PostingReply'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+				$location = sprintf($lang['PostingReply'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^movetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = sprintf($lang['MovingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+				$location = sprintf($lang['MovingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^deletetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = sprintf($lang['DeletingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['topics'][$matches[1]])).'</a>');
+				$location = sprintf($lang['DeletingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^editpost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
-				$location = sprintf($lang['EditingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
+				$location = sprintf($lang['EditingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.unhtml(stripslashes($names['posts'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^deletepost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
-				$location = sprintf($lang['DeletingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.htmlspecialchars(stripslashes($names['posts'][$matches[1]])).'</a>');
+				$location = sprintf($lang['DeletingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.unhtml(stripslashes($names['posts'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^profile:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
-				$location = sprintf($lang['Profile'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
+				$location = sprintf($lang['Profile'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['users'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^sendemail:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
-				$location = sprintf($lang['SendEmail'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.htmlspecialchars(stripslashes($names['users'][$matches[1]])).'</a>');
+				$location = sprintf($lang['SendEmail'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['users'][$matches[1]])).'</a>');
 			else
 				$location = $lang['Unknown'];
 			

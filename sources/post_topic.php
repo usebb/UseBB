@@ -133,7 +133,7 @@ if ( !$db->num_rows($result) ) {
 			
 		} else {
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic']);
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
@@ -187,8 +187,8 @@ if ( !$db->num_rows($result) ) {
 			}
 			
 			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-			$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlspecialchars(stripslashes($_POST['subject'])) : '';
-			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlspecialchars(stripslashes($_POST['content'])) : '';
+			$_POST['subject'] = ( !empty($_POST['subject']) ) ? unhtml(stripslashes($_POST['subject'])) : '';
+			$_POST['content'] = ( !empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
 			
 			$options_input = array();
 			$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';
@@ -208,7 +208,7 @@ if ( !$db->num_rows($result) ) {
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('forum' => $_GET['forum'])).'" method="post">',
 				'post_title' => $lang['PostNewTopic'],
-				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
+				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 				'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$_POST['content'].'</textarea>',
 				'options_input' => $options_input,

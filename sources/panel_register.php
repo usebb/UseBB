@@ -64,7 +64,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
+			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} else {
@@ -138,7 +138,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['BannedUsername'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
+				'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 			));
 			
 		} elseif ( $email_banned ) {
@@ -200,7 +200,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 			//
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Register'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
 			));
 			
 		}
@@ -251,7 +251,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
-		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
+		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
@@ -283,7 +283,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 		$template->parse('confirm_form', 'global', array(
 			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 			'title' => $lang['TermsOfUse'],
-			'content' => nl2br(htmlspecialchars($lang['TermsOfUseContent'])),
+			'content' => nl2br(unhtml($lang['TermsOfUseContent'])),
 			'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
 			'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 			'form_end' => '</form>'

@@ -108,9 +108,9 @@ if ( empty($_GET['act']) ) {
 			
 			$template->parse('memberlist_user', 'memberlist', array(
 				'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
-				'real_name' => htmlspecialchars(stripslashes($userdata['real_name'])),
+				'real_name' => unhtml(stripslashes($userdata['real_name'])),
 				'level' => $level,
-				'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
+				'rank' => unhtml(stripslashes($userdata['rank'])),
 				'registered' => $functions->make_date($userdata['regdate']),
 				'posts' => $userdata['posts'],
 				'email' => $functions->show_email($userdata),
@@ -185,8 +185,8 @@ if ( empty($_GET['act']) ) {
 				
 				$template->parse('stafflist_user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
-					'real_name' => htmlspecialchars(stripslashes($userdata['real_name'])),
-					'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
+					'real_name' => unhtml(stripslashes($userdata['real_name'])),
+					'rank' => unhtml(stripslashes($userdata['rank'])),
 					'registered' => $functions->make_date($userdata['regdate']),
 					'posts' => $userdata['posts'],
 					'email' => $functions->show_email($userdata),
@@ -208,8 +208,8 @@ if ( empty($_GET['act']) ) {
 				
 				$template->parse('stafflist_user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
-					'real_name' => htmlspecialchars(stripslashes($userdata['real_name'])),
-					'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
+					'real_name' => unhtml(stripslashes($userdata['real_name'])),
+					'rank' => unhtml(stripslashes($userdata['rank'])),
 					'registered' => $functions->make_date($userdata['regdate']),
 					'posts' => $userdata['posts'],
 					'email' => $functions->show_email($userdata),

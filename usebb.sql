@@ -1,4 +1,14 @@
-# $Header$
+# phpMyAdmin SQL Dump
+# version 2.5.6-rc1
+# http://www.phpmyadmin.net
+#
+# Host: localhost
+# Generation Time: Mar 10, 2004 at 05:23 PM
+# Server version: 4.0.16
+# PHP Version: 4.3.4
+# 
+# Database : `usebb`
+# 
 
 # --------------------------------------------------------
 
@@ -149,7 +159,7 @@ INSERT INTO usebb_language VALUES ('LastLogin', 'English', 'Last login');
 INSERT INTO usebb_language VALUES ('VariousInfo', 'English', 'Various Information');
 INSERT INTO usebb_language VALUES ('IndexStats', 'English', 'This board contains %d posts in %d topics posted by %d members.');
 INSERT INTO usebb_language VALUES ('IndexLastUser', 'English', 'Welcome to our newest member, %s.');
-INSERT INTO usebb_language VALUES ('OnlineUsers', 'English', 'There are %d members and %d guests online in the past %d minutes.');
+INSERT INTO usebb_language VALUES ('OnlineUsers', 'English', 'There are %d members and %d guests online in the past %d minutes');
 INSERT INTO usebb_language VALUES ('Username', 'English', 'Username');
 INSERT INTO usebb_language VALUES ('CurrentPassword', 'English', 'Current password');
 INSERT INTO usebb_language VALUES ('UserID', 'English', 'User ID');
@@ -267,6 +277,7 @@ INSERT INTO usebb_language VALUES ('Again', 'English', 'Again');
 INSERT INTO usebb_language VALUES ('NewPassword', 'English', 'New password');
 INSERT INTO usebb_language VALUES ('NewPasswordAgain', 'English', 'New password (again)');
 INSERT INTO usebb_language VALUES ('PasswordEdited', 'English', 'Your password has been edited succesfully.');
+INSERT INTO usebb_language VALUES ('DetailedList', 'English', 'Detailed list');
 
 # --------------------------------------------------------
 

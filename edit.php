@@ -51,7 +51,7 @@ if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 	//
 	// There's no ID! Get us back to the index...
 	//
-	header('Location: '.$functions->make_url('index.php', array(), false));
+	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 	
 }
 

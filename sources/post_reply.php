@@ -110,9 +110,9 @@ if ( !$db->num_rows($result) ) {
 				$functions->usebb_die('SQL', 'Unable to update stats!', __FILE__, __LINE__);
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )
-				header('Location: '.$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id);
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id);
 			else
-				header('Location: '.$functions->make_url('forum.php', array('id' => $topicdata['forum_id']), false));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id']), false));
 			
 		} else {
 			

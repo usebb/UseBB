@@ -4,6 +4,7 @@ UseBB 0.3 Changelog
 ------------------------------
 
 - Fixed bug 990425: Debug messages are passed to CSS as well.
+- Fixed bug 990463: Location HTTP Header should only take absolute URLs.
 
 UseBB 0.2.3 Changelog
 ------------------------------

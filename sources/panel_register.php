@@ -268,7 +268,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	// The user did not accept to the terms of use
 	//
-	$refere_to = ( !empty($_SESSION['referer']) && !preg_match("/act=(logout|register|activate)/", $_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $functions->make_url('index.php', array(), false);
+	$refere_to = ( !empty($_SESSION['referer']) && !preg_match("/act=(logout|register|activate)/", $_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 	unset($_SESSION['referer']);
 	header('Location: '.$refere_to);
 	

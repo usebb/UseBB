@@ -198,7 +198,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// If he/she is logged in, return to index
 		//
-		header('Location: '.$functions->make_url('index.php', array(), false));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 		
 	}
 	

@@ -161,11 +161,11 @@ if ( $_GET['act'] == 'delete' ) {
 					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-". ( $topicdata['count_replies']+1 ) ." WHERE name = 'posts'")) )
 						$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
 					
-					header('Location: '.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])));
+					header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])));
 					
 				} else {
 					
-					header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 					
 				}
 				
@@ -257,14 +257,14 @@ if ( $_GET['act'] == 'delete' ) {
 						$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
 					if ( !$db->num_rows($result) ) {
 						
-						header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+						header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 						
 					} else {
 						
 						$forumdata = $db->fetch_result($result);
 						if ( !$functions->auth($forumdata['auth'], 'view', $_POST['new_forum_id']) ) {
 							
-							header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 							
 						} else {
 							
@@ -316,7 +316,7 @@ if ( $_GET['act'] == 'delete' ) {
 							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+". ( $topicdata['count_replies']+1 ) .$update_new_last_topic_id." WHERE id = ".$_POST['new_forum_id'])) )
 								$functions->usebb_die('SQL', 'Unable to update new forum counts!', __FILE__, __LINE__);
 							
-							header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 							
 						}
 						
@@ -324,7 +324,7 @@ if ( $_GET['act'] == 'delete' ) {
 				
 				} else {
 					
-					header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 					
 				}
 				
@@ -405,7 +405,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$db->num_rows($result) ) {
 		
-		header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
@@ -418,14 +418,14 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( $topicdata['status_locked'] ) {
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id = ".$_GET['topic'])) )
 					$functions->usebb_die('SQL', 'Unable to update topic lock status!', __FILE__, __LINE__);
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			}
 			
@@ -445,7 +445,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$db->num_rows($result) ) {
 		
-		header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
@@ -458,14 +458,14 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( !$topicdata['status_locked'] ) {
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 0 WHERE id = ".$_GET['topic'])) )
 					$functions->usebb_die('SQL', 'Unable to update topic lock status!', __FILE__, __LINE__);
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			}
 			
@@ -485,7 +485,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$db->num_rows($result) ) {
 		
-		header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
@@ -498,14 +498,14 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( $topicdata['status_sticky'] ) {
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 1 WHERE id = ".$_GET['topic'])) )
 					$functions->usebb_die('SQL', 'Unable to update topic sticky status!', __FILE__, __LINE__);
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			}
 			
@@ -526,7 +526,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$db->num_rows($result) ) {
 		
-		header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
@@ -539,14 +539,14 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( !$topicdata['status_sticky'] ) {
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 0 WHERE id = ".$_GET['topic'])) )
 					$functions->usebb_die('SQL', 'Unable to update topic sticky status!', __FILE__, __LINE__);
 				
-				header('Location: '.$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
 			}
 			

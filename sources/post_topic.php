@@ -111,9 +111,9 @@ if ( !$db->num_rows($result) ) {
 				$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )
-				header('Location: '.$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
 			else
-				header('Location: '.$functions->make_url('forum.php', array('id' => $_GET['forum']), false));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $_GET['forum']), false));
 			
 		} else {
 			

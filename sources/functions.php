@@ -297,7 +297,7 @@ class functions {
 		if ( !$session->sess_info['user_id'] ) {
 			
 			$_SESSION['referer'] = $_SERVER['REQUEST_URI'];
-			header('Location: '.$this->make_url('panel.php', array('act' => 'login'), false));
+			header('Location: '.$this->get_config('board_url').$this->make_url('panel.php', array('act' => 'login'), false));
 			
 		} else {
 			

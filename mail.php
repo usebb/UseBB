@@ -36,7 +36,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 if ( $functions->get_config('email_view_level') != 1 ) {
 	
-	header('Location: '.$functions->make_url('index.php', array(), false));
+	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 	exit();
 	
 }
@@ -198,7 +198,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// There's no user ID! Get us back to the index...
 	//
-	header('Location: '.$functions->make_url('index.php', array(), false));
+	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 	
 }
 

@@ -9,6 +9,7 @@ UseBB 0.5 Changelog
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.
 - Make edit post location bar contain full path.
+- Graphical buttons removed by HTML.
 
 UseBB 0.4.1 Changelog
 ------------------------------

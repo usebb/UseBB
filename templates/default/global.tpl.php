@@ -490,6 +490,9 @@ table.maintable td.postername {
 	text-align: center;
 	font-size: 10pt;
 	font-weight: bold;
+}
+table.maintable td.postername .posternamecontainer {	
+	overflow: hidden;
 	width: 135px;
 }
 table.maintable td.postinfo {

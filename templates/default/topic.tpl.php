@@ -48,7 +48,7 @@ $templates['topic_header'] = '
 $templates['topic_post'] = '
 		<tr class="tr{colornum}">
 			<td class="postername">
-				{poster_name}
+				<div class="posternamecontainer">{poster_name}</div>
 			</td>
 			<td class="postinfo">
 				<div class="postlinks">{post_links}</div>

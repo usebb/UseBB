@@ -1,14 +1,4 @@
-# phpMyAdmin SQL Dump
-# version 2.5.6-rc1
-# http://www.phpmyadmin.net
-#
-# Host: localhost
-# Generation Time: Mar 03, 2004 at 08:27 PM
-# Server version: 4.0.16
-# PHP Version: 4.3.4
-# 
-# Database : `usebb`
-# 
+# $Header$
 
 # --------------------------------------------------------
 

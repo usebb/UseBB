@@ -8,5 +8,6 @@ UseBB 0.1.1 Changelog
 - Fixed bug causes admins not seeing hidden e-mail addresses.
 - Fixed broken ICQ status icon when no ICQ number is given.
 - Fixed bug with wrong dataype of auth in usebb_forums.
+- Small change to template forumlist_forum that gives better viewing in IE6.
 - Added CVS Header keywords to php files.
 - Cosmetic changes with spaces that should be tabs in php files.

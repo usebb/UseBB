@@ -397,60 +397,37 @@ class functions {
 	// Generate a time past string
 	//
 	function time_past($timestamp, $until='') {
-		
+	
 		global $lang;
-		
-		$until = ( is_int($until) ) ? $until : time();
-		
+	
+		$seconds = ( ( is_int($until) ) ? $until : time() ) - $timestamp;
+	
 		$times = array();
-		$seconds = $until - $timestamp;
-		
-		// weeks
-		if ( $seconds >= 604800 ) {
+		$sections = array(
+			'weeks' => 604800,
+			'days' => 86400,
+			'hours' => 3600,
+			'minutes' => 60,
+			'seconds' => 1
+		);
+	
+		foreach( $sections as $what => $length ) {
 			
-			$times['weeks'] = floor($seconds / 604800);
-			$seconds = $seconds % 604800;
-			
-		}
-		
-		// days
-		if ( $seconds >= 86400 ) {
-			
-			$times['days'] = floor($seconds / 86400);
-			$seconds = $seconds % 86400;
-			
-		}
-		
-		// hours
-		if ( $seconds >= 3600 ) {
-			
-			$times['hours'] = floor($seconds / 3600);
-			$seconds = $seconds % 3600;
+			if ( $seconds >= $length ) {
+				
+				$times[$what] = ( $length >0 ) ? floor($seconds / $length) : $length;
+				$seconds %= $length;
+				
+			}
 			
 		}
-		
-		// minutes
-		if ( $seconds >= 60 ) {
-			
-			$times['minutes'] = floor($seconds / 60);
-			$seconds = $seconds % 60;
-			
-		}
-		
-		// seconds
-		if ( $seconds > 0 ) {
-			
-			$times['seconds'] = $seconds;
-			
-		}
-		
-		$string_parts = array();
+	
+		$sections = array();
 		foreach ( $times as $key => $val )
-			$string_parts[] = $val.' '.$lang[ucfirst($key)];
-		$string = join(', ', $string_parts);
-		
-		return array($times, $string);
-		
+			$sections[] = $val.' '.$lang[ucfirst($key)];
+	
+		return array($times, join(', ', $sections));
+	
 	}
 	
 	//

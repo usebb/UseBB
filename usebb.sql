@@ -286,6 +286,7 @@ INSERT INTO usebb_language VALUES ('NotPermitted', 'English', 'You don\'t have t
 INSERT INTO usebb_language VALUES ('Language', 'English', 'Language');
 INSERT INTO usebb_language VALUES ('Template', 'English', 'Template');
 INSERT INTO usebb_language VALUES ('NoSuchMember', 'English', 'The member %s does not exist at this board.');
+INSERT INTO usebb_language VALUES ('FeatureDisabledBecauseCookiesDisabled', 'English', 'This feature is disabled because this board can not set or read cookies with this browser.');
 
 # --------------------------------------------------------
 

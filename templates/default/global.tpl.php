@@ -52,7 +52,7 @@ $templates['config'] = array(
 	'edit_button'								=> 'edit.gif',
 	'delete_button'							=> 'delete.gif',
 	'sig_format'								=> '<hr /><small>%s</small>',
-	'quote_format'								=> '<blockquote><b>%s</b><hr />%s</blockquote>',
+	'quote_format'								=> '<fieldset><legend>%s</legend>%s</fieldset>',
 	'code_format'								=> '<pre>%s</pre>',
 	'textarea_rows'							=> '10',
 	'textarea_cols'							=> '60',
@@ -174,7 +174,7 @@ pre {
 	border: 1px solid #CDCDCD;
 	overflow: auto;
 }
-blockquote {
+fieldset {
 	display: block;
 	margin: 0px;
 	padding: 10px;
@@ -183,6 +183,9 @@ blockquote {
 	background-color: #FFFFFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
+}
+fieldset legend {
+	font-weight: bold;
 }
 .main {
 	width: 750px;

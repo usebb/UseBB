@@ -149,7 +149,7 @@ class functions {
 			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."config")) )
 				$this->usebb_die('SQL', 'Unable to get forum configuration!', __FILE__, __LINE__);
 			while ( $out = $db->fetch_result($result) )
-				$this->board_config[$out['name']] = $out['content'];
+				$this->board_config[$out['name']] = stripslashes($out['content']);
 			
 		}
 		
@@ -157,7 +157,7 @@ class functions {
 		// Member preferences
 		//
 		if ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info'][$setting]) )
-			$this->board_config[$setting] = $session->sess_info['user_info'][$setting];
+			$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
 		
 		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];

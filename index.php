@@ -97,7 +97,7 @@ if ( !$functions->get_stats('forums') ) {
 			//
 			if ( $functions->get_config('kick_user_to_only_viewable_forum') && intval($functions->get_stats('forums')) === 1 ) {
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $forumdata['id'])));
+				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $forumdata['id']), false));
 				exit();
 				
 			}

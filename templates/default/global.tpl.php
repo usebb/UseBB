@@ -386,6 +386,9 @@ td.formcontrols {
 td.formcontrols input {
 	font-weight: bold;
 }
+td.formcontrols a {
+	color: #336699 !important;
+}
 table.maintable td.count {
 	background-color: #E8E8E8;
 	width: 1%;

@@ -144,7 +144,7 @@ $templates['post_form'] = '
 			</td>
 		</tr>
 		<tr>
-			<td>{options_input}</td>
+			<td><strong>{l_Options}</strong><div id="post-options">{options_input}</div></td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{preview_button}&nbsp;{reset_button}</td>

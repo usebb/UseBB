@@ -171,6 +171,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'aim_v'         => stripslashes($profiledata['aim']),
 				'icq'           => $lang['ICQ'],
 				'icq_v'         => stripslashes($profiledata['icq']),
+				'icq_status'    => ( is_numeric($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
 				'jabber'        => $lang['Jabber'],
 				'jabber_v'      => stripslashes($profiledata['jabber'])
 			));

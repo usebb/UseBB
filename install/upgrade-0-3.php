@@ -146,9 +146,7 @@ if ( empty($_POST['step']) ) {
 		"CREATE TABLE ".$dbs['prefix']."subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `real_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `skype` VARCHAR( 255 ) NOT NULL AFTER `jabber`",
-		"ALTER TABLE `".$dbs['prefix']."forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL",
-		"ALTER TABLE `".$dbs['prefix']."members` ADD `displayed_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
-		"UPDATE ".$dbs['prefix']."members SET displayed_name = name WHERE displayed_name = ''"
+		"ALTER TABLE `".$dbs['prefix']."forums` ADD `increase_post_count` INT( 1 ) DEFAULT '1' NOT NULL"
 	);
 	
 	$error = false;

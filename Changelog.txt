@@ -4,6 +4,7 @@ UseBB 0.3.2 Changelog
 ------------------------------
 
 - Fixed bug #73: CSS doesn't load directly in IE when gzip enabled.
+- Debug messages XHTML 1.0 Strict compliant.
 - Hide "Moderators: Nobody" from index.
 - Improvements and corrections to translations.
 

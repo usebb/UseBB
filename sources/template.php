@@ -163,7 +163,7 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries()).'</small></div>';
+				$debug_output = '<div style="text-align:center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries()).'</small></div>';
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
 				

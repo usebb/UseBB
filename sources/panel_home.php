@@ -64,7 +64,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	// Some various session infromation
 	//
-	if ( isset($_COOKIE[$config['session_name'].'_al']) ) {
+	if ( isset($_COOKIE[$functions->get_config('session_name').'_al']) ) {
 		
 		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
 		

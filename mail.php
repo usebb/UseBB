@@ -34,7 +34,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 // If an ID has been passed
 //
-if ( $config['email_view_level'] != 1 ) {
+if ( $functions->get_config('email_view_level') != 1 ) {
 	
 	header('Location: index.php');
 	exit();
@@ -94,7 +94,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->set_page_title(sprintf($lang['SendEmail'], $user_to_mail['name']));
 			
-			if ( !$user_to_mail['email_show'] && $sess_info['user_info']['level'] < $config['view_hidden_email_addresses_min_level'] && !$own_mailpage ) {
+			if ( !$user_to_mail['email_show'] && $sess_info['user_info']['level'] < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				
 				//
 				// You can't e-mail this user if he/she chose not to receive e-mails
@@ -116,8 +116,6 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
 						'username' => $sess_info['user_info']['name'],
-						'board_name' => $config['board_name'],
-						'board_link' => $config['board_url'],
 						'body' => $_POST['body']
 					), $sess_info['user_info']['name'], $sess_info['user_info']['email'], $user_to_mail['email']);
 					

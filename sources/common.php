@@ -70,11 +70,11 @@ $template = new template;
 // Set the UseBB error handler
 set_error_handler( array( &$functions, 'usebb_die' ) ); 
 
-$file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
-if ( !file_exists($file) || !is_readable($file) )
+$db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
+if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
 	$functions->usebb_die('SQL', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
 else
-	require($file);
+	require($db_class_file);
 
 //
 // Create objects
@@ -106,16 +106,8 @@ $_COOKIE = $functions->trim_global($_COOKIE); // trim cookie vars
 $db->connect($dbs);
 
 //
-// Get configuration variables
-//
-if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."config")) )
-	$functions->usebb_die('SQL', 'Unable to get forum configuration!', __FILE__, __LINE__);
-while ( $out = $db->fetch_result($result) )
-	$config[$out['name']] = $out['content'];
-
-//
 // Start/continue session
 //
-$session->start($config['session_name'].'_sid');
+$session->start($functions->get_config('session_name').'_sid');
 
 ?>

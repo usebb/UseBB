@@ -35,16 +35,16 @@ if ( !defined('INCLUDED') )
 $link_bar = array();
 if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] == 3 )
 	$link_bar[] = '<a href="'.$functions->make_url('admin/index.php').'">'.$lang['ACP'].'</a>';
-if ( $config['enable_memberlist'] )
+if ( $functions->get_config('enable_memberlist') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
-if ( $config['enable_stafflist'] )
+if ( $functions->get_config('enable_stafflist') )
 	$link_bar[] = '<a href="'.$functions->make_url('staff.php').'">'.$lang['StaffList'].'</a>';
-if ( $config['enable_rss'] )
+if ( $functions->get_config('enable_rss') )
 	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
-if ( $config['enable_stats'] )
+if ( $functions->get_config('enable_stats') )
 	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
-if ( $config['enable_contactadmin'] )
-	$link_bar[] = '<a href="mailto:'.$config['admin_email'].'">'.$lang['ContactAdmin'].'</a>';
+if ( $functions->get_config('enable_contactadmin') )
+	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
 
 #####
 # We request not to remove the following copyright notice including the link to the UseBB Home Page.

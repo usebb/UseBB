@@ -34,6 +34,8 @@ if ( !defined('INCLUDED') )
 //
 class functions {
 	
+	var $board_config;
+	
 	//
 	// Add slashes to a global variable
 	//
@@ -127,6 +129,31 @@ class functions {
 	}
 	
 	//
+	// Get configuration variables
+	//
+	function get_config($setting) {
+		
+		global $db;
+		
+		if ( !isset($this->board_config) ) {
+			
+			$this->board_config = array();
+			
+			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."config")) )
+				$this->usebb_die('SQL', 'Unable to get forum configuration!', __FILE__, __LINE__);
+			while ( $out = $db->fetch_result($result) )
+				$this->board_config[$out['name']] = $out['content'];
+			
+		}
+		
+		if ( isset($this->board_config[$setting]) )
+			return $this->board_config[$setting];
+		else
+			return FALSE;
+		
+	}
+	
+	//
 	// Interactive URL builder
 	//
 	function make_url($filename, $vars='') {
@@ -149,9 +176,7 @@ class functions {
 	//
 	function make_date($stamp) {
 		
-		global $config;
-		
-		$date = date($config['date_format'], $stamp);
+		$date = date($this->get_config('date_format'), $stamp);
 		return $date;
 		
 	}
@@ -161,16 +186,16 @@ class functions {
 	//
 	function show_email($user) {
 		
-		global $sess_info, $config, $lang;
+		global $sess_info, $lang;
 		
-		if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] >= intval($config['view_hidden_email_addresses_min_level']) ) {
+		if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
 			
 			//
 			// The viewing user is an administrator
 			//
-			if ( $config['email_view_level'] == 1 )
+			if ( $this->get_config('email_view_level') == 1 )
 				return '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
-			elseif ( !$config['email_view_level'] || $config['email_view_level'] == 2 || $config['email_view_level'] == 3 )
+			elseif ( !$this->get_config('email_view_level') || $this->get_config('email_view_level') == 2 || $this->get_config('email_view_level') == 3 )
 				return '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
 			
 		} else {
@@ -178,13 +203,13 @@ class functions {
 			//
 			// The viewing user is not an administrator
 			//
-			if ( !$config['email_view_level'] || !$user['email_show'] && $user['id'] != $sess_info['user_id'] )
+			if ( !$this->get_config('email_view_level') || !$user['email_show'] && $user['id'] != $sess_info['user_id'] )
 				return $lang['Hidden'];
-			elseif ( $config['email_view_level'] == 1 )
+			elseif ( $this->get_config('email_view_level') == 1 )
 				return '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
-			elseif ( $config['email_view_level'] == 2 )
+			elseif ( $this->get_config('email_view_level') == 2 )
 				return str_replace('@', ' at ', $user['email']);
-			elseif ( $config['email_view_level'] == 3 )
+			elseif ( $this->get_config('email_view_level') == 3 )
 				return '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
 			
 		}
@@ -222,11 +247,9 @@ class functions {
 	//
 	function usebb_mail($subject, $rawbody, $bodyvars='', $from_name, $from_email, $to) {
 		
-		global $config;
-		
 		$body = $rawbody;
-		$bodyvars['board_name'] = $config['board_name'];
-		$bodyvars['board_link'] = $config['board_url'];
+		$bodyvars['board_name'] = $this->get_config('board_name');
+		$bodyvars['board_link'] = $this->get_config('board_url');
 		
 		foreach ( $bodyvars as $key => $val )
 			$body = str_replace('['.$key.']', $val, $body);
@@ -241,9 +264,7 @@ class functions {
 	//
 	function set_al($value) {
 		
-		global $config;
-		
-		setcookie($config['session_name'].'_al', $value, gmmktime()+31536000, $config['cookie_path'], $config['cookie_domain'], $config['cookie_secure']);
+		setcookie($this->get_config('session_name').'_al', $value, gmmktime()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
@@ -252,9 +273,7 @@ class functions {
 	//
 	function unset_al() {
 		
-		global $config;
-		
-		setcookie($config['session_name'].'_al', '', gmmktime()-31536000, $config['cookie_path'], $config['cookie_domain'], $config['cookie_secure']);
+		setcookie($this->get_config('session_name').'_al', '', gmmktime()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	

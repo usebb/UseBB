@@ -57,13 +57,13 @@ class template {
 	//
 	function parse($name, $vars='') {
 		
-		global $config;
+		global $functions;
 		
 		if ( !in_array($name, $this->needed) )
 			$this->needed[] = $name;
 		
-		$vars['img_dir'] = 'gfx/'.$config['template'].'/';
-		$vars['lang'] = $config['language'];
+		$vars['img_dir'] = 'gfx/'.$functions->get_config('template').'/';
+		$vars['lang'] = $functions->get_config('language');
 		
 		$this->requests[] = array(
 			'name' => $name,
@@ -83,7 +83,7 @@ class template {
 	//
 	function body() {
 		
-		global $functions, $config, $db, $timer;
+		global $functions, $db, $timer;
 		
 		//
 		// Get all the templates we need
@@ -91,8 +91,8 @@ class template {
 		foreach ( $this->needed as $val )
 			$query_where_part[] = "'".$val."'";
 		$query_where_part = '( '.join(', ', $query_where_part).' )';
-		if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates WHERE template = '".$config['template']."' AND name IN ".$query_where_part)) )
-			$functions->usebb_die('SQL', 'Unable to get contents of template "'.$config['template'].'"!', __FILE__, __LINE__);
+		if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates WHERE template = '".$functions->get_config('template')."' AND name IN ".$query_where_part)) )
+			$functions->usebb_die('SQL', 'Unable to get contents of template "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
 		while ( $templates = $db->fetch_result($result) )
 			$this->templates[$templates['name']] = stripslashes($templates['content']);
 		
@@ -132,7 +132,7 @@ class template {
 		//
 		// Debug features
 		//
-		if ( $config['debug'] ) {
+		if ( $functions->get_config('debug') ) {
 			
 			//
 			// Timer for checking parsetime
@@ -154,7 +154,7 @@ class template {
 		//
 		// Output compression
 		//
-		if ( $config['output_compression'] )
+		if ( $functions->get_config('output_compression') )
 			$body = preg_replace("/>\s+</", '><', $body);
 		
 		echo $body;

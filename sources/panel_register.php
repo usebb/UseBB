@@ -150,8 +150,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			// Generate the activation key if necessary
 			//
-			$active = ( $config['users_must_activate'] ) ? 0 : 1;
-			$active_key = ( $config['users_must_activate'] ) ? $functions->random_key() : '';
+			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
+			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 			
 			if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."users")) )
 				$functions->usebb_die('SQL', 'Unable to get user count!', __FILE__, __LINE__);
@@ -168,16 +168,16 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."users ( id, name, email, passwd, regdate, level, active, active_key ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."' )")) )
 				$functions->usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
 			
-			if ( $config['users_must_activate'] ) {
+			if ( $functions->get_config('users_must_activate') ) {
 				
 				//
 				// Send the activation e-mail if necessary
 				//
 				$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
-					'activate_link' => $config['board_url'].'panel.php?a=activate&id='.$db->last_id().'&key='.$active_key,
+					'activate_link' => $functions->get_config('board_url').'panel.php?a=activate&id='.$db->last_id().'&key='.$active_key,
 					'password' => $password
-				), $config['board_name'], $config['admin_email'], $_POST['email']);
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			} else {
 				
@@ -187,7 +187,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'password' => $password
-				), $config['board_name'], $config['admin_email'], $_POST['email']);
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			}
 			
@@ -196,7 +196,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Register'],
-				'content' => ( $config['users_must_activate'] ) ? sprintf($lang['RegisteredNotActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email'])
 			));
 			
 		}
@@ -250,10 +250,10 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', array(
-		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('a' => 'register')).'" method="post">',
+		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'register_form'       => $lang['Register'],
 		'user'                => $lang['Username'],
-		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',
+		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
 		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'everything_required' => $lang['EverythingRequired'],

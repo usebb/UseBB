@@ -237,7 +237,7 @@ $lastuser = ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['IndexLastUser'], 
 //
 // Timestamp for defining last updated sessions
 //
-$min_updated = gmmktime() - ( $config['online_min_updated'] * 60 );
+$min_updated = gmmktime() - ( $functions->get_config('online_min_updated') * 60 );
 
 //
 // Get the session and user information
@@ -297,7 +297,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 //
 // Online list
 //
-if ( !$config['enable_online_list'] || ( !$config['guests_can_view_online_list'] && $sess_info['user_id'] == 0 ) )
+if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $sess_info['user_id'] == 0 ) )
 	$online_list_link = '';
 else
 	$online_list_link = ' <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
@@ -308,7 +308,7 @@ else
 $template->parse('forumlist_stats', array(
 	'stats_title' => $lang['VariousInfo'],
 	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']).$lastuser,
-	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $config['online_min_updated']).$online_list_link,
+	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')).$online_list_link,
 	'members' => ( count($online_members) > 0 ) ? join(', ', $online_members) : ''
 ));
 

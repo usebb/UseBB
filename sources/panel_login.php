@@ -92,7 +92,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'content' => sprintf($lang['NotActivated'], '<i>'.$_POST['user'].'</i>')
 		));
 		
-	} elseif ( $config['board_closed'] && $userdata['level'] != 3 ) {
+	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != 3 ) {
 		
 		//
 		// Only admins can log in when the forum is closed.
@@ -145,10 +145,10 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(
-			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('a' => 'login')).'" method="post">',
+			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],
 			'user'           => $lang['Username'],
-			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',
+			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
 			'password'       => $lang['Password'],
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" />',
 			'remember'       => $lang['RememberMe'],

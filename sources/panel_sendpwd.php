@@ -81,8 +81,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			// Generate the activation key if necessary
 			//
-			$active = ( $config['users_must_activate'] ) ? 0 : 1;
-			$active_key = ( $config['users_must_activate'] ) ? $functions->random_key() : '';
+			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
+			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 			
 			$new_password = $functions->random_key();
 			
@@ -92,16 +92,16 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id'])) )
 				$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 			
-			if ( $config['users_must_activate'] ) {
+			if ( $functions->get_config('users_must_activate') ) {
 				
 				//
 				// Send the activation e-mail if necessary
 				//
 				$functions->usebb_mail($lang['SendpwdActivationEmailSubject'], $lang['SendpwdActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
-					'activate_link' => $config['board_url'].'panel.php?a=activate&id='.$userdata['id'].'&key='.$active_key,
+					'activate_link' => $functions->get_config('board_url').'panel.php?a=activate&id='.$userdata['id'].'&key='.$active_key,
 					'password' => $new_password
-				), $config['board_name'], $config['admin_email'], $_POST['email']);
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			} else {
 				
@@ -111,13 +111,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'password' => $new_password
-				), $config['board_name'], $config['admin_email'], $_POST['email']);
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			}
 			
 			$template->parse('msgbox', array(
 				'box_title' => $lang['SendPassword'],
-				'content' => ( $config['users_must_activate'] ) ? sprintf($lang['SendpwdNotActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email'])
 			));
 			
 		} else {
@@ -157,10 +157,10 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('sendpwd_form', array(
-		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('a' => 'sendpwd')).'" method="post">',
+		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
 		'sendpwd'             => $lang['SendPassword'],
 		'user'                => $lang['Username'],
-		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',
+		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
 		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'everything_required' => $lang['EverythingRequired'],

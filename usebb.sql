@@ -269,6 +269,7 @@ INSERT INTO usebb_language VALUES ('NewPasswordAgain', 'English', 'New password 
 INSERT INTO usebb_language VALUES ('PasswordEdited', 'English', 'Your password has been edited succesfully.');
 INSERT INTO usebb_language VALUES ('DetailedOnlineList', 'English', 'Detailed online list');
 INSERT INTO usebb_language VALUES ('OptionsEdited', 'English', 'Your board options have been edited succesfully.');
+INSERT INTO usebb_language VALUES ('ProfileEdited', 'English', 'Your profile has been edited succesfully.');
 
 # --------------------------------------------------------
 

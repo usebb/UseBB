@@ -65,7 +65,7 @@ class session {
 	//
 	function update($location='', $user_id='') {
 		
-		global $functions, $config, $db, $_COOKIE;
+		global $functions, $db;
 		
 		//
 		// Some required workarounds...
@@ -106,7 +106,7 @@ class session {
 		//
 		// Remove older clone sessions if needed
 		//
-		if ( !$config['allow_multi_sess'] ) {
+		if ( !$functions->get_config('allow_multi_sess') ) {
 			
 			$add_to_remove_query[] = "( ip_addr = '".$ip_addr."' AND sess_id <> '".$this->sess_id."' )";
 			
@@ -115,9 +115,9 @@ class session {
 		//
 		// Remove outdated sessions if needed
 		//
-		if ( $config['sess_max_lifetime'] ) {
+		if ( $functions->get_config('sess_max_lifetime') ) {
 			
-			$min_updated = $current_time - ( $config['sess_max_lifetime'] * 60 );
+			$min_updated = $current_time - ( $functions->get_config('sess_max_lifetime') * 60 );
 			$add_to_remove_query[] = "updated < ".$min_updated;
 			
 		}
@@ -169,13 +169,13 @@ class session {
 			//
 			// Auto login
 			//
-			if ( isset($_COOKIE[$config['session_name'].'_al']) && $sess_info['user_id'] == 0 ) {
+			if ( isset($_COOKIE[$functions->get_config('session_name').'_al']) && $sess_info['user_id'] == 0 ) {
 				
 				//
 				// If there is a remember cookie
 				// and the user is not logged in...
 				//
-				$cookie_data = explode(':', $_COOKIE[$config['session_name'].'_al'], 2);
+				$cookie_data = explode(':', $_COOKIE[$functions->get_config('session_name').'_al'], 2);
 				
 				if ( !is_numeric($cookie_data[0]) || $cookie_data[0] <= 0 ) {
 					
@@ -195,14 +195,14 @@ class session {
 						// If the encrypted password in the cookie equals to the password in the database
 						// the user is active and not banned and [ the board is not closed or the user is an admin ]
 						//
-						if ( $cookie_data[1] == $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$config['board_closed'] || $user_info['level'] == 3 ) ) {
+						if ( $cookie_data[1] == $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == 3 ) ) {
 							
 							//
 							// Change the user id that will be entered in the DB below
 							// and renew the cookie (or it will not work anymore after a year)
 							//
 							$user_id = $cookie_data[0];
-							$functions->set_al($_COOKIE[$config['session_name'].'_al']);
+							$functions->set_al($_COOKIE[$functions->get_config('session_name').'_al']);
 							
 						} else {
 							
@@ -262,7 +262,7 @@ class session {
 					
 					$user_info = $db->fetch_result($result);
 					
-					if ( !$user_info['active'] || $user_info['banned'] || ( $config['board_closed'] && $user_info['level'] != 3 ) )
+					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != 3 ) )
 						$user_id = 0;
 					
 				} else {

@@ -31,17 +31,17 @@ define('ROOT_PATH', './');
 //
 require(ROOT_PATH.'sources/common.php');
 
-$_GET['a'] = ( !empty($_GET['a']) ) ? $_GET['a'] : 'panel_home';
+$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'panel_home';
 
-if ( $_GET['a'] == 'login' ) {
+if ( $_GET['act'] == 'login' ) {
 	
 	//
 	// Log In
 	//
-	$sess_info = $session->update($_GET['a']);
+	$sess_info = $session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_login.php');
 	
-} elseif ( $_GET['a'] == 'logout' ) {
+} elseif ( $_GET['act'] == 'logout' ) {
 	
 	//
 	// Log Out
@@ -50,40 +50,40 @@ if ( $_GET['a'] == 'login' ) {
 	$page = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
 	header('Location: '.$page);
 	
-} elseif ( $_GET['a'] == 'register' ) {
+} elseif ( $_GET['act'] == 'register' ) {
 	
 	//
 	// Register
 	//
-	$sess_info = $session->update($_GET['a']);
+	$sess_info = $session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_register.php');
 	
-} elseif ( $_GET['a'] == 'activate' && !empty($_GET['id']) && is_numeric($_GET['id']) && !empty($_GET['key']) ) {
+} elseif ( $_GET['act'] == 'activate' && !empty($_GET['id']) && is_numeric($_GET['id']) && !empty($_GET['key']) ) {
 	
 	//
 	// Activate
 	//
-	$sess_info = $session->update($_GET['a']);
+	$sess_info = $session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_activate.php');
 	
-} elseif ( $_GET['a'] == 'sendpwd' ) {
+} elseif ( $_GET['act'] == 'sendpwd' ) {
 	
 	//
 	// Send Password
 	//
-	$sess_info = $session->update($_GET['a']);
+	$sess_info = $session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_sendpwd.php');
 	
 } else {
 	
-	if ( !in_array($_GET['a'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
+	if ( !in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
 		
 		header('Location: index.php');
 		exit();
 		
 	}
 	
-	$sess_info = $session->update($_GET['a']);
+	$sess_info = $session->update($_GET['act']);
 	
 	if ( $sess_info['user_id'] <= 0 ) {
 		
@@ -100,12 +100,12 @@ if ( $_GET['a'] == 'login' ) {
 	$template->parse('panel_menu', array(
 		'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
 		'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-		'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
-		'panel_options' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
-		'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
+		'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
+		'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
+		'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
 	));
 	
-	switch ( $_GET['a'] ) {
+	switch ( $_GET['act'] ) {
 		
 		case 'panel_home':
 			require(ROOT_PATH.'sources/panel_home.php');

@@ -53,21 +53,21 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	//
 	// Set some variables needed in the query
 	//
-	$active = ( $_POST['email'] != $sess_info['user_info']['email'] && $config['users_must_activate'] ) ? 0 : 1;
-	$active_key = ( $_POST['email'] != $sess_info['user_info']['email'] && $config['users_must_activate'] ) ? $functions->random_key() : '';
-	$password = ( $_POST['email'] != $sess_info['user_info']['email'] && $config['users_must_activate'] ) ? $functions->random_key() : '';
+	$active = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? 0 : 1;
+	$active_key = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
+	$password = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 	$to_add_for_pwd = '';
 	
-	if ( $_POST['email'] != $sess_info['user_info']['email'] && $config['users_must_activate'] ) {
+	if ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		
 		//
 		// Send an e-mail if the user must activate
 		//
 		$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
 			'account_name' => $sess_info['user_info']['name'],
-			'activate_link' => $config['board_url'].'panel.php?a=activate&id='.$sess_info['user_info']['id'].'&key='.$active_key,
+			'activate_link' => $functions->get_config('board_url').'panel.php?a=activate&id='.$sess_info['user_info']['id'].'&key='.$active_key,
 			'password' => $password
-		), $config['board_name'], $config['admin_email'], $_POST['email']);
+		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 		
 		$active_key = md5($active_key);
 		$password = md5($password);
@@ -98,7 +98,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	WHERE id = ".$sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
-	if ( $_POST['email'] != $sess_info['user_info']['email'] && $config['users_must_activate'] ) {
+	if ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		
 		//
 		// Show a message box if users must activate
@@ -146,7 +146,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	}
 	
 	$template->parse('edit_profile', array(
-		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('a' => 'editprofile')).'" method="post">',
+		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
 		'edit_profile'      => $lang['EditProfile'],
 		'required'         => $lang['Required'],
 		'email'            => $lang['Email'],

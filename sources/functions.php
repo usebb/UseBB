@@ -65,7 +65,7 @@ function slash_trim_global($global) {
 //
 function unhtml($string) {
 	
-	return preg_replace('#<([\/]?.*?)>#is', '&lt;\\1&gt;', $string);
+	return preg_replace(array('#&([^\#])#', '#<([\/]?.*?)>#is', '#"#'), array('&amp;\\1', '&lt;\\1&gt;', '&quot;'), $string);
 	
 }
 
@@ -215,7 +215,7 @@ class functions {
 				//
 				if ( !isset($this->statistics[$stat]) ) {
 					
-					if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
+					if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
 						$this->usebb_die('SQL', 'Unable to get latest member information!', __FILE__, __LINE__);
 					$this->statistics[$stat] = $db->fetch_result($result);
 					
@@ -638,7 +638,7 @@ class functions {
 			foreach ( $listarray as $modsdata ) {
 				
 				if ( $modsdata['forum_id'] == $forum )
-					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['displayed_name'], $modsdata['level']);
 				
 			}
 			
@@ -650,7 +650,7 @@ class functions {
 			
 		} else {
 			
-			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.name")) )
+			if ( !($result = $db->query("SELECT u.id, u.displayed_name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.displayed_name")) )
 				$this->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
 				
 			if ( !$db->num_rows($result) ) {
@@ -660,7 +660,7 @@ class functions {
 			} else {
 				
 				while ( $modsdata = $db->fetch_result($result) )
-					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['displayed_name'], $modsdata['level']);
 				
 			}
 			
@@ -997,7 +997,7 @@ class functions {
 		//
 		// Get the session and user information
 		//
-		if ( !($result = $db->query("SELECT u.name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+		if ( !($result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
 			$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
 		
 		//
@@ -1024,7 +1024,7 @@ class functions {
 				//
 				
 				if ( !array_key_exists($onlinedata['id'], $online_members) && ( !$onlinedata['hide_from_online_list'] || $this->get_user_level() == 3 ) )
-					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
+					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
 				
 			}
 			
@@ -1037,7 +1037,7 @@ class functions {
 		//
 		$template->parse('forum_stats_box', 'various', array(
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
-			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['name'])).'</a>'),
+			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>'),
 			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
 			'members_online' => ( count($online_members) ) ? join(', ', $online_members) : '',
 			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''

@@ -136,7 +136,7 @@ if ( !$db->num_rows($result) ) {
 					while ( $subscribed_users = $db->fetch_result($result) ) {
 						
 						$functions->usebb_mail(sprintf($lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $lang['NewReplyEmailBody'], array(
-							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['name']) : stripslashes($poster_guest),
+							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
 							'topic_title' => stripslashes($topicdata['topic_title']),
 							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
 							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
@@ -207,14 +207,14 @@ if ( !$db->num_rows($result) ) {
 				
 				if ( !empty($_GET['quotepost']) && is_numeric($_GET['quotepost']) ) {
 					
-					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic'])) )
+					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.displayed_name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic'])) )
 						$functions->usebb_die('SQL', 'Unable to get quoted post!', __FILE__, __LINE__);
 					
 					if ( $db->num_rows($result) ) {
 						
 						$quoteddata = $db->fetch_result($result);
 						
-						$quoteduser = ( !empty($quoteddata['name']) ) ? $quoteddata['name'] : $quoteddata['poster_guest'];
+						$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
 						$quotedpost = stripslashes($quoteddata['content']);
 						
 						$_POST['content'] = '[quote='.$quoteduser.']'.$quotedpost.'[/quote]';
@@ -251,7 +251,7 @@ if ( !$db->num_rows($result) ) {
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
-				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" />',
+				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$_POST['content'].'</textarea>',
 				'options_input' => $options_input,
@@ -266,7 +266,7 @@ if ( !$db->num_rows($result) ) {
 				//
 				// Topic review feature
 				//
-				if ( !($result = $db->query("SELECT p.poster_id, u.name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
+				if ( !($result = $db->query("SELECT p.poster_id, u.displayed_name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
 					$functions->usebb_die('SQL', 'Unable to get reviewed posts!', __FILE__, __LINE__);
 				
 				$template->parse('topicreview_header', 'topicreview');
@@ -276,7 +276,7 @@ if ( !$db->num_rows($result) ) {
 					$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
 					
 					$template->parse('topicreview_post', 'topicreview', array(
-						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
+						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['displayed_name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
 						'post_date' => $functions->make_date($postsdata['post_time']),
 						'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 						'colornum' => $colornum

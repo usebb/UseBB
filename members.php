@@ -73,7 +73,7 @@ if ( empty($_GET['act']) ) {
 		switch ( $_GET['sortby'] ) {
 			
 			case 'username':
-				$sort_by_sql_part = 'name ASC';
+				$sort_by_sql_part = 'displayed_name ASC';
 				break;
 			case 'level':
 				$sort_by_sql_part = 'level DESC';
@@ -87,7 +87,7 @@ if ( empty($_GET['act']) ) {
 			
 		}
 		
-		if ( !($result = $db->query("SELECT id, name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY ".$sort_by_sql_part." LIMIT ".$limit_start.", ".$limit_end)) )
+		if ( !($result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY ".$sort_by_sql_part." LIMIT ".$limit_start.", ".$limit_end)) )
 			$functions->usebb_die('SQL', 'Unable to get members information!', __FILE__, __LINE__);
 		
 		while ( $userdata = $db->fetch_result($result) ) {
@@ -107,7 +107,7 @@ if ( empty($_GET['act']) ) {
 			}
 			
 			$template->parse('memberlist_user', 'memberlist', array(
-				'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
+				'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 				'real_name' => unhtml(stripslashes($userdata['real_name'])),
 				'level' => $level,
 				'rank' => unhtml(stripslashes($userdata['rank'])),
@@ -161,7 +161,7 @@ if ( empty($_GET['act']) ) {
 		//
 		// Get members information
 		//
-		if ( !($result = $db->query("SELECT id, name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE level > 1 ORDER BY level DESC, rank ASC")) )
+		if ( !($result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE level > 1 ORDER BY level DESC, rank ASC")) )
 			$functions->usebb_die('SQL', 'Unable to get staff information!', __FILE__, __LINE__);
 		
 		$admins = $mods = array();
@@ -184,7 +184,7 @@ if ( empty($_GET['act']) ) {
 			foreach ( $admins as $userdata ) {
 				
 				$template->parse('stafflist_user', 'stafflist', array(
-					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
+					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
 					'rank' => unhtml(stripslashes($userdata['rank'])),
 					'registered' => $functions->make_date($userdata['regdate']),
@@ -207,7 +207,7 @@ if ( empty($_GET['act']) ) {
 			foreach ( $mods as $userdata ) {
 				
 				$template->parse('stafflist_user', 'stafflist', array(
-					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
+					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
 					'rank' => unhtml(stripslashes($userdata['rank'])),
 					'registered' => $functions->make_date($userdata['regdate']),

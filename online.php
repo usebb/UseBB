@@ -50,7 +50,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$min_updated = time() - ( $functions->get_config('online_min_updated') * 60 );
 	
-	if ( !($result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+	if ( !($result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.displayed_name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
 		$functions->usebb_die('SQL', 'Unable to get sessions information!', __FILE__, __LINE__);
 	
 	$ids = $names = array(
@@ -160,10 +160,10 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	if ( count($ids['users']) ) {
 		
-		if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $ids['users']).")")) )
+		if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $ids['users']).")")) )
 			$functions->usebb_die('SQL', 'Unable to get members information!', __FILE__, __LINE__);
 		while ( $userdata = $db->fetch_result($result) )
-			$names['users'][$userdata['id']] = $userdata['name'];
+			$names['users'][$userdata['id']] = $userdata['displayed_name'];
 		
 	}
 	
@@ -175,7 +175,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	foreach ( $sessions as $sessiondata ) {
 		
-		$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['name'], $sessiondata['level']) : $lang['Guest'];
+		$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['displayed_name'], $sessiondata['level']) : $lang['Guest'];
 		
 		if ( $functions->get_user_level() == 3 )
 			$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';

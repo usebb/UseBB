@@ -394,6 +394,7 @@ $lang['Moderators'] = 'Moderators';
 $lang['SortBy'] = 'Sorteren op: %s';
 $lang['TopicReview'] = 'Onderwerp herbekijken';
 $lang['ViewMorePosts'] = 'Meer berichten weergeven';
+$lang['DisplayedName'] = 'Weergegeven naam';
 
 //
 // Date translations

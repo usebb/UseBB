@@ -394,3 +394,4 @@ $lang['Moderators'] = 'Moderators';
 $lang['SortBy'] = 'Sort by: %s';
 $lang['TopicReview'] = 'Topic review';
 $lang['ViewMorePosts'] = 'View more posts';
+$lang['DisplayedName'] = 'Displayed name';

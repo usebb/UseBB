@@ -85,6 +85,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		email         = '".$_POST['email']."',
 		avatar_type   = ".$avatar_type.",
 		avatar_remote = '".$avatar_remote."',
+		displayed_name = '".$_POST['displayed_name']."',
 		real_name     = '".$_POST['real_name']."',
 		location      = '".$_POST['location']."',
 		website       = '".$_POST['website']."',
@@ -157,8 +158,10 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
+		'username'         => $session->sess_info['user_info']['name'],
 		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
 		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$session->sess_info['user_info']['avatar_remote'].'" />',
+		'displayed_name_input'  => '<input type="text" size="50" maxlength="255" name="displayed_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'" />',
 		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['real_name'])).'" />',
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($session->sess_info['user_info']['location'])).'" />',
 		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$session->sess_info['user_info']['website'].'" />',

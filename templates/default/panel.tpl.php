@@ -98,10 +98,13 @@ $templates['edit_profile'] = '
 			<th colspan="2">{l_EditProfile}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_RealName}</td><td>{real_name_input}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Email} ({l_Required})</td><td>{email_input}</td>
+			<td class="fieldtitle">{l_DisplayedName} ({l_Required})</td><td>{displayed_name_input}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_RealName}</td><td>{real_name_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_AvatarURL}</td><td>{avatar_input}</td>
@@ -120,6 +123,12 @@ $templates['edit_profile'] = '
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Signature}</td><td>{signature_input}</td>
+		</tr>
+		<tr>
+			<th colspan="2">{l_ContactInfo}</th>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Email} ({l_Required})</td><td>{email_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_MSNM}</td><td>{msnm_input}</td>

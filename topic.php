@@ -263,7 +263,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			$action_links = array();
 			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
-			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) )
+			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('forums')) > 1 )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $_GET['id'], 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';
 			if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 				

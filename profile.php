@@ -83,7 +83,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			if ( $own_profile ) {
 				
 				$profiledata = $session->sess_info['user_info'];
-				$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['ViewProfile']);
+				$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['ViewProfile']);
 				
 			} else {
 				

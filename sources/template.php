@@ -131,7 +131,7 @@ class template {
 		
 		$this->add_global_vars(array(
 			'page_title' => strip_tags($page_title),
-			'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a> '.$this->get_config('locationbar_item_delimiter').' '.$page_title
+			'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
 		));
 		
 	}
@@ -167,7 +167,7 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_info_small = sprintf($this->get_config('debug_info_small'), join(' '.$this->get_config('item_delimiter').' ', $debug_info));
+				$debug_info_small = sprintf($this->get_config('debug_info_small'), join($this->get_config('item_delimiter'), $debug_info));
 				$debug_info_large = '';
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
@@ -176,7 +176,7 @@ class template {
 				// Lists parsetime and queries fully
 				//
 				$debug_info_small = '';
-				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<div><strong>'.$lang['DebugMode'].'</strong> '.$this->get_config('item_delimiter').' '.join(' '.$this->get_config('item_delimiter').' ', $debug_info).':</div><textarea rows="10" cols="50" readonly="readonly">'.unhtml(join("\n\n", $db->get_used_queries())).'</textarea>');
+				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<div><strong>'.$lang['DebugMode'].'</strong>'.$this->get_config('item_delimiter').join($this->get_config('item_delimiter'), $debug_info).':</div><textarea rows="10" cols="50" readonly="readonly">'.unhtml(join("\n\n", $db->get_used_queries())).'</textarea>');
 				
 			}
 			

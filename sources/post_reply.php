@@ -165,7 +165,7 @@ if ( !$db->num_rows($result) ) {
 			
 		} else {
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostReply']);
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostReply']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

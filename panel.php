@@ -106,7 +106,7 @@ if ( $_GET['act'] == 'login' ) {
 		if ( $_GET['act'] == 'panel_home' )
 			$template->set_page_title($lang['YourPanel']);
 		else
-			$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a> '.$template->get_config('locationbar_item_delimiter').' '.$location);
+			$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a>'.$template->get_config('locationbar_item_delimiter').$location);
 		
 		$template->parse('panel_menu', 'panel', array(
 			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">' . ( ( $_GET['act'] != 'panel_home' ) ? $lang['PanelHome'] : '<strong>'.$lang['PanelHome'].'</strong>' ) . '</a>',

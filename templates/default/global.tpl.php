@@ -38,8 +38,9 @@ $templates = array();
 // Define configuration variables of this template set
 //
 $templates['config'] = array(
-	'item_delimiter'					=> '&middot;',
-	'locationbar_item_delimiter'		=> '&raquo;',
+	'item_delimiter'					=> ' &middot; ',
+	'locationbar_item_delimiter'		=> ' &raquo; ',
+	'postlinks_item_delimiter'			=> ' | ',
 	'open_nonewposts_icon'				=> 'open_nonewposts.gif',
 	'open_newposts_icon'				=> 'open_newposts.gif',
 	'closed_nonewposts_icon'			=> 'closed_nonewposts.gif',
@@ -442,8 +443,24 @@ table.maintable td.online {
 }
 #toolbartop {
 	float: right;
+	line-height: 23px;
 	text-align: right;
 	margin: 0px 0px 6px 0px;
+}
+#toolbartop a, #toolbarbottom a {
+	background-image: url({img_dir}topmenu_bg.png);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+	text-decoration: none !important;
+	padding: 2px 8px 2px 8px;
+	margin: 0px 0px 0px 5px;
+	border: 1px solid #336699;
+	font-weight: bold;
+}
+#toolbartop a:hover, #toolbarbottom a:hover {
+	background-image: url({img_dir}topmenu_bg_reverse.png);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
 }
 #pagelinkstop {
 	float: left;
@@ -458,6 +475,7 @@ table.maintable td.online {
 }
 #toolbarbottom {
 	float: right;
+	line-height: 23px;
 	text-align: right;
 	margin: -14px 0px 0px 0px;
 }
@@ -499,11 +517,12 @@ table.maintable td.postinfo {
 	vertical-align: middle;
 }
 table.maintable td.postinfo .postdate {
-	margin: 2px 0px 0px 0px;
 	color: #444444;
 }
 table.maintable td.postinfo .postlinks {
 	float: right;
+	font-weight: bold;
+	color: #999999;
 }
 table.maintable td.posterinfo {
 	vertical-align: top;

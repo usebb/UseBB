@@ -103,7 +103,7 @@ $template->add_global_vars(array(
 	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
 	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn'],
 	// link bar (list of additional enabled features)
-	'link_bar' => ( count($link_bar) ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
+	'link_bar' => ( count($link_bar) ) ? join($template->get_config('item_delimiter'), $link_bar) : '',
 	// additional links to features (might end up in error when feature is disabled)
 	// use 'em when you want to have more links in the menu or somewhere else
 	'link_memberlist' => $functions->make_url('members.php'),

@@ -133,7 +133,7 @@ if ( !$db->num_rows($result) ) {
 			
 		} else {
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic']);
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostNewTopic']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

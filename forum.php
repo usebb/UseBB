@@ -79,7 +79,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
-			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
+			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '';
 			
 			//
 			// Get page number

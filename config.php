@@ -80,6 +80,7 @@ $conf['guests_can_view_online_list'] = 1;
 $conf['guests_can_view_profiles'] = 1;
 $conf['hide_avatars'] = 0;
 $conf['hide_signatures'] = 0;
+$conf['hide_userinfo'] = 0;
 $conf['kick_user_to_only_viewable_forum'] = 0;
 $conf['language'] = 'English';
 $conf['online_min_updated'] = 30;

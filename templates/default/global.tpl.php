@@ -118,7 +118,7 @@ $templates['css'] = '
 body {
 	margin: 0px;
 	padding: 0px;
-	background-color: #EFEFEF;
+	background-color: #E6E6E6;
 }
 body, td, th {
 	font-family: verdana, sans-serif;
@@ -190,13 +190,9 @@ fieldset legend {
 .main {
 	width: 750px;
 	padding: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
 	background-color: #FFFFFF;
-	border-left: 1px solid #E5E5E5;
-	border-right: 1px solid #E5E5E5;
-	border-top: 5px solid #E5E5E5;
-	border-bottom: 5px solid #E5E5E5;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
 }
 .header {
 	border-collapse: collapse;

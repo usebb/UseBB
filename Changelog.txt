@@ -6,6 +6,7 @@ UseBB 0.3.1 Changelog
 - Fixed bug #316: wrong charset in XHTML meta tag.
 - Fixed bug that kicks you back to install/upgrade after logging in.
 - Fixed bug that didn't update the statistics well while installing.
+- Fallback on default language and template set when not available.
 - Applied styles to install and upgrade scripts.
 
 UseBB 0.3 Changelog

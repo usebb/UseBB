@@ -148,8 +148,21 @@ class functions {
 		//
 		// Member preferences
 		//
-		if ( $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) )
-			$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
+		if ( $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) ) {
+			
+			$keep_default = FALSE;
+			
+			if ( $setting == 'language' || $setting == 'template' ) {
+				
+				if ( !in_array($session->sess_info['user_info'][$setting], $this->board_config['available_'.$setting.'s']) )
+					$keep_default = TRUE;
+				
+			}
+			
+			if ( !$keep_default )
+				$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
+			
+		}
 		
 		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];

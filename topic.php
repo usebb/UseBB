@@ -287,7 +287,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Neat feature: the quick reply
 			// Only shown if enabled, if user can reply and if user can post in lcoked forum...
 			//
-			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) {
+			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 				
 				$template->parse('quick_reply', array(
 					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'" method="post">',

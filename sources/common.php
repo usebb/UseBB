@@ -55,7 +55,7 @@ require(ROOT_PATH.'sources/template.php');
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.2');
+define('USEBB_VERSION', '0.3-CVS');
 define('USER_PREG', '/^[a-z0-9\.\-\+\[\]_ ]+$/is');
 define('EMAIL_PREG', '/^[a-z0-9\.\-_]+@[a-z0-9\-]+(\.[a-z0-9\-]+)*\.[a-z]+$/is');
 define('PWD_PREG', '/^[^\'\"\s]+$/is');

@@ -174,10 +174,21 @@ class template {
 			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
 			$parsetime = round($timer['end'] - $timer['begin'], 5).'s';
 			
-			//
-			// Lists parsetime and queries
-			//
-			$body = str_replace('</body>', '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Used templates ('.count($this->needed).'): '.join(', ', $this->needed).'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div></body>', $body);
+			if ( intval($functions->get_config('debug')) == 1 ) {
+				
+				//
+				// List parsetime and queries in short
+				//
+				$body = str_replace('</body>', '<div align="center"><small>Parse time: '.$parsetime.' - Used templates: '.count($this->needed).' - Used queries: '.count($db->queries).'</small></div></body>', $body);
+
+			} elseif ( intval($functions->get_config('debug')) == 2 ) {
+				
+				//
+				// Lists parsetime and queries fully
+				//
+				$body = str_replace('</body>', '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Used templates ('.count($this->needed).'): '.join(', ', $this->needed).'<br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div></body>', $body);
+
+			}
 			
 		}
 		

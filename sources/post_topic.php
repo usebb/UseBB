@@ -70,7 +70,7 @@ if ( !$db->num_rows($result) ) {
 		$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 		$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) && empty($_POST['preview']) ) {
 			
 			//
 			// Save the guest's username in the session
@@ -135,6 +135,13 @@ if ( !$db->num_rows($result) ) {
 			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
+				$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
+				$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
+				$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
+				$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
+				$lock_topic_checked = ( !empty($_POST['lock_topic']) ) ? ' checked="checked"' : '';
+				$sticky_topic_checked = ( !empty($_POST['sticky_topic']) ) ? ' checked="checked"' : '';
+				
 				$errors = array();
 				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
 					$errors[] = $lang['Username'];
@@ -150,14 +157,14 @@ if ( !$db->num_rows($result) ) {
 						'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 					));
 					
+				} elseif ( !empty($_POST['preview']) ) {
+					
+					$template->parse('msgbox', 'global', array(
+						'box_title' => $lang['Preview'],
+						'content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+					));
+					
 				}
-				
-				$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
-				$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
-				$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
-				$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
-				$lock_topic_checked = ( !empty($_POST['lock_topic']) ) ? ' checked="checked"' : '';
-				$sticky_topic_checked = ( !empty($_POST['sticky_topic']) ) ? ' checked="checked"' : '';
 				
 			} else {
 				
@@ -200,6 +207,7 @@ if ( !$db->num_rows($result) ) {
 				'options' => $lang['Options'],
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostNewTopic'].'" />',
+				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
 				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
 			));

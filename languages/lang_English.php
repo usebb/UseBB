@@ -337,3 +337,4 @@ $lang['HideAllAvatars'] = 'Hide all avatars';
 $lang['HideAllSignatures'] = 'Hide all signatures';
 $lang['HideFromOnlineList'] = 'Hide from online list';
 $lang['PageLinks'] = 'Page: %s';
+$lang['Preview'] = 'Preview';

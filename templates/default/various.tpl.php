@@ -133,10 +133,13 @@ $templates['post_form'] = '
 			<td class="fieldtitle">{subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
-			<td class="td2">{content}<br /><br />{options_input}</td><td>{content_input}</td>
+			<td class="fieldtitle">{content}</td><td>{content_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td class="fieldtitle">{options}</td><td>{options_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{preview_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}

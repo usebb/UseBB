@@ -96,7 +96,7 @@ $templates['quick_reply'] = '
 			<td colspan="2">{content_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><div align="center">{submit_button}</div></td>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{preview_button}</td>
 		</tr>
 	</table>
 	{form_end}

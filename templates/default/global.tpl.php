@@ -371,6 +371,7 @@ table.maintable td .forumdescr {
 	text-align: left;
 	line-height: 23px;
 	font-weight: bold;
+	margin: 0px 0px 6px 0px;
 }
 .topicpagelinks {
 	margin: 0px 0px 0px 10px;
@@ -378,13 +379,13 @@ table.maintable td .forumdescr {
 #toolbarbottom {
 	float: right;
 	text-align: right;
-	margin: -14px 0px 10px 0px;
+	margin: -14px 0px 20px 0px;
 }
 #pagelinksbottom {
 	text-align: left;
 	line-height: 23px;
 	font-weight: bold;
-	margin: -14px 0px 10px 0px;
+	margin: -14px 0px 20px 0px;
 }
 table.maintable td.author {
 	text-align: center;
@@ -402,6 +403,7 @@ table.maintable tr.tr2 td {
 }
 table.maintable td.postername {
 	text-align: center;
+	font-size: 10pt;
 	font-weight: bold;
 	width: 135px;
 }

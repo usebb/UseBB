@@ -253,10 +253,9 @@ fieldset legend {
 	font-size: 8pt;
 	font-style: italic;
 	color: #333333;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	margin-top: -10px;
 	padding: 3px;
-	background-color: #EFEFEF;
-	border: 1px solid #BFBFBF;
 }
 .locationbar a {
 	font-style: normal;

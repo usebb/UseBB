@@ -39,7 +39,7 @@ $templates['onlinelist_header'] = '
 		<tr>
 			<th>{username}</th>
 			<th>{location}</th>
-			<th>{last_update}</th>
+			<th>{latest_update}</th>
 		</tr>
 ';
 
@@ -47,7 +47,7 @@ $templates['onlinelist_user'] = '
 		<tr>
 			<td>{username}</td>
 			<td>{location}</td>
-			<td class="minimal">{last_update}</td>
+			<td class="minimal">{latest_update}</td>
 		</tr>
 ';
 

@@ -172,7 +172,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	$template->parse('onlinelist_header', 'onlinelist', array(
 		'username' => $lang['Username'],
 		'location' => $lang['Location'],
-		'last_update' => $lang['LastUpdate'],
+		'latest_update' => $lang['LatestUpdate'],
 		'page_links' => $page_links
 	));
 	
@@ -263,7 +263,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		$template->parse('onlinelist_user', 'onlinelist', array(
 			'username' => $username,
 			'location' => $location,
-			'last_update' => $functions->make_date($sessiondata['updated']),
+			'latest_update' => $functions->make_date($sessiondata['updated']),
 		));
 		
 		unset($location);

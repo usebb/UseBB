@@ -292,9 +292,11 @@ class functions {
 	//
 	// Generate a time past string
 	//
-	function time_past($timestamp, $until=gmmktime()) {
+	function time_past($timestamp, $until='') {
 		
 		global $lang;
+		
+		$until = ( is_int($until) ) ? $until : gmmktime();
 		
 		$times = array();
 		$seconds = $until - $timestamp;

@@ -30,7 +30,6 @@
 //	- Andreas Gohr <andi@splitbrain.org>
 //	- Jim Raynor <jim_raynor@web.de>
 //
-
 function insert_tags(tagOpen, tagClose, sampleText) {
 	var txtarea = document.postform.content;
 	// IE

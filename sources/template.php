@@ -191,19 +191,42 @@ class template {
 				// values of the server. This only works on Linux afaik...
 				//
 				$fh = fopen('/proc/loadavg', 'r');
-				$fc = fread($fh, 14);
-				$fc = explode(' ', $fc);
-				$serverload = trim($fc[0]); // we use the load average value of the past 1 minute
-				#$serverload = trim($fc[1]); // we use the load average value of the past 5 minutes
-				#$serverload = trim($fc[2]); // we use the load average value of the past 15 minutes
+				$out = fread($fh, 14);
+				$out = explode(' ', $out);
+				$serverload = $out[0]; // we use the load average value of the past 1 minute
+				#$serverload = $out[1]; // we use the load average value of the past 5 minutes
+				#$serverload = $out[2]; // we use the load average value of the past 15 minutes
 				fclose($fh);
 				
 			} else {
+			
+				//
+				// Another way is running the uptime command and using its
+				// output. This should also work on FreeBSD. The var $tmp
+				// is unnecessary at this moment.
+				//
+				$out = exec('uptime', $tmp, $retval);
+				unset($tmp);
 				
-				//
-				// We can't determine the server load...
-				//
-				$serverload = '?';
+				if ( !$retval ) {
+					
+					//
+					// uptime returns exit code 0 when run successfully...
+					//
+					$out = explode(' ', str_replace(',', '', substr($out, -16)));
+					$serverload = $out[0]; // we use the load average value of the past 1 minute
+					#$serverload = $out[1]; // we use the load average value of the past 5 minutes
+					#$serverload = $out[2]; // we use the load average value of the past 15 minutes
+					
+				} else {
+					
+					//
+					// We can't determine the server load... The server can't access
+					// /proc/loadavg, can't run uptime or is running MS Windows ...
+					//
+					$serverload = '?';
+					
+				}
 				
 			}
 			

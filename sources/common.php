@@ -82,7 +82,7 @@ $_COOKIE = usebb_trim_global($_COOKIE); // trim cookie vars
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.1');
+define('USEBB_VERSION', '0.1.1');
 define('USER_PREG', '/^[a-z0-9\.\-\+\[\]_ ]+$/is');
 define('EMAIL_PREG', '/^[a-z0-9\.\-_]+@[a-z0-9\-]+(\.[a-z0-9\-]+)*\.[a-z]+$/is');
 define('PWD_PREG', '/^[^\'\"\s]+$/is');

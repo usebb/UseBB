@@ -252,6 +252,21 @@ class functions {
 	//
 	function make_url($filename, $vars=array(), $html=true) {
 		
+		if ( $this->get_config('friendly_urls') && in_array($filename, array('index.php', 'panel.php', 'faq.php', 'active.php', 'forum.php', 'topic.php', 'profile.php', 'post.php', 'edit.php')) ) {
+			
+			$url = str_replace('.php', '', $filename);
+			foreach ( $vars as $key => $val ) {
+				
+				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost')) )
+					$url .= '-'.$key.$val;
+				else
+					$url .= '-'.$val;
+				
+			}
+			return $url.'.html';
+			
+		}
+		
 		$url = $filename;
 		
 		//
@@ -265,7 +280,7 @@ class functions {
 		// to stay logged in or use the same session ID.
 		//
 		$SID = SID;
-		if ( !empty($SID) && ( !$html || ( $html && !ini_get('session.use_trans_sid') ) ) ) {
+		if ( !empty($SID) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
 			
 			if ( !is_array($vars) )
 				$vars = array();
@@ -1048,7 +1063,7 @@ class functions {
 		
 		global $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && $session->sess_info['user_id'] != $poster_id && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($item_type.':'.$item_id, $_SESSION['viewed_items']) || $_SESSION['viewed_items'][$item_type.':'.$item_id] < $post_time ) ) {
+		if ( $session->sess_info['user_id'] && $session->sess_info['user_id'] != $poster_id && $_SESSION['previous_visit'] < $post_time && $_SESSION['previous_visit'] > 0 && ( !array_key_exists($item_type.':'.$item_id, $_SESSION['viewed_items']) || $_SESSION['viewed_items'][$item_type.':'.$item_id] < $post_time ) ) {
 			
 			if ( $status == $open_status ) {
 				

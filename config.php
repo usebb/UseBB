@@ -75,6 +75,7 @@ $conf['enable_quickreply'] = 1;
 $conf['enable_rss'] = 0;
 $conf['enable_stafflist'] = 0;
 $conf['enable_stats'] = 0;
+$conf['friendly_urls'] = 1;
 $conf['guests_can_access_board'] = 1;
 $conf['guests_can_view_online_list'] = 1;
 $conf['guests_can_view_profiles'] = 1;

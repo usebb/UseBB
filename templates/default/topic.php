@@ -48,7 +48,7 @@ $templates['topic_header'] = '
 
 $templates['topic_post'] = '
 		<tr class="post">
-			<td class="td{colornum}" width="15%">
+			<td class="td{colornum}" width="150">
 				<b>{poster_name}</b><br />
 				<small>{poster_rank}</small>
 				<div class="avatar">{poster_avatar}</div>

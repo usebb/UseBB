@@ -401,6 +401,8 @@ $lang['Img'] = 'Afb';
 $lang['URL'] = 'URL';
 $lang['Color'] = 'Kleur';
 $lang['Size'] = 'Grootte';
+$lang['ViewingForum'] = 'Forum bekijken: %s.';
+$lang['ViewingTopic'] = 'Onderwerp bekijken: %s.';
 
 //
 // Date translations

@@ -401,3 +401,5 @@ $lang['Img'] = 'Img';
 $lang['URL'] = 'URL';
 $lang['Color'] = 'Color';
 $lang['Size'] = 'Size';
+$lang['ViewingForum'] = 'Viewing forum: %s.';
+$lang['ViewingTopic'] = 'Viewing topic: %s.';

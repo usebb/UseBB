@@ -239,11 +239,11 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		if ( empty($location) ) {
 			
 			if ( preg_match('#^forum:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
-				$location = '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>';
+				$location = sprintf($lang['ViewingForum'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^posttopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
 				$location = sprintf($lang['PostingTopic'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^topic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>';
+				$location = sprintf($lang['ViewingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^reply:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
 				$location = sprintf($lang['PostingReply'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['topics'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^movetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )

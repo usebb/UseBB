@@ -292,12 +292,12 @@ class functions {
 	//
 	// Generate a time past string
 	//
-	function time_past($timestamp) {
+	function time_past($timestamp, $until=gmmktime()) {
 		
 		global $lang;
 		
 		$times = array();
-		$seconds = gmmktime() - $timestamp;
+		$seconds = $until - $timestamp;
 		
 		// weeks
 		if ( $seconds >= 604800 ) {

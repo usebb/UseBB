@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.3.1 Changelog
+------------------------------
+
+- Fixed bug that kicks you back to install/upgrade after logging in.
+
 UseBB 0.3 Changelog
 ------------------------------
 

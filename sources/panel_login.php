@@ -68,7 +68,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<em>'.$_POST['user'].'</em>').' '.$lang['RegisterIt']
+			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>').' '.$lang['RegisterIt']
 		));
 		
 	} elseif ( $userdata['banned'] ) {
@@ -79,7 +79,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
-			'content' => sprintf($lang['BannedUserExplain'], '<em>'.$_POST['user'].'</em>') . '<br />' . $userdata['banned_reason']
+			'content' => sprintf($lang['BannedUserExplain'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>') . '<br />' . $userdata['banned_reason']
 		));
 		
 	} elseif ( !$userdata['active'] ) {
@@ -90,7 +90,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NotActivated'], '<em>'.$_POST['user'].'</em>')
+			'content' => sprintf($lang['NotActivated'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != 3 ) {
@@ -183,7 +183,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],
 			'user'           => $lang['Username'],
-			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
+			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
 			'password'       => $lang['Password'],
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" />',
 			'remember'       => $lang['RememberMe'],

@@ -50,7 +50,7 @@ $_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Check if this username already exists
@@ -64,7 +64,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.$_POST['user'].'</em>')
+			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} else {
@@ -138,7 +138,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['BannedUsername'], '<em>'.$_POST['user'].'</em>')
+				'content' => sprintf($lang['BannedUsername'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
 			));
 			
 		} elseif ( $email_banned ) {
@@ -175,7 +175,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				// Send the activation e-mail if necessary
 				//
 				$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
-					'account_name' => $_POST['user'],
+					'account_name' => stripslashes($_POST['user']),
 					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $db->last_id(), 'key' => $active_key), false),
 					'password' => $_POST['passwd1']
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
@@ -186,7 +186,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				// Send the activation e-mail if necessary
 				//
 				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
-					'account_name' => $_POST['user'],
+					'account_name' => stripslashes($_POST['user']),
 					'password' => $_POST['passwd1']
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
@@ -203,7 +203,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Register'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
 			));
 			
 		}
@@ -226,7 +226,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		// Define missing fields
 		//
 		$errors = array();
-		if ( !preg_match(USER_PREG, $_POST['user']) )
+		if ( !preg_match(USER_PREG, $_POST['user']) || strlen($_POST['user']) > $functions->get_config('username_max_length') )
 			$errors[] = $lang['Username'];
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
@@ -256,7 +256,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'register_form'       => $lang['Register'],
 		'user'                => $lang['Username'],
-		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',
+		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
 		'email'               => $lang['Email'],
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'passwd1'             => $lang['Password'],

@@ -200,7 +200,7 @@ if ( !$db->num_rows($result) ) {
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('forum' => $_GET['forum'])).'" method="post">',
 				'post_title' => $lang['PostNewTopic'],
 				'username' => $lang['Username'],
-				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$_POST['user'].'" />',
+				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.htmlspecialchars(stripslashes($_POST['user'])).'" />',
 				'subject' => $lang['Subject'],
 				'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 				'content' => $lang['Content'],

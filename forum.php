@@ -126,7 +126,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>';
 					if ( $topicdata['status_sticky'] )
 						$topic_name = $lang['Sticky'].': '.$topic_name;
-					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
+					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : htmlspecialchars(stripslashes($topicdata['last_poster_guest']));
 					
 					list($topic_icon, $topic_status) = $functions->forum_topic_icon($topicdata['status_locked'], 0, $topicdata['last_post_time'] , $topicdata['last_poster_id'], 'topic', $topicdata['id']);
 					
@@ -138,7 +138,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'topic_status' => $topic_status,
 						'topic_name' => $topic_name,
 						'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
-						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
+						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : htmlspecialchars(stripslashes($topicdata['poster_guest'])),
 						'replies' => $topicdata['count_replies'],
 						'views' => $topicdata['count_views'],
 						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),

@@ -111,9 +111,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					// All information is passed, now send the mail
 					//
 					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
-						'username' => $session->sess_info['user_info']['name'],
+						'username' => stripslashes($session->sess_info['user_info']['name']),
 						'body' => $_POST['body']
-					), $session->sess_info['user_info']['name'], $session->sess_info['user_info']['email'], $user_to_mail['email']);
+					), stripslashes($session->sess_info['user_info']['name']), $session->sess_info['user_info']['email'], $user_to_mail['email']);
 					
 					$template->parse('msgbox', 'global', array(
 						'box_title' => sprintf($lang['SendEmail'], $user_to_mail['name']),
@@ -156,9 +156,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], $user_to_mail['name']),
 						'to' => $lang['To'],
-						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.$user_to_mail['name'].'</a>',
+						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.htmlspecialchars(stripslashes($user_to_mail['name'])).'</a>',
 						'from' => $lang['From'],
-						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>',
+						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.htmlspecialchars(stripslashes($session->sess_info['user_info']['name'])).'</a>',
 						'subject' => $lang['Subject'],
 						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body' => $lang['Body'],

@@ -915,7 +915,7 @@ class functions {
 			
 		}
 		
-		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.$username.'</a>';
+		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.htmlspecialchars(stripslashes($username)).'</a>';
 		
 	}
 	
@@ -999,7 +999,7 @@ class functions {
 		$template->parse('forum_stats_box', 'various', array(
 			'stats_title' => $lang['Statistics'],
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
-			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.next($this->get_stats('latest_member')).'</a>'),
+			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.htmlentities(stripslashes(next($this->get_stats('latest_member')))).'</a>'),
 			'online_title' => $lang['OnlineUsers'],
 			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
 			'members_online' => $members_online

@@ -64,7 +64,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		// Send an e-mail if the user must activate
 		//
 		$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
-			'account_name' => $session->sess_info['user_info']['name'],
+			'account_name' => stripslashes($session->sess_info['user_info']['name']),
 			'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false),
 			'password' => $password
 		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);

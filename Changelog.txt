@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4 Changelog
 ------------------------------
 
+- Added feature #337: Allow all kinds of user names.
 - Added feature #338: Allow users to delete their own posts.
 - Added feature #301: Search engine friendly URL's.
 - Fixed bug #336: Problems on SF.net.

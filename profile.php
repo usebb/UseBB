@@ -85,7 +85,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			else
 				$profiledata = $db->fetch_result($result);
 			
-			$template->set_page_title(sprintf($lang['Profile'], $profiledata['name']));
+			$template->set_page_title(sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))));
 			
 			if ( $own_profile ) {
 				
@@ -136,9 +136,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
 			$template->parse('profile', 'various', array(
-				'title'         => sprintf($lang['Profile'], $profiledata['name']),
+				'title'         => sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))),
 				'username'      => $lang['Username'],
-				'username_v'    => $profiledata['name'],
+				'username_v'    => htmlspecialchars(stripslashes($profiledata['name'])),
 				'userid'        => $lang['UserID'],
 				'userid_v'      => $_GET['id'],
 				'level'         => $lang['Level'],

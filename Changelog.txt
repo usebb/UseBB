@@ -22,7 +22,8 @@ UseBB 0.3 Changelog
 	location bar (now before the quick reply box), the table rows containing the posts
 	that don't have the inner vertical border anymore, the spacing between the rank and
 	avatar, the registration date, the post count, the location, the topic title above
-	the post and the buttons (made by Jemo).
+	the post, the markup of msgbox and confirm_form, the font size in <th /> and the
+	buttons (made by Jemo).
 - Return to topic after posting can now be turned off for posting new topics too.
 - Valid URL checking for profile's website field.
 - Better registration process with terms of use accepting page.

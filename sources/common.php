@@ -68,8 +68,22 @@ $functions = new functions;
 $session = new session;
 $template = new template;
 
+//
 // Set the UseBB error handler
-set_error_handler( array( &$functions, 'usebb_die' ) );
+//
+function error_handler($errno, $error, $file, $line) {
+	
+	//
+	// We use this workaround to make the error handler work
+	// on < PHP 4.3.0. These older versions do not accept an 
+	// array containing a link to a function inside a class.
+	//
+	
+	global $functions;
+	$functions->usebb_die($errno, $error, $file, $line);
+	
+}
+set_error_handler('error_handler');
 
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )

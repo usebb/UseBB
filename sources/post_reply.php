@@ -271,7 +271,10 @@ if ( !$db->num_rows($result) ) {
 				if ( !($result = $db->query("SELECT p.poster_id, u.displayed_name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
 					$functions->usebb_die('SQL', 'Unable to get reviewed posts!', __FILE__, __LINE__);
 				
-				$template->parse('topicreview_header', 'topicreview');
+				$view_more_posts = ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : '';
+				$template->parse('topicreview_header', 'topicreview', array(
+					'view_more_posts' => $view_more_posts
+				));
 				
 				while ( $postsdata = $db->fetch_result($result) ) {
 					
@@ -287,7 +290,7 @@ if ( !$db->num_rows($result) ) {
 				}
 				
 				$template->parse('topicreview_footer', 'topicreview', array(
-					'view_more_posts' => ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : ''
+					'view_more_posts' => $view_more_posts
 				));
 				
 			}

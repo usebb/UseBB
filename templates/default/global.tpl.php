@@ -652,7 +652,7 @@ p#linkbar {
 	padding: 0px 3px 0px 3px;
 }
 #smiley-controls a {
-	margin: 0px 3px 0px 0px;
+	margin: 0px 5px 0px 0px;
 }
 #bottom {
 	clear: both;

@@ -355,7 +355,7 @@ CREATE TABLE usebb_stats (
 INSERT INTO usebb_stats VALUES ('forums', '0');
 INSERT INTO usebb_stats VALUES ('topics', '0');
 INSERT INTO usebb_stats VALUES ('posts', '0');
-INSERT INTO usebb_stats VALUES ('members', '1');
+INSERT INTO usebb_stats VALUES ('members', '0');
 
 # --------------------------------------------------------
 

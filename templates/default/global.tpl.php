@@ -354,6 +354,7 @@ table.maintable th, table.msgbox th, table.confirmform th {
 	padding: 4px 6px 4px 6px;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
+	white-space: nowrap;
 }
 table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 	background-color: #EFEFEF;

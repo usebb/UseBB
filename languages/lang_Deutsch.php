@@ -37,6 +37,11 @@ $lang = array();
 //
 // Define translations
 //
+
+$lang['character_encoding'] = 'iso-8859-1';
+$lang['language_code'] = 'de';
+#$lang['text_direction'] = 'ltr';
+
 $lang['Home'] = 'Start';
 $lang['YourPanel'] = 'Dein Zugang';
 $lang['Register'] = 'Registrieren';
@@ -155,7 +160,7 @@ $lang['MissingFields'] = 'Die folgenden Felder wurden nicht ausgef&uuml;llt oder
 $lang['TermsOfUseContent'] = '
 Du akzeptierst das alle Beitraege in diesem Forum Meinungen der jeweiligen Autoren ausdruecken, die nicht mit den offiziellen Ansichten der Administration, Moderatoren oder des Webmasters uebereinstimmen muessen.
 
-Du stimmst ueberein, das Du keine beleidigenden, anstoessigen, obszoenen oder unangebrachten Inhalt oder Inhalt, der gesetzlich verboten ist, in diesem Forum zu posten.
+Du stimmst ueberein, keine beleidigenden, anstoessigen, obszoenen oder unangebrachten Inhalt oder Inhalt, der gesetzlich verboten ist, in diesem Forum zu posten.
 
 Ein Verstoss kann eine moegliche Sperrung oder Loeschung Deines Accounts oder eine Abuse-Meldung bei Deinem Internet Service Provider nach sichziehen.
 
@@ -163,7 +168,7 @@ Deshalb wird u.a. auch Deine IP-Adresse bei jedem Deiner Beitraege gespeichert.
 
 Du akzeptierst auch, das Administratoren und Moderatoren das Recht haben jederzeit Deine Beitraege zu editieren, zu loeschen, zu verschieben und Deine Themen zu sperren, wenn sie die Ansicht haben, das dies noetig ist.
 
-Alle Informationen die Du in diesem Forum beitraegst, wird in einem Datenbanksystem für zukuenftige Zwecke gespeichert. Die Administration wird diese Informationen nicht gegen Deinen Willen an Dritte weitergeben.
+Alle Informationen die Du in diesem Forum beitraegst, werden in einem Datenbanksystem für zukuenftige Zwecke gespeichert. Die Administration wird diese Informationen nicht gegen Deinen Willen an Dritte weitergeben.
 
 Jedoch haften weder Webmaster, Administratoren oder Moderatoren, noch das UseBB-Team fuer Informationlecks in Folge eines Hacking-Versuchs.
 
@@ -322,6 +327,7 @@ $lang['Delete'] = 'L&ouml;schen';
 $lang['Quote'] = 'Zitieren';
 $lang['Wrote'] = '%s schrieb';
 $lang['ViewingIP'] = 'IP: %s';
+$lang['ReplyTo'] = 'Antworten an "%s"';
 $lang['TopicIsLockedExplain'] = 'Das Thema in dem Du versucht zu schreiben, wurde gesperrt. Nur noch authorisierte Personen k&ouml;nnen Antworten schreiben.';
 $lang['Content'] = 'Inhalt';
 $lang['Options'] = 'Optionen';
@@ -336,9 +342,9 @@ $lang['NoSuchPost'] = 'Der Beitrag %s existiert (nicht mehr) in diesem Forum.';
 $lang['UserPostedImage'] = 'Von Benutzern angeh&auml;ngte Bilder';
 $lang['ForumIsLockedExplain'] = 'Dieses Forum ist gesperrt. Nur authorisierte Personen k&ouml;nnen neue Themen er&ouml;ffnen.';
 $lang['MakeTopicSticky'] = 'Thema mit Spucke anpappen.';
-$lang['QuickReply'] = 'Schnelle Antwort';
+$lang['QuickReply'] = 'Feature Schnelle Antwort aktivieren';
 $lang['ReturnToTopicAfterPosting'] = 'Nach dem Schreiben zum Posting zur&uuml;ckspringen';
-$lang['ModeratorList'] = 'Moderatoren: %s.';
+$lang['Moderators'] = 'Moderatoren: %s.';
 $lang['Nobody'] = 'Niemand';
 $lang['DeleteTopic'] = 'Thema l&ouml;schen';
 $lang['MoveTopic'] = 'Thema verschieben';
@@ -351,7 +357,7 @@ $lang['OldForum'] = 'Altes Forum';
 $lang['NewForum'] = 'Neues Forum';
 $lang['IAccept'] = 'Ich akzeptiere';
 $lang['IDontAccept'] = 'Ich lehne ab';
-$lang['OpenLinksNewWindow'] = 'Open external links in new windows';
+$lang['OpenLinksNewWindow'] = 'Externe Links in einem neuen Fenster &ouml;ffnen';
 $lang['HideAllAvatars'] = 'Avatare ausblenden';
 $lang['HideUserinfo'] = 'Benutzerinformationen ausblenden';
 $lang['HideAllSignatures'] = 'Signaturen ausblenden';
@@ -362,3 +368,97 @@ $lang['DeletePost'] = 'Beitrag l&ouml;schen';
 $lang['ConfirmDeletePost'] = 'Willst Du wirklich diesen Beitrag im Thema %s l&ouml;schen? Dieser Vorgang ist nicht r&uuml;ckg&auml;nglich zu machen!';
 $lang['EditPost'] = 'Beitrag editieren';
 $lang['PostEditInfo'] = 'Das letzte Mal editiert von %s am %s.';
+$lang['NeedToBeLoggedIn'] = 'Du musst dich f&uuml;r diese Aktion anmelden. Klicke auf den \'Anmelden\' Link um dich am System anzumelden oder auf \'Registrieren\' um einen neuen Zugang anzulegen.';
+$lang['Detailed'] = 'Detailliert';
+$lang['ReplyTo'] = 'Antwort an "%s"';
+$lang['ModeratorList'] = 'Moderatoren: %s.';
+$lang['Moderators'] = 'Moderatoren: %s.';
+$lang['PasswdInfo'] = 'Das Passwort kann weder Leerzeichen noch Hochkommata enthalten, ausserdem betr&auml;gt die Mindestl&auml;nge %d Zeichen.';
+$lang['SubscribeTopic'] = 'Abonnieren';
+$lang['UnsubscribeTopic'] = 'Abbestellen';
+$lang['NewReplyEmailBody'] = 'Hallo,
+
+hier ist die Forumsoftware von [board_name]. Jemand ([poster_name]) hat eine Antwort auf ein Thema geschrieben, den Du abonniert hast ("[topic_title]"). Um den Beitrag zu lesen, klicke bitte auf folgenden Link: [topic_link].
+
+Klicke auf den folgenden Link um das Abonnement des Beitrags abzustellen (ben&ouml;tigt Login): [unsubscribe_link].
+
+[board_name]
+[board_link]
+[admin_email]';
+
+$lang['NewReplyEmailSubject'] = 'Neue Antwort in "%s"';
+$lang['SubscribedTopic'] = 'Du hast nun ein Abonnement auf dieses Thema.';
+$lang['UnsubscribedTopic'] = 'Du hast dein Abonnement des Themas erfolgreich abbestellt.';
+$lang['SubscribeToThisTopic'] = 'Abonniere diesen Beitrag.';
+$lang['OK'] = 'OK';
+$lang['Subscriptions'] = 'Abonnement';
+$lang['NoSubscribedTopics'] = 'Aktuell hast Du kein Abonnement auf irgendwelche Themen.';
+$lang['LatestUpdate'] = 'Letzten Aktualisierungen';
+$lang['Unknown'] = 'Unbekannt';
+$lang['PostingTopic'] = 'Thema starten in %s';
+$lang['PostingReply'] = 'Antwort scheiben in %s';
+$lang['MovingTopic'] = 'Verschiebe Thema %s';
+$lang['DeletingTopic'] = 'L&ouml;sche Thema %s';
+$lang['EditingPost'] = 'Editiere Beitrag in %s';
+$lang['DeletingPost'] = 'L&ouml;sche Beitrag in %s';
+$lang['DebugMode'] = 'Entwicklungsmodus';
+$lang['ParseTime'] = 'Durchlaufzeit';
+$lang['ServerLoad'] = 'Server Last';
+$lang['TemplateSections'] = 'Designs';
+$lang['SQLQueries'] = 'SQL Anweisungen';
+$lang['RealName'] = 'Echter Name';
+$lang['Skype'] = 'Skype';
+$lang['Administrators'] = 'Administratoren';
+$lang['Moderators'] = 'Moderatoren';
+$lang['SortBy'] = 'Sortieren nach: %s';
+$lang['date_translations'] = array(
+        'Mon' => 'Mo',
+        'Tue' => 'Di,',
+        'Wed' => 'Mi',
+        'Thu' => 'Do',
+        'Fri' => 'Fr',
+        'Sat' => 'Sa',
+        'Sun' => 'So',
+        'Monday' => 'Montag',
+        'Tuesday' => 'Dienstag',
+        'Wednesday' => 'Mittwoch',
+        'Thursday' => 'Donnerstag',
+        'Friday' => 'Freitag',
+        'Saturday' => 'Samstag',
+        'Sunday' => 'Sontag',
+        'Jan' => 'Jan',
+        'Feb' => 'Feb',
+        'Mar' => 'Mar',
+        'Apr' => 'Apr',
+        'May' => 'Mai',
+        'Jun' => 'Jun',
+        'Jul' => 'Jul',
+        'Aug' => 'Aug',
+        'Sep' => 'Sep',
+        'Oct' => 'Okt',
+        'Nov' => 'Nov',
+        'Dec' => 'Dez',
+        'January' => 'Januar',
+        'February' => 'Februar',
+        'March' => 'Maerz',
+        'April' => 'April',
+        'May' => 'Mai',
+        'June' => 'Juni',
+        'July' => 'Juli',
+        'August' => 'August',
+        'September' => 'September',
+        'October' => 'Oktober',
+        'November' => 'November',
+        'December' => 'Dezember',
+        'st' => '.)',
+        'nd' => '.)',
+        'th' => '.)'
+);
+
+
+
+
+
+
+
+

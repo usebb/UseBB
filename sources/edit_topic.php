@@ -268,6 +268,12 @@ if ( $_GET['act'] == 'delete' ) {
 							
 						} else {
 							
+							//
+							// Move the topic
+							//
+							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['new_forum_id']." WHERE id = ".$_GET['topic'])) )
+								$functions->usebb_die('SQL', 'Unable to update topic information!', __FILE__, __LINE__);
+							
 							if ( $topicdata['last_topic_id'] == $_GET['topic'] ) {
 								
 								//
@@ -296,12 +302,6 @@ if ( $_GET['act'] == 'delete' ) {
 							}
 							
 							$update_new_last_topic_id = ( $topicdata['post_time'] > $forumdata['post_time'] ) ? ', last_topic_id = '.$_GET['topic'] : '';
-							
-							//
-							// Move the topic
-							//
-							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['new_forum_id']." WHERE id = ".$_GET['topic'])) )
-								$functions->usebb_die('SQL', 'Unable to update topic information!', __FILE__, __LINE__);
 							
 							//
 							// Adjust forum counts

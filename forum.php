@@ -115,7 +115,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// Get page number
 			//
 			$numpages = ceil(intval($forumdata['topics']) / $functions->get_config('topics_per_page'));
-			$page = ( !empty($_GET['p']) && is_numeric($_GET['p']) && intval($_GET['p']) <= $numpages ) ? intval($_GET['p']) : 1;
+			$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
 			$limit_end = $functions->get_config('topics_per_page');
 			
@@ -125,7 +125,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				for ( $i = 1; $i <= $numpages; $i++ ) {
 					
 					if ( $page != $i )
-						$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'p' => $i)).'">'.$i.'</a>';
+						$page_links[] = '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'], 'page' => $i)).'">'.$i.'</a>';
 					else
 						$page_links[] = $i;
 					

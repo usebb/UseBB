@@ -899,6 +899,8 @@ class functions {
 			array('[color=red]', '[/color]', 'Color', ''),
 			array('[size=14]', '[/size]', 'Size', ''),
 			array('[google=UseBB]', '[/google]', 'Google', ''),
+			array('[code]', '[/code]', 'Code', ''),
+			array('[quote]', '[/quote]', 'Quote', ''),
 		);
 		
 		$out = '';

@@ -750,16 +750,44 @@ class functions {
 			//
 			// Encode [ and ] in code tags first then parse them
 			//
-			preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
-			foreach ( $matches[0] as $oldpart ) {
+			if ( preg_match('#\[code\](.*?)\[/code\]#is', $string) ) {
 				
-				$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
-				$newpart = str_replace('&#91;code&#93;', '[code]', $newpart);
-				$newpart = str_replace('&#91;/code&#93;', '[/code]', $newpart);
-				$string = str_replace($oldpart, $newpart, $string);
+				$string_parts = preg_split('#\[code\]#is', $string);
+				$new_string_parts = array();
+				foreach ( $string_parts as $string_part ) {
+					
+					if ( preg_match('#\[/code\]#is', $string_part) ) {
+						
+						$string_parts2 = preg_split('#\[/code\]#is', $string_part);
+						$i = 1;
+						$string_part = '';
+						foreach ( $string_parts2 as $string_part2 ) {
+							
+							if ( $i === (count($string_parts2)-1) )
+								$string_part .= $string_part2.'[/code]';
+							elseif ( $i === count($string_parts2) )
+								$string_part .= $string_part2;
+							else
+								$string_part .= $string_part2.'&#91;/code&#93;';
+							$i++;
+							
+						}
+						
+					}
+					$new_string_parts[] = $string_part;
+					
+				}
+				$string = join('[code]', $new_string_parts);
+				preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
+				foreach ( $matches[1] as $oldpart ) {
+					
+					$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
+					$string = str_replace($oldpart, $newpart, $string);
+					
+				}
+				$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 				
 			}
-			$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			
 			//
 			// All kinds of regexps

@@ -159,20 +159,8 @@ class template {
 		//
 		// Compression and output
 		//
-		if ( intval($functions->get_config('output_compression')) === 1 ) {
-			
+		if ( intval($functions->get_config('output_compression')) === 1 || intval($functions->get_config('output_compression')) === 3 )
 			$this->body = $functions->compress_sourcecode($this->body);
-			
-		} elseif ( intval($functions->get_config('output_compression')) === 2 ) {
-			
-			ob_start('ob_gzhandler');
-			
-		} elseif ( intval($functions->get_config('output_compression')) === 3 ) {
-			
-			ob_start('ob_gzhandler');
-			$this->body = $functions->compress_sourcecode($this->body);
-			
-		}
 		
 		echo $this->body;
 		

@@ -86,6 +86,12 @@ function error_handler($errno, $error, $file, $line) {
 }
 set_error_handler('error_handler');
 
+//
+// Activate gzip compression if needed, BEFORE doing a session_start() (bug #1035507)
+//
+if ( intval($functions->get_config('output_compression')) === 2 || intval($functions->get_config('output_compression')) === 3 )
+	ob_start('ob_gzhandler');
+
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
 	$functions->usebb_die('General', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);

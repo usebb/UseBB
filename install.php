@@ -57,17 +57,35 @@ if ( intval($_POST['step']) > 1 ) {
 	body {
 		font-family: sans-serif;
 		text-align: center;
+		font-size: 10pt;
+	}
+	h1 {
+		color: #336699;
+		font-size: 18pt;
+		font-weight: bold;
 	}
 	#wrap {
-		width: 75%;
+		width: 600px;
 		margin: 0px auto 0px auto;
+		background-color: #EFEFEF;
+		border: 1px solid silver;
+		padding: 10px;
+	}
+	h2 {
+		color: #336699;
+		font-size: 12pt;
+		font-weight: bold;
+	}
+	address {
+		color: #333333;
+		margin: 10px 0px 0px 0px;
 	}
 </style>
 </head>
 <body>
+<p><img src="./templates/default/gfx/usebb.png" alt="" /></p>
+<h1>Installation</h1>
 <div id="wrap">
-<h1><img src="./templates/default/gfx/usebb.png" alt="" /> Installation</h1>
-<hr />
 <?php
 
 function to_step($step) {
@@ -78,6 +96,7 @@ function to_step($step) {
 
 if ( empty($_POST['step']) ) {
 	
+	echo '<h2>Welcome</h2>';
 	echo '<p>Welcome to the UseBB installation wizard. This wizard will help you set up a new UseBB installation.</p><p><strong>Note:</strong> this wizard does <strong>NOT</strong> upgrade an existing installation! Please use the <code>upgrade-<em>version</em>.php</code> wizard instead.</p>';
 	echo to_step(1);
 	
@@ -178,8 +197,7 @@ if ( empty($_POST['step']) ) {
 }
 
 ?>
-<hr />
-<address>Copyright &copy; 2003-2005 UseBB Team</address>
 </div>
+<address>Copyright &copy; 2003-2005 UseBB Team</address>
 </body>
 </html>

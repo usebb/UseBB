@@ -5,6 +5,7 @@ UseBB 0.3.1 Changelog
 
 - Fixed bug that kicks you back to install/upgrade after logging in.
 - Fixed bug that didn't update the statistics well while installing.
+- Applied styles to install and upgrade scripts.
 
 UseBB 0.3 Changelog
 ------------------------------

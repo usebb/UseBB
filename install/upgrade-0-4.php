@@ -188,11 +188,11 @@ if ( empty($_POST['step']) ) {
 			
 			for ( $i = 2; ; $i++ ) {
 				
-				$out['name'] .= $i;
+				$testname = $out['name'].$i;
 				
-				if ( !in_array($out['name'], $usernames) ) {
+				if ( !in_array($testname, $usernames) ) {
 					
-					$usernames[] = $out['name'];
+					$usernames[] = $out['name'] = $testname;
 					break;
 					
 				}

@@ -128,12 +128,18 @@ if ( $functions->get_config('enable_detailed_online_list') && ( $functions->get_
 		'last_update' => $lang['LastUpdate'],
 	));
 	
-	$seen_members = array();
+	$seen_members = $seen_ips = array();
 	
 	foreach ( $sessions as $sessiondata ) {
 		
-		if ( ( !$sessiondata['user_id'] || !in_array($sessiondata['user_id'], $seen_members) ) && ( !$sessiondata['hide_from_online_list'] || $functions->get_user_level() == 3 ) ) {
+		if ( !$sessiondata['hide_from_online_list'] || $functions->get_user_level() == 3 ) {
 		
+			if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
+				continue;
+			
+			if ( !$sessiondata['user_id'] && in_array($sessiondata['ip_addr'], $seen_ips) )
+				continue;
+			
 			$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['name'], $sessiondata['level']) : $lang['Guest'];
 			
 			if ( $functions->get_user_level() == 3 )
@@ -224,6 +230,8 @@ if ( $functions->get_config('enable_detailed_online_list') && ( $functions->get_
 			
 			if ( $sessiondata['user_id'] )
 				$seen_members[] = $sessiondata['user_id'];
+			else
+				$seen_ips[] = $sessiondata['ip_addr'];
 			unset($location);
 			
 		}

@@ -210,13 +210,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		
 	}
 	
-} elseif ( !empty($_POST['accepted']) ) {
+} elseif ( !empty($_POST['acceptedterms']) ) {
 	
 	//
 	// The user agreed to the terms of use, show the registration form
 	//
 	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	if ( !empty($_POST['sentregform']) ) {
 		
 		//
 		// The form has been submitted but there are missing fields
@@ -264,9 +264,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'passwd2'             => $lang['PasswordAgain'],
 		'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
 		'everything_required' => $lang['EverythingRequired'],
-		'submit_button'       => '<input type="submit" name="submit" value="'.$lang['Register'].'" />',
+		'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'            => '<input type="hidden" name="accepted" value="true" /></form>'
+		'form_end'            => '</form>'
 	));
 	
 } elseif ( !empty($_POST['notaccepted']) ) {
@@ -290,7 +290,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'title' => $lang['TermsOfUse'],
 		'content' => nl2br(htmlentities($lang['TermsOfUseContent'])),
-		'submit_button'       => '<input type="submit" name="accepted" value="'.$lang['IAccept'].'" />',
+		'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" />',
 		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 		'form_end' => '</form>'
 	));

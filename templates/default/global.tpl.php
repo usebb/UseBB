@@ -515,10 +515,11 @@ table.maintable td.faqheading {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }
-table.maintable td .questiontitle {
+table.maintable td.faqquestion .questiontitle {
 	font-weight: bold;
+	font-style: italic;
 }
-table.maintable td .questionanswer {
+table.maintable td.faqquestion .questionanswer {
 	margin: 0px 0px 0px 20px;
 }
 

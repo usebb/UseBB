@@ -65,7 +65,8 @@ foreach ( $faq as $item ) {
 		$hi++;
 		
 		$template->parse('faq_heading', 'faq', array(
-			'heading_title' => '<a href="#h'.$hi.'">'.$item[1].'</a>'
+			'heading_title' => $item[1],
+			'heading_anchor' => 'h'.$hi
 		));
 		
 	} else {
@@ -73,8 +74,9 @@ foreach ( $faq as $item ) {
 		$qi++;
 		
 		$template->parse('faq_question', 'faq', array(
-			'question_title' => '<a href="#q'.$qi.'">'.$item[0].'</a>',
-			'question_answer' => $item[1]
+			'question_title' => $item[0],
+			'question_answer' => $item[1],
+			'heading_anchor' => 'q'.$qi
 		));
 		
 	}

@@ -42,13 +42,13 @@ $templates['faq_header'] = '
 
 $templates['faq_heading'] = '
 		<tr>
-			<td class="faqheading">&raquo; {heading_title}</td>
+			<td class="faqheading">&raquo; <a href="#{heading_anchor}" name="{heading_anchor}">{heading_title}</a></td>
 		</tr>
 ';
 
 $templates['faq_question'] = '
 		<tr>
-			<td>
+			<td class="faqquestion">
 				<div class="questiontitle">{question_title}</div>
 				<div class="questionanswer">{question_answer}</div>
 			</td>

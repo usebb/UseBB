@@ -60,7 +60,7 @@ $conf['board_closed'] = 0;
 $conf['board_closed_reason'] = 'Just closed...';
 $conf['board_descr'] = 'My board\'s description';
 $conf['board_name'] = 'My Community';
-$conf['board_url'] = 'http://www.example.net/UseBB/';
+$conf['board_url'] = 'http://localhost/usebb/usebb/';
 $conf['cookie_domain'] = '';
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
@@ -102,4 +102,4 @@ $conf['view_hidden_email_addresses_min_level'] = 3;
 //
 // Comment out the following line
 //
-die('Please edit your config.php file first!');
+#die('Please edit your config.php file first!');

@@ -16,6 +16,7 @@ UseBB 0.3 Changelog
 - Added paging for topiclists and topics.
 - Added preview feature for posting new topics and replies.
 - Added FAQ page.
+- Added MySQL 4.1 (mysqli) enhanced support.
 - Fixed bug 954411: BBcode parser doesn't work with nestings.
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.

@@ -65,7 +65,7 @@ function slash_trim_global($global) {
 //
 function unhtml($string) {
 	
-	return preg_replace(array('#&([^\#])#', '#<([\/]?.*?)>#is', '#"#'), array('&amp;\\1', '&lt;\\1&gt;', '&quot;'), $string);
+	return preg_replace(array('#&([^\#])#', '#<#', '#>#', '#"#'), array('&amp;\\1', '&lt;', '&gt;', '&quot;'), $string);
 	
 }
 

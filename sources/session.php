@@ -109,6 +109,7 @@ class session {
 		//
 		// Remove older clone sessions if needed
 		//
+		$add_to_remove_query = array();
 		if ( !$functions->get_config('allow_multi_sess') ) {
 			
 			$add_to_remove_query[] = "( ip_addr = '".$ip_addr."' AND sess_id <> '".session_id()."' )";
@@ -137,7 +138,7 @@ class session {
 		//
 		// Now run the cleanup query
 		//
-		if ( is_array($add_to_remove_query) ) {
+		if ( count($add_to_remove_query) ) {
 			
 			$add_to_remove_query = join(' OR ', $add_to_remove_query);
 			if ( !$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".$add_to_remove_query) )

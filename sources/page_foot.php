@@ -33,8 +33,8 @@ if ( !defined('INCLUDED') )
 // Page footer
 //
 $link_bar = array();
-if ( $functions->get_user_level() == 3 )
-	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
+/*if ( $functions->get_user_level() == 3 )
+	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';*/
 	
 if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
@@ -42,11 +42,11 @@ if ( $functions->get_config('enable_memberlist') && $functions->get_user_level()
 if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 	
-if ( $functions->get_config('enable_rss') && $functions->get_user_level() >= $functions->get_config('view_rss_min_level') )
+/*if ( $functions->get_config('enable_rss') && $functions->get_user_level() >= $functions->get_config('view_rss_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 	
 if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';*/
 	
 if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') )
 	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';

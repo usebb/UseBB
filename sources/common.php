@@ -72,7 +72,7 @@ require(ROOT_PATH.'sources/template.php');
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.4-CVS');
+define('USEBB_VERSION', '0.4');
 define('USER_PREG', '##is');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
 define('PWD_PREG', '#^[^\'\"\s]+$#is'); # don't change - dangerous!

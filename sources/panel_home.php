@@ -41,7 +41,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		//
 		// Set the AL cookie
 		//
-		$functions->set_al($sess_info['user_id'].':'.$sess_info['user_info']['passwd']);
+		$functions->set_al($session->sess_info['user_id'], $session->sess_info['user_info']['passwd']);
 		$msgbox_content = $lang['AutoLoginSet'];
 		
 	} elseif ( $_GET['al'] == 0 ) {
@@ -64,7 +64,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	// Some various session infromation
 	//
-	if ( isset($_COOKIE[$functions->get_config('session_name').'_al']) ) {
+	if ( $functions->isset_al() ) {
 		
 		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
 		
@@ -77,13 +77,13 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	$template->parse('panel_sess_info', array(
 		'title' => $lang['SessionInfo'],
 		'sess_id' => $lang['SessionID'],
-		'sess_id_v' => $sess_info['sess_id'],
+		'sess_id_v' => $session->sess_info['sess_id'],
 		'ip_addr' => $lang['IPAddress'],
-		'ip_addr_v' => $sess_info['ip_addr'],
+		'ip_addr_v' => $session->sess_info['ip_addr'],
 		'updated' => $lang['Updated'],
-		'updated_v' => $functions->make_date($sess_info['updated']),
+		'updated_v' => $functions->make_date($session->sess_info['updated']),
 		'pages' => $lang['Pages'],
-		'pages_v' => $sess_info['pages'],
+		'pages_v' => $session->sess_info['pages'],
 		'al' => $lang['AutoLogin'],
 		'al_v' => $al_controls
 	));

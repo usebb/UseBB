@@ -38,7 +38,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Log In
 	//
-	$sess_info = $session->update($_GET['act']);
+	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_login.php');
 	
 } elseif ( $_GET['act'] == 'logout' ) {
@@ -55,7 +55,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Register
 	//
-	$sess_info = $session->update($_GET['act']);
+	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_register.php');
 	
 } elseif ( $_GET['act'] == 'activate' && !empty($_GET['id']) && is_numeric($_GET['id']) && !empty($_GET['key']) ) {
@@ -63,7 +63,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Activate
 	//
-	$sess_info = $session->update($_GET['act']);
+	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_activate.php');
 	
 } elseif ( $_GET['act'] == 'sendpwd' ) {
@@ -71,7 +71,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Send Password
 	//
-	$sess_info = $session->update($_GET['act']);
+	$session->update($_GET['act']);
 	require(ROOT_PATH.'sources/panel_sendpwd.php');
 	
 } else {
@@ -83,9 +83,9 @@ if ( $_GET['act'] == 'login' ) {
 		
 	}
 	
-	$sess_info = $session->update($_GET['act']);
+	$session->update($_GET['act']);
 	
-	if ( $sess_info['user_id'] <= 0 ) {
+	if ( $session->sess_info['user_id'] <= 0 ) {
 		
 		header('Location: index.php');
 		exit();
@@ -99,7 +99,7 @@ if ( $_GET['act'] == 'login' ) {
 	
 	$template->parse('panel_menu', array(
 		'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
-		'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
+		'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
 		'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
 		'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
 		'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',

@@ -39,14 +39,14 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// Update and get the session information
 	//
-	$sess_info = $session->update('profile:'.$_GET['id']);
+	$session->update('profile:'.$_GET['id']);
 	
 	//
 	// Include the page header
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !$functions->get_config('guests_can_view_profiles') && $sess_info['user_id'] == 0 ) {
+	if ( !$functions->get_config('guests_can_view_profiles') && $session->sess_info['user_id'] == 0 ) {
 		
 		$template->set_page_title($lang['Note']);
 		$template->parse('msgbox', array(
@@ -59,7 +59,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		//
 		// Get the user information
 		//
-		if ( $_GET['id'] == $sess_info['user_id'] ) {
+		if ( $_GET['id'] == $session->sess_info['user_id'] ) {
 			
 			//
 			// This user is viewing his own profile, so we don't need a new query
@@ -85,7 +85,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			
 			if ( $own_profile )
-				$profiledata = $sess_info['user_info'];
+				$profiledata = $session->sess_info['user_info'];
 			else
 				$profiledata = $db->fetch_result($result);
 			
@@ -98,7 +98,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				//
 				$template->parse('panel_menu', array(
 					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
-					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
+					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
 					'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
 					'panel_options' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
 					'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
@@ -120,7 +120,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 			}
 			
-			if ( $profiledata['last_login_show'] || $own_profile || ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] == 3 ) )
+			if ( $profiledata['last_login_show'] || $own_profile || ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 ) )
 				$last_login = ( $profiledata['last_login'] != 0 ) ? $functions->make_date($profiledata['last_login']) : $lang['Never'];
 			else
 				$last_login = $lang['Hidden'];

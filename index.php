@@ -34,7 +34,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Update and get the session information
 //
-$sess_info = $session->update('index');
+$session->update('index');
 
 //
 // Include the page header
@@ -297,7 +297,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 //
 // Online list
 //
-if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $sess_info['user_id'] == 0 ) )
+if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
 	$online_list_link = '';
 else
 	$online_list_link = ' <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';

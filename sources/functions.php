@@ -149,7 +149,7 @@ class functions {
 		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];
 		else
-			return FALSE;
+			$this->usebb_die('General', 'The configuration variable '.$setting.' does not exist!', __FILE__, __LINE__);
 		
 	}
 	
@@ -186,9 +186,9 @@ class functions {
 	//
 	function show_email($user) {
 		
-		global $sess_info, $lang;
+		global $session, $lang;
 		
-		if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
+		if ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
 			
 			//
 			// The viewing user is an administrator
@@ -203,7 +203,7 @@ class functions {
 			//
 			// The viewing user is not an administrator
 			//
-			if ( !$this->get_config('email_view_level') || !$user['email_show'] && $user['id'] != $sess_info['user_id'] )
+			if ( !$this->get_config('email_view_level') || !$user['email_show'] && $user['id'] != $session->sess_info['user_id'] )
 				return $lang['Hidden'];
 			elseif ( $this->get_config('email_view_level') == 1 )
 				return '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
@@ -262,9 +262,9 @@ class functions {
 	//
 	// Set the remember cookie
 	//
-	function set_al($value) {
+	function set_al($userid, $passwdhash) {
 		
-		setcookie($this->get_config('session_name').'_al', $value, gmmktime()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		setcookie($this->get_config('session_name').'_al', $userid.':'.$passwdhash, gmmktime()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
@@ -278,18 +278,40 @@ class functions {
 	}
 	
 	//
+	// Is the remember cookie set?
+	//
+	function isset_al() {
+		
+		if ( isset($_COOKIE[$this->get_config('session_name').'_al']) )
+			return TRUE;
+		else
+			return FALSE;
+		
+	}
+	
+	//
+	// Get the remember cookie's value
+	//
+	function get_al() {
+		
+		$data = explode(':', $_COOKIE[$functions->get_config('session_name').'_al'], 2);
+		return $data;
+		
+	}
+	
+	//
 	// Authorization function
 	// Defines whether a user has permission to take a certain action.
 	//
 	function auth($authint, $action) {
 		
-		global $sess_info;
+		global $session;
 		
 		//
 		// Define the user level
 		//
-		if ( $sess_info['user_id'] )
-			$userlevel = $sess_info['user_info']['level'];
+		if ( $session->sess_info['user_id'] )
+			$userlevel = $session->sess_info['user_info']['level'];
 		else
 			$userlevel = 0;
 		

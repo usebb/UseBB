@@ -34,7 +34,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Update and get the session information
 //
-$sess_info = $session->update();
+$session->update();
 
 //
 // Needed for proper CSS ouptut

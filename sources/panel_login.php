@@ -115,7 +115,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// Set a remember cookie if the user chose to
 		//
 		if ( !empty($_POST['remember']) && $_POST['remember'] == 'yes' )
-			$functions->set_al($userdata['id'].':'.$userdata['passwd']);
+			$functions->set_al($userdata['id'], $userdata['passwd']);
 		
 		//
 		// Get us back to the previous page
@@ -141,7 +141,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	// Show the login form, if the user is not logged in
 	//
-	if ( $sess_info['user_id'] == 0 ) {
+	if ( $session->sess_info['user_id'] == 0 ) {
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(

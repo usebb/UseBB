@@ -53,19 +53,19 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	//
 	// Set some variables needed in the query
 	//
-	$active = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? 0 : 1;
-	$active_key = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-	$password = ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
+	$active = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? 0 : 1;
+	$active_key = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
+	$password = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 	$to_add_for_pwd = '';
 	
-	if ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
+	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		
 		//
 		// Send an e-mail if the user must activate
 		//
 		$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
-			'account_name' => $sess_info['user_info']['name'],
-			'activate_link' => $functions->get_config('board_url').'panel.php?a=activate&id='.$sess_info['user_info']['id'].'&key='.$active_key,
+			'account_name' => $session->sess_info['user_info']['name'],
+			'activate_link' => $functions->get_config('board_url').'panel.php?a=activate&id='.$session->sess_info['user_info']['id'].'&key='.$active_key,
 			'password' => $password
 		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 		
@@ -95,17 +95,17 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		icq           = '".htmlentities($_POST['icq'])."',
 		jabber        = '".htmlentities($_POST['jabber'])."',
 		signature     = '".htmlentities($_POST['signature'])."'
-	WHERE id = ".$sess_info['user_info']['id'])) )
+	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
-	if ( $_POST['email'] != $sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
+	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		
 		//
 		// Show a message box if users must activate
 		//
 		$template->parse('msgbox', array(
 			'box_title' => $lang['Note'],
-			'content' => sprintf($lang['NewEmailNotActivated'], '<i>'.$sess_info['user_info']['name'].'</i>', $_POST['email'])
+			'content' => sprintf($lang['NewEmailNotActivated'], '<i>'.$session->sess_info['user_info']['name'].'</i>', $_POST['email'])
 		));
 		
 	} else {
@@ -131,7 +131,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		
 	}
 	
-	switch ( $sess_info['user_info']['level'] ) {
+	switch ( $session->sess_info['user_info']['level'] ) {
 		
 		case 3:
 			$level = $lang['Administrator'];
@@ -150,29 +150,29 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		'edit_profile'      => $lang['EditProfile'],
 		'required'         => $lang['Required'],
 		'email'            => $lang['Email'],
-		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$sess_info['user_info']['email'].'" />',
+		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
 		'avatar'           => $lang['Avatar'],
-		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$sess_info['user_info']['avatar_remote'].'" />',
+		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$session->sess_info['user_info']['avatar_remote'].'" />',
 		'location'         => $lang['Location'],
-		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.stripslashes($sess_info['user_info']['location']).'" />',
+		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.stripslashes($session->sess_info['user_info']['location']).'" />',
 		'website'          => $lang['Website'],
-		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$sess_info['user_info']['website'].'" />',
+		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$session->sess_info['user_info']['website'].'" />',
 		'occupation'       => $lang['Occupation'],
-		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.stripslashes($sess_info['user_info']['occupation']).'" />',
+		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.stripslashes($session->sess_info['user_info']['occupation']).'" />',
 		'interests'        => $lang['Interests'],
-		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.stripslashes($sess_info['user_info']['interests']).'" />',
+		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.stripslashes($session->sess_info['user_info']['interests']).'" />',
 		'signature'        => $lang['Signature'],
-		'signature_input'  => '<textarea rows="4" cols="60" name="signature">'.stripslashes(str_replace('\n', '\r', $sess_info['user_info']['signature'])).'</textarea>',
+		'signature_input'  => '<textarea rows="4" cols="60" name="signature">'.stripslashes(str_replace('\n', '\r', $session->sess_info['user_info']['signature'])).'</textarea>',
 		'msnm'             => $lang['MSNM'],
-		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.stripslashes($sess_info['user_info']['msnm']).'" />',
+		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.stripslashes($session->sess_info['user_info']['msnm']).'" />',
 		'yahoom'           => $lang['YahooM'],
-		'yahoom_input'     => '<input type="text" size="50" maxlength="255" name="yahoom" value="'.stripslashes($sess_info['user_info']['yahoom']).'" />',
+		'yahoom_input'     => '<input type="text" size="50" maxlength="255" name="yahoom" value="'.stripslashes($session->sess_info['user_info']['yahoom']).'" />',
 		'aim'              => $lang['AIM'],
-		'aim_input'        => '<input type="text" size="50" maxlength="255" name="aim" value="'.stripslashes($sess_info['user_info']['aim']).'" />',
+		'aim_input'        => '<input type="text" size="50" maxlength="255" name="aim" value="'.stripslashes($session->sess_info['user_info']['aim']).'" />',
 		'icq'              => $lang['ICQ'],
-		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.stripslashes($sess_info['user_info']['icq']).'" />',
+		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.stripslashes($session->sess_info['user_info']['icq']).'" />',
 		'jabber'           => $lang['Jabber'],
-		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.stripslashes($sess_info['user_info']['jabber']).'" />',
+		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.stripslashes($session->sess_info['user_info']['jabber']).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['EditProfile'].'" />',
 		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'         => '<input type="hidden" name="submitted" value="true" /></form>'

@@ -46,7 +46,7 @@ if ( !empty($_POST['submitted']) ) {
 		email_show      = ".$email_show.",
 		last_login_show = ".$last_login_show.",
 		date_format     = '".$_POST['date_format']."'
-	WHERE id = ".$sess_info['user_info']['id'])) )
+	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
 	$template->parse('msgbox', array(
@@ -56,8 +56,8 @@ if ( !empty($_POST['submitted']) ) {
 	
 } else {
 	
-	$email_show_checked = ( $sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
-	$last_login_show_checked = ( $sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
+	$email_show_checked = ( $session->sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
+	$last_login_show_checked = ( $session->sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
 	
 	$template->parse('edit_options', array(
 		'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',

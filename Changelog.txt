@@ -4,8 +4,7 @@ UseBB 0.2 Changelog
 ------------------------------
 
 - Fixed random key generator with seed for mt_rand on PHP < 4.2.0.
-- Functions moved to new functions class.
-- Config array replaced by new function in functions class.
+- Endless updates in core, functions moved to functions class, arrays replaced by new functions, ...
 - Added more detailed location info for use in detailed online list.
 - Many panel pages now give a confirmation message.
 - Replaced smaller version of the license with the official one.

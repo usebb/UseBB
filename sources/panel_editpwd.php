@@ -38,20 +38,20 @@ $_POST['current_passwd'] = ( !empty($_POST['current_passwd']) ) ? $_POST['curren
 $_POST['new_passwd1'] = ( !empty($_POST['new_passwd1']) ) ? $_POST['new_passwd1'] : '';
 $_POST['new_passwd2'] = ( !empty($_POST['new_passwd2']) ) ? $_POST['new_passwd2'] : '';
 
-if ( md5($_POST['current_passwd']) == $sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
+if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
 	
 	//
 	// Update the password
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$sess_info['user_id'])) )
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'] )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
-	if ( isset($_COOKIE[$functions->get_config('session_name').'_al']) ) {
+	if ( $functions->isset_al() ) {
 		
 		//
 		// Renew AL cookie
 		//
-		$functions->set_al($sess_info['user_id'].':'.md5($_POST['new_passwd1']));
+		$functions->set_al($session->sess_info['user_id'], md5($_POST['new_passwd1']));
 		
 	}
 	
@@ -67,7 +67,7 @@ if ( md5($_POST['current_passwd']) == $sess_info['user_info']['passwd'] && strle
 		//
 		// Define missing fields
 		//
-		if ( md5($_POST['current_passwd']) != $sess_info['user_info']['passwd'] )
+		if ( md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = strtolower($lang['CurrentPassword']);
 		if ( strlen($_POST['new_passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
 			$errors[] = strtolower($lang['NewPassword']);

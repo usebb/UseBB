@@ -46,14 +46,14 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// Update and get the session information
 	//
-	$sess_info = $session->update('sendemail:'.$_GET['id']);
+	$session->update('sendemail:'.$_GET['id']);
 	
 	//
 	// Include the page header
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( $sess_info['user_id'] == 0 ) {
+	if ( $session->sess_info['user_id'] == 0 ) {
 		
 		$template->set_page_title($lang['Note']);
 		$template->parse('msgbox', array(
@@ -66,7 +66,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		//
 		// Get the user information
 		//
-		if ( $_GET['id'] == $sess_info['user_id'] ) {
+		if ( $_GET['id'] == $session->sess_info['user_id'] ) {
 			
 			//
 			// This user wants to send an email to himself, so we don't need a new query
@@ -88,13 +88,13 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		if ( $db->num_rows($result) === 1 || $own_mailpage ) {
 			
 			if ( $own_mailpage )
-				$user_to_mail = $sess_info['user_info'];
+				$user_to_mail = $session->sess_info['user_info'];
 			else
 				$user_to_mail = $db->fetch_result($result);
 			
 			$template->set_page_title(sprintf($lang['SendEmail'], $user_to_mail['name']));
 			
-			if ( !$user_to_mail['email_show'] && $sess_info['user_info']['level'] < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
+			if ( !$user_to_mail['email_show'] && $session->sess_info['user_info']['level'] < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				
 				//
 				// You can't e-mail this user if he/she chose not to receive e-mails
@@ -115,9 +115,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					// All information is passed, now send the mail
 					//
 					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
-						'username' => $sess_info['user_info']['name'],
+						'username' => $session->sess_info['user_info']['name'],
 						'body' => $_POST['body']
-					), $sess_info['user_info']['name'], $sess_info['user_info']['email'], $user_to_mail['email']);
+					), $session->sess_info['user_info']['name'], $session->sess_info['user_info']['email'], $user_to_mail['email']);
 					
 					$template->parse('msgbox', array(
 						'box_title' => sprintf($lang['SendEmail'], $user_to_mail['name']),
@@ -161,7 +161,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'to' => $lang['To'],
 						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.$user_to_mail['name'].'</a>',
 						'from' => $lang['From'],
-						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$sess_info['user_info']['name'].'</a>',
+						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>',
 						'subject' => $lang['Subject'],
 						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="12" cols="60" name="body">'.$_POST['body'].'</textarea>',

@@ -48,28 +48,28 @@ $template->parse('normal_header', array(
 	'css_url' => $functions->make_url('css.php'),
 	'link_home' => $functions->make_url('index.php'),
 	'home' => $lang['Home'],
-	'link_reg_panel' => ( $sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
-	'reg_panel' => ( $sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],
+	'link_reg_panel' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
+	'reg_panel' => ( $session->sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],
 	'link_faq' => $functions->make_url('faq.php'),
 	'faq' => $lang['FAQ'],
 	'link_search' => $functions->make_url('search.php'),
 	'search' => $lang['Search'],
 	'link_active' => $functions->make_url('active.php'),
 	'active' => $lang['ActiveTopics'],
-	'link_log_inout' => ( $sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
-	'log_inout' => ( $sess_info['user_id'] ) ? sprintf($lang['LogOut'], $sess_info['user_info']['name']) : $lang['LogIn']
+	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
+	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], $session->sess_info['user_info']['name']) : $lang['LogIn']
 ));
 
 //
 // Banned IP addresses catch this message
 //
-if ( $sess_info['ip_banned'] ) {
+if ( $session->sess_info['ip_banned'] ) {
 	
 	$template->set_page_title($lang['Note']);
 	
 	$template->parse('msgbox', array(
 		'box_title' => $lang['Note'],
-		'content' => sprintf($lang['BannedIP'], $sess_info['ip_addr'])
+		'content' => sprintf($lang['BannedIP'], $session->sess_info['ip_addr'])
 	));
 	
 	//
@@ -84,7 +84,7 @@ if ( $sess_info['ip_banned'] ) {
 //
 // Board Closed message
 //
-if ( $functions->get_config('board_closed') && $sess_info['location'] != 'login' ) {
+if ( $functions->get_config('board_closed') && $session->sess_info['location'] != 'login' ) {
 	
 	$template->set_page_title($lang['BoardClosed']);
 	
@@ -99,7 +99,7 @@ if ( $functions->get_config('board_closed') && $sess_info['location'] != 'login'
 	//
 	// Admins can still enter the board
 	//
-	if ( !isset($sess_info['user_info']) || $sess_info['user_info']['level'] != 3 ) {
+	if ( !$session->sess_info['user_id'] || $session->sess_info['user_info']['level'] != 3 ) {
 		
 		//
 		// Include the page footer
@@ -115,7 +115,7 @@ if ( $functions->get_config('board_closed') && $sess_info['location'] != 'login'
 //
 // Guests must log in
 //
-if ( !$functions->get_config('guests_can_access_board') && $sess_info['user_id'] == 0 && !in_array($sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
+if ( !$functions->get_config('guests_can_access_board') && $session->sess_info['user_id'] == 0 && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
 	
 	$template->set_page_title($lang['Note']);
 	

@@ -4,6 +4,7 @@ UseBB 0.2.3 Changelog
 ------------------------------
 
 - Fixed bug 973210: Accessing panel.php?act=register directly results in error.
+- Fixed bug 977336: Fix for attach_sid.
 
 UseBB 0.2.2 Changelog
 ------------------------------

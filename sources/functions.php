@@ -343,7 +343,7 @@ class functions {
 	function attach_sid($url) {
 		
 		$SID = SID;
-		if ( !empty($SID) && !preg_match("/".str_replace('/', '\/', $SID)."$/", $url) ) {
+		if ( !empty($SID) && !preg_match('/'.preg_quote($SID, '/').'$/', $url) ) {
 			
 			if ( strpos($url, '?') )
 				return $url.'&'.$SID;

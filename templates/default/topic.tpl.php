@@ -70,7 +70,7 @@ $templates['topic_footer'] = '
 		</tr>
 		<tr>
 			<td colspan="2" class="td2">
-				<small>{action_links}</small>
+				<small><b>{action_links}</b></small>
 			</td>
 		</tr>
 	</table>

@@ -121,8 +121,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// Get us back to the previous page
 		//
-		header('Location: '.$_SESSION['referer']);
+		$redirect_to = $_SESSION['referer'];
 		unset($_SESSION['referer']);
+		header('Location: '.$redirect_to);
 		
 	} else {
 		

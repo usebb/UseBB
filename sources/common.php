@@ -40,7 +40,7 @@ $timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
 // but dangerous mistakes + disable that annoying
 // magic quotes runtime.
 //
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE);
 set_magic_quotes_runtime(0);
 
 //

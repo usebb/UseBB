@@ -277,8 +277,7 @@ p.locationbar {
 	text-align: left;
 	font-style: italic;
 	color: #333333;
-	margin-bottom: 10px;
-	margin-top: -10px;
+	margin: -10px 0px 10px 0px;
 	padding: 3px;
 }
 p.locationbar a {
@@ -394,13 +393,16 @@ table.maintable td .forumdescr {
 #toolbarbottom {
 	float: right;
 	text-align: right;
-	margin: -14px 0px 20px 0px;
+	margin: -14px 0px 0px 0px;
 }
 #pagelinksbottom {
 	float: left;
 	line-height: 23px;
 	font-weight: bold;
-	margin: -14px 0px 20px 0px;
+	margin: -14px 0px 0px 0px;
+}
+#bottomfix {
+	height: 20px;
 }
 table.maintable td.author {
 	text-align: center;

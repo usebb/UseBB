@@ -72,6 +72,7 @@ $templates['topiclist_footer'] = '
 	</table>
 	<p id="toolbarbottom">{new_topic_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>
+	<div id="bottomfix"></div>
 ';
 
 ?>

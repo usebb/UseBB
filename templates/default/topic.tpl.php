@@ -81,6 +81,7 @@ $templates['topic_footer'] = '
 	</table>
 	<p id="toolbarbottom">{new_topic_link} {reply_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>
+	<div id="bottomfix"></div>
 ';
 
 $templates['quick_reply'] = '

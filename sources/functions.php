@@ -35,6 +35,7 @@ if ( !defined('INCLUDED') )
 class functions {
 	
 	var $board_config;
+	var $statistics;
 	
 	//
 	// Add slashes to a global variable
@@ -160,6 +161,31 @@ class functions {
 			return $this->board_config[$setting];
 		else
 			$this->usebb_die('General', 'The configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+		
+	}
+	
+	//
+	// Get board statistics
+	//
+	function get_stats($stat) {
+		
+		global $db;
+		
+		if ( !isset($this->statistics) ) {
+			
+			$this->statistics = array();
+			
+			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
+				$this->usebb_die('SQL', 'Unable to get forum statistics!', __FILE__, __LINE__);
+			while ( $out = $db->fetch_result($result) )
+				$this->statistics[$out['name']] = $out['content'];
+			
+		}
+		
+		if ( isset($this->statistics[$stat]) )
+			return $this->statistics[$stat];
+		else
+			$this->usebb_die('General', 'The statistic variable "'.$stat.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	

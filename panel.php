@@ -89,6 +89,7 @@ if ( $_GET['act'] == 'login' ) {
 		require(ROOT_PATH.'sources/page_head.php');
 		
 		$template->parse('panel_menu', array(
+			'yourpanel' => $lang['YourPanel'],
 			'panel_home' => ( $_GET['act'] != 'panel_home' ) ? '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>' : $lang['PanelHome'],
 			'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
 			'panel_profile' => ( $_GET['act'] != 'editprofile' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>' : $lang['EditProfile'],

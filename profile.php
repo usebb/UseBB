@@ -93,6 +93,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				// View the panel menu if the user is viewing his own profile
 				//
 				$template->parse('panel_menu', array(
+					'yourpanel' => $lang['YourPanel'],
 					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
 					'view_profile' => $lang['ViewProfile'],
 					'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',

@@ -6,6 +6,7 @@ UseBB 0.3 Changelog
 - Fixed bug with MySQL 3.x that gave error on forum view.
 - Fixed quick reply, now only visible when the user is actually allowed to reply.
 - Fixed plain spaces with &nbsp; between buttons in the footer template.
+- Fixed bug 934807: Latest reply in topic list doesn't update.
 - Optimalizations in template.php, debug also works without </body> tag and more 
 	powerful and better output compression method.
 - Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]

@@ -347,4 +347,4 @@ $lang['DeletePost'] = 'Bericht verwijderen';
 $lang['ConfirmDeletePost'] = 'Ben je zeker dat je dit bericht in het onderwerp %s wilt verwijderen? Dit is onomkeerbaar!';
 $lang['EditPost'] = 'Bericht bewerken';
 $lang['PostEditInfo'] = 'Laatste aanpassing door %s op %s.';
-$lang['PasswdInfo'] = 'Minimum lengte is %d karakters.';
+$lang['PasswdInfo'] = 'Het wachtwoord kan geen spaties of aanhalingstekens bevatten. Minimum lengte is %d karakters.';

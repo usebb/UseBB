@@ -65,7 +65,7 @@ define('TABLE_PREFIX', $dbs['prefix']);
 define('USEBB_VERSION', '0.4-CVS');
 define('USER_PREG', '##is');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
-define('PWD_PREG', '#^[^\'\"\s]+$#is');
+define('PWD_PREG', '#^[^\'\"\s]+$#is'); # don't change - dangerous!
 define('WEB_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?$#is');
 define('IMG_PREG', '#^[\w]+?://[^ \"\n\r\t<]*?\.(gif|png|jpe?g)$#is');
 

@@ -68,7 +68,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->set_page_title(stripslashes($forumdata['name']));
 			$template->parse('location_bar', array(
-				'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$lang['Home'].'</a> &gt; <a href="'.$functions->make_url('index.php', array('cat' => $forumdata['catid'])).'">'.htmlentities(stripslashes($forumdata['catname'])).'</a> &gt; '.htmlentities(stripslashes($forumdata['name']))
+				'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$lang['Home'].'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('index.php', array('cat' => $forumdata['catid'])).'">'.htmlentities(stripslashes($forumdata['catname'])).'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']))
 			));
 			
 			if ( !$forumdata['topics'] ) {
@@ -96,6 +96,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 				while ( $topicdata = $db->fetch_result($result) ) {
 					
+					print_r($topicdata);
 					$template->parse('topiclist_topic');
 					
 				}

@@ -154,7 +154,7 @@ if ( !$functions->get_stats('forums') ) {
 				}
 				
 				$template->parse('forumlist_forum', array(
-					'forum_icon' => ( $forumdata['status'] ) ? 'nonewposts.gif' : 'locked.gif',
+					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),

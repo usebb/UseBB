@@ -84,6 +84,7 @@ CREATE TABLE usebb_members (
   banned_reason text NOT NULL,
   last_login int(10) NOT NULL default '0',
   last_login_show int(1) NOT NULL default '0',
+  hide_from_online_list int(1) NOT NULL default '0',
   posts int(11) NOT NULL default '0',
   template varchar(255) NOT NULL default '',
   language varchar(255) NOT NULL default '',

@@ -101,7 +101,7 @@ function to_step($step) {
 if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Welcome</h2>';
-	echo '<p>Welcome to the UseBB installation wizard. This wizard will help you set up a new UseBB installation.</p><p><strong>Note:</strong> this wizard does <strong>NOT</strong> upgrade an existing installation! Please use the <code>upgrade-<em>version</em>.php</code> wizard instead.</p>';
+	echo '<p>Welcome to the UseBB installation wizard. This wizard will help you set up a new UseBB installation.</p><p><strong>Note:</strong> this wizard does <strong>NOT</strong> upgrade an existing installation! Please use the <code>upgrade-<em>old_version</em>.php</code> wizard instead.</p>';
 	echo to_step(1);
 	
 } elseif ( intval($_POST['step']) === 1 ) {

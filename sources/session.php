@@ -222,7 +222,7 @@ class session {
 			//
 			if ( $current_sess_info['started'] ) {
 				
-				if ( empty($user_id) || !is_numeric($user_id) || $user_id < 1 )
+				if ( empty($user_id) && $user_id !== 0 )
 					$user_id = $current_sess_info['user_id'];
 				
 				//
@@ -241,7 +241,7 @@ class session {
 				
 			} else {
 				
-				if ( empty($user_id) || !is_numeric($user_id) || $user_id < 1 )
+				if ( empty($user_id) )
 					$user_id = 0;
 				
 				$pages = 1;

@@ -45,9 +45,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	// Log Out
 	//
-	$session->update(NULL, 0);
-	$page = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : $functions->make_url('index.php');
-	header('Location: '.$page);
+	require(ROOT_PATH.'sources/panel_logout.php');
 	
 } elseif ( $_GET['act'] == 'register' ) {
 	

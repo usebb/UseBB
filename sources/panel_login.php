@@ -176,8 +176,6 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			
 		}
 		
-		$disabled = ( count($_COOKIE) < 1 ) ? ' disabled="disabled"' : '';
-		
 		$template->parse('login_form', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],

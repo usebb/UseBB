@@ -7,7 +7,7 @@ Current version: 0.4
 	Run install/upgrade-0-3.php in your web browser.
 
 * Upgrading from 0.2.3(a):
-	To upgrade, run install/upgrade-0-2-3.php and install/upgrade-0-3.php in your web browser.
+	Run install/upgrade-0-2-3.php in your web browser.
 
 * Upgrading from 0.2.2 or earlier:
-	First upgrade to 0.2.3a, then run install/upgrade-0-2-3.php and install/upgrade-0-3.php.
+	First upgrade to 0.2.3a, then run install/upgrade-0-2-3.php.

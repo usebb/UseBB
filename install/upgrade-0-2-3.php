@@ -101,7 +101,7 @@ function to_step($step) {
 if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Welcome</h2>';
-	echo '<p>Welcome to the UseBB upgrade 0.2.3 wizard. This wizard will help you upgrade UseBB <strong>0.2.3(a)</strong> to version <strong>0.3</strong>.</p>';
+	echo '<p>Welcome to the UseBB upgrade 0.2.3 wizard. This wizard will help you upgrade UseBB <strong>0.2.3(a)</strong> to version <strong>0.4</strong>.</p>';
 	echo to_step(1);
 	
 } elseif ( intval($_POST['step']) === 1 ) {
@@ -114,7 +114,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>First, upload UseBB 0.3 to the same location as 0.2.3, overwriting the old files. Then edit the configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
+		echo '<p>First, upload UseBB 0.4 to the same location as 0.2.3, overwriting the old files. Then edit the configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
 		echo '<strong>Tip:</strong> if you already use MySQL 4.1, it might be interesting to set <code>$dbs[\'type\']</code> to <code>\'mysqli\'</code>. If you don\'t know which version you are running, leave the default value.';
 		echo to_step(2);
 		
@@ -144,7 +144,8 @@ if ( empty($_POST['step']) ) {
 	$queries = array(
 		"ALTER TABLE `usebb_users` RENAME `usebb_members`",
 		"ALTER TABLE `usebb_members` ADD `last_pageview` INT( 10 ) NOT NULL AFTER `last_login_show` , ADD `hide_from_online_list` INT( 1 ) NOT NULL AFTER `last_pageview`",
-		"ALTER TABLE `usebb_members` ADD `target_blank` INT( 1 ) NOT NULL AFTER `return_to_topic_after_posting` , ADD `hide_avatars` INT( 1 ) NOT NULL AFTER `target_blank` , ADD `hide_userinfo` INT( 1 ) NOT NULL AFTER `hide_avatars` , ADD `hide_signatures` INT( 1 ) NOT NULL AFTER `hide_userinfo` ;"
+		"ALTER TABLE `usebb_members` ADD `target_blank` INT( 1 ) NOT NULL AFTER `return_to_topic_after_posting` , ADD `hide_avatars` INT( 1 ) NOT NULL AFTER `target_blank` , ADD `hide_userinfo` INT( 1 ) NOT NULL AFTER `hide_avatars` , ADD `hide_signatures` INT( 1 ) NOT NULL AFTER `hide_userinfo` ;",
+		"CREATE TABLE usebb_subscriptions ( topic_id int(11) NOT NULL default '0', user_id int(11) NOT NULL default '0' ) TYPE=MyISAM;"
 	);
 	
 	$error = false;

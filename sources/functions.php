@@ -672,62 +672,70 @@ class functions {
 		if ( $bbcode ) {
 			
 			//
-			// Portions of this parser copyrighted by the phpBB Group
-			//
-			// --
-			//
-			// This whole parser needs to be replaced for more flexibility
-			//
-			
-			//
-			// Needed by some BBCode parsers
+			// Needed by some BBCode regexps
 			//
 			$string = ' '.$string.' ';
 			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
-			// [code]text[/code]
-				$matches = 0;
-				preg_match_all("#\[code](.*?)\[/code\]#is", $string, $matches);
-				foreach ( $matches[1] as $oldpart ) {
-					
-					$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
-					$string = str_replace($oldpart, $newpart, $string);
-					
-				}
-				$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
-			// [b]text[/b]
-				$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<strong>\\1</strong>', $string);
-			// [i]text[/i]
-				$string = preg_replace("#\[i\](.*?)\[/i\]#is", '<em>\\1</em>', $string);
-			// [u]text[/u]
-				$string = preg_replace("#\[u\](.*?)\[/u\]#is", '<em class="underline">\\1</em>', $string);
-			// [img]image[/img]
-				$string = preg_replace("#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is", '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />', $string);
-			// [url]http://www.usebb.net[/url]
-				$string = preg_replace("#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is", '<a href="\\1"'.$target_blank.'>\\1</a>', $string);
-			// [url=http://www.usebb.net]UseBB[/url]
-				$string = preg_replace("#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is", '<a href="\\1"'.$target_blank.'>\\2</a>', $string);
-			// http://www.usebb.net
-				$string = preg_replace("#\s([\w]+?://[^ \"\n\r\t<]*?)\s#is", ' <a href="\\1"'.$target_blank.'>\\1</a> ', $string);
-			// [mailto]somebody@nonexistent.com[/mailto]
-				$string = preg_replace("#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is", '<a href="mailto:\\1">\\1</a>', $string);
-			// [mailto=somebody@nonexistent.com]mail me[/mailto]
-				$string = preg_replace("#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is", '<a href="mailto:\\1">\\3</a>', $string);
-			// somebody@nonexistent.com
-				$string = preg_replace("#\s([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\s#is", ' <a href="mailto:\\1">\\1</a> ', $string);
-			// [color=red]text[/color]
-				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<span style="color:\\1">\\2</span>', $string);
-			// [size=14]text[/size]
-				$string = preg_replace("#\[size=(.*?)\](.*?)\[/size\]#is", '<span style="font-size:\\1pt">\\2</span>', $string);
-			// [google=keyword]text[/google]
-				$string = preg_replace("#\[google=(.*?)\](.*?)\[/google\]#is", '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>', $string);
-			// [quote]text[/quote]
-				while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
-					$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
-			// [quote=user]text[/quote]
-				while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
-					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+			//
+			// Encode [ and ] in code tags first then parse them
+			//
+			$matches = 0;
+			preg_match_all("#\[code](.*?)\[/code\]#is", $string, $matches);
+			foreach ( $matches[1] as $oldpart ) {
+				
+				$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
+				$string = str_replace($oldpart, $newpart, $string);
+				
+			}
+			$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
+			
+			//
+			// All kinds of regexps
+			//
+			$regexps = array(
+				// [b]text[/b]
+					"#\[b\](.*?)\[/b\]#is" => '<strong>\\1</strong>',
+				// [i]text[/i]
+					"#\[i\](.*?)\[/i\]#is" => '<em>\\1</em>',
+				// [u]text[/u]
+					"#\[u\](.*?)\[/u\]#is" => '<em class="underline">\\1</em>',
+				// [img]image[/img]
+					"#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
+				// [url]http://www.usebb.net[/url]
+					"#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.'>\\1</a>',
+				// [url=http://www.usebb.net]UseBB[/url]
+					"#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.'>\\2</a>',
+				// http://www.usebb.net
+					"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is" => '\\1<a href="\\2"'.$target_blank.'>\\2</a>\\3',
+				// [mailto]somebody@nonexistent.com[/mailto]
+					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1">\\1</a>',
+				// [mailto=somebody@nonexistent.com]mail me[/mailto]
+					"#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1">\\3</a>',
+				// somebody@nonexistent.com
+					"#([\s\]\[])([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([\s\]\[])#is" => '\\1<a href="mailto:\\2">\\2</a>\\4',
+				// [color=red]text[/color]
+					"#\[color=(.*?)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
+				// [size=14]text[/size]
+					"#\[size=(.*?)\](.*?)\[/size\]#is" => '<span style="font-size:\\1pt">\\2</span>',
+				// [google=keyword]text[/google]
+					"#\[google=(.*?)\](.*?)\[/google\]#is" => '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>',
+			);
+			
+			//
+			// Now parse those regexps
+			//
+			foreach ( $regexps as $find => $replace )
+				$string = preg_replace($find, $replace, $string);
+			
+			//
+			// Now parse quote tags
+			//
+			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
+				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
+			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
+				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
 			$string = substr($string, 1, strlen($string)-1);
 			

@@ -5,7 +5,6 @@ UseBB 0.3 Changelog
 
 - Added feature 954754: Go to topic list if only one forum is viewable.
 - Added feature 973978: Show server load.
-- Added feature 973980: BBCode: quote, code, size, Google.
 - Added feature 978099: Strip off long topic names in topic list.
 - Added feature 1055684: Hide avatars/signatures setting.
 - Added feature 1055687: Hide from online users list.
@@ -17,18 +16,17 @@ UseBB 0.3 Changelog
 - Added preview feature for posting new topics and replies.
 - Added FAQ page.
 - Added MySQL 4.1 (mysqli) enhanced support.
-- Fixed bug 954411: BBcode parser doesn't work with nestings.
 - Fixed bug 990425: Debug messages are passed to CSS as well.
 - Fixed bug 990463: Location HTTP Header should only take absolute URLs.
 - Fixed bug 997622: Source code compression strips newlines out of textareas.
 - Fixed bug 998619: Registration needs valid e-mail.
 - Fixed bug 1035507: ob_gzhandler + URL-Rewriter error.
 - Fixed bug 1037973: No error on invalid website URL (profile).
-- Fixed bug 1037971: Color-bbcode uses font-tags.
 - Fixed IP Spoofing Vulnerability.
 - Fixed session ID vulnerability.
 - Fixed Undefined index: NoSuchUser on send new password page.
 - Fixed broken timezone support.
+- Improved BBCode parser (RFE 973980, bugs 954411 and 1037971).
 - Some changes in defining classes with vars defined with 'var' for PHP5 compatibility.
 - Removed all strtolower() occasions - improves translation possibilities.
 - Configuration, templates and translations moved to file system out of SQL DB.

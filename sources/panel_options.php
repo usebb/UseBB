@@ -46,7 +46,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['hide_from_online_list'] = ( !empty($_POST['hide_from_online_list']) ) ? 1 : 0;
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
-	$_POST['timezone'] = ( is_numeric($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $functions->get_config('timezone');
+	$_POST['timezone'] = ( valid_int($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $functions->get_config('timezone');
 	$_POST['dst'] = ( !empty($_POST['dst']) ) ? 1 : 0;
 	$_POST['quickreply'] = ( !empty($_POST['quickreply']) ) ? 1 : 0;
 	$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;

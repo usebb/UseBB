@@ -54,7 +54,7 @@ if ( $_GET['act'] == 'login' ) {
 	//
 	require(ROOT_PATH.'sources/panel_register.php');
 	
-} elseif ( $_GET['act'] == 'activate' && !empty($_GET['id']) && is_numeric($_GET['id']) && !empty($_GET['key']) ) {
+} elseif ( $_GET['act'] == 'activate' && !empty($_GET['id']) && valid_int($_GET['id']) && !empty($_GET['key']) ) {
 	
 	//
 	// Activate

@@ -34,11 +34,11 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Call the right source file for either topic or post altering
 //
-if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
+if ( !empty($_GET['topic']) && valid_int($_GET['topic']) ) {
 	
 	require(ROOT_PATH.'sources/edit_topic.php');
 	
-} elseif ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
+} elseif ( !empty($_GET['post']) && valid_int($_GET['post']) ) {
 	
 	require(ROOT_PATH.'sources/edit_post.php');
 	

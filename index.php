@@ -62,7 +62,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	// Define wich category we should show
 	//
-	$view_cat = ( !empty($_GET['cat']) && is_numeric($_GET['cat']) ) ? $_GET['cat'] : 0;
+	$view_cat = ( !empty($_GET['cat']) && valid_int($_GET['cat']) ) ? $_GET['cat'] : 0;
 	
 	//
 	// Get the forums and categories out of the database

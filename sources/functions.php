@@ -78,6 +78,19 @@ function entities_strlen($string) {
 	
 }
 
+//
+// Check if a value is a valid integer string
+// Obtained from http://phpsec.org/projects/guide/1.html
+//
+function valid_int($string) {
+	
+	if ( $string == strval(intval($string)) )
+		return true;
+	else
+		return false;
+	
+}
+
 class functions {
 	
 	var $board_config;
@@ -106,7 +119,7 @@ class functions {
 			1024 => 'E_USER_NOTICE',
 			2047 => 'E_ALL'
 		);
-		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
+		$errtype = ( valid_int($errno) ) ? $errtypes[$errno] : $errno;
 		
 		if ( $errtype == 'SQL' )
 			$line--;
@@ -688,7 +701,7 @@ class functions {
 				
 				if ( $current_page != $i ) {
 					
-					if ( is_numeric($page_id_val) )
+					if ( valid_int($page_id_val) )
 						$url_vars['id'] = $page_id_val;
 					$url_vars['page'] = $i;
 					
@@ -706,7 +719,7 @@ class functions {
 			
 			if ( $back_forward_links ) {
 				
-				if ( is_numeric($page_id_val) )
+				if ( valid_int($page_id_val) )
 					$url_vars['id'] = $page_id_val;
 				
 				if ( $current_page > 1 ) {

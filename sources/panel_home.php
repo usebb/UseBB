@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['PanelHome']);
 
-if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
+if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 	
 	if ( $_GET['al'] ) {
 		

@@ -41,7 +41,7 @@ if ( $functions->get_config('email_view_level') != 1 ) {
 	
 }
 	
-if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
+if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
 	//
 	// Update and get the session information

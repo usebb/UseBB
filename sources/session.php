@@ -205,7 +205,7 @@ class session {
 				//
 				$cookie_data = $functions->get_al();
 				
-				if ( !is_numeric($cookie_data[0]) || $cookie_data[0] < 1 ) {
+				if ( !valid_int($cookie_data[0]) || $cookie_data[0] < 1 ) {
 					
 					$user_id = 0;
 					$functions->unset_al();
@@ -348,7 +348,7 @@ class session {
 				'sess_id' => session_id(),
 				'user_id' => $user_id,
 				'ip_addr' => $ip_addr,
-				'started' => ( is_numeric($current_sess_info['started']) ) ? $current_sess_info['started'] : $current_time,
+				'started' => ( valid_int($current_sess_info['started']) ) ? $current_sess_info['started'] : $current_time,
 				'updated' => $current_time,
 				'location' => $location,
 				'pages' => $pages,
@@ -356,7 +356,7 @@ class session {
 			);
 			if ( isset($user_info) )
 				$this->sess_info['user_info'] = $user_info;
-			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && is_numeric($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
+			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
 			$_SESSION['viewed_items'] = ( isset($_SESSION['viewed_items']) && is_array($_SESSION['viewed_items']) ) ? $_SESSION['viewed_items'] : array();
 			
 		}

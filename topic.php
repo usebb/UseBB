@@ -34,12 +34,12 @@ require(ROOT_PATH.'sources/common.php');
 //
 // If an ID has been passed
 //
-if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post']) && is_numeric($_GET['post']) ) ) {
+if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']) && valid_int($_GET['post']) ) ) {
 	
 	//
 	// Look up the topic ID for post ID's
 	//
-	if ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
+	if ( !empty($_GET['post']) && valid_int($_GET['post']) ) {
 		
 		if ( !($result = $db->query("SELECT p1.topic_id, COUNT(p2.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."posts p2 WHERE p1.id = ".$_GET['post']." AND t.id = p1.topic_id AND p2.topic_id = p1.topic_id AND p2.id <= ".$_GET['post']." GROUP BY p1.topic_id")) )
 			$functions->usebb_die('SQL', 'Unable to get parent topic!', __FILE__, __LINE__);
@@ -190,7 +190,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			$numpages = ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page'));
 			if ( empty($post_in_topic) )
-				$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+				$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			else
 				$page = ceil(intval($post_in_topic) / $functions->get_config('posts_per_page'));
 			$limit_start = ( $page - 1 ) * $functions->get_config('posts_per_page');

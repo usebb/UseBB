@@ -34,11 +34,11 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Include the right file for either topic or reply posting...
 //
-if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
+if ( !empty($_GET['topic']) && valid_int($_GET['topic']) ) {
 	
 	require(ROOT_PATH.'sources/post_reply.php');
 	
-} elseif ( !empty($_GET['forum']) && is_numeric($_GET['forum']) ) {
+} elseif ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	require(ROOT_PATH.'sources/post_topic.php');
 	

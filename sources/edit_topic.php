@@ -231,7 +231,7 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) ) {
 			
-			if ( !empty($_POST['new_forum_id']) && is_numeric($_POST['new_forum_id']) ) {
+			if ( !empty($_POST['new_forum_id']) && valid_int($_POST['new_forum_id']) ) {
 				
 				if ( !empty($_POST['move']) ) {
 					

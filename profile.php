@@ -156,7 +156,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'interests'     => $lang['Interests'],
 				'interests_v'   => stripslashes($profiledata['interests']),
 				'signature'     => $lang['Signature'],
-				'signature_v'   => $functions->markup(stripslashes($profiledata['signature']), true, true),
+				'signature_v'   => $functions->markup(stripslashes($profiledata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
 				'contact_info'  => $lang['ContactInfo'],
 				'email'         => $lang['Email'],
 				'email_v'       => $functions->show_email($profiledata),

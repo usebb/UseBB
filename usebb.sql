@@ -84,6 +84,8 @@ INSERT INTO usebb_config VALUES ('email_view_level', '1');
 INSERT INTO usebb_config VALUES ('view_hidden_email_addresses_min_level', '3');
 INSERT INTO usebb_config VALUES ('guests_can_view_online_list', '1');
 INSERT INTO usebb_config VALUES ('enable_online_list', '1');
+INSERT INTO usebb_config VALUES ('sig_allow_bbcode', '1');
+INSERT INTO usebb_config VALUES ('sig_allow_smilies', '1');
 
 # --------------------------------------------------------
 

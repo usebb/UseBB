@@ -51,7 +51,7 @@ $templates['config'] = array(
 	'quote_button'						=> 'quote.gif',
 	'edit_button'						=> 'edit.gif',
 	'delete_button'						=> 'delete.gif',
-	'sig_format'						=> '_______________<div class="signature">%s</small>',
+	'sig_format'						=> '<div class="signature">_______________<br />%s</small>',
 	'quote_format'						=> '<fieldset class="quote"><legend>%s</legend>%s</fieldset>',
 	'code_format'						=> '<pre class="code">%s</pre>',
 	'textarea_rows'						=> '10',
@@ -140,7 +140,7 @@ a img {
 label {
 	cursor: pointer;
 }
-a:link, a:active, a:visited {
+a:link, a:active {
 	color: #336699;
 	text-decoration: underline;
 }
@@ -149,10 +149,10 @@ a:hover {
 	text-decoration: none;
 }
 a.administrator:link, a.administrator:active, a.administrator:visited {
-	color: red;
+	color: red !important;
 }
 a.moderator:link, a.moderator:active, a.moderator:visited {
-	color: blue;
+	color: blue !important;
 }
 input, select, textarea {
 	font-size: 8pt !important;
@@ -304,8 +304,16 @@ table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 	border-top: 1px solid silver;
 	vertical-align: middle;
 }
+table.maintable td a:visited {
+	color: #555555;
+}
 table.msgbox td, table.confirmform td.msg, td.msg {
 	padding: 18px 36px 18px 36px !important;
+}
+table.maintable td.fieldtitle {
+	background-color: #E8E8E8;
+	width: 25%;
+	font-weight: bold;
 }
 td.formcontrols {
 	background-color: #E8E8E8 !important;
@@ -317,7 +325,7 @@ table.maintable td.count {
 	width: 1%;
 	text-align: center;
 }
-table.maintable td.postinfo {
+table.maintable td.lastpostinfo {
 	width: 195px;
 }
 table.maintable td.icon {
@@ -363,6 +371,9 @@ table.maintable td .forumdescr {
 	line-height: 23px;
 	font-weight: bold;
 }
+.topicpagelinks {
+	margin: 0px 0px 0px 10px;
+}
 #toolbarbottom {
 	float: right;
 	text-align: right;
@@ -382,39 +393,58 @@ table.maintable td.author {
 
 /* Topic styles */
 
-table.maintable td.td1 {
+table.maintable tr.tr1 td {
 	background-color: #EFEFEF;
 }
-table.maintable td.td2 {
+table.maintable tr.tr2 td {
 	background-color: #E8E8E8;
 }
-table.maintable tr.posttop td {
-	padding: 2px 2px 2px 5px;
-}
-table.maintable tr.post td {
-	vertical-align: top;
-}
-table.maintable td.fieldtitle {
-	background-color: #E8E8E8;
-	width: 25%;
+table.maintable td.postername {
+	text-align: center;
 	font-weight: bold;
+	width: 135px;
 }
-.avatar {
-	margin-top: 10px;
+table.maintable td.postinfo {
+	vertical-align: middle;
 }
-.avatar img {
-	margin-bottom: 10px;
+table.maintable td.postinfo .postdate {
+	margin: 2px 0px 0px 0px;
+	color: #444444;
 }
-.posterinfo {
-	color: #3F3F3F;
-}
-.postlinks {
+table.maintable td.postinfo .postlinks {
 	float: right;
 }
-.postcontent {
-	padding-top: 6px;
-	padding-bottom: 6px;
+table.maintable td.posterinfo {
+	vertical-align: top;
+	text-align: center;
+	width: 135px;
+}
+table.maintable td.posterinfo .avatar {
+	margin-top: 10px;
+}
+table.maintable td.posterinfo .avatar img {
+	margin-bottom: 10px;
+}
+table.maintable td.posterinfo .field {
+	color: #444444;
+}
+table.maintable td.postcontent {
+	vertical-align: top;
+}
+table.maintable td.postcontent .post {
 	overflow: auto;
+	font-size: 10pt;
+}
+table.maintable td.postcontent .signature {
+	color: #444444;
+}
+table.maintable tr.postseperator td {
+	background-color: #D8D8D8;
+	padding: 2px;
+}
+table.maintable td.actionlinks {
+	background-color: #E8E8E8;
+	font-weight: bold;
 }
 
 /* */

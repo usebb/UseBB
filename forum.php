@@ -133,7 +133,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 						'topic_name' => $topic_name,
-						'topic_page_links' => ( $topicdata['count_replies'] > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies'], $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
+						'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
 						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
 						'replies' => $topicdata['count_replies'],
 						'views' => $topicdata['count_views'],

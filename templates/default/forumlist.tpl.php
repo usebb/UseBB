@@ -56,7 +56,7 @@ $templates['forumlist_forum'] = '
 			<td>{forum_name}<div class="forumdescr">{forum_descr}</div>{forum_mods}</td>
 			<td class="count">{total_topics}</td>
 			<td class="count">{total_posts}</td>
-			<td class="postinfo">{latest_post}<br />{by_author}<br />{on_date}</td>
+			<td class="lastpostinfo">{latest_post}<br />{by_author}<br />{on_date}</td>
 		</tr>
 ';
 

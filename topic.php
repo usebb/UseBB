@@ -144,14 +144,14 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			// Get page number
 			//
-			$numpages = ceil(intval($topicdata['count_replies']) / $functions->get_config('posts_per_page'));
+			$numpages = ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page'));
 			if ( empty($post_in_topic) )
 				$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			else
 				$page = ceil(intval($post_in_topic) / $functions->get_config('posts_per_page'));
 			$limit_start = ( $page - 1 ) * $functions->get_config('posts_per_page');
 			$limit_end = $functions->get_config('posts_per_page');
-			$page_links = $functions->make_page_links($numpages, $page, $topicdata['count_replies'], $functions->get_config('posts_per_page'), 'topic.php', $requested_topic);
+			$page_links = $functions->make_page_links($numpages, $page, $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $requested_topic);
 			
 			//
 			// Output the posts
@@ -319,10 +319,6 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				'action_links' => $action_links
 			));
 			
-			$template->parse('location_bar', 'global', array(
-				'location_bar' => $location_bar
-			));
-			
 			//
 			// Neat feature: the quick reply
 			// Only shown if enabled, if user can reply and if user can post in lcoked forum...
@@ -347,6 +343,10 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				));
 				
 			}
+			
+			$template->parse('location_bar', 'global', array(
+				'location_bar' => $location_bar
+			));
 			
 			//
 			// Update views count

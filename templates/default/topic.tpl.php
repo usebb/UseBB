@@ -46,31 +46,36 @@ $templates['topic_header'] = '
 ';
 
 $templates['topic_post'] = '
-		<tr class="posttop">
-			<td class="td2" width="175">
-				<b>{poster_name}</b>
+		<tr class="tr{colornum}">
+			<td class="postername">
+				{poster_name}
 			</td>
-			<td class="td2">
+			<td class="postinfo">
 				<div class="postlinks">{post_links}</div>
-				{post_anchor} <b>&laquo;{topic_title}&raquo;</b>
+				<div class="postdate">{post_anchor} {post_date}</div>
 			</td>
 		</tr>
-		<tr class="post">
-			<td class="td1">
+		<tr class="tr{colornum}">
+			<td class="posterinfo">
 				{poster_rank}
 				<div class="avatar">{poster_avatar}</div>
-				<div class="posterinfo">{registered}<br />{posts}<br />{location}<br /><br />{post_date}</div>
+				<div class="field">{registered}</div>
+				<div class="field">{posts}</div>
+				<div class="field">{location}</div>
 			</td>
-			<td class="td1">
-				<div class="postcontent">{post_content}</div>{poster_sig}
+			<td class="postcontent">
+				<div class="post">{post_content}</div>{poster_sig}
 			</td>
+		</tr>
+		<tr class="postseperator">
+			<td colspan="2"></td>
 		</tr>
 ';
 
 $templates['topic_footer'] = '
 		<tr>
-			<td colspan="2" class="td2">
-				<b>{action_links}</b>
+			<td colspan="2" class="actionlinks">
+				{action_links}
 			</td>
 		</tr>
 	</table>
@@ -85,13 +90,13 @@ $templates['quick_reply'] = '
 			<th colspan="2">{quick_reply}</th>
 		</tr>
 		<tr>
-			<td width="25%" class="td2">{username}</td><td>{username_input}</td>
+			<td class="fieldtitle">{username}</td><td>{username_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{content_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="td2"><div align="center">{submit_button}</div></td>
+			<td colspan="2"><div align="center">{submit_button}</div></td>
 		</tr>
 	</table>
 	{form_end}

@@ -10,5 +10,6 @@ UseBB 0.1.1 Changelog
 - Fixed bug with wrong dataype of auth in usebb_forums.
 - Small change to template forumlist_forum that gives better viewing in IE6.
 - Small update with intval() in sources/functions.php.
+- Removed copyrighted Terms of use with an empty one.
 - Added CVS Header keywords to php files.
 - Cosmetic changes with spaces that should be tabs in php files.

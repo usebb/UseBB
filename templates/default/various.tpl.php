@@ -39,11 +39,14 @@ $templates['forum_stats_box'] = '
 			<th colspan="2">{stats_title}</th>
 		</tr>
 		<tr>
-			<td rowspan="2" class="icon"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
+			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
 			<td>{small_stats}<br />{newest_member}</td>
 		</tr>
 		<tr>
-			<td>{users_online}<br />{members_online}</td>
+			<td class="forumcat">{users_online}</td>
+		</tr>
+		<tr>
+			<td>{members_online}</td>
 		</tr>
 	</table>
 ';

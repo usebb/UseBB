@@ -940,8 +940,7 @@ class functions {
 		//
 		// Arrays for holding a list of online guests and members.
 		//
-		$online_guests = array();
-		$online_members = array();
+		$online_guests = $online_members = array();
 		
 		while ( $onlinedata = $db->fetch_result($result) ) {
 			
@@ -952,8 +951,8 @@ class functions {
 				// Guests will only be counted per IP address
 				//
 				
-				if ( !isset($online_guests[$onlinedata['ip_addr']]) )
-					$online_guests[$onlinedata['ip_addr']] = TRUE;
+				if ( !in_array($onlinedata['ip_addr'], $online_guests) )
+					$online_guests[] = $onlinedata['ip_addr'];
 				
 			} else {
 				
@@ -961,7 +960,7 @@ class functions {
 				// This is a member
 				//
 				
-				if ( !isset($online_members[$onlinedata['id']]) && ( !$onlinedata['hide_from_online_list'] || $this->get_user_level() == 3 ) )
+				if ( !array_key_exists($onlinedata['id'], $online_members) && ( !$onlinedata['hide_from_online_list'] || $this->get_user_level() == 3 ) )
 					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
 				
 			}
@@ -971,7 +970,7 @@ class functions {
 		//
 		// Online list
 		//
-		if ( !$this->get_config('enable_online_list') || ( !$this->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
+		if ( !$this->get_config('enable_detailed_online_list') || ( !$this->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
 			$online_list_link = '';
 		else
 			$online_list_link = '<a href="'.$this->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
@@ -983,7 +982,7 @@ class functions {
 			
 			$members_online = join(', ', $online_members);
 			if ( !empty($online_list_link) )
-				$members_online .= ' '.$template->get_config('item_delimiter').' '.$online_list_link;
+				$members_online = $online_list_link.' '.$template->get_config('item_delimiter').' '.$members_online;
 			
 		} else {
 			

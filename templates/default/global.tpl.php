@@ -371,6 +371,7 @@ table.maintable td.forumcat {
 	background-image: url({img_dir}topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
+	color: #333333;
 }
 table.maintable td .forumname {
 	font-size: 10pt;

@@ -693,7 +693,7 @@ class functions {
 		global $template, $lang;
 		
 		if ( !$html )
-			$string = htmlentities($string);
+			$string = htmlspecialchars($string);
 		
 		if ( $bbcode ) {
 			

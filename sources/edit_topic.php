@@ -170,7 +170,7 @@ if ( $_GET['act'] == 'delete' ) {
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeleteTopic'],
-					'content' => sprintf($lang['ConfirmDeleteTopic'], '<em>'.htmlentities(stripslashes($topicdata['topic_title'])).'</em>', '<em>'.htmlentities(stripslashes($topicdata['forum_name'])).'</em>'),
+					'content' => sprintf($lang['ConfirmDeleteTopic'], '<em>'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</em>', '<em>'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</em>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'
@@ -323,7 +323,7 @@ if ( $_GET['act'] == 'delete' ) {
 				if ( $db->num_rows($result) === 1 ) {
 					
 					$forumdata = $db->fetch_result($result);
-					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
+					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
 					
 				} else {
 					
@@ -344,7 +344,7 @@ if ( $_GET['act'] == 'delete' ) {
 								
 							}
 							
-							$new_forum_input .= '<option value="'.$forumdata['id'].'">'.htmlentities(stripslashes($forumdata['name'])).'</option>';
+							$new_forum_input .= '<option value="'.$forumdata['id'].'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</option>';
 							
 						}
 						
@@ -357,9 +357,9 @@ if ( $_GET['act'] == 'delete' ) {
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',
 					'move_topic' => $lang['MoveTopic'],
 					'topic' => $lang['Topic'],
-					'topic_v' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>',
+					'topic_v' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>',
 					'old_forum' => $lang['OldForum'],
-					'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a>',
+					'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a>',
 					'new_forum' => $lang['NewForum'],
 					'new_forum_input' => $new_forum_input,
 					'submit_button' => '<input type="submit" name="move" value="'.$lang['MoveTopic'].'" />',

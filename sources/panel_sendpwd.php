@@ -61,7 +61,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlentities($_POST['user']).'</em>')
+			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlspecialchars($_POST['user']).'</em>')
 		));
 		
 	} elseif ( $userdata['banned'] ) {
@@ -118,14 +118,14 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['SendPassword'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<em>'.htmlentities($_POST['user']).'</em>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<em>'.htmlentities($_POST['user']).'</em>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<em>'.htmlspecialchars($_POST['user']).'</em>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<em>'.htmlspecialchars($_POST['user']).'</em>', $_POST['email'])
 			));
 			
 		} else {
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<em>'.htmlentities($_POST['user']).'</em>')
+				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<em>'.htmlspecialchars($_POST['user']).'</em>')
 			));
 			
 		}

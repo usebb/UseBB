@@ -133,7 +133,7 @@ if ( !$functions->get_stats('forums') ) {
 			
 		}
 		
-		$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a>';
+		$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a>';
 		$template->parse('location_bar', 'global', array(
 			'location_bar' => $location_bar
 		));
@@ -169,7 +169,7 @@ if ( !$functions->get_stats('forums') ) {
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
 					'latest_post' => $lang['LatestPost'],
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlspecialchars(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				
 			}
@@ -192,9 +192,9 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
 					if ( strlen(stripslashes($forumdata['topic_title'])) > $template->get_config('forumlist_topic_rtrim_length') )
-						$last_topic_title .= htmlentities(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
+						$last_topic_title .= htmlspecialchars(stripslashes(substr_replace($forumdata['topic_title'], $template->get_config('forumlist_topic_rtrim_completion'), $template->get_config('forumlist_topic_rtrim_length'))));
 					else
-						$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
+						$last_topic_title .= htmlspecialchars(stripslashes($forumdata['topic_title']));
 					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : $forumdata['poster_guest'];
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
@@ -209,7 +209,7 @@ if ( !$functions->get_stats('forums') ) {
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => $forum_icon,
 					'forum_status' => $forum_status,
-					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
+					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
 					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
 					'total_topics' => $forumdata['topics'],
@@ -232,7 +232,7 @@ if ( !$functions->get_stats('forums') ) {
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
 					'latest_post' => $lang['LatestPost'],
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.htmlspecialchars(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				
 			}

@@ -77,7 +77,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->set_page_title(stripslashes($forumdata['name']));
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($forumdata['name']));
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($forumdata['name']));
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
@@ -99,7 +99,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// Output the topic list
 			//
 			$template->parse('topiclist_header', 'topiclist', array(
-				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
+				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
 				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
@@ -123,7 +123,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					// Loop through the topics, generating output...
 					//
-					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>';
+					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>';
 					if ( $topicdata['status_sticky'] )
 						$topic_name = $lang['Sticky'].': '.$topic_name;
 					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];

@@ -122,13 +122,13 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			
 			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
 			
-			$template->set_page_title(htmlentities(stripslashes($topicdata['topic_title'])));
+			$template->set_page_title(htmlspecialchars(stripslashes($topicdata['topic_title'])));
 			
 			//
 			// Make the location bar
 			//
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($topicdata['topic_title']));
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlspecialchars(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlspecialchars(stripslashes($topicdata['topic_title']));
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
@@ -159,7 +159,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Output the posts
 			//
 			$template->parse('topic_header', 'topic', array(
-				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>',
+				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>',
 				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
@@ -251,7 +251,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				
 				
 				$topic_title  = ( $i > 1 ) ? $lang['Re'].' ' : '';
-					$topic_title .= htmlentities(stripslashes($topicdata['topic_title']));
+					$topic_title .= htmlspecialchars(stripslashes($topicdata['topic_title']));
 				
 				//
 				// Links used to control posts: quote, edit, delete...
@@ -290,7 +290,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'poster_avatar' => $avatar,
 					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
 					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.date('M y', $postsdata['regdate']) : '',
-					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.htmlentities(stripslashes($postsdata['location'])) : '',
+					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.htmlspecialchars(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
 					'post_date' => $functions->make_date($postsdata['post_time']),

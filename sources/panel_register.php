@@ -290,7 +290,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$template->parse('confirm_form', 'global', array(
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'title' => $lang['TermsOfUse'],
-		'content' => nl2br(htmlentities($lang['TermsOfUseContent'])),
+		'content' => nl2br(htmlspecialchars($lang['TermsOfUseContent'])),
 		'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
 		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 		'form_end' => '</form>'

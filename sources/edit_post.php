@@ -91,7 +91,7 @@ if ( !isset($_GET['act']) ) {
 			} else {
 				
 				$template->set_page_title($lang['EditPost']);
-				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.htmlentities(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlentities(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost'];
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlspecialchars($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.htmlspecialchars(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost'];
 				$template->parse('location_bar', 'global', array(
 					'location_bar' => $location_bar
 				));
@@ -99,8 +99,8 @@ if ( !isset($_GET['act']) ) {
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					
 					$poster_guest = ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ? $_POST['poster_guest'] : '';
-					$topic_title = ( !empty($_POST['topic_title']) ) ? htmlentities(stripslashes($_POST['topic_title'])) : '';
-					$content = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
+					$topic_title = ( !empty($_POST['topic_title']) ) ? htmlspecialchars(stripslashes($_POST['topic_title'])) : '';
+					$content = ( !empty($_POST['content']) ) ? htmlspecialchars(stripslashes($_POST['content'])) : '';
 					$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
 					$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
 					$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
@@ -133,8 +133,8 @@ if ( !isset($_GET['act']) ) {
 				} else {
 					
 					$poster_guest = $postdata['poster_guest'];
-					$topic_title = htmlentities(stripslashes($postdata['topic_title']));
-					$content = htmlentities(stripslashes($postdata['content']));
+					$topic_title = htmlspecialchars(stripslashes($postdata['topic_title']));
+					$content = htmlspecialchars(stripslashes($postdata['content']));
 					$enable_bbcode_checked = ( $postdata['enable_bbcode'] ) ? ' checked="checked"' : '';
 					$enable_smilies_checked = ( $postdata['enable_smilies'] ) ? ' checked="checked"' : '';
 					$enable_sig_checked = ( $postdata['enable_sig'] ) ? ' checked="checked"' : '';
@@ -157,7 +157,7 @@ if ( !isset($_GET['act']) ) {
 					'username' => $lang['Username'],
 					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.$postdata['poster_name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.$poster_guest.'" />',
 					'subject' => $lang['Subject'],
-					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlentities(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
+					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
 					'content' => $lang['Content'],
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content">'.$content.'</textarea>',
 					'options' => $lang['Options'],
@@ -366,7 +366,7 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeletePost'],
-					'content' => sprintf($lang['ConfirmDeletePost'], '<em>'.htmlentities(stripslashes($postdata['topic_title'])).'</em>'),
+					'content' => sprintf($lang['ConfirmDeletePost'], '<em>'.htmlspecialchars(stripslashes($postdata['topic_title'])).'</em>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'

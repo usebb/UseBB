@@ -125,7 +125,7 @@ if ( !$db->num_rows($result) ) {
 			
 			$template->set_page_title($lang['PostNewTopic']);
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic'];
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic'];
 			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
@@ -180,8 +180,8 @@ if ( !$db->num_rows($result) ) {
 			}
 			
 			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-			$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlentities(stripslashes($_POST['subject'])) : '';
-			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
+			$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlspecialchars(stripslashes($_POST['subject'])) : '';
+			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlspecialchars(stripslashes($_POST['content'])) : '';
 			
 			$options_input = array();
 			$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';

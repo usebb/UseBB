@@ -1,5 +1,11 @@
 $Header$
 
+UseBB 0.4 Changelog
+------------------------------
+
+- Possible fix for bug #331 (cyrillic languages+entities).
+- Many template improvements.
+
 UseBB 0.3.2 Changelog
 ------------------------------
 

@@ -150,8 +150,8 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					// Show the mail form
 					//
-					$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlentities($_POST['subject']) : '';
-					$_POST['body'] = ( !empty($_POST['body']) ) ? htmlentities($_POST['body']) : '';
+					$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlspecialchars($_POST['subject']) : '';
+					$_POST['body'] = ( !empty($_POST['body']) ) ? htmlspecialchars($_POST['body']) : '';
 					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], $user_to_mail['name']),

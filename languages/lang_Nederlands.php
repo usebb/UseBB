@@ -392,6 +392,8 @@ $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
 $lang['SortBy'] = 'Sorteren op: %s';
+$lang['TopicReview'] = 'Onderwerp herbekijken';
+$lang['ViewMorePosts'] = 'Meer berichten weergeven';
 
 //
 // Date translations

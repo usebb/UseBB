@@ -392,3 +392,5 @@ $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
 $lang['SortBy'] = 'Sort by: %s';
+$lang['TopicReview'] = 'Topic review';
+$lang['ViewMorePosts'] = 'View more posts';

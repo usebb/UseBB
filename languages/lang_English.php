@@ -160,7 +160,7 @@ This board uses cookies to store temporary information needed by the forum syste
 By clicking the "I accept" button, you agree to these terms and conditions.';
 $lang['TermsOfUse'] = 'Terms Of Use';
 $lang['RegistrationActivationEmailSubject'] = 'Account Activation';
-$lang['NeedToBeLoggedIn'] = 'You need to be logged in in order to do this. Click the \'Log In\' link to log in or \'Register\' to create a new account.';
+$lang['NeedToBeLoggedIn'] = 'You need to be logged in to do this. Click the \'Log In\' link to log in or \'Register\' to create a new account.';
 $lang['WrongEmail'] = 'Sorry, but %s isn\'t the correct e-mail address for your account %s. If you can\'t remember your e-mail address, please contact the board admin.';
 $lang['Topic'] = 'Topic';
 $lang['Author'] = 'Author';

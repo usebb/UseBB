@@ -94,6 +94,7 @@ if ( empty($_GET['act']) ) {
 				'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
 				'registered' => $functions->make_date($userdata['regdate']),
 				'posts' => $userdata['posts'],
+				'email' => $functions->show_email($userdata),
 			));
 			
 		}
@@ -129,6 +130,71 @@ if ( empty($_GET['act']) ) {
 	} else {
 		
 		$template->set_page_title($lang['StaffList']);
+		
+		//
+		// Get members information
+		//
+		if ( !($result = $db->query("SELECT id, name, real_name, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE level > 1 ORDER BY level DESC, name ASC")) )
+			$functions->usebb_die('SQL', 'Unable to get staff information!', __FILE__, __LINE__);
+		
+		$admins = $mods = array();
+		while ( $staffinfo = $db->fetch_result($result) ) {
+			
+			if ( $staffinfo['level'] == 3 )
+				$admins[] = $staffinfo;
+			else
+				$mods[] = $staffinfo;
+			
+		}
+		$template->parse('stafflist_header', 'stafflist');
+		
+		if ( count($admins) ) {
+			
+			$template->parse('stafflist_cat_header', 'stafflist', array(
+				'level' => $lang['Administrators']
+			));
+			
+			foreach ( $admins as $userdata ) {
+				
+				$template->parse('stafflist_user', 'stafflist', array(
+					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
+					'real_name' => htmlspecialchars(stripslashes($userdata['real_name'])),
+					'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
+					'registered' => $functions->make_date($userdata['regdate']),
+					'posts' => $userdata['posts'],
+					'email' => $functions->show_email($userdata),
+				));
+				
+			}
+			
+			$template->parse('stafflist_cat_footer', 'stafflist');
+			
+		}
+		
+		if ( count($mods) ) {
+			
+			$template->parse('stafflist_cat_header', 'stafflist', array(
+				'level' => $lang['Moderators']
+			));
+			
+			foreach ( $mods as $userdata ) {
+				
+				$template->parse('stafflist_user', 'stafflist', array(
+					'username' => $functions->make_profile_link($userdata['id'], $userdata['name'], $userdata['level']),
+					'real_name' => htmlspecialchars(stripslashes($userdata['real_name'])),
+					'rank' => htmlspecialchars(stripslashes($userdata['rank'])),
+					'registered' => $functions->make_date($userdata['regdate']),
+					'posts' => $userdata['posts'],
+					'email' => $functions->show_email($userdata),
+				));
+				
+			}
+			
+			$template->parse('stafflist_cat_footer', 'stafflist');
+			
+		}
+		
+		$template->parse('stafflist_footer', 'stafflist');
 		
 	}
 	

@@ -382,3 +382,5 @@ $lang['TemplateSections'] = 'Templatesecties';
 $lang['SQLQueries'] = 'SQL-queries';
 $lang['RealName'] = 'Echte naam';
 $lang['Skype'] = 'Skype';
+$lang['Administrators'] = 'Administrators';
+$lang['Moderators'] = 'Moderators';

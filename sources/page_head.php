@@ -64,15 +64,35 @@ $character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character
 //
 header('Content-Type: text/html; charset='.$character_encoding);
 
-//
-// Page header
-//
-$template->parse('normal_header', 'global', array(
+$link_bar = array();
+/*if ( $functions->get_user_level() == 3 )
+	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';*/
+	
+if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
+	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
+	
+if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
+	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
+	
+/*if ( $functions->get_config('enable_rss') && $functions->get_user_level() >= $functions->get_config('view_rss_min_level') )
+	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+	
+if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
+	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';*/
+	
+if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') )
+	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
+
+$template->add_global_vars(array(
+	// language settings
 	'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 	'character_encoding' => $character_encoding,
 	'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
+	// board settings
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
+	'admin_email' => $functions->get_config('admin_email'),
+	// menu links
 	'css_url' => $functions->make_url('css.php'),
 	'link_home' => $functions->make_url('index.php'),
 	'link_reg_panel' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
@@ -81,8 +101,22 @@ $template->parse('normal_header', 'global', array(
 	'link_search' => $functions->make_url('search.php'),
 	'link_active' => $functions->make_url('active.php'),
 	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
-	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn']
+	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn'],
+	// link bar (list of additional enabled features)
+	'link_bar' => ( count($link_bar) ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
+	// additional links to features (might end up in error when feature is disabled)
+	// use 'em when you want to have more links in the menu or somewhere else
+	'link_memberlist' => $functions->make_url('members.php'),
+	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
+	'link_rss' => $functions->make_url('rss.php'),
+	'link_stats' => $functions->make_url('stats.php'),
+	'usebb_version' => USEBB_VERSION
 ));
+
+//
+// Page header
+//
+$template->parse('normal_header', 'global');
 
 //
 // Banned IP addresses catch this message

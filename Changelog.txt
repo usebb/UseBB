@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4.1 Changelog
 ------------------------------
 
+- Elements from header and footer now globally available.
 - Updated German translation.
 - Final fix for Cyrillic (and other) character sets.
 - Fixes for UseBB to work on PHP 4.1.0.

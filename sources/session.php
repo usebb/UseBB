@@ -164,7 +164,7 @@ class session {
 			//
 			// Get information about the current session
 			//
-			if ( !($result = $db->query("SELECT user_id, started, location, pages FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'")) )
+			if ( !($result = $db->query("SELECT user_id, started, location, pages FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."' AND ip_addr = '".$ip_addr."'")) )
 				$functions->usebb_die('SQL', 'Unable to get current session info!', __FILE__, __LINE__);
 			$current_sess_info = $db->fetch_result($result);
 			

@@ -283,7 +283,7 @@ if ( !$db->num_rows($result) ) {
 			}
 			
 			$template->parse('topicreview_footer', 'topicreview', array(
-				'view_more_posts' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>'
+				'view_more_posts' => ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : ''
 			));
 			
 		}

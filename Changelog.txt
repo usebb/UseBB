@@ -3,19 +3,20 @@ $Header$
 UseBB 0.4 Changelog
 ------------------------------
 
+- Added topic subscription feature + subscriptions overview in Your Panel.
+- Added detailed online list.
+- Added feature #301: Search engine friendly URL's.
 - Added feature #337: Allow all kinds of user names.
 - Added feature #338: Allow users to delete their own posts.
-- Added feature #301: Search engine friendly URL's.
-- Added changable password min length.
 - Added block when lower leveled tries to edit posts of higher leveled.
-- Added topic subscription feature + subscriptions overview in panel.
-- Added detailed online list.
 - Added real name and skype profile fields.
-- Fixed bug #336: Problems on SF.net.
+- Added changable password min length.
 - Fixed bug #331: cyrillic languages+entities.
+- Fixed bug #336: Problems on SF.net.
 - Fixed a bug where everything is marked unread as a result of session data lost.
-- Fixed various bbcode parser bugs.
-- Better template parser.
+- Fixed various BBCode parser bugs.
+- Location bar is now more populated over the board.
+- Template parser now collects all info and parses at the end (more possibilities).
 - Various template improvements and translation corrections.
 - Added more security with additional code.
 - Better general error message without information disclosure.

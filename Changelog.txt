@@ -3,6 +3,7 @@ $Header$
 UseBB 0.3.2 Changelog
 ------------------------------
 
+- Fixed bug #326: English pack causes error with SurgeMail server.
 - Fixed bug #73: CSS doesn't load directly in IE when gzip enabled.
 - Forums and topics automatically unhighlighted upon viewing.
 - Debug messages XHTML 1.0 Strict compliant.

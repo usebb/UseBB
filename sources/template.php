@@ -120,7 +120,7 @@ class template {
 	//
 	// Build and echo the page body
 	//
-	function body() {
+	function body($enable_compression=true) {
 		
 		global $functions, $db, $timer;
 		
@@ -214,7 +214,7 @@ class template {
 		//
 		// Compression and output
 		//
-		if ( !$functions->get_config('output_compression') ) {
+		if ( !$functions->get_config('output_compression') || !$enable_compression ) {
 			
 			echo $body;
 			

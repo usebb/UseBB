@@ -49,6 +49,6 @@ $template->parse('css');
 //
 // Output the body
 //
-$template->body();
+$template->body(false);
 
 ?>

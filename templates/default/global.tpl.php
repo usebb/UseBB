@@ -354,6 +354,7 @@ table.maintable td.count {
 	width: 1%;
 	text-align: center;
 	font-weight: bold;
+	color: #333333;
 }
 table.maintable td.lastpostinfo {
 	width: 195px;

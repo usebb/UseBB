@@ -124,6 +124,6 @@ $db->connect($dbs);
 //
 // Start/continue session
 //
-$session->start($functions->get_config('session_name').'_sid');
+$session->start();
 
 ?>

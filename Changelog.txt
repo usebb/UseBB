@@ -29,6 +29,7 @@ UseBB 0.3 Changelog
 - Better registration process with terms of use accepting page.
 - Multiple levels of output compression: none, compress whitespace, gzip and gzip +
 	compress whitespace.
+- PHP's session handler now uses the cookie configuration options.
 
 UseBB 0.2 Changelog
 ------------------------------

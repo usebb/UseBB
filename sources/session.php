@@ -42,12 +42,19 @@ class session {
 	//
 	// Start or continue a session
 	//
-	function start($name) {
+	function start() {
+		
+		global $functions;
+		
+		//
+		// Set some PHP session cookie configuration options
+		//
+		session_set_cookie_params($functions->get_config('sess_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
 		
 		//
 		// Set the session name
 		//
-		session_name($name);
+		session_name($functions->get_config('session_name').'_sid');
 		
 		//
 		// Start the session

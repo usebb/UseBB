@@ -224,6 +224,7 @@ class session {
 							//
 							$user_id = $cookie_data[0];
 							$functions->set_al($user_info['id'], $user_info['passwd']);
+							$_SESSION['previous_visit'] = $user_info['last_pageview'];
 							
 						} else {
 							
@@ -305,18 +306,29 @@ class session {
 			//
 			// Update the last login timestamp of the user
 			//
+			$add_to_update_query = '';
 			if ( $current_sess_info['user_id'] != $user_id ) {
 				
 				if ( $user_id > 0 ) {
 					
-					if ( !$db->query("UPDATE ".TABLE_PREFIX."members SET last_login = ".$current_time." WHERE id = ".$user_id) )
-						$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+					$add_to_update_query = ', last_login = '.$current_time;
 					
 				} else {
 					
+					$dont_run_update_query = TRUE;
 					$functions->unset_al();
 					
 				}
+			}
+			
+			//
+			// Update some user information
+			//
+			if ( !isset($dont_run_update_query) ) {
+				
+				if ( !$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$user_id) )
+					$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+				
 			}
 			
 			//

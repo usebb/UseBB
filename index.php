@@ -193,9 +193,39 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
+				if ( $forumdata['status'] ) {
+					
+					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] ) {
+						
+						$forum_icon = $template->get_config('open_newposts_icon');
+						$forum_status = $lang['NewPosts'];
+						
+					} else {
+						
+						$forum_icon = $template->get_config('open_nonewposts_icon');
+						$forum_status = $lang['NoNewPosts'];
+						
+					}
+					
+				} else {
+					
+					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] ) {
+						
+						$forum_icon = $template->get_config('closed_newposts_icon');
+						$forum_status = $lang['LockedNewPosts'];
+						
+					} else {
+						
+						$forum_icon = $template->get_config('closed_nonewposts_icon');
+						$forum_status = $lang['LockedNoNewPosts'];
+						
+					}
+					
+				}
+				
 				$template->parse('forumlist_forum', 'forumlist', array(
-					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
-					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
+					'forum_icon' => $forum_icon,
+					'forum_status' => $forum_status,
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
 					'forum_mods' => sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)),

@@ -54,7 +54,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	// Get information about this username
 	//
-	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
+	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level, last_pageview FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
 		$functions->usebb_die('SQL', 'Unable to get user entry!', __FILE__, __LINE__);
 	$userdata = $db->fetch_result($result);
 	
@@ -117,6 +117,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		if ( !empty($_POST['remember']) )
 			$functions->set_al($userdata['id'], $userdata['passwd']);
+		
+		$_SESSION['previous_visit'] = $userdata['last_pageview'];
 		
 		//
 		// Get us back to the previous page

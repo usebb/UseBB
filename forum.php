@@ -126,12 +126,42 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						$topic_name = $lang['Sticky'].': '.$topic_name;
 					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
 					
+					if ( !$topicdata['status_locked'] ) {
+						
+						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] ) {
+							
+							$topic_icon = $template->get_config('open_newposts_icon');
+							$topic_status = $lang['NewPosts'];
+							
+						} else {
+							
+							$topic_icon = $template->get_config('open_nonewposts_icon');
+							$topic_status = $lang['NoNewPosts'];
+							
+						}
+						
+					} else {
+						
+						if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $topicdata['last_post_time'] ) {
+							
+							$topic_icon = $template->get_config('closed_newposts_icon');
+							$topic_status = $lang['LockedNewPosts'];
+							
+						} else {
+							
+							$topic_icon = $template->get_config('closed_nonewposts_icon');
+							$topic_status = $lang['LockedNoNewPosts'];
+							
+						}
+						
+					}
+					
 					//
 					// Parse the topic template
 					//
 					$template->parse('topiclist_topic', 'topiclist', array(
-						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
-						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
+						'topic_icon' => $topic_icon,
+						'topic_status' => $topic_status,
 						'topic_name' => $topic_name,
 						'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
 						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],

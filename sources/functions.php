@@ -760,6 +760,7 @@ class functions {
 		if ( $bbcode ) {
 			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
+			$rel_nofollow = ( $this->get_config('rel_nofollow') ) ? ' rel="nofollow"' : '';
 			
 			//
 			// Difficult parsing of code tags
@@ -831,11 +832,11 @@ class functions {
 				// [img]image[/img]
 					"#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
 				// [url]http://www.usebb.net[/url]
-					"#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.'>\\1</a>',
+					"#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]
-					"#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.'>\\2</a>',
+					"#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
 				// http://www.usebb.net
-					"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is" => '\\1<a href="\\2"'.$target_blank.'>\\2</a>\\3',
+					"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is" => '\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				// [mailto]somebody@nonexistent.com[/mailto]
 					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1">\\1</a>',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]
@@ -847,7 +848,7 @@ class functions {
 				// [size=14]text[/size]
 					"#\[size=(.*?)\](.*?)\[/size\]#is" => '<span style="font-size:\\1pt">\\2</span>',
 				// [google=keyword]text[/google]
-					"#\[google=(.*?)\](.*?)\[/google\]#is" => '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>',
+					"#\[google=(.*?)\](.*?)\[/google\]#is" => '<a href="http://www.google.com/search?q=\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
 			);
 			
 			//

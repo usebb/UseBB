@@ -88,6 +88,7 @@ $conf['online_min_updated'] = 30;
 $conf['output_compression'] = 0;
 $conf['passwd_min_length'] = 8;
 $conf['posts_per_page'] = 25;
+$conf['rel_nofollow'] = 0;
 $conf['return_to_topic_after_posting'] = 1;
 $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';

@@ -11,6 +11,7 @@ UseBB 0.4 Changelog
 - Added block when lower leveled tries to edit posts of higher leveled.
 - Added real name and skype profile fields.
 - Added changable password min length.
+- Added Google's rel="nofollow" for links in BBCode (globally adjustable).
 - Fixed bug #331: cyrillic languages+entities.
 - Fixed bug #336: Problems on SF.net.
 - Fixed a bug where everything is marked unread as a result of session data lost.

@@ -379,7 +379,7 @@ class functions {
 		$format = ( !empty($format) ) ? $format : $this->get_config('date_format');
 		
 		$date = gmdate($format, $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
-		if ( $this->get_config('language') != 'English' )
+		if ( array_key_exists('date_translations', $lang) && is_array($lang['date_translations']) )
 			$date = strtr($date, $lang['date_translations']);
 		return ucfirst($date);
 		

@@ -72,7 +72,7 @@ class db {
 		
 		$add_query = preg_replace("/\s+/", ' ', $query);
 		$this->queries[] = $add_query;
-		$result = @mysql_query($query, $this->connection) or die(mysql_error());
+		$result = @mysql_query($query, $this->connection);
 		return $result;
 		
 	}

@@ -279,7 +279,7 @@ $template->parse('forumlist_stats', array(
 	'newest_member' => ( !$functions->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => current($functions->get_stats('latest_member')))).'">'.next($functions->get_stats('latest_member')).'</a>'),
 	'online_title' => $lang['OnlineUsers'],
 	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')),
-	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).$online_list_link : ''.$online_list_link
+	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).$online_list_link : ''
 ));
 
 //

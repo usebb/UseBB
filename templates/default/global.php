@@ -62,8 +62,7 @@ $templates['config'] = array(
 // Globally needed templates
 //
 
-$templates['normal_header'] = '
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+$templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<title>{board_name}: {page_title}</title>
@@ -232,8 +231,11 @@ textarea {
 .locationbar {
 	text-align: left;
 	font-size: 8pt;
-	color: #3F3F3F;
+	color: #333333;
 	margin-bottom: 20px;
+	padding: 3px;
+	background-color: #EFEFEF;
+	border: 1px solid #BFBFBF;
 }
 .maintable, .msgbox, .confirmform {
 	border-collapse: collapse;

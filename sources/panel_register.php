@@ -50,7 +50,7 @@ $_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['accepted']) ) {
+if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Check if this username already exists
@@ -264,7 +264,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'passwd2'             => $lang['PasswordAgain'],
 		'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
 		'everything_required' => $lang['EverythingRequired'],
-		'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" />',
+		'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.$_POST['saltcode'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'            => '</form>'
 	));
@@ -285,12 +285,13 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	
 	$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
+	$_SESSION['saltcode'] = $saltcode = $functions->random_key();
 	
 	$template->parse('confirm_form', 'global', array(
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'title' => $lang['TermsOfUse'],
 		'content' => nl2br(htmlentities($lang['TermsOfUseContent'])),
-		'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" />',
+		'submit_button'       => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
 		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 		'form_end' => '</form>'
 	));

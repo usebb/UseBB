@@ -96,5 +96,5 @@ $conf['template'] = 'default';
 $conf['timezone'] = 0;
 $conf['topics_per_page'] = 25;
 $conf['username_max_length'] = 25;
-$conf['users_must_activate'] = 0;
+$conf['users_must_activate'] = 1;
 $conf['view_hidden_email_addresses_min_level'] = 3;

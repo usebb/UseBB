@@ -175,7 +175,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'aim'           => $lang['AIM'],
 				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.htmlentities(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.htmlentities(stripslashes($profiledata['aim'])).'</a>' : '',
 				'icq'           => $lang['ICQ'],
-				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://web.icq.com/whitepages/about_me/1,,,00.html?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : htmlentities(stripslashes($profiledata['icq'])),
+				'icq_v'         => ( is_numeric($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : htmlentities(stripslashes($profiledata['icq'])),
 				'icq_status'    => ( is_numeric($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
 				'jabber'        => $lang['Jabber'],
 				'jabber_v'      => htmlentities(stripslashes($profiledata['jabber']))

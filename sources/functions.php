@@ -186,7 +186,7 @@ class functions {
 		//
 		// Member preferences
 		//
-		if ( is_array($session->sess_info) && $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) ) {
+		if ( count($session->sess_info) && $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) ) {
 			
 			$keep_default = FALSE;
 			

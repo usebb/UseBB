@@ -37,7 +37,7 @@ class session {
 	//
 	// This session's ID
 	//
-	var $sess_info;
+	var $sess_info=array();
 
 	//
 	// Start or continue a session

@@ -268,7 +268,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 if ( !$functions->get_config('enable_online_list') || ( !$functions->get_config('guests_can_view_online_list') && $session->sess_info['user_id'] == 0 ) )
 	$online_list_link = '';
 else
-	$online_list_link = ' - <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
+	$online_list_link = '<a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
 
 //
 // Parse the online box
@@ -279,7 +279,7 @@ $template->parse('forumlist_stats', array(
 	'newest_member' => ( !$functions->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => current($functions->get_stats('latest_member')))).'">'.next($functions->get_stats('latest_member')).'</a>'),
 	'online_title' => $lang['OnlineUsers'],
 	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')),
-	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).$online_list_link : ''
+	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).' - '.$online_list_link : $online_list_link
 ));
 
 //

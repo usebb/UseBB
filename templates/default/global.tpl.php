@@ -322,6 +322,7 @@ table.maintable td a:visited {
 }
 table.msgbox td, table.confirmform td.msg, td.msg {
 	padding: 18px 36px 18px 36px !important;
+	font-size: 10pt;
 }
 table.maintable td.fieldtitle {
 	background-color: #E8E8E8;
@@ -354,6 +355,9 @@ table.maintable td.forumcat {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 }
+table.maintable td .forumname {
+	font-size: 10pt;
+}
 table.maintable td .forumdescr {
 	font-style: italic;
 	margin: 0px 0px 0px 10px;
@@ -362,7 +366,7 @@ table.maintable td .forumdescr {
 /* Topiclist styles */
 
 #forumname {
-	font-size: 15px;
+	font-size: 11pt;
 	font-weight: bold;
 	text-align: left;
 }

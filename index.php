@@ -180,12 +180,14 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
+				$moderators = $functions->get_mods_list($forumdata['id']);
+				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'])),
+					'forum_mods' => ( $moderators != $lang['Nobody'] ) ? sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'])) : '',
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

@@ -191,6 +191,7 @@ $lang['BannedEmail'] = 'The e-mail address %s has been banned on this board. Ple
 $lang['PostsPerDay'] = 'Posts per day';
 $lang['BoardClosedOnlyAdmins'] = 'Only administrators can log in when the board is closed.';
 $lang['NoPosts'] = 'No Posts';
+$lang['NoActivetopics'] = 'This board currently does not have any active topics.';
 $lang['AuthorDate'] = 'By %s on %s';
 $lang['ByAuthor'] = 'By: %s';
 $lang['OnDate'] = 'On: %s';

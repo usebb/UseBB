@@ -157,8 +157,6 @@ a.moderator:link, a.moderator:active, a.moderator:visited {
 	color: blue;
 }
 input, select, textarea {
-	border: 1px solid silver;
-	background-color: #FFFFFF;
 	font-size: 10pt;
 }
 textarea {

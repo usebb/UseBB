@@ -339,3 +339,5 @@ $lang['HideAllSignatures'] = 'Hide all signatures';
 $lang['HideFromOnlineList'] = 'Hide from online list';
 $lang['PageLinks'] = 'Page: %s';
 $lang['Preview'] = 'Preview';
+$lang['DeletePost'] = 'Delete post';
+$lang['ConfirmDeletePost'] = 'Are you sure you want to delete this post in the topic %s? This is irreversible!';

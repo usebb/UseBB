@@ -14,6 +14,7 @@ UseBB 0.3 Changelog
 - Added 'Open external links in new windows' feature.
 - Added paging for topiclists and topics.
 - Added preview feature for posting new topics and replies.
+- Added delete post feature.
 - Added FAQ page.
 - Added MySQL 4.1 (mysqli) enhanced support.
 - Added viewing IP addresses in topics when being admin.

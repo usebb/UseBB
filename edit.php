@@ -40,11 +40,7 @@ if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 	
 } elseif ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
 	
-	//
-	// Coming soon...
-	//
-	//require(ROOT_PATH.'sources/edit_post.php');
-	die('Feature not available in this release. Sorry.');
+	require(ROOT_PATH.'sources/edit_post.php');
 	
 } else {
 	

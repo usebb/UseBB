@@ -193,35 +193,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				if ( $forumdata['status'] ) {
-					
-					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] && $forumdata['poster_id'] != $session->sess_info['user_id'] ) {
-						
-						$forum_icon = $template->get_config('open_newposts_icon');
-						$forum_status = $lang['NewPosts'];
-						
-					} else {
-						
-						$forum_icon = $template->get_config('open_nonewposts_icon');
-						$forum_status = $lang['NoNewPosts'];
-						
-					}
-					
-				} else {
-					
-					if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $forumdata['post_time'] && $forumdata['poster_id'] != $session->sess_info['user_id']) {
-						
-						$forum_icon = $template->get_config('closed_newposts_icon');
-						$forum_status = $lang['LockedNewPosts'];
-						
-					} else {
-						
-						$forum_icon = $template->get_config('closed_nonewposts_icon');
-						$forum_status = $lang['LockedNoNewPosts'];
-						
-					}
-					
-				}
+				list($forum_icon, $forum_status) = $functions->forum_topic_icon($forumdata['status'], 1, $forumdata['post_time'], $forumdata['poster_id']);
 				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => $forum_icon,

@@ -1000,6 +1000,47 @@ class functions {
 		
 	}
 	
+	//
+	// Define the icon for forums and topics
+	//
+	function forum_topic_icon($status, $open_status, $post_time, $poster_id) {
+		
+		global $session, $template, $lang;
+		
+		if ( $status == $open_status ) {
+			
+			if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && $poster_id != $session->sess_info['user_id'] ) {
+				
+				$forum_icon = $template->get_config('open_newposts_icon');
+				$forum_status = $lang['NewPosts'];
+				
+			} else {
+				
+				$forum_icon = $template->get_config('open_nonewposts_icon');
+				$forum_status = $lang['NoNewPosts'];
+				
+			}
+			
+		} else {
+			
+			if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && $poster_id != $session->sess_info['user_id']) {
+				
+				$forum_icon = $template->get_config('closed_newposts_icon');
+				$forum_status = $lang['LockedNewPosts'];
+				
+			} else {
+				
+				$forum_icon = $template->get_config('closed_nonewposts_icon');
+				$forum_status = $lang['LockedNoNewPosts'];
+				
+			}
+			
+		}
+		
+		return array($forum_icon, $forum_status);
+		
+	}
+	
 }
 
 ?>

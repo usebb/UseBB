@@ -61,15 +61,24 @@ if ( !empty($_POST['submitted']) ) {
 	
 	$language_input = '';
 	
-	$disabled = ( count($functions->get_enabled_templates()) < 2 ) ? ' disabled="disabled"' : '';
-	$template_input = '<select name="template"'.$disabled.'>';
-	foreach ( $functions->get_enabled_templates() as $single_template ) {
+	if ( count($functions->get_enabled_templates()) < 2 ) {
 		
-		$selected = ( $functions->get_config('template') == $single_template['shortname'] ) ? ' selected="selected"' : '';
-		$template_input .= '<option value="'.$single_template['shortname'].'"'.$selected.'>'.$single_template['fullname'].'</option>';
+		$single_template = $functions->get_enabled_templates();
+		$template_input = $single_template[0]['fullname'];
+		
+	} else {
+		
+		$template_input = '<select name="template"'.$disabled.'>';
+		foreach ( $functions->get_enabled_templates() as $single_template ) {
+			
+			$selected = ( $functions->get_config('template') == $single_template['shortname'] ) ? ' selected="selected"' : '';
+			$template_input .= '<option value="'.$single_template['shortname'].'"'.$selected.'>'.$single_template['fullname'].'</option>';
+			
+		}
+		
+		$template_input .= '</select>';
 		
 	}
-	$template_input .= '</select>';
 	
 	$email_show_checked = ( $session->sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
 	$last_login_show_checked = ( $session->sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';

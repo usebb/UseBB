@@ -236,7 +236,7 @@ blockquote {
 	margin-bottom: 20px;
 	font-size: 8pt;
 }
-.menu a {
+.menu a, .menu a:visited {
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 4px;

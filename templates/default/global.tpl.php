@@ -189,7 +189,7 @@ fieldset legend {
 }
 .main {
 	width: 750px;
-	padding: 20px;
+	padding: 15px 20px 20px 20px;
 	background-color: #FFFFFF;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;

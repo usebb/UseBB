@@ -79,7 +79,7 @@ class session {
 		//
 		// First, get the user's IP address
 		//
-		$ip_addr = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : $_ENV['REMOTE_ADDR'];
+		$ip_addr = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : getenv('REMOTE_ADDR');
 		
 		//
 		// Get banned IP addresses

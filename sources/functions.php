@@ -122,6 +122,7 @@ class functions {
 			2047 => 'E_ALL'
 		);
 		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
+		$line--;
 		
 		$html_msg  = '<html><head><title>UseBB General Error</title></head><body><h1>UseBB General Error</h1><blockquote><code>';
 		$html_msg .= 'In file '.$file.' on line '.$line.':<br /><br />'.$errtype.' - '.$error;
@@ -171,21 +172,44 @@ class functions {
 		
 		global $db;
 		
-		if ( !isset($this->statistics) ) {
+		if ( in_array($stat, array('latest_member')) ) {
 			
-			$this->statistics = array();
+			if ( $stat == 'latest_member' ) {
+				
+				//
+				// Get the latest member
+				//
+				if ( !isset($this->statistics[$stat]) ) {
+					
+					if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."users ORDER BY id DESC LIMIT 1")) )
+						$this->usebb_die('SQL', 'Unable to get latest member information!', __FILE__, __LINE__);
+					$this->statistics[$stat] = $db->fetch_result($result);
+					
+				}
+				
+				return $this->statistics[$stat];
+				
+			}
 			
-			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
-				$this->usebb_die('SQL', 'Unable to get forum statistics!', __FILE__, __LINE__);
-			while ( $out = $db->fetch_result($result) )
-				$this->statistics[$out['name']] = $out['content'];
+		} else {
+			
+			if ( !isset($this->statistics) ) {
+				
+				$this->statistics = array();
+				
+				if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
+					$this->usebb_die('SQL', 'Unable to get forum statistics!', __FILE__, __LINE__);
+				while ( $out = $db->fetch_result($result) )
+					$this->statistics[$out['name']] = $out['content'];
+				
+			}
+			
+			if ( isset($this->statistics[$stat]) )
+				return $this->statistics[$stat];
+			else
+				$this->usebb_die('General', 'The statistic variable "'.$stat.'" does not exist!', __FILE__, __LINE__);
 			
 		}
-		
-		if ( isset($this->statistics[$stat]) )
-			return $this->statistics[$stat];
-		else
-			$this->usebb_die('General', 'The statistic variable "'.$stat.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	

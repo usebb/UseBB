@@ -47,27 +47,28 @@ $template->set_page_title($lang['ForumIndex']);
 // Parse the forums
 //
 
-//
-// Define wich category we should show
-//
-$view_cat = ( !empty($_GET['cat']) && is_numeric($_GET['cat']) ) ? $_GET['cat'] : 0;
-
-//
-// Get the forums and categories out of the database
-//
-if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
-	$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
-
-//
-// Set empty stats
-//
-$stats = array('topics' => 0, 'posts' => 0);
-
-if ( $db->num_rows($result) > 0 ) {
+if ( !$functions->get_stats('forums') ) {
 	
 	//
-	// There are forums, so parse them...
+	// No forums have been found. Output this notice.
 	//
+	$template->parse('msgbox', array(
+		'box_title' => $lang['Note'],
+		'content' => $lang['NoForums']
+	));
+	
+} else {
+	
+	//
+	// Define wich category we should show
+	//
+	$view_cat = ( !empty($_GET['cat']) && is_numeric($_GET['cat']) ) ? $_GET['cat'] : 0;
+	
+	//
+	// Get the forums and categories out of the database
+	//
+	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
+		$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
 	
 	//
 	// This array holds a list of categories that have been parsed
@@ -172,12 +173,6 @@ if ( $db->num_rows($result) > 0 ) {
 			
 		}
 		
-		//
-		// Total topics and posts count
-		//
-		$stats['topics'] = $stats['topics']+$forumdata['topics'];
-		$stats['posts'] = $stats['posts']+$forumdata['posts'];
-		
 	}
 	
 	if ( !$viewableforums ) {
@@ -201,29 +196,7 @@ if ( $db->num_rows($result) > 0 ) {
 		
 	}
 	
-} else {
-	
-	//
-	// No forums have been found. Output this notice.
-	//
-	$template->parse('msgbox', array(
-		'box_title' => $lang['Note'],
-		'content' => $lang['NoForums']
-	));
-	
 }
-
-//
-// Get the user count
-//
-if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."users ORDER BY regdate DESC")) )
-	$functions->usebb_die('SQL', 'Unable to get member count and latest member information!', __FILE__, __LINE__);
-$stats['users'] = $db->num_rows($result);
-
-//
-// Get the last user
-//
-$stats['lastuser'] = $db->fetch_result($result);
 
 //
 // Online users
@@ -302,8 +275,8 @@ else
 //
 $template->parse('forumlist_stats', array(
 	'stats_title' => $lang['Statistics'],
-	'small_stats' => sprintf($lang['IndexStats'], $stats['posts'], $stats['topics'], $stats['users']),
-	'newest_member' => ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>'),
+	'small_stats' => sprintf($lang['IndexStats'], $functions->get_stats('posts'), $functions->get_stats('topics'), $functions->get_stats('members')),
+	'newest_member' => ( !$functions->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$functions->make_url('profile.php', array('id' => current($functions->get_stats('latest_member')))).'">'.next($functions->get_stats('latest_member')).'</a>'),
 	'online_title' => $lang['OnlineUsers'],
 	'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $functions->get_config('online_min_updated')),
 	'members_online' => ( count($online_members) > 0 ) ? join(', ', $online_members).$online_list_link : ''.$online_list_link

@@ -167,7 +167,7 @@ if ( empty($_POST['step']) ) {
 	} else {
 		
 		echo '<p>The update queries have been executed succesfully!</p>';
-		echo '<p><strong>Important note:</strong> since UseBB 0.5, some important changes have happened to the member system. From now on, a username can only contain alphanumeric characters (a-zA-Z0-9), _ and -. Any other character will be stripped out of the username (spaces will be transformed to _). If any duplicate usernames are created during this process, the duplicate username will be followed by a <em>2</em>, the next one by a <em>3</em>, and so on. Please inform your users if this change affects the users on your board! Also note a user can now set a publicly displayed name which can contain any characters, including Cyrillic ones. Each user\'s displayed name has already been set to his original username.</p>';
+		echo '<p><strong>Important note:</strong> since UseBB 0.5, some important changes have happened to the member system. From now on, a username can only contain alphanumeric characters (a-zA-Z0-9), _ and -. Any other character will be stripped out of the username (spaces will be transformed to _). If no characters are left after stripping, the username will be set to <em>user</em>. If any duplicate usernames are created during this process, the duplicate username will be followed by a <em>2</em>, the next one by a <em>3</em>, and so on. Please inform your users if this change affects the users on your board! Also note a user can now set a publicly displayed name which can contain any characters, including Cyrillic ones. Each user\'s displayed name has already been set to his original username.</p>';
 		echo to_step(4);
 		
 	}
@@ -182,7 +182,9 @@ if ( empty($_POST['step']) ) {
 		
 		$out['name'] = preg_replace('#[^A-Za-z0-9_-]#', '', str_replace(' ', '_', $out['name']));
 		
-		if ( in_array($out['name'], $usernames) ) {
+		if ( in_array($out['name'], $usernames) || empty($out['name']) ) {
+			
+			$out['name'] = ( !empty($out['name']) ) ? $out['name'] : 'user';
 			
 			for ( $i = 2; ; $i++ ) {
 				

@@ -77,7 +77,7 @@ INSERT INTO usebb_config VALUES ('username_max_length', '25');
 INSERT INTO usebb_config VALUES ('guests_can_view_profiles', '1');
 INSERT INTO usebb_config VALUES ('guests_can_access_board', '1');
 INSERT INTO usebb_config VALUES ('email_view_level', '1');
-INSERT INTO usebb_config VALUES ('view_hidden_email_addresses_min_level', '4');
+INSERT INTO usebb_config VALUES ('view_hidden_email_addresses_min_level', '3');
 
 # --------------------------------------------------------
 

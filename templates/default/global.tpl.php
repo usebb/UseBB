@@ -164,7 +164,7 @@ a:link, a:active, a:visited {
 	text-decoration: underline;
 }
 a:hover {
-	color: #7F0000;
+	color: #7F0000 !important;
 	text-decoration: none;
 }
 a.administrator:link, a.administrator:active, a.administrator:visited {

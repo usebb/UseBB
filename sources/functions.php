@@ -100,10 +100,7 @@ class functions {
 	//
 	function usebb_die($errno, $error, $file, $line) {
 		
-		global $db;
-		
-		$log_msg = '[UseBB Error]['.$errno.']['.$error.']['.$file.':'.$line.']';
-		error_log($log_msg);
+		global $db, $dbs;
 		
 		$errtypes = array(
 			1 => 'E_ERROR',
@@ -121,12 +118,43 @@ class functions {
 		);
 		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
 		
-		$html_msg  = '<html><head><title>UseBB General Error</title></head><body><h1>UseBB General Error</h1><blockquote><code>';
-		$html_msg .= 'In file '.$file.' on line '.$line.':<br /><br />'.$errtype.' - '.$error;
+		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
+		error_log($log_msg);
+		
+		$html_msg  = '<html>
+	<head>
+		<title>UseBB General Error</title>
+		<style type="text/css">
+			body {
+				font-family: sans-serif;
+				font-size: 10pt;
+			}
+			h1 {
+				color: #336699;
+			}
+			blockquote {
+				width: 50%;
+				border-top: 2px solid silver;
+				border-bottom: 2px solid silver;
+				font-family: monospace;
+				font-size: 8pt;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>UseBB General Error</h1>
+		<p>An error was encoutered. We apologize for any inconvenience.</p>
+		<blockquote>
+			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
 		if ( $errtype == 'SQL' )
-			$html_msg .= '<br /><br />Query causing the error:<br />'.end($db->get_used_queries());
-		$html_msg .= '</code></blockquote><p>We are sorry for the inconvenience.</p><hr />';
-		$html_msg .= '<address><a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION.' running on '.$_SERVER['SERVER_SOFTWARE'].'</address></body></html>';
+			$html_msg .= '
+			<p>SQL query causing the error:<br /><textarea rows="5" cols="50" readonly="readonly">'.end($db->get_used_queries()).'</textarea></p>';
+		$html_msg .= '
+		</blockquote>
+		<p>This error should probably not have occured, so please report it to the webmaster. Thank you for your help.</p>
+		<p>If you are the webmaster of this board and you believe this is a bug, please send a bug report.</p>
+	</body>
+</html>';
 		die($html_msg);
 		
 	}

@@ -6,6 +6,7 @@ UseBB 0.4 Changelog
 - Possible fix for bug #331 (cyrillic languages+entities).
 - Various template improvements and translation corrections.
 - Added more security with additional code.
+- Better general error message without information disclosure.
 
 UseBB 0.3.2 Changelog
 ------------------------------

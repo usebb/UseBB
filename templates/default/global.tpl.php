@@ -507,6 +507,7 @@ table.maintable tr.postseperator td {
 	padding: 3px;
 	margin-bottom: 10px;
 	margin-top: -10px;
+	font-size: 7pt;
 }
 
 /* FAQ styles */

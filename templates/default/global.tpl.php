@@ -387,7 +387,9 @@ table.maintable td .forumdescr {
 	margin: 0px 0px 6px 0px;
 }
 .topicpagelinks {
-	margin: 0px 0px 0px 10px;
+	display: block;
+	text-align: right;
+	color: #444444;
 }
 #toolbarbottom {
 	float: right;

@@ -631,9 +631,6 @@ class functions {
 		if ( intval($items_number) > intval($items_per_page) ) {
 			
 			$page_links = array();
-				
-			if ( $current_page > 1 && $back_forward_links )
-				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&laquo;</a>';
 			
 			for ( $i = 1; $i <= $pages_number; $i++ ) {
 				
@@ -643,11 +640,16 @@ class functions {
 					$page_links[] = $i;
 				
 			}
-				
+			
+			$page_links = join(', ',$page_links);
+			
+			if ( $current_page > 1 && $back_forward_links )
+				$page_links = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&lt;</a> '.$page_links;
+			
 			if ( $current_page < $pages_number && $back_forward_links )
-				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page+1)).'">&raquo;</a>';
-				
-			$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));
+				$page_links .= ' <a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page+1)).'">&gt;</a>';
+			
+			$page_links = sprintf($lang['PageLinks'], $page_links);
 			
 		} else {
 			

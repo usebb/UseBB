@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4 Changelog
 ------------------------------
 
+- Added feature #338: Allow users to delete their own posts.
 - Possible fix for bug #331 (cyrillic languages+entities).
 - Various template improvements and translation corrections.
 - Added more security with additional code.

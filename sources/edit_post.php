@@ -198,7 +198,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	if ( !($result = $db->query("SELECT p.id, p.poster_id, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
+	if ( !($result = $db->query("SELECT p.poster_id, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
 		$functions->usebb_die('SQL', 'Unable to get post information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -220,7 +220,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		// Only if the user can delete posts
 		//
-		if ( $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) {
+		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && $postdata['last_post_id'] == $_GET['post'] ) || $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

@@ -96,7 +96,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
+	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -257,12 +257,16 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				// Links used to control posts: quote, edit, delete...
 				//
 				$post_links = array();
-				if ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) )
+				
+				if ( $session->sess_info['user_id'] && ( $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) ) )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('edit_button').'" alt="'.$lang['Edit'].'" /></a>';
-				if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
+				
+				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('delete_button').'" alt="'.$lang['Delete'].'" /></a>';
+				
 				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
 					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic, 'quotepost' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('quote_button').'" alt="'.$lang['Quote'].'" /></a>';
+				
 				if ( count($post_links) )
 					$post_links = join(' ', $post_links);
 				else

@@ -68,7 +68,7 @@ if ( empty($_GET['act']) ) {
 		//
 		// Get members information
 		//
-		if ( !($result = $db->query("SELECT id, name, real_name, level, rank, regdate, posts FROM ".TABLE_PREFIX."members LIMIT ".$limit_start.", ".$limit_end)) )
+		if ( !($result = $db->query("SELECT id, name, real_name, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY id ASC LIMIT ".$limit_start.", ".$limit_end)) )
 			$functions->usebb_die('SQL', 'Unable to get members information!', __FILE__, __LINE__);
 		
 		while ( $userdata = $db->fetch_result($result) ) {

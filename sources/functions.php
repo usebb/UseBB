@@ -628,7 +628,7 @@ class functions {
 			// somebody@nonexistent.com
 				$string = preg_replace("#\s([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\s#is", ' <a href="mailto:\\1">\\1</a> ', $string);
 			// [color=red]text[/color]
-				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<font color="\\1">\\2</font>', $string);
+				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<span style="color:\\1">\\2</span>', $string);
 			
 			$string = substr($string, 1, strlen($string)-1);
 			

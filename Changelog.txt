@@ -13,6 +13,7 @@ UseBB 0.3 Changelog
 - Fixed bug 997622: Source code compression strips newlines out of textareas.
 - Fixed bug 1035507: ob_gzhandler + URL-Rewriter error.
 - Fixed bug 1037973: No error on invalid website URL (profile).
+- Fixed bug 1037971: Color-bbcode uses font-tags.
 - Fixed server load to work on some systems.
 - Fixed Undefined index: NoSuchUser on send new password page.
 - Fixed a security exploit.
@@ -55,7 +56,7 @@ UseBB 0.2.1 Changelog
 - Fixed guest's username length, it's now checked when posting.
 - Fixed bug with regular expressions.
 - Fixed bug with gzip compression for style sheets.
-- Optimalizations in template.php, debug also works without </body> tag and more 
+- Optimalizations in template.php, debug also works without </body> tag and more
 	powerful and better output compression method.
 - Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]
 	tags anymore to be parsed.

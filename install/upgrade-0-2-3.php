@@ -24,7 +24,7 @@
 */
 
 define('INCLUDED', true);
-include('./config.php');
+include('../config.php');
 
 class functions {
 	
@@ -41,7 +41,7 @@ $functions = new functions;
 
 if ( intval($_POST['step']) > 1 ) {
 	
-	include('./sources/db_'.$dbs['type'].'.php');
+	include('../sources/db_'.$dbs['type'].'.php');
 	$db = new db;
 	$db->connect($dbs);
 	
@@ -87,7 +87,7 @@ if ( intval($_POST['step']) > 1 ) {
 </style>
 </head>
 <body>
-<p id="logo"><img src="./templates/default/gfx/usebb.png" alt="" /></p>
+<p id="logo"><img src="../templates/default/gfx/usebb.png" alt="" /></p>
 <h1>Upgrade 0.2.3</h1>
 <div id="wrap">
 <?php
@@ -166,7 +166,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>All SQL queries have been executed. Please delete <code>install.php</code> and <code>upgrade-*.php</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
+		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
 		echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
 		echo '<p><strong>Tip:</strong> you might want to use <a href="http://www.usebb.net/docs/index.php/Administration_without_ACP">this manual</a> to further set up your forum.</p>';
 		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';

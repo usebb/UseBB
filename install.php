@@ -59,10 +59,14 @@ if ( intval($_POST['step']) > 1 ) {
 		text-align: center;
 		font-size: 10pt;
 	}
+	#logo {
+		margin-bottom: 0px;
+	}
 	h1 {
 		color: #336699;
 		font-size: 18pt;
 		font-weight: bold;
+		margin-top: 0px;
 	}
 	#wrap {
 		width: 600px;
@@ -83,7 +87,7 @@ if ( intval($_POST['step']) > 1 ) {
 </style>
 </head>
 <body>
-<p><img src="./templates/default/gfx/usebb.png" alt="" /></p>
+<p id="logo"><img src="./templates/default/gfx/usebb.png" alt="" /></p>
 <h1>Installation</h1>
 <div id="wrap">
 <?php

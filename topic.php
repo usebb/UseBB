@@ -273,10 +273,17 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					//
 					// User's avatar
 					//
-					if ( $functions->get_config('hide_avatars') || !$postsdata['avatar_type'] )
+					if ( $functions->get_config('hide_avatars') || !$postsdata['avatar_type'] ) {
+						
 						$avatar = '';
-					elseif ( intval($postsdata['avatar_type']) === 1 )
-						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="" />';
+						
+					} elseif ( intval($postsdata['avatar_type']) === 1 ) {
+						
+						$avatar_force_width = ( $functions->get_config('avatars_force_width') ) ? ' width="'.intval($functions->get_config('avatars_force_width')).'"' : '';
+						$avatar_force_height = ( $functions->get_config('avatars_force_height') ) ? ' height="'.intval($functions->get_config('avatars_force_height')).'"' : '';
+						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
+						
+					}
 					
 				} else {
 					

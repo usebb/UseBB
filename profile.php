@@ -127,10 +127,17 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			else
 				$last_login = $lang['Hidden'];
 			
-			if ( !$profiledata['avatar_type'] )
+			if ( !$profiledata['avatar_type'] ) {
+				
 				$avatar = '';
-			elseif ( intval($profiledata['avatar_type']) === 1 )
-				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="" />';
+				
+			} elseif ( intval($profiledata['avatar_type']) === 1 ) {
+				
+				$avatar_force_width = ( $functions->get_config('avatars_force_width') ) ? ' width="'.intval($functions->get_config('avatars_force_width')).'"' : '';
+				$avatar_force_height = ( $functions->get_config('avatars_force_height') ) ? ' height="'.intval($functions->get_config('avatars_force_height')).'"' : '';
+				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
+				
+			}
 			
 			$days_since_registration = ( ( time() - $profiledata['regdate'] ) / 86400 );
 			if ( $days_since_registration <= 1 )

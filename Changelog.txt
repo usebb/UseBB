@@ -3,6 +3,7 @@ $Header$
 UseBB 0.4.1 Changelog
 ------------------------------
 
+- Added force avatars width and height config settings.
 - Install and upgrade scripts now take care of DB table prefix.
 - Elements from header and footer now globally available.
 - Updated German translation.

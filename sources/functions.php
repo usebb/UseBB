@@ -629,7 +629,7 @@ class functions {
 			// [size=14]text[/size]
 				$string = preg_replace("#\[size=(.*?)\](.*?)\[/size\]#is", '<span style="font-size:\\1pt">\\2</span>', $string);
 			// [google=keyword]text[/google]
-				$string = preg_replace("#\[google=(.*?)\](.*?)\[/google\]#is", '<a href="http://www.google.com/search?q='.htmlentities('\\1').'"'.$target_blank.'>\\2</a>', $string);
+				$string = preg_replace("#\[google=(.*?)\](.*?)\[/google\]#is", '<a href="http://www.google.com/search?q=\\1"'.$target_blank.'>\\2</a>', $string);
 			// [code]text[/code]
 				$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			// [quote=user]text[/quote]

@@ -3,8 +3,8 @@ $Header$
 UseBB 0.2 Changelog
 ------------------------------
 
-- Fixed random key generator with seed for mt_rand on PHP < 4.2.0.
-- Endless updates in core, functions moved to functions class, arrays replaced by new functions, ...
+- Many bugfixes in various files.
+- Core functions moved to functions class, arrays replaced by new functions, ...
 - Added more detailed location info for use in detailed online list.
 - Many panel pages now give a confirmation message.
 - Better viewing of debug information and SQL errors.

@@ -202,7 +202,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			$template->parse('topic_header', 'topic', array(
 				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.htmlspecialchars(stripslashes($topicdata['topic_title'])).'</a>',
-				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
+				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
 				'page_links' => $page_links

@@ -95,7 +95,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			$template->parse('topiclist_header', 'topiclist', array(
 				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
-				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators),
+				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links
 			));
@@ -155,7 +155,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$template->parse('topiclist_footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
-				'forum_moderators' => sprintf($lang['Moderators'], $forum_moderators)
+				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators)
 			));
 			
 			//

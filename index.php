@@ -199,7 +199,7 @@ if ( !$functions->get_stats('forums') ) {
 					'forum_status' => $forum_status,
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlspecialchars(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['Moderators'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
+					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['ModeratorList'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

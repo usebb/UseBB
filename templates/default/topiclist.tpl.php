@@ -62,7 +62,7 @@ $templates['topiclist_topic'] = '
 		<tr>
 			<td class="td2" width="1"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
 			<td class="td1" width="100%">{topic_name}</td>
-			<td class="td1" nowrap="nowrap"><div align="center"><small>{author}</small></div></td>
+			<td class="td2" nowrap="nowrap"><div align="center"><small>{author}</small></div></td>
 			<td class="td2"><div align="center">{replies}</div></td>
 			<td class="td2"><div align="center">{views}</div></td>
 			<td class="td1" nowrap="nowrap"><small>{author_date} <a href="{last_post_url}">&raquo;</a></small></td>

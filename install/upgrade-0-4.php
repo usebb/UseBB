@@ -166,12 +166,51 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
-		echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
-		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp" target="_blank">this manual</a> to further set up your forum.</p>';
-		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
+		echo '<p>The update queries have been executed succesfully!</p>';
+		echo '<p><strong>Important note:</strong> since UseBB 0.5, some important changes have happened to the member system. From now on, a username can only contain alphanumeric characters (a-zA-Z0-9), _ and -. Any other character will be stripped out of the username (spaces will be transformed to _). If any duplicate usernames are created during this process, the duplicate username will be followed by a <em>2</em>, the next one by a <em>3</em>, and so on. Please inform your users if this change affects the users on your board! Also note a user can now set a publicly displayed name which can contain any characters, including Cyrillic ones. Each user\'s displayed name has already been set to his original username.</p>';
+		echo to_step(4);
 		
 	}
+	
+} elseif ( intval($_POST['step']) === 4 ) {
+	
+	echo '<h2>Step 4</h2>';
+	
+	$usernames = array();
+	$result = $db->query("SELECT id, name FROM ".$dbs['prefix']."members ORDER BY id ASC");
+	while ( $out = $db->fetch_result($result) ) {
+		
+		$out['name'] = preg_replace('#[^A-Za-z0-9_-]#', '', str_replace(' ', '_', $out['name']));
+		
+		if ( in_array($out['name'], $usernames) ) {
+			
+			for ( $i = 2; ; $i++ ) {
+				
+				$out['name'] .= $i;
+				
+				if ( !in_array($out['name'], $usernames) ) {
+					
+					$usernames[] = $out['name'];
+					break;
+					
+				}
+				
+			}
+			
+		} else {
+			
+			$usernames[] = $out['name'];
+			
+		}
+		
+		$db->query("UPDATE ".$dbs['prefix']."members SET name = '".$out['name']."' WHERE id = ".$out['id']);
+		
+	}
+	
+	echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
+	echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
+	echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp" target="_blank">this manual</a> to further set up your forum.</p>';
+	echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
 	
 }
 

@@ -73,8 +73,9 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
 </head>
 <body>
-	<div id="pagewrapper">
-	<div id="pagebox">
+	<div id="pagebox-bg">
+	<div id="shadow-left">
+	<div id="shadow-right">
 	
 	<p id="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{home}" /></a></p>
 	<h1 id="boardname"><span id="line">{board_name}</span></h1>
@@ -103,6 +104,7 @@ $templates['normal_footer'] = '
 	
 	</div>
 	</div>
+	</div>
 </body>
 </html>
 ';
@@ -121,18 +123,23 @@ html, body {
 	background-color: #CCCCCC;
 	cursor: default;
 }
-#pagewrapper {
+#pagebox-bg {
 	width: 765px;
-	margin: 0px auto 0px auto;
-	padding: 0px 10px 0px 10px;
-	background-image: url({img_dir}pagewrapper_bg.png);
-	background-repeat: repeat-y;
-	background-position: center;
-}
-#pagebox {
-	padding: 20px 20px 15px 20px;
 	background-image: url({img_dir}pagebox_bg.png);
 	background-repeat: repeat-x;
+	background-color: #FFFFFF;
+	margin: 0px auto 0px auto;
+}
+#shadow-left {
+	background-image: url({img_dir}pageshadow_left.png);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+#shadow-right {
+	padding: 20px 20px 15px 20px;
+	background-image: url({img_dir}pageshadow_right.png);
+	background-repeat: repeat-y;
+	background-position: right;
 }
 a img {
 	border: 0px;

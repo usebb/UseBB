@@ -38,7 +38,7 @@ if ( $functions->get_user_level() == 3 )
 if ( $functions->get_config('enable_memberlist') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
 if ( $functions->get_config('enable_stafflist') )
-	$link_bar[] = '<a href="'.$functions->make_url('staff.php').'">'.$lang['StaffList'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 if ( $functions->get_config('enable_rss') )
 	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 if ( $functions->get_config('enable_stats') )

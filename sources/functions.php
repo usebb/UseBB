@@ -727,16 +727,8 @@ class functions {
 		
 		if ( !$html ) {
 			
-			$matches = 0;
-			preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches);
-			foreach ( $matches[0] as $oldpart ) {
-				
-				$newpart = str_replace("\n", "\0", $oldpart);
-				$string = str_replace($oldpart, $newpart, $string);
-				
-			}
-			$string = nl2br($string);
-			$string = str_replace("\0", "\n", $string);
+			$string = str_replace("\n", "<br />", $string);
+			$string = str_replace("\r", "", $string);
 			
 		}
 		

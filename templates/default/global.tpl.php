@@ -169,25 +169,28 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 pre.code {
 	display: block;
 	margin: 0px 25px 0px 25px;
-	padding: 10px;
+	padding: 5px;
 	font-family: monospace;
 	color: #7F0000;
-	background-color: #FFFFFF;
-	border: 1px solid #CDCDCD;
-	overflow: auto;
-	font-size: 8pt;
-}
-fieldset {
-	display: block;
-	margin: 0px 25px 0px 25px;
-	padding: 10px;
-	color: #333333;
 	background-color: #FFFFFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
 	font-size: 8pt;
 }
-fieldset legend {
+fieldset.quote {
+	display: block;
+	margin: 0px 25px 0px 25px;
+	padding: 10px;
+	color: #333333;
+	background-image: url({img_dir}quote_bg.png);
+	background-repeat: no-repeat;
+	background-position: top right;
+	background-color: #FFFFFF;
+	border: 1px solid #BFBFBF;
+	overflow: auto;
+	font-size: 8pt;
+}
+fieldset.quote legend {
 	font-weight: bold;
 }
 strong {

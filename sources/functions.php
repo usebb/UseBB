@@ -745,7 +745,7 @@ class functions {
 		if ( $smilies ) {
 			
 			foreach ( $template->get_config('smilies') as $key => $val )
-				$string = str_replace(' '.$key.' ', '<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />', $string);
+				$string = preg_replace('#(\s)'.preg_quote($key).'(\s)#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$val.'" alt="'.$key.'" />\\2', $string);
 			
 		}
 		

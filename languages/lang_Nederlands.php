@@ -315,7 +315,6 @@ $lang['Delete'] = 'Verwijderen';
 $lang['Quote'] = 'Quote';
 $lang['Wrote'] = '%s schreef';
 $lang['ViewingIP'] = 'IP: %s';
-$lang['ReplyTo'] = 'Antwoord op "%s"';
 $lang['TopicIsLockedExplain'] = 'Het onderwerp waarop je probeert te antwoorden is gesloten. Alleen geautoriseerde personen kunnen nog berichten plaatsen.';
 $lang['Content'] = 'Inhoud';
 $lang['Options'] = 'Opties';

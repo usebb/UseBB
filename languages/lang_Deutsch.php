@@ -322,7 +322,6 @@ $lang['Delete'] = 'L&ouml;schen';
 $lang['Quote'] = 'Zitieren';
 $lang['Wrote'] = '%s schrieb';
 $lang['ViewingIP'] = 'IP: %s';
-$lang['ReplyTo'] = 'Antworten an "%s"';
 $lang['TopicIsLockedExplain'] = 'Das Thema in dem Du versucht zu schreiben, wurde gesperrt. Nur noch authorisierte Personen k&ouml;nnen Antworten schreiben.';
 $lang['Content'] = 'Inhalt';
 $lang['Options'] = 'Optionen';

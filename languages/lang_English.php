@@ -315,7 +315,6 @@ $lang['Delete'] = 'Delete';
 $lang['Quote'] = 'Quote';
 $lang['Wrote'] = '%s wrote';
 $lang['ViewingIP'] = 'IP: %s';
-$lang['ReplyTo'] = 'Reply to "%s"';
 $lang['TopicIsLockedExplain'] = 'The topic you are trying to post in is locked. Only authorized people can still post replies.';
 $lang['Content'] = 'Content';
 $lang['Options'] = 'Options';

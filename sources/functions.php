@@ -754,7 +754,7 @@ class functions {
 		if ( $smilies ) {
 			
 			foreach ( $template->get_config('smilies') as $pattern => $img )
-				$string = preg_replace('#([\s\]\[])'.preg_quote($pattern).'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\2', $string);
+				$string = preg_replace('#([\s\]\[])'.preg_quote(unhtml($pattern)).'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\2', $string);
 			
 		}
 		

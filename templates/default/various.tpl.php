@@ -157,16 +157,13 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="5" class="minimal">{avatar_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_UserID}</td><td>{userid_v}</td>
+			<td class="fieldtitle">{l_RealName}</td><td>{real_name_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Level}</td><td>{level_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Rank}</td><td>{rank_v}</td>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_RealName}</td><td>{real_name_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Registered}</td><td colspan="2">{regdate_v}</td>

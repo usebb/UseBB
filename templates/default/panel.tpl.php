@@ -98,13 +98,13 @@ $templates['edit_profile'] = '
 			<th colspan="2">{l_EditProfile}</th>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_RealName}</td><td>{real_name_input}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{l_Email} ({l_Required})</td><td>{email_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_AvatarURL}</td><td>{avatar_input}</td>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_RealName}</td><td>{real_name_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Location}</td><td>{location_input}</td>

@@ -556,6 +556,16 @@ table.maintable td.minimal {
 	white-space: nowrap;
 	text-align: center;
 }
+#pagelinksothertop {
+	text-align: left;
+	font-weight: bold;
+	margin: 0px 0px 10px 0px;
+}
+#pagelinksotherbottom {
+	text-align: left;
+	font-weight: bold;
+	margin: -10px 0px 20px 0px;
+}
 ul#panelmenu {
 	list-style: none;
 	margin: 0px 0px 10px 0px;

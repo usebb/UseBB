@@ -132,7 +132,7 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 	
 	foreach ( $sessions as $sessiondata ) {
 		
-		if ( !$sessiondata['hide_from_online_list'] || $functions->get_user_level() == 3 )
+		if ( $sessiondata['hide_from_online_list'] && $functions->get_user_level() < 3 )
 			continue;
 		
 		if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )

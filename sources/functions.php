@@ -704,11 +704,11 @@ class functions {
 				if ( $current_page != $i )
 					$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $i)).'">'.$i.'</a>';
 				else
-					$page_links[] = $i;
+					$page_links[] = '['.$i.']';
 				
 			}
 			
-			$page_links = join(', ',$page_links);
+			$page_links = join(' ',$page_links);
 			
 			if ( $current_page > 1 && $back_forward_links )
 				$page_links = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&lt;</a> '.$page_links;

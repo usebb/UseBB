@@ -80,12 +80,17 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// The user exists, show its profile
 			//
 			
-			if ( $own_profile )
+			if ( $own_profile ) {
+				
 				$profiledata = $session->sess_info['user_info'];
-			else
+				$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['ViewProfile']);
+				
+			} else {
+				
 				$profiledata = $db->fetch_result($result);
-			
-			$template->set_page_title(sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))));
+				$template->set_page_title(sprintf($lang['Profile'], htmlspecialchars(stripslashes($profiledata['name']))));
+				
+			}
 			
 			if ( $own_profile ) {
 				

@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.2.3 Changelog
+------------------------------
+
+- Fixed bug 973210: Accessing panel.php?act=register directly results in error.
+
 UseBB 0.2.2 Changelog
 ------------------------------
 

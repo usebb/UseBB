@@ -278,7 +278,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	// The user did not agree yet to the terms of use
 	//
 	
-	$_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+	$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
 	
 	$template->parse('confirm_form', array(
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',

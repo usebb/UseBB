@@ -1,7 +1,10 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Current version: 0.3.1
+Current version: 0.3.2
+
+* Upgrading from 0.3.1:
+        Just reupload all files. No database changes.
 
 * Upgrading from 0.3:
 	Just reupload all files. No database changes.

@@ -221,6 +221,14 @@ class functions {
 		
 		$url = $filename;
 		
+		$sid = SID;
+		if ( !empty($sid) ) {
+			
+			$sid = explode('=', $sid, 2);
+			$vars[$sid[0]] = $sid[1];
+			
+		}
+		
 		if ( count($vars) >= 1 ) {
 			
 			$url .= '?';
@@ -253,7 +261,8 @@ class functions {
 		
 		if ( !$session->sess_info['user_id'] ) {
 			
-			header('Location: '.$this->make_url('panel.php', array('act' => 'login', 'referer' => str_replace('?', '&', substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/')+1))), false));
+			$_SESSION['referer'] = $_SERVER['REQUEST_URI'];
+			header('Location: '.$this->make_url('panel.php', array('act' => 'login'), false));
 			
 		} else {
 			

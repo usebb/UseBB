@@ -145,12 +145,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	if ( $session->sess_info['user_id'] == 0 ) {
 		
 		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : 'index.php';
-		$_GET['referer'] = ( !empty($_GET['referer']) ) ? $_GET['referer'] : '';
-		$referer_file = $_GET['referer'];
-		$referer_vars = $_GET;
-		unset($referer_vars['act']);
-		unset($referer_vars['referer']);
-		$referer_url = ( !empty($referer_file) ) ? $functions->make_url($referer_file, $referer_vars) : $_SERVER['HTTP_REFERER'];
+		$referer_url = ( !empty($_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
+		unset($_SESSION['referer']);
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(

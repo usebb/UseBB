@@ -125,7 +125,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	// There's no forum ID! Get us back to the index...
 	//
-	header('Location: index.php');
+	header('Location: '.$functions->make_url('index.php', array(), false));
 	
 }
 

@@ -74,7 +74,7 @@ if ( $_GET['act'] == 'login' ) {
 	
 	if ( !in_array($_GET['act'], array('panel_home', 'editprofile', 'editoptions', 'editpwd')) ) {
 		
-		header('Location: index.php');
+		header('Location: '.$functions->make_url('index.php', array(), false));
 		exit();
 		
 	}

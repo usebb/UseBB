@@ -5,6 +5,7 @@ UseBB 0.2 Changelog
 
 - Many bugfixes in various files.
 - Core functions moved to functions class, arrays replaced by new functions, ...
+- Session IDs are now passed in the URL, makes board accessable without cookies.
 - Added more detailed location info for use in detailed online list.
 - Many panel pages now give a confirmation message.
 - Better viewing of debug information and SQL errors.

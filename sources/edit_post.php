@@ -90,7 +90,7 @@ if ( !isset($_GET['act']) ) {
 				
 			} else {
 				
-				$template->set_page_title($lang['EditPost']);
+				$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($postdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post'].'">'.unhtml(stripslashes($postdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['EditPost']);
 				
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					

@@ -144,7 +144,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			// Get a list of forum moderators
 			//
-			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."users u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id")) )
+			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."users u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id ORDER BY u.name")) )
 				$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
 			if ( !$db->num_rows($result) ) {
 				

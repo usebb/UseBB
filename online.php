@@ -51,8 +51,49 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 		'posts' => array(),
 		'users' => array()
 	);
-	$sessions = array();
+	
+	$sessions = $seen_members = $seen_ips = array();
+	
 	while ( $sessiondata = $db->fetch_result($result) ) {
+		
+		if ( $sessiondata['hide_from_online_list'] && $functions->get_user_level() < 3 )
+			continue;
+		
+		if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
+			continue;
+		
+		if ( !$sessiondata['user_id'] && in_array($sessiondata['ip_addr'], $seen_ips) )
+			continue;
+		
+		$sessions[] = $sessiondata;
+		
+		if ( $sessiondata['user_id'] )
+			$seen_members[] = $sessiondata['user_id'];
+		else
+			$seen_ips[] = $sessiondata['ip_addr'];
+		
+	}
+	
+	//
+	// Get page number
+	//
+	$numpages = ceil(intval(count($sessions)) / $functions->get_config('members_per_page'));
+	$page = ( !empty($_GET['page']) && is_numeric($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+	$limit_start = ( $page - 1 ) * $functions->get_config('members_per_page');
+	$limit_end = $functions->get_config('members_per_page');
+	$page_links = $functions->make_page_links($numpages, $page, count($sessions), $functions->get_config('members_per_page'), 'online.php');
+	
+	$i = 0;
+	foreach ( $sessions as $key => $sessiondata ) {
+		
+		$i++;
+		
+		if ( $i <= $limit_start || $i > ( $limit_start+$limit_end ) ) {
+			
+			unset($sessions[$key]);
+			continue;
+			
+		}
 		
 		$element = '';
 		
@@ -67,8 +108,6 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 		
 		if ( !empty($element) )
 			$ids[$element][] = $matches[2];
-		
-		$sessions[] = $sessiondata;
 		
 	}
 	
@@ -126,20 +165,10 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 		'username' => $lang['Username'],
 		'location' => $lang['Location'],
 		'last_update' => $lang['LastUpdate'],
+		'page_links' => $page_links
 	));
 	
-	$seen_members = $seen_ips = array();
-	
 	foreach ( $sessions as $sessiondata ) {
-		
-		if ( $sessiondata['hide_from_online_list'] && $functions->get_user_level() < 3 )
-			continue;
-		
-		if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
-			continue;
-		
-		if ( !$sessiondata['user_id'] && in_array($sessiondata['ip_addr'], $seen_ips) )
-			continue;
 		
 		$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['name'], $sessiondata['level']) : $lang['Guest'];
 		
@@ -229,15 +258,13 @@ if ( $functions->get_config('enable_detailed_online_list') && $functions->get_us
 			'last_update' => $functions->make_date($sessiondata['updated']),
 		));
 		
-		if ( $sessiondata['user_id'] )
-			$seen_members[] = $sessiondata['user_id'];
-		else
-			$seen_ips[] = $sessiondata['ip_addr'];
 		unset($location);
 		
 	}
 	
-	$template->parse('onlinelist_footer', 'onlinelist');
+	$template->parse('onlinelist_footer', 'onlinelist', array(
+		'page_links' => $page_links
+	));
 	
 } else {
 	

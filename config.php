@@ -83,6 +83,7 @@ $conf['hide_signatures'] = 0;
 $conf['hide_userinfo'] = 0;
 $conf['kick_user_to_only_viewable_forum'] = 0;
 $conf['language'] = 'English';
+$conf['members_per_page'] = 25;
 $conf['online_min_updated'] = 30;
 $conf['output_compression'] = 0;
 $conf['passwd_min_length'] = 8;

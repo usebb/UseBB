@@ -34,6 +34,7 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['onlinelist_header'] = '
+	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
 		<tr>
 			<th>{username}</th>
@@ -52,6 +53,8 @@ $templates['onlinelist_user'] = '
 
 $templates['onlinelist_footer'] = '
 	</table>
+	<p id="pagelinksbottom">{page_links}</p>
+	<div id="bottomfix"></div>
 ';
 
 ?>

@@ -34,52 +34,73 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditPasswd']);
 
-if ( !empty($_POST['submitted']) ) {
+$_POST['current_passwd'] = ( !empty($_POST['current_passwd']) ) ? $_POST['current_passwd'] : '';
+$_POST['new_passwd1'] = ( !empty($_POST['new_passwd1']) ) ? $_POST['new_passwd1'] : '';
+$_POST['new_passwd2'] = ( !empty($_POST['new_passwd2']) ) ? $_POST['new_passwd2'] : '';
+
+if ( md5($_POST['current_passwd']) == $sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
 	
-	if ( strlen($_POST['passwd1']) >= 5 && preg_match(PWD_PREG, $_POST['passwd1']) && strlen($_POST['passwd2']) >= 5 && preg_match(PWD_PREG, $_POST['passwd2']) && $_POST['passwd1'] == $_POST['passwd2'] ) {
+	//
+	// Update the password
+	//
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$sess_info['user_id'])) )
+		usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+	
+	if ( isset($_COOKIE[$config['session_name'].'_al']) ) {
 		
 		//
-		// Update the password
+		// Renew AL cookie
 		//
-		if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['passwd1'])."' WHERE id = ".$sess_info['user_id'])) )
-			usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
-		
-		if ( isset($_COOKIE[$config['session_name'].'_al']) ) {
-			
-			//
-			// Renew AL cookie
-			//
-			usebb_set_al($sess_info['user_id'].':'.md5($_POST['passwd1']));
-			
-		}
-		header('Location: index.php');
-		exit();
-		
-	} else {
-		
-		//
-		// The passwords aren't correct
-		//
-		$template->parse('msgbox', array(
-			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['MissingFields'], strtolower($lang['Password']))
-		));
+		usebb_set_al($sess_info['user_id'].':'.md5($_POST['new_passwd1']));
 		
 	}
 	
+	$template->parse('msgbox', array(
+		'box_title' => $lang['Note'],
+		'content' => $lang['PasswordEdited']
+	));
+	
+} else {
+	
+	if ( !empty($_POST['submitted']) ) {
+		
+		//
+		// Define missing fields
+		//
+		if ( md5($_POST['current_passwd']) != $sess_info['user_info']['passwd'] )
+			$errors[] = strtolower($lang['CurrentPassword']);
+		if ( strlen($_POST['new_passwd1']) < 5 || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
+			$errors[] = strtolower($lang['NewPassword']);
+		
+		//
+		// Show an error message
+		//
+		if ( is_array($errors) ) {
+			
+			$template->parse('msgbox', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+			));
+			
+		}
+		
+	}
+	
+	$template->parse('editpwd_form', array(
+		'form_begin'           => '<form action="'.usebb_make_url('panel.php', array('a' => 'editpwd')).'" method="post">',
+		'edit_pwd'             => $lang['EditPasswd'],
+		'current_passwd'       => $lang['CurrentPassword'],
+		'current_passwd_input' => '<input type="password" name="current_passwd" size="25" maxlength="255" />',
+		'new_passwd'           => $lang['NewPassword'],
+		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
+		'new_passwd_again'     => $lang['NewPasswordAgain'],
+		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
+		'everything_required'  => $lang['EverythingRequired'],
+		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['EditPasswd'].'" />',
+		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
+		'form_end'             => '<input type="hidden" name="submitted" value="true" /></form>'
+	));
+	
 }
-
-$template->parse('editpwd_form', array(
-	'form_begin'          => '<form action="'.usebb_make_url('panel.php', array('a' => 'editpwd')).'" method="post">',
-	'edit_pwd'            => $lang['EditPasswd'],
-	'passwd'              => $lang['Password'],
-	'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
-	'passwd_again'        => $lang['PasswordAgain'],
-	'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
-	'everything_required' => $lang['EverythingRequired'],
-	'submit_button'       => '<input type="submit" name="submit" value="'.$lang['EditPasswd'].'" />',
-	'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
-	'form_end'            => '<input type="hidden" name="submitted" value="true" /></form>'
-));
 
 ?>

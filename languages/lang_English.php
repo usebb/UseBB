@@ -35,6 +35,14 @@ if ( !defined('INCLUDED') )
 $lang = array();
 
 //
+// Translation settings
+// Uncomment and change when necessary for translations
+//
+#$lang['character_encoding'] = 'iso-8859-1';
+#$lang['language_code'] = 'en';
+#$lang['text_direction'] = 'ltr';
+
+//
 // Define translations
 //
 $lang['Home'] = 'Home';

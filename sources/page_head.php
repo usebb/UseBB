@@ -70,6 +70,7 @@ header('Content-Type: text/html; charset='.$character_encoding);
 $template->parse('normal_header', 'global', array(
 	'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 	'character_encoding' => $character_encoding,
+	'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
 	'css_url' => $functions->make_url('css.php'),

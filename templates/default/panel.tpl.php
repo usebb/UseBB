@@ -147,6 +147,10 @@ $templates['edit_options'] = '
 			<td class="td1">{last_login_show_input}</td>
 		</tr>
 		<tr>
+			<td width="25%" class="td2">{hide_from_online_list}</td>
+			<td class="td1">{hide_from_online_list_input}</td>
+		</tr>
+		<tr>
 			<td width="25%" class="td2">{date_format}</td>
 			<td class="td1">{date_format_input}</td>
 		</tr>

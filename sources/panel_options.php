@@ -44,6 +44,7 @@ if ( !empty($_POST['submitted']) ) {
 	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_config('available_templates')) ) ? $_POST['template'] : $functions->get_config('template');
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
+	$_POST['hide_from_online_list'] = ( !empty($_POST['hide_from_online_list']) ) ? 1 : 0;
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
 	$_POST['timezone'] = ( is_numeric($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $functions->get_config('timezone');
 	$_POST['dst'] = ( !empty($_POST['dst']) ) ? 1 : 0;
@@ -58,6 +59,7 @@ if ( !empty($_POST['submitted']) ) {
 		template        = '".$_POST['template']."',
 		email_show      = ".$_POST['email_show'].",
 		last_login_show = ".$_POST['last_login_show'].",
+		hide_from_online_list = ".$_POST['hide_from_online_list'].",
 		date_format     = '".$_POST['date_format']."',
 		timezone        = '".$_POST['timezone']."',
 		dst             = ".$_POST['dst'].",
@@ -115,6 +117,7 @@ if ( !empty($_POST['submitted']) ) {
 	
 	$email_show_checked = ( $session->sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
 	$last_login_show_checked = ( $session->sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
+	$hide_from_online_list_checked = ( $session->sess_info['user_info']['hide_from_online_list'] ) ? ' checked="checked"' : '';
 
 	$timezone_input = '<select name="timezone">';
 	foreach ( $functions->timezone_handler('get_zones') as $key => $val ) {
@@ -143,6 +146,8 @@ if ( !empty($_POST['submitted']) ) {
 		'email_show_input'      => '<input type="checkbox" name="email_show" id="email_show" value="1"'.$email_show_checked.' /><label for="email_show"> '.$lang['Yes'].'</label>',
 		'last_login_show'       => $lang['PublicLastLogin'],
 		'last_login_show_input' => '<input type="checkbox" name="last_login_show" id="last_login_show" value="1"'.$last_login_show_checked.' /><label for="last_login_show"> '.$lang['Yes'].'</label>',
+		'hide_from_online_list' => $lang['HideFromOnlineList'],
+		'hide_from_online_list_input' => '<input type="checkbox" name="hide_from_online_list" id="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /><label for="hide_from_online_list"> '.$lang['Yes'].'</label>',
 		'date_format'           => $lang['DateFormat'],
 		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$functions->get_config('date_format').'" />',
 		'timezone'              => $lang['Timezone'],

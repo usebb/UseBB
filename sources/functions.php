@@ -771,7 +771,7 @@ class functions {
 		//
 		// Get the session and user information
 		//
-		if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+		if ( !($result = $db->query("SELECT u.name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
 			$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
 		
 		//
@@ -798,7 +798,7 @@ class functions {
 				// This is a member
 				//
 				
-				if ( !isset($online_members[$onlinedata['id']]) )
+				if ( !isset($online_members[$onlinedata['id']]) && ( !$onlinedata['hide_from_online_list'] || $this->get_user_level() == 3 ) )
 					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
 				
 			}

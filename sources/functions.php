@@ -137,7 +137,7 @@ class functions {
 	//
 	function get_config($setting) {
 		
-		global $db;
+		global $db, $session;
 		
 		if ( !isset($this->board_config) ) {
 			
@@ -150,10 +150,16 @@ class functions {
 			
 		}
 		
+		//
+		// Member preferences
+		//
+		if ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info'][$setting]) )
+			$this->board_config[$setting] = $session->sess_info['user_info'][$setting];
+		
 		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];
 		else
-			$this->usebb_die('General', 'The configuration variable '.$setting.' does not exist!', __FILE__, __LINE__);
+			$this->usebb_die('General', 'The configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	
@@ -182,6 +188,64 @@ class functions {
 		
 		$date = date($this->get_config('date_format'), $stamp);
 		return $date;
+		
+	}
+	
+	//
+	// Generate a time past string
+	//
+	function time_past($timestamp) {
+		
+		global $lang;
+		
+		$times = array();
+		$seconds = gmmktime() - $timestamp;
+		
+		// weeks
+		if ( $seconds >= 604800 ) {
+			
+			$times['weeks'] = floor($seconds / 604800);
+			$seconds = $seconds % 604800;
+			
+		}
+		
+		// days
+		if ( $seconds >= 86400 ) {
+			
+			$times['days'] = floor($seconds / 86400);
+			$seconds = $seconds % 86400;
+			
+		}
+		
+		// hours
+		if ( $seconds >= 3600 ) {
+			
+			$times['hours'] = floor($seconds / 3600);
+			$seconds = $seconds % 3600;
+			
+		}
+		
+		// minutes
+		if ( $seconds >= 60 ) {
+			
+			$times['minutes'] = floor($seconds / 60);
+			$seconds = $seconds % 60;
+			
+		}
+		
+		// seconds
+		if ( $seconds > 0 ) {
+			
+			$times['seconds'] = $seconds;
+			
+		}
+		
+		$string_parts = array();
+		foreach ( $times as $key => $val )
+			$string_parts[] = $val.' '.strtolower($lang[ucfirst($key)]);
+		$string = join(', ', $string_parts);
+		
+		return array($times, $string);
 		
 	}
 	

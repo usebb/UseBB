@@ -29,8 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-#$functions->get_config('date_format') = ( !empty($sess_info['user_info']['date_format']) ) ? $sess_info['user_info']['date_format'] : $functions->get_config('date_format');
-
 //
 // Get language variables
 //

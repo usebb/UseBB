@@ -300,6 +300,7 @@ class session {
 				'sess_id' => session_id(),
 				'user_id' => $user_id,
 				'ip_addr' => $ip_addr,
+				'started' => ( is_numeric($current_sess_info['started']) ) ? $current_sess_info['started'] : $current_time,
 				'updated' => $current_time,
 				'location' => $location,
 				'pages' => $pages,

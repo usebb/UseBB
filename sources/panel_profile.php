@@ -105,7 +105,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
-			'content' => sprintf($lang['NewEmailNotActivated'], '<i>'.$session->sess_info['user_info']['name'].'</i>', $_POST['email'])
+			'content' => sprintf($lang['NewEmailNotActivated'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email'])
 		));
 		
 	} else {

@@ -170,7 +170,7 @@ class template {
 				//
 				// Lists parsetime and queries fully
 				//
-				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->get_used_queries())).'</textarea></div>';
+				$debug_output = '<div><strong>Debug mode</strong><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->get_used_queries())).'</textarea></div>';
 				
 			}
 			

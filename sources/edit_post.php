@@ -366,7 +366,7 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeletePost'],
-					'content' => sprintf($lang['ConfirmDeletePost'], '<i>'.htmlentities(stripslashes($postdata['topic_title'])).'</i>'),
+					'content' => sprintf($lang['ConfirmDeletePost'], '<em>'.htmlentities(stripslashes($postdata['topic_title'])).'</em>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'

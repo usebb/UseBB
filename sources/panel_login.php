@@ -68,7 +68,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<i>'.$_POST['user'].'</i>').' '.$lang['RegisterIt']
+			'content' => sprintf($lang['NoSuchMember'], '<em>'.$_POST['user'].'</em>').' '.$lang['RegisterIt']
 		));
 		
 	} elseif ( $userdata['banned'] ) {
@@ -79,7 +79,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
-			'content' => sprintf($lang['BannedUserExplain'], '<i>'.$_POST['user'].'</i>') . '<br />' . $userdata['banned_reason']
+			'content' => sprintf($lang['BannedUserExplain'], '<em>'.$_POST['user'].'</em>') . '<br />' . $userdata['banned_reason']
 		));
 		
 	} elseif ( !$userdata['active'] ) {
@@ -90,7 +90,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NotActivated'], '<i>'.$_POST['user'].'</i>')
+			'content' => sprintf($lang['NotActivated'], '<em>'.$_POST['user'].'</em>')
 		));
 		
 	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != 3 ) {

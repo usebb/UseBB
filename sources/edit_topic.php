@@ -170,7 +170,7 @@ if ( $_GET['act'] == 'delete' ) {
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeleteTopic'],
-					'content' => sprintf($lang['ConfirmDeleteTopic'], '<i>'.htmlentities(stripslashes($topicdata['topic_title'])).'</i>', '<i>'.htmlentities(stripslashes($topicdata['forum_name'])).'</i>'),
+					'content' => sprintf($lang['ConfirmDeleteTopic'], '<em>'.htmlentities(stripslashes($topicdata['topic_title'])).'</em>', '<em>'.htmlentities(stripslashes($topicdata['forum_name'])).'</em>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'

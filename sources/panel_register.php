@@ -64,7 +64,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['UserAlreadyExists'], '<i>'.$_POST['user'].'</i>')
+			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.$_POST['user'].'</em>')
 		));
 		
 	} else {
@@ -138,7 +138,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['BannedUsername'], '<i>'.$_POST['user'].'</i>')
+				'content' => sprintf($lang['BannedUsername'], '<em>'.$_POST['user'].'</em>')
 			));
 			
 		} elseif ( $email_banned ) {
@@ -203,7 +203,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Register'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email'])
+				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
 			));
 			
 		}

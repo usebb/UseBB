@@ -117,7 +117,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					
 					$template->parse('msgbox', 'global', array(
 						'box_title' => sprintf($lang['SendEmail'], $user_to_mail['name']),
-						'content' => sprintf($lang['EmailSent'], '<i>'.$user_to_mail['name'].'</i>')
+						'content' => sprintf($lang['EmailSent'], '<em>'.$user_to_mail['name'].'</em>')
 					));
 					
 				} else {

@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Security measures
 //
 error_reporting(E_ALL);
-set_magic_quotes_runtime(0);
+set_magic_quotes_runtime(1);
 @ini_set('display_errors', '1');
 
 //

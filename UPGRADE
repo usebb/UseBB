@@ -1,0 +1,11 @@
+UseBB Development Version Upgrading
+-----------------------------------
+
+Until UseBB is in a stable state, this guide will remain very simple.
+
+1. Reupload all files in this package.
+2. Execute usebb_upgrade.sql on your database (with phpMyAdmin).
+3. Adjust the SQL table usebb_config.
+4. Continue using UseBB.
+
+http://www.usebb.net/

@@ -38,6 +38,7 @@ class functions {
 	var $statistics;
 	var $enabled_templates;
 	var $avail_languages;
+	var $mod_auth;
 	
 	//
 	// Add slashes to a global variable
@@ -496,17 +497,43 @@ class functions {
 	// Authorization function
 	// Defines whether a user has permission to take a certain action.
 	//
-	function auth($authint, $action) {
+	function auth($authint, $action, $forumid=0) {
 		
-		global $session;
+		global $session, $db;
 		
 		//
 		// Define the user level
 		//
-		if ( $session->sess_info['user_id'] )
-			$userlevel = $session->sess_info['user_info']['level'];
-		else
+		if ( $session->sess_info['user_id'] ) {
+			
+			if ( intval($session->sess_info['user_info']['level']) === 2 ) {
+				
+				if ( !is_array($this->mod_auth) ) {
+					
+					if ( !($result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$session->sess_info['user_id'])) )
+						$this->usebb_die('SQL', 'Unable to define moderator status!', __FILE__, __LINE__);
+					$this->mod_auth = array();
+					while ( $out = $db->fetch_result($result) )
+						$this->mod_auth[] = intval($out['forum_id']);
+
+				}
+				
+				if ( in_array($forumid, $this->mod_auth) )
+					$userlevel = 2;
+				else
+					$userlevel = 1;
+				
+			} else {
+				
+				$userlevel = $session->sess_info['user_info']['level'];
+				
+			}
+			
+		} else {
+			
 			$userlevel = 0;
+			
+		}
 		
 		//
 		// Get the part of the auth integer that
@@ -541,12 +568,9 @@ class functions {
 	//
 	function markup($string, $bbcode=true, $smilies=true, $html=false) {
 		
-		if ( !$html ) {
-			
+		if ( !$html )
 			$string = htmlentities($string);
-			$string = nl2br($string);
-			
-		}
+		$string = nl2br($string);
 		return $string;
 		
 	}

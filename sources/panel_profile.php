@@ -162,7 +162,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		'interests'        => $lang['Interests'],
 		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.stripslashes($session->sess_info['user_info']['interests']).'" />',
 		'signature'        => $lang['Signature'],
-		'signature_input'  => '<textarea rows="4" cols="60" name="signature">'.stripslashes(str_replace('\n', '\r', $session->sess_info['user_info']['signature'])).'</textarea>',
+		'signature_input'  => '<textarea rows="4" cols="60" name="signature">'.stripslashes($session->sess_info['user_info']['signature']).'</textarea>',
 		'msnm'             => $lang['MSNM'],
 		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.stripslashes($session->sess_info['user_info']['msnm']).'" />',
 		'yahoom'           => $lang['YahooM'],

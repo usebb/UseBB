@@ -64,11 +64,13 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		
 		$forumdata = $db->fetch_result($result);
 		
-		if ( $functions->auth($forumdata['auth'], 'view') ) {
+		if ( $functions->auth($forumdata['auth'], 'view', $_GET['id']) ) {
 			
 			$template->set_page_title(stripslashes($forumdata['name']));
+			
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']));
 			$template->parse('location_bar', array(
-				'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']))
+				'location_bar' => $location_bar
 			));
 			
 			if ( !$forumdata['topics'] ) {
@@ -78,24 +80,26 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					'content' => $lang['NoTopics']
 				));
 				
-			} else {
+			}
+			
+			$forum_links = ( $forumdata['status'] ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['ForumIsLocked'].'</a>';
+			
+			//
+			// Output the topic list
+			//
+			$template->parse('topiclist_header', array(
+				'topic' => $lang['Topic'],
+				'author' => $lang['Author'],
+				'replies' => $lang['Replies'],
+				'views' => $lang['Views'],
+				'latest_post' => $lang['LatestPost'],
+				'forum_links' => $forum_links
+			));
+			
+			if ( $forumdata['topics'] ) {
 				
 				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u2.id AS last_poster_id, u2.name AS last_poster_name FROM ".TABLE_PREFIX."topics t, ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ( ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."users u2 ON p2.poster_id = u2.id ) WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC")) )
 					$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
-				
-				$forum_links = ( $forumdata['status'] ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['ForumIsLocked'].'</a>';
-				
-				//
-				// Output the topic list
-				//
-				$template->parse('topiclist_header', array(
-					'topic' => $lang['Topic'],
-					'author' => $lang['Author'],
-					'replies' => $lang['Replies'],
-					'views' => $lang['Views'],
-					'latest_post' => $lang['LatestPost'],
-					'forum_links' => $forum_links
-				));
 				
 				while ( $topicdata = $db->fetch_result($result) ) {
 					
@@ -116,11 +120,15 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					
 				}
 				
-				$template->parse('topiclist_footer', array(
-					'forum_links' => $forum_links
-				));
-				
 			}
+			
+			$template->parse('topiclist_footer', array(
+				'forum_links' => $forum_links
+			));
+			
+			$template->parse('location_bar', array(
+				'location_bar' => $location_bar
+			));
 			
 		} else {
 			

@@ -43,10 +43,6 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['ForumIndex']);
 
-$template->parse('location_bar', array(
-	'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a>'
-));
-
 //
 // Parse the forums
 //
@@ -90,7 +86,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	while ( $forumdata = $db->fetch_result($result) ) {
 		
-		if ( $functions->auth($forumdata['auth'], 'view') ) {
+		if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
 			
 			//
 			// If this user can view this forum

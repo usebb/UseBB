@@ -46,7 +46,7 @@ if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
+	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -64,116 +64,131 @@ if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 		
 		$topicdata = $db->fetch_result($result);
 		
-		if ( $topicdata['status_locked'] ) {
+		if ( $topicdata['status_locked'] && !$functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 			
-			//
-			
-		elseif ( $functions->auth($topicdata['auth'], 'reply') ) {
-			
-			$template->set_page_title(sprintf($lang['ReplyTo'], stripslashes($topicdata['topic_title'])));
-			$template->parse('location_bar', array(
-				'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>'
+			$template->set_page_title($lang['TopicIsLocked']);
+			$template->parse('msgbox', array(
+				'box_title' => $lang['TopicIsLocked'],
+				'content' => $lang['TopicIsLockedExplain']
 			));
 			
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level, u.rank, u.avatar_type, u.avatar_remote, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
-				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
+		} elseif ( $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 			
-			$topic_links = array();
-			if ( $topicdata['forum_status'] )
-				$topic_links[] = '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['PostNewTopic'].'</a>';
-			else
-				$topic_links[] = '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['ForumIsLocked'].'</a>';
-			if ( !$topicdata['status_locked'] )
-				$topic_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'">'.$lang['PostReply'].'</a>';
-			else
-				$topic_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'">'.$lang['TopicIsLocked'].'</a>';
-			$topic_links = join(' '.$template->get_config('item_delimiter').' ', $topic_links);
+			$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
+			$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 			
-			//
-			// Output the posts
-			//
-			$template->parse('topic_header', array(
-				'author' => $lang['Author'],
-				'post' => $lang['Post'],
-				'topic_links' => $topic_links
-			));
-			
-			while ( $postsdata = $db->fetch_result($result) ) {
+			if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ) && !empty($_POST['content']) ) {
 				
-				$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
+				$poster_id = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_id'] : 0;
+				$poster_guest = ( !$session->sess_info['user_id'] ) ? $_POST['user'] : '';
+				$_POST['enable_bbcode'] = ( !empty($_POST['enable_bbcode']) ) ? 1 : 0;
+				$_POST['enable_smilies'] = ( !empty($_POST['enable_smilies']) ) ? 1 : 0;
+				$_POST['enable_sig'] = ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info']['signature']) && !empty($_POST['enable_sig']) ) ? 1 : 0;
+				$_POST['enable_html'] = ( $functions->auth($topicdata['auth'], 'html', $topicdata['forum_id']) && !empty($_POST['enable_html']) ) ? 1 : 0;
 				
-				if ( !empty($postsdata['poster_name']) ) {
+				if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, ".$_GET['topic'].", ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".gmmktime().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].")")) )
+					$functions->usebb_die('SQL', 'Unable to insert new post!', __FILE__, __LINE__);
+				
+				$inserted_post_id = $db->last_id();
+				$update_topic_status = ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) && !empty($_POST['lock_topic']) ) ? ', status_locked = 1' : '';
+				
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$inserted_post_id.", count_replies = count_replies+1".$update_topic_status." WHERE id = ".$_GET['topic'])) )
+					$functions->usebb_die('SQL', 'Unable to update topic!', __FILE__, __LINE__);
+				
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts+1, last_topic_id = ".$_GET['topic']." WHERE id = ".$topicdata['forum_id'])) )
+					$functions->usebb_die('SQL', 'Unable to update forum!', __FILE__, __LINE__);
+				
+				if ( $session->sess_info['user_id'] ) {
 					
-					switch ( $postsdata['level'] ) {
-						
-						case 3:
-							$levelclass = ' class="administrator"';
-							break;
-						case 2:
-							$levelclass = ' class="moderator"';
-							break;
-						case 1:
-							$levelclass = '';
-							break;
-						
-					}
-					
-					$poster_name = '<a href="'.$functions->make_url('profile.php', array('id' => $postsdata['poster_id'])).'"'.$levelclass.'>'.$postsdata['poster_name'].'</a>';
-					
-					if ( !$postsdata['avatar_type'] )
-						$avatar = '';
-					elseif ( intval($postsdata['avatar_type']) === 1 )
-						$avatar = '<img src="'.$postsdata['avatar_remote'].'" alt="'.$postsdata['poster_name'].'" />';
-					
-				} else {
-					
-					$poster_name = $postsdata['poster_guest'];
-					$avatar = '';
+					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
+						$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);
 					
 				}
 				
-				$post_links = array();
-				if ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 )
-					$post_links[] = $postsdata['poster_ip_addr'];
-				if ( $postsdata['poster_id'] == $session->sess_info['user_id'] || ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 ) )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'">'.$lang['Edit'].'</a>';
-				if ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('deletepost' => $postsdata['id'])).'">'.$lang['Delete'].'</a>';
-				$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'">'.$lang['Quote'].'</a>';
-				$post_links = join(' '.$template->get_config('item_delimiter').' ', $post_links);
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
+					$functions->usebb_die('SQL', 'Unable to update stats!', __FILE__, __LINE__);
 				
-				$post_content = stripslashes($postsdata['content']);
-				if ( !empty($postsdata['signature']) && $postsdata['enable_sig'] )
-					$post_content .= "\n\n".$template->get_config('sig_divider')."\n".stripslashes($postsdata['signature']);
-				$post_content = $functions->markup($post_content, $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']);
+				header('Location: '.$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id);
 				
-				$template->parse('topic_post', array(
-					'poster_name' => $poster_name,
-					'poster_rank' => ( !empty($postsdata['rank']) ) ? stripslashes($postsdata['rank']) : '',
-					'poster_avatar' => $avatar,
-					'post_anchor' => '<a name="post'.$postsdata['id'].'"></a>',
-					'post_date' => $functions->make_date($postsdata['post_time']),
-					'post_links' => $post_links,
-					'post_content' => $post_content,
-					'colornum' => $colornum
+			} else {
+				
+				$template->set_page_title(sprintf($lang['ReplyTo'], stripslashes($topicdata['topic_title'])));
+				
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('location_arrow').' '.$lang['PostReply'];
+				$template->parse('location_bar', array(
+					'location_bar' => $location_bar
+				));
+				
+				$_POST['content'] = ( !empty($_POST['content']) ) ? stripslashes($_POST['content']) : '';
+				if ( empty($_POST['submitted']) ) {
+					
+					$enable_bbcode_checked = ' checked="checked"';
+					$enable_smilies_checked = ' checked="checked"';
+					$enable_sig_checked = ' checked="checked"';
+					$enable_html_checked = '';
+					$lock_topic_checked = '';
+					
+				} else {
+					
+					if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
+						$errors[] = strtolower($lang['Username']);
+					if ( empty($_POST['content']) )
+						$errors[] = strtolower($lang['Content']);
+					
+					if ( is_array($errors) ) {
+						
+						$template->parse('msgbox', array(
+							'box_title' => $lang['Error'],
+							'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+						));
+						
+					}
+					
+					$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
+					$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
+					$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
+					$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
+					$lock_topic_checked = ( !empty($_POST['lock_topic']) ) ? ' checked="checked"' : '';
+					
+				}
+				
+				$options_input = array();
+				$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';
+				$options_input[] = '<input type="checkbox" name="enable_smilies" id="enable_smilies" value="1"'.$enable_smilies_checked.' /><label for="enable_smilies"> '.$lang['EnableSmilies'].'</label>';
+				if ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info']['signature']) )
+					$options_input[] = '<input type="checkbox" name="enable_sig" id="enable_sig" value="1"'.$enable_sig_checked.' /><label for="enable_sig"> '.$lang['EnableSig'].'</label>';
+				if ( $functions->auth($topicdata['auth'], 'html', $topicdata['forum_id']) )
+					$options_input[] = '<input type="checkbox" name="enable_html" id="enable_html" value="1"'.$enable_html_checked.' /><label for="enable_html"> '.$lang['EnableHTML'].'</label>';
+				if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) )
+					$options_input[] = '<input type="checkbox" name="lock_topic" id="lock_topic" value="1"'.$lock_topic_checked.' /><label for="lock_topic"> '.$lang['LockTopicAfterPost'].'</label>';
+				$options_input = join('<br />', $options_input);
+				
+				$template->parse('post_form', array(
+					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
+					'post_title' => $lang['PostReply'],
+					'username' => $lang['Username'],
+					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$_POST['user'].'" />',
+					'subject' => $lang['Subject'],
+					'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>',
+					'content' => $lang['Content'],
+					'content_input' => '<textarea rows="12" cols="60" name="content">'.$_POST['content'].'</textarea>',
+					'options' => $lang['Options'],
+					'options_input' => $options_input,
+					'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',
+					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
+					'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
+				));
+				
+				$template->parse('location_bar', array(
+					'location_bar' => $location_bar
 				));
 				
 			}
 			
-			$template->parse('topic_footer', array(
-				'topic_links' => $topic_links
-			));
-			
-			//
-			// Update views count
-			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$_GET['id'])) )
-				$functions->usebb_die('SQL', 'Unable to update topic views count!', __FILE__, __LINE__);
-			
 		} else {
 			
 			//
-			// The user is not granted to view this forum
+			// The user is not granted to post replies in this forum
 			//
 			$functions->redir_to_login();
 			
@@ -189,7 +204,7 @@ if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 } else {
 	
 	//
-	// There's no forum ID! Get us back to the index...
+	// There's no ID! Get us back to the index...
 	//
 	header('Location: '.$functions->make_url('index.php', array(), false));
 	

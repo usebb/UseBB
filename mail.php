@@ -160,6 +160,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>',
 						'subject' => $lang['Subject'],
 						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
+						'body' => $lang['Body'],
 						'body_input' => '<textarea rows="12" cols="60" name="body">'.$_POST['body'].'</textarea>',
 						'everything_required' => $lang['EverythingRequired'],
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',

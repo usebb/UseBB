@@ -9,7 +9,7 @@ UseBB 0.3 Changelog
 - Fixed bug 934807: Latest reply in topic list doesn't update.
 - Fixed bug 934456: Latest post doesn't update when moving.
 - Fixed bug 935564: Notice: Array to string conversion in common.php (PHP < 4.3.0).
-- Fixed bug 935924: Session ID's are passed twice on some PHP config.
+- Fixed bug 935924: Session ID's are passed twice on some PHP config (+ revised once).
 - Fixed htmlentities() problem in user signatures.
 - Optimalizations in template.php, debug also works without </body> tag and more 
 	powerful and better output compression method.

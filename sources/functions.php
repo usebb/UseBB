@@ -227,11 +227,13 @@ class functions {
 		//		- no cookies are accepted
 		// AND
 		//		- PHP isn't configured to pass SIDs by default
+		//		OR
+		//		- the URL is not in HTML
 		// This allows users not using browsers supporting cookies
 		// to stay logged in or use the same session ID.
 		//
 		$SID = SID;
-		if ( !empty($SID) && !ini_get('session.use_trans_sid') ) {
+		if ( !empty($SID) && ( !$html || ( $html && !ini_get('session.use_trans_sid') ) ) ) {
 			
 			if ( !is_array($vars) )
 				$vars = array();

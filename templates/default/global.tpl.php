@@ -654,6 +654,10 @@ p#linkbar {
 #smiley-controls a {
 	margin: 0px 5px 0px 0px;
 }
+#post-options {
+	margin: 3px 0px 0px 0px;
+	line-height: 1.6em;
+}
 #bottom {
 	clear: both;
 	float: left;

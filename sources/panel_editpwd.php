@@ -43,7 +43,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 	//
 	// Update the password
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'] )
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
 	if ( $functions->isset_al() ) {

@@ -30,6 +30,13 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
+// Security measures
+//
+error_reporting(E_ALL);
+set_magic_quotes_runtime(0);
+@ini_set('display_errors', '1');
+
+//
 // Check PHP version by checking the presence of version_compare()
 // (available since PHP 4.1.0)
 //
@@ -41,14 +48,6 @@ if ( !function_exists('version_compare') )
 //
 $timer['begin'] = explode(' ', microtime());
 $timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
-
-//
-// Show all errors so that we avoid making stupid
-// but dangerous mistakes + disable that annoying
-// magic quotes runtime.
-//
-error_reporting(E_ALL);
-set_magic_quotes_runtime(0);
 
 //
 // Unregister globals for more security.

@@ -167,10 +167,11 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			));
 			
 			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
+			$userinfo_query_part = ( !$functions->get_config('hide_userinfo') ) ? ', u.posts, u.regdate, u.location' : '';
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
 			
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.", u.posts, u.regdate, u.location".$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
 			$i = ( $page - 1 ) * $functions->get_config('posts_per_page');
@@ -272,9 +273,9 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'poster_name' => $poster_name,
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
-					'posts' => ( !empty($postsdata['poster_id']) ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
-					'registered' => ( !empty($postsdata['poster_id']) ) ? $lang['Registered'].': '.date('M y', $postsdata['regdate']) : '',
-					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) ) ? $lang['Location'].': '.htmlentities(stripslashes($postsdata['location'])) : '',
+					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
+					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.date('M y', $postsdata['regdate']) : '',
+					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.htmlentities(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
 					'post_date' => $functions->make_date($postsdata['post_time']),

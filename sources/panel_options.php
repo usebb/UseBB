@@ -52,6 +52,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;
 	$_POST['target_blank'] = ( !empty($_POST['target_blank']) ) ? 1 : 0;
 	$_POST['hide_avatars'] = ( !empty($_POST['hide_avatars']) ) ? 1 : 0;
+	$_POST['hide_userinfo'] = ( !empty($_POST['hide_userinfo']) ) ? 1 : 0;
 	$_POST['hide_signatures'] = ( !empty($_POST['hide_signatures']) ) ? 1 : 0;
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
@@ -67,6 +68,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		return_to_topic_after_posting		= ".$_POST['return_to_topic'].",
 		target_blank    = ".$_POST['target_blank'].",
 		hide_avatars    = ".$_POST['hide_avatars'].",
+		hide_userinfo   = ".$_POST['hide_userinfo'].",
 		hide_signatures = ".$_POST['hide_signatures']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
@@ -133,6 +135,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$return_to_topic_checked = ( $session->sess_info['user_info']['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
 	$target_blank_checked = ( $session->sess_info['user_info']['target_blank'] ) ? ' checked="checked"' : '';
 	$hide_avatars_checked = ( $session->sess_info['user_info']['hide_avatars'] ) ? ' checked="checked"' : '';
+	$hide_userinfo_checked = ( $session->sess_info['user_info']['hide_userinfo'] ) ? ' checked="checked"' : '';
 	$hide_signatures_checked = ( $session->sess_info['user_info']['hide_signatures'] ) ? ' checked="checked"' : '';
 	
 	$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
@@ -165,6 +168,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'target_blank_input'    => '<input type="checkbox" name="target_blank" id="target_blank" value="1"'.$target_blank_checked.' /><label for="target_blank"> '.$lang['Yes'].'</label>',
 		'hide_avatars'	        => $lang['HideAllAvatars'],
 		'hide_avatars_input'    => '<input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label>',
+		'hide_userinfo'	        => $lang['HideUserinfo'],
+		'hide_userinfo_input'   => '<input type="checkbox" name="hide_userinfo" id="hide_userinfo" value="1"'.$hide_userinfo_checked.' /><label for="hide_userinfo"> '.$lang['Yes'].'</label>',
 		'hide_signatures'       => $lang['HideAllSignatures'],
 		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',

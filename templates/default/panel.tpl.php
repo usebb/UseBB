@@ -158,6 +158,9 @@ $templates['edit_options'] = '
 			<td class="fieldtitle">{hide_avatars}</td><td>{hide_avatars_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{hide_userinfo}</td><td>{hide_userinfo_input}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{hide_signatures}</td><td>{hide_signatures_input}</td>
 		</tr>
 		<tr>

@@ -9,6 +9,7 @@ UseBB 0.3 Changelog
 - Added feature 978099: Strip off long topic names in topic list.
 - Added feature 1055684: Hide avatars/signatures setting.
 - Added feature 1055687: Hide from online users list.
+- Added feature 1061847: Hide user information in posts.
 - Added feature that saves the guest's username in the session.
 - Added terms of use text in translations.
 - Added 'Open external links in new windows' feature.

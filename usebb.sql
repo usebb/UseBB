@@ -95,6 +95,7 @@ CREATE TABLE usebb_members (
   return_to_topic_after_posting int(1) NOT NULL default '0',
   target_blank int(1) NOT NULL default '0',
   hide_avatars int(1) NOT NULL default '0',
+  hide_userinfo int(1) NOT NULL default '0',
   hide_signatures int(1) NOT NULL default '0',
   avatar_type int(1) NOT NULL default '0',
   avatar_remote varchar(255) NOT NULL default '',

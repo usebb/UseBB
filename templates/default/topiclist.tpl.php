@@ -60,7 +60,7 @@ $templates['topiclist_notopics'] = '
 $templates['topiclist_topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td>{topic_name}</td>
+			<td>{topic_name} {topic_page_links}</td>
 			<td class="author">{author}</td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>

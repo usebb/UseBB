@@ -624,7 +624,7 @@ class functions {
 	//
 	// Return a clickable list of pages
 	//
-	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val) {
+	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val, $back_forward_links=TRUE) {
 		
 		global $lang;
 		
@@ -632,7 +632,7 @@ class functions {
 			
 			$page_links = array();
 				
-			if ( $current_page > 1 )
+			if ( $current_page > 1 && $back_forward_links )
 				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page-1)).'">&laquo;</a>';
 			
 			for ( $i = 1; $i <= $pages_number; $i++ ) {
@@ -644,7 +644,7 @@ class functions {
 				
 			}
 				
-			if ( $current_page < $pages_number )
+			if ( $current_page < $pages_number && $back_forward_links )
 				$page_links[] = '<a href="'.$this->make_url($page_name, array('id' => $page_id_val, 'page' => $current_page+1)).'">&raquo;</a>';
 				
 			$page_links = sprintf($lang['PageLinks'], join(', ',$page_links));

@@ -122,7 +122,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					
 				} else {
 					
-					if ( !empty($_POST['submitted']) ) {
+					if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						
 						//
 						// Some fields have not been filled in,
@@ -166,7 +166,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'everything_required' => $lang['EverythingRequired'],
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
-						'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
+						'form_end' => '</form>'
 					));
 					
 				}

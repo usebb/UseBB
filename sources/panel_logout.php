@@ -45,7 +45,7 @@ if ( !$session->sess_info['user_id'] ) {
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !empty($_POST['submitted']) ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		if ( !empty($_POST['logout']) )
 			$session->update(NULL, 0);
@@ -62,7 +62,7 @@ if ( !$session->sess_info['user_id'] ) {
 			'content' => $lang['LogOutConfirm'],
 			'submit_button' => '<input type="submit" name="logout" value="'.$lang['Yes'].'" />',
 			'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
-			'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
+			'form_end' => '</form>'
 		));
 		
 	}

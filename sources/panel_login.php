@@ -147,7 +147,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		$_SESSION['refere_to'] = ( !empty($_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $_SERVER['HTTP_REFERER'];
 		unset($_SESSION['referer']);
 		
-		if ( !empty($_POST['submitted']) ) {
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
 			$errors = array();
 			if ( !preg_match(USER_PREG, $_POST['user']) )
@@ -190,7 +190,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
-			'form_end'       => '<input type="hidden" name="submitted" value="true" /></form>'
+			'form_end'       => '</form>'
 		));
 		
 	} else {

@@ -216,7 +216,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	// The user agreed to the terms of use, show the registration form
 	//
 	
-	if ( !empty($_POST['submitted']) ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		//
 		// The form has been submitted but there are missing fields
@@ -266,7 +266,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" name="submit" value="'.$lang['Register'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'            => '<input type="hidden" name="submitted" value="true" /><input type="hidden" name="accepted" value="true" /></form>'
+		'form_end'            => '<input type="hidden" name="accepted" value="true" /></form>'
 	));
 	
 } elseif ( !empty($_POST['notaccepted']) ) {

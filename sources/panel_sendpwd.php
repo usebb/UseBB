@@ -134,7 +134,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	
 } else {
 	
-	if ( !empty($_POST['submitted']) ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		$errors = array();
 		if ( !preg_match(USER_PREG, $_POST['user']) )
@@ -168,7 +168,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" value="'.$lang['SendPassword'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'            => '<input type="hidden" name="submitted" value="true" /></form>'
+		'form_end'            => '</form>'
 	));
 	
 }

@@ -131,7 +131,7 @@ if ( !$db->num_rows($result) ) {
 			
 			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
-			if ( empty($_POST['submitted']) ) {
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
 				//
 				// Get session saved guest's username if there is one
@@ -211,7 +211,7 @@ if ( !$db->num_rows($result) ) {
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',
 				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
-				'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
+				'form_end' => '</form>'
 			));
 			
 			$template->parse('location_bar', 'global', array(

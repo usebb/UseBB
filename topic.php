@@ -318,7 +318,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content"></textarea>',
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
-					'form_end' => '<input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" /><input type="hidden" name="submitted" value="true" /></form>'
+					'form_end' => '<input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" /></form>'
 				));
 				
 			}

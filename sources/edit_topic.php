@@ -73,7 +73,7 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) {
 			
-			if ( !empty($_POST['submitted']) ) {
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
 				if ( !empty($_POST['delete']) ) {
 					
@@ -183,7 +183,7 @@ if ( $_GET['act'] == 'delete' ) {
 					'content' => sprintf($lang['ConfirmDeleteTopic'], '<i>'.htmlentities(stripslashes($topicdata['topic_title'])).'</i>', '<i>'.htmlentities(stripslashes($topicdata['forum_name'])).'</i>'),
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
-					'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
+					'form_end' => '</form>'
 				));
 				
 				//

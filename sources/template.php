@@ -109,7 +109,7 @@ class template {
 			foreach ( $this->requests as $key => $val ) {
 				
 				if ( is_array($this->requests[$key]['vars']) )
-					$this->requests[$key]['vars']['page_title'] = $title;
+					$this->requests[$key]['vars']['page_title'] = htmlentities($title);
 				
 			}
 			

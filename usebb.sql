@@ -200,7 +200,7 @@ INSERT INTO usebb_language VALUES ('SendpwdActivated', 'English', 'The new passw
 INSERT INTO usebb_language VALUES ('SendpwdNotActivated', 'English', 'The new password for your account %s has been sent to %s, together with information on how to reactivate your account.');
 INSERT INTO usebb_language VALUES ('ForumIndex', 'English', 'Forum Index');
 INSERT INTO usebb_language VALUES ('MissingFields', 'English', 'The following fields were missing or incorrect: %s.');
-INSERT INTO usebb_language VALUES ('TermsOfUseContent', 'English', '-Put your terms and conditions in here.-');
+INSERT INTO usebb_language VALUES ('TermsOfUseContent', 'English', 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.\r\n\r\nYou agree not to post any abusive, offensive, obscene or inappropriate content or content that is forbidden by law on these forums. Doing so can cause your account on these forums to get banned or removed and your internet service provider eventually noticed about your behaviour. Therefore, your IP address is stored with every post you place. You also agree that administrators and moderators are permitted to edit, delete, move or lock your topics when they think this is needed.\r\n\r\nAll information you post to these forums is being stored in a database system for future reference. The board administrators will not redistribute this information without your permission or obligation by legal issues. However, nor the webmaster, administrators or moderators nor the UseBB Team can be held responsible when any information is being leaked as a result of a hacking attempt.\r\n\r\nThis board uses cookies to store temporary information needed by the forum system on your local computer. Also, a cookie can store your user ID and your password in an encrypted form to enable automatic login of your account if you chose to enable this. If you don\'t want any cookies to be stored on your computer, refer to your browser\'s manual about disabling cookies.\r\n\r\nBy clicking the "I accept" button, you agree to these terms and conditions.');
 INSERT INTO usebb_language VALUES ('TermsOfUse', 'English', 'Terms Of Use');
 INSERT INTO usebb_language VALUES ('RegistrationActivationEmailSubject', 'English', 'Account Activation');
 INSERT INTO usebb_language VALUES ('NeedToBeLoggedIn', 'English', 'You need to be logged in in order to do this. Click the \'Log In\' link to log in or \'Register\' to create a new account.');
@@ -307,7 +307,7 @@ INSERT INTO usebb_language VALUES ('Edit', 'English', 'Edit');
 INSERT INTO usebb_language VALUES ('Delete', 'English', 'Delete');
 INSERT INTO usebb_language VALUES ('Quote', 'English', 'Quote');
 INSERT INTO usebb_language VALUES ('IPAddress', 'English', 'IP address');
-INSERT INTO usebb_language VALUES ('ReplyTo', 'English', 'Reply to %s');
+INSERT INTO usebb_language VALUES ('ReplyTo', 'English', 'Reply to "%s"');
 INSERT INTO usebb_language VALUES ('TopicIsLockedExplain', 'English', 'The topic you are trying to post in is locked. Only authorized people can still post replies.');
 INSERT INTO usebb_language VALUES ('Content', 'English', 'Content');
 INSERT INTO usebb_language VALUES ('Options', 'English', 'Options');

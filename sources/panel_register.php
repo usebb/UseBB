@@ -243,18 +243,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 		}
 		
-	}/* else {
-		
-		//
-		// The form has not been submitted yet
-		// Show the terms of use
-		//
-		$template->parse('msgbox', array(
-			'box_title' => $lang['TermsOfUse'],
-			'content' => nl2br($lang['TermsOfUseContent'])
-		));
-		
-	}*/
+	}
 	
 	//
 	// Show the registration form
@@ -279,8 +268,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	// The user did not accept to the terms of use
 	//
-	
-	header('Location: '.$functions->make_url('index.php', array(), false));
+	$refere_to = ( !empty($_SESSION['referer']) && !preg_match("/act=(logout|register|activate)/", $_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $functions->make_url('index.php', array(), false);
+	unset($_SESSION['referer']);
+	header('Location: '.$refere_to);
 	
 } else {
 	
@@ -288,10 +278,12 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	// The user did not agree yet to the terms of use
 	//
 	
+	$_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+	
 	$template->parse('confirm_form', array(
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'title' => $lang['TermsOfUse'],
-		'content' => nl2br($lang['TermsOfUseContent']),
+		'content' => nl2br(htmlentities($lang['TermsOfUseContent'])),
 		'submit_button'       => '<input type="submit" name="accepted" value="'.$lang['IAccept'].'" />',
 		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 		'form_end' => '</form>'

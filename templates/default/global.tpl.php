@@ -141,7 +141,7 @@ a img {
 label {
 	cursor: pointer;
 }
-a:link, a:active {
+a:link, a:active, a:visited {
 	color: #336699;
 	text-decoration: underline;
 }
@@ -511,12 +511,7 @@ p#linkbar {
 	text-align: right;
 	color: #333333;
 }
-#bottom a:link, #bottom a:active, #bottom a:visited {
-	color: #336699;
-	text-decoration: none;
-}
-#bottom a:hover {
-	color: #7F0000;
+#bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
 	text-decoration: none;
 }
 #bottom-shadow {

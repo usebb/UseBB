@@ -74,7 +74,7 @@ class session {
 		// Some required workarounds...
 		//
 		$location = addslashes($location);
-		$current_time = gmmktime();
+		$current_time = time();
 		
 		//
 		// First, get the user's IP address

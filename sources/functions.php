@@ -307,7 +307,7 @@ class functions {
 	//
 	function make_date($stamp) {
 		
-		return date($this->get_config('date_format'), $stamp - ( (float)$this->get_config('timezone') * 3600 ) - ( intval($this->get_config('dst')) * 3600 ));
+		return gmdate($this->get_config('date_format'), $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
 		
 	}
 	
@@ -318,7 +318,7 @@ class functions {
 		
 		global $lang;
 		
-		$until = ( is_int($until) ) ? $until : gmmktime();
+		$until = ( is_int($until) ) ? $until : time();
 		
 		$times = array();
 		$seconds = $until - $timestamp;
@@ -457,7 +457,7 @@ class functions {
 	//
 	function set_al($userid, $passwdhash) {
 		
-		setcookie($this->get_config('session_name').'_al', $userid.':'.$passwdhash, gmmktime()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		setcookie($this->get_config('session_name').'_al', $userid.':'.$passwdhash, time()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
@@ -466,7 +466,7 @@ class functions {
 	//
 	function unset_al() {
 		
-		setcookie($this->get_config('session_name').'_al', '', gmmktime()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		setcookie($this->get_config('session_name').'_al', '', time()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
@@ -759,6 +759,7 @@ class functions {
 			$string = str_replace($oldpart, $newpart, $string);
 			
 		}
+		$string = str_replace("\r", "", $string);
 		$string = preg_replace("#\s+#", ' ', $string);
 		$string = str_replace("\0", "\n", $string);
 		return $string;
@@ -851,7 +852,7 @@ class functions {
 		//
 		// Timestamp for defining last updated sessions
 		//
-		$min_updated = gmmktime() - ( $this->get_config('online_min_updated') * 60 );
+		$min_updated = time() - ( $this->get_config('online_min_updated') * 60 );
 		
 		//
 		// Get the session and user information

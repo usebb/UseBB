@@ -127,7 +127,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			elseif ( intval($profiledata['avatar_type']) === 1 )
 				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt="" />';
 			
-			$days_since_registration = ( ( gmmktime() - $profiledata['regdate'] ) / 86400 );
+			$days_since_registration = ( ( time() - $profiledata['regdate'] ) / 86400 );
 			if ( $days_since_registration <= 1 )
 				$posts_per_day = $profiledata['posts'];
 			else

@@ -626,13 +626,30 @@ class functions {
 				$string = preg_replace("#\s([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\s#is", ' <a href="mailto:\\1">\\1</a> ', $string);
 			// [color=red]text[/color]
 				$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<span style="color:\\1">\\2</span>', $string);
+			// [code]text[/code]
+				$string = preg_replace("#\[code](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
+			// [quote=user]text[/quote]
+				while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
+					$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
 			$string = substr($string, 1, strlen($string)-1);
 			
 		}
 		
-		if ( !$html )
-			$string = nl2br($string);
+		if ( !$html ) {
+			
+			$matches = 0;
+			preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches);
+			foreach ( $matches[0] as $oldpart ) {
+				
+				$newpart = str_replace("\n", "\0", $oldpart);
+				$string = str_replace($oldpart, $newpart, $string);
+				
+			}
+			$string = str_replace('\n', '<br />', $string);
+			$string = str_replace("\0", "\n", $string);
+			
+		}
 		
 		return $string;
 		

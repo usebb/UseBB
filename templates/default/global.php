@@ -52,6 +52,8 @@ $templates['config'] = array(
 	'edit_button'								=> 'edit.gif',
 	'delete_button'							=> 'delete.gif',
 	'sig_format'								=> '<hr /><small>%s</small>',
+	'quote_format'								=> '<blockquote><b>%s</b><hr />%s</blockquote>',
+	'code_format'								=> '<pre>%s</pre>',
 	'textarea_rows'							=> '10',
 	'textarea_cols'							=> '60',
 	'quick_reply_textarea_rows'			=> '5',
@@ -162,6 +164,27 @@ input, select, textarea {
 textarea {
 	font-family: verdana, sans-serif;
 	font-size: 8pt;
+}
+pre {
+	display: block;
+	margin: 0px;
+	padding: 5px;
+	font-size: 8pt;
+	font-family: monospace;
+	color: #7F0000;
+	background-color: #FFFFFF;
+	border: 1px solid #CDCDCD;
+	overflow: auto;
+}
+blockquote {
+	display: block;
+	margin: 0px;
+	padding: 10px;
+	font-size: 8pt;
+	color: #333333;
+	background-color: #FFFFFF;
+	border: 1px solid #BFBFBF;
+	overflow: auto;
 }
 .main {
 	width: 750px;

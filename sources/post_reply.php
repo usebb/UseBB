@@ -150,7 +150,7 @@ if ( !$db->num_rows($result) ) {
 						$quoteduser = ( !empty($quoteddata['name']) ) ? $quoteddata['name'] : $quoteddata['poster_guest'];
 						$quotedpost = stripslashes($quoteddata['content']);
 						
-						$_POST['content'] = '[i]'.$quotedpost.'[/i]'."\n\n"; // !!! temporary !!!
+						$_POST['content'] = '[quote='.$quoteduser.']'.$quotedpost.'[/quote]';
 						
 					}
 					

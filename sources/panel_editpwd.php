@@ -43,7 +43,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 	//
 	// Update the password
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'])) )
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
 	if ( $functions->isset_al() ) {
@@ -55,7 +55,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		
 	}
 	
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => $lang['PasswordEdited']
 	));
@@ -78,7 +78,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		//
 		if ( count($errors) ) {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 			));
@@ -87,7 +87,7 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		
 	}
 	
-	$template->parse('editpwd_form', array(
+	$template->parse('editpwd_form', 'panel', array(
 		'form_begin'           => '<form action="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'" method="post">',
 		'edit_pwd'             => $lang['EditPasswd'],
 		'current_passwd'       => $lang['CurrentPassword'],

@@ -55,7 +55,7 @@ require(ROOT_PATH.'sources/template.php');
 // Define some constants
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.3 CVS');
+define('USEBB_VERSION', '0.3-CVS');
 define('USER_PREG', '#^[a-z0-9\.\-\+\[\]_ ]+$#is');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#is');
 define('PWD_PREG', '#^[^\'\"\s]+$#is');
@@ -88,7 +88,7 @@ set_error_handler('error_handler');
 
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
-	$functions->usebb_die('SQL', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
+	$functions->usebb_die('General', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
 else
 	require($db_class_file);
 

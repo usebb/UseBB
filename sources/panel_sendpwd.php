@@ -50,7 +50,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	// Check if this username already exists
 	//
-	if ( !($result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
+	if ( !($result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
 		$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 	$userdata = $db->fetch_result($result);
 	
@@ -59,7 +59,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		// This user does not exist, show an error
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchMember'], '<i>'.htmlentities($_POST['user']).'</i>')
 		));
@@ -70,7 +70,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		// It does exist, but it is banned
 		// thus, show another warning...
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
 			'content' => sprintf($lang['BannedUserExplain'], '<i>'.$_POST['user'].'</i>') . '<br />' . $userdata['banned_reason']
 		));
@@ -90,7 +90,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			// Update the row in the user table
 			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id'])) )
+			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id'])) )
 				$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 			
 			if ( $functions->get_config('users_must_activate') ) {
@@ -116,14 +116,14 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				
 			}
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['SendPassword'],
 				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<i>'.htmlentities($_POST['user']).'</i>', $_POST['email'])
 			));
 			
 		} else {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<i>'.htmlentities($_POST['user']).'</i>')
 			));
@@ -144,7 +144,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		
 		if ( count($errors) ) {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 			));
@@ -158,7 +158,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
-	$template->parse('sendpwd_form', array(
+	$template->parse('sendpwd_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
 		'sendpwd'             => $lang['SendPassword'],
 		'user'                => $lang['Username'],

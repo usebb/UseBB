@@ -56,7 +56,7 @@ if ( !$session->sess_info['user_id'] ) {
 		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->make_url('index.php', array(), false);
 		
 		$template->set_page_title(sprintf($lang['LogOut'], $session->sess_info['user_info']['name']));
-		$template->parse('confirm_form', array(
+		$template->parse('confirm_form', 'global', array(
 			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'logout')).'" method="post">',
 			'title' => sprintf($lang['LogOut'], $session->sess_info['user_info']['name']),
 			'content' => $lang['LogOutConfirm'],

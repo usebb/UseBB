@@ -1,11 +1,7 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Until UseBB is in a stable state, this guide will remain very simple.
-
-1. Reupload all files in this package.
-2. Execute usebb_upgrade.sql on your database (only necessary when you use UseBB 0.2 or older).
-3. Adjust the SQL table usebb_config.
-4. Continue using UseBB.
+NOTE! Upgrading an existing UseBB 0.2.3 to 0.3-CVS is currently impossible.
+Please wait until the release of the final version of UseBB 0.3. Thank you.
 
 http://www.usebb.net/

@@ -32,15 +32,16 @@ if ( !defined('INCLUDED') )
 //
 // Get language variables
 //
-if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."language WHERE language = '".$functions->get_config('language')."'")) )
-	$functions->usebb_die('SQL', 'Unable to get translation for "'.$functions->get_config('language').'"!', __FILE__, __LINE__);
-while ( $langvars = $db->fetch_result($result) )
-	$lang[$langvars['name']] = stripslashes($langvars['content']);
+$lang_file = ROOT_PATH.'languages/lang_'.$functions->get_config('language').'.php';
+if ( !file_exists($lang_file) || !is_readable($lang_file) )
+	$functions->usebb_die('General', 'Unable to get translation for "'.$functions->get_config('language').'"!', __FILE__, __LINE__);
+else
+	require($lang_file);
 
 //
 // Page header
 //
-$template->parse('normal_header', array(
+$template->parse('normal_header', 'global', array(
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
 	'css_url' => $functions->make_url('css.php'),
@@ -65,7 +66,7 @@ if ( $session->sess_info['ip_banned'] ) {
 	
 	$template->set_page_title($lang['Note']);
 	
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => sprintf($lang['BannedIP'], $session->sess_info['ip_addr'])
 	));
@@ -89,7 +90,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 	//
 	// Show this annoying board closed message on all pages but the login page.
 	//
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['BoardClosed'],
 		'content' => $functions->get_config('board_closed_reason')
 	));

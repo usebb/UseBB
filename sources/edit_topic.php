@@ -54,7 +54,7 @@ if ( $_GET['act'] == 'delete' ) {
 		require(ROOT_PATH.'sources/page_head.php');
 		
 		$template->set_page_title($lang['Error']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
 		));
@@ -141,7 +141,7 @@ if ( $_GET['act'] == 'delete' ) {
 						//
 						// Adjust the count for every user that posted
 						//
-						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET posts = posts-".$postcount." WHERE id = ".$userid)) )
+						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-".$postcount." WHERE id = ".$userid)) )
 							$functions->usebb_die('SQL', 'Unable to adjust member\'s post count!', __FILE__, __LINE__);
 						
 					}
@@ -177,7 +177,7 @@ if ( $_GET['act'] == 'delete' ) {
 				require(ROOT_PATH.'sources/page_head.php');
 				
 				$template->set_page_title($lang['DeleteTopic']);
-				$template->parse('confirm_form', array(
+				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeleteTopic'],
 					'content' => sprintf($lang['ConfirmDeleteTopic'], '<i>'.htmlentities(stripslashes($topicdata['topic_title'])).'</i>', '<i>'.htmlentities(stripslashes($topicdata['forum_name'])).'</i>'),
@@ -227,7 +227,7 @@ if ( $_GET['act'] == 'delete' ) {
 		require(ROOT_PATH.'sources/page_head.php');
 		
 		$template->set_page_title($lang['Error']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
 		));
@@ -364,7 +364,7 @@ if ( $_GET['act'] == 'delete' ) {
 				}
 				$new_forum_input .= '</optgroup></select>';
 				
-				$template->parse('move_topic_form', array(
+				$template->parse('move_topic_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',
 					'move_topic' => $lang['MoveTopic'],
 					'topic' => $lang['Topic'],

@@ -53,9 +53,9 @@ if ( $functions->get_config('enable_contactadmin') )
 # completely alter or remove the notice, support at our community forums will be affected.
 #####
 
-$template->parse('normal_footer', array(
+$template->parse('normal_footer', 'global', array(
 	'link_bar' => ( count($link_bar) > 0 ) ? join(' '.$template->get_config('item_delimiter').' ', $link_bar) : '',
-	'copyright' => 'Powered by <a href="http://www.usebb.net" target="_blank">UseBB</a> '.USEBB_VERSION.' - Copyright &copy; 2003-2004 UseBB Team'
+	'usebb_version' => USEBB_VERSION
 ));
 
 //

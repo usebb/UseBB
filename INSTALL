@@ -6,11 +6,10 @@ Until UseBB is in a stable state, this guide will remain very simple.
 Before installing UseBB, make sure your host accords to the minimal system requirements.
 Please see http://www.usebb.net/features/#backend_requirements
 
-1. Execute usebb.sql on your database. Currently, UseBB needs 13 tables.
-2. Adjust the rows in usebb_config to your preferences. YOU MUST DO THIS FOR CORRECT HANDLING!
-3. Edit config.php to your host's settings.
+1. Execute usebb.sql on your database. Currently, UseBB needs 9 tables.
+3. Edit config.php to your preferences.
 4. Upload all the files to your host.
-5. Register a first user. It will automatically be an admin (however this makes almost any difference for the moment).
+5. Register a first user. It will automatically be an admin.
 6. Test UseBB.
 
 http://www.usebb.net/

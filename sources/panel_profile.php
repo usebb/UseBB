@@ -80,7 +80,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	//
 	// Now update the users profile
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		active        = ".$active.",
 		active_key    = '".$active_key."',
 		".$to_add_for_pwd."
@@ -105,7 +105,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		//
 		// Show a message box if users must activate
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
 			'content' => sprintf($lang['NewEmailNotActivated'], '<i>'.$session->sess_info['user_info']['name'].'</i>', $_POST['email'])
 		));
@@ -115,7 +115,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		//
 		// Else, jump to the index
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
 			'content' => $lang['ProfileEdited']
 		));
@@ -126,7 +126,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 	
 	if ( !empty($_POST['submitted']) ) {
 		
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['MissingFields'], strtolower($lang['Email']))
 		));
@@ -147,7 +147,7 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) ) {
 		
 	}
 	
-	$template->parse('edit_profile', array(
+	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
 		'edit_profile'      => $lang['EditProfile'],
 		'required'         => $lang['Required'],

@@ -69,12 +69,12 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			$own_profile = FALSE;
 			
-			if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$_GET['id'])) )
+			if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id'])) )
 				$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 			
 		}
 		
-		if ( $db->num_rows($result) || $own_profile ) {
+		if ( $own_profile || $db->num_rows($result) ) {
 			
 			//
 			// The user exists, show its profile
@@ -92,7 +92,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				//
 				// View the panel menu if the user is viewing his own profile
 				//
-				$template->parse('panel_menu', array(
+				$template->parse('panel_menu', 'panel', array(
 					'yourpanel' => $lang['YourPanel'],
 					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
 					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'"><b>'.$lang['ViewProfile'].'</b></a>',
@@ -133,7 +133,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			else
 				$posts_per_day = round($profiledata['posts'] / $days_since_registration, 2);
 			
-			$template->parse('profile', array(
+			$template->parse('profile', 'various', array(
 				'title'         => sprintf($lang['Profile'], $profiledata['name']),
 				'username'      => $lang['Username'],
 				'username_v'    => $profiledata['name'],
@@ -185,7 +185,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// This user does not exist, show an error
 			//
 			$template->set_page_title($lang['Error']);
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])
 			));

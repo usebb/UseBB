@@ -54,7 +54,7 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		
 	}
 	
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => $msgbox_content
 	));
@@ -78,7 +78,7 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		
 	}
 	
-	$template->parse('panel_sess_info', array(
+	$template->parse('panel_sess_info', 'panel', array(
 		'title' => $lang['SessionInfo'],
 		'sess_id' => $lang['SessionID'],
 		'sess_id_v' => $session->sess_info['sess_id'],

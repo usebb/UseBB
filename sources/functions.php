@@ -141,16 +141,12 @@ class functions {
 	//
 	function get_config($setting) {
 		
-		global $db, $session;
+		global $session, $conf;
 		
 		if ( !isset($this->board_config) ) {
 			
-			$this->board_config = array();
-			
-			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."config")) )
-				$this->usebb_die('SQL', 'Unable to get forum configuration!', __FILE__, __LINE__);
-			while ( $out = $db->fetch_result($result) )
-				$this->board_config[$out['name']] = stripslashes($out['content']);
+			$this->board_config = $conf;
+			unset($conf);
 			
 		}
 		
@@ -183,7 +179,7 @@ class functions {
 				//
 				if ( !isset($this->statistics[$stat]) ) {
 					
-					if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."users ORDER BY id DESC LIMIT 1")) )
+					if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
 						$this->usebb_die('SQL', 'Unable to get latest member information!', __FILE__, __LINE__);
 					$this->statistics[$stat] = $db->fetch_result($result);
 					
@@ -302,7 +298,7 @@ class functions {
 		} else {
 			
 			$template->set_page_title($lang['Note']);
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],
 				'content' => $lang['NotPermitted']
 			));
@@ -827,7 +823,7 @@ class functions {
 		//
 		// Get the session and user information
 		//
-		if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."users u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+		if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
 			$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
 		
 		//
@@ -889,7 +885,7 @@ class functions {
 		//
 		// Parse the online box
 		//
-		$template->parse('forumlist_stats', array(
+		$template->parse('forumlist_stats', 'forumlist', array(
 			'stats_title' => $lang['Statistics'],
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.next($this->get_stats('latest_member')).'</a>'),

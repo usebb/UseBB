@@ -48,7 +48,7 @@ if ( !$db->num_rows($result) ) {
 	// This topic does not exist, show an error
 	//
 	$template->set_page_title($lang['Error']);
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Error'],
 		'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
 	));
@@ -60,7 +60,7 @@ if ( !$db->num_rows($result) ) {
 	if ( $topicdata['status_locked'] && !$functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 		
 		$template->set_page_title($lang['TopicIsLocked']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['TopicIsLocked'],
 			'content' => $lang['TopicIsLockedExplain']
 		));
@@ -68,7 +68,7 @@ if ( !$db->num_rows($result) ) {
 	} elseif ( !$topicdata['forum_status'] && $functions->get_user_level() != 3 ) {
 		
 		$template->set_page_title($lang['ForumIsLocked']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['ForumIsLocked'],
 			'content' => $lang['ForumIsLockedExplain']
 		));
@@ -107,7 +107,7 @@ if ( !$db->num_rows($result) ) {
 			
 			if ( $session->sess_info['user_id'] ) {
 				
-				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
 					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);
 				
 			}
@@ -124,8 +124,8 @@ if ( !$db->num_rows($result) ) {
 			
 			$template->set_page_title(sprintf($lang['ReplyTo'], htmlentities(stripslashes($topicdata['topic_title']))));
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('location_arrow').' '.$lang['PostReply'];
-			$template->parse('location_bar', array(
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostReply'];
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			
@@ -140,7 +140,7 @@ if ( !$db->num_rows($result) ) {
 				
 				if ( !empty($_GET['quotepost']) && is_numeric($_GET['quotepost']) ) {
 					
-					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost'])) )
+					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost'])) )
 						$functions->usebb_die('SQL', 'Unable to get quoted post!', __FILE__, __LINE__);
 					
 					if ( $db->num_rows($result) ) {
@@ -172,7 +172,7 @@ if ( !$db->num_rows($result) ) {
 				
 				if ( count($errors) ) {
 					
-					$template->parse('msgbox', array(
+					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Error'],
 						'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 					));
@@ -198,7 +198,7 @@ if ( !$db->num_rows($result) ) {
 				$options_input[] = '<input type="checkbox" name="lock_topic" id="lock_topic" value="1"'.$lock_topic_checked.' /><label for="lock_topic"> '.$lang['LockTopicAfterPost'].'</label>';
 			$options_input = join('<br />', $options_input);
 			
-			$template->parse('post_form', array(
+			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
 				'username' => $lang['Username'],
@@ -214,7 +214,7 @@ if ( !$db->num_rows($result) ) {
 				'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
 			));
 			
-			$template->parse('location_bar', array(
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			

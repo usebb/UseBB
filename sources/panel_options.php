@@ -53,7 +53,7 @@ if ( !empty($_POST['submitted']) ) {
 	$_POST['quickreply'] = ( !empty($_POST['quickreply']) ) ? 1 : 0;
 	$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;
 	
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET
+	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		language        = '".$_POST['language']."',
 		template        = '".$_POST['template']."',
 		email_show      = ".$_POST['email_show'].",
@@ -66,7 +66,7 @@ if ( !empty($_POST['submitted']) ) {
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => $lang['OptionsEdited']
 	));
@@ -126,7 +126,7 @@ if ( !empty($_POST['submitted']) ) {
 	$quickreply_checked = ( $session->sess_info['user_info']['enable_quickreply'] ) ? ' checked="checked"' : '';
 	$return_to_topic_checked = ( $session->sess_info['user_info']['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
 	
-	$template->parse('edit_options', array(
+	$template->parse('edit_options', 'global', array(
 		'form_begin'            => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',
 		'edit_options'          => $lang['EditOptions'],
 		'language'              => $lang['Language'],

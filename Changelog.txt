@@ -14,8 +14,11 @@ UseBB 0.3 Changelog
 - Fixed server load to work on some systems.
 - Fixed Undefined index: NoSuchUser on send new password page.
 - Server load in template parser moved to function class.
+- Forum stats box moved to function class.
 - Avatars now have an empty alternate text - looks better in Mozilla when image is
 	unavailable.
+- Configuration, templates and translations moved to file system out of SQL DB.
+- Adjusted template engine and configuration and translation functions.
 - Some adjustments and upgrades to several templates.
 - Removed non-standard opacity attributes for small buttons at the page bottom.
 

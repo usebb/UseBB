@@ -44,7 +44,7 @@ header("Content-Type: text/css");
 //
 // Parse the CSS
 //
-$template->parse('css');
+$template->parse('css', 'global');
 
 //
 // Output the body

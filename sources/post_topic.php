@@ -48,7 +48,7 @@ if ( !$db->num_rows($result) ) {
 	// This forum does not exist, show an error
 	//
 	$template->set_page_title($lang['Error']);
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Error'],
 		'content' => sprintf($lang['NoSuchForum'], 'ID '.$_GET['forum'])
 	));
@@ -60,7 +60,7 @@ if ( !$db->num_rows($result) ) {
 	if ( !$forumdata['status'] && $functions->get_user_level() != 3 ) {
 		
 		$template->set_page_title($lang['ForumIsLocked']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['ForumIsLocked'],
 			'content' => $lang['ForumIsLockedExplain']
 		));
@@ -105,7 +105,7 @@ if ( !$db->num_rows($result) ) {
 			
 			if ( $session->sess_info['user_id'] ) {
 				
-				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
+				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
 					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);
 				
 			}
@@ -125,8 +125,8 @@ if ( !$db->num_rows($result) ) {
 			
 			$template->set_page_title($lang['PostNewTopic']);
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a> '.$template->get_config('location_arrow').' '.$lang['PostNewTopic'];
-			$template->parse('location_bar', array(
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.$lang['PostNewTopic'];
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			
@@ -159,7 +159,7 @@ if ( !$db->num_rows($result) ) {
 				
 				if ( count($errors) ) {
 					
-					$template->parse('msgbox', array(
+					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Error'],
 						'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 					));
@@ -188,7 +188,7 @@ if ( !$db->num_rows($result) ) {
 				$options_input[] = '<input type="checkbox" name="sticky_topic" id="sticky_topic" value="1"'.$sticky_topic_checked.' /><label for="sticky_topic"> '.$lang['MakeTopicSticky'].'</label>';
 			$options_input = join('<br />', $options_input);
 			
-			$template->parse('post_form', array(
+			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('forum' => $_GET['forum'])).'" method="post">',
 				'post_title' => $lang['PostNewTopic'],
 				'username' => $lang['Username'],
@@ -204,7 +204,7 @@ if ( !$db->num_rows($result) ) {
 				'form_end' => '<input type="hidden" name="submitted" value="true" /></form>'
 			));
 			
-			$template->parse('location_bar', array(
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			

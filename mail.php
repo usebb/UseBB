@@ -76,12 +76,12 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			$own_mailpage = FALSE;
 			
-			if ( !($result = $db->query("SELECT name, email, email_show FROM ".TABLE_PREFIX."users WHERE id = ".$_GET['id'])) )
+			if ( !($result = $db->query("SELECT name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id'])) )
 				$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 			
 		}
 		
-		if ( $db->num_rows($result) === 1 || $own_mailpage ) {
+		if ( $own_mailpage || $db->num_rows($result) ) {
 			
 			if ( $own_mailpage )
 				$user_to_mail = $session->sess_info['user_info'];
@@ -96,7 +96,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				// You can't e-mail this user if he/she chose not to receive e-mails
 				// unless you are an admin or your are trying to e-mail yourself :p
 				//
-				$template->parse('msgbox', array(
+				$template->parse('msgbox', 'global', array(
 					'box_title' => $lang['Error'],
 					'content' => $lang['NoMails']
 				));
@@ -115,7 +115,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'body' => $_POST['body']
 					), $session->sess_info['user_info']['name'], $session->sess_info['user_info']['email'], $user_to_mail['email']);
 					
-					$template->parse('msgbox', array(
+					$template->parse('msgbox', 'global', array(
 						'box_title' => sprintf($lang['SendEmail'], $user_to_mail['name']),
 						'content' => sprintf($lang['EmailSent'], '<i>'.$user_to_mail['name'].'</i>')
 					));
@@ -138,7 +138,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						//
 						if ( count($errors) ) {
 							
-							$template->parse('msgbox', array(
+							$template->parse('msgbox', 'global', array(
 								'box_title' => $lang['Error'],
 								'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 							));
@@ -152,7 +152,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlentities($_POST['subject']) : '';
 					$_POST['body'] = ( !empty($_POST['body']) ) ? htmlentities($_POST['body']) : '';
-					$template->parse('mail_form', array(
+					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], $user_to_mail['name']),
 						'to' => $lang['To'],
@@ -179,7 +179,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// This user does not exist, show an error
 			//
 			$template->set_page_title($lang['Error']);
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])
 			));

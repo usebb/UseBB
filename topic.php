@@ -65,7 +65,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// This post does not exist, show an error
 			//
 			$template->set_page_title($lang['Error']);
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
 			));
@@ -100,7 +100,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 		// This topic does not exist, show an error
 		//
 		$template->set_page_title($lang['Error']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['id'])
 		));
@@ -121,25 +121,25 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			// Make the location bar
 			//
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('location_arrow').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($topicdata['topic_title']));
-			$template->parse('location_bar', array(
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' <a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.htmlentities(stripslashes($topicdata['forum_name'])).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($topicdata['topic_title']));
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			
 			//
 			// Get all the posts in one query
 			//
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank, u.avatar_type, u.avatar_remote, u.posts, u.regdate, u.location, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
+			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.name AS poster_name, u.level AS poster_level, u.rank, u.avatar_type, u.avatar_remote, u.posts, u.regdate, u.location, u.signature FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$_GET['id']." ORDER BY p.post_time ASC")) )
 				$functions->usebb_die('SQL', 'Unable to get posts in topic!', __FILE__, __LINE__);
 			
-			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('new_topic_icon').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
+			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
-			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('reply_icon').'" alt="'.$lang['PostReply'].'" /></a>' : '';
+			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('reply_button').'" alt="'.$lang['PostReply'].'" /></a>' : '';
 			
 			//
 			// Output the posts
 			//
-			$template->parse('topic_header', array(
+			$template->parse('topic_header', 'topic', array(
 				'author' => $lang['Author'],
 				'post' => $lang['Post'],
 				'new_topic_link' => $new_topic_link,
@@ -226,11 +226,11 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				$post_links = array();
 				if ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('edit_icon').'" alt="'.$lang['Edit'].'" /></a>';
+					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('edit_button').'" alt="'.$lang['Edit'].'" /></a>';
 				if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('delete_icon').'" alt="'.$lang['Delete'].'" /></a>';
+					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('delete_button').'" alt="'.$lang['Delete'].'" /></a>';
 				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
-					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('quote_icon').'" alt="'.$lang['Quote'].'" /></a>';
+					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $_GET['id'], 'quotepost' => $postsdata['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('quote_button').'" alt="'.$lang['Quote'].'" /></a>';
 				if ( count($post_links) )
 					$post_links = join(' ', $post_links);
 				else
@@ -239,7 +239,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				// Output the post
 				//
-				$template->parse('topic_post', array(
+				$template->parse('topic_post', 'topic', array(
 					'poster_name' => $poster_name,
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
@@ -283,13 +283,13 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			}
 			$action_links = join(' '.$template->get_config('item_delimiter').' ', $action_links);
 			
-			$template->parse('topic_footer', array(
+			$template->parse('topic_footer', 'topic', array(
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
 				'action_links' => $action_links
 			));
 			
-			$template->parse('location_bar', array(
+			$template->parse('location_bar', 'global', array(
 				'location_bar' => $location_bar
 			));
 			
@@ -304,7 +304,7 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 				//
 				$username = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
 				
-				$template->parse('quick_reply', array(
+				$template->parse('quick_reply', 'topic', array(
 					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'" method="post">',
 					'quick_reply' => $lang['QuickReply'],
 					'username' => $lang['Username'],

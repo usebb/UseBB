@@ -53,14 +53,14 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	// Check if this username already exists
 	//
-	if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
+	if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
 		$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 	if ( $db->num_rows($result) == 1 ) {
 		
 		//
 		// If it does, show this error
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['UserAlreadyExists'], '<i>'.$_POST['user'].'</i>')
 		));
@@ -134,14 +134,14 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		
 		if ( $username_banned ) {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['BannedUsername'], '<i>'.$_POST['user'].'</i>')
 			));
 			
 		} elseif ( $email_banned ) {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['BannedEmail'], $_POST['email'])
 			));
@@ -154,7 +154,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
 			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 			
-			if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."users")) )
+			if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."members")) )
 				$functions->usebb_die('SQL', 'Unable to get user count!', __FILE__, __LINE__);
 			if ( $db->num_rows($result) == 0 )
 				$level = 3;
@@ -166,7 +166,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			// Create a new row in the user table
 			//
-			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."users ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting')." )")) )
+			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting')." )")) )
 				$functions->usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
 			
 			if ( $functions->get_config('users_must_activate') ) {
@@ -201,7 +201,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			//
 			// Registration was succesful!
 			//
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Register'],
 				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<i>'.$_POST['user'].'</i>', $_POST['email'])
 			));
@@ -236,7 +236,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		if ( count($errors) ) {
 			
-			$template->parse('msgbox', array(
+			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 			));
@@ -250,7 +250,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
-	$template->parse('register_form', array(
+	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'register_form'       => $lang['Register'],
 		'user'                => $lang['Username'],
@@ -280,7 +280,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	
 	$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
 	
-	$template->parse('confirm_form', array(
+	$template->parse('confirm_form', 'global', array(
 		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'title' => $lang['TermsOfUse'],
 		'content' => nl2br(htmlentities($lang['TermsOfUseContent'])),

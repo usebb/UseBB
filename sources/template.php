@@ -37,144 +37,83 @@ class template {
 	//
 	// Variables
 	//
-	var $config;
-	var $needed;
-	var $requests;
+	var $loaded_sections;
 	var $templates;
+	var $body;
 	
-	//
-	// Get configuration variables
-	//
+	function template() {
+		
+		$this->loaded_sections = array();
+		$this->templates = array();
+		$this->body = '';
+		
+	}
+	
 	function get_config($setting) {
 		
-		global $db, $functions;
+		global $functions;
 		
-		if ( !isset($this->config) ) {
+		if ( !in_array('global', $this->loaded_sections) ) {
 			
-			$this->config = array();
+			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/global.php';
+			if ( !file_exists($templates_file) || !is_readable($templates_file) )
+				$functions->usebb_die('General', 'Unable to load global templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+			else
+				require($templates_file);
 			
-			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates_config WHERE template = '".$functions->get_config('template')."'")) )
-				$functions->usebb_die('SQL', 'Unable to get template configuration!', __FILE__, __LINE__);
-			while ( $out = $db->fetch_result($result) )
-				$this->config[$out['name']] = stripslashes($out['content']);
+			$this->templates = array_merge($this->templates, $templates);
+			$this->loaded_sections[] = $section;
+			unset($templates);
 			
 		}
 		
-		if ( isset($this->config[$setting]) )
-			return $this->config[$setting];
+		if ( isset($this->templates['config'][$setting]) )
+			return $this->templates['config'][$setting];
 		else
 			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
 		
 	}
 	
-	//
-	// Add a template request and variables to the $requests var
-	//
-	function parse($name, $vars=array()) {
+	function parse($name='', $section, $vars=array()) {
 		
-		global $functions, $lang;
+		global $functions;
 		
-		//
-		// Add this template name
-		//
-		$this->needed = ( !is_array($this->needed) ) ? array() : $this->needed;
-		if ( !in_array($name, $this->needed) )
-			$this->needed[] = $name;
+		if ( !in_array($section, $this->loaded_sections) ) {
+			
+			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.php';
+			if ( !file_exists($templates_file) || !is_readable($templates_file) )
+				$functions->usebb_die('General', 'Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+			else
+				require($templates_file);
+			
+			$this->templates = array_merge($this->templates, $templates);
+			$this->loaded_sections[] = $section;
+			unset($templates);
+			
+		}
 		
-		//
-		// Add some standard variables
-		//
-		$vars = ( !is_array($vars) ) ? array() : $vars;
-		$vars['img_dir'] = 'gfx/'.$functions->get_config('template').'/';
-		$vars['lang'] = $functions->get_config('language');
+		$vars = ( is_array($vars) && count($vars) ) ? $vars : array();
+		$vars['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
 		
-		//
-		// Save the template vars
-		//
-		$this->requests = ( !is_array($this->requests) ) ? array() : $this->requests;
-		$this->requests[] = array(
-			'name' => $name,
-			'vars' => $vars
-		);
+		if ( !isset($this->templates[$name]) )
+			$functions->usebb_die('General', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+		
+		$current_template = $this->templates[$name];
+		foreach ( $vars as $key => $val )
+			$current_template = str_replace('{'.$key.'}', $val, $current_template);
+		$this->body .= $current_template;
 		
 	}
 	
-	//
-	// Replace {page_title} in every template by the given title
-	//
 	function set_page_title($title) {
 		
-		if ( is_array($this->requests) && count($this->requests) ) {
-			
-			foreach ( $this->requests as $key => $val ) {
-				
-				if ( is_array($this->requests[$key]['vars']) )
-					$this->requests[$key]['vars']['page_title'] = htmlentities($title);
-				
-			}
-			
-		}
+		$this->body = str_replace('{page_title}', $title, $this->body);
 		
 	}
 	
-	//
-	// Build and echo the page body
-	//
 	function body($enable_compression=true, $enable_debugmessages=true) {
 		
-		global $functions, $db, $timer;
-		
-		//
-		// If there are any templates parsed
-		//
-		if ( is_array($this->needed) && count($this->needed) ) {
-			
-			//
-			// Get all the templates we need
-			//
-			foreach ( $this->needed as $val )
-				$query_where_part[] = "'".$val."'";
-			$query_where_part = '( '.join(', ', $query_where_part).' )';
-			if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates WHERE template = '".$functions->get_config('template')."' AND name IN ".$query_where_part)) )
-				$functions->usebb_die('SQL', 'Unable to get contents of template "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
-			$this->templates = array();
-			while ( $templates = $db->fetch_result($result) )
-				$this->templates[$templates['name']] = stripslashes($templates['content']);
-			
-			$body = '';
-			
-			//
-			// Build each template
-			//
-			foreach ( $this->requests as $request ) {
-				
-				//
-				// When variables has been passed
-				//
-				if ( is_array($request['vars']) && count($request['vars']) > 0 ) {
-					
-					//
-					// Parse the variables and add it to the body
-					//				
-					if ( !isset($this->templates[$request['name']]) )
-						$functions->usebb_die('Template', 'Missing template "'.$request['name'].'"!', __FILE__, __LINE__);
-					$current_template = $this->templates[$request['name']];
-					foreach ( $request['vars'] as $key => $val )
-						$current_template = str_replace('{'.$key.'}', $val, $current_template);
-					$body .= $current_template."\n";
-					
-				} else {
-					
-					//
-					// Just add the template to the body
-					//
-					$body .= $this->templates[$request['name']];
-					
-				}
-				
-			}
-			
-		}
+		global $db, $functions, $timer;
 		
 		//
 		// Debug features
@@ -199,21 +138,21 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPL: '.count($this->needed).' - SQL: '.count($db->queries).'</small></div>';
+				$debug_output = '<div align="center"><small>PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->queries).'</small></div>';
 				
 			} elseif ( intval($functions->get_config('debug')) === 2 ) {
 				
 				//
 				// Lists parsetime and queries fully
 				//
-				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used templates ('.count($this->needed).'): <select size="1"><option value="">'.join('</option><option value="">', $this->needed).'</option></select><br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div>';
+				$debug_output = '<div><b>Debug mode</b><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->queries).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlentities(join("\n\n", $db->queries)).'</textarea></div>';
 				
 			}
 			
-			if ( preg_match('#</body>#i', $body) )
-				$body = preg_replace('#</body>#i', $debug_output.'</body>', $body);
+			if ( preg_match('#</body>#i', $this->body) )
+				$this->body = preg_replace('#</body>#i', $debug_output.'</body>', $this->body);
 			else
-				$body .= $debug_output;
+				$this->body .= $debug_output;
 			
 		}
 		
@@ -222,7 +161,7 @@ class template {
 		//
 		if ( intval($functions->get_config('output_compression')) === 1 ) {
 			
-			$body = $functions->compress_sourcecode($body);
+			$this->body = $functions->compress_sourcecode($this->body);
 			
 		} elseif ( intval($functions->get_config('output_compression')) === 2 ) {
 			
@@ -231,11 +170,11 @@ class template {
 		} elseif ( intval($functions->get_config('output_compression')) === 3 ) {
 			
 			ob_start('ob_gzhandler');
-			$body = $functions->compress_sourcecode($body);
+			$this->body = $functions->compress_sourcecode($this->body);
 			
 		}
 		
-		echo $body;
+		echo $this->body;
 		
 	}
 	

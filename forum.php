@@ -58,7 +58,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		// This forum does not exist, show an error
 		//
 		$template->set_page_title($lang['Error']);
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchForum'], 'ID '.$_GET['id'])
 		));
@@ -82,19 +82,19 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			if ( !$functions->get_config('kick_user_to_only_viewable_forum') || intval($functions->get_stats('forums')) > 1 ) {
 				
-				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']));
-				$template->parse('location_bar', array(
+				$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('locationbar_item_delimiter').' '.htmlentities(stripslashes($forumdata['name']));
+				$template->parse('location_bar', 'global', array(
 					'location_bar' => $location_bar
 				));
 				
 			}
 			
-			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="gfx/'.$functions->get_config('template').'/'.$functions->get_config('language').'/'.$template->get_config('new_topic_icon').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
+			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'"><img src="templates/'.$functions->get_config('template').'/gfx/'.$functions->get_config('language').'/'.$template->get_config('new_topic_button').'" alt="'.$lang['PostNewTopic'].'" /></a>' : '';
 			
 			//
 			// Output the topic list
 			//
-			$template->parse('topiclist_header', array(
+			$template->parse('topiclist_header', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
 				'topic' => $lang['Topic'],
 				'author' => $lang['Author'],
@@ -108,7 +108,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				//
 				// Get the topic list information in one query
 				//
-				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."users u2 ON p2.poster_id = u2.id WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC")) )
+				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC")) )
 					$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
 				
 				while ( $topicdata = $db->fetch_result($result) ) {
@@ -124,7 +124,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					// Parse the topic template
 					//
-					$template->parse('topiclist_topic', array(
+					$template->parse('topiclist_topic', 'topiclist', array(
 						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 						'topic_name' => $topic_name,
@@ -141,7 +141,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				//
 				// There are no topics yet...
 				//
-				$template->parse('topiclist_notopics', array(
+				$template->parse('topiclist_notopics', 'topiclist', array(
 					'notopics' => $lang['NoTopics']
 				));
 				
@@ -150,7 +150,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			//
 			// Get a list of forum moderators
 			//
-			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."users u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id ORDER BY u.name")) )
+			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id ORDER BY u.name")) )
 				$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
 			if ( !$db->num_rows($result) ) {
 				
@@ -180,7 +180,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			// Topiclist footer and location bar
 			//
 			
-			$template->parse('topiclist_footer', array(
+			$template->parse('topiclist_footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
 				'forum_moderators' => sprintf($lang['ModeratorsInThisForum'], $forum_moderators)
 			));
@@ -195,7 +195,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 			} else {
 				
-				$template->parse('location_bar', array(
+				$template->parse('location_bar', 'global', array(
 					'location_bar' => $location_bar
 				));
 				

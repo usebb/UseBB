@@ -52,7 +52,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	// No forums have been found. Output this notice.
 	//
-	$template->parse('msgbox', array(
+	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => $lang['NoForums']
 	));
@@ -67,7 +67,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	// Get the forums and categories out of the database
 	//
-	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name, u.level AS poster_level FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
+	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name, u.level AS poster_level FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
 		$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
 	
 	//
@@ -108,7 +108,7 @@ if ( !$functions->get_stats('forums') ) {
 				// A forumlist heading needs to be parsed because there is at least
 				// one viewable forum. Parse it if this hasn't been done yet.
 				//
-				$template->parse('forumlist_header', array(
+				$template->parse('forumlist_header', 'forumlist', array(
 					'forum' => $lang['Forum'],
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
@@ -127,7 +127,7 @@ if ( !$functions->get_stats('forums') ) {
 				//
 				// If we didn't parse this category yet, than do it now
 				//
-				$template->parse('forumlist_cat', array(
+				$template->parse('forumlist_cat', 'forumlist', array(
 					'forum' => $lang['Forum'],
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
@@ -168,7 +168,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				$template->parse('forumlist_forum', array(
+				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => ( $forumdata['status'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
@@ -196,7 +196,7 @@ if ( !$functions->get_stats('forums') ) {
 		// There were no viewable forums.
 		// Show this notice
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
 			'content' => $lang['NoViewableForums']
 		));
@@ -207,7 +207,7 @@ if ( !$functions->get_stats('forums') ) {
 		// There were viewable forums,
 		// so parse the forumlist footer
 		//
-		$template->parse('forumlist_footer');
+		$template->parse('forumlist_footer', 'forumlist');
 		
 	}
 	

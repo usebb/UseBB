@@ -54,7 +54,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	//
 	// Get information about this username
 	//
-	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
+	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
 		$functions->usebb_die('SQL', 'Unable to get user entry!', __FILE__, __LINE__);
 	$userdata = $db->fetch_result($result);
 	
@@ -66,7 +66,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		//
 		// ...show a warning
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchMember'], '<i>'.$_POST['user'].'</i>').' '.$lang['RegisterIt']
 		));
@@ -77,7 +77,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// It does exist, but it is banned
 		// thus, show another warning...
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
 			'content' => sprintf($lang['BannedUserExplain'], '<i>'.$_POST['user'].'</i>') . '<br />' . $userdata['banned_reason']
 		));
@@ -88,7 +88,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// It does exist, but it hasn't been activated yet
 		// thus, show another warning...
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NotActivated'], '<i>'.$_POST['user'].'</i>')
 		));
@@ -99,7 +99,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// Only admins can log in when the forum is closed.
 		// Show a warning to users...
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => $lang['BoardClosedOnlyAdmins']
 		));
@@ -129,7 +129,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// The password was not correct
 		// another warning
 		//
-		$template->parse('msgbox', array(
+		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => $lang['WrongPassword']
 		));
@@ -157,7 +157,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			
 			if ( count($errors) ) {
 				
-				$template->parse('msgbox', array(
+				$template->parse('msgbox', 'global', array(
 					'box_title' => $lang['Error'],
 					'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 				));
@@ -177,7 +177,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			
 		}
 		
-		$template->parse('login_form', array(
+		$template->parse('login_form', 'various', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],
 			'user'           => $lang['Username'],

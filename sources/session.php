@@ -186,7 +186,7 @@ class session {
 					
 				} else {
 					
-					if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$cookie_data[0])) )
+					if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0])) )
 						$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 					
 					if ( $db->num_rows($result) > 0 ) {
@@ -257,7 +257,7 @@ class session {
 			
 			if ( $user_id > 0 && !isset($user_info) ) {
 				
-				if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$user_id)) )
+				if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id)) )
 					$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 				
 				if ( $db->num_rows($result) > 0 ) {
@@ -290,7 +290,7 @@ class session {
 				
 				if ( $user_id > 0 ) {
 					
-					if ( !$db->query("UPDATE ".TABLE_PREFIX."users SET last_login = ".$current_time." WHERE id = ".$user_id) )
+					if ( !$db->query("UPDATE ".TABLE_PREFIX."members SET last_login = ".$current_time." WHERE id = ".$user_id) )
 						$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 					
 				} else {

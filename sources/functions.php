@@ -833,7 +833,7 @@ class functions {
 		//
 		// Parse the online box
 		//
-		$template->parse('forumlist_stats', 'forumlist', array(
+		$template->parse('forum_stats_box', 'various', array(
 			'stats_title' => $lang['Statistics'],
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => current($this->get_stats('latest_member')))).'">'.next($this->get_stats('latest_member')).'</a>'),

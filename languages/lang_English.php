@@ -361,4 +361,4 @@ Click the following link if you wish to unsubscribe from the topic (requires log
 [admin_email]';
 $lang['NewReplyEmailSubject'] = 'New reply in "%s"';
 $lang['SubscribedTopic'] = 'You are now subscribed to this topic.';
-$lang['UnsubscribedTopic'] = 'You are now unsubscribed to this topic.';
+$lang['UnsubscribedTopic'] = 'You are now unsubscribed from this topic.';

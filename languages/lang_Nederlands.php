@@ -350,3 +350,15 @@ $lang['PostEditInfo'] = 'Laatste aanpassing door %s op %s.';
 $lang['PasswdInfo'] = 'Het wachtwoord kan geen spaties of aanhalingstekens bevatten. Minimum lengte is %d karakters.';
 $lang['SubscribeTopic'] = 'Inschrijven';
 $lang['UnsubscribeTopic'] = 'Uitschrijven';
+$lang['NewReplyEmailBody'] = 'Hallo,
+
+Dit is de forumsoftware van [board_name]. Iemand ([poster_name]) heeft een antwoord geplaatst op een onderwerp waar je op ingeschreven bent ("[topic_title]"). Om het antwoord te zien, klik op de volgende link: [topic_link].
+
+Klik op de volgende link om jezelf van het onderwerp uit te schrijven (vereist login): [unsubscribe_link].
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['NewReplyEmailSubject'] = 'Nieuw antwoord in "%s"';
+$lang['SubscribedTopic'] = 'Je bent nu op dit onderwerp ingeschreven.';
+$lang['UnsubscribedTopic'] = 'Je bent nu van dit onderwerp uitgeschreven.';

@@ -92,7 +92,7 @@ if ( !empty($_POST['submitted']) ) {
 	if ( count($functions->get_config('available_templates')) < 2 ) {
 		
 		$single_template = $functions->get_config('available_templates');
-		$template_input = $single_template;
+		$template_input = $single_template[0];
 		
 	} else {
 		

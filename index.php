@@ -103,7 +103,7 @@ if ( !$functions->get_stats('forums') ) {
 		// If this is the only (viewable) forum and the forum has been set up
 		// to kick the user to this only (viewable) forum ...
 		//
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $forumdata['id']), false));
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $forums[0]['id']), false));
 		exit();
 		
 	} else {

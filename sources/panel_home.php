@@ -41,7 +41,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		//
 		// Set the AL cookie
 		//
-		usebb_set_al($sess_info['user_id'].':'.$sess_info['user_info']['passwd']);
+		$functions->set_al($sess_info['user_id'].':'.$sess_info['user_info']['passwd']);
 		$msgbox_content = $lang['AutoLoginSet'];
 		
 	} elseif ( $_GET['al'] == 0 ) {
@@ -49,7 +49,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		//
 		// Unset the AL cookie
 		//
-		usebb_unset_al();
+		$functions->unset_al();
 		$msgbox_content = $lang['AutoLoginUnset'];
 		
 	}
@@ -66,11 +66,11 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 	//
 	if ( isset($_COOKIE[$config['session_name'].'_al']) ) {
 		
-		$al_controls = $lang['Enabled'] . ' <a href="'.usebb_make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
+		$al_controls = $lang['Enabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 0)).'">('.strtolower($lang['Disable']).')</a>';
 		
 	} else {
 		
-		$al_controls = $lang['Disabled'] . ' <a href="'.usebb_make_url('panel.php', array('al' => 1)).'">('.strtolower($lang['Enable']).')</a>';
+		$al_controls = $lang['Disabled'] . ' <a href="'.$functions->make_url('panel.php', array('al' => 1)).'">('.strtolower($lang['Enable']).')</a>';
 		
 	}
 	
@@ -81,7 +81,7 @@ if ( isset($_GET['al']) && is_numeric($_GET['al']) ) {
 		'ip_addr' => $lang['IPAddress'],
 		'ip_addr_v' => $sess_info['ip_addr'],
 		'updated' => $lang['Updated'],
-		'updated_v' => usebb_make_date($sess_info['updated']),
+		'updated_v' => $functions->make_date($sess_info['updated']),
 		'pages' => $lang['Pages'],
 		'pages_v' => $sess_info['pages'],
 		'al' => $lang['AutoLogin'],

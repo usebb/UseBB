@@ -44,14 +44,14 @@ if ( md5($_POST['current_passwd']) == $sess_info['user_info']['passwd'] && strle
 	// Update the password
 	//
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$sess_info['user_id'])) )
-		usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
 	if ( isset($_COOKIE[$config['session_name'].'_al']) ) {
 		
 		//
 		// Renew AL cookie
 		//
-		usebb_set_al($sess_info['user_id'].':'.md5($_POST['new_passwd1']));
+		$functions->set_al($sess_info['user_id'].':'.md5($_POST['new_passwd1']));
 		
 	}
 	
@@ -87,7 +87,7 @@ if ( md5($_POST['current_passwd']) == $sess_info['user_info']['passwd'] && strle
 	}
 	
 	$template->parse('editpwd_form', array(
-		'form_begin'           => '<form action="'.usebb_make_url('panel.php', array('a' => 'editpwd')).'" method="post">',
+		'form_begin'           => '<form action="'.$functions->make_url('panel.php', array('a' => 'editpwd')).'" method="post">',
 		'edit_pwd'             => $lang['EditPasswd'],
 		'current_passwd'       => $lang['CurrentPassword'],
 		'current_passwd_input' => '<input type="password" name="current_passwd" size="25" maxlength="255" />',

@@ -83,7 +83,7 @@ class template {
 	//
 	function body() {
 		
-		global $config, $db, $timer;
+		global $functions, $config, $db, $timer;
 		
 		//
 		// Get all the templates we need
@@ -92,7 +92,7 @@ class template {
 			$query_where_part[] = "'".$val."'";
 		$query_where_part = '( '.join(', ', $query_where_part).' )';
 		if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."templates WHERE template = '".$config['template']."' AND name IN ".$query_where_part)) )
-			usebb_die('SQL', 'Unable to get contents of template "'.$config['template'].'"!', __FILE__, __LINE__);
+			$functions->usebb_die('SQL', 'Unable to get contents of template "'.$config['template'].'"!', __FILE__, __LINE__);
 		while ( $templates = $db->fetch_result($result) )
 			$this->templates[$templates['name']] = stripslashes($templates['content']);
 		
@@ -112,7 +112,7 @@ class template {
 				// Parse the variables and add it to the body
 				//				
 				if ( !isset($this->templates[$request['name']]) )
-					usebb_die('Template', 'Missing template "'.$request['name'].'"!', __FILE__, __LINE__);
+					$functions->usebb_die('Template', 'Missing template "'.$request['name'].'"!', __FILE__, __LINE__);
 				$current_template = $this->templates[$request['name']];
 				foreach ( $request['vars'] as $key => $val )
 					$current_template = str_replace('{'.$key.'}', $val, $current_template);

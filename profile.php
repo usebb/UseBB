@@ -74,7 +74,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$own_profile = FALSE;
 			
 			if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$_GET['id'])) )
-				usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 			
 		}
 		
@@ -97,11 +97,11 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				// View the panel menu if the user is viewing his own profile
 				//
 				$template->parse('panel_menu', array(
-					'panel_home' => '<a href="'.usebb_make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
-					'view_profile' => '<a href="'.usebb_make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-					'panel_profile' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
-					'panel_options' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
-					'panel_passwd' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
+					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
+					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
+					'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
+					'panel_options' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
+					'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
 				));
 				
 			}
@@ -121,7 +121,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			}
 			
 			if ( $profiledata['last_login_show'] || $own_profile || ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] == 3 ) )
-				$last_login = ( $profiledata['last_login'] != 0 ) ? usebb_make_date($profiledata['last_login']) : $lang['Never'];
+				$last_login = ( $profiledata['last_login'] != 0 ) ? $functions->make_date($profiledata['last_login']) : $lang['Never'];
 			else
 				$last_login = $lang['Hidden'];
 			
@@ -143,7 +143,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'avatar'        => $lang['Avatar'],
 				'avatar_v'      => $avatar,
 				'regdate'       => $lang['Registered'],
-				'regdate_v'     => usebb_make_date($profiledata['regdate']),
+				'regdate_v'     => $functions->make_date($profiledata['regdate']),
 				'posts'         => $lang['Posts'],
 				'posts_v'       => $profiledata['posts'],
 				'postsperday'   => $lang['PostsPerDay'],
@@ -159,10 +159,10 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				'interests'     => $lang['Interests'],
 				'interests_v'   => stripslashes($profiledata['interests']),
 				'signature'     => $lang['Signature'],
-				'signature_v'   => usebb_markup(stripslashes($profiledata['signature']), true, true),
+				'signature_v'   => $functions->markup(stripslashes($profiledata['signature']), true, true),
 				'contact_info'  => $lang['ContactInfo'],
 				'email'         => $lang['Email'],
-				'email_v'       => usebb_show_email($profiledata),
+				'email_v'       => $functions->show_email($profiledata),
 				'msnm'          => $lang['MSNM'],
 				'msnm_v'        => stripslashes($profiledata['msnm']),
 				'yahoom'        => $lang['YahooM'],

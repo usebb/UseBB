@@ -81,7 +81,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$own_mailpage = FALSE;
 			
 			if ( !($result = $db->query("SELECT name, email, email_show FROM ".TABLE_PREFIX."users WHERE id = ".$_GET['id'])) )
-				usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 			
 		}
 		
@@ -114,7 +114,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					//
 					// All information is passed, now send the mail
 					//
-					usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
+					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
 						'username' => $sess_info['user_info']['name'],
 						'board_name' => $config['board_name'],
 						'board_link' => $config['board_url'],
@@ -158,12 +158,12 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlentities($_POST['subject']) : '';
 					$_POST['body'] = ( !empty($_POST['body']) ) ? htmlentities($_POST['body']) : '';
 					$template->parse('mail_form', array(
-						'form_begin' => '<form action="'.usebb_make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
+						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], $user_to_mail['name']),
 						'to' => $lang['To'],
-						'to_v' => '<a href="'.usebb_make_url('profile.php', array('id' => $_GET['id'])).'">'.$user_to_mail['name'].'</a>',
+						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.$user_to_mail['name'].'</a>',
 						'from' => $lang['From'],
-						'from_v' => '<a href="'.usebb_make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$sess_info['user_info']['name'].'</a>',
+						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$sess_info['user_info']['name'].'</a>',
 						'subject' => $lang['Subject'],
 						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="12" cols="60" name="body">'.$_POST['body'].'</textarea>',

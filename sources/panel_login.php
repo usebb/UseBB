@@ -54,7 +54,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 	// Get information about this username
 	//
 	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
-		usebb_die('SQL', 'Unable to get user entry!', __FILE__, __LINE__);
+		$functions->usebb_die('SQL', 'Unable to get user entry!', __FILE__, __LINE__);
 	$userdata = $db->fetch_result($result);
 	
 	//
@@ -115,7 +115,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		// Set a remember cookie if the user chose to
 		//
 		if ( !empty($_POST['remember']) && $_POST['remember'] == 'yes' )
-			usebb_set_al($userdata['id'].':'.$userdata['passwd']);
+			$functions->set_al($userdata['id'].':'.$userdata['passwd']);
 		
 		//
 		// Get us back to the previous page
@@ -145,7 +145,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		
 		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		$template->parse('login_form', array(
-			'form_begin'     => '<form action="'.usebb_make_url('panel.php', array('a' => 'login')).'" method="post">',
+			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('a' => 'login')).'" method="post">',
 			'login'          => $lang['LogIn'],
 			'user'           => $lang['Username'],
 			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',
@@ -155,8 +155,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			'remember_input' => '<input type="checkbox" name="remember" id="remember" value="yes" /> <label for="remember">'.$lang['Yes'].'</label>',
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" />',
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
-			'link_reg'       => '<a href="'.usebb_make_url('panel.php', array('a' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
-			'link_sendpwd'   => '<a href="'.usebb_make_url('panel.php', array('a' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
+			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('a' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
+			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('a' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
 			'form_end'       => '<input type="hidden" name="referer" value="'.$_SERVER['HTTP_REFERER'].'" /></form>'
 		));
 		

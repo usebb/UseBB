@@ -47,28 +47,32 @@ if ( !empty($_POST['submitted']) ) {
 		last_login_show = ".$last_login_show.",
 		date_format     = '".$_POST['date_format']."'
 	WHERE id = ".$sess_info['user_info']['id'])) )
-		usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
-	header('Location: index.php');
-	exit();
+	$template->parse('msgbox', array(
+		'box_title' => $lang['Note'],
+		'content' => $lang['OptionsEdited']
+	));
+	
+} else {
+	
+	$email_show_checked = ( $sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
+	$last_login_show_checked = ( $sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
+	
+	$template->parse('edit_options', array(
+		'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('a' => 'editoptions')).'" method="post">',
+		'edit_options'    => $lang['EditOptions'],
+		'email_show' => $lang['PublicEmail'],
+		'email_show_input' => '<input type="checkbox" name="email_show" id="email_show" value="yes"'.$email_show_checked.' /> <label for="email_show">'.$lang['Yes'].'</label>',
+		'last_login_show' => $lang['PublicLastLogin'],
+		'last_login_show_input' => '<input type="checkbox" name="last_login_show" id="last_login_show" value="yes"'.$last_login_show_checked.' /> <label for="last_login_show">'.$lang['Yes'].'</label>',
+		'date_format' => $lang['DateFormat'],
+		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$config['date_format'].'" />',
+		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
+		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
+		'form_end'         => '<input type="hidden" name="submitted" value="true" /></form>'
+	));
 	
 }
-
-$email_show_checked = ( $sess_info['user_info']['email_show'] ) ? ' checked="checked"' : '';
-$last_login_show_checked = ( $sess_info['user_info']['last_login_show'] ) ? ' checked="checked"' : '';
-
-$template->parse('edit_options', array(
-	'form_begin'     => '<form action="'.usebb_make_url('panel.php', array('a' => 'editoptions')).'" method="post">',
-	'edit_options'    => $lang['EditOptions'],
-	'email_show' => $lang['PublicEmail'],
-	'email_show_input' => '<input type="checkbox" name="email_show" id="email_show" value="yes"'.$email_show_checked.' /> <label for="email_show">'.$lang['Yes'].'</label>',
-	'last_login_show' => $lang['PublicLastLogin'],
-	'last_login_show_input' => '<input type="checkbox" name="last_login_show" id="last_login_show" value="yes"'.$last_login_show_checked.' /> <label for="last_login_show">'.$lang['Yes'].'</label>',
-	'date_format' => $lang['DateFormat'],
-	'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$config['date_format'].'" />',
-	'submit_button'    => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
-	'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
-	'form_end'         => '<input type="hidden" name="submitted" value="true" /></form>'
-));
 
 ?>

@@ -65,7 +65,7 @@ class session {
 	//
 	function update($location='', $user_id='') {
 		
-		global $config, $db, $_COOKIE;
+		global $functions, $config, $db, $_COOKIE;
 		
 		//
 		// Some required workarounds...
@@ -82,7 +82,7 @@ class session {
 		// Get banned IP addresses
 		//
 		if ( !($result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''")) )
-			usebb_die('SQL', 'Unable to get banned IP adresses!', __FILE__, __LINE__);
+			$functions->usebb_die('SQL', 'Unable to get banned IP adresses!', __FILE__, __LINE__);
 		$ip_banned = FALSE;
 		if ( $db->num_rows($result) > 0 ) {
 			
@@ -138,7 +138,7 @@ class session {
 			
 			$add_to_remove_query = join(' OR ', $add_to_remove_query);
 			if ( !$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".$add_to_remove_query) )
-				usebb_die('SQL', 'Unable to cleanup the session table!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to cleanup the session table!', __FILE__, __LINE__);
 			
 		}
 		
@@ -163,7 +163,7 @@ class session {
 			// Get information about the current session
 			//
 			if ( !($result = $db->query("SELECT user_id, started, location, pages FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".$this->sess_id."'")) )
-				usebb_die('SQL', 'Unable to get current session info!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to get current session info!', __FILE__, __LINE__);
 			$sess_info = $db->fetch_result($result);
 			
 			//
@@ -180,12 +180,12 @@ class session {
 				if ( !is_numeric($cookie_data[0]) || $cookie_data[0] <= 0 ) {
 					
 					$user_id = 0;
-					usebb_unset_al();
+					$functions->unset_al();
 					
 				} else {
 					
 					if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$cookie_data[0])) )
-						usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+						$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 					
 					if ( $db->num_rows($result) > 0 ) {
 						
@@ -202,19 +202,19 @@ class session {
 							// and renew the cookie (or it will not work anymore after a year)
 							//
 							$user_id = $cookie_data[0];
-							usebb_set_al($_COOKIE[$config['session_name'].'_al']);
+							$functions->set_al($_COOKIE[$config['session_name'].'_al']);
 							
 						} else {
 							
 							$user_id = 0;
-							usebb_unset_al();
+							$functions->unset_al();
 							
 						}
 						
 					} else {
 						
 						$user_id = 0;
-						usebb_unset_al();
+						$functions->unset_al();
 						
 					}
 					
@@ -256,7 +256,7 @@ class session {
 			if ( $user_id > 0 && !isset($user_info) ) {
 				
 				if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."users WHERE id = ".$user_id)) )
-					usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+					$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 				
 				if ( $db->num_rows($result) > 0 ) {
 					
@@ -279,7 +279,7 @@ class session {
 				$update_query = "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".$this->sess_id."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
 			
 			if ( !$db->query($update_query) )
-				usebb_die('SQL', 'Unable to update session information!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to update session information!', __FILE__, __LINE__);
 			
 			//
 			// Update the last login timestamp of the user
@@ -289,11 +289,11 @@ class session {
 				if ( $user_id !== 0 ) {
 					
 					if ( !$db->query("UPDATE ".TABLE_PREFIX."users SET last_login = ".$current_time." WHERE id = ".$user_id) )
-						usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+						$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 					
 				} else {
 					
-					usebb_unset_al();
+					$functions->unset_al();
 					
 				}
 			}

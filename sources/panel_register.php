@@ -53,7 +53,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	// Check if this username already exists
 	//
 	if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
-		usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+		$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 	if ( $db->num_rows($result) == 1 ) {
 		
 		//
@@ -70,7 +70,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		// Get banned usernames and e-mail addresses
 		//
 		if ( !($result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''")) )
-			usebb_die('SQL', 'Unable to get banned usernames and e-mail adresses!', __FILE__, __LINE__);
+			$functions->usebb_die('SQL', 'Unable to get banned usernames and e-mail adresses!', __FILE__, __LINE__);
 		
 		$username_banned = FALSE;
 		$email_banned = FALSE;
@@ -151,29 +151,29 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			// Generate the activation key if necessary
 			//
 			$active = ( $config['users_must_activate'] ) ? 0 : 1;
-			$active_key = ( $config['users_must_activate'] ) ? usebb_random_key() : '';
+			$active_key = ( $config['users_must_activate'] ) ? $functions->random_key() : '';
 			
 			if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."users")) )
-				usebb_die('SQL', 'Unable to get user count!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to get user count!', __FILE__, __LINE__);
 			if ( $db->num_rows($result) == 0 )
 				$level = 3;
 			else
 				$level = 1;
 			
-			$password = usebb_random_key();
+			$password = $functions->random_key();
 			
 			//
 			// Create a new row in the user table
 			//
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."users ( id, name, email, passwd, regdate, level, active, active_key ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($password)."', ".gmmktime().", ".$level.", ".$active.", '".md5($active_key)."' )")) )
-				usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to insert user information!', __FILE__, __LINE__);
 			
 			if ( $config['users_must_activate'] ) {
 				
 				//
 				// Send the activation e-mail if necessary
 				//
-				usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
+				$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'activate_link' => $config['board_url'].'panel.php?a=activate&id='.$db->last_id().'&key='.$active_key,
 					'password' => $password
@@ -184,7 +184,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				//
 				// Send the activation e-mail if necessary
 				//
-				usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
+				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'password' => $password
 				), $config['board_name'], $config['admin_email'], $_POST['email']);
@@ -250,7 +250,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', array(
-		'form_begin'          => '<form action="'.usebb_make_url('panel.php', array('a' => 'register')).'" method="post">',
+		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('a' => 'register')).'" method="post">',
 		'register_form'       => $lang['Register'],
 		'user'                => $lang['Username'],
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',

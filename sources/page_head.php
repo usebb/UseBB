@@ -35,7 +35,7 @@ $config['date_format'] = ( !empty($sess_info['user_info']['date_format']) ) ? $s
 // Get language variables
 //
 if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."language WHERE language = '".$config['language']."'")) )
-	usebb_die('SQL', 'Unable to get translation for "'.$config['language'].'"!', __FILE__, __LINE__);
+	$functions->usebb_die('SQL', 'Unable to get translation for "'.$config['language'].'"!', __FILE__, __LINE__);
 while ( $langvars = $db->fetch_result($result) )
 	$lang[$langvars['name']] = stripslashes($langvars['content']);
 
@@ -45,18 +45,18 @@ while ( $langvars = $db->fetch_result($result) )
 $template->parse('normal_header', array(
 	'board_name' => $config['board_name'],
 	'board_descr' => $config['board_descr'],
-	'css_url' => usebb_make_url('css.php'),
-	'link_home' => usebb_make_url('index.php'),
+	'css_url' => $functions->make_url('css.php'),
+	'link_home' => $functions->make_url('index.php'),
 	'home' => $lang['Home'],
-	'link_reg_panel' => ( $sess_info['user_id'] ) ? usebb_make_url('panel.php') : usebb_make_url('panel.php', array('a' => 'register')),
+	'link_reg_panel' => ( $sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('a' => 'register')),
 	'reg_panel' => ( $sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],
-	'link_faq' => usebb_make_url('faq.php'),
+	'link_faq' => $functions->make_url('faq.php'),
 	'faq' => $lang['FAQ'],
-	'link_search' => usebb_make_url('search.php'),
+	'link_search' => $functions->make_url('search.php'),
 	'search' => $lang['Search'],
-	'link_active' => usebb_make_url('active.php'),
+	'link_active' => $functions->make_url('active.php'),
 	'active' => $lang['ActiveTopics'],
-	'link_log_inout' => ( $sess_info['user_id'] ) ? usebb_make_url('panel.php', array('a' => 'logout')) : usebb_make_url('panel.php', array('a' => 'login')),
+	'link_log_inout' => ( $sess_info['user_id'] ) ? $functions->make_url('panel.php', array('a' => 'logout')) : $functions->make_url('panel.php', array('a' => 'login')),
 	'log_inout' => ( $sess_info['user_id'] ) ? sprintf($lang['LogOut'], $sess_info['user_info']['name']) : $lang['LogIn']
 ));
 
@@ -84,26 +84,22 @@ if ( $sess_info['ip_banned'] ) {
 //
 // Board Closed message
 //
-if ( $config['board_closed'] ) {
+if ( $config['board_closed'] && $sess_info['location'] != 'login' ) {
 	
 	$template->set_page_title($lang['BoardClosed']);
 	
-	if ( $sess_info['location'] != 'login' ) {
-		
-		//
-		// Show this annoying board closed message on all pages but the login page.
-		//
-		$template->parse('msgbox', array(
-			'box_title' => $lang['BoardClosed'],
-			'content' => $config['board_closed_reason']
-		));
-		
-	}
+	//
+	// Show this annoying board closed message on all pages but the login page.
+	//
+	$template->parse('msgbox', array(
+		'box_title' => $lang['BoardClosed'],
+		'content' => $config['board_closed_reason']
+	));
 	
 	//
 	// Admins can still enter the board
 	//
-	if ( $sess_info['location'] != 'login' && ( !isset($sess_info['user_info']) || $sess_info['user_info']['level'] != 3 ) ) {
+	if ( !isset($sess_info['user_info']) || $sess_info['user_info']['level'] != 3 ) {
 		
 		//
 		// Include the page footer

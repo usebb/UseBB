@@ -50,7 +50,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	// Check if this username already exists
 	//
 	if ( !($result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."users WHERE name = '".$_POST['user']."'")) )
-		usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+		$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
 	$userdata = $db->fetch_result($result);
 	
 	if ( $db->num_rows($result) == 0 ) {
@@ -82,22 +82,22 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			// Generate the activation key if necessary
 			//
 			$active = ( $config['users_must_activate'] ) ? 0 : 1;
-			$active_key = ( $config['users_must_activate'] ) ? usebb_random_key() : '';
+			$active_key = ( $config['users_must_activate'] ) ? $functions->random_key() : '';
 			
-			$new_password = usebb_random_key();
+			$new_password = $functions->random_key();
 			
 			//
 			// Update the row in the user table
 			//
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id'])) )
-				usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+				$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 			
 			if ( $config['users_must_activate'] ) {
 				
 				//
 				// Send the activation e-mail if necessary
 				//
-				usebb_mail($lang['SendpwdActivationEmailSubject'], $lang['SendpwdActivationEmailBody'], array(
+				$functions->usebb_mail($lang['SendpwdActivationEmailSubject'], $lang['SendpwdActivationEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'activate_link' => $config['board_url'].'panel.php?a=activate&id='.$userdata['id'].'&key='.$active_key,
 					'password' => $new_password
@@ -108,7 +108,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 				//
 				// Send email containing the new password
 				//
-				usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
+				$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
 					'account_name' => $_POST['user'],
 					'password' => $new_password
 				), $config['board_name'], $config['admin_email'], $_POST['email']);
@@ -157,7 +157,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('sendpwd_form', array(
-		'form_begin'          => '<form action="'.usebb_make_url('panel.php', array('a' => 'sendpwd')).'" method="post">',
+		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('a' => 'sendpwd')).'" method="post">',
 		'sendpwd'             => $lang['SendPassword'],
 		'user'                => $lang['Username'],
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$config['username_max_length'].'" value="'.$_POST['user'].'" />',

@@ -34,15 +34,15 @@ if ( !defined('INCLUDED') )
 //
 $link_bar = array();
 if ( isset($sess_info['user_info']) && $sess_info['user_info']['level'] == 3 )
-	$link_bar[] = '<a href="'.usebb_make_url('admin/index.php').'">'.$lang['ACP'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('admin/index.php').'">'.$lang['ACP'].'</a>';
 if ( $config['enable_memberlist'] )
-	$link_bar[] = '<a href="'.usebb_make_url('members.php').'">'.$lang['MemberList'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
 if ( $config['enable_stafflist'] )
-	$link_bar[] = '<a href="'.usebb_make_url('staff.php').'">'.$lang['StaffList'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('staff.php').'">'.$lang['StaffList'].'</a>';
 if ( $config['enable_rss'] )
-	$link_bar[] = '<a href="'.usebb_make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 if ( $config['enable_stats'] )
-	$link_bar[] = '<a href="'.usebb_make_url('stats.php').'">'.$lang['Statistics'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 if ( $config['enable_contactadmin'] )
 	$link_bar[] = '<a href="mailto:'.$config['admin_email'].'">'.$lang['ContactAdmin'].'</a>';
 

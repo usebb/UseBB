@@ -98,11 +98,11 @@ if ( $_GET['a'] == 'login' ) {
 	require(ROOT_PATH.'sources/page_head.php');
 	
 	$template->parse('panel_menu', array(
-		'panel_home' => '<a href="'.usebb_make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
-		'view_profile' => '<a href="'.usebb_make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-		'panel_profile' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
-		'panel_options' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
-		'panel_passwd' => '<a href="'.usebb_make_url('panel.php', array('a' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
+		'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
+		'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
+		'panel_profile' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editprofile')).'">'.$lang['EditProfile'].'</a>',
+		'panel_options' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editoptions')).'">'.$lang['EditOptions'].'</a>',
+		'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('a' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
 	));
 	
 	switch ( $_GET['a'] ) {

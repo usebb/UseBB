@@ -56,7 +56,7 @@ $view_cat = ( !empty($_GET['cat']) && is_numeric($_GET['cat']) ) ? $_GET['cat'] 
 // Get the forums and categories out of the database
 //
 if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
-	usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
+	$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
 
 //
 // Set empty stats
@@ -85,7 +85,7 @@ if ( $db->num_rows($result) > 0 ) {
 	//
 	while ( $forumdata = $db->fetch_result($result) ) {
 		
-		if ( usebb_auth($forumdata['auth'], 'view') ) {
+		if ( $functions->auth($forumdata['auth'], 'view') ) {
 			
 			//
 			// If this user can view this forum
@@ -120,7 +120,7 @@ if ( $db->num_rows($result) > 0 ) {
 					'topics' => $lang['Topics'],
 					'posts' => $lang['Posts'],
 					'latest_post' => $lang['LatestPost'],
-					'cat_name' => '<a href="'.usebb_make_url('index.php', array('cat' => $forumdata['cat_id'])).'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'">'.htmlentities(stripslashes($forumdata['cat_name'])).'</a>'
 				));
 				//
 				// *Now* we've seen this category... :)
@@ -145,17 +145,17 @@ if ( $db->num_rows($result) > 0 ) {
 					
 					$last_topic_title  = ( $forumdata['count_replies'] > 0 ) ? $lang['Re'].' ' : '';
 					$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
-					$author = ( $forumdata['poster_id'] > 0 ) ? '<a href="'.usebb_make_url('profile.php', array('id' => $forumdata['poster_id'])).'">'.$forumdata['poster_name'].'</a>' : $forumdata['poster_guest'];
+					$author = ( $forumdata['poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $forumdata['poster_id'])).'">'.$forumdata['poster_name'].'</a>' : $forumdata['poster_guest'];
 					
-					$latest_post = '<a href="'.usebb_make_url('topic.php', array('p' => $forumdata['last_post_id'])).'#'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
-					$author_date = sprintf($lang['AuthorDate'], $author, usebb_make_date($profiledata['post_time']));
+					$latest_post = '<a href="'.$functions->make_url('topic.php', array('p' => $forumdata['last_post_id'])).'#'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
+					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($profiledata['post_time']));
 					
 				}
 				
 				$template->parse('forumlist_forum', array(
 					'forum_icon' => ( $forumdata['status'] ) ? 'nonewposts.gif' : 'locked.gif',
 					'forum_status' => ( $forumdata['status'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
-					'forum_name' => '<a href="'.usebb_make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
+					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.htmlentities(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
@@ -217,7 +217,7 @@ if ( $db->num_rows($result) > 0 ) {
 // Get the user count
 //
 if ( !($result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."users ORDER BY regdate DESC")) )
-	usebb_die('SQL', 'Unable to get member count and latest member information!', __FILE__, __LINE__);
+	$functions->usebb_die('SQL', 'Unable to get member count and latest member information!', __FILE__, __LINE__);
 $stats['users'] = $db->num_rows($result);
 
 //
@@ -228,7 +228,7 @@ $stats['lastuser'] = $db->fetch_result($result);
 //
 // Small statistics
 //
-$lastuser = ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['IndexLastUser'], '<a href="'.usebb_make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>');
+$lastuser = ( $stats['users'] == 0 ) ? '' : ' '.sprintf($lang['IndexLastUser'], '<a href="'.$functions->make_url('profile.php', array('id' => $stats['lastuser']['id'])).'">'.$stats['lastuser']['name'].'</a>');
 
 //
 // Online users
@@ -243,7 +243,7 @@ $min_updated = gmmktime() - ( $config['online_min_updated'] * 60 );
 // Get the session and user information
 //
 if ( !($result = $db->query("SELECT u.name, u.level, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."users u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-	usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
+	$functions->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
 
 //
 // Arrays for holding a list of online guests and members.
@@ -288,7 +288,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 		}
 		
 		if ( !isset($online_members[$onlinedata['id']]) )
-			$online_members[$onlinedata['id']] = '<a href="'.usebb_make_url('profile.php', array('id' => $onlinedata['id'])).'"'.$levelclass.'>'.$onlinedata['name'].'</a>';
+			$online_members[$onlinedata['id']] = '<a href="'.$functions->make_url('profile.php', array('id' => $onlinedata['id'])).'"'.$levelclass.'>'.$onlinedata['name'].'</a>';
 		
 	}
 	
@@ -300,7 +300,7 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 if ( !$config['enable_online_list'] || ( !$config['guests_can_view_online_list'] && $sess_info['user_id'] == 0 ) )
 	$online_list_link = '';
 else
-	$online_list_link = ' - <a href="'.usebb_make_url('online.php').'">'.$lang['DetailedList'].'</a>';
+	$online_list_link = ' <a href="'.$functions->make_url('online.php').'">'.$lang['DetailedOnlineList'].'</a>';
 
 //
 // Parse the online box

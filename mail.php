@@ -179,7 +179,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$template->set_page_title($lang['Error']);
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['NoSuchUser'], 'ID '.$_GET['id'])
+				'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])
 			));
 			
 		}

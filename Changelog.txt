@@ -20,6 +20,7 @@ UseBB 0.3 Changelog
 - Added edit information viewing in topics.
 - Added FAQ page.
 - Added active topics page.
+- Added automatic installer.
 - Added MySQL 4.1 (mysqli) enhanced support.
 - Added viewing IP addresses in topics when being admin.
 - Fixed bug 990425: Debug messages are passed to CSS as well.

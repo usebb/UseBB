@@ -19,6 +19,7 @@ UseBB 0.3 Changelog
 - Changes to CSS template: label{cursor:pointer;}.
 - Return to topic after posting can now be turned of for posting new topics too.
 - Valid URL checking for profile's website field.
+- Better registration process with terms of use accepting page.
 
 UseBB 0.2 Changelog
 ------------------------------

@@ -46,9 +46,9 @@ $_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
 $_POST['email'] = ( !empty($_POST['email']) ) ? $_POST['email'] : '';
 
 //
-// If all necessary information has been posted
+// If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && !empty($_POST['accepted']) ) {
 	
 	//
 	// Check if this username already exists
@@ -210,7 +210,11 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		
 	}
 	
-} else {
+} elseif ( !empty($_POST['accepted']) ) {
+	
+	//
+	// The user agreed to the terms of use, show the registration form
+	//
 	
 	if ( !empty($_POST['submitted']) ) {
 		
@@ -221,6 +225,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		// Define missing fields
 		//
+		$errors = array();
 		if ( !preg_match(USER_PREG, $_POST['user']) )
 			$errors[] = strtolower($lang['Username']);
 		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
@@ -229,7 +234,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		//
 		// Show an error message
 		//
-		if ( is_array($errors) ) {
+		if ( count($errors) ) {
 			
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Error'],
@@ -238,7 +243,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			
 		}
 		
-	} else {
+	}/* else {
 		
 		//
 		// The form has not been submitted yet
@@ -249,7 +254,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 			'content' => nl2br($lang['TermsOfUseContent'])
 		));
 		
-	}
+	}*/
 	
 	//
 	// Show the registration form
@@ -266,7 +271,30 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 		'everything_required' => $lang['EverythingRequired'],
 		'submit_button'       => '<input type="submit" name="submit" value="'.$lang['Register'].'" />',
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
-		'form_end'            => '<input type="hidden" name="submitted" value="true" /></form>'
+		'form_end'            => '<input type="hidden" name="submitted" value="true" /><input type="hidden" name="accepted" value="true" /></form>'
+	));
+	
+} elseif ( !empty($_POST['notaccepted']) ) {
+	
+	//
+	// The user did not accept to the terms of use
+	//
+	
+	header('Location: '.$functions->make_url('index.php', array(), false));
+	
+} else {
+	
+	//
+	// The user did not agree yet to the terms of use
+	//
+	
+	$template->parse('confirm_form', array(
+		'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
+		'title' => $lang['TermsOfUse'],
+		'content' => nl2br($lang['TermsOfUseContent']),
+		'submit_button'       => '<input type="submit" name="accepted" value="'.$lang['IAccept'].'" />',
+		'cancel_button'       => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
+		'form_end' => '</form>'
 	));
 	
 }

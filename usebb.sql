@@ -335,6 +335,8 @@ INSERT INTO usebb_language VALUES ('ConfirmDeleteTopic', 'English', 'Are you sur
 INSERT INTO usebb_language VALUES ('MakeNormalTopic', 'English', 'Make normal topic');
 INSERT INTO usebb_language VALUES ('OldForum', 'English', 'Old forum');
 INSERT INTO usebb_language VALUES ('NewForum', 'English', 'New forum');
+INSERT INTO usebb_language VALUES ('IAccept', 'English', 'I accept');
+INSERT INTO usebb_language VALUES ('IDontAccept', 'English', 'I don\'t accept');
 
 # --------------------------------------------------------
 

@@ -23,6 +23,29 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-die('Feature not available in this release. Sorry.');
+define('INCLUDED', true);
+define('ROOT_PATH', './');
+
+//
+// Include usebb engine
+//
+require(ROOT_PATH.'sources/common.php');
+
+//
+// Update and get the session information
+//
+$session->update('faq');
+
+//
+// Include the page header
+//
+require(ROOT_PATH.'sources/page_head.php');
+
+$template->set_page_title($lang['FAQ']);
+
+//
+// Include the page footer
+//
+require(ROOT_PATH.'sources/page_foot.php');
 
 ?>

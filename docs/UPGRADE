@@ -1,7 +1,15 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Current version: 0.4
+Current version: 0.4.1
+
+Notes:
+	- Install and upgrade scripts now recognize the database table
+	prefix setting!
+	- German translation has been removed from the package!
+
+* Upgrading from 0.4:
+	Just reupload all (newer) files. No database changes.
 
 * Upgrading from 0.3.x:
 	Run install/upgrade-0-3.php in your web browser.

@@ -41,11 +41,7 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['LogIn']);
 
-$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
-$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
-$_POST['passwd'] = ( !empty($_POST['user']) ) ? $_POST['passwd'] : '';
-
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) ) {
+if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) ) {
 	
 	//
 	// The user already passed a username and password
@@ -152,9 +148,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
 			$errors = array();
-			if ( !preg_match(USER_PREG, $_POST['user']) )
+			if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < $functions->get_config('passwd_min_length') )
+			if ( empty($_POST['passwd']) || !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < $functions->get_config('passwd_min_length') )
 				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {
@@ -168,7 +164,7 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passw
 			
 		}
 		
-		$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
+		$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 		if ( count($_COOKIE) < 1 ) {
 			
 			$remember_input = $lang['FeatureDisabledBecauseCookiesDisabled'];

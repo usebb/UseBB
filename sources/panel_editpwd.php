@@ -34,11 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditPasswd']);
 
-$_POST['current_passwd'] = ( !empty($_POST['current_passwd']) ) ? $_POST['current_passwd'] : '';
-$_POST['new_passwd1'] = ( !empty($_POST['new_passwd1']) ) ? $_POST['new_passwd1'] : '';
-$_POST['new_passwd2'] = ( !empty($_POST['new_passwd2']) ) ? $_POST['new_passwd2'] : '';
-
-if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] == $_POST['new_passwd2'] ) {
+if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty($_POST['new_passwd2']) && md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] === $_POST['new_passwd2'] ) {
 	
 	//
 	// Update the password
@@ -68,9 +64,9 @@ if ( md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd']
 		// Define missing fields
 		//
 		$errors = array();
-		if ( md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
+		if ( empty($_POST['current_passwd']) || md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = $lang['CurrentPassword'];
-		if ( strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] != $_POST['new_passwd2'] )
+		if ( empty($_POST['new_passwd1']) || empty($_POST['new_passwd2']) || strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] !== $_POST['new_passwd2'] )
 			$errors[] = $lang['NewPassword'];
 		
 		//

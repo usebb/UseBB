@@ -34,9 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditProfile']);
 
-$_POST['email'] = ( !empty($_POST['email']) ) ? $_POST['email'] : '';
-
-if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
 		
@@ -128,7 +126,9 @@ if ( preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || pre
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		$errors = array();
-		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
+		if ( empty($_POST['displayed_name']) )
+			$errors[] = $lang['DisplayedName'];
+		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
 		if ( !empty($_POST['avatar']) && !preg_match(IMG_PREG, $_POST['avatar']) )
 			$errors[] = $lang['AvatarURL'];

@@ -41,11 +41,7 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['SendPassword']);
 
-$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
-$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
-$_POST['email'] = ( !empty($_POST['user']) ) ? $_POST['email'] : '';
-
-if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
 	
 	//
 	// Check if this username already exists
@@ -134,9 +130,9 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		$errors = array();
-		if ( !preg_match(USER_PREG, $_POST['user']) )
+		if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 			$errors[] = $lang['Username'];
-		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
+		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
 		
 		if ( count($errors) ) {
@@ -153,8 +149,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['ema
 	//
 	// Show the sendpwd form
 	//
-	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
+	$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
+	$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('sendpwd_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.$_POST['user'].'" />',

@@ -41,16 +41,10 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['Register']);
 
-$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
-$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
-$_POST['email'] = ( !empty($_POST['email']) ) ? $_POST['email'] : '';
-$_POST['passwd1'] = ( !empty($_POST['passwd1']) ) ? $_POST['passwd1'] : '';
-$_POST['passwd2'] = ( !empty($_POST['passwd2']) ) ? $_POST['passwd2'] : '';
-
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Check if this username already exists
@@ -223,11 +217,11 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 		// Define missing fields
 		//
 		$errors = array();
-		if ( !preg_match(USER_PREG, $_POST['user']) || strlen($_POST['user']) > $functions->get_config('username_max_length') )
+		if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) || strlen($_POST['user']) > $functions->get_config('username_max_length') )
 			$errors[] = $lang['Username'];
-		if ( !preg_match(EMAIL_PREG, $_POST['email']) )
+		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
-		if ( strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+		if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
 			$errors[] = $lang['Password'];
 		
 		//
@@ -247,8 +241,8 @@ if ( preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functio
 	//
 	// Show the registration form
 	//
-	$_POST['user'] = ( preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-	$_POST['email'] = ( preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
+	$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
+	$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',

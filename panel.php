@@ -88,11 +88,11 @@ if ( $_GET['act'] == 'login' ) {
 		
 		$template->parse('panel_menu', array(
 			'yourpanel' => $lang['YourPanel'],
-			'panel_home' => ( $_GET['act'] != 'panel_home' ) ? '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>' : $lang['PanelHome'],
+			'panel_home' => ( $_GET['act'] != 'panel_home' ) ? '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>' : '<a href="'.$functions->make_url('panel.php').'"><b>'.$lang['PanelHome'].'</b></a>',
 			'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$lang['ViewProfile'].'</a>',
-			'panel_profile' => ( $_GET['act'] != 'editprofile' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>' : $lang['EditProfile'],
-			'panel_options' => ( $_GET['act'] != 'editoptions' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>' : $lang['EditOptions'],
-			'panel_passwd' => ( $_GET['act'] != 'editpwd' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>' : $lang['EditPasswd'],
+			'panel_profile' => ( $_GET['act'] != 'editprofile' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'">'.$lang['EditProfile'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'"><b>'.$lang['EditProfile'].'</b></a>',
+			'panel_options' => ( $_GET['act'] != 'editoptions' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'">'.$lang['EditOptions'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'"><b>'.$lang['EditOptions'].'</b></a>',
+			'panel_passwd' => ( $_GET['act'] != 'editpwd' ) ? '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>' : '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'"><b>'.$lang['EditPasswd'].'</b></a>',
 		));
 		
 		switch ( $_GET['act'] ) {

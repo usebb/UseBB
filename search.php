@@ -23,36 +23,6 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-define('INCLUDED', true);
-define('ROOT_PATH', './');
-
-//
-// Include usebb engine
-//
-require(ROOT_PATH.'sources/common.php');
-
-//
-// Call the right source file for either topic or post altering
-//
-if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
-	
-	require(ROOT_PATH.'sources/edit_topic.php');
-	
-} elseif ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
-	
-	//
-	// Coming soon...
-	//
-	//require(ROOT_PATH.'sources/edit_post.php');
-	die('Feature not available in this release. Sorry.');
-	
-} else {
-	
-	//
-	// There's no ID! Get us back to the index...
-	//
-	header('Location: '.$functions->make_url('index.php', array(), false));
-	
-}
+die('Feature not available in this release. Sorry.');
 
 ?>

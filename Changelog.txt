@@ -1,5 +1,13 @@
 $Header$
 
+UseBB 0.2.2 Changelog
+------------------------------
+
+- Fixed errors in regular expressions.
+- Small changes in panel menu bar.
+- Replaced error on edit post feature with gently message :).
+- Replaced error on FAQ, search and active topics with gently message :).
+
 UseBB 0.2.1 Changelog
 ------------------------------
 

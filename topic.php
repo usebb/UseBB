@@ -299,11 +299,16 @@ if ( ( !empty($_GET['id']) && is_numeric($_GET['id']) ) || ( !empty($_GET['post'
 			//
 			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 				
+				//
+				// Get session saved guest's username if there is one
+				//
+				$username = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
+				
 				$template->parse('quick_reply', array(
 					'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['id'])).'" method="post">',
 					'quick_reply' => $lang['QuickReply'],
 					'username' => $lang['Username'],
-					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" />',
+					'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.$session->sess_info['user_info']['name'].'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.$username.'" />',
 					'content' => $lang['Content'],
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content"></textarea>',
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['PostReply'].'" />',

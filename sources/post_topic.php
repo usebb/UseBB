@@ -72,6 +72,12 @@ if ( !$db->num_rows($result) ) {
 		
 		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) ) {
 			
+			//
+			// Save the guest's username in the session
+			//
+			if ( !$session->sess_info['user_id'] )
+				$_SESSION['user'] = $_POST['user'];
+			
 			$poster_id = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_id'] : 0;
 			$poster_guest = ( !$session->sess_info['user_id'] ) ? $_POST['user'] : '';
 			$_POST['enable_bbcode'] = ( !empty($_POST['enable_bbcode']) ) ? 1 : 0;
@@ -128,6 +134,11 @@ if ( !$db->num_rows($result) ) {
 			$_POST['subject'] = ( !empty($_POST['subject']) ) ? htmlentities(stripslashes($_POST['subject'])) : '';
 			$_POST['content'] = ( !empty($_POST['content']) ) ? htmlentities(stripslashes($_POST['content'])) : '';
 			if ( empty($_POST['submitted']) ) {
+				
+				//
+				// Get session saved guest's username if there is one
+				//
+				$_POST['user'] = ( !$session->sess_info['user_id'] && !empty($_SESSION['user']) ) ? $_SESSION['user'] : '';
 				
 				$enable_bbcode_checked = ' checked="checked"';
 				$enable_smilies_checked = ' checked="checked"';

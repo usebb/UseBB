@@ -46,6 +46,9 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
+	//
+	// Get information about the forum
+	//
 	if ( !($result = $db->query("SELECT f.name, f.auth, f.topics, f.status, c.id AS cat_id, c.name AS cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE f.id = ".$_GET['id']." AND f.cat_id = c.id")) )
 		$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
 	
@@ -66,22 +69,23 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 		
 		if ( $functions->auth($forumdata['auth'], 'view', $_GET['id']) ) {
 			
+			//
+			// User is allowed to view this forum
+			//
+			
 			$template->set_page_title(stripslashes($forumdata['name']));
 			
-			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.$functions->get_config('board_name').'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']));
+			//
+			// Location bar :)
+			//
+			$location_bar = '<a href="'.$functions->make_url('index.php').'">'.htmlentities($functions->get_config('board_name')).'</a> '.$template->get_config('location_arrow').' '.htmlentities(stripslashes($forumdata['name']));
 			$template->parse('location_bar', array(
 				'location_bar' => $location_bar
 			));
 			
-			if ( !$forumdata['topics'] ) {
-				
-				$template->parse('msgbox', array(
-					'box_title' => $lang['Note'],
-					'content' => $lang['NoTopics']
-				));
-				
-			}
-			
+			//
+			// Posting links
+			//
 			$forum_links = ( $forumdata['status'] ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['ForumIsLocked'].'</a>';
 			
 			//
@@ -98,21 +102,30 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			if ( $forumdata['topics'] ) {
 				
-				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u2.id AS last_poster_id, u2.name AS last_poster_name FROM ".TABLE_PREFIX."topics t, ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ( ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."users u2 ON p2.poster_id = u2.id ) WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC")) )
+				//
+				// Get the topic list information in one query
+				//
+				if ( !($result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p.post_time AS last_post_time, u.id AS poster_id, u.name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ( ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."users u2 ON p2.poster_id = u2.id ) WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC")) )
 					$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
 				
 				while ( $topicdata = $db->fetch_result($result) ) {
 					
-					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.$topicdata['topic_title'].'</a>';
+					//
+					// Loop through the topics, generating output...
+					//
+					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.htmlentities(stripslashes($topicdata['topic_title'])).'</a>';
 					if ( $topicdata['status_sticky'] )
 						$topic_name = $lang['Sticky'].': '.$topic_name;
-					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $topicdata['last_poster_id'])).'">'.$topicdata['last_poster_name'].'</a>' : $topicdata['last_poster_guest'];
+					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
 					
+					//
+					// Parse the topic template
+					//
 					$template->parse('topiclist_topic', array(
 						'topic_icon' => ( !$topicdata['status_locked'] ) ? $template->get_config('open_nonewposts_icon') : $template->get_config('closed_nonewposts_icon'),
 						'topic_status' => ( !$topicdata['status_locked'] ) ? $lang['NoNewPosts'] : $lang['Locked'],
 						'topic_name' => $topic_name,
-						'author' => ( $topicdata['poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $topicdata['poster_id'])).'">'.$topicdata['poster_name'].'</a>' : $topicdata['poster_guest'],
+						'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : $topicdata['poster_guest'],
 						'replies' => $topicdata['count_replies'],
 						'views' => $topicdata['count_views'],
 						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, '<a href="'.$functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id'].'">'.$functions->make_date($topicdata['last_post_time']).'</a>'),
@@ -120,10 +133,53 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 					
 				}
 				
+			} else {
+				
+				//
+				// There are no topics yet...
+				//
+				$template->parse('topiclist_notopics', array(
+					'notopics' => $lang['NoTopics']
+				));
+				
 			}
 			
+			//
+			// Get a list of forum moderators
+			//
+			if ( !($result = $db->query("SELECT u.id, u.name, u.level FROM ".TABLE_PREFIX."users u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$_GET['id']." AND m.user_id = u.id")) )
+				$functions->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
+			if ( !$db->num_rows($result) ) {
+				
+				$forum_moderators = strtolower($lang['Nobody']);
+				
+			} else {
+				
+				$forum_moderators = array();
+				
+				while ( $modsdata = $db->fetch_result($result) ) {
+					
+					//
+					// Array containing links to moderators
+					//
+					$forum_moderators[] = $functions->make_profile_link($modsdata['id'], $modsdata['name'], $modsdata['level']);
+					
+				}
+				
+				//
+				// Join all values in the array
+				//
+				$forum_moderators = join(', ', $forum_moderators);
+				
+			}
+			
+			//
+			// Topiclist footer and location bar
+			//
+			
 			$template->parse('topiclist_footer', array(
-				'forum_links' => $forum_links
+				'forum_links' => $forum_links,
+				'forum_moderators' => sprintf($lang['ModeratorsInThisForum'], $forum_moderators)
 			));
 			
 			$template->parse('location_bar', array(

@@ -125,8 +125,6 @@ class functions {
 			2047 => 'E_ALL'
 		);
 		$errtype = ( is_numeric($errno) ) ? $errtypes[$errno] : $errno;
-		if ( $errtype == 'SQL' )
-			$line--;
 		
 		$html_msg  = '<html><head><title>UseBB General Error</title></head><body><h1>UseBB General Error</h1><blockquote><code>';
 		$html_msg .= 'In file '.$file.' on line '.$line.':<br /><br />'.$errtype.' - '.$error;
@@ -159,7 +157,7 @@ class functions {
 		//
 		// Member preferences
 		//
-		if ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info'][$setting]) )
+		if ( $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) )
 			$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
 		
 		if ( isset($this->board_config[$setting]) )
@@ -308,7 +306,7 @@ class functions {
 	//
 	function make_date($stamp) {
 		
-		return date($this->get_config('date_format'), $stamp + ( (float)$this->get_config('timezone') * 3600 ) + ( intval($this->get_config('dst')) * 3600 ));
+		return date($this->get_config('date_format'), $stamp - ( (float)$this->get_config('timezone') * 3600 ) - ( intval($this->get_config('dst')) * 3600 ));
 		
 	}
 	
@@ -379,7 +377,7 @@ class functions {
 		
 		global $session, $lang;
 		
-		if ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
+		if ( $this->get_user_level() >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
 			
 			//
 			// The viewing user is an administrator
@@ -494,6 +492,20 @@ class functions {
 	}
 	
 	//
+	// Get the user's level
+	//
+	function get_user_level() {
+		
+		global $session;
+		
+		if ( $session->sess_info['user_id'] )
+			return $session->sess_info['user_info']['level'];
+		else
+			return 0;
+		
+	}
+	
+	//
 	// Authorization function
 	// Defines whether a user has permission to take a certain action.
 	//
@@ -506,7 +518,7 @@ class functions {
 		//
 		if ( $session->sess_info['user_id'] ) {
 			
-			if ( intval($session->sess_info['user_info']['level']) === 2 ) {
+			if ( $this->get_user_level() == 2 ) {
 				
 				if ( !is_array($this->mod_auth) ) {
 					
@@ -515,7 +527,7 @@ class functions {
 					$this->mod_auth = array();
 					while ( $out = $db->fetch_result($result) )
 						$this->mod_auth[] = intval($out['forum_id']);
-
+					
 				}
 				
 				if ( in_array($forumid, $this->mod_auth) )
@@ -525,7 +537,7 @@ class functions {
 				
 			} else {
 				
-				$userlevel = $session->sess_info['user_info']['level'];
+				$userlevel = $this->get_user_level();
 				
 			}
 			
@@ -545,10 +557,11 @@ class functions {
 			'post' => 2,
 			'reply' => 3,
 			'edit' => 4,
-			'delete' => 5,
-			'lock' => 6,
-			'sticky' => 7,
-			'html' => 8
+			'move' => 5,
+			'delete' => 6,
+			'lock' => 7,
+			'sticky' => 8,
+			'html' => 9
 		);
 		$min_level = intval($authint[$actions[$action]]);
 		
@@ -568,9 +581,26 @@ class functions {
 	//
 	function markup($string, $bbcode=true, $smilies=true, $html=false) {
 		
+		global $template, $lang;
+		
 		if ( !$html )
 			$string = htmlentities($string);
-		$string = nl2br($string);
+		
+		if ( $bbcode ) {
+			
+			$string = preg_replace("#\[b\](.*?)\[/b\]#is", '<b>\\1</b>', $string);
+			$string = preg_replace("#\[i\](.*?)\[/i\]#is", '<i>\\1</i>', $string);
+			$string = preg_replace("#\[u\](.*?)\[/u\]#is", '<u>\\1</u>', $string);
+			$string = preg_replace("#\[img\](.*?)\[/img\]#is", '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />', $string);
+			$string = preg_replace("#\[url\]([a-z]{2}[a-z]+://)(.*?)\[/url\]#is", '<a href="\\1\\2" target="_blank">\\1\\2</a>', $string);
+			$string = preg_replace("#\[url=([a-z]{2}[a-z]+://)(.*?)\](.*?)\[/url\]#is", '<a href="\\1\\2" target="_blank">\\3</a>', $string);
+			$string = preg_replace("#\[color=(.*?)\](.*?)\[/color\]#is", '<font color="\\1">\\2</font>', $string);
+			
+		}
+		
+		if ( !$html )
+			$string = nl2br($string);
+		
 		return $string;
 		
 	}
@@ -695,6 +725,29 @@ class functions {
 				return FALSE;
 			
 		}
+		
+	}
+
+	//
+	// Make a user's profile link
+	//
+	function make_profile_link($user_id, $username, $level) {
+		
+		switch ( $level ) {
+			
+			case 3:
+				$levelclass = ' class="administrator"';
+				break;
+			case 2:
+				$levelclass = ' class="moderator"';
+				break;
+			case 1:
+				$levelclass = '';
+				break;
+			
+		}
+		
+		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.$username.'</a>';
 		
 	}
 	

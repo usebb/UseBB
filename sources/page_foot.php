@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Page footer
 //
 $link_bar = array();
-if ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 )
+if ( $functions->get_user_level() == 3 )
 	$link_bar[] = '<a href="'.$functions->make_url('admin/index.php').'">'.$lang['ACP'].'</a>';
 if ( $functions->get_config('enable_memberlist') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';

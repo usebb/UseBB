@@ -83,7 +83,7 @@ class template {
 	//
 	function parse($name, $vars=array()) {
 		
-		global $functions;
+		global $functions, $lang;
 		
 		if ( !in_array($name, $this->needed) )
 			$this->needed[] = $name;

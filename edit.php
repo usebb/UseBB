@@ -32,15 +32,15 @@ define('ROOT_PATH', './');
 require(ROOT_PATH.'sources/common.php');
 
 //
-// Include the right file for either topic or reply posting...
+// Call the right source file for either topic or post altering
 //
 if ( !empty($_GET['topic']) && is_numeric($_GET['topic']) ) {
 	
-	require(ROOT_PATH.'sources/post_reply.php');
+	require(ROOT_PATH.'sources/edit_topic.php');
 	
-} elseif ( !empty($_GET['forum']) && is_numeric($_GET['forum']) ) {
+} elseif ( !empty($_GET['post']) && is_numeric($_GET['post']) ) {
 	
-	require(ROOT_PATH.'sources/post_topic.php');
+	require(ROOT_PATH.'sources/edit_post.php');
 	
 } else {
 	

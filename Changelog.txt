@@ -3,14 +3,18 @@ $Header$
 UseBB 0.2 Changelog
 ------------------------------
 
+- New forum view and topic view, new posting and replying pages.
+- Topic moderation features: deleting, moving, locking and sticky-ing topics.
+- Integration of moderators in the auth system.
 - Many bugfixes in various files.
 - Core functions moved to functions class, arrays replaced by new functions, ...
 - New template_config sql table for template configuration.
 - Session IDs are now passed in the URL, makes board accessable without cookies.
 - Added more detailed location info for use in detailed online list.
+- Many new options in panel pages
 - Many panel pages now give a confirmation message.
 - Better viewing of debug information and SQL errors.
-- Many small template updates.
+- Many small template updates and additions.
 - Replaced smaller version of the license with the official one.
 
 UseBB 0.1.1 Changelog

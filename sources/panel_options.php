@@ -50,6 +50,8 @@ if ( !empty($_POST['submitted']) ) {
 	$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $functions->get_config('date_format');
 	$_POST['timezone'] = ( is_numeric($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $functions->get_config('timezone');
 	$_POST['dst'] = ( !empty($_POST['dst']) ) ? 1 : 0;
+	$_POST['quickreply'] = ( !empty($_POST['quickreply']) ) ? 1 : 0;
+	$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."users SET
 		language        = '".$_POST['language']."',
@@ -58,7 +60,9 @@ if ( !empty($_POST['submitted']) ) {
 		last_login_show = ".$_POST['last_login_show'].",
 		date_format     = '".$_POST['date_format']."',
 		timezone	= '".$_POST['timezone']."',
-		dst		= ".$_POST['dst']."
+		dst		= ".$_POST['dst'].",
+		enable_quickreply		= ".$_POST['quickreply'].",
+		return_to_topic_after_posting		= ".$_POST['return_to_topic']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
@@ -119,6 +123,8 @@ if ( !empty($_POST['submitted']) ) {
 	$timezone_input .= '</select>';
 
 	$dst_checked = ( $functions->get_config('dst') ) ? ' checked="checked"' : '';
+	$quickreply_checked = ( $session->sess_info['user_info']['enable_quickreply'] ) ? ' checked="checked"' : '';
+	$return_to_topic_checked = ( $session->sess_info['user_info']['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
 	
 	$template->parse('edit_options', array(
 		'form_begin'            => '<form action="'.$functions->make_url('panel.php', array('act' => 'editoptions')).'" method="post">',
@@ -137,6 +143,10 @@ if ( !empty($_POST['submitted']) ) {
 		'timezone_input'	=> $timezone_input,
 		'dst'			=> $lang['DST'],
 		'dst_input'		=> '<input type="checkbox" name="dst" id="dst" value="1"'.$dst_checked.' /><label for="dst"> '.$lang['Enabled'].'</label>',
+		'quickreply'			=> $lang['QuickReply'],
+		'quickreply_input'		=> '<input type="checkbox" name="quickreply" id="quickreply" value="1"'.$quickreply_checked.' /><label for="quickreply"> '.$lang['Enabled'].'</label>',
+		'return_to_topic'			=> $lang['ReturnToTopicAfterPosting'],
+		'return_to_topic_input'		=> '<input type="checkbox" name="return_to_topic" id="return_to_topic" value="1"'.$return_to_topic_checked.' /><label for="return_to_topic"> '.$lang['Yes'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['EditOptions'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '<input type="hidden" name="submitted" value="true" /></form>'

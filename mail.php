@@ -90,7 +90,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			
 			$template->set_page_title(sprintf($lang['SendEmail'], $user_to_mail['name']));
 			
-			if ( !$user_to_mail['email_show'] && $session->sess_info['user_info']['level'] < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
+			if ( !$user_to_mail['email_show'] && $functions->get_user_level() < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				
 				//
 				// You can't e-mail this user if he/she chose not to receive e-mails
@@ -161,7 +161,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 						'subject' => $lang['Subject'],
 						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body' => $lang['Body'],
-						'body_input' => '<textarea rows="12" cols="60" name="body">'.$_POST['body'].'</textarea>',
+						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
 						'everything_required' => $lang['EverythingRequired'],
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',

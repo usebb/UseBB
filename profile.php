@@ -117,7 +117,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 				
 			}
 			
-			if ( $profiledata['last_login_show'] || $own_profile || ( $session->sess_info['user_id'] && $session->sess_info['user_info']['level'] == 3 ) )
+			if ( $profiledata['last_login_show'] || $own_profile || $functions->get_user_level() == 3 )
 				$last_login = ( $profiledata['last_login'] != 0 ) ? $functions->make_date($profiledata['last_login']) : $lang['Never'];
 			else
 				$last_login = $lang['Hidden'];
@@ -181,7 +181,7 @@ if ( !empty($_GET['id']) && is_numeric($_GET['id']) ) {
 			$template->set_page_title($lang['Error']);
 			$template->parse('msgbox', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['NoSuchUser'], 'ID '.$_GET['id'])
+				'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])
 			));
 			
 		}

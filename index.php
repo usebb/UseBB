@@ -67,7 +67,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	// Get the forums and categories out of the database
 	//
-	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
+	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.name AS poster_name, u.level AS poster_level FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."users u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
 		$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
 	
 	//
@@ -146,7 +146,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$last_topic_title  = ( $forumdata['count_replies'] > 0 ) ? $lang['Re'].' ' : '';
 					$last_topic_title .= htmlentities(stripslashes($forumdata['topic_title']));
-					$author = ( $forumdata['poster_id'] > 0 ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $forumdata['poster_id'])).'">'.$forumdata['poster_name'].'</a>' : $forumdata['poster_guest'];
+					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : $forumdata['poster_guest'];
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
 					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
@@ -237,26 +237,8 @@ while ( $onlinedata = $db->fetch_result($result) ) {
 		// This is a member
 		//
 		
-		//
-		// CSS classes to be put into the <a>-tag.
-		// Needed to mark out admins and mods.
-		//
-		switch ( $onlinedata['level'] ) {
-			
-			case 3:
-				$levelclass = ' class="administrator"';
-				break;
-			case 2:
-				$levelclass = ' class="moderator"';
-				break;
-			case 1:
-				$levelclass = '';
-				break;
-			
-		}
-		
 		if ( !isset($online_members[$onlinedata['id']]) )
-			$online_members[$onlinedata['id']] = '<a href="'.$functions->make_url('profile.php', array('id' => $onlinedata['id'])).'"'.$levelclass.'>'.$onlinedata['name'].'</a>';
+			$online_members[$onlinedata['id']] = $functions->make_profile_link($onlinedata['id'], $onlinedata['name'], $onlinedata['level']);
 		
 	}
 	

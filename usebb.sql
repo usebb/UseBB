@@ -208,6 +208,22 @@ INSERT INTO usebb_stats VALUES ('members', '0');
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `usebb_subscriptions`
+-- 
+
+CREATE TABLE usebb_subscriptions (
+  topic_id int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0'
+) TYPE=MyISAM;
+
+-- 
+-- Dumping data for table `usebb_subscriptions`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `usebb_topics`
 -- 
 

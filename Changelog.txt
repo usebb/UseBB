@@ -13,6 +13,8 @@ UseBB 0.2.1 Changelog
 - Fixed htmlentities() problem in user signatures.
 - Fixed $errors array that wasn't being initialized in various files.
 - Fixed guest's username length, it's now checked when posting.
+- Fixed bug with regular expressions.
+- Fixed bug with gzip compression for style sheets.
 - Optimalizations in template.php, debug also works without </body> tag and more 
 	powerful and better output compression method.
 - Better and safer BBCode parser, new [mailto] tag and URL's don't need to have [url]

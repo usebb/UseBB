@@ -588,23 +588,25 @@ p#linkbar {
 }
 
 #debug-info-small {
-	margin: 0px 0px 20px 0px;
+	margin: 0px auto 20px auto;
 	padding: 3px;
 	text-align: center;
 	background-color: #E8E8E8;
 	border: 1px solid silver;
 	color: #333333;
+	font-size: 7pt;
 }
 
 #debug-info-large {
 	margin: 20px 0px 0px 0px;
 	font-size: 7pt;
-	text-align: left;
+	text-align: center;
 	color: #333333;
 }
 #debug-info-large select, #debug-info-large textarea {
 	color: #333333;
 	font-size: 7pt !important;
+	margin: 3px 0px 0px 0px;
 }
 ';
 

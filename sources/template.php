@@ -146,7 +146,7 @@ class template {
 	//
 	function body($enable_debugmessages=true) {
 		
-		global $db, $functions, $timer;
+		global $db, $functions, $timer, $lang;
 		
 		//
 		// Debug features
@@ -171,7 +171,7 @@ class template {
 				//
 				// List parsetime and queries in short
 				//
-				$debug_info_small = sprintf($this->get_config('debug_info_small'), 'PT: '.$parsetime.' - SL: '.$serverload.' - TPLS: '.count($this->loaded_sections).' - SQL: '.count($db->get_used_queries()));
+				$debug_info_small = sprintf($this->get_config('debug_info_small'), $lang['ParseTime'].': '.$parsetime.' s '.$this->get_config('item_delimiter').' '.$lang['ServerLoad'].': '.$serverload.' '.$this->get_config('item_delimiter').' '.$lang['TemplateSections'].': '.count($this->loaded_sections).' '.$this->get_config('item_delimiter').' '.$lang['SQLQueries'].': '.count($db->get_used_queries()));
 				$debug_info_large = '';
 				
 			} elseif ( $functions->get_config('debug') === 2 ) {
@@ -180,7 +180,7 @@ class template {
 				// Lists parsetime and queries fully
 				//
 				$debug_info_small = '';
-				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<strong>Debug mode</strong><br />Parse time: '.$parsetime.'<br />Server load: '.$serverload.'<br />Used template sets ('.count($this->loaded_sections).'): <select size="1"><option value="">'.join('</option><option value="">', $this->loaded_sections).'</option></select><br />Used queries ('.count($db->get_used_queries()).'):<br /><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea>');
+				$debug_info_large = sprintf($this->get_config('debug_info_large'), '<div><strong>'.$lang['DebugMode'].'</strong> '.$this->get_config('item_delimiter').' '.$lang['ParseTime'].': '.$parsetime.' s '.$this->get_config('item_delimiter').' '.$lang['ServerLoad'].': '.$serverload.' '.$this->get_config('item_delimiter').' '.$lang['TemplateSections'].': '.join(', ', $this->loaded_sections).' '.$this->get_config('item_delimiter').' '.$lang['SQLQueries'].' ('.count($db->get_used_queries()).'):</div><textarea rows="10" cols="50" readonly="readonly">'.htmlspecialchars(join("\n\n", $db->get_used_queries())).'</textarea>');
 				
 			}
 			

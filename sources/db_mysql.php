@@ -51,12 +51,12 @@ class db {
 		// Connect to server
 		//
 		if ( !($this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'])) )
-			$functions->usebb_die('SQL', 'Unable to connect to the database server!', __FILE__, __LINE__);
+			$functions->usebb_die('General', 'Unable to connect to the database server!', __FILE__, __LINE__);
 		//
 		// Select database
 		//
 		if ( !(@mysql_select_db($config['dbname'], $this->connection)) )
-			$functions->usebb_die('SQL', 'Unable to connect to the database!', __FILE__, __LINE__);
+			$functions->usebb_die('General', 'Unable to connect to the database!', __FILE__, __LINE__);
 		
 	}
 	

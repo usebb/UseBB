@@ -117,5 +117,5 @@ function insert_tags(tagOpen, tagClose, sampleText) {
 // Shortcut for smiley adding code
 //
 function insert_smiley(code) {
-	insert_tags('', code, '');
+	insert_tags('', ' '+code+' ', '');
 }

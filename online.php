@@ -175,7 +175,23 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	foreach ( $sessions as $sessiondata ) {
 		
-		$username = ( $sessiondata['user_id'] ) ? $functions->make_profile_link($sessiondata['user_id'], $sessiondata['displayed_name'], $sessiondata['level']) : $lang['Guest'];
+		if ( $sessiondata['user_id'] ) {
+			
+			if ( !$sessiondata['hide_from_online_list'] ) {
+				
+				$username = $functions->make_profile_link($sessiondata['user_id'], $sessiondata['displayed_name'], $sessiondata['level']);
+				
+			} else {
+				
+				$username = '<em>'.$functions->make_profile_link($sessiondata['user_id'], $sessiondata['displayed_name'], $sessiondata['level']).'</em>';
+				
+			}
+			
+		} else {
+			
+			$username = $lang['Guest'];
+			
+		}
 		
 		if ( $functions->get_user_level() == 3 )
 			$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';

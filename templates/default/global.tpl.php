@@ -649,6 +649,7 @@ p#linkbar {
 	text-decoration: none;
 	padding: 1px 6px 1px 6px;
 	border: 1px solid transparent;
+	border-left: 1px solid silver;
 	color: black !important;
 }
 #bbcode-controls a:hover {

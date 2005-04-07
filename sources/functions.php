@@ -1072,7 +1072,16 @@ class functions {
 		//
 		// Arrays for holding a list of online guests and members.
 		//
-		$online_guests = $online_members = array();
+		$count = array(
+			'total_members' => 0,
+			'hidden_members' => 0,
+			'guests' => 0
+		);
+		$list = array(
+			'members' => array(),
+			'guests' => array()
+		);
+		$memberlist = array();
 		
 		while ( $onlinedata = $db->fetch_result($result) ) {
 			
@@ -1082,18 +1091,37 @@ class functions {
 				// This is a guest
 				// Guests will only be counted per IP address
 				//
-				
-				if ( !in_array($onlinedata['ip_addr'], $online_guests) )
-					$online_guests[] = $onlinedata['ip_addr'];
+				if ( !in_array($onlinedata['ip_addr'], $list['guests']) ) {
+					
+					$count['guests']++;
+					$list['guests'][] = $onlinedata['ip_addr'];
+					
+				}
 				
 			} else {
 				
 				//
 				// This is a member
 				//
-				
-				if ( !array_key_exists($onlinedata['id'], $online_members) && ( !$onlinedata['hide_from_online_list'] || $this->get_user_level() == 3 ) )
-					$online_members[$onlinedata['id']] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
+				if ( !in_array($onlinedata['id'], $list['members']) ) {
+					
+					if ( !$onlinedata['hide_from_online_list'] ) {
+						
+						$memberlist[] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
+						
+					} else {
+						
+						if ( $this->get_user_level() == 3 )
+							$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']).'</em>';
+						
+						$count['hidden_members']++;
+						
+					}
+					
+					$count['total_members']++;
+					$list['members'][] = $onlinedata['id'];
+					
+				}
 				
 			}
 			
@@ -1107,8 +1135,8 @@ class functions {
 		$template->parse('forum_stats_box', 'various', array(
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>'),
-			'users_online' => sprintf($lang['OnlineUsers'], count($online_members), count($online_guests), $this->get_config('online_min_updated')),
-			'members_online' => ( count($online_members) ) ? join(', ', $online_members) : '',
+			'users_online' => sprintf($lang['OnlineUsers'], $count['total_members'], $count['hidden_members'], $count['guests'], $this->get_config('online_min_updated')),
+			'members_online' => ( count($memberlist) ) ? join(', ', $memberlist) : '',
 			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
 		));
 		

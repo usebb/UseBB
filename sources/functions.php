@@ -1135,7 +1135,7 @@ class functions {
 		$template->parse('forum_stats_box', 'various', array(
 			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
 			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>'),
-			'users_online' => sprintf($lang['OnlineUsers'], $count['total_members'], $count['hidden_members'], $count['guests'], $this->get_config('online_min_updated')),
+			'users_online' => sprintf($lang['UsersOnline'], $count['total_members'], $count['hidden_members'], $count['guests'], $this->get_config('online_min_updated')),
 			'members_online' => ( count($memberlist) ) ? join(', ', $memberlist) : '',
 			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
 		));

@@ -242,13 +242,6 @@ blockquote.quote .content {
 strong {
 	font-weight: bold;
 }
-em, em.underline em, em em.underline {
-	font-style: italic;
-}
-em.underline {
-	text-decoration: underline;
-	font-style: normal;
-}
 #logo {
 	float: left;
 }

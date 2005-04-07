@@ -847,7 +847,9 @@ class functions {
 				// [i]text[/i]
 					"#\[i\](.*?)\[/i\]#is" => '<em>\\1</em>',
 				// [u]text[/u]
-					"#\[u\](.*?)\[/u\]#is" => '<em class="underline">\\1</em>',
+					"#\[u\](.*?)\[/u\]#is" => '<u>\\1</u>',
+				// [s]text[/s]
+					"#\[s\](.*?)\[/s\]#is" => '<strike>\\1</strike>',
 				// [img]image[/img]
 					"#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
 				// [url]http://www.usebb.net[/url]
@@ -908,6 +910,7 @@ class functions {
 			array('[b]', '[/b]', 'B', 'font-weight: bold'),
 			array('[i]', '[/i]', 'I', 'font-style: italic'),
 			array('[u]', '[/u]', 'U', 'text-decoration: underline'),
+			array('[s]', '[/s]', 'S', 'text-decoration: line-through'),
 			array('[quote]', '[/quote]', $lang['Quote'], ''),
 			array('[code]', '[/code]', $lang['Code'], ''),
 			array('[img]', '[/img]', $lang['Img'], ''),

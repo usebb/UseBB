@@ -59,6 +59,8 @@ $templates['config'] = array(
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',
 	'quick_reply_textarea_cols'			=> '60',
+	'post_form_bbcode_seperator'		=> '',
+	'post_form_smiley_seperator'		=> ' ',
 	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
 	'smilies' => array(
@@ -640,19 +642,24 @@ p#linkbar {
 	text-align: center;
 	margin-bottom: 20px;
 }
-#bbcode-controls, #smiley-controls {
+#bbcode-controls {
+	margin: 3px 0px 7px 0px;
+}
+#bbcode-controls a {
+	text-decoration: none;
+	padding: 1px 6px 1px 6px;
+	border: 1px solid transparent;
+	color: black !important;
+}
+#bbcode-controls a:hover {
+	background-color: #dae2e4;
+	border: 1px solid #2058b9;
+}
+#smiley-controls {
 	margin: 0px 0px 5px 0px;
 }
-#bbcode-controls input {
-	margin: 0px 3px 0px 0px;
-	padding: 0px 3px 0px 3px;
-}
-#smiley-controls a {
-	margin: 0px 5px 0px 0px;
-}
-#post-options {
-	margin: 3px 0px 0px 0px;
-	line-height: 1.6em;
+#post-options input, #post-options label {
+	margin: 5px 0px 0px 0px;
 }
 #bottom {
 	clear: both;

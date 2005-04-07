@@ -904,7 +904,7 @@ class functions {
 	//
 	function get_bbcode_controls() {
 		
-		global $lang;
+		global $lang, $template;
 		
 		$controls = array(
 			array('[b]', '[/b]', 'B', 'font-weight: bold'),
@@ -919,14 +919,14 @@ class functions {
 			array('[size=14]', '[/size]', $lang['Size'], '')
 		);
 		
-		$out = '';
+		$out = array();
 		foreach ( $controls as $data ) {
 			
-			$out .= '<input type="button" value="'.$data[2].'" style="'.$data[3].'" onclick="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\', \'text\')" />';
+			$out[] = '<a href="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\', \'text\')" style="'.$data[3].'">'.$data[2].'</a>';
 			
 		}
 		
-		return $out;
+		return join($template->get_config('post_form_bbcode_seperator'), $out);
 		
 	}
 	
@@ -945,14 +945,14 @@ class functions {
 				$smilies_unique[$img] = $pattern;
 			
 		}
-		$out = '';
+		$out = array();
 		foreach ( $smilies_unique as $img => $pattern ) {
 			
-			$out .= '<a href="javascript:insert_smiley(\' '.addslashes(unhtml($pattern)).' \')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
+			$out[] = '<a href="javascript:insert_smiley(\' '.addslashes(unhtml($pattern)).' \')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 			
 		}
 		
-		return $out;
+		return join($template->get_config('post_form_smiley_seperator'), $out);
 		
 	}
 	

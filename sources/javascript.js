@@ -30,8 +30,9 @@
 //	- Andreas Gohr <andi@splitbrain.org>
 //	- Jim Raynor <jim_raynor@web.de>
 //
-function insert_tags(tagOpen, tagClose, sampleText) {
-	var txtarea = document.postform.content;
+function insert_tags(tagOpen, tagClose) {
+	var txtarea = document.getElementById('tags-txtarea');
+	var sampleText = '';
 	// IE
 	if(document.selection && !is_gecko) {
 		var theSelection = document.selection.createRange().text;

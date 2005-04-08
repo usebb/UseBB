@@ -922,7 +922,7 @@ class functions {
 		$out = array();
 		foreach ( $controls as $data ) {
 			
-			$out[] = '<a href="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\', \'text\')" style="'.$data[3].'">'.$data[2].'</a>';
+			$out[] = '<a href="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\')" style="'.$data[3].'">'.$data[2].'</a>';
 			
 		}
 		

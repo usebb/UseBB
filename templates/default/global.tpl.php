@@ -651,6 +651,7 @@ p#linkbar {
 	border: 1px solid transparent;
 	border-left: 1px solid silver;
 	color: black !important;
+	cursor: default !important;
 }
 #bbcode-controls a:hover {
 	background-color: #dae2e4;

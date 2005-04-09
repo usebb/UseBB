@@ -97,6 +97,7 @@ class functions {
 	var $statistics;
 	var $enabled_templates;
 	var $mod_auth;
+	var $badwords;
 	
 	//
 	// General error die function
@@ -754,7 +755,7 @@ class functions {
 	//
 	function markup($string, $bbcode=true, $smilies=true, $html=false) {
 		
-		global $template, $lang;
+		global $db, $template, $lang;
 		
 		//
 		// Needed by some BBCode regexps and smilies
@@ -767,7 +768,7 @@ class functions {
 		if ( $smilies ) {
 			
 			foreach ( $template->get_config('smilies') as $pattern => $img )
-				$string = preg_replace('#([\s\]\[])'.preg_quote(unhtml($pattern)).'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\2', $string);
+				$string = preg_replace('#([\s\]\[])'.preg_quote(unhtml($pattern), '#').'([\s\]\[])#', '\\1<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\2', $string);
 			
 		}
 		
@@ -953,6 +954,27 @@ class functions {
 		}
 		
 		return join($template->get_config('post_form_smiley_seperator'), $out);
+		
+	}
+	
+	function replace_badwords($string) {
+		
+		global $db;
+		
+		if ( !isset($this->badwords) ) {
+			
+			if ( !($result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC")) )
+				$this->usebb_die('SQL', 'Unable to get bad words!', __FILE__, __LINE__);
+			
+			while ( $data = $db->fetch_result($result) )
+				$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+			
+		}
+		
+		foreach ( $this->badwords as $badword => $replacement )
+			$string = preg_replace($badword, $replacement, $string);
+		
+		return $string;
 		
 	}
 	

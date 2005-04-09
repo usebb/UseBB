@@ -122,7 +122,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').unhtml(stripslashes($topicdata['topic_title'])));
+			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
+			
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$topic_title);
 			
 			//
 			// Update views count
@@ -201,7 +203,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			// Output the posts
 			//
 			$template->parse('topic_header', 'topic', array(
-				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
+				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.$topic_title.'</a>',
 				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
@@ -298,7 +300,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 				
 				$topic_title  = ( $i > 1 ) ? $lang['Re'].' ' : '';
-					$topic_title .= unhtml(stripslashes($topicdata['topic_title']));
+					$topic_title .= $topic_title;
 				
 				//
 				// Links used to control posts: quote, edit, delete...
@@ -355,7 +357,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
-					'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
+					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup(stripslashes($postsdata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'post_editinfo' => $post_editinfo,
 					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == 3 ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], $postsdata['poster_ip_addr'])) : '',

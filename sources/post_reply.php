@@ -165,7 +165,9 @@ if ( !$db->num_rows($result) ) {
 			
 		} else {
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostReply']);
+			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
+			
+			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostReply']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
@@ -252,7 +254,7 @@ if ( !$db->num_rows($result) ) {
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
 				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" />',
-				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
+				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea">'.$_POST['content'].'</textarea>',
 				'bbcode_controls' => $functions->get_bbcode_controls(),
 				'smiley_controls' => $functions->get_smiley_controls(),
@@ -283,7 +285,7 @@ if ( !$db->num_rows($result) ) {
 					$template->parse('topicreview_post', 'topicreview', array(
 						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['displayed_name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
 						'post_date' => $functions->make_date($postsdata['post_time']),
-						'post_content' => $functions->markup(stripslashes($postsdata['content']), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
+						'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 						'colornum' => $colornum
 					));
 					

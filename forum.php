@@ -113,7 +113,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					//
 					// Loop through the topics, generating output...
 					//
-					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>';
+					$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))).'</a>';
 					if ( $topicdata['status_sticky'] )
 						$topic_name = $lang['Sticky'].': '.$topic_name;
 					$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : unhtml(stripslashes($topicdata['last_poster_guest']));

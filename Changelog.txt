@@ -9,6 +9,7 @@ UseBB 0.5 Changelog
 - Added bad words filter.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.
+- Fixed bug #374: MySQL results not getting freed.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.
 - Fixed too much stripping of backslashes.

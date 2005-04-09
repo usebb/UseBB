@@ -42,6 +42,7 @@ class db {
 	//
 	var $connection;
 	var $queries = array();
+	var $results = array();
 	
 	//
 	// Make a connection to the MySQL server
@@ -79,7 +80,33 @@ class db {
 	//
 	function fetch_result($result) {
 		
-		return mysqli_fetch_array($result, MYSQL_ASSOC);
+		global $functions;
+		
+		if ( $functions->get_config('auto_free_sql_results') ) {
+			
+			$resultnum = intval($result);
+			
+			if ( !array_key_exists($resultnum, $this->results) ) {
+				
+				$resultset = array();
+				while ( $row = mysqli_fetch_array($result, MYSQL_ASSOC) )
+					$resultset[] = $row;
+				$this->results[$resultnum] = $resultset;
+				mysqli_free_result($result);
+				reset($this->results[$resultnum]);
+				return current($this->results[$resultnum]);
+				
+			} else {
+				
+				return next($this->results[$resultnum]);
+				
+			}
+			
+		} else {
+			
+			return mysqli_fetch_array($result, MYSQL_ASSOC);
+			
+		}
 		
 	}
 	

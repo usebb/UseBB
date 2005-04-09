@@ -54,6 +54,7 @@ $conf = array();
 //
 $conf['admin_email'] = 'email@example.net';
 $conf['allow_multi_sess'] = 1;
+$conf['auto_free_sql_results'] = 1;
 $conf['available_languages'] = array('English', 'Nederlands');
 $conf['available_templates'] = array('default');
 $conf['avatars_force_width'] = 65;

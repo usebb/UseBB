@@ -1083,87 +1083,91 @@ class functions {
 		
 		global $db, $template, $lang, $session;
 		
-		//
-		// Timestamp for defining last updated sessions
-		//
-		$min_updated = time() - ( $this->get_config('online_min_updated') * 60 );
-		
-		//
-		// Get the session and user information
-		//
-		if ( !($result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-			$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
-		
-		//
-		// Arrays for holding a list of online guests and members.
-		//
-		$count = array(
-			'total_members' => 0,
-			'hidden_members' => 0,
-			'guests' => 0
-		);
-		$list = array(
-			'members' => array(),
-			'guests' => array()
-		);
-		$memberlist = array();
-		
-		while ( $onlinedata = $db->fetch_result($result) ) {
+		if ( $this->get_config('enable_forum_stats_box') && $this->get_user_level() >= $this->get_config('view_forum_stats_box_min_level') ) {
 			
-			if ( !$onlinedata['id'] ) {
+			//
+			// Timestamp for defining last updated sessions
+			//
+			$min_updated = time() - ( $this->get_config('online_min_updated') * 60 );
+			
+			//
+			// Get the session and user information
+			//
+			if ( !($result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
+				$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
+			
+			//
+			// Arrays for holding a list of online guests and members.
+			//
+			$count = array(
+				'total_members' => 0,
+				'hidden_members' => 0,
+				'guests' => 0
+			);
+			$list = array(
+				'members' => array(),
+				'guests' => array()
+			);
+			$memberlist = array();
+			
+			while ( $onlinedata = $db->fetch_result($result) ) {
 				
-				//
-				// This is a guest
-				// Guests will only be counted per IP address
-				//
-				if ( !in_array($onlinedata['ip_addr'], $list['guests']) ) {
+				if ( !$onlinedata['id'] ) {
 					
-					$count['guests']++;
-					$list['guests'][] = $onlinedata['ip_addr'];
-					
-				}
-				
-			} else {
-				
-				//
-				// This is a member
-				//
-				if ( !in_array($onlinedata['id'], $list['members']) ) {
-					
-					if ( !$onlinedata['hide_from_online_list'] ) {
+					//
+					// This is a guest
+					// Guests will only be counted per IP address
+					//
+					if ( !in_array($onlinedata['ip_addr'], $list['guests']) ) {
 						
-						$memberlist[] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
-						
-					} else {
-						
-						if ( $this->get_user_level() == 3 )
-							$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']).'</em>';
-						
-						$count['hidden_members']++;
+						$count['guests']++;
+						$list['guests'][] = $onlinedata['ip_addr'];
 						
 					}
 					
-					$count['total_members']++;
-					$list['members'][] = $onlinedata['id'];
+				} else {
+					
+					//
+					// This is a member
+					//
+					if ( !in_array($onlinedata['id'], $list['members']) ) {
+						
+						if ( !$onlinedata['hide_from_online_list'] ) {
+							
+							$memberlist[] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
+							
+						} else {
+							
+							if ( $this->get_user_level() == 3 )
+								$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']).'</em>';
+							
+							$count['hidden_members']++;
+							
+						}
+						
+						$count['total_members']++;
+						$list['members'][] = $onlinedata['id'];
+						
+					}
 					
 				}
 				
 			}
 			
+			$latest_member = $this->get_stats('latest_member');
+			
+			//
+			// Parse the online box
+			//
+			$template->parse('forum_stats_box', 'various', array(
+				'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
+				'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>'),
+				'users_online' => sprintf($lang['UsersOnline'], $count['total_members'], $count['hidden_members'], $count['guests'], $this->get_config('online_min_updated')),
+				'members_online' => ( count($memberlist) ) ? join(', ', $memberlist) : '',
+				'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
+			));
+			
 		}
-		
-		$latest_member = $this->get_stats('latest_member');
-		
-		//
-		// Parse the online box
-		//
-		$template->parse('forum_stats_box', 'various', array(
-			'small_stats' => sprintf($lang['IndexStats'], $this->get_stats('posts'), $this->get_stats('topics'), $this->get_stats('members')),
-			'newest_member' => ( !$this->get_stats('members') ) ? '' : ' '.sprintf($lang['NewestMember'], '<a href="'.$this->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>'),
-			'users_online' => sprintf($lang['UsersOnline'], $count['total_members'], $count['hidden_members'], $count['guests'], $this->get_config('online_min_updated')),
-			'members_online' => ( count($memberlist) ) ? join(', ', $memberlist) : '',
-			'detailed_list_link' => ( $this->get_config('enable_detailed_online_list') && $this->get_user_level() >= $this->get_config('view_detailed_online_list_min_level') ) ? '<a href="'.$this->make_url('online.php').'">'.$lang['Detailed'].'</a>' : ''
-		));
 		
 	}
 	

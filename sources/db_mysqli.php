@@ -43,6 +43,7 @@ class db {
 	var $connection;
 	var $queries = array();
 	var $results = array();
+	var $lastresult;
 	
 	//
 	// Make a connection to the MySQL server
@@ -88,11 +89,14 @@ class db {
 			
 			if ( !array_key_exists($resultnum, $this->results) ) {
 				
+				if ( isset($this->lastresult) && $result != $this->lastresult )
+					mysqli_free_result($this->lastresult);
+				$this->lastresult = $result;
+				
 				$resultset = array();
 				while ( $row = mysqli_fetch_array($result, MYSQL_ASSOC) )
 					$resultset[] = $row;
 				$this->results[$resultnum] = $resultset;
-				mysqli_free_result($result);
 				reset($this->results[$resultnum]);
 				return current($this->results[$resultnum]);
 				

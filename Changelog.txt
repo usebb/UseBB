@@ -7,6 +7,7 @@ UseBB 0.5 Changelog
 - Added displayed name option, able to set all kinds of names.
 - Added BBCode and smiley controls on post form.
 - Added bad words filter.
+- Added ability to disable or limit viewing rights of the stats box.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.
 - Fixed bug #374: MySQL results not getting freed.

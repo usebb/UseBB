@@ -17,6 +17,7 @@ UseBB 0.5 Changelog
 - Fixed bad unhtml() function.
 - Don't send subscription mail to poster himself.
 - Make edit post location bar contain full path.
+- Try to disable MySQL trace mode.
 - Several fixes to guarantee security.
 - Graphical buttons replaced by HTML ones.
 - Various template improvements.

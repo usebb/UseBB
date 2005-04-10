@@ -120,6 +120,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					
 					list($topic_icon, $topic_status) = $functions->forum_topic_icon($topicdata['status_locked'], 0, $topicdata['last_post_time'] , $topicdata['last_poster_id'], 'topic', $topicdata['id']);
 					
+					if ( $topic_status == $lang['NewPosts'] || $topic_status == $lang['LockedNewPosts'] ) {
+						
+						$topic_name = sprintf($template->get_config('newpost_link_format'), $functions->make_url('topic.php', array('id' => $topicdata['id'], 'act' => 'getnewpost')).'#newpost', 'templates/'.$functions->get_config('template').'/gfx/'.$template->get_config('newpost_link_icon'), $topic_status) . $topic_name;
+						
+					}
+					
 					//
 					// Parse the topic template
 					//

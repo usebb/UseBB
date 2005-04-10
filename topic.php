@@ -80,6 +80,20 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 		}
 		
+	} elseif ( !empty($_GET['act']) && $_GET['act'] == 'getnewpost' ) {
+		
+		if ( !($result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$_SESSION['previous_visit']." GROUP BY p.topic_id")) )
+			$functions->usebb_die('SQL', 'Unable to page of new post!', __FILE__, __LINE__);
+		
+		if ( $db->num_rows($result) ) {
+			
+			$out = $db->fetch_result($result);
+			$post_in_topic = $out['post_in_topic'];
+			
+		}
+		
+		$requested_topic = $_GET['id'];
+		
 	} else {
 		
 		$requested_topic = $_GET['id'];
@@ -220,6 +234,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page') - 1);
 			
+			$new_post_anchor_set = false;
+			
 			while ( $postsdata = $db->fetch_result($result) ) {
 				
 				//
@@ -235,6 +251,17 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				// Post count
 				//
 				$i++;
+				
+				if ( $session->sess_info['user_id'] && !$new_post_anchor_set && $_SESSION['previous_visit'] < $postsdata['post_time'] ) {
+					
+					$new_post_anchor = '<a name="newpost"></a>';
+					$new_post_anchor_set = true;
+					
+				} else {
+					
+					$new_post_anchor = '';
+					
+				}
 				
 				//
 				// This poster was logged in
@@ -299,8 +326,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				}
 				
 				
-				$topic_title  = ( $i > 1 ) ? $lang['Re'].' ' : '';
-					$topic_title .= $topic_title;
+				$post_topic_title = ( ( $i ) ? $lang['Re'].' ' : '' ) . $topic_title;
 				
 				//
 				// Links used to control posts: quote, edit, delete...
@@ -353,8 +379,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
 					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M y') : '',
 					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.unhtml(stripslashes($postsdata['location'])) : '',
-					'topic_title' => $topic_title,
-					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>',
+					'topic_title' => $post_topic_title,
+					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>'.$new_post_anchor,
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
 					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),

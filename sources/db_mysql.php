@@ -72,7 +72,7 @@ class db {
 		global $functions;
 		
 		$this->queries[] = preg_replace("/\s+/", ' ', $query);
-		$result = @mysql_query($query, $this->connection) or die(mysql_error());
+		$result = @mysql_query($query, $this->connection);
 		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
 			$this->results[] = $result;
 		return $result;

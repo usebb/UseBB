@@ -43,7 +43,6 @@ class db {
 	var $connection;
 	var $queries = array();
 	var $results = array();
-	var $lastresult;
 	
 	//
 	// Make a connection to the MySQL server
@@ -70,9 +69,13 @@ class db {
 	//
 	function query($query) {
 		
-		$add_query = preg_replace("/\s+/", ' ', $query);
-		$this->queries[] = $add_query;
-		return @mysqli_query($query, $this->connection);
+		global $functions;
+		
+		$this->queries[] = preg_replace("/\s+/", ' ', $query);
+		$result = @mysqli_query($query, $this->connection);
+		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
+			$this->results[] = $result;
+		return $result;
 		
 	}
 	
@@ -81,36 +84,7 @@ class db {
 	//
 	function fetch_result($result) {
 		
-		global $functions;
-		
-		if ( $functions->get_config('auto_free_sql_results') ) {
-			
-			$resultnum = intval($result);
-			
-			if ( !array_key_exists($resultnum, $this->results) ) {
-				
-				if ( isset($this->lastresult) && $result != $this->lastresult )
-					mysqli_free_result($this->lastresult);
-				$this->lastresult = $result;
-				
-				$resultset = array();
-				while ( $row = mysqli_fetch_array($result, MYSQL_ASSOC) )
-					$resultset[] = $row;
-				$this->results[$resultnum] = $resultset;
-				reset($this->results[$resultnum]);
-				return current($this->results[$resultnum]);
-				
-			} else {
-				
-				return next($this->results[$resultnum]);
-				
-			}
-			
-		} else {
-			
-			return mysqli_fetch_array($result, MYSQL_ASSOC);
-			
-		}
+		return mysqli_fetch_array($result, MYSQL_ASSOC);
 		
 	}
 	
@@ -145,6 +119,15 @@ class db {
 	// Disconnect the database connection
 	//
 	function disconnect() {
+		
+		global $functions;
+		
+		if ( $functions->get_config('auto_free_sql_results') ) {
+			
+			foreach ( $this->results as $result )
+				mysqli_free_result($result);
+			
+		}
 		
 		mysqli_close($this->connection);
 		

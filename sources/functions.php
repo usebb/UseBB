@@ -966,8 +966,16 @@ class functions {
 			if ( !($result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC")) )
 				$this->usebb_die('SQL', 'Unable to get bad words!', __FILE__, __LINE__);
 			
-			while ( $data = $db->fetch_result($result) )
-				$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+			if ( $db->num_rows($result) ) {
+				
+				while ( $data = $db->fetch_result($result) )
+					$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+				
+			} else {
+				
+				$this->badwords = array();
+				
+			}
 			
 		}
 		

@@ -35,6 +35,17 @@ class functions {
 		
 	}
 	
+	function get_config($setting) {
+		
+		global $conf;
+		
+		if ( isset($conf[$setting]) )
+			return $conf[$setting];
+		else
+			return '';
+		
+	}
+	
 }
 
 $functions = new functions;
@@ -160,6 +171,8 @@ if ( empty($_POST['step']) ) {
 		}
 		
 	}
+	
+	$db->disconnect();
 	
 	if ( $error ) {
 		

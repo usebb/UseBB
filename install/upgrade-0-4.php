@@ -35,6 +35,17 @@ class functions {
 		
 	}
 	
+	function get_config($setting) {
+		
+		global $conf;
+		
+		if ( isset($conf[$setting]) )
+			return $conf[$setting];
+		else
+			return '';
+		
+	}
+	
 }
 
 $functions = new functions;
@@ -160,6 +171,8 @@ if ( empty($_POST['step']) ) {
 		
 	}
 	
+	$db->disconnect();
+	
 	if ( $error ) {
 		
 		echo '<p>An error occured while executing the SQL queries.</p>';
@@ -209,6 +222,8 @@ if ( empty($_POST['step']) ) {
 		$db->query("UPDATE ".$dbs['prefix']."members SET name = '".$out['name']."' WHERE id = ".$out['id']);
 		
 	}
+	
+	$db->disconnect();
 	
 	echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
 	echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';

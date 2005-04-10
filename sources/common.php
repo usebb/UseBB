@@ -35,6 +35,7 @@ if ( !defined('INCLUDED') )
 error_reporting(E_ALL);
 set_magic_quotes_runtime(1);
 @ini_set('display_errors', '1');
+@ini_set('mysql.trace_mode', '0');
 
 //
 // Check PHP version by checking the presence of version_compare()

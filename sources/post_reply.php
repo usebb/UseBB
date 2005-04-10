@@ -217,7 +217,7 @@ if ( !$db->num_rows($result) ) {
 						$quoteddata = $db->fetch_result($result);
 						
 						$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
-						$quotedpost = stripslashes($quoteddata['content']);
+						$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
 						
 						$_POST['content'] = '[quote='.$quoteduser.']'.$quotedpost.'[/quote]';
 						

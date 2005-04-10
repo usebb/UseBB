@@ -90,7 +90,7 @@ if ( !isset($_GET['act']) ) {
 				
 			} else {
 				
-				$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($postdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post'].'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['EditPost']);
+				$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($postdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post'].'">'.unhtml($functions->replace_badwords(stripslashes($postdata['topic_title']))).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['EditPost']);
 				
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					
@@ -153,8 +153,8 @@ if ( !isset($_GET['act']) ) {
 					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" />',
 					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea">'.$content.'</textarea>',
-				'bbcode_controls' => $functions->get_bbcode_controls(),
-				'smiley_controls' => $functions->get_smiley_controls(),
+					'bbcode_controls' => $functions->get_bbcode_controls(),
+					'smiley_controls' => $functions->get_smiley_controls(),
 					'options_input' => $options_input,
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',

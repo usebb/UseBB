@@ -206,10 +206,25 @@ class functions {
 			
 		}
 		
-		if ( isset($this->board_config[$setting]) )
+		if ( $setting == 'board_url' && empty($this->board_config['board_url']) ) {
+			
+			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+			return 'http://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+			
+		} elseif ( $setting == 'cookie_path' && empty($this->board_config['cookie_path']) ) {
+			
+			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+			return $path_parts['dirname'];
+			
+		} elseif ( isset($this->board_config[$setting]) ) {
+			
 			return $this->board_config[$setting];
-		else
-			return '';
+			
+		} else {
+			
+			return false;
+			
+		}
 		
 	}
 	

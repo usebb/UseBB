@@ -10,6 +10,7 @@ UseBB 0.5 Changelog
 - Added ability to disable or limit viewing rights of the stats box.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.
+- Auto detect board URL and cookie path if set to empty.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.

@@ -191,10 +191,12 @@ if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Step 4</h2>';
 	
+	set_magic_quotes_runtime(0);
 	$usernames = array();
 	$result = $db->query("SELECT id, name FROM ".$dbs['prefix']."members ORDER BY id ASC");
 	while ( $out = $db->fetch_result($result) ) {
 		
+		$original_name = $out['name'];
 		$out['name'] = preg_replace('#[^A-Za-z0-9_-]#', '', str_replace(' ', '_', $out['name']));
 		$out['name'] = ( !empty($out['name']) ) ? $out['name'] : 'user';
 		
@@ -219,7 +221,8 @@ if ( empty($_POST['step']) ) {
 			
 		}
 		
-		$db->query("UPDATE ".$dbs['prefix']."members SET name = '".$out['name']."' WHERE id = ".$out['id']);
+		if ( $original_name != $out['name'] )
+			$db->query("UPDATE ".$dbs['prefix']."members SET name = '".addslashes($out['name'])."' WHERE id = ".$out['id']);
 		
 	}
 	

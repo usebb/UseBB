@@ -3,6 +3,23 @@
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `usebb_badwords`
+-- 
+
+CREATE TABLE usebb_badwords (
+  word varchar(255) NOT NULL default '',
+  replacement varchar(255) NOT NULL default '',
+  PRIMARY KEY  (word)
+) TYPE=MyISAM;
+
+-- 
+-- Dumping data for table `usebb_badwords`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `usebb_bans`
 -- 
 

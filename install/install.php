@@ -112,7 +112,7 @@ function to_step($step) {
 if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Welcome</h2>';
-	echo '<p>Welcome to the UseBB installation wizard. This wizard will help you set up a new UseBB installation.</p><p><strong>Note:</strong> this wizard does <strong>NOT</strong> upgrade an existing installation! Please use the <code>upgrade-<em>old_version</em>.php</code> wizard instead.</p>';
+	echo '<p>Welcome to the UseBB installation wizard. This wizard will help you set up a new UseBB installation.</p><p><strong>Note:</strong> this wizard does <strong>NOT</strong> upgrade an existing installation! Please see the UPGRADE document instead.</p>';
 	echo to_step(1);
 	
 } elseif ( intval($_POST['step']) === 1 ) {
@@ -204,8 +204,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'panel.php?act=register">your UseBB board</a> and register a first account. It will automatically be an administrator.</p>';
-		echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
+		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="../panel.php?act=register">your UseBB board</a> and register a first account. It will automatically be an administrator.</p>';
 		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp" target="_blank">this manual</a> to further set up your forum.</p>';
 		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
 		

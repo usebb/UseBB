@@ -181,8 +181,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>All SQL queries have been executed. Please delete the directory <code>install/</code> for security reasons. You can now go to <a href="'.$conf['board_url'].'">your UseBB board</a> and continue using it.</p>';
-		echo '<p><strong>Note:</strong> if the above URL leads you to an error page without UseBB, your <code>$conf[\'board_url\']</code> value in <code>config.php</code> isn\'t correct! Please adjust it <strong>first</strong>!</p>';
+		echo '<p>All SQL queries have been executed. Your board has now been updated to version 0.4. If the latest release is newer, you might need to run other wizards too. See the UPGRADE document. Otherwise, please delete the directory <code>install/</code> for security reasons. You can now go to <a href="../">your UseBB board</a> and continue using it.</p>';
 		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp" target="_blank">this manual</a> to further set up your forum.</p>';
 		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
 		

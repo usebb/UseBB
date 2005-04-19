@@ -865,7 +865,7 @@ class functions {
 				// [u]text[/u]
 					"#\[u\](.*?)\[/u\]#is" => '<u>\\1</u>',
 				// [s]text[/s]
-					"#\[s\](.*?)\[/s\]#is" => '<strike>\\1</strike>',
+					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
 					"#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
 				// [url]http://www.usebb.net[/url]

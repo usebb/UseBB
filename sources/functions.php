@@ -1258,7 +1258,7 @@ class functions {
 		
 		global $db, $session, $template, $lang;
 		
-		if ( !is_array($this->updated_forums) ) {
+		if ( $session->sess_info['user_id'] && !is_array($this->updated_forums) ) {
 			
 			$this->updated_forums = array();
 			
@@ -1278,7 +1278,7 @@ class functions {
 			
 		}
 		
-		if ( in_array($id, $this->updated_forums) ) {
+		if ( $session->sess_info['user_id'] && in_array($id, $this->updated_forums) ) {
 			
 			if ( $open ) {
 				
@@ -1319,7 +1319,7 @@ class functions {
 		
 		global $session, $template, $lang;
 		
-		if ( $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
+		if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
 			
 			if ( !$locked ) {
 				

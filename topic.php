@@ -134,7 +134,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			// The user may view this topic
 			//
 			
-			$_SESSION['viewed_items']['topic:'.$requested_topic] = time();
+			$_SESSION['viewed_topics'][$requested_topic] = time();
 			
 			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
 			

@@ -98,6 +98,7 @@ class functions {
 	var $enabled_templates;
 	var $mod_auth;
 	var $badwords;
+	var $updated_forums;
 	
 	//
 	// General error die function
@@ -1251,15 +1252,35 @@ class functions {
 	}
 	
 	//
-	// Define the icon for forums and topics
-	//	
-	function forum_topic_icon($status, $open_status, $post_time, $poster_id, $item_type, $item_id) {
+	// Define the icon for forums
+	//
+	function forum_icon($id, $open, $post_time) {
 		
-		global $session, $template, $lang;
+		global $db, $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && $session->sess_info['user_id'] != $poster_id && $_SESSION['previous_visit'] < $post_time && $_SESSION['previous_visit'] > 0 && ( !array_key_exists($item_type.':'.$item_id, $_SESSION['viewed_items']) || $_SESSION['viewed_items'][$item_type.':'.$item_id] < $post_time ) ) {
+		if ( !is_array($this->updated_forums) ) {
 			
-			if ( $status == $open_status ) {
+			$this->updated_forums = array();
+			
+			if ( !($result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit'])) )
+				$this->usebb_die('SQL', 'Unable to get updated topics information!', __FILE__, __LINE__);
+			
+			if ( $db->num_rows($result) ) {
+				
+				while ( $topicsdata = $db->fetch_result($result) ) {
+					
+					if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists($topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$topicsdata['id']] < $topicsdata['post_time'] ) )
+						$this->updated_forums[] = $topicsdata['forum_id'];
+					
+				}
+				
+			}
+			
+		}
+		
+		if ( in_array($id, $this->updated_forums) ) {
+			
+			if ( $open ) {
 				
 				$forum_icon = $template->get_config('open_newposts_icon');
 				$forum_status = $lang['NewPosts'];
@@ -1273,7 +1294,7 @@ class functions {
 			
 		} else {
 			
-			if ( $status == $open_status ) {
+			if ( $open ) {
 				
 				$forum_icon = $template->get_config('open_nonewposts_icon');
 				$forum_status = $lang['NoNewPosts'];
@@ -1288,6 +1309,47 @@ class functions {
 		}
 		
 		return array($forum_icon, $forum_status);
+		
+	}
+	
+	//
+	// Define the icon for topics
+	//
+	function topic_icon($id, $locked, $post_time) {
+		
+		global $session, $template, $lang;
+		
+		if ( $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
+			
+			if ( !$locked ) {
+				
+				$topic_icon = $template->get_config('open_newposts_icon');
+				$topic_status = $lang['NewPosts'];
+				
+			} else {
+				
+				$topic_icon = $template->get_config('closed_newposts_icon');
+				$topic_status = $lang['LockedNewPosts'];
+				
+			}
+			
+		} else {
+			
+			if ( !$locked ) {
+				
+				$topic_icon = $template->get_config('open_nonewposts_icon');
+				$topic_status = $lang['NoNewPosts'];
+				
+			} else {
+				
+				$topic_icon = $template->get_config('closed_nonewposts_icon');
+				$topic_status = $lang['LockedNoNewPosts'];
+				
+			}
+			
+		}
+		
+		return array($topic_icon, $topic_status);
 		
 	}
 	

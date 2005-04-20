@@ -58,7 +58,7 @@ if ( !$db->num_rows($result) ) {
 			$topic_name = $lang['Sticky'].': '.$topic_name;
 		$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
 		
-		list($topic_icon, $topic_status) = $functions->forum_topic_icon($topicdata['status_locked'], 0, $topicdata['last_post_time'] , $topicdata['last_poster_id'], 'topic', $topicdata['id']);
+		list($topic_icon, $topic_status) = $functions->topic_icon($topicdata['id'], $topicdata['status_locked'], $topicdata['last_post_time']);
 		
 		//
 		// Parse the topic template

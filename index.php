@@ -189,7 +189,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 				}
 				
-				list($forum_icon, $forum_status) = $functions->forum_topic_icon($forumdata['status'], 1, $forumdata['post_time'], $forumdata['poster_id'], 'forum', $forumdata['id']);
+				list($forum_icon, $forum_status) = $functions->forum_icon($forumdata['id'], $forumdata['status'], $forumdata['post_time']);
 				
 				$template->parse('forumlist_forum', 'forumlist', array(
 					'forum_icon' => $forum_icon,

@@ -126,6 +126,11 @@ if ( !$db->num_rows($result) ) {
 				
 			}
 			
+			//
+			// This topic should be viewed
+			//
+			$_SESSION['viewed_topics'][$inserted_topic_id] = time();
+			
 			if ( $functions->get_config('return_to_topic_after_posting') )
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
 			else

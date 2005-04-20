@@ -6,6 +6,7 @@ UseBB 0.5 Changelog
 - Added topic review feature.
 - Added displayed name option, able to set all kinds of names.
 - Added BBCode and smiley controls on post form.
+- Added feature #422: better forum and topic icon system.
 - Added bad words filter.
 - Added ability to disable or limit viewing rights of the stats box.
 - Added jump to new post in topic link.

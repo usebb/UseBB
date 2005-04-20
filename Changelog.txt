@@ -3,22 +3,22 @@ $Header$
 UseBB 0.5 Changelog
 ------------------------------
 
+- Added feature #422: better forum and topic icon system.
 - Added topic review feature.
 - Added displayed name option, able to set all kinds of names.
 - Added BBCode and smiley controls on post form.
-- Added feature #422: better forum and topic icon system.
 - Added bad words filter.
 - Added ability to disable or limit viewing rights of the stats box.
 - Added jump to new post in topic link.
-- Able to view number of hidden users and hidden users marked for admins.
-- Usernames and passwords only take alphanumeric characters.
-- Auto detect board URL and cookie path if set to empty.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.
 - Fixed too much stripping of backslashes.
 - Fixed bad unhtml() function.
+- Able to view number of hidden users and hidden users marked for admins.
+- Usernames and passwords only take alphanumeric characters.
+- Auto detect board URL and cookie path if set to empty.
 - Don't send subscription mail to poster himself.
 - Make edit post location bar contain full path.
 - Try to disable MySQL trace mode.

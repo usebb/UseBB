@@ -82,7 +82,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		
 	} elseif ( !empty($_GET['act']) && $_GET['act'] == 'getnewpost' ) {
 		
-		if ( !($result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$_SESSION['previous_visit']." GROUP BY p.topic_id")) )
+		$previous_view = ( array_key_exists($_GET['id'], $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$_GET['id']] : $_SESSION['previous_visit'];
+		
+		if ( !($result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$previous_view." GROUP BY p.topic_id")) )
 			$functions->usebb_die('SQL', 'Unable to page of new post!', __FILE__, __LINE__);
 		
 		if ( $db->num_rows($result) ) {
@@ -133,8 +135,6 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			// The user may view this topic
 			//
-			
-			$_SESSION['viewed_topics'][$requested_topic] = time();
 			
 			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
 			
@@ -252,10 +252,20 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				//
 				$i++;
 				
-				if ( $session->sess_info['user_id'] && !$new_post_anchor_set && $_SESSION['previous_visit'] < $postsdata['post_time'] ) {
+				if ( $session->sess_info['user_id'] ) {
 					
-					$new_post_anchor = '<a name="newpost"></a>';
-					$new_post_anchor_set = true;
+					$previous_view = ( array_key_exists($requested_topic, $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$requested_topic] : $_SESSION['previous_visit'];
+					
+					if ( !$new_post_anchor_set && $previous_view < $postsdata['post_time'] ) {
+						
+						$new_post_anchor = '<a name="newpost"></a>';
+						$new_post_anchor_set = true;
+						
+					} else {
+						
+						$new_post_anchor = '';
+						
+					}
 					
 				} else {
 					
@@ -461,6 +471,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				));
 				
 			}
+			
+			$_SESSION['viewed_topics'][$requested_topic] = time();
 			
 		} else {
 			

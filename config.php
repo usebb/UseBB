@@ -80,6 +80,7 @@ $conf['enable_quickreply'] = 1;
 $conf['enable_rss'] = 1;
 $conf['enable_stafflist'] = 1;
 $conf['enable_stats'] = 1;
+$conf['flood_interval'] = 30;
 $conf['friendly_urls'] = 0;
 $conf['guests_can_access_board'] = 1;
 $conf['guests_can_view_profiles'] = 1;

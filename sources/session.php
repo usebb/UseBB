@@ -359,6 +359,7 @@ class session {
 				$this->sess_info['user_info'] = $user_info;
 			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
 			$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
+			$_SESSION['latest_post'] = ( isset($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
 			
 		}
 		

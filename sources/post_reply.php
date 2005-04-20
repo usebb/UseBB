@@ -87,7 +87,7 @@ if ( !$db->num_rows($result) ) {
 			
 		}
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) && time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {
 			
 			//
 			// Save the guest's username in the session
@@ -162,6 +162,7 @@ if ( !$db->num_rows($result) ) {
 			// This topic should be viewed
 			//
 			$_SESSION['viewed_topics'][$_GET['topic']] = time();
+			$_SESSION['latest_post'] = time();
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id);
@@ -201,6 +202,13 @@ if ( !$db->num_rows($result) ) {
 					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Preview'],
 						'content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+					));
+					
+				} elseif ( time() <= $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {
+					
+					$template->parse('msgbox', 'global', array(
+						'box_title' => $lang['Error'],
+						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'))
 					));
 					
 				}

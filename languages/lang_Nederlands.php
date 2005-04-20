@@ -403,6 +403,7 @@ $lang['Color'] = 'Kleur';
 $lang['Size'] = 'Grootte';
 $lang['ViewingForum'] = 'Forum bekijken: %s.';
 $lang['ViewingTopic'] = 'Onderwerp bekijken: %s.';
+$lang['FloodIntervalWarning'] = 'De administrator heeft ingesteld dat je slechts berichten kan plaatsen met intervals van %d seconden. Gelieve te wachten en het formulier dadelijk opnieuw te verzenden.';
 
 //
 // Date translations

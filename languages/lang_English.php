@@ -403,3 +403,4 @@ $lang['Color'] = 'Color';
 $lang['Size'] = 'Size';
 $lang['ViewingForum'] = 'Viewing forum: %s.';
 $lang['ViewingTopic'] = 'Viewing topic: %s.';
+$lang['FloodIntervalWarning'] = 'The administrator has specified that you can only post with intervals of %d seconds. Please wait and retry submitting the form soon.';

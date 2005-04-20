@@ -10,6 +10,7 @@ UseBB 0.5 Changelog
 - Added bad words filter.
 - Added ability to disable or limit viewing rights of the stats box.
 - Added jump to new post in topic link.
+- Added flood protection.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.

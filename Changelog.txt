@@ -12,6 +12,7 @@ UseBB 0.5 Changelog
 - Added jump to new post in topic link.
 - Added flood protection.
 - Added auto subscribe feature.
+- Added auto detect board URL and cookie path if set to empty.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.
@@ -20,11 +21,11 @@ UseBB 0.5 Changelog
 - Fixed bad unhtml() function.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.
-- Auto detect board URL and cookie path if set to empty.
 - Don't send subscription mail to poster himself.
 - Make edit post location bar contain full path.
 - Try to disable MySQL trace mode.
 - Several fixes to guarantee security.
+- Several fixes to template parser.
 - Graphical buttons replaced by HTML ones.
 - Various template improvements.
 

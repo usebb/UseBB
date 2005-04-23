@@ -330,7 +330,7 @@ $lang['UserPostedImage'] = 'Afbeelding geplaatst door gebruiker';
 $lang['ForumIsLockedExplain'] = 'Dit forum is gesloten. Alleen geautoriseerde personen kunnen nog berichten plaatsen.';
 $lang['MakeTopicSticky'] = 'Maak het onderwerp sticky.';
 $lang['QuickReply'] = 'Snel antwoord';
-$lang['ReturnToTopicAfterPosting'] = 'Keer terug naar het onderwerp na het verzenden.';
+$lang['ReturnToTopicAfterPosting'] = 'Terugkeren naar het onderwerp na het verzenden';
 $lang['ModeratorList'] = 'Moderators: %s.';
 $lang['Nobody'] = 'Niemand';
 $lang['DeleteTopic'] = 'Verwijderen';
@@ -404,6 +404,9 @@ $lang['Size'] = 'Grootte';
 $lang['ViewingForum'] = 'Forum bekijken: %s.';
 $lang['ViewingTopic'] = 'Onderwerp bekijken: %s.';
 $lang['FloodIntervalWarning'] = 'De administrator heeft ingesteld dat je slechts berichten kan plaatsen met intervals van %d seconden. Gelieve te wachten en het formulier dadelijk opnieuw te verzenden.';
+$lang['AutoSubscribe'] = 'Automatisch inschrijven';
+$lang['OnPostingNewTopics'] = 'Bij het plaatsen van onderwerpen';
+$lang['OnPostingNewReplies'] = 'Bij het plaatsen van antwoorden';
 
 //
 // Date translations

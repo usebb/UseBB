@@ -54,22 +54,26 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$_POST['hide_avatars'] = ( !empty($_POST['hide_avatars']) ) ? 1 : 0;
 	$_POST['hide_userinfo'] = ( !empty($_POST['hide_userinfo']) ) ? 1 : 0;
 	$_POST['hide_signatures'] = ( !empty($_POST['hide_signatures']) ) ? 1 : 0;
+	$_POST['auto_subscribe_topic'] = ( !empty($_POST['auto_subscribe_topic']) ) ? 1 : 0;
+	$_POST['auto_subscribe_reply'] = ( !empty($_POST['auto_subscribe_reply']) ) ? 1 : 0;
 	
 	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
-		language        = '".$_POST['language']."',
-		template        = '".$_POST['template']."',
-		email_show      = ".$_POST['email_show'].",
+		language = '".$_POST['language']."',
+		template = '".$_POST['template']."',
+		email_show = ".$_POST['email_show'].",
 		last_login_show = ".$_POST['last_login_show'].",
 		hide_from_online_list = ".$_POST['hide_from_online_list'].",
-		date_format     = '".$_POST['date_format']."',
-		timezone        = '".$_POST['timezone']."',
-		dst             = ".$_POST['dst'].",
-		enable_quickreply		= ".$_POST['quickreply'].",
-		return_to_topic_after_posting		= ".$_POST['return_to_topic'].",
-		target_blank    = ".$_POST['target_blank'].",
-		hide_avatars    = ".$_POST['hide_avatars'].",
-		hide_userinfo   = ".$_POST['hide_userinfo'].",
-		hide_signatures = ".$_POST['hide_signatures']."
+		date_format = '".$_POST['date_format']."',
+		timezone = '".$_POST['timezone']."',
+		dst = ".$_POST['dst'].",
+		enable_quickreply = ".$_POST['quickreply'].",
+		return_to_topic_after_posting = ".$_POST['return_to_topic'].",
+		target_blank = ".$_POST['target_blank'].",
+		hide_avatars = ".$_POST['hide_avatars'].",
+		hide_userinfo = ".$_POST['hide_userinfo'].",
+		hide_signatures = ".$_POST['hide_signatures'].",
+		auto_subscribe_topic = ".$_POST['auto_subscribe_topic'].",
+		auto_subscribe_reply = ".$_POST['auto_subscribe_reply']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
 		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
 	
@@ -137,6 +141,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$hide_avatars_checked = ( $session->sess_info['user_info']['hide_avatars'] ) ? ' checked="checked"' : '';
 	$hide_userinfo_checked = ( $session->sess_info['user_info']['hide_userinfo'] ) ? ' checked="checked"' : '';
 	$hide_signatures_checked = ( $session->sess_info['user_info']['hide_signatures'] ) ? ' checked="checked"' : '';
+	$auto_subscribe_topic_checked = ( $session->sess_info['user_info']['auto_subscribe_topic'] ) ? ' checked="checked"' : '';
+	$auto_subscribe_reply_checked = ( $session->sess_info['user_info']['auto_subscribe_reply'] ) ? ' checked="checked"' : '';
 	
 	$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 	
@@ -157,6 +163,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'hide_avatars_input'    => '<input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label>',
 		'hide_userinfo_input'   => '<input type="checkbox" name="hide_userinfo" id="hide_userinfo" value="1"'.$hide_userinfo_checked.' /><label for="hide_userinfo"> '.$lang['Yes'].'</label>',
 		'hide_signatures_input' => '<input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label>',
+		'auto_subscribe_topic_input' => '<input type="checkbox" name="auto_subscribe_topic" id="auto_subscribe_topic" value="1"'.$auto_subscribe_topic_checked.' /><label for="auto_subscribe_topic"> '.$lang['OnPostingNewTopics'].'</label>',
+		'auto_subscribe_reply_input' => '<input type="checkbox" name="auto_subscribe_reply" id="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /><label for="auto_subscribe_reply"> '.$lang['OnPostingNewReplies'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '</form>'

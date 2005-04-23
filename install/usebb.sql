@@ -116,6 +116,8 @@ CREATE TABLE usebb_members (
   hide_avatars int(1) NOT NULL default '0',
   hide_userinfo int(1) NOT NULL default '0',
   hide_signatures int(1) NOT NULL default '0',
+  auto_subscribe_topic int(1) NOT NULL default '0',
+  auto_subscribe_reply int(1) NOT NULL default '0',
   avatar_type int(1) NOT NULL default '0',
   avatar_remote varchar(255) NOT NULL default '',
   displayed_name varchar(255) NOT NULL default '',

@@ -192,6 +192,9 @@ $templates['edit_options'] = '
 			<td class="fieldtitle">{l_ReturnToTopicAfterPosting}</td><td>{return_to_topic_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_AutoSubscribe}</td><td>{auto_subscribe_topic_input} {auto_subscribe_reply_input}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{l_OpenLinksNewWindow}</td><td>{target_blank_input}</td>
 		</tr>
 		<tr>

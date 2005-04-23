@@ -156,7 +156,8 @@ if ( empty($_POST['step']) ) {
 	$queries = array(
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `displayed_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
 		"UPDATE ".$dbs['prefix']."members SET displayed_name = name WHERE displayed_name = ''",
-		"CREATE TABLE `".$dbs['prefix']."badwords` ( `word` VARCHAR( 255 ) NOT NULL , `replacement` VARCHAR( 255 ) NOT NULL , PRIMARY KEY ( `word` ) )"
+		"CREATE TABLE `".$dbs['prefix']."badwords` ( `word` VARCHAR( 255 ) NOT NULL , `replacement` VARCHAR( 255 ) NOT NULL , PRIMARY KEY ( `word` ) )",
+		"ALTER TABLE `".$dbs['prefix']."members` ADD `auto_subscribe_topic` INT( 1 ) NOT NULL AFTER `hide_signatures`, ADD `auto_subscribe_reply` INT( 1 ) NOT NULL AFTER `auto_subscribe_topic`"
 	);
 	
 	$error = false;

@@ -195,7 +195,7 @@ if ( !$db->num_rows($result) ) {
 				$enable_html_checked = '';
 				$lock_topic_checked = '';
 				$sticky_topic_checked = '';
-				$subscribe_topic_checked = '';
+				$subscribe_topic_checked = ( $session->sess_info['user_id'] && $session->sess_info['user_info']['auto_subscribe_topic'] ) ? ' checked="checked"' : '';
 				
 			}
 			

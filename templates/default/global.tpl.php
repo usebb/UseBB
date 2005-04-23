@@ -710,8 +710,6 @@ p#linkbar {
 }
 ';
 
-$templates['location_bar'] = '';
-
 $templates['msgbox'] = '
 	<table class="msgbox">
 		<tr>

@@ -197,20 +197,35 @@ class template {
 		foreach ( $this->requests as $request ) {
 			
 			$current_template = $this->templates[$request['section']][$request['template_name']];
+			$finds = $replaces = array();
 			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
 				
 				foreach ( $lang as $key => $val ) {
 					
-					if ( !is_array($val) )
-						$current_template = str_replace('{l_'.$key.'}', $val, $current_template);
+					if ( !is_array($val) ) {
+						
+						$finds[] = '#\{l_'.preg_quote($key, '#').'\}#';
+						$replaces[] = $val;
+						
+					}
 					
 				}
 				
 			}
 			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
 			$request['variables'] = array_merge($this->global_vars, $request['variables']);
-			foreach ( $request['variables'] as $key => $val )
-				$current_template = str_replace('{'.$key.'}', $val, $current_template);
+			foreach ( $request['variables'] as $key => $val ) {
+				
+				$finds[] = '#\{'.preg_quote($key, '#').'\}#';
+				$replaces[] = $val;
+				
+			}
+			foreach ( $replaces as $key => $val ) {
+				
+				$replaces[$key] = preg_replace(array('#{#', '#}#'), array('&#123;', '&#125;'), $val);
+				
+			}
+			$current_template = preg_replace($finds, $replaces, $current_template);
 			$this->body .= $current_template;
 			
 		}

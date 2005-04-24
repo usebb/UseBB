@@ -13,6 +13,7 @@ UseBB 0.5 Changelog
 - Added flood protection.
 - Added auto subscribe feature.
 - Added auto detect board URL and cookie path if set to empty.
+- Added unsubscribe multiple topics possibility for subscriptions overview.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.

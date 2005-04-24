@@ -67,6 +67,7 @@ $templates['panel_sess_info'] = '
 ';
 
 $templates['subscriptions_header'] = '
+	{form_begin}
 	<table class="maintable">
 		<tr>
 			<th></th>
@@ -83,12 +84,16 @@ $templates['subscriptions_topic'] = '
 			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
 			<td class="author">{author}</td>
 			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
-			<td class="minimal">{unsubscribe}</td>
+			<td class="minimal">{unsubscribe_check}</td>
 		</tr>
 ';
 
 $templates['subscriptions_footer'] = '
+		<tr>
+			<td colspan="5" class="formcontrols">{unsubscribe_submit}</td>
+		</tr>
 	</table>
+	{form_end}
 ';
 
 $templates['edit_profile'] = '

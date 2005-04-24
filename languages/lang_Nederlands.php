@@ -407,6 +407,8 @@ $lang['FloodIntervalWarning'] = 'De administrator heeft ingesteld dat je slechts
 $lang['AutoSubscribe'] = 'Automatisch inschrijven';
 $lang['OnPostingNewTopics'] = 'Bij het plaatsen van onderwerpen';
 $lang['OnPostingNewReplies'] = 'Bij het plaatsen van antwoorden';
+$lang['UnsubscribeSelected'] = 'Geselecteerde uitschrijven';
+$lang['SelectedTopicsUnsubscribed'] = 'Je bent nu van de geslecteerde onderwerpen uitgeschreven.';
 
 //
 // Date translations

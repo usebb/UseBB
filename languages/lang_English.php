@@ -407,3 +407,5 @@ $lang['FloodIntervalWarning'] = 'The administrator has specified that you can on
 $lang['AutoSubscribe'] = 'Auto subscribe';
 $lang['OnPostingNewTopics'] = 'On posting topics';
 $lang['OnPostingNewReplies'] = 'On posting replies';
+$lang['UnsubscribeSelected'] = 'Unsubscribe selected';
+$lang['SelectedTopicsUnsubscribed'] = 'You are now unsubscribed from the selected topics.';

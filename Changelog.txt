@@ -30,6 +30,7 @@ UseBB 0.5 Changelog
 - Several fixes to guarantee security.
 - Several fixes to template parser.
 - Graphical buttons replaced by HTML ones.
+- Nicer paging links.
 - Various template improvements.
 
 UseBB 0.4.1 Changelog

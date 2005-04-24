@@ -636,8 +636,8 @@ class functions {
 			'reply' => 3,
 			'edit' => 4,
 			'move' => 5,
+			'trash' => 5,
 			'delete' => 6,
-			'trash' => 6,
 			'lock' => 7,
 			'sticky' => 8,
 			'html' => 9

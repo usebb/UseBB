@@ -195,12 +195,17 @@ a.moderator:link, a.moderator:active, a.moderator:visited {
 }
 input, select, textarea {
 	font-size: 8pt !important;
+	font-family: verdana, sans-serif !important;
 }
 textarea {
 	width: 99%;
+	font-size: 9pt !important;
 }
 input[type="submit"], input[type="reset"], input[type="button"] {
 	padding: 0px 10px 0px 10px;
+	cursor: pointer;
+}
+input[type="radio"], input[type="checkbox"] {
 	cursor: pointer;
 }
 optgroup {
@@ -389,7 +394,7 @@ table.maintable td.count {
 	color: #333333;
 }
 table.maintable td.lastpostinfo {
-	width: 195px;
+	width: 200px;
 }
 table.maintable td.icon {
 	background-color: #E8E8E8;

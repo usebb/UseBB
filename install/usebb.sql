@@ -73,6 +73,7 @@ CREATE TABLE usebb_forums (
   auth varchar(10) NOT NULL default '0011222223',
   auto_lock int(11) NOT NULL default '0',
   increase_post_count int(1) NOT NULL default '1',
+  hide_mods_list int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

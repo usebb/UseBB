@@ -112,7 +112,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
+	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
 		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -218,7 +218,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			$template->parse('topic_header', 'topic', array(
 				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.$topic_title.'</a>',
-				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
+				'forum_moderators' => ( !$topicdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
 				'page_links' => $page_links

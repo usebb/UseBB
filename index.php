@@ -67,7 +67,7 @@ if ( !$functions->get_stats('forums') ) {
 	//
 	// Get the forums and categories out of the database
 	//
-	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.displayed_name AS poster_name, u.level AS poster_level FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC")) )
+	if ( !($result = $db->query("SELECT f.id, f.name, f.descr, f.status, f.topics, f.posts, f.auth, f.hide_mods_list, c.id AS cat_id, c.name AS cat_name, t.topic_title, t.last_post_id, t.count_replies, p.poster_id, p.poster_guest, p.post_time, u.displayed_name AS poster_name, u.level AS poster_level FROM ( ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON f.last_topic_id = t.id ) LEFT JOIN ".TABLE_PREFIX."posts p ON t.last_post_id = p.id ) LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."cats c WHERE f.cat_id = c.id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC")) )
 		$functions->usebb_die('SQL', 'Unable to get forums and categories!', __FILE__, __LINE__);
 	
 	$categories = array();
@@ -196,7 +196,7 @@ if ( !$functions->get_stats('forums') ) {
 					'forum_status' => $forum_status,
 					'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>',
 					'forum_descr' => stripslashes($forumdata['descr']),
-					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 ) ? sprintf($lang['ModeratorList'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
+					'forum_mods' => ( $mods_per_forum[$forumdata['id']] >= 1 && !$forumdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $functions->get_mods_list($forumdata['id'], $all_mods)) : '',
 					'total_topics' => $forumdata['topics'],
 					'total_posts' => $forumdata['posts'],
 					'latest_post' => $latest_post,

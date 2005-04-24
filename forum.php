@@ -49,7 +49,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	//
 	// Get information about the forum
 	//
-	if ( !($result = $db->query("SELECT f.name, f.auth, f.topics, f.status, c.id AS cat_id, c.name AS cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE f.id = ".$_GET['id']." AND f.cat_id = c.id")) )
+	if ( !($result = $db->query("SELECT f.name, f.auth, f.topics, f.status, f.hide_mods_list, c.id AS cat_id, c.name AS cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE f.id = ".$_GET['id']." AND f.cat_id = c.id")) )
 		$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
 	
 	if ( !$db->num_rows($result) ) {
@@ -93,7 +93,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			//
 			$template->parse('topiclist_header', 'topiclist', array(
 				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>',
-				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators),
+				'forum_moderators' => ( !$forumdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links
 			));

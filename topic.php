@@ -416,8 +416,13 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 			}
 			
-			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
+			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) {
+				
+				if ( $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] )
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'trash')).'">'.$lang['TrashTopic'].'</a>';
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
+				
+			}
 			
 			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('forums')) > 1 )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';

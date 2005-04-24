@@ -409,6 +409,8 @@ $lang['OnPostingNewTopics'] = 'Bij het plaatsen van onderwerpen';
 $lang['OnPostingNewReplies'] = 'Bij het plaatsen van antwoorden';
 $lang['UnsubscribeSelected'] = 'Geselecteerde uitschrijven';
 $lang['SelectedTopicsUnsubscribed'] = 'Je bent nu van de geslecteerde onderwerpen uitgeschreven.';
+$lang['TrashTopic'] = 'Onderwerp trashen';
+$lang['ConfirmTrashTopic'] = 'Ben je zeker dat je het onderwerp %s in het forum %s wilt verplaatsen naar het trash-forum?';
 
 //
 // Date translations

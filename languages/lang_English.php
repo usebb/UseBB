@@ -409,3 +409,5 @@ $lang['OnPostingNewTopics'] = 'On posting topics';
 $lang['OnPostingNewReplies'] = 'On posting replies';
 $lang['UnsubscribeSelected'] = 'Unsubscribe selected';
 $lang['SelectedTopicsUnsubscribed'] = 'You are now unsubscribed from the selected topics.';
+$lang['TrashTopic'] = 'Trash topic';
+$lang['ConfirmTrashTopic'] = 'Are you sure you want to move the topic %s in the forum %s to the trash forum?';

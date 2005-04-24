@@ -167,6 +167,7 @@ if ( $_GET['act'] == 'delete' ) {
 			} else {
 				
 				$template->set_page_title($lang['DeleteTopic']);
+				
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeleteTopic'],
@@ -191,13 +192,17 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	require(ROOT_PATH.'sources/page_foot.php');
 	
-} elseif ( $_GET['act'] == 'move' ) {
+} elseif ( $_GET['act'] == 'move' || $_GET['act'] == 'trash' ) {
 	
 	//
 	// Move topics
 	//
 	
-	$session->update('movetopic:'.$_GET['topic']);
+	if ( $_GET['act'] == 'move' )
+		$session->update('movetopic:'.$_GET['topic']);
+	elseif ( $_GET['act'] == 'trash' )
+		$session->update('trashtopic:'.$_GET['topic']);
+		
 	
 	//
 	// Include the page header
@@ -229,11 +234,14 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		// If the user is granted to move topics
 		//
-		if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) ) {
+		if ( $_GET['act'] == 'move' && $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) || ( $_GET['act'] == 'trash' && $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] && $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) ) {
+			
+			if ( $_GET['act'] == 'trash' && !empty($_POST['trash']) )
+				$_POST['new_forum_id'] = $functions->get_config('trash_forum');
 			
 			if ( !empty($_POST['new_forum_id']) && valid_int($_POST['new_forum_id']) ) {
 				
-				if ( !empty($_POST['move']) ) {
+				if ( !empty($_POST['move']) || !empty($_POST['trash']) ) {
 					
 					//
 					// Get information about the new forum
@@ -315,53 +323,70 @@ if ( $_GET['act'] == 'delete' ) {
 				
 			} else {
 				
-				$template->set_page_title($lang['MoveTopic']);
-				
-				if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
-					$functions->usebb_die('SQL', 'Unable to get available forums!', __FILE__, __LINE__);
-				
-				if ( $db->num_rows($result) === 1 ) {
+				if ( $_GET['act'] == 'move' ) {
 					
-					$forumdata = $db->fetch_result($result);
-					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
+					$template->set_page_title($lang['MoveTopic']);
 					
-				} else {
+					if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
+						$functions->usebb_die('SQL', 'Unable to get available forums!', __FILE__, __LINE__);
 					
-					//
-					// Get a list of available forums to move to
-					//
-					$new_forum_input = '<select name="new_forum_id">';
-					$seen_cats = array();
-					while ( $forumdata = $db->fetch_result($result) ) {
+					if ( $db->num_rows($result) === 1 ) {
 						
-						if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
+						$forumdata = $db->fetch_result($result);
+						$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
+						
+					} else {
+						
+						//
+						// Get a list of available forums to move to
+						//
+						$new_forum_input = '<select name="new_forum_id">';
+						$seen_cats = array();
+						while ( $forumdata = $db->fetch_result($result) ) {
 							
-							if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+							if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
 								
-								$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-								$new_forum_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
-								$seen_cats[] = $forumdata['cat_id'];
+								if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+									
+									$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
+									$new_forum_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
+									$seen_cats[] = $forumdata['cat_id'];
+									
+								}
+								
+								$new_forum_input .= '<option value="'.$forumdata['id'].'">'.unhtml(stripslashes($forumdata['name'])).'</option>';
 								
 							}
 							
-							$new_forum_input .= '<option value="'.$forumdata['id'].'">'.unhtml(stripslashes($forumdata['name'])).'</option>';
-							
 						}
+						$new_forum_input .= '</optgroup></select>';
 						
 					}
-					$new_forum_input .= '</optgroup></select>';
+					
+					$template->parse('move_topic_form', 'various', array(
+						'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',
+						'topic_v' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
+						'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>',
+						'new_forum_input' => $new_forum_input,
+						'submit_button' => '<input type="submit" name="move" value="'.$lang['OK'].'" />',
+						'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
+						'form_end' => '</form>'
+					));
+					
+				} elseif ( $_GET['act'] == 'trash' ) {
+					
+					$template->set_page_title($lang['TrashTopic']);
+					
+					$template->parse('confirm_form', 'global', array(
+						'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'trash')).'" method="post">',
+						'title' => $lang['TrashTopic'],
+						'content' => sprintf($lang['ConfirmTrashTopic'], '<em>'.unhtml(stripslashes($topicdata['topic_title'])).'</em>', '<em>'.unhtml(stripslashes($topicdata['forum_name'])).'</em>'),
+						'submit_button' => '<input type="submit" name="trash" value="'.$lang['Yes'].'" />',
+						'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
+						'form_end' => '</form>'
+					));
 					
 				}
-				
-				$template->parse('move_topic_form', 'various', array(
-					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'move')).'" method="post">',
-					'topic_v' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>',
-					'old_forum_v' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>',
-					'new_forum_input' => $new_forum_input,
-					'submit_button' => '<input type="submit" name="move" value="'.$lang['OK'].'" />',
-					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
-					'form_end' => '</form>'
-				));
 				
 			}
 			

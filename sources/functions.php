@@ -637,6 +637,7 @@ class functions {
 			'edit' => 4,
 			'move' => 5,
 			'delete' => 6,
+			'trash' => 6,
 			'lock' => 7,
 			'sticky' => 8,
 			'html' => 9

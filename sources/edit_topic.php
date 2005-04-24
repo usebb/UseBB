@@ -234,7 +234,7 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		// If the user is granted to move topics
 		//
-		if ( $_GET['act'] == 'move' && $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) || ( $_GET['act'] == 'trash' && $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] && $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) ) {
+		if ( $_GET['act'] == 'move' && $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) || ( $_GET['act'] == 'trash' && $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] && $functions->auth($topicdata['auth'], 'trash', $topicdata['forum_id']) ) ) {
 			
 			if ( $_GET['act'] == 'trash' && !empty($_POST['trash']) )
 				$_POST['new_forum_id'] = $functions->get_config('trash_forum');

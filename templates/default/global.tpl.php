@@ -622,6 +622,11 @@ table.maintable td.minimal {
 	font-weight: bold;
 	margin: -10px 0px 20px 0px;
 }
+#pagelinkstop strong, #pagelinksbottom strong, #pagelinksothertop strong, #pagelinksotherbottom strong {
+	padding: 1px 2px 1px 2px;
+	border: 1px solid silver;
+	background-color: #EFEFEF;
+}
 ul#panelmenu {
 	list-style: none;
 	margin: 0px 0px 10px 0px;

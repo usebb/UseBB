@@ -714,20 +714,29 @@ class functions {
 		if ( intval($items_number) > intval($items_per_page) ) {
 			
 			$page_links = array();
+			$page_links_groups_length = 2;
 			
 			for ( $i = 1; $i <= $pages_number; $i++ ) {
 				
 				if ( $current_page != $i ) {
 					
-					if ( valid_int($page_id_val) )
-						$url_vars['id'] = $page_id_val;
-					$url_vars['page'] = $i;
-					
-					$page_links[] = '<a href="'.$this->make_url($page_name, $url_vars).'">'.$i.'</a>';
+					if ( $i <= $page_links_groups_length || ( $i+$page_links_groups_length >= $current_page && $i-$page_links_groups_length <= $current_page ) || $i+$page_links_groups_length > $pages_number ) {
+						
+						if ( valid_int($page_id_val) )
+							$url_vars['id'] = $page_id_val;
+						$url_vars['page'] = $i;
+						$page_links[] = '<a href="'.$this->make_url($page_name, $url_vars).'">'.$i.'</a>';
+						
+					} else {
+						
+						if ( end($page_links) != '...' )
+							$page_links[] = '...';
+						
+					}
 					
 				} else {
 					
-					$page_links[] = '['.$i.']';
+					$page_links[] = '<strong>'.$i.'</strong>';
 					
 				}
 				

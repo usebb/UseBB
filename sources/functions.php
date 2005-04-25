@@ -720,7 +720,7 @@ class functions {
 				
 				if ( $current_page != $i ) {
 					
-					if ( $i <= $page_links_groups_length || ( $i+$page_links_groups_length >= $current_page && $i-$page_links_groups_length <= $current_page ) || $i+$page_links_groups_length > $pages_number ) {
+					if ( $i+$page_links_groups_length >= $current_page && $i-$page_links_groups_length <= $current_page ) {
 						
 						if ( valid_int($page_id_val) )
 							$url_vars['id'] = $page_id_val;
@@ -759,6 +759,18 @@ class functions {
 					
 					$url_vars['page'] = $current_page+1;
 					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars).'">&gt;</a>';
+					
+				}
+				if ( $current_page > 2 ) {
+					
+					$url_vars['page'] = 1;
+					$page_links = '<a href="'.$this->make_url($page_name, $url_vars).'">&laquo;</a> '.$page_links;
+					
+				}
+				if ( $current_page+1 < $pages_number ) {
+					
+					$url_vars['page'] = $pages_number;
+					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars).'">&raquo;</a>';
 					
 				}
 				

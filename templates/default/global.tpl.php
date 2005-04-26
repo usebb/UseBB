@@ -50,7 +50,7 @@ $templates['config'] = array(
 	'sig_format'						=> '<div class="signature">_______________<br />%s</div>',
 	'quote_format'						=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
 	'code_format'						=> '<pre class="code">%s</pre>',
-	'post_editinfo_format'				=> '<div class="editinfo">&laquo;%s&raquo;</div>',
+	'post_editinfo_format'				=> '<div class="editinfo">&laquo; %s &raquo;</div>',
 	'poster_ip_addr_format' 			=> '<div class="poster-ip-addr">%s</div>',
 	'textarea_rows'						=> '10',
 	'textarea_cols'						=> '60',
@@ -563,6 +563,7 @@ table.maintable td.postcontent .poster-ip-addr {
 	color: #666666;
 	font-size: 7pt;
 	text-align: right;
+	padding: 5px 0px 0px 0px;
 }
 table.maintable tr.postseperator td {
 	font-size: 0pt;

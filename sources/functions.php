@@ -714,7 +714,7 @@ class functions {
 		if ( intval($items_number) > intval($items_per_page) ) {
 			
 			$page_links = array();
-			$page_links_groups_length = 2;
+			$page_links_groups_length = 4;
 			
 			for ( $i = 1; $i <= $pages_number; $i++ ) {
 				

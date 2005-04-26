@@ -30,7 +30,7 @@ if ( !defined('INCLUDED') )
 	exit();
 
 if ( !extension_loaded('mysql') )
-	$functions->usebb_die('General', 'Unable to load module for database server "mysql": PHP mysql extension not available!', __FILE__, __LINE__);
+	trigger_error('Unable to load module for database server "mysql": PHP mysql extension not available!');
 
 //
 // Create the MySQL handlers
@@ -49,18 +49,16 @@ class db {
 	//
 	function connect($config) {
 		
-		global $functions;
-		
 		//
 		// Connect to server
 		//
 		if ( !($this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'])) )
-			$functions->usebb_die('General', 'Unable to connect to the database server!', __FILE__, __LINE__);
+			trigger_error('Unable to connect to the database server!');
 		//
 		// Select database
 		//
 		if ( !(@mysql_select_db($config['dbname'], $this->connection)) )
-			$functions->usebb_die('General', 'Unable to connect to the database!', __FILE__, __LINE__);
+			trigger_error('Unable to connect to the database!');
 		
 	}
 	

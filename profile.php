@@ -70,7 +70,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$own_profile = FALSE;
 			
 			if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id'])) )
-				$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get user information!');
 			
 		}
 		

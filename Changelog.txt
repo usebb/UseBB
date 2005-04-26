@@ -29,6 +29,7 @@ UseBB 0.5 Changelog
 - Try to disable MySQL trace mode.
 - Several fixes to guarantee security.
 - Several fixes to template parser.
+- usebb_die() calls replaced by trigger_error().
 - Graphical buttons replaced by HTML ones.
 - Nicer paging links.
 - Various template improvements.

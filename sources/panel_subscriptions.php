@@ -50,7 +50,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 	if ( count($to_unsubscribe) ) {
 		
 		if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$session->sess_info['user_id']." AND topic_id IN(".join(', ', $to_unsubscribe).")")) )
-			$functions->usebb_die('SQL', 'Unable to unsubscribe topics!', __FILE__, __LINE__);
+			trigger_error('SQL: Unable to unsubscribe topics!');
 		
 	}
 	
@@ -62,7 +62,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 } else {
 	
 	if ( !($result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, f.name AS forum_name, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id, ".TABLE_PREFIX."subscriptions s WHERE p.id = t.first_post_id AND p2.id = t.last_post_id AND f.id = t.forum_id AND t.id = s.topic_id AND s.user_id = ".$session->sess_info['user_id']." ORDER BY p2.post_time DESC")) )
-		$functions->usebb_die('SQL', 'Unable to get topic list!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic list!');
 	
 	if ( !$db->num_rows($result) ) {
 		

@@ -48,7 +48,7 @@ $template->set_page_title($lang['FAQ']);
 //
 $faq_file = ROOT_PATH.'languages/faq_'.$functions->get_config('language').'.php';
 if ( !file_exists($faq_file) || !is_readable($faq_file) )
-	$functions->usebb_die('General', 'Unable to get "'.$functions->get_config('language').'" FAQ!', __FILE__, __LINE__);
+	trigger_error('Unable to get "'.$functions->get_config('language').'" FAQ!');
 else
 	require($faq_file);
 

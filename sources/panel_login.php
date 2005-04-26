@@ -51,7 +51,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 	// Get information about this username
 	//
 	if ( !($result = $db->query("SELECT id, passwd, active, banned, banned_reason, level, last_pageview FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
-		$functions->usebb_die('SQL', 'Unable to get user entry!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get user entry!');
 	$userdata = $db->fetch_result($result);
 	
 	//

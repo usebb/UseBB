@@ -75,7 +75,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		auto_subscribe_topic = ".$_POST['auto_subscribe_topic'].",
 		auto_subscribe_reply = ".$_POST['auto_subscribe_reply']."
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
-		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to update user information!');
 	
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],

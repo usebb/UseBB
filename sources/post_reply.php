@@ -40,7 +40,7 @@ $session->update('reply:'.$_GET['topic']);
 require(ROOT_PATH.'sources/page_head.php');
 
 if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, t.count_replies, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.auto_lock, f.increase_post_count FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
-	$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+	trigger_error('SQL: Unable to get topic information!');
 
 if ( !$db->num_rows($result) ) {
 	
@@ -81,7 +81,7 @@ if ( !$db->num_rows($result) ) {
 		if ( $session->sess_info['user_id'] ) {
 			
 			if ( !($result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$_GET['topic']." AND user_id = ".$session->sess_info['user_id'])) )
-				$functions->usebb_die('SQL', 'Unable to get subscription information!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get subscription information!');
 			
 			$subscribed = ( !$db->num_rows($result) ) ? false : true;
 			
@@ -103,26 +103,26 @@ if ( !$db->num_rows($result) ) {
 			$_POST['enable_html'] = ( $functions->auth($topicdata['auth'], 'html', $topicdata['forum_id']) && !empty($_POST['enable_html']) ) ? 1 : 0;
 			
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, ".$_GET['topic'].", ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".time().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].")")) )
-				$functions->usebb_die('SQL', 'Unable to insert new post!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to insert new post!');
 			
 			$inserted_post_id = $db->last_id();
 			$update_topic_status = ( ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) && !empty($_POST['lock_topic']) ) || ( $topicdata['auto_lock'] && $topicdata['count_replies']+1 >= $topicdata['auto_lock'] ) ) ? ', status_locked = 1' : '';
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$inserted_post_id.", count_replies = count_replies+1".$update_topic_status." WHERE id = ".$_GET['topic'])) )
-				$functions->usebb_die('SQL', 'Unable to update topic!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update topic!');
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts+1, last_topic_id = ".$_GET['topic']." WHERE id = ".$topicdata['forum_id'])) )
-				$functions->usebb_die('SQL', 'Unable to update forum!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update forum!');
 			
 			if ( $session->sess_info['user_id'] && $topicdata['increase_post_count'] ) {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
-					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update user!');
 				
 			}
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
-				$functions->usebb_die('SQL', 'Unable to update stats!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update stats!');
 			
 			if ( !$functions->get_config('disable_info_emails') ) {
 				
@@ -130,7 +130,7 @@ if ( !$db->num_rows($result) ) {
 				// E-mail subscribed users
 				//
 				if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id AND s.user_id <> ".$session->sess_info['user_id'])) )
-					$functions->usebb_die('SQL', 'Unable to get subscribed users!', __FILE__, __LINE__);			
+					trigger_error('SQL: Unable to get subscribed users!');			
 				if ( $db->num_rows($result) ) {
 					
 					while ( $subscribed_users = $db->fetch_result($result) ) {
@@ -154,7 +154,7 @@ if ( !$db->num_rows($result) ) {
 			if ( $session->sess_info['user_id'] && !$subscribed && !empty($_POST['subscribe_topic']) ) {
 				
 				if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$_GET['topic'].", ".$session->sess_info['user_id'].")")) )
-					$functions->usebb_die('SQL', 'Unable to subscribe user to topic!', __FILE__, __LINE__);		
+					trigger_error('SQL: Unable to subscribe user to topic!');		
 				
 			}
 			
@@ -223,7 +223,7 @@ if ( !$db->num_rows($result) ) {
 				if ( !empty($_GET['quotepost']) && valid_int($_GET['quotepost']) ) {
 					
 					if ( !($result = $db->query("SELECT p.content, p.poster_guest, u.displayed_name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic'])) )
-						$functions->usebb_die('SQL', 'Unable to get quoted post!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to get quoted post!');
 					
 					if ( $db->num_rows($result) ) {
 						
@@ -284,7 +284,7 @@ if ( !$db->num_rows($result) ) {
 				// Topic review feature
 				//
 				if ( !($result = $db->query("SELECT p.poster_id, u.displayed_name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( usebb_posts p LEFT JOIN usebb_members u ON p.poster_id = u.id ), usebb_topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'))) )
-					$functions->usebb_die('SQL', 'Unable to get reviewed posts!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to get reviewed posts!');
 				
 				$view_more_posts = ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : '';
 				$template->parse('topicreview_header', 'topicreview', array(

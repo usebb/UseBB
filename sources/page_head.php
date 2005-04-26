@@ -46,7 +46,7 @@ if ( $functions->get_config('language') != 'English' && file_exists($lang_file) 
 
 $lang_file = ROOT_PATH.'languages/lang_'.$functions->get_config('language').'.php';
 if ( !file_exists($lang_file) || !is_readable($lang_file) )
-	$functions->usebb_die('General', 'Unable to get "'.$functions->get_config('language').'" translation!', __FILE__, __LINE__);
+	trigger_error('Unable to get "'.$functions->get_config('language').'" translation!');
 else
 	require($lang_file);
 

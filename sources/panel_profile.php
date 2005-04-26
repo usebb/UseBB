@@ -97,7 +97,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		jabber        = '".$_POST['jabber']."',
 		skype         = '".$_POST['skype']."'
 	WHERE id = ".$session->sess_info['user_info']['id'])) )
-		$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to update user information!');
 	
 	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		

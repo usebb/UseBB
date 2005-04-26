@@ -45,7 +45,7 @@ if ( $_GET['act'] == 'delete' ) {
 	// Get info about the topic
 	//
 	if ( !($result = $db->query("SELECT t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic'])) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -76,7 +76,7 @@ if ( $_GET['act'] == 'delete' ) {
 					// 1. Delete the topic entry
 					//
 					if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id = ".$_GET['topic'])) )
-						$functions->usebb_die('SQL', 'Unable to delete topic!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to delete topic!');
 					
 					//
 					// 2. Adjust latest updated topic of forum if needed
@@ -84,11 +84,11 @@ if ( $_GET['act'] == 'delete' ) {
 					if ( $topicdata['last_topic_id'] == $_GET['topic'] ) {
 						
 						if ( !($result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$topicdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1")) )
-							$functions->usebb_die('SQL', 'Unable to get last updated topic in forum!', __FILE__, __LINE__);
+							trigger_error('SQL: Unable to get last updated topic in forum!');
 						if ( !$db->num_rows($result) ) {
 							
 							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$topicdata['forum_id'])) )
-								$functions->usebb_die('SQL', 'Unable to adjust forum\'s last updated topic ID!', __FILE__, __LINE__);
+								trigger_error('SQL: Unable to adjust forum\'s last updated topic ID!');
 							
 							$forum_counts_updated = TRUE;
 							
@@ -111,7 +111,7 @@ if ( $_GET['act'] == 'delete' ) {
 					if ( !isset($forum_counts_updated) ) {
 						
 						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics-1, posts = posts-". ( $topicdata['count_replies']+1 ) .$update_last_topic_id." WHERE id = ".$topicdata['forum_id'])) )
-								$functions->usebb_die('SQL', 'Unable to adjust forum\'s last updated topic ID!', __FILE__, __LINE__);
+								trigger_error('SQL: Unable to adjust forum\'s last updated topic ID!');
 						
 					}
 					
@@ -119,7 +119,7 @@ if ( $_GET['act'] == 'delete' ) {
 					// 4. Adjust users' posts levels by defining which users posted and how many posts made
 					//
 					if ( !($result = $db->query("SELECT poster_id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$_GET['topic'])) )
-						$functions->usebb_die('SQL', 'Unable to get posts information!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to get posts information!');
 					
 					$users_posted = array();
 					while ( $postsdata = $db->fetch_result($result) ) {
@@ -137,7 +137,7 @@ if ( $_GET['act'] == 'delete' ) {
 						// Adjust the count for every user that posted
 						//
 						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-".$postcount." WHERE id = ".$userid)) )
-							$functions->usebb_die('SQL', 'Unable to adjust member\'s post count!', __FILE__, __LINE__);
+							trigger_error('SQL: Unable to adjust member\'s post count!');
 						
 					}
 					
@@ -145,16 +145,16 @@ if ( $_GET['act'] == 'delete' ) {
 					// 5. Delete posts within the deleted topic
 					//
 					if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$_GET['topic'])) )
-						$functions->usebb_die('SQL', 'Unable to delete posts!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to delete posts!');
 					
 					//
 					// 6. Adjust stats
 					//
 					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'")) )
-						$functions->usebb_die('SQL', 'Unable to update stats (topics)!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to update stats (topics)!');
 					
 					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-". ( $topicdata['count_replies']+1 ) ." WHERE name = 'posts'")) )
-						$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to update stats (posts)!');
 					
 					header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])));
 					
@@ -213,7 +213,7 @@ if ( $_GET['act'] == 'delete' ) {
 	// Get topic information
 	//
 	if ( !($result = $db->query("SELECT t.topic_title, t.forum_id, t.count_replies, p.post_time, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND p.id = t.last_post_id AND t.id = ".$_GET['topic'])) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -247,7 +247,7 @@ if ( $_GET['act'] == 'delete' ) {
 					// Get information about the new forum
 					//
 					if ( !($result = $db->query("SELECT f.last_topic_id, f.auth, p.post_time FROM ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON t.id = f.last_topic_id ) LEFT JOIN ".TABLE_PREFIX."posts p ON p.id = t.last_post_id ) WHERE f.id = ".$_POST['new_forum_id'])) )
-						$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to get forum information!');
 					if ( !$db->num_rows($result) ) {
 						
 						header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
@@ -265,7 +265,7 @@ if ( $_GET['act'] == 'delete' ) {
 							// Move the topic
 							//
 							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['new_forum_id']." WHERE id = ".$_GET['topic'])) )
-								$functions->usebb_die('SQL', 'Unable to update topic information!', __FILE__, __LINE__);
+								trigger_error('SQL: Unable to update topic information!');
 							
 							if ( $topicdata['last_topic_id'] == $_GET['topic'] ) {
 								
@@ -273,11 +273,11 @@ if ( $_GET['act'] == 'delete' ) {
 								// Adjust the last updated topic
 								//
 								if ( !($result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$topicdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1")) )
-									$functions->usebb_die('SQL', 'Unable to get last updated topic in forum!', __FILE__, __LINE__);
+									trigger_error('SQL: Unable to get last updated topic in forum!');
 								if ( !$db->num_rows($result) ) {
 									
 									if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$topicdata['forum_id'])) )
-										$functions->usebb_die('SQL', 'Unable to adjust forum\'s last updated topic ID!', __FILE__, __LINE__);
+										trigger_error('SQL: Unable to adjust forum\'s last updated topic ID!');
 									
 									$old_forum_counts_updated = TRUE;
 									
@@ -302,12 +302,12 @@ if ( $_GET['act'] == 'delete' ) {
 							if ( !isset($old_forum_counts_updated) ) {
 								
 								if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics-1, posts = posts-". ( $topicdata['count_replies']+1 ) .$update_old_last_topic_id." WHERE id = ".$topicdata['forum_id'])) )
-									$functions->usebb_die('SQL', 'Unable to update old forum counts!', __FILE__, __LINE__);
+									trigger_error('SQL: Unable to update old forum counts!');
 								
 							}
 							
 							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+". ( $topicdata['count_replies']+1 ) .$update_new_last_topic_id." WHERE id = ".$_POST['new_forum_id'])) )
-								$functions->usebb_die('SQL', 'Unable to update new forum counts!', __FILE__, __LINE__);
+								trigger_error('SQL: Unable to update new forum counts!');
 							
 							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 							
@@ -328,7 +328,7 @@ if ( $_GET['act'] == 'delete' ) {
 					$template->set_page_title($lang['MoveTopic']);
 					
 					if ( !($result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC")) )
-						$functions->usebb_die('SQL', 'Unable to get available forums!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to get available forums!');
 					
 					if ( $db->num_rows($result) === 1 ) {
 						
@@ -411,7 +411,7 @@ if ( $_GET['act'] == 'delete' ) {
 	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -443,7 +443,7 @@ if ( $_GET['act'] == 'delete' ) {
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id = ".$_GET['topic'])) )
-					$functions->usebb_die('SQL', 'Unable to update topic lock status!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update topic lock status!');
 				
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
@@ -461,7 +461,7 @@ if ( $_GET['act'] == 'delete' ) {
 	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -493,7 +493,7 @@ if ( $_GET['act'] == 'delete' ) {
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 0 WHERE id = ".$_GET['topic'])) )
-					$functions->usebb_die('SQL', 'Unable to update topic lock status!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update topic lock status!');
 				
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
@@ -511,7 +511,7 @@ if ( $_GET['act'] == 'delete' ) {
 	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -543,7 +543,7 @@ if ( $_GET['act'] == 'delete' ) {
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 1 WHERE id = ".$_GET['topic'])) )
-					$functions->usebb_die('SQL', 'Unable to update topic sticky status!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update topic sticky status!');
 				
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				
@@ -562,7 +562,7 @@ if ( $_GET['act'] == 'delete' ) {
 	$session->update();
 	
 	if ( !($result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id")) )
-		$functions->usebb_die('SQL', 'Unable to get topic information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get topic information!');
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -594,7 +594,7 @@ if ( $_GET['act'] == 'delete' ) {
 			} else {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 0 WHERE id = ".$_GET['topic'])) )
-					$functions->usebb_die('SQL', 'Unable to update topic sticky status!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update topic sticky status!');
 				
 				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 				

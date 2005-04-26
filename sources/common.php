@@ -104,7 +104,7 @@ $template = new template;
 //
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
-	$functions->usebb_die('General', 'Unable to load module for database server "'.$dbs['type'].'"!', __FILE__, __LINE__);
+	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
 else
 	require($db_class_file);
 

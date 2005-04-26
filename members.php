@@ -88,7 +88,7 @@ if ( empty($_GET['act']) ) {
 		}
 		
 		if ( !($result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members ORDER BY ".$sort_by_sql_part." LIMIT ".$limit_start.", ".$limit_end)) )
-			$functions->usebb_die('SQL', 'Unable to get members information!', __FILE__, __LINE__);
+			trigger_error('SQL: Unable to get members information!');
 		
 		while ( $userdata = $db->fetch_result($result) ) {
 			
@@ -162,7 +162,7 @@ if ( empty($_GET['act']) ) {
 		// Get members information
 		//
 		if ( !($result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE level > 1 ORDER BY level DESC, rank ASC")) )
-			$functions->usebb_die('SQL', 'Unable to get staff information!', __FILE__, __LINE__);
+			trigger_error('SQL: Unable to get staff information!');
 		
 		$admins = $mods = array();
 		while ( $staffinfo = $db->fetch_result($result) ) {

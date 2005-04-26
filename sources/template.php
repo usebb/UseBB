@@ -54,7 +54,7 @@ class template {
 			
 			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.tpl.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
-				$functions->usebb_die('Template', 'Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+				trigger_error('Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!');
 			else
 				require($templates_file);
 			
@@ -71,8 +71,6 @@ class template {
 	//
 	function get_config($setting) {
 		
-		global $functions;
-		
 		//
 		// Load the template set
 		//
@@ -81,7 +79,7 @@ class template {
 		if ( isset($this->templates['global']['config'][$setting]) )
 			return $this->templates['global']['config'][$setting];
 		else
-			$functions->usebb_die('Template', 'The template configuration variable "'.$setting.'" does not exist!', __FILE__, __LINE__);
+			trigger_error('The template configuration variable "'.$setting.'" does not exist!');
 		
 	}
 	
@@ -98,7 +96,7 @@ class template {
 		$this->load_section($section);
 		
 		if ( !array_key_exists($name, $this->templates[$section]) )
-			$functions->usebb_die('Template', 'Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', __FILE__, __LINE__);
+			trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!');
 		
 		$this->requests[] = array(
 			'section' => $section,

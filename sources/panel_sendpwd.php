@@ -47,7 +47,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 	// Check if this username already exists
 	//
 	if ( !($result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
-		$functions->usebb_die('SQL', 'Unable to get user information!', __FILE__, __LINE__);
+		trigger_error('SQL: Unable to get user information!');
 	$userdata = $db->fetch_result($result);
 	
 	if ( $db->num_rows($result) == 0 ) {
@@ -87,7 +87,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 			// Update the row in the user table
 			//
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id'])) )
-				$functions->usebb_die('SQL', 'Unable to update user information!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update user information!');
 			
 			if ( $functions->get_config('users_must_activate') ) {
 				

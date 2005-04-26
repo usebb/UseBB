@@ -118,13 +118,16 @@ class functions {
 			128 => 'E_COMPILE_WARNING',
 			256 => 'E_USER_ERROR',
 			512 => 'E_USER_WARNING',
-			1024 => 'E_USER_NOTICE',
-			2047 => 'E_ALL'
+			1024 => 'E_USER_NOTICE'
 		);
-		$errtype = ( valid_int($errno) ) ? $errtypes[$errno] : $errno;
+		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
-		if ( $errtype == 'SQL' )
+		if ( $errtype == 'SQL_ERROR' ) {
+			
 			$line--;
+			$error = substr($error, 5);
+			
+		}
 		
 		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
 		error_log($log_msg);
@@ -154,7 +157,7 @@ class functions {
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
-		if ( $errtype == 'SQL' ) {
+		if ( $errtype == 'SQL_ERROR' ) {
 			
 			if ( $this->get_config('debug') )
 				$html_msg .= '
@@ -246,7 +249,7 @@ class functions {
 				if ( !isset($this->statistics[$stat]) ) {
 					
 					if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
-						$this->usebb_die('SQL', 'Unable to get latest member information!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to get latest member information!');
 					$this->statistics[$stat] = $db->fetch_result($result);
 					
 				}
@@ -262,7 +265,7 @@ class functions {
 				$this->statistics = array();
 				
 				if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
-					$this->usebb_die('SQL', 'Unable to get forum statistics!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to get forum statistics!');
 				while ( $out = $db->fetch_result($result) )
 					$this->statistics[$out['name']] = $out['content'];
 				
@@ -271,7 +274,7 @@ class functions {
 			if ( isset($this->statistics[$stat]) )
 				return $this->statistics[$stat];
 			else
-				$this->usebb_die('General', 'The statistic variable "'.$stat.'" does not exist!', __FILE__, __LINE__);
+				trigger_error('The statistic variable "'.$stat.'" does not exist!');
 			
 		}
 		
@@ -519,7 +522,7 @@ class functions {
 			$body = str_replace('['.$key.']', $val, $body);
 		
 		if ( !mail($to, $subject, $body, 'From: '.$from_name.' <'.$from_email.'>'."\r\n".'X-Mailer: UseBB/'.USEBB_VERSION) )
-			$this->usebb_die('Mail', 'Unable to send e-mail!', __FILE__, __LINE__);
+			trigger_error('Unable to send e-mail!');
 		
 	}
 	
@@ -598,7 +601,7 @@ class functions {
 				if ( !is_array($this->mod_auth) ) {
 					
 					if ( !($result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$session->sess_info['user_id'])) )
-						$this->usebb_die('SQL', 'Unable to define moderator status!', __FILE__, __LINE__);
+						trigger_error('SQL: Unable to define moderator status!');
 					$this->mod_auth = array();
 					while ( $out = $db->fetch_result($result) )
 						$this->mod_auth[] = intval($out['forum_id']);
@@ -682,7 +685,7 @@ class functions {
 		} else {
 			
 			if ( !($result = $db->query("SELECT u.id, u.displayed_name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.displayed_name")) )
-				$this->usebb_die('SQL', 'Unable to get forum moderators list!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get forum moderators list!');
 				
 			if ( !$db->num_rows($result) ) {
 				
@@ -1002,7 +1005,7 @@ class functions {
 		if ( !isset($this->badwords) ) {
 			
 			if ( !($result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC")) )
-				$this->usebb_die('SQL', 'Unable to get bad words!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get bad words!');
 			
 			if ( $db->num_rows($result) ) {
 				
@@ -1140,7 +1143,7 @@ class functions {
 			// Get the session and user information
 			//
 			if ( !($result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-				$this->usebb_die('SQL', 'Unable to get online members information!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get online members information!');
 			
 			//
 			// Arrays for holding a list of online guests and members.
@@ -1285,7 +1288,7 @@ class functions {
 			$this->updated_forums = array();
 			
 			if ( !($result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit'])) )
-				$this->usebb_die('SQL', 'Unable to get updated topics information!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to get updated topics information!');
 			
 			if ( $db->num_rows($result) ) {
 				

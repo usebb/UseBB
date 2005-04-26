@@ -40,7 +40,7 @@ $session->update('posttopic:'.$_GET['forum']);
 require(ROOT_PATH.'sources/page_head.php');
 
 if ( !($result = $db->query("SELECT name, status, auth, increase_post_count FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum'])) )
-	$functions->usebb_die('SQL', 'Unable to get forum information!', __FILE__, __LINE__);
+	trigger_error('SQL: Unable to get forum information!');
 
 if ( !$db->num_rows($result) ) {
 	
@@ -86,35 +86,35 @@ if ( !$db->num_rows($result) ) {
 			$_POST['enable_html'] = ( $functions->auth($forumdata['auth'], 'html', $_GET['forum']) && !empty($_POST['enable_html']) ) ? 1 : 0;
 			
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, 0, ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".time().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].")")) )
-				$functions->usebb_die('SQL', 'Unable to insert new post!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to insert new post!');
 			
 			$inserted_post_id = $db->last_id();
 			$status_locked = ( $functions->auth($forumdata['auth'], 'lock', $_GET['forum']) && !empty($_POST['lock_topic']) ) ? 1 : 0;
 			$status_sticky = ( $functions->auth($forumdata['auth'], 'sticky', $_GET['forum']) && !empty($_POST['sticky_topic']) ) ? 1 : 0;
 			
 			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."topics VALUES(NULL, ".$_GET['forum'].", '".$_POST['subject']."', ".$inserted_post_id.", ".$inserted_post_id.", 0, 0, ".$status_locked.", ".$status_sticky.")")) )
-				$functions->usebb_die('SQL', 'Unable to insert new topic!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to insert new topic!');
 			
 			$inserted_topic_id = $db->last_id();
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."posts SET topic_id = ".$inserted_topic_id." WHERE id = ".$inserted_post_id)) )
-				$functions->usebb_die('SQL', 'Unable to update post\'s forum ID!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update post\'s forum ID!');
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+1, last_topic_id = ".$inserted_topic_id." WHERE id = ".$_GET['forum'])) )
-				$functions->usebb_die('SQL', 'Unable to update forum!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update forum!');
 			
 			if ( $session->sess_info['user_id'] && $forumdata['increase_post_count'] ) {
 				
 				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id'])) )
-					$functions->usebb_die('SQL', 'Unable to update user!', __FILE__, __LINE__);
+					trigger_error('SQL: Unable to update user!');
 				
 			}
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'topics'")) )
-				$functions->usebb_die('SQL', 'Unable to update stats (topics)!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update stats (topics)!');
 			
 			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'")) )
-				$functions->usebb_die('SQL', 'Unable to update stats (posts)!', __FILE__, __LINE__);
+				trigger_error('SQL: Unable to update stats (posts)!');
 			
 			//
 			// Subscribe user to topic
@@ -122,7 +122,7 @@ if ( !$db->num_rows($result) ) {
 			if ( $session->sess_info['user_id'] && !empty($_POST['subscribe_topic']) ) {
 				
 				if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$inserted_topic_id.", ".$session->sess_info['user_id'].")")) )
-					$functions->usebb_die('SQL', 'Unable to subscribe user to topic!', __FILE__, __LINE__);		
+					trigger_error('SQL: Unable to subscribe user to topic!');		
 				
 			}
 			

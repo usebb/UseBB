@@ -30,7 +30,7 @@ if ( !defined('INCLUDED') )
 	exit();
 
 if ( !extension_loaded('mysqli') )
-	$functions->usebb_die('General', 'Unable to load module for database server "mysqli": PHP mysqli extension not available!', __FILE__, __LINE__);
+	trigger_error('Unable to load module for database server "mysqli": PHP mysqli extension not available!');
 
 //
 // Create the MySQL 4.1 handlers
@@ -49,18 +49,16 @@ class db {
 	//
 	function connect($config) {
 		
-		global $functions;
-		
 		//
 		// Connect to server
 		//
 		if ( !($this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd'])) )
-			$functions->usebb_die('General', 'Unable to connect to the database server!', __FILE__, __LINE__);
+			trigger_error('Unable to connect to the database server!');
 		//
 		// Select database
 		//
 		if ( !(@mysqli_select_db($config['dbname'], $this->connection)) )
-			$functions->usebb_die('General', 'Unable to connect to the database!', __FILE__, __LINE__);
+			trigger_error('Unable to connect to the database!');
 		
 	}
 	

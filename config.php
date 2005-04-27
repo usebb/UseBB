@@ -113,7 +113,6 @@ $conf['view_detailed_online_list_min_level'] = 1;
 $conf['view_forum_stats_box_min_level'] = 0;
 $conf['view_hidden_email_addresses_min_level'] = 3;
 $conf['view_memberlist_min_level'] = 0;
-$conf['view_rss_min_level'] = 1;
 $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 1;
 $conf['view_contactadmin_min_level'] = 1;

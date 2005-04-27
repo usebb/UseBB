@@ -62,7 +62,10 @@ $character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character
 //
 // Header informs the browser about the encoding
 //
-header('Content-Type: text/html; charset='.$character_encoding);
+if ( defined('IS_RSS') )
+	header('Content-Type: text/xml; charset='.$character_encoding);
+else	
+	header('Content-Type: text/html; charset='.$character_encoding);
 
 $link_bar = array();
 /*if ( $functions->get_user_level() == 3 )
@@ -74,11 +77,11 @@ if ( $functions->get_config('enable_memberlist') && $functions->get_user_level()
 if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 	
-/*if ( $functions->get_config('enable_rss') && $functions->get_user_level() >= $functions->get_config('view_rss_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+if ( $functions->get_config('enable_rss') )
+	$link_bar[] = '<a href="'.$functions->make_url('active.php', array('act' => 'rss')).'">'.$lang['RSSFeed'].'</a>';
 	
 if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';*/
+	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 	
 if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') )
 	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
@@ -91,6 +94,7 @@ $template->add_global_vars(array(
 	// board settings
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
+	'board_url' => $functions->get_config('board_url'),
 	'admin_email' => $functions->get_config('admin_email'),
 	// menu links
 	'css_url' => $functions->make_url('css.php'),
@@ -108,7 +112,7 @@ $template->add_global_vars(array(
 	// use 'em when you want to have more links in the menu or somewhere else
 	'link_memberlist' => $functions->make_url('members.php'),
 	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
-	'link_rss' => $functions->make_url('rss.php'),
+	'link_rss' => $functions->make_url('active.php', array('act' => 'rss')),
 	'link_stats' => $functions->make_url('stats.php'),
 	'usebb_version' => USEBB_VERSION
 ));

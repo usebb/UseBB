@@ -30,36 +30,31 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Active topics templates
+// RSS templates
 //
 
-$templates['topiclist_header'] = '
-	<table class="maintable">
-		<tr>
-			<th></th>
-			<th>{l_Forum}</th>
-			<th>{l_Topic}</th>
-			<th>{l_Author}</th>
-			<th>{l_Replies}</th>
-			<th>{l_Views}</th>
-			<th>{l_LatestPost}</th>
-		</tr>
+$templates['topiclist_header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
+<rss version="0.92" xml:lang="{language_code}">
+	<channel>
+		<title>{board_name}</title>
+		<link>{board_url}</link>
+		<description><![CDATA[{board_descr}]]></description>
 ';
 
 $templates['topiclist_topic'] = '
-		<tr>
-			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td class="atforum">{forum}</td>
-			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
-			<td class="author">{author}</td>
-			<td class="count">{replies}</td>
-			<td class="count">{views}</td>
-			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
-		</tr>
+		<item>
+			<title><![CDATA[{title}]]></title>
+			<link>{link}</link>
+			<comments>{comments}</comments>
+			<category><![CDATA[{category}]]></category>
+			<pubDate>{pubDate}</pubDate>
+			<guid>{guid}</guid>
+		</item>
 ';
 
 $templates['topiclist_footer'] = '
-	</table>
+	</channel>
+</rss>
 ';
 
 ?>

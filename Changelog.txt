@@ -16,6 +16,7 @@ UseBB 0.5 Changelog
 - Added unsubscribe multiple topics possibility for subscriptions overview.
 - Added trash topic feature (moves topic to predefined trash forum).
 - Added hide moderator list feature settable per forum.
+- Added active topics in RSS format.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.

@@ -37,6 +37,7 @@ class template {
 	//
 	// Variables
 	//
+	var $parse_special_templates_only = false;
 	var $loaded_sections=array();
 	var $templates=array();
 	var $requests=array();
@@ -86,9 +87,12 @@ class template {
 	//
 	// Parse a template
 	//
-	function parse($name='', $section, $variables=array()) {
+	function parse($name, $section, $variables=array(), $is_special=false) {
 		
 		global $functions;
+		
+		if ( $this->parse_special_templates_only && !$is_special )
+			return;
 		
 		//
 		// Load the template set

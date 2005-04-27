@@ -26,13 +26,26 @@
 define('INCLUDED', true);
 define('ROOT_PATH', './');
 
+$mode = ( !empty($_GET['act']) && $_GET['act'] == 'rss' ) ? 'rss' : 'activetopics';
+
+if ( $mode == 'rss' )
+	define('IS_RSS', true);
+
 //
 // Include usebb engine
 //
 require(ROOT_PATH.'sources/common.php');
 
-$session->update('activetopics');
+if ( $mode == 'rss' ) {
 	
+	if ( !$functions->get_config('enable_rss') )
+		exit();
+	$template->parse_special_templates_only = true;
+	
+}
+
+$session->update($mode);
+
 //
 // Include the page header
 //
@@ -90,50 +103,68 @@ if ( !$functions->get_stats('topics') ) {
 		
 		$template->set_page_title($lang['ActiveTopics']);
 		
-		$template->parse('topiclist_header', 'activetopics');
+		$template->parse('topiclist_header', $mode, array(), true);
 		
 		if ( !($result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$functions->get_config('topics_per_page'))) )
 			trigger_error('SQL: Unable to get topic list!');
 		
 		while ( $topicdata = $db->fetch_result($result) ) {
 			
-			//
-			// Loop through the topics, generating output...
-			//
-			$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>';
-			if ( $topicdata['status_sticky'] )
-				$topic_name = $lang['Sticky'].': '.$topic_name;
-			$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
-			
-			list($topic_icon, $topic_status) = $functions->topic_icon($topicdata['id'], $topicdata['status_locked'], $topicdata['last_post_time']);
-			
-			if ( $topic_status == $lang['NewPosts'] || $topic_status == $lang['LockedNewPosts'] ) {
+			if ( $mode == 'activetopics' ) {
 				
-				$topic_name = sprintf($template->get_config('newpost_link_format'), $functions->make_url('topic.php', array('id' => $topicdata['id'], 'act' => 'getnewpost')).'#newpost', 'templates/'.$functions->get_config('template').'/gfx/'.$template->get_config('newpost_link_icon'), $topic_status) . $topic_name;
+				//
+				// Loop through the topics, generating output...
+				//
+				$topic_name = '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml(stripslashes($topicdata['topic_title'])).'</a>';
+				if ( $topicdata['status_sticky'] )
+					$topic_name = $lang['Sticky'].': '.$topic_name;
+				$last_post_author = ( $topicdata['last_poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['last_poster_id'], $topicdata['last_poster_name'], $topicdata['last_poster_level']) : $topicdata['last_poster_guest'];
+				
+				list($topic_icon, $topic_status) = $functions->topic_icon($topicdata['id'], $topicdata['status_locked'], $topicdata['last_post_time']);
+				
+				if ( $topic_status == $lang['NewPosts'] || $topic_status == $lang['LockedNewPosts'] ) {
+					
+					$topic_name = sprintf($template->get_config('newpost_link_format'), $functions->make_url('topic.php', array('id' => $topicdata['id'], 'act' => 'getnewpost')).'#newpost', 'templates/'.$functions->get_config('template').'/gfx/'.$template->get_config('newpost_link_icon'), $topic_status) . $topic_name;
+					
+				}
+				
+				//
+				// Parse the topic template
+				//
+				$template->parse('topiclist_topic', 'activetopics', array(
+					'topic_icon' => $topic_icon,
+					'topic_status' => $topic_status,
+					'topic_name' => $topic_name,
+					'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
+					'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($forum_names[$topicdata['forum_id']])).'</a>',
+					'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : unhtml(stripslashes($topicdata['poster_guest'])),
+					'replies' => $topicdata['count_replies'],
+					'views' => $topicdata['count_views'],
+					'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
+					'by_author' => sprintf($lang['ByAuthor'], $last_post_author),
+					'on_date' => sprintf($lang['OnDate'], $functions->make_date($topicdata['last_post_time'])),
+					'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
+				), true);
+				
+			} elseif ( $mode == 'rss' ) {
+				
+				//
+				// Parse the topic template
+				//
+				$template->parse('topiclist_topic', 'rss', array(
+					'title' => unhtml(stripslashes($topicdata['topic_title'])),
+					'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id'])),
+					'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['id'])),
+					'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),
+					'pubDate' => $functions->make_date($topicdata['last_post_time'], 'D, d M Y H:i:s', true).' GMT',
+					'guid' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
+				), true);
 				
 			}
 			
-			//
-			// Parse the topic template
-			//
-			$template->parse('topiclist_topic', 'activetopics', array(
-				'topic_icon' => $topic_icon,
-				'topic_status' => $topic_status,
-				'topic_name' => $topic_name,
-				'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
-				'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($forum_names[$topicdata['forum_id']])).'</a>',
-				'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : unhtml(stripslashes($topicdata['poster_guest'])),
-				'replies' => $topicdata['count_replies'],
-				'views' => $topicdata['count_views'],
-				'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
-				'by_author' => sprintf($lang['ByAuthor'], $last_post_author),
-				'on_date' => sprintf($lang['OnDate'], $functions->make_date($topicdata['last_post_time'])),
-				'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
-			));
-			
 		}
 		
-		$template->parse('topiclist_footer', 'activetopics');
+		$template->parse('topiclist_footer', $mode, array(), true);
 		
 	}
 	

@@ -22,3 +22,4 @@ RewriteRule ^edit-topic([0-9]+)-(delete|trash|move|lock|sticky|unlock|unsticky)\
 RewriteRule ^online-([0-9]+)\.html$ online.php?page=$1
 RewriteRule ^members-(username|level|regdate|posts)-([0-9]+)\.html$ members.php?sortby=$1&page=$2
 RewriteRule ^members-staff\.html$ members.php?act=staff
+RewriteRule ^active-rss\.html$ active.php?act=rss

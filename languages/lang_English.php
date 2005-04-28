@@ -380,6 +380,7 @@ $lang['PostingTopic'] = 'Posting a topic in %s';
 $lang['PostingReply'] = 'Posting a reply in %s';
 $lang['MovingTopic'] = 'Moving topic %s';
 $lang['DeletingTopic'] = 'Deleting topic %s';
+$lang['TrashingTopic'] = 'Trashing topic %s';
 $lang['EditingPost'] = 'Editing post in %s';
 $lang['DeletingPost'] = 'Deleting post in %s';
 $lang['DebugMode'] = 'Debug mode';

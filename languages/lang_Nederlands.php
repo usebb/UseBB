@@ -380,6 +380,7 @@ $lang['PostingTopic'] = 'Een onderwerp plaatsen in %s';
 $lang['PostingReply'] = 'Een bericht plaatsen in %s';
 $lang['MovingTopic'] = 'Onderwerp %s verplaatsen';
 $lang['DeletingTopic'] = 'Onderwerp %s verwijderen';
+$lang['TrashingTopic'] = 'Onderwerp %s trashen';
 $lang['EditingPost'] = 'Bericht in %s bewerken';
 $lang['DeletingPost'] = 'Bericht in %s verwijderen';
 $lang['DebugMode'] = 'Debug-modus';

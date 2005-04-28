@@ -156,7 +156,7 @@ if ( !$functions->get_stats('topics') ) {
 					'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id'])),
 					'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['id'])),
 					'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),
-					'pubDate' => $functions->make_date($topicdata['last_post_time'], 'D, d M Y H:i:s', true).' GMT',
+					'pubDate' => $functions->make_date($topicdata['last_post_time'], 'D, d M Y H:i:s', true, false).' GMT',
 					'guid' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
 				), true);
 				

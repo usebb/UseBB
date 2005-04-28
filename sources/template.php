@@ -72,6 +72,8 @@ class template {
 	//
 	function get_config($setting) {
 		
+		global $functions;
+		
 		//
 		// Load the template set
 		//
@@ -79,8 +81,10 @@ class template {
 		
 		if ( isset($this->templates['global']['config'][$setting]) )
 			return $this->templates['global']['config'][$setting];
-		else
+		elseif ( !$functions->get_config('hide_undefined_template_setting_warnings') )
 			trigger_error('The template configuration variable "'.$setting.'" does not exist!');
+		else
+			return '';
 		
 	}
 	
@@ -99,8 +103,14 @@ class template {
 		//
 		$this->load_section($section);
 		
-		if ( !array_key_exists($name, $this->templates[$section]) )
-			trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!');
+		if ( !array_key_exists($name, $this->templates[$section]) ) {
+			
+			if ( !$functions->get_config('hide_undefined_template_warnings') )			
+				trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!');
+			else
+				$this->templates[$section][$name] = '';
+			
+		}
 		
 		$this->requests[] = array(
 			'section' => $section,

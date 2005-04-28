@@ -17,6 +17,7 @@ UseBB 0.5 Changelog
 - Added trash topic feature (moves topic to predefined trash forum).
 - Added hide moderator list feature settable per forum.
 - Added active topics in RSS format.
+- Added ability to hide warnings for configuration and template parser.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.

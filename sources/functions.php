@@ -226,7 +226,10 @@ class functions {
 			
 		} else {
 			
-			return false;
+			if ( isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] )
+				trigger_error('Unable to get configuration value "'.$setting.'"!');
+			else
+				return false;
 			
 		}
 		

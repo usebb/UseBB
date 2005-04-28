@@ -233,11 +233,11 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		if ( ( $_GET['act'] == 'move' && $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) ) || ( $_GET['act'] == 'trash' && $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] && $functions->auth($topicdata['auth'], 'trash', $topicdata['forum_id']) ) ) {
 			
-			if ( $_GET['act'] == 'trash' && !empty($_POST['trash']) )
-				$_POST['new_forum_id'] = $functions->get_config('trash_forum');
-			
-			if ( !empty($_POST['new_forum_id']) && valid_int($_POST['new_forum_id']) ) {
+			if ( ( $_GET['act'] == 'move' && !empty($_POST['new_forum_id']) && valid_int($_POST['new_forum_id']) ) || $_GET['act'] == 'trash' && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
+				if ( $_GET['act'] == 'trash' )
+					$_POST['new_forum_id'] = $functions->get_config('trash_forum');
+					
 				if ( !empty($_POST['move']) || !empty($_POST['trash']) ) {
 					
 					//

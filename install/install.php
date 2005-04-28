@@ -180,7 +180,7 @@ if ( empty($_POST['step']) ) {
 	$queries[] = "INSERT INTO ".$dbs['prefix']."cats ( name ) VALUES ( 'Test Category' )";
 	$queries[] = "INSERT INTO ".$dbs['prefix']."forums ( name, cat_id, descr, topics, posts, last_topic_id ) VALUES ( 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1' )";
 	$queries[] = "INSERT INTO ".$dbs['prefix']."topics ( forum_id, topic_title, first_post_id, last_post_id ) VALUES ( '1', 'Test Topic', '1', '1' )";
-	$queries[] = "INSERT INTO ".$dbs['prefix']."posts ( topic_id, poster_guest, poster_ip_addr, content, post_time ) VALUES ( '1', 'UseBB Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."' )";
+	$queries[] = "INSERT INTO ".$dbs['prefix']."posts ( topic_id, poster_guest, poster_ip_addr, content, post_time ) VALUES ( '1', 'UseBB_Team', '127.0.0.1', 'Thanks for choosing UseBB! We wish you a lot of fun with your board!', '".time()."' )";
 	$queries[] = "UPDATE ".$dbs['prefix']."stats SET content = '1' WHERE name IN ('forums', 'topics', 'posts')";
 	
 	$error = false;

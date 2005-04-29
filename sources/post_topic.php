@@ -176,7 +176,7 @@ if ( !$db->num_rows($result) ) {
 				} elseif ( time() <= $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {
 					
 					$template->parse('msgbox', 'global', array(
-						'box_title' => $lang['Error'],
+						'box_title' => $lang['Note'],
 						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'))
 					));
 					

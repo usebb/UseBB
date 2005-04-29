@@ -158,7 +158,7 @@ if ( !$functions->get_stats('topics') ) {
 				// Parse the topic template
 				//
 				$template->parse('topiclist_topic', 'rss', array(
-					'title' => unhtml(stripslashes($topicdata['topic_title'])),
+					'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))),
 					'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id'])),
 					'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['id'])),
 					'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),

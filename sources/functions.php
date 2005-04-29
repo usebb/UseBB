@@ -213,7 +213,8 @@ class functions {
 		if ( $setting == 'board_url' && empty($this->board_config['board_url']) ) {
 			
 			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-			return 'http://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+			$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
+			return $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
 			
 		} elseif ( $setting == 'cookie_path' && empty($this->board_config['cookie_path']) ) {
 			

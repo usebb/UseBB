@@ -98,7 +98,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
 			
 		}
-		
 		$language_input .= '</select>';
 		
 	}

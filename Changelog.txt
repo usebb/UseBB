@@ -19,6 +19,7 @@ UseBB 0.5 Changelog
 - Added active topics in RSS format.
 - Added ability to hide warnings for configuration and template parser.
 - Added ability to exclude forums from active topics and RSS listing.
+- Added age/birthday profile field.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed security issue concerning quoting posts.

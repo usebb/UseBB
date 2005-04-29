@@ -412,6 +412,8 @@ $lang['UnsubscribeSelected'] = 'Geselecteerde uitschrijven';
 $lang['SelectedTopicsUnsubscribed'] = 'Je bent nu van de geslecteerde onderwerpen uitgeschreven.';
 $lang['TrashTopic'] = 'Trashen';
 $lang['ConfirmTrashTopic'] = 'Ben je zeker dat je het onderwerp %s in het forum %s wilt verplaatsen naar het trash-forum?';
+$lang['Birthday'] = 'Verjaardag';
+$lang['Age'] = 'Leeftijd';
 
 //
 // Date translations

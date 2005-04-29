@@ -73,6 +73,19 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		
 	}
 	
+	if ( !empty($_POST['birthday_month']) && valid_int($_POST['birthday_month']) && !empty($_POST['birthday_day']) && valid_int($_POST['birthday_day']) && !empty($_POST['birthday_year']) && valid_int($_POST['birthday_year']) ) {
+		
+		if ( checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) )
+			$birthday = sprintf('%04d%02d%02d', $_POST['birthday_year'], $_POST['birthday_month'], $_POST['birthday_day']);
+		else
+			$birthday = 0;
+		
+	} else {
+		
+		$birthday = 0;
+		
+	}
+	
 	//
 	// Now update the users profile
 	//
@@ -90,6 +103,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		occupation    = '".$_POST['occupation']."',
 		interests     = '".$_POST['interests']."',
 		signature     = '".$_POST['signature']."',
+		birthday      = '".$birthday."',
 		msnm          = '".$_POST['msnm']."',
 		yahoom        = '".$_POST['yahoom']."',
 		aim           = '".$_POST['aim']."',
@@ -142,19 +156,39 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		
 	}
 	
-	switch ( $functions->get_user_level() ) {
+	//
+	// Create the birthday fields
+	//	
+	$birthday = $session->sess_info['user_info']['birthday'];
+	if ( $birthday ) {
 		
-		case 3:
-			$level = $lang['Administrator'];
-			break;
-		case 2:
-			$level = $lang['Moderator'];
-			break;
-		case 1:
-			$level = $lang['Member'];
-			break;
+		$birthday_year = intval(substr($birthday, 0, 4));
+		$birthday_month = intval(substr($birthday, 4, 2));
+		$birthday_day = intval(substr($birthday, 6, 2));
+		
+	} else {
+		
+		$birthday_year = '';
+		$birthday_month = 0;
+		$birthday_day = 0;
 		
 	}
+	$birthday_month_input = '<select name="birthday_month"><option value="">--</option>';
+	for ( $i = 1; $i <= 12; $i++ ) {
+		
+		$selected = ( $birthday_month == $i ) ? ' selected="selected"' : '';
+		$birthday_month_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
+		
+	}
+	$birthday_month_input .= '</select>';
+	$birthday_day_input = '<select name="birthday_day"><option value="">--</option>';
+	for ( $i = 1; $i <= 31; $i++ ) {
+		
+		$selected = ( $birthday_day == $i ) ? ' selected="selected"' : '';
+		$birthday_day_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
+		
+	}
+	$birthday_day_input .= '</select>';
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
@@ -164,6 +198,9 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		'displayed_name_input'  => '<input type="text" size="50" maxlength="255" name="displayed_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'" />',
 		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['real_name'])).'" />',
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($session->sess_info['user_info']['location'])).'" />',
+		'birthday_year_input' => '<input type="text" size="4" maxlength="4" name="birthday_year" value="'.$birthday_year.'" />',
+		'birthday_month_input' => $birthday_month_input,
+		'birthday_day_input' => $birthday_day_input,
 		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$session->sess_info['user_info']['website'].'" />',
 		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($session->sess_info['user_info']['occupation'])).'" />',
 		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($session->sess_info['user_info']['interests'])).'" />',

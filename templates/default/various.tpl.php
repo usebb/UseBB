@@ -183,6 +183,9 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_LastLogin}</td><td colspan="2">{lastlogin_v}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_Age}</td><td colspan="2">{age_v}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{l_Location}</td><td colspan="2">{location_v}</td>
 		</tr>
 		<tr>

@@ -149,6 +149,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			else
 				$posts_per_day = round($profiledata['posts'] / $days_since_registration, 2);
 			
+			$birthday = $profiledata['birthday'];
+			if ( $birthday )
+				$age = floor((time()-mktime(0, 0, 0, intval(substr($birthday, 4, 2)), intval(substr($birthday, 6, 2)), intval(substr($birthday, 0, 4))) )/31556926);
+			else
+				$age = '';
+			
 			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
 			$template->parse('profile', 'various', array(
@@ -163,6 +169,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'posts_v'       => $profiledata['posts'],
 				'postsperday_v' => $posts_per_day,
 				'lastlogin_v'   => $last_login,
+				'age_v'         => $age,
 				'location_v'    => unhtml(stripslashes($profiledata['location'])),
 				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.unhtml(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['website'])).'</a>' : '',
 				'occupation_v'  => unhtml(stripslashes($profiledata['occupation'])),

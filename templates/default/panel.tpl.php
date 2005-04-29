@@ -115,6 +115,9 @@ $templates['edit_profile'] = '
 			<td class="fieldtitle">{l_AvatarURL}</td><td>{avatar_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_Birthday}</td><td>{birthday_month_input} {birthday_day_input} {birthday_year_input}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{l_Location}</td><td>{location_input}</td>
 		</tr>
 		<tr>

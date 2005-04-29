@@ -64,10 +64,16 @@ if ( !$functions->get_stats('topics') ) {
 	
 } else {
 	
+	$exclude_forums = $functions->get_config('exclude_forums_active_topics');
+	if ( is_array($exclude_forums) && count($exclude_forums) )
+		$exclude_forums_query_part = " AND id NOT IN (".join(', ', $exclude_forums).")";
+	else
+		$exclude_forums_query_part = '';
+	
 	//
 	// Get a list of forums
 	//
-	if ( !($result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0")) )
+	if ( !($result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part)) )
 		trigger_error('SQL: Unable to get forums information!');
 	
 	$forum_ids = $forum_names = array();
@@ -87,12 +93,12 @@ if ( !$functions->get_stats('topics') ) {
 	if ( !count($forum_ids) ) {
 		
 		//
-		// No forums the user has access to
+		// No active topics
 		//
 		$template->set_page_title($lang['Note']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
-			'content' => $lang['NoViewableForums']
+			'content' => $lang['NoActivetopics']
 		));
 		
 	} else {

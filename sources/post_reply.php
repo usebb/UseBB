@@ -129,18 +129,22 @@ if ( !$db->num_rows($result) ) {
 				//
 				// E-mail subscribed users
 				//
-				if ( !($result = $db->query("SELECT s.user_id, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id AND s.user_id <> ".$session->sess_info['user_id'])) )
+				if ( !($result = $db->query("SELECT s.user_id AS id, u.level, u.email FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id AND s.user_id <> ".$session->sess_info['user_id'])) )
 					trigger_error('SQL: Unable to get subscribed users!');			
 				if ( $db->num_rows($result) ) {
 					
-					while ( $subscribed_users = $db->fetch_result($result) ) {
+					while ( $subscribed_user = $db->fetch_result($result) ) {
 						
-						$functions->usebb_mail(sprintf($lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $lang['NewReplyEmailBody'], array(
-							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
-							'topic_title' => stripslashes($topicdata['topic_title']),
-							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
-							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
-						), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_users['email']);
+						if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id'], false, $subscribed_user) ) {
+							
+							$functions->usebb_mail(sprintf($lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $lang['NewReplyEmailBody'], array(
+								'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
+								'topic_title' => stripslashes($topicdata['topic_title']),
+								'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
+								'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
+							), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_user['email']);
+							
+						}
 						
 					}
 					

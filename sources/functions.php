@@ -603,23 +603,25 @@ class functions {
 	// Authorization function
 	// Defines whether a user has permission to take a certain action.
 	//
-	function auth($authint, $action, $forumid=0) {
+	function auth($auth_int, $action, $forum_id, $self=true, $alternative_user_info=null) {
 		
 		global $session, $db;
 		
-		if ( $session->sess_info['ip_banned'] || ( $this->get_config('board_closed') && $this->get_user_level() < 3 ) )
-			return FALSE;
+		$user_info = ( $self ) ? $session->sess_info['user_info'] : $alternative_user_info;
+		
+		if ( ( $self && $session->sess_info['ip_banned'] ) || ( $this->get_config('board_closed') && $user_info['level'] < 3 ) )
+			return false;
 		
 		//
 		// Define the user level
 		//
-		if ( $session->sess_info['user_id'] ) {
+		if ( $user_info['id'] ) {
 			
-			if ( $this->get_user_level() == 2 ) {
+			if ( $user_info['level'] == 2 ) {
 				
 				if ( !is_array($this->mod_auth) ) {
 					
-					if ( !($result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$session->sess_info['user_id'])) )
+					if ( !($result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$user_info['id'])) )
 						trigger_error('SQL: Unable to define moderator status!');
 					$this->mod_auth = array();
 					while ( $out = $db->fetch_result($result) )
@@ -627,14 +629,14 @@ class functions {
 					
 				}
 				
-				if ( in_array($forumid, $this->mod_auth) )
+				if ( in_array($forum_id, $this->mod_auth) )
 					$userlevel = 2;
 				else
 					$userlevel = 1;
 				
 			} else {
 				
-				$userlevel = $this->get_user_level();
+				$userlevel = $user_info['level'];
 				
 			}
 			
@@ -664,7 +666,7 @@ class functions {
 			'sticky' => 8,
 			'html' => 9
 		);
-		$min_level = intval($authint[$actions[$action]]);
+		$min_level = intval($auth_int[$actions[$action]]);
 		
 		//
 		// If the user level is equal or greater than the

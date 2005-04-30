@@ -10,7 +10,7 @@ Before installing UseBB, make sure your host accords to the minimal system requi
 You might want to use install/install.php to quickly set up your board. Otherwise, you
 can follow these directions:
 
-1. Execute install/usebb.sql on your database. Currently, UseBB needs 10 tables.
+1. Execute install/usebb.sql on your database. Currently, UseBB needs 11 tables.
 3. Edit config.php to your preferences.
    (You might want to use http://usebb.sourceforge.net/docs/doku.php?id=config.php_guide)
 4. Upload all the files to your host.

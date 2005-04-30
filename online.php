@@ -252,6 +252,9 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 			case 'rss':
 				$location = '<a href="'.$functions->make_url('active.php', array('act' => 'rss')).'">'.$lang['RSSFeed'].'</a>';
 				break;
+			case 'stats':
+				$location = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
+				break;
 			
 		}
 		

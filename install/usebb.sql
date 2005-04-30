@@ -224,7 +224,6 @@ CREATE TABLE usebb_stats (
 -- Dumping data for table `usebb_stats`
 -- 
 
-INSERT INTO usebb_stats VALUES ('forums', '0');
 INSERT INTO usebb_stats VALUES ('topics', '0');
 INSERT INTO usebb_stats VALUES ('posts', '0');
 INSERT INTO usebb_stats VALUES ('members', '0');

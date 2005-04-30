@@ -94,7 +94,7 @@ function valid_int($string) {
 class functions {
 	
 	var $board_config;
-	var $statistics;
+	var $statistics = array();
 	var $enabled_templates;
 	var $mod_auth;
 	var $badwords;
@@ -243,30 +243,40 @@ class functions {
 		
 		global $db;
 		
-		if ( in_array($stat, array('latest_member')) ) {
+		if ( $stat == 'forums' ) {
 			
-			if ( $stat == 'latest_member' ) {
+			//
+			// Get the latest member
+			//
+			if ( !isset($this->statistics[$stat]) ) {
 				
-				//
-				// Get the latest member
-				//
-				if ( !isset($this->statistics[$stat]) ) {
-					
-					if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
-						trigger_error('SQL: Unable to get latest member information!');
-					$this->statistics[$stat] = $db->fetch_result($result);
-					
-				}
-				
-				return $this->statistics[$stat];
+				if ( !($result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."forums")) )
+					trigger_error('SQL: Unable to get forum count!');
+				$out = $db->fetch_result($result);
+				$this->statistics[$stat] = $out['count'];
 				
 			}
 			
+			return $this->statistics[$stat];
+			
+		} elseif ( $stat == 'latest_member' ) {
+			
+			//
+			// Get the latest member
+			//
+			if ( !isset($this->statistics[$stat]) ) {
+				
+				if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
+					trigger_error('SQL: Unable to get latest member information!');
+				$this->statistics[$stat] = $db->fetch_result($result);
+				
+			}
+			
+			return $this->statistics[$stat];
+			
 		} else {
 			
-			if ( !isset($this->statistics) ) {
-				
-				$this->statistics = array();
+			if ( !array_key_exists($stat, $this->statistics) ) {
 				
 				if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
 					trigger_error('SQL: Unable to get forum statistics!');

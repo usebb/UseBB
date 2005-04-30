@@ -607,7 +607,10 @@ class functions {
 		
 		global $session, $db;
 		
-		$user_info = ( $self ) ? $session->sess_info['user_info'] : $alternative_user_info;
+		if ( $self )
+			$user_info = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_info'] : array('id' => 0, 'level' => 0);
+		else
+			$user_info = $alternative_user_info;
 		
 		if ( ( $self && $session->sess_info['ip_banned'] ) || ( $this->get_config('board_closed') && $user_info['level'] < 3 ) )
 			return false;

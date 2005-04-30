@@ -197,6 +197,9 @@ input, select, textarea {
 	font-size: 8pt !important;
 	font-family: verdana, sans-serif !important;
 }
+select option {
+	padding: 0px 5px 0px 0px;
+}
 textarea {
 	width: 99%;
 	font-size: 9pt !important;

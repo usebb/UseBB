@@ -174,7 +174,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.unhtml(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['website'])).'</a>' : '',
 				'occupation_v'  => unhtml(stripslashes($profiledata['occupation'])),
 				'interests_v'   => unhtml(stripslashes($profiledata['interests'])),
-				'signature_v'   => $functions->markup(stripslashes($profiledata['signature']), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
+				'signature_v'   => $functions->markup($functions->replace_badwords(stripslashes($profiledata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
 				'email_v'       => $functions->show_email($profiledata),
 				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm'])),
 				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.unhtml(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['yahoom'])).'</a>' : '',

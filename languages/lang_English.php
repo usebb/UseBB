@@ -416,3 +416,4 @@ $lang['Birthday'] = 'Birthday';
 $lang['Age'] = 'Age';
 $lang['Month'] = 'Month';
 $lang['Day'] = 'Day';
+$lang['PoweredBy'] = '%s is powered by %s';

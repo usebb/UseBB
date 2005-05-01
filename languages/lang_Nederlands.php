@@ -416,6 +416,7 @@ $lang['Birthday'] = 'Verjaardag';
 $lang['Age'] = 'Leeftijd';
 $lang['Month'] = 'Maand';
 $lang['Day'] = 'Dag';
+$lang['PoweredBy'] = '%s wordt aangedreven door %s';
 
 //
 // Date translations

@@ -130,7 +130,7 @@ $templates['normal_footer'] = '
 			If you don\'t want to show the Copyright notice, just leave the Powered by UseBB line. If you
 			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
 		-->
-		Powered by <a href="http://www.usebb.net">UseBB</a> {usebb_version} &middot; Copyright &copy; 2003-2005 UseBB Team
+		{usebb_copyright}
 	</address>
 	<div id="bottom-shadow"></div>
 	{debug_info_large}

@@ -114,6 +114,7 @@ $template->add_global_vars(array(
 	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
 	'link_rss' => $functions->make_url('active.php', array('act' => 'rss')),
 	'link_stats' => $functions->make_url('stats.php'),
+	'usebb_copyright' => sprintf($lang['PoweredBy'], $functions->get_config('board_name'), '<a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION),
 	'usebb_version' => USEBB_VERSION
 ));
 

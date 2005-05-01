@@ -414,6 +414,8 @@ $lang['TrashTopic'] = 'Trashen';
 $lang['ConfirmTrashTopic'] = 'Ben je zeker dat je het onderwerp %s in het forum %s wilt verplaatsen naar het trash-forum?';
 $lang['Birthday'] = 'Verjaardag';
 $lang['Age'] = 'Leeftijd';
+$lang['Month'] = 'Maand';
+$lang['Day'] = 'Dag';
 
 //
 // Date translations

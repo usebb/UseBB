@@ -173,7 +173,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		$birthday_day = 0;
 		
 	}
-	$birthday_month_input = '<select name="birthday_month"><option value="">--</option>';
+	$birthday_month_input = '<select name="birthday_month"><option value="">'.$lang['Month'].'</option>';
 	for ( $i = 1; $i <= 12; $i++ ) {
 		
 		$selected = ( $birthday_month == $i ) ? ' selected="selected"' : '';
@@ -181,7 +181,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		
 	}
 	$birthday_month_input .= '</select>';
-	$birthday_day_input = '<select name="birthday_day"><option value="">--</option>';
+	$birthday_day_input = '<select name="birthday_day"><option value="">'.$lang['Day'].'</option>';
 	for ( $i = 1; $i <= 31; $i++ ) {
 		
 		$selected = ( $birthday_day == $i ) ? ' selected="selected"' : '';

@@ -414,3 +414,5 @@ $lang['TrashTopic'] = 'Trash topic';
 $lang['ConfirmTrashTopic'] = 'Are you sure you want to move the topic %s in the forum %s to the trash forum?';
 $lang['Birthday'] = 'Birthday';
 $lang['Age'] = 'Age';
+$lang['Month'] = 'Month';
+$lang['Day'] = 'Day';

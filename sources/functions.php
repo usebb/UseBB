@@ -276,7 +276,7 @@ class functions {
 			
 		} else {
 			
-			if ( !array_key_exists($stat, $this->statistics) ) {
+			if ( !isset($this->statistics[$stat]) ) {
 				
 				if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
 					trigger_error('SQL: Unable to get forum statistics!');

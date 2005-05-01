@@ -186,7 +186,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 			//
 			// Update the statistics
 			//
-			if ( !($result = $db->query("UPDATE usebb_stats SET content = content+1 WHERE name = 'members'")) )
+			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'")) )
 				trigger_error('SQL: Unable to update statistics!');
 			
 			//

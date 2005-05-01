@@ -1,5 +1,5 @@
 RewriteEngine on
-RewriteRule ^(index|panel|faq|search|active|online|members|rss|stats)\.html$ $1.php
+RewriteRule ^(index|panel|faq|search|active|online|members|stats)\.html$ $1.php
 RewriteRule ^index-([0-9]+)\.html$ index.php?cat=$1
 RewriteRule ^panel-(login|logout|register|sendpwd|editprofile|editoptions|editpwd|subscriptions)\.html$ panel.php?act=$1
 RewriteRule ^panel-al(0|1)\.html$ panel.php?al=$1

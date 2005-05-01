@@ -159,6 +159,7 @@ if ( empty($_POST['step']) ) {
 		"CREATE TABLE `".$dbs['prefix']."badwords` ( `word` VARCHAR( 255 ) NOT NULL , `replacement` VARCHAR( 255 ) NOT NULL , PRIMARY KEY ( `word` ) )",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `auto_subscribe_topic` INT( 1 ) NOT NULL AFTER `hide_signatures`, ADD `auto_subscribe_reply` INT( 1 ) NOT NULL AFTER `auto_subscribe_topic`",
 		"ALTER TABLE `".$dbs['prefix']."forums` ADD `hide_mods_list` INT( 1 ) NOT NULL",
+		"ALTER TABLE `".$dbs['prefix']."members` ADD `birthday` INT( 8 ) NOT NULL AFTER `signature`",
 		"DELETE FROM ".$dbs['prefix']."stats WHERE name = 'forums'"
 	);
 	

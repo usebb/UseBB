@@ -124,6 +124,7 @@ CREATE TABLE usebb_members (
   displayed_name varchar(255) NOT NULL default '',
   real_name varchar(255) NOT NULL default '',
   signature text NOT NULL,
+  birthday int(8) NOT NULL default '0',
   location varchar(255) NOT NULL default '',
   website varchar(255) NOT NULL default '',
   occupation varchar(255) NOT NULL default '',

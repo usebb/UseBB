@@ -151,7 +151,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$birthday = $profiledata['birthday'];
 			if ( $birthday )
-				$age = floor((time()-mktime(0, 0, 0, intval(substr($birthday, 4, 2)), intval(substr($birthday, 6, 2)), intval(substr($birthday, 0, 4))) )/31556926);
+				$age = $functions->calculate_age($birthday);
 			else
 				$age = '';
 			

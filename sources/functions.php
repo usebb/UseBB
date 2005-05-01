@@ -1402,6 +1402,32 @@ class functions {
 		
 	}
 	
+	//
+	// Calculate the age of a person based on a birthday date
+	//
+	function calculate_age($birthday) {
+		
+		$month = intval(substr($birthday, 4, 2));
+		$day = intval(substr($birthday, 6, 2));
+		$year = intval(substr($birthday, 0, 4));
+		
+		if ( $year < 1970 ) {
+			
+			$years_before_unix_epoch = 1970 - $year;
+			$false_year = $year + ( $years_before_unix_epoch * 2 );
+			$timestamp = mktime(0, 0, 0, $month, $day, $false_year);
+			$timestamp -= ( $timestamp * 2);
+			
+		} else {
+			
+			$timestamp = mktime(0, 0, 0, $month, $day, $year);
+			
+		}
+		
+		return floor((time()-$timestamp)/31556926);
+		
+	}
+	
 }
 
 ?>

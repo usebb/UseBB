@@ -34,16 +34,22 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['topiclist_header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
-<rss version="0.92" xml:lang="{language_code}">
+<rss version="2.0" xml:lang="{language_code}">
 	<channel>
-		<title>{board_name}</title>
+		<title><![CDATA[{board_name}]]></title>
 		<link>{board_url}</link>
 		<description><![CDATA[{board_descr}]]></description>
+		<language>{language_code}</language>
+		<pubDate>{pubDate}</pubDate>
+		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+		<generator>UseBB {usebb_version}</generator>
 ';
 
 $templates['topiclist_topic'] = '
 		<item>
 			<title><![CDATA[{title}]]></title>
+			<description><![CDATA[{description}]]></description>
+			<author><![CDATA[{author}]]></author>
 			<link>{link}</link>
 			<comments>{comments}</comments>
 			<category><![CDATA[{category}]]></category>

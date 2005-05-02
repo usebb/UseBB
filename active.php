@@ -109,9 +109,21 @@ if ( !$functions->get_stats('topics') ) {
 		
 		$template->set_page_title($lang['ActiveTopics']);
 		
-		$template->parse('topiclist_header', $mode, array(), true);
+		if ( $mode == 'rss' ) {
+			
+			$header_vars = array('pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT');
+			$query = "SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.forum_id, p.content, p.enable_bbcode, p.enable_html, p.post_time AS last_post_time, p.poster_id, p.poster_guest AS last_poster_guest, u.displayed_name AS last_poster_name FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.last_post_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('active_topics_count');
+			
+		} else {
+			
+			$header_vars = array();
+			$query = "SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$functions->get_config('active_topics_count');
+			
+		}
 		
-		if ( !($result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$functions->get_config('topics_per_page'))) )
+		$template->parse('topiclist_header', $mode, $header_vars, true);
+		
+		if ( !($result = $db->query($query)) )
 			trigger_error('SQL: Unable to get topic list!');
 		
 		while ( $topicdata = $db->fetch_result($result) ) {
@@ -158,7 +170,9 @@ if ( !$functions->get_stats('topics') ) {
 				// Parse the topic template
 				//
 				$template->parse('topiclist_topic', 'rss', array(
-					'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))),
+					'title' => ( ( $topicdata['count_replies'] ) ? $lang['Re'].' ' : '' ) . unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))),
+					'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], false, $topicdata['enable_html']),
+					'author' => ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest'],
 					'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id'])),
 					'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['id'])),
 					'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),

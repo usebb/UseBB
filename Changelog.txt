@@ -16,7 +16,7 @@ UseBB 0.5 Changelog
 - Added unsubscribe multiple topics possibility for subscriptions overview.
 - Added trash topic feature (moves topic to predefined trash forum).
 - Added hide moderator list feature settable per forum.
-- Added active topics in RSS format.
+- Added active topics in RSS 2.0 format.
 - Added ability to hide warnings for configuration and template parser.
 - Added ability to exclude forums from active topics and RSS listing.
 - Added age/birthday profile field.

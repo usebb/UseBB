@@ -76,8 +76,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			//
 			$own_mailpage = FALSE;
 			
-			if ( !($result = $db->query("SELECT displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id'])) )
-				trigger_error('SQL: Unable to get user information!');
+			$result = $db->query("SELECT displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 			
 		}
 		

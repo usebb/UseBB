@@ -52,13 +52,12 @@ class db {
 		//
 		// Connect to server
 		//
-		if ( !($this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'])) )
-			trigger_error('Unable to connect to the database server!');
+		$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysql_error());
+		
 		//
 		// Select database
 		//
-		if ( !(@mysql_select_db($config['dbname'], $this->connection)) )
-			trigger_error('Unable to connect to the database!');
+		@mysql_select_db($config['dbname'], $this->connection) or trigger_error('SQL: '.mysql_error());
 		
 	}
 	
@@ -69,8 +68,8 @@ class db {
 		
 		global $functions;
 		
-		$this->queries[] = preg_replace("/\s+/", ' ', $query);
-		$result = @mysql_query($query, $this->connection);
+		$this->queries[] = preg_replace('#\s+#', ' ', $query);
+		$result = @mysql_query($query, $this->connection) or trigger_error('SQL: '.mysql_error());
 		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
 			$this->results[] = $result;
 		return $result;
@@ -123,11 +122,11 @@ class db {
 		if ( $functions->get_config('auto_free_sql_results') ) {
 			
 			foreach ( $this->results as $result )
-				mysql_free_result($result);
+				@mysql_free_result($result);
 			
 		}
 		
-		mysql_close($this->connection);
+		@mysql_close($this->connection);
 		
 	}
 	

@@ -41,8 +41,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	if ( !empty($_GET['post']) && valid_int($_GET['post']) ) {
 		
-		if ( !($result = $db->query("SELECT p1.topic_id, COUNT(p2.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."posts p2 WHERE p1.id = ".$_GET['post']." AND t.id = p1.topic_id AND p2.topic_id = p1.topic_id AND p2.id <= ".$_GET['post']." GROUP BY p1.topic_id")) )
-			trigger_error('SQL: Unable to get parent topic!');
+		$result = $db->query("SELECT p1.topic_id, COUNT(p2.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."posts p2 WHERE p1.id = ".$_GET['post']." AND t.id = p1.topic_id AND p2.topic_id = p1.topic_id AND p2.id <= ".$_GET['post']." GROUP BY p1.topic_id");
 		
 		if ( $db->num_rows($result) ) {
 			
@@ -84,8 +83,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		
 		$previous_view = ( array_key_exists($_GET['id'], $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$_GET['id']] : $_SESSION['previous_visit'];
 		
-		if ( !($result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$previous_view." GROUP BY p.topic_id")) )
-			trigger_error('SQL: Unable to page of new post!');
+		$result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$previous_view." GROUP BY p.topic_id");
 		
 		if ( $db->num_rows($result) ) {
 			
@@ -112,8 +110,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !($result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id")) )
-		trigger_error('SQL: Unable to get topic information!');
+	$result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id");
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -143,16 +140,14 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			// Update views count
 			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic)) )
-				trigger_error('SQL: Unable to update topic views count!');
+			$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic);
 			
 			//
 			// Eventually (un)subscribe user to topic
 			//
 			if ( $session->sess_info['user_id'] ) {
 				
-				if ( !($result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id'])) )
-					trigger_error('SQL: Unable to get subscription information!');
+				$result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
 				
 				$subscribed = ( !$db->num_rows($result) ) ? false : true;
 				
@@ -167,8 +162,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					
 					if ( !$subscribed && $_GET['act'] == 'subscribe' ) {
 						
-						if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$requested_topic.", ".$session->sess_info['user_id'].")")) )
-							trigger_error('SQL: Unable to subscribe user to topic!');
+						$result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$requested_topic.", ".$session->sess_info['user_id'].")");
 						$subscribed = true;
 						$template->parse('msgbox', 'global', array(
 							'box_title' => $lang['Note'],
@@ -177,8 +171,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 						
 					} elseif ( $subscribed && $_GET['act'] == 'unsubscribe' ) {
 						
-						if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id'])) )
-							trigger_error('SQL: Unable to subscribe user to topic!');
+						$result = $db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
 						$subscribed = false;
 						$template->parse('msgbox', 'global', array(
 							'box_title' => $lang['Note'],
@@ -229,8 +222,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
 			
-			if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end)) )
-				trigger_error('SQL: Unable to get posts in topic!');
+			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page') - 1);
 			
@@ -365,8 +357,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 						
 					} else {
 						
-						if ( !($result2 = $db->query("SELECT displayed_name AS poster_name, level AS poster_level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by'])) )
-							trigger_error('SQL: Unable to get post editer!');
+						$result2 = $db->query("SELECT displayed_name AS poster_name, level AS poster_level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by']);
 						$editer_info = $db->fetch_result($result2);
 						
 					}

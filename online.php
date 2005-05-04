@@ -50,8 +50,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$min_updated = time() - ( $functions->get_config('online_min_updated') * 60 );
 	
-	if ( !($result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.displayed_name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-		trigger_error('SQL: Unable to get sessions information!');
+	$result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.displayed_name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC");
 	
 	$ids = $names = array(
 		'forums' => array(),
@@ -121,8 +120,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	if ( count($ids['forums']) ) {
 		
-		if ( !($result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $ids['forums']).")")) )
-			trigger_error('SQL: Unable to get forums information!');
+		$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $ids['forums']).")");
 		while ( $forumdata = $db->fetch_result($result) ) {
 			
 			if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) )
@@ -134,8 +132,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	if ( count($ids['topics']) ) {
 		
-		if ( !($result = $db->query("SELECT t.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id IN(".join(', ', $ids['topics']).") AND f.id = t.forum_id")) )
-			trigger_error('SQL: Unable to get topics information!');
+		$result = $db->query("SELECT t.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id IN(".join(', ', $ids['topics']).") AND f.id = t.forum_id");
 		while ( $topicdata = $db->fetch_result($result) ) {
 			
 			if ( $functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )
@@ -147,8 +144,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 	if ( count($ids['posts']) ) {
 		
-		if ( !($result = $db->query("SELECT p.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE p.id IN(".join(', ', $ids['posts']).") AND t.id = p.topic_id AND f.id = t.forum_id")) )
-			trigger_error('SQL: Unable to get posts information!');
+		$result = $db->query("SELECT p.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE p.id IN(".join(', ', $ids['posts']).") AND t.id = p.topic_id AND f.id = t.forum_id");
 		while ( $topicdata = $db->fetch_result($result) ) {
 			
 			if ( $functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )
@@ -160,8 +156,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	if ( count($ids['users']) ) {
 		
-		if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $ids['users']).")")) )
-			trigger_error('SQL: Unable to get members information!');
+		$result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $ids['users']).")");
 		while ( $userdata = $db->fetch_result($result) )
 			$names['users'][$userdata['id']] = $userdata['displayed_name'];
 		

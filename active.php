@@ -73,8 +73,7 @@ if ( !$functions->get_stats('topics') ) {
 	//
 	// Get a list of forums
 	//
-	if ( !($result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part)) )
-		trigger_error('SQL: Unable to get forums information!');
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
 	
 	$forum_ids = $forum_names = array();
 	while ( $forumdata = $db->fetch_result($result) ) {
@@ -123,8 +122,7 @@ if ( !$functions->get_stats('topics') ) {
 		
 		$template->parse('topiclist_header', $mode, $header_vars, true);
 		
-		if ( !($result = $db->query($query)) )
-			trigger_error('SQL: Unable to get topic list!');
+		$result = $db->query($query);
 		
 		while ( $topicdata = $db->fetch_result($result) ) {
 			

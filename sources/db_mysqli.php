@@ -33,7 +33,7 @@ if ( !extension_loaded('mysqli') )
 	trigger_error('Unable to load module for database server "mysqli": PHP mysqli extension not available!');
 
 //
-// Create the MySQL 4.1 handlers
+// Create the MySQL handlers
 //
 class db {
 	
@@ -52,13 +52,12 @@ class db {
 		//
 		// Connect to server
 		//
-		if ( !($this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd'])) )
-			trigger_error('Unable to connect to the database server!');
+		$this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysqli_error());
+		
 		//
 		// Select database
 		//
-		if ( !(@mysqli_select_db($config['dbname'], $this->connection)) )
-			trigger_error('Unable to connect to the database!');
+		@mysqli_select_db($config['dbname'], $this->connection) or trigger_error('SQL: '.mysqli_error());
 		
 	}
 	
@@ -69,8 +68,8 @@ class db {
 		
 		global $functions;
 		
-		$this->queries[] = preg_replace("/\s+/", ' ', $query);
-		$result = @mysqli_query($query, $this->connection);
+		$this->queries[] = preg_replace('#\s+#', ' ', $query);
+		$result = @mysqli_query($query, $this->connection) or trigger_error('SQL: '.mysqli_error());
 		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
 			$this->results[] = $result;
 		return $result;
@@ -123,11 +122,11 @@ class db {
 		if ( $functions->get_config('auto_free_sql_results') ) {
 			
 			foreach ( $this->results as $result )
-				mysqli_free_result($result);
+				@mysqli_free_result($result);
 			
 		}
 		
-		mysqli_close($this->connection);
+		@mysqli_close($this->connection);
 		
 	}
 	

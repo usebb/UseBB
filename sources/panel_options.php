@@ -57,7 +57,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$_POST['auto_subscribe_topic'] = ( !empty($_POST['auto_subscribe_topic']) ) ? 1 : 0;
 	$_POST['auto_subscribe_reply'] = ( !empty($_POST['auto_subscribe_reply']) ) ? 1 : 0;
 	
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
+	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		language = '".$_POST['language']."',
 		template = '".$_POST['template']."',
 		email_show = ".$_POST['email_show'].",
@@ -74,8 +74,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		hide_signatures = ".$_POST['hide_signatures'].",
 		auto_subscribe_topic = ".$_POST['auto_subscribe_topic'].",
 		auto_subscribe_reply = ".$_POST['auto_subscribe_reply']."
-	WHERE id = ".$session->sess_info['user_info']['id'])) )
-		trigger_error('SQL: Unable to update user information!');
+	WHERE id = ".$session->sess_info['user_info']['id']);
 	
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],

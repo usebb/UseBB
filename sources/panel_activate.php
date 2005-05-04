@@ -44,8 +44,7 @@ $template->set_page_title($lang['Activate']);
 //
 // Check if the user exists
 //
-if ( !($result = $db->query("SELECT name, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id'])) )
-	trigger_error('SQL: Unable to get user information!');
+$result = $db->query("SELECT name, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 if ( $db->num_rows($result) === 1 ) {
 	
 	//
@@ -69,8 +68,7 @@ if ( $db->num_rows($result) === 1 ) {
 	//
 	} elseif ( md5($_GET['key']) == $userdata['active_key'] ) {
 		
-		if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id'])) )
-			trigger_error('SQL: Unable to activate user!');
+		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
 		
 		//
 		// Activation was succesful!

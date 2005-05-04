@@ -92,8 +92,7 @@ class session {
 		//
 		// Get banned IP addresses
 		//
-		if ( !($result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''")) )
-			trigger_error('SQL: Unable to get banned IP adresses!');
+		$result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''");
 		$ip_banned = FALSE;
 		if ( $db->num_rows($result) > 0 ) {
 			
@@ -149,8 +148,7 @@ class session {
 		if ( count($add_to_remove_query) ) {
 			
 			$add_to_remove_query = join(' OR ', $add_to_remove_query);
-			if ( !$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".$add_to_remove_query) )
-				trigger_error('SQL: Unable to cleanup the session table!');
+			$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".$add_to_remove_query);
 			
 		}
 		
@@ -173,8 +171,7 @@ class session {
 			//
 			// Get information about the current session
 			//
-			if ( !($result = $db->query("SELECT user_id, started, location, pages, ip_addr FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'")) )
-				trigger_error('SQL: Unable to get current session info!');
+			$result = $db->query("SELECT user_id, started, location, pages, ip_addr FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'");
 			$current_sess_info = $db->fetch_result($result);
 			
 			//
@@ -213,8 +210,7 @@ class session {
 					
 				} else {
 					
-					if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0])) )
-						trigger_error('SQL: Unable to get user information!');
+					$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0]);
 					
 					if ( $db->num_rows($result) > 0 ) {
 						
@@ -286,8 +282,7 @@ class session {
 			
 			if ( $user_id > 0 && !isset($user_info) ) {
 				
-				if ( !($result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id)) )
-					trigger_error('SQL: Unable to get user information!');
+				$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
 				
 				if ( $db->num_rows($result) > 0 ) {
 					
@@ -311,8 +306,7 @@ class session {
 			else
 				$update_query = "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".session_id()."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
 			
-			if ( !$db->query($update_query) )
-				trigger_error('SQL: Unable to update session information!');
+			$db->query($update_query);
 			
 			//
 			// Update the last login timestamp of the user
@@ -337,8 +331,7 @@ class session {
 			//
 			if ( !isset($dont_run_update_query) ) {
 				
-				if ( !$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$user_id) )
-					trigger_error('SQL: Unable to update user information!');
+				$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$user_id);
 				
 			}
 			

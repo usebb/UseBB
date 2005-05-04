@@ -44,8 +44,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	if ( !($result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.displayed_name AS poster_name, u.level AS poster_level, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
-		trigger_error('SQL: Unable to get post information!');
+	$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html, u.displayed_name AS poster_name, u.level AS poster_level, u.signature, f.auth, f.id AS forum_id, f.name AS forum_name, t.id AS topic_id, t.topic_title, t.first_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post']);
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -76,13 +75,11 @@ if ( !isset($_GET['act']) ) {
 				$enable_sig = ( $postdata['poster_id'] && !empty($postdata['signature']) && !empty($_POST['enable_sig']) ) ? 1 : 0;
 				$enable_html = ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) && !empty($_POST['enable_html']) ) ? 1 : 0;
 				
-				if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."posts SET content = '".$_POST['content']."'".$update_poster_guest.", enable_bbcode = ".$enable_bbcode.", enable_smilies = ".$enable_smilies.", enable_sig = ".$enable_sig.", enable_html = ".$enable_html.", post_edit_time = ".time().", post_edit_by = ".$session->sess_info['user_id']." WHERE id = ".$_GET['post'])) )
-					trigger_error('SQL: Unable to edit post!');
+				$result = $db->query("UPDATE ".TABLE_PREFIX."posts SET content = '".$_POST['content']."'".$update_poster_guest.", enable_bbcode = ".$enable_bbcode.", enable_smilies = ".$enable_smilies.", enable_sig = ".$enable_sig.", enable_html = ".$enable_html.", post_edit_time = ".time().", post_edit_by = ".$session->sess_info['user_id']." WHERE id = ".$_GET['post']);
 				
 				if ( $postdata['first_post_id'] == $_GET['post'] ) {
 					
-					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET topic_title = '".$_POST['topic_title']."' WHERE id = ".$postdata['topic_id'])) )
-						trigger_error('SQL: Unable to adjust topic title!');
+					$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET topic_title = '".$_POST['topic_title']."' WHERE id = ".$postdata['topic_id']);
 					
 				}
 				
@@ -189,8 +186,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	if ( !($result = $db->query("SELECT p.poster_id, u.level AS poster_level, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post'])) )
-		trigger_error('SQL: Unable to get post information!');
+	$result = $db->query("SELECT p.poster_id, u.level AS poster_level, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post']);
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -220,12 +216,10 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 1. Delete the post entry (and eventually the topic entry)
 					//
-					if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE id = ".$_GET['post'])) )
-						trigger_error('SQL: Unable to delete post!');
+					$result = $db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE id = ".$_GET['post']);
 					if ( $postdata['count_replies'] < 1 ) {
 						
-						if ( !($result = $db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id = ".$postdata['topic_id'])) )
-							trigger_error('SQL: Unable to delete topic!');
+						$result = $db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id = ".$postdata['topic_id']);
 						
 						$topic_deleted = TRUE;
 						$update_topic_count = ', topics = topics-1';
@@ -243,8 +237,7 @@ if ( !isset($_GET['act']) ) {
 						
 						if ( $postdata['first_post_id'] == $_GET['post'] ) {
 							
-							if ( !($result = $db->query("SELECT p.id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.id = ".$postdata['topic_id']." ORDER BY p.post_time ASC LIMIT 1")) )
-								trigger_error('SQL: Unable to get first post in topic!');
+							$result = $db->query("SELECT p.id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.id = ".$postdata['topic_id']." ORDER BY p.post_time ASC LIMIT 1");
 							$first_post_data = $db->fetch_result($result);
 							$update_first_post_id = ', first_post_id = '.$first_post_data['id'];
 							
@@ -256,8 +249,7 @@ if ( !isset($_GET['act']) ) {
 						
 						if ( $postdata['last_post_id'] == $_GET['post'] ) {
 							
-							if ( !($result = $db->query("SELECT p.id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.id = ".$postdata['topic_id']." ORDER BY p.post_time DESC LIMIT 1")) )
-								trigger_error('SQL: Unable to get last post in topic!');
+							$result = $db->query("SELECT p.id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.id = ".$postdata['topic_id']." ORDER BY p.post_time DESC LIMIT 1");
 							$last_post_data = $db->fetch_result($result);
 							$update_last_post_id = ', last_post_id = '.$last_post_data['id'];
 							
@@ -274,8 +266,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					if ( !isset($topic_deleted) ) {
 						
-						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = count_replies-1".$update_first_post_id.$update_last_post_id." WHERE id = ".$postdata['topic_id'])) )
-							trigger_error('SQL: Unable to adjust topic\'s replies count!');
+						$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = count_replies-1".$update_first_post_id.$update_last_post_id." WHERE id = ".$postdata['topic_id']);
 						
 					}
 					
@@ -284,12 +275,10 @@ if ( !isset($_GET['act']) ) {
 					//
 					if ( $postdata['last_topic_id'] == $postdata['topic_id'] ) {
 						
-						if ( !($result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$postdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1")) )
-							trigger_error('SQL: Unable to get last updated topic in forum!');
+						$result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$postdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1");
 						if ( !$db->num_rows($result) ) {
 							
-							if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$postdata['forum_id'])) )
-								trigger_error('SQL: Unable to adjust forum\'s last updated topic ID!');
+							$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$postdata['forum_id']);
 							
 							$forum_counts_updated = TRUE;
 							
@@ -311,8 +300,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					if ( !isset($forum_counts_updated) ) {
 						
-						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts-1".$update_topic_count.$update_last_topic_id." WHERE id = ".$postdata['forum_id'])) )
-								trigger_error('SQL: Unable to adjust forum\'s counts!');
+						$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts-1".$update_topic_count.$update_last_topic_id." WHERE id = ".$postdata['forum_id']);
 						
 					}
 					
@@ -321,21 +309,18 @@ if ( !isset($_GET['act']) ) {
 					//
 					if ( $postdata['poster_id'] > 0 ) {
 						
-						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-1 WHERE id = ".$postdata['poster_id'])) )
-							trigger_error('SQL: Unable to adjust member\'s post count!');
+						$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-1 WHERE id = ".$postdata['poster_id']);
 						
 					}
 					
 					//
 					// 7. Adjust stats
 					//
-					if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'posts'")) )
-						trigger_error('SQL: Unable to update stats (posts)!');
+					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'posts'");
 					
 					if ( isset($topic_deleted) ) {
 						
-						if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'")) )
-							trigger_error('SQL: Unable to update stats (topics)!');
+						$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'");
 						
 						header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $postdata['forum_id'])));
 						

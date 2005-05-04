@@ -49,8 +49,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 	//
 	// Check if this username already exists
 	//
-	if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'")) )
-		trigger_error('SQL: Unable to get user information!');
+	$result = $db->query("SELECT id FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
 	if ( $db->num_rows($result) == 1 ) {
 		
 		//
@@ -66,8 +65,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 		//
 		// Get banned usernames and e-mail addresses
 		//
-		if ( !($result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''")) )
-			trigger_error('SQL: Unable to get banned usernames and e-mail adresses!');
+		$result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''");
 		
 		$username_banned = FALSE;
 		$email_banned = FALSE;
@@ -150,8 +148,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
 			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 			
-			if ( !($result = $db->query("SELECT id FROM ".TABLE_PREFIX."members")) )
-				trigger_error('SQL: Unable to get user count!');
+			$result = $db->query("SELECT id FROM ".TABLE_PREFIX."members");
 			if ( $db->num_rows($result) == 0 )
 				$level = 3;
 			else
@@ -160,8 +157,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 			//
 			// Create a new row in the user table
 			//
-			if ( !($result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )")) )
-				trigger_error('SQL: Unable to insert user information!');
+			$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )");
 			
 			if ( $functions->get_config('users_must_activate') ) {
 				
@@ -186,8 +182,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 			//
 			// Update the statistics
 			//
-			if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'")) )
-				trigger_error('SQL: Unable to update statistics!');
+			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'");
 			
 			//
 			// Registration was succesful!

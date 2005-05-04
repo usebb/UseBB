@@ -39,8 +39,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 	//
 	// Update the password
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id'])) )
-		trigger_error('SQL: Unable to update user information!');
+	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id']);
 	
 	if ( $functions->isset_al() ) {
 		

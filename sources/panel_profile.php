@@ -89,7 +89,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 	//
 	// Now update the users profile
 	//
-	if ( !($result = $db->query("UPDATE ".TABLE_PREFIX."members SET
+	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		active        = ".$active.",
 		active_key    = '".$active_key."',
 		".$to_add_for_pwd."
@@ -110,8 +110,7 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		icq           = '".$_POST['icq']."',
 		jabber        = '".$_POST['jabber']."',
 		skype         = '".$_POST['skype']."'
-	WHERE id = ".$session->sess_info['user_info']['id'])) )
-		trigger_error('SQL: Unable to update user information!');
+	WHERE id = ".$session->sess_info['user_info']['id']);
 	
 	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		

@@ -250,8 +250,7 @@ class functions {
 			//
 			if ( !isset($this->statistics[$stat]) ) {
 				
-				if ( !($result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."forums")) )
-					trigger_error('SQL: Unable to get forum count!');
+				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."forums");
 				$out = $db->fetch_result($result);
 				$this->statistics[$stat] = $out['count'];
 				
@@ -266,8 +265,7 @@ class functions {
 			//
 			if ( !isset($this->statistics[$stat]) ) {
 				
-				if ( !($result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1")) )
-					trigger_error('SQL: Unable to get latest member information!');
+				$result = $db->query("SELECT id, displayed_name FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1");
 				$this->statistics[$stat] = $db->fetch_result($result);
 				
 			}
@@ -278,8 +276,7 @@ class functions {
 			
 			if ( !isset($this->statistics[$stat]) ) {
 				
-				if ( !($result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats")) )
-					trigger_error('SQL: Unable to get forum statistics!');
+				$result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats");
 				while ( $out = $db->fetch_result($result) )
 					$this->statistics[$out['name']] = $out['content'];
 				
@@ -624,8 +621,7 @@ class functions {
 				
 				if ( !is_array($this->mod_auth) ) {
 					
-					if ( !($result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$user_info['id'])) )
-						trigger_error('SQL: Unable to define moderator status!');
+					$result = $db->query("SELECT forum_id FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$user_info['id']);
 					$this->mod_auth = array();
 					while ( $out = $db->fetch_result($result) )
 						$this->mod_auth[] = intval($out['forum_id']);
@@ -708,8 +704,7 @@ class functions {
 			
 		} else {
 			
-			if ( !($result = $db->query("SELECT u.id, u.displayed_name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.displayed_name")) )
-				trigger_error('SQL: Unable to get forum moderators list!');
+			$result = $db->query("SELECT u.id, u.displayed_name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.displayed_name");
 				
 			if ( !$db->num_rows($result) ) {
 				
@@ -1028,8 +1023,7 @@ class functions {
 		
 		if ( !isset($this->badwords) ) {
 			
-			if ( !($result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC")) )
-				trigger_error('SQL: Unable to get bad words!');
+			$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
 			
 			if ( $db->num_rows($result) ) {
 				
@@ -1166,8 +1160,7 @@ class functions {
 			//
 			// Get the session and user information
 			//
-			if ( !($result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC")) )
-				trigger_error('SQL: Unable to get online members information!');
+			$result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC");
 			
 			//
 			// Arrays for holding a list of online guests and members.
@@ -1311,8 +1304,7 @@ class functions {
 			
 			$this->updated_forums = array();
 			
-			if ( !($result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit'])) )
-				trigger_error('SQL: Unable to get updated topics information!');
+			$result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit']);
 			
 			if ( $db->num_rows($result) ) {
 				

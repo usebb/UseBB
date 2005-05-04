@@ -49,8 +49,9 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 	//
 	// Check if this username already exists
 	//
-	$result = $db->query("SELECT id FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
-	if ( $db->num_rows($result) == 1 ) {
+	$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
+	$out = $db->fetch_result($result);
+	if ( $out['count'] == 1 ) {
 		
 		//
 		// If it does, show this error
@@ -148,8 +149,9 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
 			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
 			
-			$result = $db->query("SELECT id FROM ".TABLE_PREFIX."members");
-			if ( $db->num_rows($result) == 0 )
+			$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
+			$out = $db->fetch_result($result);
+			if ( !$out['count'] )
 				$level = 3;
 			else
 				$level = 1;

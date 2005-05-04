@@ -60,7 +60,27 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 	
 } else {
 	
-	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, f.name AS forum_name, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id, ".TABLE_PREFIX."subscriptions s WHERE p.id = t.first_post_id AND p2.id = t.last_post_id AND f.id = t.forum_id AND t.id = s.topic_id AND s.user_id = ".$session->sess_info['user_id']." ORDER BY p2.post_time DESC");
+	//
+	// Get a list of forums
+	//
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0");
+	
+	$forum_ids = $forum_names = array();
+	while ( $forumdata = $db->fetch_result($result) ) {
+		
+		//
+		// Place permitted forums into the arrays
+		//
+		if ( $functions->auth($forumdata['auth'], 'read', $forumdata['id']) ) {
+			
+			$forum_ids[] = $forumdata['id'];
+			$forum_names[$forumdata['id']] = $forumdata['name'];
+			
+		}
+		
+	}
+	
+	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id, ".TABLE_PREFIX."subscriptions s WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id AND f.id = t.forum_id AND t.id = s.topic_id AND s.user_id = ".$session->sess_info['user_id']." ORDER BY p2.post_time DESC");
 	
 	if ( !$db->num_rows($result) ) {
 		
@@ -71,8 +91,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 		
 	} else {
 		
+		$unsubscribe_submit = '<input type="submit" name="submit" value="'.$lang['UnsubscribeSelected'].'" />';
+		
 		$template->parse('subscriptions_header', 'panel', array(
-			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'" method="post">'
+			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'" method="post">',
+			'unsubscribe_submit' => $unsubscribe_submit
 		));
 		
 		while ( $topicdata = $db->fetch_result($result) ) {
@@ -101,7 +124,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 				'topic_status' => $topic_status,
 				'topic_name' => $topic_name,
 				'topic_page_links' => ( $topicdata['count_replies']+1 > $functions->get_config('posts_per_page') ) ? $functions->make_page_links(ceil(intval($topicdata['count_replies']+1) / $functions->get_config('posts_per_page')), '0', $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $topicdata['id'], FALSE) : '',
-				'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>',
+				'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($forum_names[$topicdata['forum_id']])).'</a>',
 				'author' => ( $topicdata['poster_id'] > 0 ) ? $functions->make_profile_link($topicdata['poster_id'], $topicdata['poster_name'], $topicdata['poster_level']) : unhtml(stripslashes($topicdata['poster_guest'])),
 				'replies' => $topicdata['count_replies'],
 				'views' => $topicdata['count_views'],
@@ -116,7 +139,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 		}
 		
 		$template->parse('subscriptions_footer', 'panel', array(
-			'unsubscribe_submit' => '<input type="submit" name="submit" value="'.$lang['UnsubscribeSelected'].'" />',
+			'unsubscribe_submit' => $unsubscribe_submit,
 			'form_end' => '</form>'
 		));
 		

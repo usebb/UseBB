@@ -112,7 +112,7 @@ if ( !$functions->get_stats('topics') ) {
 		if ( $mode == 'rss' ) {
 			
 			$header_vars = array('pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT');
-			$query = "SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.forum_id, p.content, p.enable_bbcode, p.enable_html, p.post_time AS last_post_time, p.poster_id, p.poster_guest AS last_poster_guest, u.displayed_name AS last_poster_name FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.last_post_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('active_topics_count');
+			$query = "SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.forum_id, p.content, p.enable_bbcode, p.enable_html, p.post_time AS last_post_time, p.poster_id, p.poster_guest AS last_poster_guest, u.displayed_name AS last_poster_name FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.last_post_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_posts_count');
 			
 		} else {
 			

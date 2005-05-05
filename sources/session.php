@@ -313,16 +313,11 @@ class session {
 			$add_to_update_query = '';
 			if ( $current_sess_info['user_id'] != $user_id ) {
 				
-				if ( $user_id > 0 ) {
-					
+				if ( $user_id > 0 )
 					$add_to_update_query = ', last_login = '.$current_time;
-					
-				} else {
-					
+				else
 					$dont_run_update_query = TRUE;
-					$functions->unset_al();
-					
-				}
+				
 			}
 			
 			//

@@ -62,7 +62,7 @@ $character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character
 //
 // Header informs the browser about the encoding
 //
-if ( defined('IS_RSS') )
+if ( defined('IS_XML') )
 	header('Content-Type: text/xml; charset='.$character_encoding);
 else	
 	header('Content-Type: text/html; charset='.$character_encoding);
@@ -78,7 +78,7 @@ if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() 
 	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 	
 if ( $functions->get_config('enable_rss') )
-	$link_bar[] = '<a href="'.$functions->make_url('active.php', array('act' => 'rss')).'">'.$lang['RSSFeed'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 	
 if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
@@ -112,7 +112,7 @@ $template->add_global_vars(array(
 	// use 'em when you want to have more links in the menu or somewhere else
 	'link_memberlist' => $functions->make_url('members.php'),
 	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
-	'link_rss' => $functions->make_url('active.php', array('act' => 'rss')),
+	'link_rss' => $functions->make_url('rss.php'),
 	'link_stats' => $functions->make_url('stats.php'),
 	'usebb_copyright' => sprintf($lang['PoweredBy'], $functions->get_config('board_name'), '<a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION),
 	'usebb_version' => USEBB_VERSION

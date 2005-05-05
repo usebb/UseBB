@@ -245,7 +245,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 				break;
 			case 'rss':
-				$location = '<a href="'.$functions->make_url('active.php', array('act' => 'rss')).'">'.$lang['RSSFeed'].'</a>';
+				$location = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 				break;
 			case 'stats':
 				$location = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';

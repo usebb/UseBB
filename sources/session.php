@@ -357,6 +357,20 @@ class session {
 		
 	}
 	
+	//
+	// Destroy a running session
+	//
+	function destroy() {
+		
+		global $functions, $db;
+		
+		$functions->unset_al();
+		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'");
+		$_SESSION = array();
+		session_destroy();
+		
+	}
+	
 }
 
 ?>

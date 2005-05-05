@@ -40,19 +40,19 @@ if ( !$session->sess_info['user_id'] ) {
 	
 } else {
 	
-	//
-	// Include the page header
-	//
-	require(ROOT_PATH.'sources/page_head.php');
-	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
+		$refere_to = $_SESSION['refere_to'];
 		if ( !empty($_POST['logout']) )
-			$session->update(NULL, 0);
-		session_destroy();
-		header('Location: '.$_SESSION['refere_to']);
+			$session->destroy();
+		header('Location: '.$refere_to);
 		
 	} else {
+	
+		//
+		// Include the page header
+		//
+		require(ROOT_PATH.'sources/page_head.php');
 		
 		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->make_url('index.php', array(), false);
 		
@@ -66,12 +66,12 @@ if ( !$session->sess_info['user_id'] ) {
 			'form_end' => '</form>'
 		));
 		
+		//
+		// Include the page footer
+		//
+		require(ROOT_PATH.'sources/page_foot.php');
+		
 	}
-	
-	//
-	// Include the page footer
-	//
-	require(ROOT_PATH.'sources/page_foot.php');
 	
 }
 

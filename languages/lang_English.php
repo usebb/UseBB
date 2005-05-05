@@ -70,7 +70,7 @@ $lang['Locked'] = 'Locked';
 $lang['LastLogin'] = 'Last login';
 $lang['VariousInfo'] = 'Various Information';
 $lang['IndexStats'] = 'This board contains %d posts in %d topics posted by %d members.';
-$lang['NewestMember'] = 'Welcome to our newest member: %s.';
+$lang['NewestMemberExtended'] = 'Welcome to our newest member: %s.';
 $lang['UsersOnline'] = 'There were %d members (%d hidden) and %d guests online in the past %d minutes.';
 $lang['Username'] = 'User name';
 $lang['CurrentPassword'] = 'Current password';
@@ -417,3 +417,14 @@ $lang['Age'] = 'Age';
 $lang['Month'] = 'Month';
 $lang['Day'] = 'Day';
 $lang['PoweredBy'] = '%s is powered by %s';
+$lang['GeneralStats'] = 'General statistics';
+$lang['Members'] = 'Members';
+$lang['TopicsPerDay'] = 'Topics per day';
+$lang['MembersPerDay'] = 'Members per day';
+$lang['BoardStarted'] = 'Board started';
+$lang['BoardDays'] = 'Board age (in days)';
+$lang['NewestMember'] = 'Newest member';
+$lang['MostActiveTopics'] = 'Most active topics';
+$lang['MostViewedTopics'] = 'Most viewed topics';
+
+?>

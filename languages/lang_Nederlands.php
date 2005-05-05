@@ -70,7 +70,7 @@ $lang['Locked'] = 'Gesloten';
 $lang['LastLogin'] = 'Laatste maal ingelogd';
 $lang['VariousInfo'] = 'Diverse Informatie';
 $lang['IndexStats'] = 'Dit forum bevat %d berichten in %d onderwerpen geplaatst door %d leden.';
-$lang['NewestMember'] = 'Welkom aan ons nieuwste lid: %s.';
+$lang['NewestMemberExtended'] = 'Welkom aan ons nieuwste lid: %s.';
 $lang['UsersOnline'] = 'Er waren %d leden (%d verborgen) en %d gasten online in de voorbije %d minuten.';
 $lang['Username'] = 'Gebruikersnaam';
 $lang['CurrentPassword'] = 'Huidig wachtwoord';
@@ -417,6 +417,15 @@ $lang['Age'] = 'Leeftijd';
 $lang['Month'] = 'Maand';
 $lang['Day'] = 'Dag';
 $lang['PoweredBy'] = '%s wordt aangedreven door %s';
+$lang['GeneralStats'] = 'Algemene statistieken';
+$lang['Members'] = 'Leden';
+$lang['TopicsPerDay'] = 'Onderwerpen per dag';
+$lang['MembersPerDay'] = 'Leden per dag';
+$lang['BoardStarted'] = 'Forum gestart';
+$lang['BoardDays'] = 'Leeftijd forum (in dagen)';
+$lang['NewestMember'] = 'Nieuwste lid';
+$lang['MostActiveTopics'] = 'Meest actieve onderwerpen';
+$lang['MostViewedTopics'] = 'Meest bekeken onderwerpen';
 
 //
 // Date translations
@@ -464,3 +473,5 @@ $lang['date_translations'] = array(
 	'nd' => 'de',
 	'th' => 'de'
 );
+
+?>

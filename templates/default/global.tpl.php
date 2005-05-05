@@ -359,7 +359,7 @@ table.maintable th, table.msgbox th, table.confirmform th {
 }
 table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 	background-color: #EFEFEF;
-	padding: 6px;
+	padding: 6px !important;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
@@ -606,6 +606,27 @@ table.maintable td.atforum {
 	width: 1%;
 }
 table.maintable td.attopic {
+}
+
+/* Stats styles */
+
+table.maintable td.statstitle {
+	background-color: #E8E8E8;
+	font-weight: bold;
+	width: 1%;
+	white-space: nowrap;
+}
+table.statslayout {
+	width: 100%;
+	border-collapse: collapse;
+}
+table.statslayout td {
+	width: 50%;
+	vertical-align: top;
+	padding: 0px 20px 0px 0px;
+}
+table.statslayout td.last {
+	padding: 0px;
 }
 
 /* */

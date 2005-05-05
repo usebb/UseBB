@@ -153,6 +153,9 @@ if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Step 3</h2>';
 	
+	$result = $db->query("SELECT regdate FROM ".$dbs['prefix']."members ORDER BY regdate ASC LIMIT 1");
+	$userinfo = $db->fetch_result($result);
+	
 	$queries = array(
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `displayed_name` VARCHAR( 255 ) NOT NULL AFTER `avatar_remote`",
 		"UPDATE ".$dbs['prefix']."members SET displayed_name = name WHERE displayed_name = ''",
@@ -160,7 +163,8 @@ if ( empty($_POST['step']) ) {
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `auto_subscribe_topic` INT( 1 ) NOT NULL AFTER `hide_signatures`, ADD `auto_subscribe_reply` INT( 1 ) NOT NULL AFTER `auto_subscribe_topic`",
 		"ALTER TABLE `".$dbs['prefix']."forums` ADD `hide_mods_list` INT( 1 ) NOT NULL",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `birthday` INT( 8 ) NOT NULL AFTER `signature`",
-		"DELETE FROM ".$dbs['prefix']."stats WHERE name = 'forums'"
+		"DELETE FROM ".$dbs['prefix']."stats WHERE name = 'forums'",
+		"INSERT INTO ".$dbs['prefix']."stats VALUES ('started', '".$userinfo['regdate']."')"
 	);
 	
 	$error = false;

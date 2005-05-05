@@ -177,6 +177,7 @@ if ( empty($_POST['step']) ) {
 		}
 		
 	}
+	$queries[] = "UPDATE ".$dbs['prefix']."stats SET content = '".time()."' WHERE name = 'started'";
 	$queries[] = "INSERT INTO ".$dbs['prefix']."cats ( name ) VALUES ( 'Test Category' )";
 	$queries[] = "INSERT INTO ".$dbs['prefix']."forums ( name, cat_id, descr, topics, posts, last_topic_id ) VALUES ( 'Test Forum', '1', 'This is a test forum for public testing.', '1', '1', '1' )";
 	$queries[] = "INSERT INTO ".$dbs['prefix']."topics ( forum_id, topic_title, first_post_id, last_post_id ) VALUES ( '1', 'Test Topic', '1', '1' )";

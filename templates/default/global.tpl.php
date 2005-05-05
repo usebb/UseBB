@@ -586,18 +586,16 @@ table.maintable tr.postseperator td {
 
 /* FAQ styles */
 
-table.maintable td.faqheading {
+table.maintable td#faq-contents h3 {
+	font-size: 10pt;
 	font-weight: bold;
-	background-image: url({img_dir}topmenu_bg.png);
-	background-repeat: repeat-x;
-	background-color: #E8E8E8;
+	margin: 0px 0px 10px 0px;
 }
-table.maintable td.faqquestion .questiontitle {
-	font-weight: bold;
-	font-style: italic;
+table.maintable td#faq-contents ul {
+	margin: 0px 0px 10px 30px;
 }
-table.maintable td.faqquestion .questionanswer {
-	margin: 0px 0px 0px 20px;
+table.maintable td#question {
+	font-size: 10pt;
 }
 
 /* Active topics styles */

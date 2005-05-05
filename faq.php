@@ -95,15 +95,19 @@ if ( !empty($_GET['q']) && valid_int($_GET['q']) ) {
 		
 	}
 	
-	reset($questions);
-	for ( $i = 1; $i < $_GET['q']; $i++ )
-		next($questions);
-	
-	$question = current($questions);
-	$template->parse('question', 'faq', array(
-		'question_title' => $question[0],
-		'question_answer' => $question[1]
-	));
+	if ( $_GET['q'] <= count($questions) ) {
+		
+		reset($questions);
+		for ( $i = 1; $i < $_GET['q']; $i++ )
+			next($questions);
+		
+		$question = current($questions);
+		$template->parse('question', 'faq', array(
+			'question_title' => $question[0],
+			'question_answer' => $question[1]
+		));
+		
+	}
 	
 }
 

@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Topic templates
 //
 
-$templates['topic_header'] = '
+$templates['header'] = '
 	<h3 id="forumname">{topic_name}</h3>
 	<p id="forummods">{forum_moderators}</p>
 	<p id="toolbartop">{new_topic_link} {reply_link}</p>
@@ -45,7 +45,7 @@ $templates['topic_header'] = '
 		</tr>
 ';
 
-$templates['topic_post'] = '
+$templates['post'] = '
 		<tr class="tr{colornum}">
 			<td class="postername">
 				<div class="posternamecontainer">{poster_name}</div>
@@ -72,7 +72,7 @@ $templates['topic_post'] = '
 		</tr>
 ';
 
-$templates['topic_footer'] = '
+$templates['footer'] = '
 	</table>
 	<p id="toolbarbottom">{new_topic_link} {reply_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>

@@ -33,11 +33,11 @@ if ( !defined('INCLUDED') )
 // Panel templates
 //
 
-$templates['panel_menu'] = '
+$templates['menu'] = '
 	<ul id="panelmenu"><li id="first">{panel_subscriptions}</li><li>{view_profile}</li><li>{panel_profile}</li><li>{panel_options}</li><li>{panel_passwd}</li></ul>
 ';
 
-$templates['panel_sess_info'] = '
+$templates['sess_info'] = '
 	<table class="maintable">
 		<tr>
 			<th colspan="2">{l_SessionInfo}</th>

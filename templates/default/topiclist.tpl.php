@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Topic list templates
 //
 
-$templates['topiclist_header'] = '
+$templates['header'] = '
 	<h3 id="forumname">{forum_name}</h3>
 	<p id="forummods">{forum_moderators}</p>
 	<p id="toolbartop">{new_topic_link}</p>
@@ -49,7 +49,7 @@ $templates['topiclist_header'] = '
 		</tr>
 ';
 
-$templates['topiclist_notopics'] = '
+$templates['notopics'] = '
 		<tr>
 			<td class="msg" colspan="6">
 				{l_NoTopics}
@@ -57,7 +57,7 @@ $templates['topiclist_notopics'] = '
 		</tr>
 ';
 
-$templates['topiclist_topic'] = '
+$templates['topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
 			<td>{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
@@ -68,7 +68,7 @@ $templates['topiclist_topic'] = '
 		</tr>
 ';
 
-$templates['topiclist_footer'] = '
+$templates['footer'] = '
 	</table>
 	<p id="toolbarbottom">{new_topic_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>

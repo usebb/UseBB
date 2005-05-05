@@ -63,7 +63,7 @@ if ( empty($_GET['act']) ) {
 		$limit_end = $functions->get_config('members_per_page');
 		$page_links = $functions->make_page_links($numpages, $page, $functions->get_stats('members'), $functions->get_config('members_per_page'), 'members.php', NULL, TRUE, array('sortby' => $_GET['sortby']));
 		
-		$template->parse('memberlist_header', 'memberlist', array(
+		$template->parse('header', 'memberlist', array(
 			'page_links' => $page_links
 		));
 		
@@ -105,7 +105,7 @@ if ( empty($_GET['act']) ) {
 				
 			}
 			
-			$template->parse('memberlist_user', 'memberlist', array(
+			$template->parse('user', 'memberlist', array(
 				'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 				'real_name' => unhtml(stripslashes($userdata['real_name'])),
 				'level' => $level,
@@ -124,7 +124,7 @@ if ( empty($_GET['act']) ) {
 			'<a href="'.$functions->make_url('members.php', array('sortby' => 'posts', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'posts' ) ? $lang['Posts'] : '<strong>'.$lang['Posts'].'</strong>' ) . '</a>',
 		);
 		
-		$template->parse('memberlist_footer', 'memberlist', array(
+		$template->parse('footer', 'memberlist', array(
 			'page_links' => $page_links,
 			'sort_by_links' => sprintf($lang['SortBy'], join(', ', $sort_by_links))
 		));
@@ -171,17 +171,17 @@ if ( empty($_GET['act']) ) {
 				$mods[] = $staffinfo;
 			
 		}
-		$template->parse('stafflist_header', 'stafflist');
+		$template->parse('header', 'stafflist');
 		
 		if ( count($admins) ) {
 			
-			$template->parse('stafflist_cat_header', 'stafflist', array(
+			$template->parse('cat_header', 'stafflist', array(
 				'level' => $lang['Administrators']
 			));
 			
 			foreach ( $admins as $userdata ) {
 				
-				$template->parse('stafflist_user', 'stafflist', array(
+				$template->parse('user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
 					'rank' => unhtml(stripslashes($userdata['rank'])),
@@ -192,19 +192,19 @@ if ( empty($_GET['act']) ) {
 				
 			}
 			
-			$template->parse('stafflist_cat_footer', 'stafflist');
+			$template->parse('cat_footer', 'stafflist');
 			
 		}
 		
 		if ( count($mods) ) {
 			
-			$template->parse('stafflist_cat_header', 'stafflist', array(
+			$template->parse('cat_header', 'stafflist', array(
 				'level' => $lang['Moderators']
 			));
 			
 			foreach ( $mods as $userdata ) {
 				
-				$template->parse('stafflist_user', 'stafflist', array(
+				$template->parse('user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
 					'rank' => unhtml(stripslashes($userdata['rank'])),
@@ -215,11 +215,11 @@ if ( empty($_GET['act']) ) {
 				
 			}
 			
-			$template->parse('stafflist_cat_footer', 'stafflist');
+			$template->parse('cat_footer', 'stafflist');
 			
 		}
 		
-		$template->parse('stafflist_footer', 'stafflist');
+		$template->parse('footer', 'stafflist');
 		
 	}
 	

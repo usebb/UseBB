@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Member list templates
 //
 
-$templates['memberlist_header'] = '
+$templates['header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
@@ -46,7 +46,7 @@ $templates['memberlist_header'] = '
 		</tr>
 ';
 
-$templates['memberlist_user'] = '
+$templates['user'] = '
 		<tr>
 			<td>{username}</td>
 			<td>{real_name}</td>
@@ -57,7 +57,7 @@ $templates['memberlist_user'] = '
 		</tr>
 ';
 
-$templates['memberlist_footer'] = '
+$templates['footer'] = '
 		<tr>
 			<td colspan="6" class="formcontrols">{sort_by_links}</td>
 		</tr>

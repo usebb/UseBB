@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Online list templates
 //
 
-$templates['onlinelist_header'] = '
+$templates['header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
@@ -43,7 +43,7 @@ $templates['onlinelist_header'] = '
 		</tr>
 ';
 
-$templates['onlinelist_user'] = '
+$templates['user'] = '
 		<tr>
 			<td>{username}</td>
 			<td>{location}</td>
@@ -51,7 +51,7 @@ $templates['onlinelist_user'] = '
 		</tr>
 ';
 
-$templates['onlinelist_footer'] = '
+$templates['footer'] = '
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

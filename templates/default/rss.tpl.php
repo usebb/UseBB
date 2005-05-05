@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // RSS templates
 //
 
-$templates['topiclist_header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
+$templates['header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
 <rss version="2.0" xml:lang="{language_code}">
 	<channel>
 		<title><![CDATA[{board_name}]]></title>
@@ -45,7 +45,7 @@ $templates['topiclist_header'] = '<?xml version="1.0" encoding="{character_encod
 		<generator>UseBB {usebb_version}</generator>
 ';
 
-$templates['topiclist_topic'] = '
+$templates['topic'] = '
 		<item>
 			<title><![CDATA[{title}]]></title>
 			<description><![CDATA[{description}]]></description>
@@ -58,7 +58,7 @@ $templates['topiclist_topic'] = '
 		</item>
 ';
 
-$templates['topiclist_footer'] = '
+$templates['footer'] = '
 	</channel>
 </rss>
 ';

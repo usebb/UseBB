@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Topic review templates
 //
 
-$templates['topicreview_header'] = '
+$templates['header'] = '
 	<table class="maintable">
 		<tr>
 			<td colspan="2" class="forumcat">&raquo; {l_TopicReview}</td>
@@ -44,7 +44,7 @@ $templates['topicreview_header'] = '
 		</tr>
 ';
 
-$templates['topicreview_post'] = '
+$templates['post'] = '
 		<tr class="tr{colornum}">
 			<td class="postername">
 				<div class="posternamecontainer">{poster_name}</div>
@@ -60,7 +60,7 @@ $templates['topicreview_post'] = '
 		</tr>
 ';
 
-$templates['topicreview_footer'] = '
+$templates['footer'] = '
 		<tr>
 			<td class="formcontrols" colspan="2">
 				{view_more_posts}

@@ -56,7 +56,7 @@ require(ROOT_PATH.'sources/page_head.php');
 //
 $header_vars = array('pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT');
 
-$template->parse('topiclist_header', 'rss', $header_vars, true);
+$template->parse('header', 'rss', $header_vars, true);
 
 if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 	
@@ -103,7 +103,7 @@ if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 			//
 			// Parse the topic template
 			//
-			$template->parse('topiclist_topic', 'rss', array(
+			$template->parse('topic', 'rss', array(
 				'title' => ( ( $topicdata['count_replies'] ) ? $lang['Re'].' ' : '' ) . unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))),
 				'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], false, $topicdata['enable_html']),
 				'author' => ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest'],
@@ -120,7 +120,7 @@ if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 	
 }
 	
-$template->parse('topiclist_footer', 'rss', $header_vars, true);
+$template->parse('footer', 'rss', $header_vars, true);
 
 //
 // Include the page footer

@@ -33,10 +33,10 @@ if ( !defined('INCLUDED') )
 // Forum list templates
 //
 
-$templates['forumlist_header'] = '
+$templates['header'] = '
 ';
 
-$templates['forumlist_cat_header'] = '
+$templates['cat_header'] = '
 	<table class="maintable">
 		<tr>
 			<td colspan="5" class="forumcat"><a href="{cat_url}">&raquo;</a> {cat_name}</td>
@@ -50,7 +50,7 @@ $templates['forumlist_cat_header'] = '
 		</tr>
 ';
 
-$templates['forumlist_forum'] = '
+$templates['forum'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
 			<td><div class="forumname">{forum_name}</div><div class="forumdescr">{forum_descr}</div><div class="forummods">{forum_mods}</div></td>
@@ -60,11 +60,11 @@ $templates['forumlist_forum'] = '
 		</tr>
 ';
 
-$templates['forumlist_cat_footer'] = '
+$templates['cat_footer'] = '
 	</table>
 ';
 
-$templates['forumlist_footer'] = '
+$templates['footer'] = '
 ';
 
 ?>

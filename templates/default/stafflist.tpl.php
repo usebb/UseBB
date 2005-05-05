@@ -33,10 +33,10 @@ if ( !defined('INCLUDED') )
 // Member list templates
 //
 
-$templates['stafflist_header'] = '
+$templates['header'] = '
 ';
 
-$templates['stafflist_cat_header'] = '
+$templates['cat_header'] = '
 	<table class="maintable">
 		<tr>
 			<td colspan="4" class="forumcat">&raquo; {level}</td>
@@ -49,7 +49,7 @@ $templates['stafflist_cat_header'] = '
 		</tr>
 ';
 
-$templates['stafflist_user'] = '
+$templates['user'] = '
 		<tr>
 			<td>{username}</td>
 			<td>{real_name}</td>
@@ -58,11 +58,11 @@ $templates['stafflist_user'] = '
 		</tr>
 ';
 
-$templates['stafflist_cat_footer'] = '
+$templates['cat_footer'] = '
 	</table>
 ';
 
-$templates['stafflist_footer'] = '
+$templates['footer'] = '
 ';
 
 ?>

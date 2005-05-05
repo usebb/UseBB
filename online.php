@@ -164,7 +164,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$template->set_page_title($lang['DetailedOnlineList']);
 	
-	$template->parse('onlinelist_header', 'onlinelist', array(
+	$template->parse('header', 'onlinelist', array(
 		'page_links' => $page_links
 	));
 	
@@ -282,7 +282,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 			
 		}
 		
-		$template->parse('onlinelist_user', 'onlinelist', array(
+		$template->parse('user', 'onlinelist', array(
 			'username' => $username,
 			'location' => $location,
 			'latest_update' => $functions->make_date($sessiondata['updated'], 'h:i:s a'),
@@ -292,7 +292,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 	}
 	
-	$template->parse('onlinelist_footer', 'onlinelist', array(
+	$template->parse('footer', 'onlinelist', array(
 		'page_links' => $page_links
 	));
 	

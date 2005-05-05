@@ -280,7 +280,7 @@ if ( !$db->num_rows($result) ) {
 				$result = $db->query("SELECT p.poster_id, u.displayed_name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'));
 				
 				$view_more_posts = ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : '';
-				$template->parse('topicreview_header', 'topicreview', array(
+				$template->parse('header', 'topicreview', array(
 					'view_more_posts' => $view_more_posts
 				));
 				
@@ -288,7 +288,7 @@ if ( !$db->num_rows($result) ) {
 					
 					$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
 					
-					$template->parse('topicreview_post', 'topicreview', array(
+					$template->parse('post', 'topicreview', array(
 						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['displayed_name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
 						'post_date' => $functions->make_date($postsdata['post_time']),
 						'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
@@ -297,7 +297,7 @@ if ( !$db->num_rows($result) ) {
 					
 				}
 				
-				$template->parse('topicreview_footer', 'topicreview', array(
+				$template->parse('footer', 'topicreview', array(
 					'view_more_posts' => $view_more_posts
 				));
 				

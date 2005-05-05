@@ -33,7 +33,7 @@ if ( !defined('INCLUDED') )
 // Active topics templates
 //
 
-$templates['topiclist_header'] = '
+$templates['header'] = '
 	<table class="maintable">
 		<tr>
 			<th></th>
@@ -46,7 +46,7 @@ $templates['topiclist_header'] = '
 		</tr>
 ';
 
-$templates['topiclist_topic'] = '
+$templates['topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
 			<td class="atforum">{forum}</td>
@@ -58,7 +58,7 @@ $templates['topiclist_topic'] = '
 		</tr>
 ';
 
-$templates['topiclist_footer'] = '
+$templates['footer'] = '
 	</table>
 ';
 

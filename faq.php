@@ -52,7 +52,7 @@ if ( !file_exists($faq_file) || !is_readable($faq_file) )
 else
 	require($faq_file);
 
-$template->parse('faq_header', 'faq');
+$template->parse('header', 'faq');
 
 $hi = $qi = 0;
 
@@ -62,7 +62,7 @@ foreach ( $faq as $item ) {
 		
 		$hi++;
 		
-		$template->parse('faq_heading', 'faq', array(
+		$template->parse('heading', 'faq', array(
 			'heading_title' => $item[1],
 			'heading_anchor' => 'h'.$hi
 		));
@@ -71,7 +71,7 @@ foreach ( $faq as $item ) {
 		
 		$qi++;
 		
-		$template->parse('faq_question', 'faq', array(
+		$template->parse('question', 'faq', array(
 			'question_title' => $item[0],
 			'question_answer' => $item[1],
 			'heading_anchor' => 'q'.$qi
@@ -81,7 +81,7 @@ foreach ( $faq as $item ) {
 	
 }
 
-$template->parse('faq_footer', 'faq');
+$template->parse('footer', 'faq');
 
 //
 // Include the page footer

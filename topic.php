@@ -209,7 +209,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			// Output the posts
 			//
-			$template->parse('topic_header', 'topic', array(
+			$template->parse('header', 'topic', array(
 				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.$topic_title.'</a>',
 				'forum_moderators' => ( !$topicdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
@@ -373,7 +373,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				//
 				// Output the post
 				//
-				$template->parse('topic_post', 'topic', array(
+				$template->parse('post', 'topic', array(
 					'poster_name' => $poster_name,
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
@@ -436,7 +436,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$action_links = join($template->get_config('item_delimiter'), $action_links);
 			
-			$template->parse('topic_footer', 'topic', array(
+			$template->parse('footer', 'topic', array(
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
 				'page_links' => $page_links,

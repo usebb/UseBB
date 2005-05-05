@@ -90,7 +90,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			//
 			// Output the topic list
 			//
-			$template->parse('topiclist_header', 'topiclist', array(
+			$template->parse('header', 'topiclist', array(
 				'forum_name' => '<a href="'.$functions->make_url('forum.php', array('id' => $_GET['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>',
 				'forum_moderators' => ( !$forumdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
@@ -125,7 +125,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					//
 					// Parse the topic template
 					//
-					$template->parse('topiclist_topic', 'topiclist', array(
+					$template->parse('topic', 'topiclist', array(
 						'topic_icon' => $topic_icon,
 						'topic_status' => $topic_status,
 						'topic_name' => $topic_name,
@@ -146,7 +146,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				//
 				// There are no topics yet...
 				//
-				$template->parse('topiclist_notopics', 'topiclist');
+				$template->parse('notopics', 'topiclist');
 				
 			}
 			
@@ -154,7 +154,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			// Topiclist footer and location bar
 			//
 			
-			$template->parse('topiclist_footer', 'topiclist', array(
+			$template->parse('footer', 'topiclist', array(
 				'new_topic_link' => $new_topic_link,
 				'page_links' => $page_links,
 				'forum_moderators' => sprintf($lang['ModeratorList'], $forum_moderators)

@@ -33,20 +33,20 @@ if ( !defined('INCLUDED') )
 // FAQ templates
 //
 
-$templates['faq_header'] = '
+$templates['header'] = '
 	<table class="maintable">
 		<tr>
 			<th>{l_FAQ}</th>
 		</tr>
 ';
 
-$templates['faq_heading'] = '
+$templates['heading'] = '
 		<tr>
 			<td class="faqheading"><a href="#{heading_anchor}" name="{heading_anchor}">&raquo;</a> {heading_title}</td>
 		</tr>
 ';
 
-$templates['faq_question'] = '
+$templates['question'] = '
 		<tr>
 			<td class="faqquestion">
 				<div class="questiontitle">{question_title}</div>
@@ -55,6 +55,6 @@ $templates['faq_question'] = '
 		</tr>
 ';
 
-$templates['faq_footer'] = '
+$templates['footer'] = '
 	</table>
 ';

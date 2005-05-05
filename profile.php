@@ -96,7 +96,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				//
 				// View the panel menu if the user is viewing his own profile
 				//
-				$template->parse('panel_menu', 'panel', array(
+				$template->parse('menu', 'panel', array(
 					'panel_home' => '<a href="'.$functions->make_url('panel.php').'">'.$lang['PanelHome'].'</a>',
 					'panel_subscriptions' => '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">'.$lang['Subscriptions'].'</a>',
 					'view_profile' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'"><strong>'.$lang['ViewProfile'].'</strong></a>',

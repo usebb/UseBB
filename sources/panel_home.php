@@ -83,7 +83,7 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 	
 	$total_time = $functions->time_past($session->sess_info['started'], $session->sess_info['updated']);
 	
-	$template->parse('panel_sess_info', 'panel', array(
+	$template->parse('sess_info', 'panel', array(
 		'sess_id_v' => $session->sess_info['sess_id'],
 		'ip_addr_v' => $session->sess_info['ip_addr'],
 		'started_v' => $functions->make_date($session->sess_info['started']),

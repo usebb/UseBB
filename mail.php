@@ -30,18 +30,8 @@ define('ROOT_PATH', './');
 // Include usebb engine
 //
 require(ROOT_PATH.'sources/common.php');
-
-//
-// If an ID has been passed
-//
-if ( $functions->get_config('email_view_level') != 1 ) {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
-	exit();
-	
-}
-	
-if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
+if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
 	//
 	// Update and get the session information
@@ -191,7 +181,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 } else {
 	
 	//
-	// There's no user ID! Get us back to the index...
+	// There's no user ID or the mail form has not been enabled!
+	// Get us back to the index...
 	//
 	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 	

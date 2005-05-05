@@ -49,6 +49,7 @@ if ( !$session->sess_info['user_id'] ) {
 		
 		if ( !empty($_POST['logout']) )
 			$session->update(NULL, 0);
+		session_destroy();
 		header('Location: '.$_SESSION['refere_to']);
 		
 	} else {

@@ -180,15 +180,14 @@ class session {
 			if ( is_array($current_sess_info) && $current_sess_info['ip_addr'] != $ip_addr ) {
 				
 				//
-				// Destroy the session and reload the page, stripping the wrong session ID
+				// Reload the page, stripping the wrong session ID
 				// in the URL (if present) and unsetting the cookie
 				//
 				$SID = SID;
-				$goto = ( !empty($SID) ) ? str_replace($SID, '', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+				$goto = str_replace($SID, '', $_SERVER['REQUEST_URI']);
 				setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
-				session_destroy();
 				header('Location: '.$goto);
-				die();
+				exit();
 				
 			}
 			

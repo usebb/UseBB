@@ -572,7 +572,7 @@ table.maintable td.postcontent .poster-ip-addr {
 table.maintable tr.postseperator td {
 	font-size: 0pt;
 	background-color: #D8D8D8;
-	padding: 0px;
+	padding: 0px !important;
 	height: 4px;
 }
 #actionlinks {

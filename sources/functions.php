@@ -1399,12 +1399,16 @@ class functions {
 		$day = intval(substr($birthday, 6, 2));
 		$year = intval(substr($birthday, 0, 4));
 		
+		//
+		// Because Windows doesn't allow dates before 1970 with mktime(),
+		// we perform a trick to calculate dates before 1970.
+		//
 		if ( $year < 1970 ) {
 			
 			$years_before_unix_epoch = 1970 - $year;
 			$false_year = $year + ( $years_before_unix_epoch * 2 );
 			$timestamp = mktime(0, 0, 0, $month, $day, $false_year);
-			$timestamp -= ( $timestamp * 2);
+			$timestamp -= ( $years_before_unix_epoch * 31556926 * 2 );
 			
 		} else {
 			

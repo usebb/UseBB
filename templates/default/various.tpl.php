@@ -39,7 +39,7 @@ $templates['forum_stats_box'] = '
 			<th colspan="2">{l_Statistics}</th>
 		</tr>
 		<tr>
-			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{stats_title}" /></td>
+			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{l_Statistics}" /></td>
 			<td>{small_stats}<br />{newest_member}</td>
 		</tr>
 		<tr>

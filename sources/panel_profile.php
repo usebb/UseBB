@@ -34,7 +34,7 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditProfile']);
 
-if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
 		
@@ -73,18 +73,10 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		
 	}
 	
-	if ( !empty($_POST['birthday_month']) && valid_int($_POST['birthday_month']) && !empty($_POST['birthday_day']) && valid_int($_POST['birthday_day']) && !empty($_POST['birthday_year']) && valid_int($_POST['birthday_year']) ) {
-		
-		if ( checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) )
-			$birthday = sprintf('%04d%02d%02d', $_POST['birthday_year'], $_POST['birthday_month'], $_POST['birthday_day']);
-		else
-			$birthday = 0;
-		
-	} else {
-		
+	if ( !empty($_POST['birthday_month']) && valid_int($_POST['birthday_month']) && !empty($_POST['birthday_day']) && valid_int($_POST['birthday_day']) && !empty($_POST['birthday_year']) && valid_int($_POST['birthday_year']) )
+		$birthday = sprintf('%04d%02d%02d', $_POST['birthday_year'], $_POST['birthday_month'], $_POST['birthday_day']);
+	else
 		$birthday = 0;
-		
-	}
 	
 	//
 	// Now update the users profile
@@ -141,6 +133,8 @@ if ( !empty($_POST['displayed_name']) && !empty($_POST['email']) && preg_match(E
 		$errors = array();
 		if ( empty($_POST['displayed_name']) )
 			$errors[] = $lang['DisplayedName'];
+		if ( !valid_int($_POST['birthday_month']) || !valid_int($_POST['birthday_day']) || !valid_int($_POST['birthday_year']) || !checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) )
+			$errors[] = $lang['Birthday'];
 		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
 		if ( !empty($_POST['avatar']) && !preg_match(IMG_PREG, $_POST['avatar']) )

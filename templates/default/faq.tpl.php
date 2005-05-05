@@ -33,28 +33,43 @@ if ( !defined('INCLUDED') )
 // FAQ templates
 //
 
-$templates['header'] = '
+$templates['contents_header'] = '
 	<table class="maintable">
 		<tr>
 			<th>{l_FAQ}</th>
 		</tr>
+		<tr>
+			<td id="faq-contents">
 ';
 
-$templates['heading'] = '
-		<tr>
-			<td class="faqheading"><a href="#{heading_anchor}" name="{heading_anchor}">&raquo;</a> {heading_title}</td>
+$templates['contents_cat_header'] = '
+				<h3>{cat_name}</h3>
+				<ul>
+';
+
+$templates['contents_question'] = '
+					<li><a href="{question_link}">{question_title}</a></li>
+';
+
+$templates['contents_cat_footer'] = '
+				</ul>
+';
+
+$templates['contents_footer'] = '
+			</td>
 		</tr>
+	</table>
 ';
 
 $templates['question'] = '
+	<table class="maintable">
 		<tr>
-			<td class="faqquestion">
-				<div class="questiontitle">{question_title}</div>
-				<div class="questionanswer">{question_answer}</div>
-			</td>
+			<th>{question_title}</th>
 		</tr>
-';
-
-$templates['footer'] = '
+		<tr>
+			<td id="question">{question_answer}</td>
+		</tr>
 	</table>
 ';
+
+?>

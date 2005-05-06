@@ -422,10 +422,12 @@ $lang['Members'] = 'Leden';
 $lang['TopicsPerDay'] = 'Onderwerpen per dag';
 $lang['MembersPerDay'] = 'Leden per dag';
 $lang['BoardStarted'] = 'Forum gestart';
-$lang['BoardDays'] = 'Leeftijd forum (in dagen)';
+$lang['BoardAge'] = 'Leeftijd forum';
 $lang['NewestMember'] = 'Nieuwste lid';
 $lang['MostActiveTopics'] = 'Meest actieve onderwerpen';
 $lang['MostViewedTopics'] = 'Meest bekeken onderwerpen';
+$lang['PostsPerMember'] = 'Berichten per lid';
+$lang['PostsPerForum'] = 'Berichten per forum';
 
 //
 // Date translations

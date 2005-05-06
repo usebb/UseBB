@@ -422,9 +422,11 @@ $lang['Members'] = 'Members';
 $lang['TopicsPerDay'] = 'Topics per day';
 $lang['MembersPerDay'] = 'Members per day';
 $lang['BoardStarted'] = 'Board started';
-$lang['BoardDays'] = 'Board age (in days)';
+$lang['BoardAge'] = 'Board age';
 $lang['NewestMember'] = 'Newest member';
 $lang['MostActiveTopics'] = 'Most active topics';
 $lang['MostViewedTopics'] = 'Most viewed topics';
+$lang['PostsPerMember'] = 'Posts per member';
+$lang['PostsPerForum'] = 'Posts per forum';
 
 ?>

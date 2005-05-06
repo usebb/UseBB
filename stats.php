@@ -63,6 +63,8 @@ if ( $functions->get_config('enable_stats') ) {
 		'board_days' => round($days_since_start),
 		'regdate_newest_member' => ( !$functions->get_stats('members') ) ? '' : $functions->make_date($latest_member['regdate']),
 		'newest_member' => ( !$functions->get_stats('members') ) ? '' : '<a href="'.$functions->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>',
+		'posts_per_member' => round($functions->get_stats('posts') / $functions->get_stats('members'), 2),
+		'posts_per_forum' => round($functions->get_stats('posts') / $functions->get_stats('forums'), 2),
 	));
 	
 	//

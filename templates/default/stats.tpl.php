@@ -52,11 +52,15 @@ $templates['general_stats'] = '
 		</tr>
 		<tr>
 			<td class="statstitle">{l_BoardStarted}</td><td>{board_started}</td>
-			<td class="statstitle">{l_BoardDays}</td><td>{board_days}</td>
+			<td class="statstitle">{l_BoardAge}</td><td>{board_days} {l_Days}</td>
 		</tr>
 		<tr>
 			<td class="statstitle">{l_NewestMember}</td><td>{newest_member}</td>
 			<td class="statstitle">{l_Registered}</td><td>{regdate_newest_member}</td>
+		</tr>
+		<tr>
+			<td class="statstitle">{l_PostsPerMember}</td><td>{posts_per_member}</td>
+			<td class="statstitle">{l_PostsPerForum}</td><td>{posts_per_forum}</td>
 		</tr>
 	</table>
 ';

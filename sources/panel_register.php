@@ -41,6 +41,8 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['Register']);
 
+$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
+
 //
 // If all necessary information has been posted and the user accepted the terms
 //

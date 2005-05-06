@@ -28,9 +28,10 @@ UseBB 0.5 Changelog
 - Fixed too much stripping of backslashes.
 - Fixed bad unhtml() function.
 - Fixed security issue concerning topic subscription.
+- Fixed bug which sends subscription mails to poster himself.
+- FAQ redesigned to have contents and one question at a time.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.
-- Don't send subscription mail to poster himself.
 - Make edit post location bar contain full path.
 - Try to disable MySQL trace mode.
 - Several fixes to guarantee security.

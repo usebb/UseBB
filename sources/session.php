@@ -310,21 +310,9 @@ class session {
 			//
 			// Update the last login timestamp of the user
 			//
-			$add_to_update_query = '';
-			if ( $current_sess_info['user_id'] != $user_id ) {
+			if ( $user_id ) {
 				
-				if ( $user_id > 0 )
-					$add_to_update_query = ', last_login = '.$current_time;
-				else
-					$dont_run_update_query = TRUE;
-				
-			}
-			
-			//
-			// Update some user information
-			//
-			if ( !isset($dont_run_update_query) ) {
-				
+				$add_to_update_query = ( $current_sess_info['user_id'] != $user_id ) ? ', last_login = '.$current_time : '';
 				$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$user_id);
 				
 			}

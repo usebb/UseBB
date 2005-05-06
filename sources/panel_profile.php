@@ -133,7 +133,7 @@ if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && 
 		$errors = array();
 		if ( empty($_POST['displayed_name']) )
 			$errors[] = $lang['DisplayedName'];
-		if ( !valid_int($_POST['birthday_month']) || !valid_int($_POST['birthday_day']) || !valid_int($_POST['birthday_year']) || !checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) )
+		if ( !( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) )
 			$errors[] = $lang['Birthday'];
 		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
@@ -150,20 +150,26 @@ if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && 
 	}
 	
 	//
+	// Keep submitted info in the form, even when erroneous
+	//
+	foreach ( $session->sess_info['user_info'] as $key => $val )
+		$user_info[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : $val;
+	
+	//
 	// Create the birthday fields
 	//	
-	$birthday = $session->sess_info['user_info']['birthday'];
-	if ( $birthday ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		$birthday_year = intval(substr($birthday, 0, 4));
-		$birthday_month = intval(substr($birthday, 4, 2));
-		$birthday_day = intval(substr($birthday, 6, 2));
+		$birthday_year = $_POST['birthday_year'];
+		$birthday_month = $_POST['birthday_month'];
+		$birthday_day = $_POST['birthday_day'];
 		
 	} else {
 		
-		$birthday_year = '';
-		$birthday_month = 0;
-		$birthday_day = 0;
+		$birthday = $session->sess_info['user_info']['birthday'];
+		$birthday_year = ( $birthday ) ? intval(substr($birthday, 0, 4)) : '';
+		$birthday_month = ( $birthday ) ? intval(substr($birthday, 4, 2)) : 0;
+		$birthday_day = ( $birthday ) ? intval(substr($birthday, 6, 2)) : 0;
 		
 	}
 	$birthday_month_input = '<select name="birthday_month"><option value="">'.$lang['Month'].'</option>';
@@ -185,25 +191,25 @@ if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && 
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
-		'username'         => $session->sess_info['user_info']['name'],
-		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$session->sess_info['user_info']['email'].'" />',
-		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$session->sess_info['user_info']['avatar_remote'].'" />',
-		'displayed_name_input'  => '<input type="text" size="50" maxlength="255" name="displayed_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'" />',
-		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($session->sess_info['user_info']['real_name'])).'" />',
-		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($session->sess_info['user_info']['location'])).'" />',
+		'username'         => $user_info['name'],
+		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$user_info['email'].'" />',
+		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$user_info['avatar_remote'].'" />',
+		'displayed_name_input'  => '<input type="text" size="50" maxlength="255" name="displayed_name" value="'.unhtml(stripslashes($user_info['displayed_name'])).'" />',
+		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($user_info['real_name'])).'" />',
+		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($user_info['location'])).'" />',
 		'birthday_year_input' => '<input type="text" size="4" maxlength="4" name="birthday_year" value="'.$birthday_year.'" />',
 		'birthday_month_input' => $birthday_month_input,
 		'birthday_day_input' => $birthday_day_input,
-		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$session->sess_info['user_info']['website'].'" />',
-		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($session->sess_info['user_info']['occupation'])).'" />',
-		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($session->sess_info['user_info']['interests'])).'" />',
-		'signature_input'  => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="signature">'.unhtml(stripslashes($session->sess_info['user_info']['signature'])).'</textarea>',
-		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.unhtml(stripslashes($session->sess_info['user_info']['msnm'])).'" />',
-		'yahoom_input'     => '<input type="text" size="50" maxlength="255" name="yahoom" value="'.unhtml(stripslashes($session->sess_info['user_info']['yahoom'])).'" />',
-		'aim_input'        => '<input type="text" size="50" maxlength="255" name="aim" value="'.unhtml(stripslashes($session->sess_info['user_info']['aim'])).'" />',
-		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.unhtml(stripslashes($session->sess_info['user_info']['icq'])).'" />',
-		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.unhtml(stripslashes($session->sess_info['user_info']['jabber'])).'" />',
-		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.unhtml(stripslashes($session->sess_info['user_info']['skype'])).'" />',
+		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$user_info['website'].'" />',
+		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($user_info['occupation'])).'" />',
+		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($user_info['interests'])).'" />',
+		'signature_input'  => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="signature">'.unhtml(stripslashes($user_info['signature'])).'</textarea>',
+		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.unhtml(stripslashes($user_info['msnm'])).'" />',
+		'yahoom_input'     => '<input type="text" size="50" maxlength="255" name="yahoom" value="'.unhtml(stripslashes($user_info['yahoom'])).'" />',
+		'aim_input'        => '<input type="text" size="50" maxlength="255" name="aim" value="'.unhtml(stripslashes($user_info['aim'])).'" />',
+		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.unhtml(stripslashes($user_info['icq'])).'" />',
+		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.unhtml(stripslashes($user_info['jabber'])).'" />',
+		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.unhtml(stripslashes($user_info['skype'])).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'         => '</form>'

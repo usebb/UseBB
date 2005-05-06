@@ -52,39 +52,6 @@ if ( !file_exists($faq_file) || !is_readable($faq_file) )
 else
 	require($faq_file);
 
-$template->parse('contents_header', 'faq');
-
-$hi = $qi = 0;
-
-foreach ( $faq as $item ) {
-	
-	if ( $item[0] == '--' ) {
-		
-		if ( $hi )
-			$template->parse('contents_cat_footer', 'faq');
-		
-		$hi++;
-		
-		$template->parse('contents_cat_header', 'faq', array(
-			'cat_name' => $item[1]
-		));
-		
-	} else {
-		
-		$qi++;
-		
-		$template->parse('contents_question', 'faq', array(
-			'question_link' => $functions->make_url('faq.php', array('q' => $qi)).'#q'.$qi,
-			'question_title' => $item[0],
-		));
-		
-	}
-	
-}
-
-$template->parse('contents_cat_footer', 'faq');
-$template->parse('contents_footer', 'faq');
-
 if ( !empty($_GET['q']) && valid_int($_GET['q']) ) {
 	
 	$questions = array();
@@ -110,6 +77,39 @@ if ( !empty($_GET['q']) && valid_int($_GET['q']) ) {
 	}
 	
 }
+
+$template->parse('contents_header', 'faq');
+
+$hi = $qi = 0;
+
+foreach ( $faq as $item ) {
+	
+	if ( $item[0] == '--' ) {
+		
+		if ( $hi )
+			$template->parse('contents_cat_footer', 'faq');
+		
+		$hi++;
+		
+		$template->parse('contents_cat_header', 'faq', array(
+			'cat_name' => $item[1]
+		));
+		
+	} else {
+		
+		$qi++;
+		
+		$template->parse('contents_question', 'faq', array(
+			'question_link' => $functions->make_url('faq.php', array('q' => $qi)),
+			'question_title' => $item[0],
+		));
+		
+	}
+	
+}
+
+$template->parse('contents_cat_footer', 'faq');
+$template->parse('contents_footer', 'faq');
 
 //
 // Include the page footer

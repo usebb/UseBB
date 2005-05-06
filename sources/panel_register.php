@@ -257,8 +257,8 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 	//
 	// The user did not accept to the terms of use
 	//
-	$refere_to = ( !empty($_SESSION['referer']) && !preg_match("/act=(logout|register|activate)/", $_SESSION['referer']) ) ? $functions->attach_sid($_SESSION['referer']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
-	unset($_SESSION['referer']);
+	$refere_to = $_SESSION['refere_to'];
+	unset($_SESSION['refere_to']);
 	header('Location: '.$refere_to);
 	
 } else {
@@ -268,7 +268,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 	//
 	if ( !$session->sess_info['user_id'] ) {
 		
-		$_SESSION['referer'] = ( !empty($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
+		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd)#', $_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 		$_SESSION['saltcode'] = $saltcode = $functions->random_key();
 		
 		$template->parse('confirm_form', 'global', array(

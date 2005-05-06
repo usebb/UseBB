@@ -383,7 +383,7 @@ class functions {
 		
 		if ( !$session->sess_info['user_id'] ) {
 			
-			$_SESSION['referer'] = $_SERVER['REQUEST_URI'];
+			$_SESSION['referer'] = $this->attach_sid($_SERVER['REQUEST_URI']);
 			header('Location: '.$this->get_config('board_url').$this->make_url('panel.php', array('act' => 'login'), false));
 			exit();
 			

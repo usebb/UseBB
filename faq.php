@@ -52,7 +52,7 @@ if ( !file_exists($faq_file) || !is_readable($faq_file) )
 else
 	require($faq_file);
 
-if ( !empty($_GET['q']) && valid_int($_GET['q']) ) {
+if ( !empty($_GET['q']) ) {
 	
 	$questions = array();
 	foreach ( $faq as $item ) {
@@ -62,13 +62,13 @@ if ( !empty($_GET['q']) && valid_int($_GET['q']) ) {
 		
 	}
 	
-	if ( $_GET['q'] <= count($questions) ) {
+	reset($questions);
+	
+	foreach ( $questions as $question ) {
 		
-		reset($questions);
-		for ( $i = 1; $i < $_GET['q']; $i++ )
-			next($questions);
+		if ( substr(md5($question[0]), 0, 5) != $_GET['q'] )
+			continue;
 		
-		$question = current($questions);
 		$template->parse('question', 'faq', array(
 			'question_title' => $question[0],
 			'question_answer' => $question[1]
@@ -100,7 +100,7 @@ foreach ( $faq as $item ) {
 		$qi++;
 		
 		$template->parse('contents_question', 'faq', array(
-			'question_link' => $functions->make_url('faq.php', array('q' => $qi)),
+			'question_link' => $functions->make_url('faq.php', array('q' => substr(md5($item[0]), 0, 5))),
 			'question_title' => $item[0],
 		));
 		

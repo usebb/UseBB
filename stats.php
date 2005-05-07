@@ -58,17 +58,17 @@ if ( $functions->get_config('enable_stats') ) {
 		'count_members' => $functions->get_stats('members'),
 		'count_cats' => $functions->get_stats('categories'),
 		'count_forums' => $functions->get_stats('forums'),
-		'posts_per_day' => round($functions->get_stats('posts') / $days_since_start, 2),
-		'topics_per_day' => round($functions->get_stats('topics') / $days_since_start, 2),
-		'members_per_day' => round($functions->get_stats('members') / $days_since_start, 2),
+		'posts_per_day' => ( $days_since_start > 1 ) ? round($functions->get_stats('posts') / $days_since_start, 2) : $functions->get_stats('posts'),
+		'topics_per_day' => ( $days_since_start > 1 ) ? round($functions->get_stats('topics') / $days_since_start, 2) : $functions->get_stats('topics'),
+		'members_per_day' => ( $days_since_start > 1 ) ? round($functions->get_stats('members') / $days_since_start, 2) : $functions->get_stats('members'),
 		'board_started' => $functions->make_date($functions->get_stats('started')),
-		'board_days' => round($days_since_start),
+		'board_days' => floor($days_since_start),
 		'regdate_newest_member' => ( !$functions->get_stats('members') ) ? '' : $functions->make_date($latest_member['regdate']),
 		'newest_member' => ( !$functions->get_stats('members') ) ? '' : '<a href="'.$functions->make_url('profile.php', array('id' => $latest_member['id'])).'">'.unhtml(stripslashes($latest_member['displayed_name'])).'</a>',
-		'posts_per_member' => round($functions->get_stats('posts') / $functions->get_stats('members'), 2),
-		'posts_per_forum' => round($functions->get_stats('posts') / $functions->get_stats('forums'), 2),
-		'topics_per_member' => round($functions->get_stats('topics') / $functions->get_stats('members'), 2),
-		'topics_per_forum' => round($functions->get_stats('topics') / $functions->get_stats('forums'), 2),
+		'posts_per_member' => ( $functions->get_stats('members') ) ? round($functions->get_stats('posts') / $functions->get_stats('members'), 2) : 0,
+		'posts_per_forum' => ( $functions->get_stats('forums') ) ? round($functions->get_stats('posts') / $functions->get_stats('forums'), 2) : 0,
+		'topics_per_member' => ( $functions->get_stats('members') ) ? round($functions->get_stats('topics') / $functions->get_stats('members'), 2) : 0,
+		'topics_per_forum' => ( $functions->get_stats('forums') ) ? round($functions->get_stats('topics') / $functions->get_stats('forums'), 2) : 0,
 	));
 	
 	//
@@ -147,7 +147,7 @@ if ( $functions->get_config('enable_stats') ) {
 	
 } else {
 	
-	
+	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 	
 }
  

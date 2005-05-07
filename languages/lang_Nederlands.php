@@ -428,6 +428,8 @@ $lang['MostActiveTopics'] = 'Meest actieve onderwerpen';
 $lang['MostViewedTopics'] = 'Meest bekeken onderwerpen';
 $lang['PostsPerMember'] = 'Berichten per lid';
 $lang['PostsPerForum'] = 'Berichten per forum';
+$lang['MostActiveMembers'] = 'Meest actieve leden';
+$lang['MostActiveForums'] = 'Meest actieve forums';
 
 //
 // Date translations

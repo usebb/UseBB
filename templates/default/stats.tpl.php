@@ -73,6 +73,48 @@ $templates['general_stats'] = '
 	</table>
 ';
 
+$templates['most_active_members_header'] = '
+	<table class="statslayout">
+		<tr>
+			<td>
+				<table class="maintable">
+					<tr>
+						<th colspan="3">{l_MostActiveMembers}</th>
+					</tr>
+';
+
+$templates['most_active_members_member'] = '
+					<tr>
+						<td class="statstitle">{rank}</td><td>{username}</td><td class="statstitle">{posts}</td>
+					</tr>
+';
+
+$templates['most_active_members_footer'] = '
+				</table>
+			</td>
+';
+
+$templates['most_active_forums_header'] = '
+			<td class="last">
+				<table class="maintable">
+					<tr>
+						<th colspan=3">{l_MostActiveForums}</th>
+					</tr>
+';
+
+$templates['most_active_forums_forum'] = '
+					<tr>
+						<td class="statstitle">{rank}</td><td>{forum}</td><td class="statstitle">{posts}</td>
+					</tr>
+';
+
+$templates['most_active_forums_footer'] = '
+				</table>
+			</td>
+		</tr>
+	</table>
+';
+
 $templates['most_active_topics_header'] = '
 	<table class="statslayout">
 		<tr>
@@ -98,7 +140,7 @@ $templates['most_viewed_topics_header'] = '
 			<td class="last">
 				<table class="maintable">
 					<tr>
-						<th colspan=3">{l_MostViewedTopics}</th>
+						<th colspan="3">{l_MostViewedTopics}</th>
 					</tr>
 ';
 

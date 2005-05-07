@@ -432,5 +432,7 @@ $lang['Categories'] = 'Categories';
 $lang['Forums'] = 'Forums';
 $lang['TopicsPerMember'] = 'Topics per member';
 $lang['TopicsPerForum'] = 'Topics per forum';
+$lang['MostActiveMembers'] = 'Most active members';
+$lang['MostActiveForums'] = 'Most active forums';
 
 ?>

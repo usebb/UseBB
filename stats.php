@@ -72,78 +72,130 @@ if ( $functions->get_config('enable_stats') ) {
 	));
 	
 	//
-	// Most active and viewed topics
+	// Excluded forums
 	//
+	$exclude_forums = $functions->get_config('exclude_forums_stats');
+	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " AND id NOT IN (".join(', ', $exclude_forums).")" : '';
 	
-	if ( $functions->get_stats('topics') ) {
+	//
+	// Get a list of forums
+	//
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
+	
+	$forum_ids = $forum_names = array();
+	while ( $forumdata = $db->fetch_result($result) ) {
 		
 		//
-		// Excluded forums
+		// Place permitted forums into the arrays
 		//
-		$exclude_forums = $functions->get_config('exclude_forums_stats');
-		$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " AND id NOT IN (".join(', ', $exclude_forums).")" : '';
-		
-		//
-		// Get a list of forums
-		//
-		$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
-		
-		$forum_ids = $forum_names = array();
-		while ( $forumdata = $db->fetch_result($result) ) {
+		if ( $functions->auth($forumdata['auth'], 'read', $forumdata['id']) ) {
 			
-			//
-			// Place permitted forums into the arrays
-			//
-			if ( $functions->auth($forumdata['auth'], 'read', $forumdata['id']) ) {
-				
-				$forum_ids[] = $forumdata['id'];
-				$forum_names[$forumdata['id']] = $forumdata['name'];
-				
-			}
-			
-		}
-		
-		if ( count($forum_ids) ) {
-			
-			$template->parse('most_active_topics_header', 'stats');
-			
-			$result = $db->query("SELECT id, topic_title, count_replies FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") ORDER BY count_replies DESC LIMIT 10");
-			
-			$i = 1;
-			while ( $topicdata = $db->fetch_result($result) ) {
-				
-				$template->parse('most_active_topics_topic', 'stats', array(
-					'title' => '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))).'</a>',
-					'replies' => $topicdata['count_replies'],
-					'rank' => $i
-				));
-				$i++;
-				
-			}
-			
-			$template->parse('most_active_topics_footer', 'stats');
-			
-			$template->parse('most_viewed_topics_header', 'stats');
-			
-			$result = $db->query("SELECT id, topic_title, count_views FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") ORDER BY count_views DESC LIMIT 10");
-			
-			$i = 1;
-			while ( $topicdata = $db->fetch_result($result) ) {
-				
-				$template->parse('most_viewed_topics_topic', 'stats', array(
-					'title' => '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))).'</a>',
-					'views' => $topicdata['count_views'],
-					'rank' => $i
-				));
-				$i++;
-				
-			}
-			
-			$template->parse('most_viewed_topics_footer', 'stats');
+			$forum_ids[] = $forumdata['id'];
+			$forum_names[$forumdata['id']] = $forumdata['name'];
 			
 		}
 		
 	}
+	
+	//
+	// Most active members
+	//
+	$template->parse('most_active_members_header', 'stats');
+	
+	if ( $functions->get_stats('members') ) {
+		
+		$result = $db->query("SELECT id, displayed_name, level, posts FROM ".TABLE_PREFIX."members WHERE posts > 0 ORDER BY posts DESC LIMIT 10");
+		
+		$i = 1;
+		while ( $memberdata = $db->fetch_result($result) ) {
+			
+			$template->parse('most_active_members_member', 'stats', array(
+				'username' => $functions->make_profile_link($memberdata['id'], $memberdata['displayed_name'], $memberdata['level']),
+				'posts' => $memberdata['posts'],
+				'rank' => $i
+			));
+			$i++;
+			
+		}
+		
+	}
+	
+	$template->parse('most_active_members_footer', 'stats');
+	
+	//
+	// Most active forums
+	//
+	$template->parse('most_active_forums_header', 'stats');
+	
+	if ( $functions->get_stats('topics') && count($forum_ids) ) {
+		
+		$result = $db->query("SELECT id, name, posts FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).") ORDER BY posts DESC LIMIT 10");
+		
+		$i = 1;
+		while ( $forumdata = $db->fetch_result($result) ) {
+			
+			$template->parse('most_active_forums_forum', 'stats', array(
+				'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>',
+				'posts' => $forumdata['posts'],
+				'rank' => $i
+			));
+			$i++;
+			
+		}
+		
+	}
+	
+	$template->parse('most_active_forums_footer', 'stats');
+	
+	//
+	// Most active topics
+	//
+	$template->parse('most_active_topics_header', 'stats');
+	
+	if ( $functions->get_stats('topics') && count($forum_ids) ) {
+		
+		$result = $db->query("SELECT id, topic_title, count_replies FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") AND count_replies > 0 ORDER BY count_replies DESC LIMIT 10");
+		
+		$i = 1;
+		while ( $topicdata = $db->fetch_result($result) ) {
+			
+			$template->parse('most_active_topics_topic', 'stats', array(
+				'title' => '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))).'</a>',
+				'replies' => $topicdata['count_replies'],
+				'rank' => $i
+			));
+			$i++;
+			
+		}
+		
+	}
+	
+	$template->parse('most_active_topics_footer', 'stats');
+	
+	//
+	// Most viewed topics
+	//
+	$template->parse('most_viewed_topics_header', 'stats');
+	
+	if ( $functions->get_stats('topics') && count($forum_ids) ) {
+		
+		$result = $db->query("SELECT id, topic_title, count_views FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") AND count_views > 0 ORDER BY count_views DESC LIMIT 10");
+		
+		$i = 1;
+		while ( $topicdata = $db->fetch_result($result) ) {
+			
+			$template->parse('most_viewed_topics_topic', 'stats', array(
+				'title' => '<a href="'.$functions->make_url('topic.php', array('id' => $topicdata['id'])).'">'.unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))).'</a>',
+				'views' => $topicdata['count_views'],
+				'rank' => $i
+			));
+			$i++;
+			
+		}
+		
+	}
+	
+	$template->parse('most_viewed_topics_footer', 'stats');
 	
 } else {
 	

@@ -33,6 +33,7 @@ UseBB 0.5 Changelog
 - Fixed security issue concerning certain protocols for [url].
 - Better checking for banned or used IPs, usernames and displayed names.
 - FAQ redesigned to have contents and one question at a time.
+- FAQ updated with more questions.
 - Keep submitted info on edit profile form.
 - Able to view number of hidden users and hidden users marked for admins.
 - Usernames and passwords only take alphanumeric characters.

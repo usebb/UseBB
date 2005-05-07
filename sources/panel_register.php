@@ -75,7 +75,7 @@ if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !e
 		//
 		// Check if this username already exists
 		//
-		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
+		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."' OR displayed_name = '".$_POST['user']."'");
 		$out = $db->fetch_result($result);
 		if ( $out['count'] )
 			$username_taken = true;
@@ -178,7 +178,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['UserAlreadyExists'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
+				'content' => sprintf($lang['DisplayedNameTaken'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 			));
 			
 		} elseif ( $username_banned ) {

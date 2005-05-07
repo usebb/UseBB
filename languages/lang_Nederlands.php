@@ -95,7 +95,6 @@ $lang['ContactInfo'] = 'Contactinformatie';
 $lang['Password'] = 'Wachtwoord';
 $lang['PasswordAgain'] = 'Wachtwoord (nogmaals)';
 $lang['EverythingRequired'] = 'Alle velden zijn vereist!';
-$lang['UserAlreadyExists'] = 'Sorry, de gebruiker %s bestaat reeds op dit forum. Indien jij dit bent, log in of vraag een nieuw wachtwoord aan. Indien dit niet het geval is, gelieve een andere gebruikersnaam te kiezen.';
 $lang['RegisteredNotActivated'] = 'Je account %s werd aangemaakt. Een e-mail werd verstuurd naar %s met instructies voor het activeren van je account. Je account moet geactiveerd worden voordat je kan inloggen.';
 $lang['RegisteredActivated'] = 'Je account %s werd aangemaakt. Een e-mail werd verstuurd naar %s met je accountinformatie. Je kan meteen inloggen.';
 $lang['Never'] = 'Nooit';

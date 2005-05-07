@@ -95,7 +95,6 @@ $lang['ContactInfo'] = 'Contact Information';
 $lang['Password'] = 'Password';
 $lang['PasswordAgain'] = 'Password (again)';
 $lang['EverythingRequired'] = 'All fields are required!';
-$lang['UserAlreadyExists'] = 'Sorry, user %s already exists at this board. If it\'s yours, log in or request a new password. If not, please choose another username.';
 $lang['RegisteredNotActivated'] = 'Your account %s has now been created. An e-mail has been dispatched to %s with instructions on how to activate your account. You need to activate in order to log in with your account.';
 $lang['RegisteredActivated'] = 'Your account %s has now been created. An e-mail has been dispatched to %s with your login details. You can log in right away.';
 $lang['Never'] = 'Never';

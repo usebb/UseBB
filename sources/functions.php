@@ -828,6 +828,8 @@ class functions {
 		
 		global $db, $template, $lang;
 		
+		$string = preg_replace('#(script|about|applet|activex|chrome):#is', '\\1&#058;', $string);
+		
 		//
 		// Needed by some BBCode regexps and smilies
 		//

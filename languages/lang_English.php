@@ -428,5 +428,9 @@ $lang['MostActiveTopics'] = 'Most active topics';
 $lang['MostViewedTopics'] = 'Most viewed topics';
 $lang['PostsPerMember'] = 'Posts per member';
 $lang['PostsPerForum'] = 'Posts per forum';
+$lang['Categories'] = 'Categories';
+$lang['Forums'] = 'Forums';
+$lang['TopicsPerMember'] = 'Topics per member';
+$lang['TopicsPerForum'] = 'Topics per forum';
 
 ?>

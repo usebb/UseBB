@@ -239,7 +239,22 @@ class functions {
 		
 		global $db;
 		
-		if ( $stat == 'forums' ) {
+		if ( $stat == 'categories' ) {
+			
+			//
+			// Get the latest member
+			//
+			if ( !isset($this->statistics[$stat]) ) {
+				
+				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."cats");
+				$out = $db->fetch_result($result);
+				$this->statistics[$stat] = $out['count'];
+				
+			}
+			
+			return $this->statistics[$stat];
+			
+		} elseif ( $stat == 'forums' ) {
 			
 			//
 			// Get the latest member

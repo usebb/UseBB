@@ -51,6 +51,10 @@ $templates['general_stats'] = '
 			<td class="statstitle">{l_MembersPerDay}</td><td>{members_per_day}</td>
 		</tr>
 		<tr>
+			<td class="statstitle">{l_Categories}</td><td>{count_cats}</td>
+			<td class="statstitle">{l_Forums}</td><td>{count_forums}</td>
+		</tr>
+		<tr>
 			<td class="statstitle">{l_BoardStarted}</td><td>{board_started}</td>
 			<td class="statstitle">{l_BoardAge}</td><td>{board_days} {l_Days}</td>
 		</tr>
@@ -61,6 +65,10 @@ $templates['general_stats'] = '
 		<tr>
 			<td class="statstitle">{l_PostsPerMember}</td><td>{posts_per_member}</td>
 			<td class="statstitle">{l_PostsPerForum}</td><td>{posts_per_forum}</td>
+		</tr>
+		<tr>
+			<td class="statstitle">{l_TopicsPerMember}</td><td>{topics_per_member}</td>
+			<td class="statstitle">{l_TopicsPerForum}</td><td>{topics_per_forum}</td>
 		</tr>
 	</table>
 ';

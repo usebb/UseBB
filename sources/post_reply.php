@@ -74,8 +74,7 @@ if ( !$db->num_rows($result) ) {
 		
 	} elseif ( $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 		
-		$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
-		$_POST['user'] = preg_replace('/ +/', ' ', $_POST['user']);
+		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
 		
 		if ( $session->sess_info['user_id'] ) {
 			

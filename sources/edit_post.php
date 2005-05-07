@@ -67,6 +67,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		if ( $session->sess_info['user_id'] && ( $postdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
+			$_POST['poster_guest'] = ( !empty($_POST['poster_guest']) ) ? preg_replace('#\s+#', '_', $_POST['poster_guest']) : '';
 			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) && strlen($_POST['poster_guest']) <= $functions->get_config('username_max_length') ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
 				
 				$update_poster_guest = ( !$postdata['poster_id'] ) ? ", poster_guest = '".$_POST['poster_guest']."'" : '';

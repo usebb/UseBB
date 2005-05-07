@@ -41,6 +41,8 @@ require(ROOT_PATH.'sources/page_head.php');
 
 $template->set_page_title($lang['SendPassword']);
 
+$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
+
 if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
 	
 	//

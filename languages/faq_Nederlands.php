@@ -47,3 +47,5 @@ $faq[] = array('Wat als ik mijn wachtwoord vergeet of mijn e-mail adres niet mee
 $faq[] = array('--', 'Omtrent UseBB');
 $faq[] = array('Wie maakte dit forum?', 'Dit discussieforum, genaamd <em>UseBB</em>, wordt ontwikkeld door het UseBB Team. UseBB is Open Source-software vrijgegeven onder de GPL-licentie. Je kan UseBB gratis downloaden van <a href="http://www.usebb.net">www.usebb.net</a>. Merk op dat de administrator(s) van dit forum bijkomende functionaliteit kunnen hebben toegevoegd.');
 $faq[] = array('Ik heb een klacht over dit forum. Aan wie richt ik mij?', 'Indien je een klacht hebt over de forumsoftware zelf, niet de inhoud, ben je vrij dit aan het UseBB Team te <a href="http://www.usebb.net">melden</a>. Voor elke andere klacht dien je je te wenden tot de administrator(s) van dit forum/deze website.');
+
+?>

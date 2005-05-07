@@ -93,20 +93,17 @@ class session {
 		// Get banned IP addresses
 		//
 		$result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''");
-		$ip_banned = FALSE;
+		$ip_banned = false;
 		if ( $db->num_rows($result) > 0 ) {
 			
 			while ( $out = $db->fetch_result($result) ) {
 				
+				$banned_ip = preg_quote($out['ip_addr'], '#');
+				$banned_ip = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), $banned_ip);
+				if ( preg_match('#^'.$banned_ip.'$#', $ip_addr) )
+					$ip_banned = true;
 				$banned_ip = $out['ip_addr'];
-				$banned_ip = str_replace('.', '\.', $banned_ip);
-				$banned_ip = str_replace('*', '[0-9]+', $banned_ip);
-				$banned_ip = str_replace('?', '[0-9]', $banned_ip);
-				if ( preg_match('/^'.$banned_ip.'$/', $ip_addr) )
-					$ip_banned = TRUE;
-				$banned_ip = $out['ip_addr'];
-				$banned_ip = str_replace('*', '%', $banned_ip);
-				$banned_ip = str_replace('?', '_', $banned_ip);
+				$banned_ip = preg_replace(array('#\*#', '#\?#'), array('%', '_'), $banned_ip);
 				$banned_ips_sql[] = "ip_addr LIKE '".$banned_ip."'";
 				
 			}

@@ -43,162 +43,124 @@ $template->set_page_title($lang['Register']);
 
 $_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
 
-//
-// If all necessary information has been posted and the user accepted the terms
-//
-if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+$username_taken = false;
+$username_banned = false;
+$email_banned = false;
+if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ) {
 	
 	//
-	// Check if this username already exists
+	// Get banned usernames and e-mail addresses
 	//
-	$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
-	$out = $db->fetch_result($result);
-	if ( $out['count'] == 1 ) {
+	$result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''");
+	
+	$banned = array('usernames' => array(), 'emails' => array());
+	if ( $db->num_rows($result) ) {
 		
-		//
-		// If it does, show this error
-		//
-		$template->parse('msgbox', 'global', array(
-			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['UserAlreadyExists'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
-		));
-		
-	} else {
-		
-		//
-		// Get banned usernames and e-mail addresses
-		//
-		$result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''");
-		
-		$username_banned = FALSE;
-		$email_banned = FALSE;
-		
-		if ( $db->num_rows($result) > 0 ) {
-			
-			$banned = array();
-			$banned['usernames'] = array();
-			$banned['emails'] = array();
-			while ( $out = $db->fetch_result($result) ) {
-				
-				//
-				// Store all the usernames and e-mail addresses in an array
-				//
-				if ( !empty($out['name']) )
-					$banned['usernames'][] = $out['name'];
-				if ( !empty($out['email']) )
-					$banned['emails'][] = $out['email'];
-				
-			}
-			
-			foreach ( $banned['usernames'] as $banned_username ) {
-				
-				$banned_username = str_replace('.', '\.', $banned_username);
-				$banned_username = str_replace('-', '\-', $banned_username);
-				$banned_username = str_replace('+', '\+', $banned_username);
-				$banned_username = str_replace('*', '[a-z0-9\.\-_\+ ]+', $banned_username);
-				$banned_username = str_replace('?', '[a-z0-9\.\-_\+ ]', $banned_username);
-				if ( preg_match('/^'.$banned_username.'$/i', $_POST['user']) ) {
-					
-					//
-					// If the username matches a banned one, stop registration
-					//
-					$username_banned = TRUE;
-					break;
-					
-				}
-				
-			}
-			
-			foreach ( $banned['emails'] as $banned_email ) {
-				
-				$banned_email = str_replace('.', '\.', $banned_email);
-				$banned_email = str_replace('-', '\-', $banned_email);
-				$banned_email = str_replace('*', '[a-z0-9\.\-_]+', $banned_email);
-				$banned_email = str_replace('?', '[a-z0-9\.\-_]', $banned_email);
-				if ( preg_match('/^'.$banned_email.'$/', $_POST['email']) ) {
-					
-					//
-					// If the e-mail address matches a banned one, stop registration
-					//
-					$email_banned = TRUE;
-					break;
-					
-				}
-				
-			}
-			
-		}
-		
-		if ( $username_banned ) {
-			
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
-			));
-			
-		} elseif ( $email_banned ) {
-			
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['BannedEmail'], $_POST['email'])
-			));
-			
-		} else {
+		while ( $out = $db->fetch_result($result) ) {
 			
 			//
-			// Generate the activation key if necessary
+			// Store all the usernames and e-mail addresses in an array
 			//
-			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
-			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-			
-			$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
-			$out = $db->fetch_result($result);
-			if ( !$out['count'] )
-				$level = 3;
-			else
-				$level = 1;
-			
-			//
-			// Create a new row in the user table
-			//
-			$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )");
-			
-			if ( $functions->get_config('users_must_activate') ) {
-				
-				//
-				// Send the activation e-mail if necessary
-				//
-				$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
-					'account_name' => stripslashes($_POST['user']),
-					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $db->last_id(), 'key' => $active_key), false),
-					'password' => $_POST['passwd1']
-				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-				
-			} elseif ( !$functions->get_config('disable_info_emails') ) {
-				
-				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
-					'account_name' => stripslashes($_POST['user']),
-					'password' => $_POST['passwd1']
-				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-				
-			}
-			
-			//
-			// Update the statistics
-			//
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'");
-			
-			//
-			// Registration was succesful!
-			//
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Register'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
-			));
+			if ( !empty($out['name']) )
+				$banned['usernames'][] = $out['name'];
+			if ( !empty($out['email']) )
+				$banned['emails'][] = $out['email'];
 			
 		}
 		
 	}
+	
+	if ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) {
+		
+		//
+		// Check if this username already exists
+		//
+		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
+		$out = $db->fetch_result($result);
+		if ( $out['count'] )
+			$username_taken = true;
+		
+		foreach ( $banned['usernames'] as $banned_username ) {
+			
+			$banned_username = preg_quote($banned_username, '#');
+			$banned_username = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_username);
+			if ( preg_match('#^'.$banned_username.'$#i', $_POST['user']) )
+				$username_banned = true;
+			
+		}
+		
+	}
+	
+	if ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+		
+		foreach ( $banned['emails'] as $banned_email ) {
+			
+			$banned_email = preg_quote($banned_email, '#');
+			$banned_email = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_email);
+			if ( preg_match('#^'.$banned_email.'$#', $_POST['email']) )
+				$email_banned = true;
+			
+		}
+		
+	}
+	
+}
+
+//
+// If all necessary information has been posted and the user accepted the terms
+//
+if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+	
+	//
+	// Generate the activation key if necessary
+	//
+	$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
+	$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
+	
+	$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
+	$out = $db->fetch_result($result);
+	if ( !$out['count'] )
+		$level = 3;
+	else
+		$level = 1;
+	
+	//
+	// Create a new row in the user table
+	//
+	$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )");
+	
+	if ( $functions->get_config('users_must_activate') ) {
+		
+		//
+		// Send the activation e-mail if necessary
+		//
+		$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
+			'account_name' => stripslashes($_POST['user']),
+			'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $db->last_id(), 'key' => $active_key), false),
+			'password' => $_POST['passwd1']
+		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+		
+	} elseif ( !$functions->get_config('disable_info_emails') ) {
+		
+		$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
+			'account_name' => stripslashes($_POST['user']),
+			'password' => $_POST['passwd1']
+		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+		
+	}
+	
+	//
+	// Update the statistics
+	//
+	$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'");
+	
+	//
+	// Registration was succesful!
+	//
+	$template->parse('msgbox', 'global', array(
+		'box_title' => $lang['Register'],
+		'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
+	));
 	
 } elseif ( !empty($_POST['acceptedterms']) ) {
 	
@@ -211,6 +173,31 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['passwd1
 		//
 		// The form has been submitted but there are missing fields
 		//
+		
+		if ( $username_taken ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['UserAlreadyExists'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
+			));
+			
+		} elseif ( $username_banned ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
+			));
+			
+		}
+		
+		if ( $email_banned ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['BannedEmail'], $_POST['email'])
+			));
+			
+		}
 		
 		//
 		// Define missing fields

@@ -193,9 +193,9 @@ $lang['BannedIP'] = 'Your IP address %s has been banned from this board.';
 $lang['Avatar'] = 'Avatar';
 $lang['AvatarURL'] = 'Avatar URL';
 $lang['BannedUser'] = 'Banned Account';
-$lang['BannedUserExplain'] = 'Your account %s has been banned from this board. The reason is:';
-$lang['BannedUsername'] = 'The username %s has been banned on this board. Please choose another one.';
-$lang['BannedEmail'] = 'The e-mail address %s has been banned on this board. Please choose another one.';
+$lang['BannedUserExplain'] = 'Your account %s is being banned from this board. The reason is:';
+$lang['BannedUsername'] = 'The username %s is being banned from this board. Please choose another one.';
+$lang['BannedEmail'] = 'The e-mail address %s is being from this board. Please choose another one.';
 $lang['PostsPerDay'] = 'Posts per day';
 $lang['BoardClosedOnlyAdmins'] = 'Only administrators can log in when the board is closed.';
 $lang['NoPosts'] = 'No Posts';
@@ -434,5 +434,6 @@ $lang['TopicsPerMember'] = 'Topics per member';
 $lang['TopicsPerForum'] = 'Topics per forum';
 $lang['MostActiveMembers'] = 'Most active members';
 $lang['MostActiveForums'] = 'Most active forums';
+$lang['DisplayedNameTaken'] = 'Sorry, %s has already been taken as a login name or a displayed name.';
 
 ?>

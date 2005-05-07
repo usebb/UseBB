@@ -34,11 +34,47 @@ if ( !defined('INCLUDED') )
 //
 $template->set_page_title($lang['EditProfile']);
 
-if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+$displayed_name_taken = false;
+$displayed_name_banned = false;
+if ( !empty($_POST['displayed_name']) ) {
+	
+	//
+	// Get banned usernames
+	//
+	$result = $db->query("SELECT name FROM ".TABLE_PREFIX."bans WHERE name <> ''");
+	
+	$banned_usernames = array();
+	if ( $db->num_rows($result) ) {
+		
+		while ( $out = $db->fetch_result($result) )
+			$banned_usernames[] = $out['name'];
+		
+	}
+	
+	//
+	// Check if this displayed name already exists
+	//
+	$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE ( name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' ) AND id <> ".$session->sess_info['user_id']);
+	$out = $db->fetch_result($result);
+	if ( $out['count'] )
+		$displayed_name_taken = true;
+	
+	foreach ( $banned_usernames as $banned_username ) {
+		
+		$banned_username = preg_quote($banned_username, '#');
+		$banned_username = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_username);
+		if ( preg_match('#^'.$banned_username.'$#i', $_POST['displayed_name']) )
+			$displayed_name_banned = true;
+		
+	}
+	
+}
+
+if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_name_banned && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
-		
-		$avatar_type = 1;
+			
+			$avatar_type = 1;
 		$avatar_remote = $_POST['avatar'];
 		
 	} else {
@@ -130,6 +166,22 @@ if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && 
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
+		if ( $displayed_name_taken ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['DisplayedNameTaken'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>')
+			));
+			
+		} elseif ( $displayed_name_banned ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>')
+			));
+			
+		}
+		
 		$errors = array();
 		if ( empty($_POST['displayed_name']) )
 			$errors[] = $lang['DisplayedName'];
@@ -142,10 +194,14 @@ if ( !empty($_POST['displayed_name']) && ( ( empty($_POST['birthday_month']) && 
 		if ( !empty($_POST['website']) && !preg_match(WEB_PREG, $_POST['website']) )
 			$errors[] = $lang['Website'];
 		
-		$template->parse('msgbox', 'global', array(
-			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['MissingFields'], join(', ', $errors))
-		));
+		if ( count($errors) ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+			));
+			
+		}
 		
 	}
 	

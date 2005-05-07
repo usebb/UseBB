@@ -42,10 +42,9 @@ if ( !$session->sess_info['user_id'] ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		$refere_to = $_SESSION['refere_to'];
 		if ( !empty($_POST['logout']) )
 			$session->destroy();
-		header('Location: '.$refere_to);
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
 		
 	} else {
 	
@@ -53,8 +52,6 @@ if ( !$session->sess_info['user_id'] ) {
 		// Include the page header
 		//
 		require(ROOT_PATH.'sources/page_head.php');
-		
-		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd)#', $_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 		
 		$template->set_page_title(sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))));
 		$template->parse('confirm_form', 'global', array(

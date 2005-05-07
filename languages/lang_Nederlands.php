@@ -193,9 +193,9 @@ $lang['BannedIP'] = 'Je IP-adres %s is geband van dit discussieforum.';
 $lang['Avatar'] = 'Avatar';
 $lang['AvatarURL'] = 'Avatar-URL';
 $lang['BannedUser'] = 'Gebande Account';
-$lang['BannedUserExplain'] = 'Je account %s werd van dit discussieforum geband. De reden is:';
-$lang['BannedUsername'] = 'De account %s werd van dit discussieforum geband. Gelieve een andere te kiezen.';
-$lang['BannedEmail'] = 'Het e-mailadres %s werd van dit discussieforum geband. Gelieve een andere te kiezen.';
+$lang['BannedUserExplain'] = 'Je account %s wordt van dit discussieforum geband. De reden is:';
+$lang['BannedUsername'] = 'De gebruikersnaam %s wordt van dit discussieforum geband. Gelieve een andere te kiezen.';
+$lang['BannedEmail'] = 'Het e-mailadres %s wordt van dit discussieforum geband. Gelieve een andere te kiezen.';
 $lang['PostsPerDay'] = 'Berichten per dag';
 $lang['BoardClosedOnlyAdmins'] = 'Alleen administrators kunnen inloggen op een gesloten discussieforum.';
 $lang['NoPosts'] = 'Geen Berichten';
@@ -430,6 +430,7 @@ $lang['PostsPerMember'] = 'Berichten per lid';
 $lang['PostsPerForum'] = 'Berichten per forum';
 $lang['MostActiveMembers'] = 'Meest actieve leden';
 $lang['MostActiveForums'] = 'Meest actieve forums';
+$lang['DisplayedNameTaken'] = 'Sorry, %s werd reeds als loginnaam of weergegeven naam ingenomen.';
 
 //
 // Date translations

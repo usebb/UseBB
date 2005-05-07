@@ -30,6 +30,7 @@ UseBB 0.5 Changelog
 - Fixed security issue concerning topic subscription.
 - Fixed bug which sends subscription mails to poster himself.
 - Fixed security issue concerning HTTP_REFERER validation.
+- Better checking for banned or used IPs, usernames and displayed names.
 - FAQ redesigned to have contents and one question at a time.
 - Keep submitted info on edit profile form.
 - Able to view number of hidden users and hidden users marked for admins.

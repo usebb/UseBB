@@ -586,6 +586,9 @@ table.maintable tr.postseperator td {
 
 /* FAQ styles */
 
+table.maintable td#faq-contents {
+	font-size: 10pt;
+}
 table.maintable td#faq-contents h3 {
 	font-size: 10pt;
 	font-weight: bold;
@@ -596,6 +599,7 @@ table.maintable td#faq-contents ul {
 }
 table.maintable td#question {
 	font-size: 10pt;
+	padding: 12px !important;
 }
 
 /* Active topics styles */

@@ -80,7 +80,7 @@ if ( $functions->get_config('enable_stats') ) {
 	//
 	// Get a list of forums
 	//
-	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums".$exclude_forums_query_part);
 	
 	$forum_ids = $forum_names = array();
 	while ( $forumdata = $db->fetch_result($result) ) {
@@ -104,7 +104,7 @@ if ( $functions->get_config('enable_stats') ) {
 	
 	if ( $functions->get_stats('members') ) {
 		
-		$result = $db->query("SELECT id, displayed_name, level, posts FROM ".TABLE_PREFIX."members WHERE posts > 0 ORDER BY posts DESC LIMIT 10");
+		$result = $db->query("SELECT id, displayed_name, level, posts FROM ".TABLE_PREFIX."members ORDER BY posts DESC LIMIT 10");
 		
 		$i = 1;
 		while ( $memberdata = $db->fetch_result($result) ) {
@@ -154,7 +154,7 @@ if ( $functions->get_config('enable_stats') ) {
 	
 	if ( $functions->get_stats('topics') && count($forum_ids) ) {
 		
-		$result = $db->query("SELECT id, topic_title, count_replies FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") AND count_replies > 0 ORDER BY count_replies DESC LIMIT 10");
+		$result = $db->query("SELECT id, topic_title, count_replies FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") ORDER BY count_replies DESC LIMIT 10");
 		
 		$i = 1;
 		while ( $topicdata = $db->fetch_result($result) ) {
@@ -179,7 +179,7 @@ if ( $functions->get_config('enable_stats') ) {
 	
 	if ( $functions->get_stats('topics') && count($forum_ids) ) {
 		
-		$result = $db->query("SELECT id, topic_title, count_views FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") AND count_views > 0 ORDER BY count_views DESC LIMIT 10");
+		$result = $db->query("SELECT id, topic_title, count_views FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).") ORDER BY count_views DESC LIMIT 10");
 		
 		$i = 1;
 		while ( $topicdata = $db->fetch_result($result) ) {

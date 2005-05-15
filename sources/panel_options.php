@@ -40,8 +40,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Update the user's preferences
 	//
 	
-	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_config('available_languages')) ) ? $_POST['language'] : $functions->get_config('language');
-	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_config('available_templates')) ) ? $_POST['template'] : $functions->get_config('template');
+	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $available_languages) ) ? $_POST['language'] : $functions->get_config('language');
+	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $available_templates) ) ? $_POST['template'] : $functions->get_config('template');
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['hide_from_online_list'] = ( !empty($_POST['hide_from_online_list']) ) ? 1 : 0;
@@ -83,15 +83,16 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
 } else {
 	
-	if ( count($functions->get_config('available_languages')) < 2 ) {
+	$available_languages = $functions->get_language_packs();
+	if ( count($available_languages) < 2 ) {
 		
-		$single_language = $functions->get_config('available_languages');
+		$single_language = $available_languages;
 		$language_input = $single_language[0];
 		
 	} else {
 		
 		$language_input = '<select name="language">';
-		foreach ( $functions->get_config('available_languages') as $single_language ) {
+		foreach ( $available_languages as $single_language ) {
 			
 			$selected = ( $functions->get_config('language') == $single_language ) ? ' selected="selected"' : '';
 			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
@@ -101,15 +102,16 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 	}
 	
-	if ( count($functions->get_config('available_templates')) < 2 ) {
+	$available_templates = $functions->get_template_sets();
+	if ( count($available_templates) < 2 ) {
 		
-		$single_template = $functions->get_config('available_templates');
+		$single_template = $available_templates;
 		$template_input = $single_template[0];
 		
 	} else {
 		
 		$template_input = '<select name="template">';
-		foreach ( $functions->get_config('available_templates') as $single_template ) {
+		foreach ( $available_templates as $single_template ) {
 			
 			$selected = ( $functions->get_config('template') == $single_template ) ? ' selected="selected"' : '';
 			$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';

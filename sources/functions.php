@@ -95,10 +95,10 @@ class functions {
 	
 	var $board_config;
 	var $statistics = array();
-	var $enabled_templates;
 	var $mod_auth;
 	var $badwords;
 	var $updated_forums;
+	var $available = array('templates' => array(), 'languages' => array());
 	
 	//
 	// General error die function
@@ -194,9 +194,14 @@ class functions {
 			
 			$keep_default = FALSE;
 			
-			if ( $setting == 'language' || $setting == 'template' ) {
+			if ( $setting == 'language' ) {
 				
-				if ( !in_array($session->sess_info['user_info'][$setting], $this->board_config['available_'.$setting.'s']) )
+				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
+					$keep_default = TRUE;
+				
+			} elseif ( $setting == 'template' ) {
+				
+				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
 					$keep_default = TRUE;
 				
 			}
@@ -1434,6 +1439,50 @@ class functions {
 		}
 		
 		return floor((time()-$timestamp)/31556926);
+		
+	}
+	
+	//
+	// Get a list of template sets
+	//
+	function get_template_sets() {
+		
+		if ( !count($this->available['templates']) ) {
+			
+			$handle = opendir('./templates');
+			while ( false !== ( $template_name = readdir($handle) ) ) {
+				
+				if ( preg_match('#^[^\.]#', $template_name) && file_exists('./templates/'.$template_name.'/global.tpl.php') )
+					$this->available['languages'][] = $template_name;
+				
+			}
+			closedir($handle);
+			
+		}
+		
+		return $this->available['languages'];
+		
+	}
+	
+	//
+	// Get a list of language packs
+	//
+	function get_language_packs() {
+		
+		if ( !count($this->available['languages']) ) {
+			
+			$handle = opendir('./languages');
+			while ( false !== ( $language_name = readdir($handle) ) ) {
+				
+				if ( preg_match('#^lang_(.+)\.php$#', $language_name, $language_name) )
+					$this->available['languages'][] = $language_name[1];
+				
+			}
+			closedir($handle);
+			
+		}
+		
+		return $this->available['languages'];
 		
 	}
 	

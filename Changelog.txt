@@ -43,6 +43,7 @@ UseBB 0.5 Changelog
 - Several fixes to template parser.
 - usebb_die() calls replaced by trigger_error().
 - Better SQL error catching.
+- Removed available_* settings, now dynamically detected.
 - Graphical buttons replaced by HTML ones.
 - Nicer paging links.
 - Various template improvements.

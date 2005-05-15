@@ -40,8 +40,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Update the user's preferences
 	//
 	
-	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $available_languages) ) ? $_POST['language'] : $functions->get_config('language');
-	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $available_templates) ) ? $_POST['template'] : $functions->get_config('template');
+	$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_language_packs()) ) ? $_POST['language'] : $functions->get_config('language');
+	$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_template_sets()) ) ? $_POST['template'] : $functions->get_config('template');
 	$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
 	$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
 	$_POST['hide_from_online_list'] = ( !empty($_POST['hide_from_online_list']) ) ? 1 : 0;

@@ -1453,14 +1453,14 @@ class functions {
 			while ( false !== ( $template_name = readdir($handle) ) ) {
 				
 				if ( preg_match('#^[^\.]#', $template_name) && file_exists('./templates/'.$template_name.'/global.tpl.php') )
-					$this->available['languages'][] = $template_name;
+					$this->available['templates'][] = $template_name;
 				
 			}
 			closedir($handle);
 			
 		}
 		
-		return $this->available['languages'];
+		return $this->available['templates'];
 		
 	}
 	

@@ -23,6 +23,7 @@ UseBB 0.5 Changelog
 - Added forum statistics.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
+- Fixed bug #469: Blank Topic Possibilities And &...; Things.
 - Fixed security issue concerning quoting posts.
 - Fixed bad smiley parsing code.
 - Fixed too much stripping of backslashes.

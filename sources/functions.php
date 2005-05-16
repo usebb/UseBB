@@ -123,7 +123,7 @@ class functions {
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
 		if ( $errtype == 'SQL_ERROR' )
-			$error = ( $this->get_config('debug') ) ? substr($error, 5) : 'Fatal SQL error!';
+			$error = ( $this->get_config('debug') >= 2 ) ? substr($error, 5) : 'Fatal SQL error!';
 		
 		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
 		error_log($log_msg);
@@ -155,12 +155,12 @@ class functions {
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
 		if ( $errtype == 'SQL_ERROR' ) {
 			
-			if ( $this->get_config('debug') )
+			if ( $this->get_config('debug') >= 2 )
 				$html_msg .= '
-			<p>SQL query causing the error:<br /><textarea rows="5" cols="50" readonly="readonly">'.end($db->get_used_queries()).'</textarea></p>';
+			<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($db->get_used_queries()).'</textarea></p>';
 			else 
 				$html_msg .= '
-			<p>Enable debug mode to see the error and erroneous SQL query.</p>';
+			<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
 			
 		}
 		$html_msg .= '

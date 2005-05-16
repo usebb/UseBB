@@ -45,6 +45,7 @@ UseBB 0.5 Changelog
 - usebb_die() calls replaced by trigger_error().
 - Splitted database schema and data.
 - Better SQL error catching.
+- General error only shows SQL info when debug level is 2.
 - Removed available_* settings, now dynamically detected.
 - Graphical buttons replaced by HTML ones.
 - Nicer paging links.

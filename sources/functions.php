@@ -65,7 +65,7 @@ function slash_trim_global($global) {
 //
 function unhtml($string) {
 	
-	return preg_replace(array('#&([^\#])#', '#<#', '#>#', '#"#'), array('&amp;\\1', '&lt;', '&gt;', '&quot;'), $string);
+	return preg_replace(array('#&([^\#]|\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207))#', '#<#', '#>#', '#"#'), array('&amp;\\1', '&lt;', '&gt;', '&quot;'), $string);
 	
 }
 
@@ -1457,6 +1457,8 @@ class functions {
 				
 			}
 			closedir($handle);
+			sort($this->available['templates']);
+			reset($this->available['templates']);
 			
 		}
 		
@@ -1479,6 +1481,8 @@ class functions {
 				
 			}
 			closedir($handle);
+			sort($this->available['languages']);
+			reset($this->available['languages']);
 			
 		}
 		

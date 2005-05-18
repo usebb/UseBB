@@ -109,10 +109,6 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 		$query_where_parts[] = "f.id IN(".join(', ', $_POST['forums']).")";
 	
 	$query = "SELECT DISTINCT t.id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts);
-	/*$template->parse('msgbox', 'global', array(
-		'box_title' => $lang['Note'],
-		'content' => unhtml($query)
-	));*/
 	$result = $db->query($query);
 	$topic_ids = array();
 	while ( $searchdata = $db->fetch_result($result) )

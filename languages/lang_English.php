@@ -434,5 +434,13 @@ $lang['TopicsPerForum'] = 'Topics per forum';
 $lang['MostActiveMembers'] = 'Most active members';
 $lang['MostActiveForums'] = 'Most active forums';
 $lang['DisplayedNameTaken'] = 'Sorry, %s has already been taken as a login name or a displayed name.';
+$lang['SearchKeywords'] = 'Search keywords';
+$lang['SearchMode'] = 'Search mode';
+$lang['SearchAuthor'] = 'Search author';
+$lang['SearchForums'] = 'Search forums';
+$lang['AllForums'] = 'All forums';
+$lang['AND'] = 'AND';
+$lang['OR'] = 'OR';
+$lang['NoSearchResults'] = 'Sorry, but no results were found matching the criteria you supplied.';
 
 ?>

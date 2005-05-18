@@ -198,6 +198,10 @@ input, select, textarea {
 	font-size: 8pt !important;
 	font-family: verdana, sans-serif !important;
 }
+select * {
+	font-size: 8pt !important;
+	font-family: verdana, sans-serif !important;
+}
 select option {
 	padding: 0px 5px 0px 0px;
 }
@@ -212,11 +216,8 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 input[type="radio"], input[type="checkbox"] {
 	cursor: pointer;
 }
-optgroup {
-	padding: 1px 1px 5px 1px;
-}
 optgroup option {
-	padding: 1px 1px 1px 5px;
+	padding: 0px 10px 0px 10px;
 }
 pre.code {
 	display: block;

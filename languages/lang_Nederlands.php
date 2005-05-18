@@ -434,6 +434,9 @@ $lang['TopicsPerForum'] = 'Onderwerpen per forum';
 $lang['MostActiveMembers'] = 'Meest actieve leden';
 $lang['MostActiveForums'] = 'Meest actieve forums';
 $lang['DisplayedNameTaken'] = 'Sorry, %s werd reeds als loginnaam of weergegeven naam ingenomen.';
+$lang['AND'] = 'EN';
+$lang['OR'] = 'OF';
+$lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die voldoen aan de opgegeven criteria.';
 
 //
 // Date translations

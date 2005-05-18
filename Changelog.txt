@@ -21,6 +21,7 @@ UseBB 0.5 Changelog
 - Added ability to exclude forums from active topics and RSS listing.
 - Added age/birthday profile field.
 - Added forum statistics.
+- Added cross forum search engine.
 - Fixed bug #374: MySQL results not getting freed.
 - Fixed bug #429: E_NOTICE on automatically starting sessions.
 - Fixed bug #469: Blank Topic Possibilities And &...; Things.

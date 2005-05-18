@@ -164,7 +164,8 @@ if ( empty($_POST['step']) ) {
 		"ALTER TABLE `".$dbs['prefix']."forums` ADD `hide_mods_list` INT( 1 ) NOT NULL",
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `birthday` INT( 8 ) NOT NULL AFTER `signature`",
 		"DELETE FROM ".$dbs['prefix']."stats WHERE name = 'forums'",
-		"INSERT INTO ".$dbs['prefix']."stats VALUES ('started', '".$userinfo['regdate']."')"
+		"INSERT INTO ".$dbs['prefix']."stats VALUES ('started', '".$userinfo['regdate']."')",
+		"CREATE TABLE ".$dbs['prefix']."searches ( sess_id varchar(32) NOT NULL default '', results text NOT NULL, PRIMARY KEY  (sess_id) )"
 	);
 	
 	$error = false;

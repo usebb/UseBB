@@ -7,16 +7,13 @@ Before installing UseBB, make sure your host accords to the minimal system requi
 * Minimal: HTTP-server supporting PHP, PHP 4.1.0, MySQL 3.23
 * Recommended: GNU/Linux, most recent versions of Apache, PHP and MySQL
 
-You might want to use install/install.php to quickly set up your board. Otherwise, you
-can follow these directions:
+You might want to use install/install.php to quickly set up your board. Otherwise, you can follow these directions:
 
-1. Execute install/usebb.sql on your database. Currently, UseBB needs 11 tables.
-3. Edit config.php to your preferences.
-   (You might want to use http://usebb.sourceforge.net/docs/doku.php?id=config.php_guide)
-4. Upload all the files to your host.
-5. Delete the directory install/ for security reasons.
-6. Register a first user. It will automatically be an administrator.
-7. Test UseBB.
+1. Execute install/schemas/mysql.sql and install/usebb.sql on your database. Currently, UseBB needs 12 tables.
+2. Edit config.php to your preferences. You might want to use http://usebb.sourceforge.net/docs/doku.php?id=config.php_guide
+3. Upload all the files to your host.
+4. Delete the directory install/ for security reasons.
+5. Register a first user. It will automatically be an administrator.
+6. Test UseBB.
 
-Note: to further set up your forum, see:
-http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp
+Note: to further set up your forum, see: http://usebb.sourceforge.net/docs/doku.php?id=administration_without_acp

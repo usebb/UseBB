@@ -153,6 +153,18 @@ CREATE TABLE usebb_posts (
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `usebb_searches`
+-- 
+
+CREATE TABLE usebb_searches (
+  sess_id varchar(32) NOT NULL default '',
+  results text NOT NULL,
+  PRIMARY KEY  (sess_id)
+) TYPE=MyISAM;
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `usebb_sessions`
 -- 
 

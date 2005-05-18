@@ -346,6 +346,7 @@ class session {
 		
 		$functions->unset_al();
 		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'");
+		$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
 		$_SESSION = array();
 		session_destroy();
 		

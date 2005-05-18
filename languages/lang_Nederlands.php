@@ -434,9 +434,14 @@ $lang['TopicsPerForum'] = 'Onderwerpen per forum';
 $lang['MostActiveMembers'] = 'Meest actieve leden';
 $lang['MostActiveForums'] = 'Meest actieve forums';
 $lang['DisplayedNameTaken'] = 'Sorry, %s werd reeds als loginnaam of weergegeven naam ingenomen.';
-$lang['AND'] = 'EN';
-$lang['OR'] = 'OF';
-$lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die voldoen aan de opgegeven criteria.';
+$lang['SearchKeywords'] = 'Sleutelwoorden zoeken';
+$lang['SearchMode'] = 'Zoekmodus';
+$lang['SearchAuthor'] = 'Zoeken op auteur';
+$lang['SearchForums'] = 'Zoeken in forums';
+$lang['AllForums'] = 'Alle forums';
+$lang['AND'] = 'AND';
+$lang['OR'] = 'OR';
+$lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die aan de opgegeven criteria voldoen.';
 
 //
 // Date translations

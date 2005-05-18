@@ -123,9 +123,9 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 		$result_data = addslashes(serialize($topic_ids));
 		$result = $db->query("SELECT sess_id FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
 		if ( $db->num_rows($result) )
-			$db->query("UPDATE ".TABLE_PREFIX."searches SET results = '".$result_data."' WHERE sess_id = '".session_id()."'");
+			$db->query("UPDATE ".TABLE_PREFIX."searches SET time = ".time().", results = '".$result_data."' WHERE sess_id = '".session_id()."'");
 		else
-			$db->query("INSERT INTO ".TABLE_PREFIX."searches VALUES ('".session_id()."', '".$result_data."')");
+			$db->query("INSERT INTO ".TABLE_PREFIX."searches VALUES ('".session_id()."', ".time().", '".$result_data."')");
 		
 		header('Location: '.$functions->get_config('board_url').$functions->make_url('search.php', array('act' => 'results'), false));
 		

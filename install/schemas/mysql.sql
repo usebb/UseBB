@@ -158,6 +158,7 @@ CREATE TABLE usebb_posts (
 
 CREATE TABLE usebb_searches (
   sess_id varchar(32) NOT NULL default '',
+  time int(10) NOT NULL default '0',
   results text NOT NULL,
   PRIMARY KEY  (sess_id)
 ) TYPE=MyISAM;

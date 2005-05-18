@@ -121,12 +121,13 @@ class session {
 		}
 		
 		//
-		// Remove outdated sessions if needed
+		// Remove outdated sessions and searches if needed
 		//
 		if ( $functions->get_config('session_max_lifetime') ) {
 			
 			$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
 			$add_to_remove_query[] = "updated < ".$min_updated;
+			$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
 			
 		}
 		
@@ -297,10 +298,15 @@ class session {
 				
 			}
 			
-			if ( $current_sess_info['started'] )
+			if ( $current_sess_info['started'] ) {
+				
 				$update_query = "UPDATE ".TABLE_PREFIX."sessions SET user_id = ".$user_id.", ip_addr = '".$ip_addr."', updated = ".$current_time.", location = '".$location."', pages = ".$pages." WHERE sess_id = '".session_id()."'";
-			else
+				
+			} else {
+				
 				$update_query = "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".session_id()."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
+				
+			}
 			
 			$db->query($update_query);
 			

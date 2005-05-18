@@ -170,7 +170,7 @@ if ( empty($_POST['step']) ) {
 		"ALTER TABLE `".$dbs['prefix']."members` ADD `birthday` INT( 8 ) NOT NULL AFTER `signature`",
 		"DELETE FROM ".$dbs['prefix']."stats WHERE name = 'forums'",
 		"INSERT INTO ".$dbs['prefix']."stats VALUES ('started', '".$userinfo['regdate']."')",
-		"CREATE TABLE ".$dbs['prefix']."searches ( sess_id varchar(32) NOT NULL default '', results text NOT NULL, PRIMARY KEY  (sess_id) )"
+		"CREATE TABLE ".$dbs['prefix']."searches ( sess_id varchar(32) NOT NULL default '', time int(10) NOT NULL default '0', results text NOT NULL, PRIMARY KEY  (sess_id) )"
 	);
 	
 	$error = false;

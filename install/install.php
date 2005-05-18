@@ -153,7 +153,8 @@ if ( empty($_POST['step']) ) {
 	
 	echo '<h2>Step 3</h2>';
 	
-	$lines_schema = file('./schemas/'.$dbs['type'].'.sql');
+	$schema_file = ( $dbs['type'] == 'mysqli' ) ? 'mysql' : $dbs['type'];
+	$lines_schema = file('./schemas/'.$schema_file.'.sql');
 	$lines_data = file('./usebb.sql');
 	$lines = array_merge($lines_schema, $lines_data);
 	$queries = array();

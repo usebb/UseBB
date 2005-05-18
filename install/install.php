@@ -91,11 +91,16 @@ function to_step($step) {
 		background-color: #EFEFEF;
 		border: 1px solid silver;
 		padding: 10px;
+		text-align: left;
 	}
 	h2 {
 		color: #336699;
 		font-size: 12pt;
 		font-weight: bold;
+		text-align: center;
+	}
+	form {
+		text-align: center;
 	}
 	address {
 		color: #333333;

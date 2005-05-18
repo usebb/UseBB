@@ -51,6 +51,7 @@ UseBB 0.5 Changelog
 - Graphical buttons replaced by HTML ones.
 - Nicer paging links.
 - Various template improvements.
+- Install and upgrade wizards styles update.
 
 UseBB 0.4.1 Changelog
 ------------------------------

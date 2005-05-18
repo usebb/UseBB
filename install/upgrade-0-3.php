@@ -50,7 +50,7 @@ class functions {
 
 $functions = new functions;
 
-if ( intval($_POST['step']) > 1 ) {
+if ( !empty($_POST['step']) && intval($_POST['step']) > 1 ) {
 	
 	include('../sources/db_'.$dbs['type'].'.php');
 	$db = new db;

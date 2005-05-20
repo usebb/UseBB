@@ -754,6 +754,13 @@ class functions {
 			$page_links = array();
 			$page_links_groups_length = 4;
 			
+			if ( !$current_page ) {
+				
+				$current_page = $pages_number+1;
+				$page_links_groups_length++;
+				
+			}
+			
 			for ( $i = 1; $i <= $pages_number; $i++ ) {
 				
 				if ( $current_page != $i ) {

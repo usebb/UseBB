@@ -159,7 +159,7 @@ $templates['profile'] = '
 			<th colspan="3">{title}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="5" class="minimal">{avatar_v}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="4" class="minimal">{avatar_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_RealName}</td><td>{real_name_v}</td>
@@ -171,13 +171,10 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_Rank}</td><td>{rank_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Registered}</td><td>{regdate_v}</td>
+			<td class="fieldtitle">{l_Registered}</td><td colspan="2">{regdate_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v}</td>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_PostsPerDay}</td><td colspan="2">{postsperday_v}</td>
+			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v} ({postsperday_v} {l_PostsPerDay}) - {searchposts}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_LastLogin}</td><td colspan="2">{lastlogin_v}</td>

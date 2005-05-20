@@ -63,6 +63,8 @@ while ( $forumdata = $db->fetch_result($result) ) {
 	
 }
 
+$_REQUEST['mode'] = ( !empty($_REQUEST['mode']) && ( $_REQUEST['mode'] === 'and' || $_REQUEST['mode'] === 'or' ) ) ? $_REQUEST['mode'] : 'and';
+
 //
 // Sanatize the forums array
 //
@@ -86,8 +88,6 @@ if ( !empty($_REQUEST['forums']) && is_array($_REQUEST['forums']) && count($_REQ
 	$_REQUEST['forums'] = array();
 	
 }
-
-$_REQUEST['mode'] = ( !empty($_REQUEST['mode']) && ( $_REQUEST['mode'] === 'and' || $_REQUEST['mode'] === 'or' ) ) ? $_REQUEST['mode'] : 'and';
 
 if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($_REQUEST['forums']) ) {
 	

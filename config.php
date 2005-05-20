@@ -40,7 +40,7 @@ $dbs = array();
 $dbs['type'] = 'mysql';
 $dbs['server'] = 'localhost';
 $dbs['username'] = 'usebb';
-$dbs['passwd'] = 'usebb';
+$dbs['passwd'] = 'usebbz';
 $dbs['dbname'] = 'usebb';
 $dbs['prefix'] = 'usebb_';
 

@@ -50,6 +50,14 @@ class functions {
 
 $functions = new functions;
 
+function error_handler($errno, $error, $file, $line) {
+	
+	global $functions;
+	$functions->usebb_die($errno, $error, $file, $line);
+	
+}
+set_error_handler('error_handler');
+
 if ( !empty($_POST['step']) && intval($_POST['step']) > 1 ) {
 	
 	include('../sources/db_'.$dbs['type'].'.php');

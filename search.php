@@ -92,13 +92,13 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 		$keywords = preg_split('#\s+#', $_POST['keywords']);
 		foreach ( $keywords as $key => $val )
 			$keywords[$key] = "p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%'";
-		$query_where_parts[] = join(' '.strtoupper($_POST['mode']).' ', $keywords);
+		$query_where_parts[] = ' ( '.join(' '.strtoupper($_POST['mode']).' ', $keywords).' ) ';
 		
 	}
 	
 	if ( !empty($_POST['author']) ) {
 		
-		$author = preg_replace('#\s+#', ' ', $_POST['author']);
+		$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['author']);
 		$query_where_parts[] = "( m.displayed_name LIKE '%".$author."%' OR p.poster_guest LIKE '%".$author."%' )";
 		
 	}

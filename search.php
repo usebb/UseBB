@@ -66,47 +66,53 @@ while ( $forumdata = $db->fetch_result($result) ) {
 //
 // Sanatize the forums array
 //
-if ( !empty($_POST['forums']) && is_array($_POST['forums']) && count($_POST['forums']) ) {
+if ( !empty($_REQUEST['forums']) && is_array($_REQUEST['forums']) && count($_REQUEST['forums']) ) {
 	
 	$sanatized_forums = array();
-	foreach ( $_POST['forums'] as $forum ) {
+	foreach ( $_REQUEST['forums'] as $forum ) {
 		
 		if ( $forum === 'all' || ( valid_int($forum) && in_array($forum, $forum_ids) ) )
 			$sanatized_forums[] = $forum;
 		
 	}
-	$_POST['forums'] = $sanatized_forums;
+	$_REQUEST['forums'] = $sanatized_forums;
+	
+} elseif ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
+	
+	$_REQUEST['forums'] = $forum_ids;
 	
 } else {
 	
-	$_POST['forums'] = array();
+	$_REQUEST['forums'] = array();
 	
 }
 
-if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_POST['mode']) && ( $_POST['mode'] === 'and' || $_POST['mode'] === 'or' ) ) && count($_POST['forums']) ) {
+$_REQUEST['mode'] = ( !empty($_REQUEST['mode']) && ( $_REQUEST['mode'] === 'and' || $_REQUEST['mode'] === 'or' ) ) ? $_REQUEST['mode'] : 'and';
+
+if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($_REQUEST['forums']) ) {
 	
 	$query_where_parts = array();
 	
-	if ( !empty($_POST['keywords']) ) {
+	if ( !empty($_REQUEST['keywords']) ) {
 		
-		$keywords = preg_split('#\s+#', $_POST['keywords']);
+		$keywords = preg_split('#\s+#', $_REQUEST['keywords']);
 		foreach ( $keywords as $key => $val )
 			$keywords[$key] = "p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%'";
-		$query_where_parts[] = ' ( '.join(' '.strtoupper($_POST['mode']).' ', $keywords).' ) ';
+		$query_where_parts[] = ' ( '.join(' '.strtoupper($_REQUEST['mode']).' ', $keywords).' ) ';
 		
 	}
 	
-	if ( !empty($_POST['author']) ) {
+	if ( !empty($_REQUEST['author']) ) {
 		
-		$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['author']);
+		$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_REQUEST['author']);
 		$query_where_parts[] = "( m.displayed_name LIKE '%".$author."%' OR p.poster_guest LIKE '%".$author."%' )";
 		
 	}
 	
-	if ( in_array('all', $_POST['forums']) )
+	if ( in_array('all', $_REQUEST['forums']) )
 		$query_where_parts[] = "f.id IN(".join(', ', $forum_ids).")";
 	else
-		$query_where_parts[] = "f.id IN(".join(', ', $_POST['forums']).")";
+		$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 	
 	$query = "SELECT DISTINCT t.id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts);
 	$result = $db->query($query);
@@ -117,9 +123,9 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 	if ( count($topic_ids) ) {
 		
 		$result_data = array(
-			'keywords' => ( !empty($_POST['keywords']) ) ? $_POST['keywords'] : '',
-			'mode' => $_POST['mode'],
-			'author' => ( !empty($_POST['author']) ) ? $_POST['author'] : '',
+			'keywords' => ( !empty($_REQUEST['keywords']) ) ? $_REQUEST['keywords'] : '',
+			'mode' => $_REQUEST['mode'],
+			'author' => ( !empty($_REQUEST['author']) ) ? $_REQUEST['author'] : '',
 			'results' => $topic_ids
 		);
 		$result_data = addslashes(serialize($result_data));
@@ -166,7 +172,7 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 				'author' => stripslashes($search_results['author']),
 			));
 			
-			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
 			
 			while ( $topicdata = $db->fetch_result($result) ) {
 				
@@ -223,20 +229,17 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			$keywords = ( !empty($_POST['keywords']) ) ? unhtml(stripslashes($_POST['keywords'])) : '';
-			$author = ( !empty($_POST['author']) ) ? unhtml(stripslashes($_POST['author'])) : '';
-			$mode = ( !empty($_POST['mode']) ) ? $_POST['mode'] : 'and';
-			$mode_and_checked = ( $_POST['mode'] == 'and' ) ? ' checked="checked"' : '';
-			$mode_or_checked = ( $_POST['mode'] == 'or' ) ? ' checked="checked"' : '';
+			$keywords = ( !empty($_REQUEST['keywords']) ) ? unhtml(stripslashes($_REQUEST['keywords'])) : '';
+			$author = ( !empty($_REQUEST['author']) ) ? unhtml(stripslashes($_REQUEST['author'])) : '';
+			$mode_and_checked = ( $_REQUEST['mode'] == 'and' ) ? ' checked="checked"' : '';
+			$mode_or_checked = ( $_REQUEST['mode'] == 'or' ) ? ' checked="checked"' : '';
 			
-			$forums_all_selected = ( in_array('all', $_POST['forums']) ) ? ' selected="selected"' : '';
+			$forums_all_selected = ( in_array('all', $_REQUEST['forums']) ) ? ' selected="selected"' : '';
 			
 			$errors = array();
-			if ( empty($_POST['keywords']) && empty($_POST['author']) )
+			if ( empty($_REQUEST['keywords']) && empty($_REQUEST['author']) )
 				$errors[] = $lang['SearchKeywords'];
-			if ( empty($_POST['mode']) || ( $_POST['mode'] != 'and' && $_POST['mode'] != 'or' ) )
-				$errors[] = $lang['SearchMode'];
-			if ( !count($_POST['forums']) )
+			if ( !count($_REQUEST['forums']) )
 				$errors[] = $lang['SearchForums'];
 			
 			if ( count($errors) ) {
@@ -271,7 +274,7 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 				
 			}
 			
-			$selected = ( empty($forums_all_selected) && in_array($forumdata['id'], $_POST['forums']) ) ? ' selected="selected"' : '';
+			$selected = ( empty($forums_all_selected) && in_array($forumdata['id'], $_REQUEST['forums']) ) ? ' selected="selected"' : '';
 			$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forum_names[$forumdata['id']])).'</option>';
 			
 		}

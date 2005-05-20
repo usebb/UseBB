@@ -1,0 +1,6 @@
+# $Header$
+
+User-agent: *
+Disallow: search.php?act=results
+Disallow: search-results.html
+Disallow: sources

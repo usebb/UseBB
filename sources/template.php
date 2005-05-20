@@ -123,11 +123,11 @@ class template {
 	//
 	// Add global template variables
 	//
-	function add_global_vars($variables) {
+	function add_global_vars($variables, $override=false) {
 		
 		foreach ( $variables as $key => $val ) {
 			
-			if ( !array_key_exists($key, $this->global_vars) )
+			if ( $override || !array_key_exists($key, $this->global_vars) )
 				$this->global_vars[$key] = $val;
 			
 		}
@@ -144,7 +144,7 @@ class template {
 		$this->add_global_vars(array(
 			'page_title' => strip_tags($page_title),
 			'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
-		));
+		), true);
 		
 	}
 	

@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.5.1 Changelog
+------------------------------
+
+- Fixed bug which keeps 'board closed' in location bar for admins.
+
 UseBB 0.5 Changelog
 ------------------------------
 

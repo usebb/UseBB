@@ -91,7 +91,7 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 		
 		$keywords = preg_split('#\s+#', $_POST['keywords']);
 		foreach ( $keywords as $key => $val )
-			$keywords[$key] = "p.content LIKE '%".$val."%'";
+			$keywords[$key] = "p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%'";
 		$query_where_parts[] = join(' '.strtoupper($_POST['mode']).' ', $keywords);
 		
 	}
@@ -116,7 +116,13 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 	
 	if ( count($topic_ids) ) {
 		
-		$result_data = addslashes(serialize($topic_ids));
+		$result_data = array(
+			'keywords' => ( !empty($_POST['keywords']) ) ? $_POST['keywords'] : '',
+			'mode' => $_POST['mode'],
+			'author' => ( !empty($_POST['author']) ) ? $_POST['author'] : '',
+			'results' => $topic_ids
+		);
+		$result_data = addslashes(serialize($result_data));
 		$result = $db->query("SELECT sess_id FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
 		if ( $db->num_rows($result) )
 			$db->query("UPDATE ".TABLE_PREFIX."searches SET time = ".time().", results = '".$result_data."' WHERE sess_id = '".session_id()."'");
@@ -147,17 +153,20 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 			//
 			// Get page number
 			//
-			$numpages = ceil(intval(count($search_results)) / $functions->get_config('topics_per_page'));
+			$numpages = ceil(intval(count($search_results['results'])) / $functions->get_config('topics_per_page'));
 			$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
 			$limit_end = $functions->get_config('topics_per_page');
-			$page_links = $functions->make_page_links($numpages, $page, count($search_results), $functions->get_config('topics_per_page'), 'search.php', NULL, TRUE, array('act' => 'results'));
+			$page_links = $functions->make_page_links($numpages, $page, count($search_results['results']), $functions->get_config('topics_per_page'), 'search.php', NULL, TRUE, array('act' => 'results'));
 			
 			$template->parse('results_header', 'search', array(
-				'page_links' => $page_links
+				'page_links' => $page_links,
+				'keywords' => $search_results['keywords'],
+				'mode' => ( $search_results['mode'] == 'and' ) ? $lang['AllKeywords'] : $lang['OneOrMoreKeywords'],
+				'author' => $search_results['author'],
 			));
 			
-			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
 			
 			while ( $topicdata = $db->fetch_result($result) ) {
 				
@@ -198,7 +207,10 @@ if ( ( !empty($_POST['keywords']) || !empty($_POST['author']) ) && ( !empty($_PO
 			}
 			
 			$template->parse('results_footer', 'search', array(
-				'page_links' => $page_links
+				'page_links' => $page_links,
+				'keywords' => $search_results['keywords'],
+				'mode' => ( $search_results['mode'] == 'and' ) ? $lang['AllKeywords'] : $lang['OneOrMoreKeywords'],
+				'author' => $search_results['author'],
 			));
 			
 		} else {

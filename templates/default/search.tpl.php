@@ -62,6 +62,13 @@ $templates['results_header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
+			<td colspan="7" class="forumcat">
+				{l_SearchKeywords}: <em>{keywords}</em> - 
+				{l_SearchAuthor}: <em>{author}</em>
+				<br />{l_SearchMode}: {mode}
+			</td>
+		</tr>
+		<tr>
 			<th></th>
 			<th>{l_Forum}</th>
 			<th>{l_Topic}</th>

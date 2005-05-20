@@ -439,8 +439,8 @@ $lang['SearchMode'] = 'Zoekmodus';
 $lang['SearchAuthor'] = 'Zoeken op auteur';
 $lang['SearchForums'] = 'Zoeken in forums';
 $lang['AllForums'] = 'Alle forums';
-$lang['AND'] = 'AND';
-$lang['OR'] = 'OR';
+$lang['AllKeywords'] = 'Alle sleutelwoorden';
+$lang['OneOrMoreKeywords'] = 'E&eacute;n of meerdere sleutelwoorden';
 $lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die aan de opgegeven criteria voldoen.';
 
 //

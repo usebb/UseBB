@@ -439,8 +439,8 @@ $lang['SearchMode'] = 'Search mode';
 $lang['SearchAuthor'] = 'Search author';
 $lang['SearchForums'] = 'Search forums';
 $lang['AllForums'] = 'All forums';
-$lang['AND'] = 'AND';
-$lang['OR'] = 'OR';
+$lang['AllKeywords'] = 'All keywords';
+$lang['OneOrMoreKeywords'] = 'One or more keywords';
 $lang['NoSearchResults'] = 'Sorry, but no results were found matching the criteria you supplied.';
 
 ?>

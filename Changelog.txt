@@ -8,6 +8,7 @@ UseBB 0.5.1 Changelog
 - Allow search options to be passed via GET.
 - Fixed bug #487: Installer ignores invalid database configuration.
 - Fixed bug which keeps 'board closed' in location bar for admins.
+- Fixed bug which leads to SQL error when forums are excluded from stats.
 - Some fixes to the search engine.
 
 UseBB 0.5 Changelog

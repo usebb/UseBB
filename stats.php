@@ -75,7 +75,7 @@ if ( $functions->get_config('enable_stats') ) {
 	// Excluded forums
 	//
 	$exclude_forums = $functions->get_config('exclude_forums_stats');
-	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " AND id NOT IN (".join(', ', $exclude_forums).")" : '';
+	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " WHERE id NOT IN (".join(', ', $exclude_forums).")" : '';
 	
 	//
 	// Get a list of forums

@@ -1,3 +1,6 @@
+Options All -Indexes
+DirectoryIndex index.php
+
 RewriteEngine on
 RewriteRule ^(index|panel|faq|search|active|online|members|rss|stats)\.html$ $1.php
 RewriteRule ^index-([0-9]+)\.html$ index.php?cat=$1

@@ -16,6 +16,7 @@ UseBB 0.5.1 Changelog
 - Show 5 last page links for topic on topic list.
 - New language loading function.
 - Added seperate language var 'CurrentPage' for online list.
+- Disable directory indexes for security.
 
 UseBB 0.5 Changelog
 ------------------------------

@@ -684,7 +684,7 @@ p#linkbar {
 #bbcode-controls a {
 	text-decoration: none;
 	padding: 1px 6px 1px 6px;
-	border: 1px solid transparent;
+	border: 1px solid #EFEFEF;
 	border-left: 1px solid silver;
 	color: black !important;
 	cursor: default !important;

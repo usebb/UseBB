@@ -11,6 +11,7 @@ UseBB 0.5.1 Changelog
 - Fixed bug which leads to SQL error when forums are excluded from stats.
 - Some fixes to the search engine.
 - Show 5 last page links for topic on topic list.
+- New language loading function.
 
 UseBB 0.5 Changelog
 ------------------------------

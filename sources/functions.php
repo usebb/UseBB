@@ -95,6 +95,7 @@ class functions {
 	
 	var $board_config;
 	var $statistics = array();
+	var $languages = array();
 	var $mod_auth;
 	var $badwords;
 	var $updated_forums;
@@ -391,6 +392,28 @@ class functions {
 			return $url;
 			
 		}
+		
+	}
+	
+	//
+	// Fetch a language file
+	//
+	function fetch_language($language='') {
+		
+		$language = ( !empty($language) && in_array($language, $this->get_language_packs()) ) ? $language : $this->get_config('language');
+		
+		if ( !array_key_exists($language, $this->languages) ) {
+			
+			require(ROOT_PATH.'languages/lang_'.$language.'.php');
+			
+			if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
+				$lang = array_merge($this->fetch_language('English'), $lang);
+			
+			$this->languages[$language] = $lang;
+			
+		}
+		
+		return $this->languages[$language];
 		
 	}
 	

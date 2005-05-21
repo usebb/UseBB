@@ -30,32 +30,9 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Get language variables
+// Fetch the language array
 //
-
-//
-// Read the always updated English language file (if present)
-//
-$lang_file = ROOT_PATH.'languages/lang_English.php';
-if ( $functions->get_config('language') != 'English' && file_exists($lang_file) && is_readable($lang_file) ) {
-	
-	require($lang_file);
-	$lang_English = $lang;
-	
-}
-
-$lang_file = ROOT_PATH.'languages/lang_'.$functions->get_config('language').'.php';
-if ( !file_exists($lang_file) || !is_readable($lang_file) )
-	trigger_error('Unable to get "'.$functions->get_config('language').'" translation!');
-else
-	require($lang_file);
-
-//
-// Overwrite the English language array with the translation
-// so we don't get errors when the translation isn't uptodate
-//
-if ( isset($lang_English) )
-	$lang = array_merge($lang_English, $lang);
+$lang = $functions->fetch_language();
 
 $character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
 

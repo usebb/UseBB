@@ -284,7 +284,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 		$template->parse('user', 'onlinelist', array(
 			'username' => $username,
-			'location' => $location,
+			'current_page' => $location,
 			'latest_update' => $functions->make_date($sessiondata['updated'], 'h:i:s a'),
 		));
 		

@@ -38,7 +38,7 @@ $templates['header'] = '
 	<table class="maintable">
 		<tr>
 			<th>{l_Username}</th>
-			<th>{l_Location}</th>
+			<th>{l_CurrentPage}</th>
 			<th>{l_LatestUpdate}</th>
 		</tr>
 ';
@@ -46,7 +46,7 @@ $templates['header'] = '
 $templates['user'] = '
 		<tr>
 			<td>{username}</td>
-			<td>{location}</td>
+			<td>{current_page}</td>
 			<td class="minimal">{latest_update}</td>
 		</tr>
 ';

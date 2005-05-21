@@ -443,6 +443,7 @@ $lang['AllKeywords'] = 'Alle sleutelwoorden';
 $lang['OneOrMoreKeywords'] = 'E&eacute;n of meerdere sleutelwoorden';
 $lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die aan de opgegeven criteria voldoen.';
 $lang['SearchMembersPosts'] = 'Zoek berichten van lid';
+$lang['CurrentPage'] = 'Huidige pagina';
 
 //
 // Date translations

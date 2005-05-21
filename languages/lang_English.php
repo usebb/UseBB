@@ -443,5 +443,6 @@ $lang['AllKeywords'] = 'All keywords';
 $lang['OneOrMoreKeywords'] = 'One or more keywords';
 $lang['NoSearchResults'] = 'Sorry, but no results were found matching the criteria you supplied.';
 $lang['SearchMembersPosts'] = 'Search member\'s posts';
+$lang['CurrentPage'] = 'Current page';
 
 ?>

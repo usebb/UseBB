@@ -85,7 +85,7 @@ $_COOKIE = slash_trim_global($_COOKIE);
 // characters.
 //
 define('TABLE_PREFIX', $dbs['prefix']);
-define('USEBB_VERSION', '0.5.1-CVS');
+define('USEBB_VERSION', '0.5.1');
 define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
 define('PWD_PREG', '#^[A-Za-z0-9]+$#');

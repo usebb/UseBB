@@ -9,6 +9,7 @@ UseBB 0.5.1 Changelog
 - Fixed bug #487: Installer ignores invalid database configuration.
 - Fixed bug which keeps 'board closed' in location bar for admins.
 - Fixed bug which leads to SQL error when forums are excluded from stats.
+- Fixed bug which sends subscription e-mail in language of poster.
 - Some fixes to the search engine.
 - Show 5 last page links for topic on topic list.
 - New language loading function.

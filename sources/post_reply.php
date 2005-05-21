@@ -128,6 +128,9 @@ if ( !$db->num_rows($result) ) {
 						
 						if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id'], false, $subscribed_user) ) {
 							
+							//
+							// Fetch the language of the user
+							//
 							$user_lang = $functions->fetch_language($subscribed_user['language']);
 							
 							$functions->usebb_mail(sprintf($user_lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $user_lang['NewReplyEmailBody'], array(

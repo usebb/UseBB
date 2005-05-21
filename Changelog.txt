@@ -4,6 +4,7 @@ UseBB 0.5.1 Changelog
 ------------------------------
 
 - Added search member's posts link on profile page.
+- Added show edit post message timeout.
 - Search now escapes % and _ and shows search options on result view.
 - Allow search options to be passed via GET.
 - Fixed bug #487: Installer ignores invalid database configuration.

@@ -105,6 +105,7 @@ $conf['rss_items_count'] = 25;
 $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';
 $conf['session_save_path'] = '';
+$conf['show_edited_message_timeout'] = 60;
 $conf['sig_allow_bbcode'] = 1;
 $conf['sig_allow_smilies'] = 1;
 $conf['target_blank'] = 0;

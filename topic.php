@@ -349,7 +349,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				else
 					$post_links = '';
 				
-				if ( $postsdata['post_edit_time'] ) {
+				if ( $postsdata['post_edit_time'] && ( $postsdata['post_edit_time'] > ( $postsdata['post_time'] + intval($functions->get_config('show_edited_message_timeout')) ) ) ) {
 					
 					if ( $postsdata['post_edit_by'] === $postsdata['poster_id'] ) {
 						

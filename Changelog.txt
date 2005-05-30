@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.6 Changelog
+------------------------------
+
+- Fixed bug #512: too big font sizes allowed.
+
 UseBB 0.5.1 Changelog
 ------------------------------
 

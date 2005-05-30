@@ -975,8 +975,10 @@ class functions {
 					"#([\s\]\[])([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([\s\]\[])#is" => '\\1<a href="mailto:\\2">\\2</a>\\4',
 				// [color=red]text[/color]
 					"#\[color=(.*?)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
+				// [size=999]too big text[/size]
+					"#\[size=([0-9]{3,})\](.*?)\[/size\]#is" => '\\2',
 				// [size=14]text[/size]
-					"#\[size=(.*?)\](.*?)\[/size\]#is" => '<span style="font-size:\\1pt">\\2</span>',
+					"#\[size=([0-9]*?)\](.*?)\[/size\]#is" => '<span style="font-size:\\1pt">\\2</span>',
 				// [google=keyword]text[/google]
 					"#\[google=(.*?)\](.*?)\[/google\]#is" => '<a href="http://www.google.com/search?q=\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
 			);

@@ -313,6 +313,8 @@ class functions {
 	//
 	function make_url($filename, $vars=array(), $html=true) {
 		
+		global $session;
+		
 		if ( $this->get_config('friendly_urls') && !in_array($filename, array('css.php', 'admin.php')) ) {
 			
 			$url = str_replace('.php', '', $filename);
@@ -331,17 +333,11 @@ class functions {
 		$url = $filename;
 		
 		//
-		// Session IDs will be passed in the URL if
-		//		- no cookies are accepted
-		// AND
-		//		- PHP isn't configured to pass SIDs by default
-		//		OR
-		//		- the URL is not in HTML
-		// This allows users not using browsers supporting cookies
-		// to stay logged in or use the same session ID.
+		// Pass session ID's
 		//
 		$SID = SID;
-		if ( !empty($SID) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
+		$is_googlebot = ( preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') ) ? true : false;
+		if ( !empty($SID) && !$is_googlebot && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
 			
 			if ( !is_array($vars) )
 				$vars = array();

@@ -51,7 +51,7 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		// This topic does not exist
 		//
-		
+		header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
@@ -206,7 +206,7 @@ if ( $_GET['act'] == 'delete' ) {
 		//
 		// I didn't see that topic!?
 		//
-		
+		header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
 		$template->set_page_title($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],

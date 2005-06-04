@@ -76,13 +76,13 @@ if ( empty($_GET['act']) ) {
 				$sort_by_sql_part = 'displayed_name ASC';
 				break;
 			case 'level':
-				$sort_by_sql_part = 'level DESC';
+				$sort_by_sql_part = 'level DESC, displayed_name ASC';
 				break;
 			case 'regdate':
 				$sort_by_sql_part = 'regdate ASC';
 				break;
 			case 'posts':
-				$sort_by_sql_part = 'posts DESC';
+				$sort_by_sql_part = 'posts DESC, displayed_name ASC';
 				break;
 			
 		}

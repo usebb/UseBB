@@ -5,6 +5,7 @@ UseBB 0.6 Changelog
 
 - Fixed bug #512: too big font sizes allowed.
 - Fixed bug #535: changing e-mail address forces new password.
+- Fixed bug #537: tabindex for 'remember me' checkbox missing.
 - Do not add session ID's for Googlebot.
 
 UseBB 0.5.1 Changelog

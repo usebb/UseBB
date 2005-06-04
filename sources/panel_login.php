@@ -172,7 +172,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			
 		} else {
 			
-			$remember_input = '<input type="checkbox" name="remember" id="remember" value="1" checked="checked" /><label for="remember"> '.$lang['Yes'].'</label>';
+			$remember_input = '<input type="checkbox" name="remember" id="remember" value="1" checked="checked" tabindex="3" /><label for="remember"> '.$lang['Yes'].'</label>';
 			
 		}
 		
@@ -181,7 +181,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			'user_input'     => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" tabindex="2" />',
 			'remember_input' => $remember_input,
-			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" tabindex="3" />',
+			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" tabindex="4" />',
 			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',

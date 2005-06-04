@@ -944,7 +944,23 @@ class functions {
 			}
 			
 			//
-			// All kinds of regexps
+			// Parse URL's and e-mail addresses
+			//
+			$string = preg_replace(array(
+				"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is",
+				"#([\s\]\[])([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([\s\]\[\.,;\?!])#is"
+			), array(
+				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+				'\\1<a href="mailto:\\2">\\2</a>\\4'
+			), $string);
+			
+			//
+			// Fix ".", "," and ";" being included in the link
+			//
+			$string = preg_replace('#<a href="(.*?)[\.,;\?!]+">(.*?)([\.,;\?!]+)</a>#s', '<a href="\\1">\\2</a>\\3', $string);
+			
+			//
+			// All kinds of BBCode regexps
 			//
 			$regexps = array(
 				// [b]text[/b]
@@ -961,14 +977,10 @@ class functions {
 					"#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]
 					"#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
-				// http://www.usebb.net
-					"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is" => '\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				// [mailto]somebody@nonexistent.com[/mailto]
 					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1">\\1</a>',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]
 					"#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1">\\3</a>',
-				// somebody@nonexistent.com
-					"#([\s\]\[])([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([\s\]\[])#is" => '\\1<a href="mailto:\\2">\\2</a>\\4',
 				// [color=red]text[/color]
 					"#\[color=(.*?)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
 				// [size=999]too big text[/size]
@@ -992,11 +1004,6 @@ class functions {
 				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
-			
-			//
-			// Fix ".", "," and ";" being included in the link
-			//
-			$string = preg_replace('#<a href="(.*?)[\.,;]">(.*?)([\.,;])</a>#s', '<a href="\\1">\\2</a>\\3', $string);
 			
 		}
 		

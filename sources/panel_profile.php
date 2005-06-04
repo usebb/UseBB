@@ -89,8 +89,6 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	//
 	$active = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? 0 : 1;
 	$active_key = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-	$password = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-	$to_add_for_pwd = '';
 	
 	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
 		
@@ -99,13 +97,10 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 		//
 		$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
 			'account_name' => stripslashes($session->sess_info['user_info']['name']),
-			'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false),
-			'password' => $password
+			'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false)
 		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 		
 		$active_key = md5($active_key);
-		$password = md5($password);
-		$to_add_for_pwd = " passwd = '".$password."',";
 		
 	}
 	
@@ -120,7 +115,6 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		active        = ".$active.",
 		active_key    = '".$active_key."',
-		".$to_add_for_pwd."
 		email         = '".$_POST['email']."',
 		avatar_type   = ".$avatar_type.",
 		avatar_remote = '".$avatar_remote."',

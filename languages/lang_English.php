@@ -232,14 +232,11 @@ $lang['Required'] = 'Required';
 $lang['ViewProfile'] = 'View Profile';
 $lang['NewEmailActivationEmailBody'] = 'Hello,
 
-This is the forum software of [board_name] speaking. You have just altered the e-mail address of your account [account_name], but these has not been reactivated yet. Please click the link below to reactivate your account:
+This is the forum software of [board_name] speaking. You have just altered the e-mail address of your account [account_name], but it has not been reactivated yet. Please click the link below to reactivate your account:
 
 [activate_link]
 
-or copy-n-paste it to your browser. Then you can log in using this username and password:
-
-Username: [account_name]
-Password: [password]
+or copy-n-paste it to your browser.
 
 If you forget your password, you can request a new one via the link on the login form.
 

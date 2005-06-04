@@ -236,10 +236,7 @@ Dit is de forumsoftware van [board_name]. Je hebt net het e-mailadres van je acc
 
 [activate_link]
 
-of kopieer en plak het in de adresbalk van je browser. Daarna kan je inloggen met de volgende gebruikersnaam en wachtwoord:
-
-Gebruikersnaam: [account_name]
-Wachtwoord: [password]
+of kopieer en plak het in de adresbalk van je browser.
 
 Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het inlogformulier.
 

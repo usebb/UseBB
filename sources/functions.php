@@ -993,6 +993,11 @@ class functions {
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
 			
+			//
+			// Fix ".", "," and ";" being included in the link
+			//
+			$string = preg_replace('#<a href="(.*?)[\.,;]">(.*?)([\.,;])</a>#s', '<a href="\\1">\\2</a>\\3', $string);
+			
 		}
 		
 		if ( !$html ) {

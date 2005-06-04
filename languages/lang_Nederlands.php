@@ -71,7 +71,6 @@ $lang['LastLogin'] = 'Laatste maal ingelogd';
 $lang['VariousInfo'] = 'Diverse Informatie';
 $lang['IndexStats'] = 'Dit forum bevat %d berichten in %d onderwerpen geplaatst door %d leden.';
 $lang['NewestMemberExtended'] = 'Welkom aan ons nieuwste lid: %s.';
-$lang['UsersOnline'] = 'Er waren %d leden (%d verborgen) en %d gasten online in de voorbije %d minuten.';
 $lang['Username'] = 'Gebruikersnaam';
 $lang['CurrentPassword'] = 'Huidig wachtwoord';
 $lang['UserID'] = 'Gebruikers-ID';
@@ -441,6 +440,10 @@ $lang['OneOrMoreKeywords'] = 'E&eacute;n of meerdere sleutelwoorden';
 $lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die aan de opgegeven criteria voldoen.';
 $lang['SearchMembersPosts'] = 'Zoek berichten van lid';
 $lang['CurrentPage'] = 'Huidige pagina';
+$lang['MemberGuestOnline'] = 'In de laatste %d minuten hebben %d lid (%d verborgen) en %d gast het forum bezocht.';
+$lang['MembersGuestOnline'] = 'In de laatste %d minuten hebben %d leden (%d verborgen) en %d gast het forum bezocht.';
+$lang['MemberGuestsOnline'] = 'In de laatste %d minuten hebben %d lid (%d verborgen) en %d gasten het forum bezocht.';
+$lang['MembersGuestsOnline'] = 'In de laatste %d minuten hebben %d leden (%d verborgen) en %d gasten het forum bezocht.';
 
 //
 // Date translations

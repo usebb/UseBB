@@ -71,7 +71,6 @@ $lang['LastLogin'] = 'Last login';
 $lang['VariousInfo'] = 'Various Information';
 $lang['IndexStats'] = 'This board contains %d posts in %d topics posted by %d members.';
 $lang['NewestMemberExtended'] = 'Welcome to our newest member: %s.';
-$lang['UsersOnline'] = 'There were %d members (%d hidden) and %d guests online in the past %d minutes.';
 $lang['Username'] = 'User name';
 $lang['CurrentPassword'] = 'Current password';
 $lang['UserID'] = 'User ID';
@@ -441,5 +440,9 @@ $lang['OneOrMoreKeywords'] = 'One or more keywords';
 $lang['NoSearchResults'] = 'Sorry, but no results were found matching the criteria you supplied.';
 $lang['SearchMembersPosts'] = 'Search member\'s posts';
 $lang['CurrentPage'] = 'Current page';
+$lang['MemberGuestOnline'] = 'In the last %d minutes, %d member (%d hidden) and %d guest have visited the forums.';
+$lang['MembersGuestOnline'] = 'In the last %d minutes, %d members (%d hidden) and %d guest have visited the forums.';
+$lang['MemberGuestsOnline'] = 'In the last %d minutes, %d member (%d hidden) and %d guests have visited the forums.';
+$lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) and %d guests have visited the forums.';
 
 ?>

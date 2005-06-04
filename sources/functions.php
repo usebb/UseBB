@@ -946,18 +946,14 @@ class functions {
 			//
 			// Parse URL's and e-mail addresses
 			//
+			$ignore_chars = "\.,;:\?!\(\)'\{\}\-(&quot;)"; # warning, rawly included in regex!
 			$string = preg_replace(array(
-				"#([\s\]\[])([\w]+?://[^ \"\n\r\t<]*?)([\s\]\[])#is",
-				"#([\s\]\[])([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([\s\]\[\.,;\?!])#is"
+				"#([\s\]\[][".$ignore_chars."]*?)([\w]+?://[^ \"\n\r\t<]*?)([".$ignore_chars."]*?[\s\]\[])#is",
+				"#([\s\]\[][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s\]\[])#is"
 			), array(
 				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				'\\1<a href="mailto:\\2">\\2</a>\\4'
 			), $string);
-			
-			//
-			// Fix ".", "," and ";" being included in the link
-			//
-			$string = preg_replace('#<a href="(.*?)[\.,;\?!]+">(.*?)([\.,;\?!]+)</a>#s', '<a href="\\1">\\2</a>\\3', $string);
 			
 			//
 			// All kinds of BBCode regexps

@@ -30,11 +30,6 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Set the page title
-//
-$template->set_page_title($lang['Subscriptions']);
-
-//
 // Unsubscribe topics
 //
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_array($_POST['unsubscribe']) && count($_POST['unsubscribe']) ) {

@@ -29,11 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Set the page title
-//
-$template->set_page_title($lang['EditProfile']);
-
 $displayed_name_taken = false;
 $displayed_name_banned = false;
 if ( !empty($_POST['displayed_name']) ) {

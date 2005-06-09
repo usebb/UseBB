@@ -428,6 +428,7 @@ class functions {
 			
 		} else {
 			
+			header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
 			$template->set_page_title($lang['Note']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],

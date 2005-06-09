@@ -29,11 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Set the page title
-//
-$template->set_page_title($lang['EditOptions']);
-
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
 	//

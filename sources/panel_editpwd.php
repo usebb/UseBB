@@ -29,11 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Set the page title
-//
-$template->set_page_title($lang['EditPasswd']);
-
 if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty($_POST['new_passwd2']) && md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] === $_POST['new_passwd2'] ) {
 	
 	//

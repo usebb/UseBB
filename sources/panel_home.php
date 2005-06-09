@@ -29,11 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Set the page title
-//
-$template->set_page_title($lang['PanelHome']);
-
 if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 	
 	if ( $_GET['al'] ) {

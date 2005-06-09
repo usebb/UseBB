@@ -106,8 +106,8 @@ $template->parse('normal_header', 'global');
 //
 if ( $session->sess_info['ip_banned'] ) {
 	
+	header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
 	$template->set_page_title($lang['Note']);
-	
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => sprintf($lang['BannedIP'], $session->sess_info['ip_addr'])

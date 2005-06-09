@@ -10,7 +10,8 @@ UseBB 0.6 Changelog
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).
 - Sorting fixes for member list.
-- 404 error codes returned when needed.
+- 404 and 403 error codes returned when applicable.
+- Removed duplicate set_page_title() calls in Your Panel.
 
 UseBB 0.5.1 Changelog
 ------------------------------

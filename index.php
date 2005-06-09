@@ -98,7 +98,7 @@ if ( !$functions->get_stats('forums') ) {
 			'content' => $lang['NoViewableForums']
 		));
 		
-	} elseif ( $functions->get_config('kick_user_to_only_viewable_forum') && count($forums) === 1 ) {
+	} elseif ( $functions->get_config('single_forum_mode') && count($forums) === 1 ) {
 		
 		//
 		// If this is the only (viewable) forum and the forum has been set up

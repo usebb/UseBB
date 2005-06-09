@@ -90,7 +90,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			'content' => sprintf($lang['NotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
 		
-	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != 3 ) {
+	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != LEVEL_ADMIN ) {
 		
 		//
 		// Only admins can log in when the forum is closed.

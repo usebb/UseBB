@@ -217,7 +217,7 @@ class session {
 						// If the encrypted password in the cookie equals to the password in the database
 						// the user is active and not banned and [ the board is not closed or the user is an admin ]
 						//
-						if ( $cookie_data[1] === $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == 3 ) ) {
+						if ( $cookie_data[1] === $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == LEVEL_ADMIN ) ) {
 							
 							//
 							// Change the user id that will be entered in the DB below
@@ -251,7 +251,7 @@ class session {
 			//
 			if ( $current_sess_info['started'] ) {
 				
-				if ( empty($user_id) && $user_id !== 0 )
+				if ( empty($user_id) && $user_id !== LEVEL_GUEST )
 					$user_id = $current_sess_info['user_id'];
 				
 				//
@@ -277,7 +277,7 @@ class session {
 				
 			}
 			
-			if ( $user_id > 0 && !isset($user_info) ) {
+			if ( $user_id > LEVEL_GUEST && !isset($user_info) ) {
 				
 				$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
 				
@@ -285,7 +285,7 @@ class session {
 					
 					$user_info = $db->fetch_result($result);
 					
-					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != 3 ) )
+					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != LEVEL_ADMIN ) )
 						$user_id = 0;
 					elseif ( !isset($_SESSION['previous_visit']) || $_SESSION['previous_visit'] == 0 )
 						$_SESSION['previous_visit'] = $user_info['last_pageview'];

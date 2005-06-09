@@ -628,7 +628,7 @@ class functions {
 		if ( $session->sess_info['user_id'] )
 			return $session->sess_info['user_info']['level'];
 		else
-			return 0;
+			return LEVEL_GUEST;
 		
 	}
 	
@@ -641,11 +641,11 @@ class functions {
 		global $session, $db;
 		
 		if ( $self )
-			$user_info = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_info'] : array('id' => 0, 'level' => 0);
+			$user_info = ( $session->sess_info['user_id'] ) ? $session->sess_info['user_info'] : array('id' => LEVEL_GUEST, 'level' => LEVEL_GUEST);
 		else
 			$user_info = $alternative_user_info;
 		
-		if ( ( $self && $session->sess_info['ip_banned'] ) || ( $this->get_config('board_closed') && $user_info['level'] < 3 ) )
+		if ( ( $self && $session->sess_info['ip_banned'] ) || ( $this->get_config('board_closed') && $user_info['level'] < LEVEL_ADMIN ) )
 			return false;
 		
 		//
@@ -653,7 +653,7 @@ class functions {
 		//
 		if ( $user_info['id'] ) {
 			
-			if ( $user_info['level'] == 2 ) {
+			if ( $user_info['level'] == LEVEL_MOD ) {
 				
 				if ( !is_array($this->mod_auth) ) {
 					
@@ -665,9 +665,9 @@ class functions {
 				}
 				
 				if ( in_array($forum_id, $this->mod_auth) )
-					$userlevel = 2;
+					$userlevel = LEVEL_MOD;
 				else
-					$userlevel = 1;
+					$userlevel = LEVEL_MEMBER;
 				
 			} else {
 				
@@ -680,7 +680,7 @@ class functions {
 			if ( !$this->get_config('guests_can_access_board') )
 				return FALSE;
 			else
-				$userlevel = 0;
+				$userlevel = LEVEL_GUEST;
 			
 		}
 		
@@ -1259,7 +1259,7 @@ class functions {
 							
 						} else {
 							
-							if ( $this->get_user_level() == 3 )
+							if ( $this->get_user_level() == LEVEL_ADMIN )
 								$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']).'</em>';
 							
 							$count['hidden_members']++;

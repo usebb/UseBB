@@ -43,7 +43,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( $session->sess_info['user_id'] == 0 ) {
+	if ( $session->sess_info['user_id'] == LEVEL_GUEST ) {
 		
 		$functions->redir_to_login();
 		

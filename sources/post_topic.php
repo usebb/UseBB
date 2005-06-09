@@ -57,7 +57,7 @@ if ( !$db->num_rows($result) ) {
 	
 	$forumdata = $db->fetch_result($result);
 	
-	if ( !$forumdata['status'] && $functions->get_user_level() != 3 ) {
+	if ( !$forumdata['status'] && $functions->get_user_level() != LEVEL_ADMIN ) {
 		
 		$template->set_page_title($lang['ForumIsLocked']);
 		$template->parse('msgbox', 'global', array(

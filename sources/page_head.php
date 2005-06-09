@@ -45,7 +45,7 @@ else
 	header('Content-Type: text/html; charset='.$character_encoding);
 
 $link_bar = array();
-/*if ( $functions->get_user_level() == 3 )
+/*if ( $functions->get_user_level() == LEVEL_ADMIN )
 	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';*/
 	
 if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
@@ -140,7 +140,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 	//
 	// Admins can still enter the board
 	//
-	if ( $functions->get_user_level() < 3 ) {
+	if ( $functions->get_user_level() < LEVEL_ADMIN ) {
 		
 		//
 		// Include the page footer
@@ -156,7 +156,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 //
 // Guests must log in
 //
-if ( !$functions->get_config('guests_can_access_board') && $session->sess_info['user_id'] == 0 && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
+if ( !$functions->get_config('guests_can_access_board') && $session->sess_info['user_id'] == LEVEL_GUEST && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
 	
 	$functions->redir_to_login();
 	

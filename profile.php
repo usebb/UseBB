@@ -46,7 +46,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !$functions->get_config('guests_can_view_profiles') && $session->sess_info['user_id'] == 0 ) {
+	if ( !$functions->get_config('guests_can_view_profiles') && $session->sess_info['user_id'] == LEVEL_GUEST ) {
 		
 		$functions->redir_to_login();
 		
@@ -108,7 +108,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			}
 			
 			$username = unhtml(stripslashes($profiledata['displayed_name']));
-			if ( $functions->get_user_level() == 3 )
+			if ( $functions->get_user_level() == LEVEL_ADMIN )
 				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
 			
 			switch ( $profiledata['level'] ) {
@@ -125,7 +125,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 			}
 			
-			if ( $profiledata['last_login_show'] || $own_profile || $functions->get_user_level() == 3 )
+			if ( $profiledata['last_login_show'] || $own_profile || $functions->get_user_level() == LEVEL_ADMIN )
 				$last_login = ( $profiledata['last_login'] != 0 ) ? $functions->make_date($profiledata['last_login']) : $lang['Never'];
 			else
 				$last_login = $lang['Hidden'];

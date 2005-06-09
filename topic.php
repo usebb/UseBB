@@ -192,9 +192,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$forum_moderators = $functions->get_mods_list($topicdata['forum_id']);
 			
-			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['PostNewTopic'].'</a>' : '';
+			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['PostNewTopic'].'</a>' : '';
 			
-			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'">'.$lang['PostReply'].'</a>' : '';
+			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'">'.$lang['PostReply'].'</a>' : '';
 			
 			//
 			// Get page number
@@ -343,7 +343,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'">'.$lang['Delete'].'</a>';
 				
-				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
+				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
 					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic, 'quotepost' => $postsdata['id'])).'">'.$lang['Quote'].'</a>';
 				
 				if ( count($post_links) )
@@ -389,7 +389,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup($functions->replace_badwords(stripslashes($postsdata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'post_editinfo' => $post_editinfo,
-					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == 3 ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], $postsdata['poster_ip_addr'])) : '',
+					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == LEVEL_ADMIN ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], $postsdata['poster_ip_addr'])) : '',
 					'colornum' => $colornum
 				));
 				
@@ -449,7 +449,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			// Neat feature: the quick reply
 			// Only shown if enabled, if user can reply and if user can post in lcoked forum...
 			//
-			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == 3 ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
+			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 				
 				//
 				// Get session saved guest's username if there is one

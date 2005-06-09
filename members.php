@@ -165,7 +165,7 @@ if ( empty($_GET['act']) ) {
 		$admins = $mods = array();
 		while ( $staffinfo = $db->fetch_result($result) ) {
 			
-			if ( $staffinfo['level'] == 3 )
+			if ( $staffinfo['level'] == LEVEL_ADMIN )
 				$admins[] = $staffinfo;
 			else
 				$mods[] = $staffinfo;

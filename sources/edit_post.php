@@ -308,7 +308,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 6. Adjust user's posts level
 					//
-					if ( $postdata['poster_id'] > 0 ) {
+					if ( $postdata['poster_id'] > LEVEL_GUEST ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-1 WHERE id = ".$postdata['poster_id']);
 						

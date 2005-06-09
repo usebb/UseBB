@@ -63,7 +63,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	while ( $sessiondata = $db->fetch_result($result) ) {
 		
-		if ( $sessiondata['hide_from_online_list'] && $functions->get_user_level() < 3 )
+		if ( $sessiondata['hide_from_online_list'] && $functions->get_user_level() < LEVEL_ADMIN )
 			continue;
 		
 		if ( $sessiondata['user_id'] && in_array($sessiondata['user_id'], $seen_members) )
@@ -188,7 +188,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 			
 		}
 		
-		if ( $functions->get_user_level() == 3 )
+		if ( $functions->get_user_level() == LEVEL_ADMIN )
 			$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';
 		
 		switch ( $sessiondata['location'] ) {

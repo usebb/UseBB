@@ -16,6 +16,7 @@ UseBB 0.6 Changelog
 - Replace level integers with constants.
 - Template fixes.
 - Fix potentional server errors.
+- Don't show forum list on search when only one forum is available.
 
 UseBB 0.5.1 Changelog
 ------------------------------

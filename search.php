@@ -261,24 +261,32 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			
 		}
 		
-		$forums_input = '<select name="forums[]" size="10" multiple="multiple"><option value="all"'.$forums_all_selected.'>'.$lang['AllForums'].'</option>';
-		$seen_cats = array();
-		$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id IN( ".join(', ', $forum_ids)." ) ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
-		while ( $forumdata = $db->fetch_result($result) ) {
+		if ( count($forum_ids) === 1 ) {
 			
-			if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+			$forums_input = '<input type="hidden" name="forums[]" value="'.$forum_ids[0].'" /><em>'.unhtml(stripslashes($forum_names[$forum_ids[0]])).'</em> ('.$lang['AllForums'].')';
+			
+		} else {
+			
+			$forums_input = '<select name="forums[]" size="10" multiple="multiple"><option value="all"'.$forums_all_selected.'>'.$lang['AllForums'].'</option>';
+			$seen_cats = array();
+			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id IN( ".join(', ', $forum_ids)." ) ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
+			while ( $forumdata = $db->fetch_result($result) ) {
 				
-				$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-				$forums_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
-				$seen_cats[] = $forumdata['cat_id'];
+				if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+					
+					$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
+					$forums_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
+					$seen_cats[] = $forumdata['cat_id'];
+					
+				}
+				
+				$selected = ( empty($forums_all_selected) && in_array($forumdata['id'], $_REQUEST['forums']) ) ? ' selected="selected"' : '';
+				$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forum_names[$forumdata['id']])).'</option>';
 				
 			}
-			
-			$selected = ( empty($forums_all_selected) && in_array($forumdata['id'], $_REQUEST['forums']) ) ? ' selected="selected"' : '';
-			$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forum_names[$forumdata['id']])).'</option>';
+			$forums_input .= '</optgroup></select>';
 			
 		}
-		$forums_input .= '</optgroup></select>';
 		
 		$template->parse('search_form', 'search', array(
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',

@@ -195,7 +195,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 				//
 				// Parse the topic template
 				//
-				$template->parse('topic', 'activetopics', array(
+				$template->parse('results_topic', 'search', array(
 					'topic_icon' => $topic_icon,
 					'topic_status' => $topic_status,
 					'topic_name' => $topic_name,

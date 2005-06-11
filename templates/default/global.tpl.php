@@ -57,7 +57,7 @@ $templates['config'] = array(
 	'quick_reply_textarea_rows'			=> '5',
 	'quick_reply_textarea_cols'			=> '60',
 	'post_form_bbcode_seperator'		=> '',
-	'post_form_smiley_seperator'		=> ' ',
+	'post_form_smiley_seperator'		=> '',
 	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
 	'smilies' => array(
@@ -695,6 +695,9 @@ p#linkbar {
 }
 #smiley-controls {
 	margin: 0px 0px 5px 0px;
+}
+#smiley-controls img {
+	padding: 0px 2px 0px 2px;
 }
 #post-options input, #post-options label {
 	margin: 5px 0px 0px 0px;

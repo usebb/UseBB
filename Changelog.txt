@@ -15,6 +15,7 @@ UseBB 0.6 Changelog
 - kick_user_to_only_viewable_forum renamed to single_forum_mode.
 - Replace level integers with constants.
 - Template fixes.
+- Fix potentional server errors.
 
 UseBB 0.5.1 Changelog
 ------------------------------

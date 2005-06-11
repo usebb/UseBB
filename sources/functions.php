@@ -248,7 +248,7 @@ class functions {
 		if ( $stat == 'categories' ) {
 			
 			//
-			// Get the latest member
+			// Get the category count
 			//
 			if ( !isset($this->statistics[$stat]) ) {
 				
@@ -260,16 +260,32 @@ class functions {
 			
 			return $this->statistics[$stat];
 			
-		} elseif ( $stat == 'forums' ) {
+		} elseif ( $stat == 'forums' || $stat == 'viewable_forums' ) {
 			
 			//
-			// Get the latest member
+			// Get the forums
 			//
 			if ( !isset($this->statistics[$stat]) ) {
 				
-				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."forums");
-				$out = $db->fetch_result($result);
-				$this->statistics[$stat] = $out['count'];
+				$result = $db->query("SELECT id, auth FROM ".TABLE_PREFIX."forums");
+				$this->statistics['forums'] = 0;
+				$this->statistics['viewable_forums'] = 0;
+				
+				while ( $forumdata = $db->fetch_result($result) ) {
+					
+					//
+					// We also set the other statistic: (viewable_)forums
+					// This might save a query
+					//
+					
+					// forums
+					$this->statistics['forums']++;
+					
+					// viewable_forums
+					if ( $this->auth($forumdata['auth'], 'view', $forumdata['id']) )
+						$this->statistics['viewable_forums']++;
+					
+				}
 				
 			}
 			

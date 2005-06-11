@@ -165,11 +165,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			// If this is the only (viewable) forum and the forum has been set up
 			// to kick the user to this only (viewable) forum ...
 			//
-			if ( $functions->get_config('single_forum_mode') && intval($functions->get_stats('forums')) === 1 ) {
-				
+			if ( $functions->get_config('single_forum_mode') && $functions->get_stats('viewable_forums') === 1 )
 				$functions->forum_stats_box();
-				
-			}
 			
 		} else {
 			

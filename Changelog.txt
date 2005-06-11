@@ -12,7 +12,7 @@ UseBB 0.6 Changelog
 - Sorting fixes for member list.
 - 404 and 403 error codes returned when applicable.
 - Removed duplicate set_page_title() calls in Your Panel.
-- kick_user_to_only_viewable_forum renamed to single_forum_mode.
+- kick_user_to_only_viewable_forum renamed to single_forum_mode and fixed.
 - Replace level integers with constants.
 - Template fixes.
 - Fix potentional server errors.

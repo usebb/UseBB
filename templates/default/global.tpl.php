@@ -253,13 +253,13 @@ strong {
 }
 #logo {
 	float: left;
+	height: 30px;
 }
 h1#boardname {
 	text-align: right;
 	font-size: 13pt;
 	font-weight: bold;
 	color: #336699;
-	height: 30px !important;
 	line-height: 30px !important;
 }
 h1#boardname #line {
@@ -272,13 +272,13 @@ h2#boarddescr {
 	font-weight: normal;
 	font-style: italic;
 	color: #7F7F7F;
-	height: 30px !important;
 	line-height: 30px !important;
 }
 #topmenu * {
 	text-align: left;
 }
 #topmenu {
+	clear: both;
 	float: left;
 	width: 723px;
 	background-image: url({img_dir}topmenu_bg.png);
@@ -286,7 +286,7 @@ h2#boarddescr {
 	background-color: #E8E8E8;
 	border: 1px solid #336699;
 	padding: 3px 0px 3px 0px;
-	margin: 4px 0px 0px 0px;
+	margin: 5px 0px 0px 0px;
 }
 #topmenu ul {
 	list-style: none;

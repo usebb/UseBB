@@ -14,6 +14,7 @@ UseBB 0.6 Changelog
 - Removed duplicate set_page_title() calls in Your Panel.
 - kick_user_to_only_viewable_forum renamed to single_forum_mode.
 - Replace level integers with constants.
+- Template fixes.
 
 UseBB 0.5.1 Changelog
 ------------------------------

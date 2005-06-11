@@ -1,3 +1,5 @@
+# $Header$
+
 Options All -Indexes
 DirectoryIndex index.php
 

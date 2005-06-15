@@ -210,6 +210,7 @@ class template {
 			
 			$current_template = $this->templates[$request['section']][$request['template_name']];
 			$finds = $replaces = array();
+			
 			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
 				
 				foreach ( $lang as $key => $val ) {
@@ -224,19 +225,19 @@ class template {
 				}
 				
 			}
-			$request['variables']['img_dir'] = ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/';
+			
 			$request['variables'] = array_merge($this->global_vars, $request['variables']);
+			
 			foreach ( $request['variables'] as $key => $val ) {
 				
 				$finds[] = '#\{'.preg_quote($key, '#').'\}#';
 				$replaces[] = $val;
 				
 			}
-			foreach ( $replaces as $key => $val ) {
-				
+			
+			foreach ( $replaces as $key => $val )
 				$replaces[$key] = preg_replace(array('#\{#', '#\}#'), array('&#123;', '&#125;'), $val);
-				
-			}
+			
 			$current_template = preg_replace($finds, $replaces, $current_template);
 			$this->body .= $current_template;
 			

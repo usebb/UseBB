@@ -68,13 +68,15 @@ $template->add_global_vars(array(
 	'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 	'character_encoding' => $character_encoding,
 	'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
+	// template settings
+	'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
 	// board settings
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
 	'board_url' => $functions->get_config('board_url'),
 	'admin_email' => $functions->get_config('admin_email'),
 	// menu links
-	'css_url' => $functions->make_url('css.php'),
+	'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
 	'link_home' => $functions->make_url('index.php'),
 	'link_reg_panel' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
 	'reg_panel' => ( $session->sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],

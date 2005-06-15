@@ -331,7 +331,7 @@ class functions {
 		
 		global $session;
 		
-		if ( $this->get_config('friendly_urls') && !in_array($filename, array('css.php', 'admin.php')) ) {
+		if ( $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
 			$url = str_replace('.php', '', $filename);
 			foreach ( $vars as $key => $val ) {

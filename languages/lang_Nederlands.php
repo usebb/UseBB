@@ -441,6 +441,7 @@ $lang['MemberGuestOnline'] = 'In de laatste %d minuten hebben %d lid (%d verborg
 $lang['MembersGuestOnline'] = 'In de laatste %d minuten hebben %d leden (%d verborgen) en %d gast het forum bezocht.';
 $lang['MemberGuestsOnline'] = 'In de laatste %d minuten hebben %d lid (%d verborgen) en %d gasten het forum bezocht.';
 $lang['MembersGuestsOnline'] = 'In de laatste %d minuten hebben %d leden (%d verborgen) en %d gasten het forum bezocht.';
+$lang['WhosOnline'] = 'Wie is er Online';
 
 //
 // Date translations

@@ -43,10 +43,10 @@ $templates['forum_stats_box'] = '
 			<td>{small_stats}<br />{newest_member}</td>
 		</tr>
 		<tr>
-			<td class="online">{users_online} {detailed_list_link}</td>
+			<td class="online">&raquo; {l_WhosOnline} {detailed_list_link}</td>
 		</tr>
 		<tr>
-			<td>{members_online}</td>
+			<td>{users_online}<br />{members_online}</td>
 		</tr>
 	</table>
 ';

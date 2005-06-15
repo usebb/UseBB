@@ -106,7 +106,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 		if ( preg_match('#^(forum|posttopic):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'forums';
-		elseif ( preg_match('#^(topic|reply|movetopic|deletetopic|trashtopic):([0-9]+)$#', $sessiondata['location'], $matches) )
+		elseif ( preg_match('#^(topic|reply|movetopic|deletetopic):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'topics';
 		elseif ( preg_match('#^(editpost|deletepost):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'posts';
@@ -267,8 +267,6 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = sprintf($lang['MovingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml($functions->replace_badwords(stripslashes($names['topics'][$matches[1]]))).'</a>');
 			elseif ( preg_match('#^deletetopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
 				$location = sprintf($lang['DeletingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml($functions->replace_badwords(stripslashes($names['topics'][$matches[1]]))).'</a>');
-			elseif ( preg_match('#^trashtopic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
-				$location = sprintf($lang['TrashingTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml($functions->replace_badwords(stripslashes($names['topics'][$matches[1]]))).'</a>');
 			elseif ( preg_match('#^editpost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )
 				$location = sprintf($lang['EditingPost'], '<a href="'.$functions->make_url('topic.php', array('post' => $matches[1])).'#post'.$matches[1].'">'.unhtml($functions->replace_badwords(stripslashes($names['posts'][$matches[1]]))).'</a>');
 			elseif ( preg_match('#^deletepost:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['posts']) )

@@ -409,9 +409,6 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 			}
 			
-			if ( $functions->get_config('trash_forum') > 0 && valid_int($functions->get_config('trash_forum')) && $functions->get_config('trash_forum') != $topicdata['forum_id'] && $functions->auth($topicdata['auth'], 'trash', $topicdata['forum_id']) )
-				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'trash')).'">'.$lang['TrashTopic'].'</a>';
-			
 			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
 			

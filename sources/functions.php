@@ -342,7 +342,10 @@ class functions {
 					$url .= '-'.$val;
 				
 			}
-			return $url.'.html';
+			if ( $filename == 'rss.php' )
+				return $url.'.xml';
+			else
+				return $url.'.html';
 			
 		}
 		

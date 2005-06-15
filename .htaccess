@@ -32,4 +32,5 @@ DirectoryIndex index.php
 	RewriteRule ^search-results\.html$ search.php?act=results
 	RewriteRule ^search-results-([0-9]+)\.html$ search.php?act=results&page=$1
 	RewriteRule ^search-([A-Za-z0-9_\-\+]+)\.html$ search.php?author=$1
+	RewriteRule ^rss\.xml$ rss.php
 </IfModule>

@@ -37,12 +37,26 @@ class template {
 	//
 	// Variables
 	//
+	var $content_type = '';
+	var $character_encoding = '';
 	var $parse_special_templates_only = false;
-	var $loaded_sections=array();
-	var $templates=array();
-	var $requests=array();
-	var $global_vars=array();
-	var $body='';
+	var $loaded_sections = array();
+	var $templates = array();
+	var $requests = array();
+	var $global_vars = array();
+	var $body = '';
+	
+	//
+	// Load the global templates and set the content type
+	//
+	function template() {
+		
+		$this->load_section('global');
+		
+		$content_type = $this->get_config('content_type');
+		$this->content_type = ( !empty($content_type) ) ? $content_type : 'text/html';
+		
+	}
 	
 	//
 	// Load a given template section in the template array
@@ -73,11 +87,6 @@ class template {
 	function get_config($setting) {
 		
 		global $functions;
-		
-		//
-		// Load the template set
-		//
-		$this->load_section('global');
 		
 		if ( isset($this->templates['global']['config'][$setting]) )
 			return $this->templates['global']['config'][$setting];
@@ -156,6 +165,11 @@ class template {
 		global $db, $functions, $timer, $lang;
 		
 		//
+		// Set content type and charset
+		//
+		header('Content-Type: '.$this->content_type.'; charset='.$this->character_encoding);
+		
+		//
 		// Debug features
 		//
 		if ( $functions->get_config('debug') && $enable_debugmessages ) {
@@ -201,6 +215,18 @@ class template {
 		$this->add_global_vars(array(
 			'debug_info_small' => $debug_info_small,
 			'debug_info_large' => $debug_info_large
+		));
+		
+		//
+		// Add some global template variables such as content type and charset
+		//
+		$this->add_global_vars(array(
+			'content_type' => $this->content_type,
+			'character_encoding' => $this->character_encoding,
+			'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
+			'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
+			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
+			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css'
 		));
 		
 		//

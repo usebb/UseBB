@@ -20,6 +20,8 @@ UseBB 0.6 Changelog
 - CSS has been detached from the templating system.
 - Removed the trash feature, will be reintroduced later.
 - Friendly URL for RSS feed is now rss.xml.
+- Major template engine improvements and code cleanups.
+- Content type can now be set in global.tpl.php.
 
 UseBB 0.5.1 Changelog
 ------------------------------

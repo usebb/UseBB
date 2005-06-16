@@ -34,15 +34,11 @@ if ( !defined('INCLUDED') )
 //
 $lang = $functions->fetch_language();
 
-$character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
+$template->character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
 
 //
 // Header informs the browser about the encoding
 //
-if ( defined('IS_XML') )
-	header('Content-Type: text/xml; charset='.$character_encoding);
-else	
-	header('Content-Type: text/html; charset='.$character_encoding);
 
 $link_bar = array();
 /*if ( $functions->get_user_level() == LEVEL_ADMIN )
@@ -64,19 +60,18 @@ if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level
 	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
 
 $template->add_global_vars(array(
-	// language settings
-	'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
-	'character_encoding' => $character_encoding,
-	'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
-	// template settings
-	'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
+	
+	//
 	// board settings
+	//
 	'board_name' => $functions->get_config('board_name'),
 	'board_descr' => $functions->get_config('board_descr'),
 	'board_url' => $functions->get_config('board_url'),
 	'admin_email' => $functions->get_config('admin_email'),
+	
+	//
 	// menu links
-	'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
+	//
 	'link_home' => $functions->make_url('index.php'),
 	'link_reg_panel' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php') : $functions->make_url('panel.php', array('act' => 'register')),
 	'reg_panel' => ( $session->sess_info['user_id'] ) ? $lang['YourPanel'] : $lang['Register'],
@@ -85,10 +80,16 @@ $template->add_global_vars(array(
 	'link_active' => $functions->make_url('active.php'),
 	'link_log_inout' => ( $session->sess_info['user_id'] ) ? $functions->make_url('panel.php', array('act' => 'logout')) : $functions->make_url('panel.php', array('act' => 'login')),
 	'log_inout' => ( $session->sess_info['user_id'] ) ? sprintf($lang['LogOut'], '<em>'.unhtml(stripslashes($session->sess_info['user_info']['name'])).'</em>') : $lang['LogIn'],
+	
+	//
 	// link bar (list of additional enabled features)
+	//
 	'link_bar' => ( count($link_bar) ) ? join($template->get_config('item_delimiter'), $link_bar) : '',
+	
+	//
 	// additional links to features (might end up in error when feature is disabled)
 	// use 'em when you want to have more links in the menu or somewhere else
+	//
 	'link_memberlist' => $functions->make_url('members.php'),
 	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
 	'link_rss' => $functions->make_url('rss.php'),
@@ -96,6 +97,7 @@ $template->add_global_vars(array(
 	'rss_head_link' => ( $functions->get_config('enable_rss') ) ? '<link rel="newsfeed" type="application/rss+xml" title="'.$lang['RSSFeed'].'" href="'.$functions->make_url('rss.php').'" />' : '',
 	'usebb_copyright' => sprintf($lang['PoweredBy'], $functions->get_config('board_name'), '<a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION),
 	'usebb_version' => USEBB_VERSION
+	
 ));
 
 //

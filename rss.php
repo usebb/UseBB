@@ -25,20 +25,21 @@
  
 define('INCLUDED', true);
 define('ROOT_PATH', './');
-
-//
-// This page renders text/xml output
-//
-define('IS_XML', true);
  
+//
+// Don't use gzip for the feed
+//
+define('NO_GZIP', true);
+
 //
 // Include usebb engine
 //
 require(ROOT_PATH.'sources/common.php');
 
 //
-// Only parse special templates (don't parse HTML headers etc)
+// Set the xml content type and only parse the xml templates
 //
+$template->content_type = 'text/xml';
 $template->parse_special_templates_only = true;
 
 //

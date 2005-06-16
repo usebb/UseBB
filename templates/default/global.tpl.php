@@ -38,6 +38,7 @@ $templates = array();
 // Define configuration variables of this template set
 //
 $templates['config'] = array(
+	'content_type'						=> 'application/xhtml+xml',
 	'item_delimiter'					=> ' &middot; ',
 	'locationbar_item_delimiter'		=> ' &raquo; ',
 	'postlinks_item_delimiter'			=> ' | ',
@@ -90,7 +91,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{language_code}" lang="{language_code}" dir="{text_direction}">
 <head>
 	<title>{board_name}: {page_title}</title>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={character_encoding}" />
+	<meta http-equiv="Content-Type" content="{content_type}; charset={character_encoding}" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />
 	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
 	{rss_head_link}

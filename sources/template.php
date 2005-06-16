@@ -37,8 +37,8 @@ class template {
 	//
 	// Variables
 	//
-	var $content_type = 'text/html';
-	var $character_encoding = 'iso-8859-1';
+	var $content_type = '';
+	var $character_encoding = '';
 	var $parse_special_templates_only = false;
 	var $loaded_sections = array();
 	var $templates = array();
@@ -158,10 +158,10 @@ class template {
 		// Eventually set the content type and charset
 		//
 		$content_type = $this->get_config('content_type');
-		if ( !empty($content_type) )
-			$this->content_type = $content_type;
-		if ( !empty($lang['character_encoding']) )
-			$this->character_encoding = $lang['character_encoding'];
+		if ( empty($this->content_type) )
+			$this->content_type = ( !empty($content_type) ) ? $content_type : 'text/html';
+		if ( empty($this->character_encoding) )
+			$this->character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
 		
 		//
 		// Set content type and charset

@@ -34,12 +34,6 @@ if ( !defined('INCLUDED') )
 //
 $lang = $functions->fetch_language();
 
-$template->character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
-
-//
-// Header informs the browser about the encoding
-//
-
 $link_bar = array();
 /*if ( $functions->get_user_level() == LEVEL_ADMIN )
 	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';*/

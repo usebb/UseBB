@@ -37,26 +37,14 @@ class template {
 	//
 	// Variables
 	//
-	var $content_type = '';
-	var $character_encoding = '';
+	var $content_type = 'text/html';
+	var $character_encoding = 'iso-8859-1';
 	var $parse_special_templates_only = false;
 	var $loaded_sections = array();
 	var $templates = array();
 	var $requests = array();
 	var $global_vars = array();
 	var $body = '';
-	
-	//
-	// Load the global templates and set the content type
-	//
-	function template() {
-		
-		$this->load_section('global');
-		
-		$content_type = $this->get_config('content_type');
-		$this->content_type = ( !empty($content_type) ) ? $content_type : 'text/html';
-		
-	}
 	
 	//
 	// Load a given template section in the template array
@@ -87,6 +75,8 @@ class template {
 	function get_config($setting) {
 		
 		global $functions;
+		
+		$this->load_section('global');
 		
 		if ( isset($this->templates['global']['config'][$setting]) )
 			return $this->templates['global']['config'][$setting];
@@ -163,6 +153,15 @@ class template {
 	function body($enable_debugmessages=true) {
 		
 		global $db, $functions, $timer, $lang;
+		
+		//
+		// Eventually set the content type and charset
+		//
+		$content_type = $this->get_config('content_type');
+		if ( !empty($content_type) )
+			$this->content_type = $content_type;
+		if ( !empty($lang['character_encoding']) )
+			$this->character_encoding = $lang['character_encoding'];
 		
 		//
 		// Set content type and charset

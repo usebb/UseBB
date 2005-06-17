@@ -43,7 +43,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	if ( !empty($_POST['passwd']) && preg_match(PWD_PREG, $_POST['passwd']) )
+	if ( !empty($_POST['passwd']) )
 		$_SESSION['admin_pwd'] = md5($_POST['passwd']);
 	
 	if ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] ) {
@@ -54,10 +54,21 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['MissingFields'], $lang['Password'])
-			));
+			if ( empty($_POST['passwd']) ) {
+							
+				$template->parse('msgbox', 'global', array(
+					'box_title' => $lang['Error'],
+					'content' => sprintf($lang['MissingFields'], $lang['Password'])
+				));
+				
+			} else {
+				
+				$template->parse('msgbox', 'global', array(
+					'box_title' => $lang['Error'],
+					'content' => $lang['WrongPassword']
+				));
+				
+			}
 			
 		}
 		

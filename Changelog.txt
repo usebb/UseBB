@@ -22,6 +22,7 @@ UseBB 0.6 Changelog
 - Friendly URL for RSS feed is now rss.xml.
 - Major template engine improvements and code cleanups.
 - Content type can now be set in global.tpl.php.
+- Fixed bug which might have led to undefined refere_to errors.
 
 UseBB 0.5.1 Changelog
 ------------------------------

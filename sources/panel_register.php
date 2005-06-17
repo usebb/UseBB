@@ -109,7 +109,7 @@ if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !e
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_SESSION['saltcode']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Generate the activation key if necessary
@@ -246,7 +246,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 	//
 	// The user did not accept to the terms of use
 	//
-	$refere_to = $_SESSION['refere_to'];
+	$refere_to = ( !empty($_SESSION['refere_to']) ) ? $functions->attach_sid($_SESSION['refere_to']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 	unset($_SESSION['refere_to']);
 	header('Location: '.$refere_to);
 	
@@ -257,7 +257,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 	//
 	if ( !$session->sess_info['user_id'] ) {
 		
-		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd)#', $_SERVER['HTTP_REFERER']) ) ? $functions->attach_sid($_SERVER['HTTP_REFERER']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
+		$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd|install)#', $_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
 		$_SESSION['saltcode'] = $saltcode = $functions->random_key();
 		
 		$template->parse('confirm_form', 'global', array(

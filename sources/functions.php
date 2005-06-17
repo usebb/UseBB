@@ -395,7 +395,7 @@ class functions {
 	function attach_sid($url) {
 		
 		$SID = SID;
-		if ( !empty($SID) && !preg_match('/'.preg_quote($SID, '/').'$/', $url) ) {
+		if ( !$this->get_config('friendly_urls') && !empty($SID) && !preg_match('/'.preg_quote($SID, '/').'$/', $url) ) {
 			
 			if ( strpos($url, '?') )
 				return $url.'&'.$SID;
@@ -441,7 +441,7 @@ class functions {
 		
 		if ( !$session->sess_info['user_id'] ) {
 			
-			$_SESSION['referer'] = $this->attach_sid($_SERVER['REQUEST_URI']);
+			$_SESSION['referer'] = $_SERVER['REQUEST_URI'];
 			header('Location: '.$this->get_config('board_url').$this->make_url('panel.php', array('act' => 'login'), false));
 			exit();
 			

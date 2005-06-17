@@ -348,6 +348,7 @@ table.maintable td.online {
 	margin: -14px 0px 0px 0px;
 }
 #bottomfix {
+	clear: both;
 	height: 20px;
 }
 table.maintable td.author {

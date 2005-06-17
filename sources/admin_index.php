@@ -29,48 +29,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Admin templates
-//
-
-$templates['login_form'] = '
-	{form_begin}
-	<table class="maintable">
-		<tr>
-			<th colspan="2">{l_AdminLogin}</th>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{username}</td>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_Password}</td><td>{password_input}</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}</td>
-		</tr>
-	</table>
-	{form_end}
-';
-
-$templates['main'] = '
-	<table id="adminmenu">
-		<tr>
-			<td>
-				{admin_menu}
-			</td>
-		</tr>
-	</table>
-	<table id="admincontent">
-		<tr>
-			<th>{admin_title}</th>
-		</tr>
-		<tr>
-			<td>
-				{admin_content}
-			</td>
-		</tr>
-	</table>
-	<div id="adminbottomfix"></div>
-';
+$admin_functions->create_body('index', '');
 
 ?>

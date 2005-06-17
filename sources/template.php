@@ -44,6 +44,7 @@ class template {
 	var $templates = array();
 	var $requests = array();
 	var $global_vars = array();
+	var $raw_contents = array();
 	var $body = '';
 	
 	//
@@ -160,11 +161,25 @@ class template {
 	}
 	
 	//
+	// Add raw content, used for the ACP
+	//
+	function add_raw_content($content) {
+		
+		$this->requests[] = array(
+			'raw' => true,
+			'num' => count($this->raw_contents)
+		);
+		
+		$this->raw_contents[] = $content;
+		
+	}
+	
+	//
 	// Output the page body
 	//
 	function body() {
 		
-		global $db, $functions, $timer, $lang;
+		global $db, $functions, $timer, $lang, $session;
 		
 		//
 		// Eventually set the content type and charset
@@ -237,13 +252,21 @@ class template {
 			'language_code' => ( !empty($lang['language_code']) ) ? $lang['language_code'] : 'en',
 			'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
-			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css'
+			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
+			'acp_css_head_link' => ( $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
 		));
 		
 		//
 		// Parse all templates
 		//
 		foreach ( $this->requests as $request ) {
+			
+			if ( isset($request['raw']) ) {
+				
+				$this->body .= "\n".$this->raw_contents[$request['num']]."\n";
+				continue;
+				
+			}
 			
 			$current_template = $this->templates[$request['section']][$request['template_name']];
 			$finds = $replaces = array();

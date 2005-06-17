@@ -443,5 +443,11 @@ $lang['MemberGuestsOnline'] = 'In the last %d minutes, %d member (%d hidden) and
 $lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) and %d guests have visited the forums.';
 $lang['WhosOnline'] = 'Who\'s Online';
 $lang['AdminLogin'] = 'Admin Login';
+$lang['ACPCategory-main'] = 'General';
+$lang['ACPItem-index'] = 'ACP Index';
+$lang['ACPItem-generalconfig'] = 'General Configuration';
+$lang['ACPCategory-forums'] = 'Forums';
+$lang['ACPItem-categories'] = 'Categories';
+$lang['ACPItem-forums'] = 'Forums';
 
 ?>

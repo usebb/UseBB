@@ -47,6 +47,18 @@ class template {
 	var $body = '';
 	
 	//
+	// Activate gzip compression if needed, BEFORE doing a session_start()
+	//
+	function template() {
+		
+		global $functions;
+		
+		if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
+			ob_start('ob_gzhandler');
+		
+	}
+	
+	//
 	// Load a given template section in the template array
 	//
 	function load_section($section) {
@@ -150,7 +162,7 @@ class template {
 	//
 	// Output the page body
 	//
-	function body($enable_debugmessages=true) {
+	function body() {
 		
 		global $db, $functions, $timer, $lang;
 		
@@ -171,7 +183,7 @@ class template {
 		//
 		// Debug features
 		//
-		if ( $functions->get_config('debug') && $enable_debugmessages ) {
+		if ( $functions->get_config('debug') ) {
 			
 			//
 			// Timer for checking parsetime

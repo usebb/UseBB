@@ -35,8 +35,8 @@ if ( !defined('INCLUDED') )
 $lang = $functions->fetch_language();
 
 $link_bar = array();
-/*if ( $functions->get_user_level() == LEVEL_ADMIN )
-	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';*/
+if ( $functions->get_user_level() == LEVEL_ADMIN )
+	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
 	
 if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
 	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';

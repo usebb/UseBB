@@ -442,5 +442,6 @@ $lang['MembersGuestOnline'] = 'In the last %d minutes, %d members (%d hidden) an
 $lang['MemberGuestsOnline'] = 'In the last %d minutes, %d member (%d hidden) and %d guests have visited the forums.';
 $lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) and %d guests have visited the forums.';
 $lang['WhosOnline'] = 'Who\'s Online';
+$lang['AdminLogin'] = 'Admin Login';
 
 ?>

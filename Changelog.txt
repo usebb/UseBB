@@ -7,12 +7,13 @@ UseBB 0.6 Changelog
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.
 - Fixed bug which includes certain characters in the URL.
+- Fixed bug in and renamed kick_user_to_only_viewable_forum to single_forum_mode.
+- Fixed bug which might have led to undefined refere_to errors.
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).
 - Sorting fixes for member list.
 - 404 and 403 error codes returned when applicable.
 - Removed duplicate set_page_title() calls in Your Panel.
-- kick_user_to_only_viewable_forum renamed to single_forum_mode and fixed.
 - Replace level integers with constants.
 - Template fixes.
 - Fix potentional server errors.
@@ -22,7 +23,6 @@ UseBB 0.6 Changelog
 - Friendly URL for RSS feed is now rss.xml.
 - Major template engine improvements and code cleanups.
 - Content type can now be set in global.tpl.php.
-- Fixed bug which might have led to undefined refere_to errors.
 
 UseBB 0.5.1 Changelog
 ------------------------------

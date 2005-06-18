@@ -29,6 +29,29 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$admin_functions->create_body('index', '');
+$content = '<p>'.$lang['ACPIndexWelcome'].'</p>';
+
+if ( !ini_get('allow_url_fopen') ) {
+	
+	$content .= '<p>'.sprintf($lang['ACPIndexVersionCheckFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
+	
+} else {
+	
+	$fp = fopen('http://usebb.sourceforge.net/latest_version', 'r');
+	$latest_version = trim(@fread($fp, 16));
+	@fclose($fp);
+	
+	$content .= '<p>'.sprintf($lang['ACPIndexVersionCheck'], USEBB_VERSION, $latest_version).' ';
+	
+	if ( version_compare(USEBB_VERSION, $latest_version) === -1 )
+		$content .= '<strong>'.sprintf($lang['ACPIndexNeedUpdate'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
+	elseif ( version_compare(USEBB_VERSION, $latest_version) === 1 )
+		$content .= $lang['ACPIndexBewareDevVersions'].'</p>';
+	else
+		$content .= $lang['ACPIndexLatestVersion'].'</p>';
+	
+}
+
+$admin_functions->create_body('index', $content);
 
 ?>

@@ -32,13 +32,11 @@
 #adminmenu td, #admincontent td {
 	background-color: #EFEFEF;
 	padding: 6px !important;
+	padding-bottom: 0px !important;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 	vertical-align: middle;
-}
-#adminmenu td {
-	padding-bottom: 0px !important;
 }
 #adminmenu td ul {
 	list-style: none;
@@ -47,6 +45,13 @@
 	margin: 0px 0px 6px 6px;
 	padding: 0px 0px 0px 6px;
 	border-left: 2px solid silver;
+}
+#admincontent td p {
+	margin: 0px 0px 10px 0px;
+}
+#admincontent td strong {
+	font-weight: normal;
+	color: #BF0000;
 }
 #adminbottomfix {
 	clear: both;

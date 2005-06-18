@@ -37,15 +37,19 @@ if ( !ini_get('allow_url_fopen') ) {
 	
 } else {
 	
-	$fp = fopen('http://usebb.sourceforge.net/latest_version', 'r');
-	$latest_version = trim(@fread($fp, 16));
-	@fclose($fp);
+	if ( !isset($_SESSION['latest_version']) ) {
+		
+		$fp = fopen('http://usebb.sourceforge.net/latest_version', 'r');
+		$_SESSION['latest_version'] = trim(@fread($fp, 16));
+		@fclose($fp);
+		
+	}
 	
-	$content .= '<p>'.sprintf($lang['ACPIndexVersionCheck'], USEBB_VERSION, $latest_version).' ';
+	$content .= '<p>'.sprintf($lang['ACPIndexVersionCheck'], USEBB_VERSION, $_SESSION['latest_version']).' ';
 	
-	if ( version_compare(USEBB_VERSION, $latest_version) === -1 )
+	if ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === -1 )
 		$content .= '<strong>'.sprintf($lang['ACPIndexNeedUpdate'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
-	elseif ( version_compare(USEBB_VERSION, $latest_version) === 1 )
+	elseif ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === 1 )
 		$content .= $lang['ACPIndexBewareDevVersions'].'</p>';
 	else
 		$content .= $lang['ACPIndexLatestVersion'].'</p>';

@@ -29,19 +29,13 @@
 if ( !defined('INCLUDED') )
 	exit();
 
+//
+// Security check
+//
+if ( $functions->get_user_level() < LEVEL_ADMIN )
+	trigger_error('You can not load the admin functions class while the user is not an admin!');
+
 class admin_functions {
-	
-	//
-	// Security check
-	//
-	function admin_functions() {
-		
-		global $functions;
-		
-		if ( $functions->get_user_level() < LEVEL_ADMIN )
-			trigger_error('You can not load the admin functions class while the user is not an admin!');
-		
-	}
 	
 	//
 	// Create the ACP menu

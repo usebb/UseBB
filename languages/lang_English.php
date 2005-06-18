@@ -174,7 +174,7 @@ $lang['Replies'] = 'Replies';
 $lang['Views'] = 'Views';
 $lang['Note'] = 'Note';
 $lang['Hidden'] = 'Hidden';
-$lang['ACP'] = 'Admin Control Panel';
+$lang['ACP'] = 'ACP';
 $lang['SendMessage'] = 'Send a message';
 $lang['NoViewableForums'] = 'You don\'t have permission to view any forums with this user level. If you are not logged in, do so. If you are logged in, you probably shouldn\'t be here.';
 $lang['Rank'] = 'Rank';
@@ -442,19 +442,22 @@ $lang['MembersGuestOnline'] = 'In the last %d minutes, %d members (%d hidden) an
 $lang['MemberGuestsOnline'] = 'In the last %d minutes, %d member (%d hidden) and %d guests have visited the forums.';
 $lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) and %d guests have visited the forums.';
 $lang['WhosOnline'] = 'Who\'s Online';
+
 $lang['AdminLogin'] = 'Admin Login';
 $lang['ACPCategory-main'] = 'General';
 $lang['ACPItem-index'] = 'ACP Index';
-$lang['ACPItem-generalconfig'] = 'General Configuration';
+$lang['ACPItem-version'] = 'Version Check';
+$lang['ACPItem-config'] = 'General Configuration';
 $lang['ACPCategory-forums'] = 'Forums';
 $lang['ACPItem-categories'] = 'Categories';
 $lang['ACPItem-forums'] = 'Forums';
+
 $lang['ACPIndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
-$lang['ACPIndexVersionCheck'] = 'Version Check';
-$lang['ACPIndexVersions'] = 'This forum is powered by UseBB %s, while the latest version is %s.';
-$lang['ACPIndexVersionCheckFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
-$lang['ACPIndexLatestVersion'] = 'Your forum is safe.';
-$lang['ACPIndexNeedUpdate'] = 'This forum needs to be updated to stay secure and bug free! Visit %s to download the latest version.';
-$lang['ACPIndexBewareDevVersions'] = 'Beware of the problems and uncompatibilities that might exist with development versions.';
+$lang['ACPIndexLinks'] = 'Links';
+
+$lang['ACPVersionFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
+$lang['ACPVersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
+$lang['ACPVersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
+$lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
 
 ?>

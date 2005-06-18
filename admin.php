@@ -51,9 +51,14 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		require(ROOT_PATH.'sources/functions_admin.php');
 		$admin_functions = new admin_functions;
 		
-		if ( 0 ) {
+		$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
+		
+		if ( $_GET['act'] == 'version' ) {
 			
-			
+			//
+			// Version check
+			//
+			require(ROOT_PATH.'sources/admin_version.php');
 			
 		} else {
 			

@@ -40,6 +40,7 @@
 	padding: 6px 6px 0px 6px;
 	text-align: left;
 	border: 1px solid silver;
+	line-height: 150%;
 }
 #adminmenu ul {
 	list-style: none;
@@ -75,6 +76,7 @@ h1#admintitle {
 	text-align: left;
 	border: 1px solid silver;
 	border-top: 0px;
+	line-height: 150%;
 }
 #admincontent h2, #admincontent p, #admincontent ul {
 	margin: 0px 0px 10px 0px;

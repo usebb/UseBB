@@ -51,7 +51,8 @@ class admin_functions {
 		$items = array(
 			'main' => array(
 				'index',
-				'generalconfig',
+				'version',
+				'config',
 			),
 			'forums' => array(
 				'categories',
@@ -85,7 +86,7 @@ class admin_functions {
 	//
 	function create_body($location, $content) {
 		
-		global $template, $lang;
+		global $functions, $template, $lang;
 		
 		if ( $location == 'index' )
 			$template->set_page_title($lang['ACP']);

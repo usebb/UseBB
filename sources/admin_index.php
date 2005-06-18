@@ -29,32 +29,15 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '<p>'.$lang['ACPIndexWelcome'].'</p>';
-
-if ( !ini_get('allow_url_fopen') ) {
-	
-	$content .= '<p>'.sprintf($lang['ACPIndexVersionCheckFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
-	
-} else {
-	
-	if ( !isset($_SESSION['latest_version']) ) {
-		
-		$fp = fopen('http://usebb.sourceforge.net/latest_version', 'r');
-		$_SESSION['latest_version'] = trim(@fread($fp, 16));
-		@fclose($fp);
-		
-	}
-	
-	$content .= '<h2>'.$lang['ACPIndexVersionCheck'].'</h2><p>'.sprintf($lang['ACPIndexVersions'], USEBB_VERSION, $_SESSION['latest_version']).' ';
-	
-	if ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === -1 )
-		$content .= '<strong>'.sprintf($lang['ACPIndexNeedUpdate'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
-	elseif ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === 1 )
-		$content .= $lang['ACPIndexBewareDevVersions'].'</p>';
-	else
-		$content .= $lang['ACPIndexLatestVersion'].'</p>';
-	
-}
+$content = '<p>'.$lang['ACPIndexWelcome'].'</p>
+<h2>'.$lang['ACPIndexLinks'].'</h2>
+<ul>
+	<li><a href="http://www.usebb.net/">UseBB Homepage</a></li>
+	<li><a href="http://www.usebb.net/community/">UseBB Community</a></li>
+	<li><a href="http://www.usebb.net/support/">UseBB Support</a></li>
+	<li><a href="http://www.usebb.net/dev/">UseBB Development</a></li>
+</ul>
+<p>Copyright &copy; 2003-2005 UseBB Team</p>';
 
 $admin_functions->create_body('index', $content);
 

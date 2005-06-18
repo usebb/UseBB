@@ -229,8 +229,8 @@ table.msgbox td, table.confirmform td.msg, td.msg {
 	padding: 18px 36px 18px 36px !important;
 	font-size: 10pt;
 }
-table.maintable td.fieldtitle {
-	background-color: #E8E8E8;
+td.fieldtitle {
+	background-color: #E8E8E8 !important;
 	width: 25%;
 	height: 1%;
 	font-weight: bold;

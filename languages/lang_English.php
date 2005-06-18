@@ -450,10 +450,11 @@ $lang['ACPCategory-forums'] = 'Forums';
 $lang['ACPItem-categories'] = 'Categories';
 $lang['ACPItem-forums'] = 'Forums';
 $lang['ACPIndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
-$lang['ACPIndexVersionCheck'] = 'This forum is powered by UseBB version %s. The latest version is %s.';
+$lang['ACPIndexVersionCheck'] = 'Version Check';
+$lang['ACPIndexVersions'] = 'This forum is powered by UseBB %s, while the latest version is %s.';
 $lang['ACPIndexVersionCheckFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
 $lang['ACPIndexLatestVersion'] = 'Your forum is safe.';
 $lang['ACPIndexNeedUpdate'] = 'This forum needs to be updated to stay secure and bug free! Visit %s to download the latest version.';
-$lang['ACPIndexBewareDevVersions'] = 'This forum is running a newer, probably development version of UseBB. Beware the problems that might exist with development versions.';
+$lang['ACPIndexBewareDevVersions'] = 'Beware of the problems and uncompatibilities that might exist with development versions.';
 
 ?>

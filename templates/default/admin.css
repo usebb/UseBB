@@ -1,22 +1,13 @@
-#adminmenu{
+#adminlogin {
+	border-collapse: collapse;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
 	clear: both;
-	float: left;
-	border-collapse: collapse;
-	border-left: 1px solid silver;
-	border-right: 1px solid silver;
-	border-bottom: 1px solid silver;
-	margin: 0px 0px 20px 0px;
-	width: 170px;
+	margin: 0px auto 20px auto;
+	width: 50%;
 }
-#admincontent {
-	border-collapse: collapse;
-	border-left: 1px solid silver;
-	border-right: 1px solid silver;
-	border-bottom: 1px solid silver;
-	margin: 0px 0px 20px 20px;
-	width: 535px;
-}
-#adminmenu th, #admincontent th {
+#adminlogin th {
 	color: #EBD6AD;
 	font-weight: bold;
 	background-color: #336699;
@@ -29,30 +20,81 @@
 	border-top: 1px solid silver;
 	white-space: nowrap;
 }
-#adminmenu td, #admincontent td {
+#adminlogin td {
 	background-color: #EFEFEF;
 	padding: 6px !important;
-	padding-bottom: 0px !important;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 	vertical-align: middle;
 }
-#adminmenu td ul {
+
+
+
+#adminmenu {
+	clear: both;
+	float: left;
+	margin: 0px 0px 20px 0px;
+	width: 170px;
+	background-color: #EFEFEF;
+	padding: 6px 6px 0px 6px;
+	text-align: left;
+	border: 1px solid silver;
+}
+#adminmenu ul {
 	list-style: none;
 }
-#adminmenu td ul li ul {
+#adminmenu ul li ul {
 	margin: 0px 0px 6px 6px;
 	padding: 0px 0px 0px 6px;
 	border-left: 2px solid silver;
 }
-#admincontent td p {
+
+
+
+h1#admintitle {
+	color: #EBD6AD;
+	font-weight: bold;
+	font-size: 8pt;
+	background-color: #336699;
+	background-image: url(gfx/tableheadbg.gif);
+	background-position: top;
+	background-repeat: repeat-x;
+	text-align: left;
+	padding: 4px 6px 4px 6px;
+	margin: 0px 0px 0px 200px;
+	border: 1px solid silver;
+}
+
+
+
+#admincontent {
+	background-color: #EFEFEF;
+	padding: 6px 6px 0px 6px;
+	margin: 0px 0px 20px 200px;
+	text-align: left;
+	border: 1px solid silver;
+	border-top: 0px;
+}
+#admincontent h2, #admincontent p, #admincontent ul {
 	margin: 0px 0px 10px 0px;
 }
-#admincontent td strong {
+#admincontent h2 {
+	font-size: 10pt;
+	font-weight: bold;
+	color: #333333;
+	border-bottom: 1px solid silver;
+}
+#admincontent ul {
+	margin-left: 25px;
+}
+#admincontent strong {
 	font-weight: normal;
 	color: #BF0000;
 }
+
+
+
 #adminbottomfix {
 	clear: both;
 	height: 10px;

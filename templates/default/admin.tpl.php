@@ -40,6 +40,9 @@ $templates['login_form'] = '
 			<th colspan="2">{l_AdminLogin}</th>
 		</tr>
 		<tr>
+			<td colspan="2">{l_AdminPasswordExplain}</td>
+		</tr>
+		<tr>
 			<td class="fieldtitle">{l_Password}</td><td>{password_input}</td>
 		</tr>
 		<tr>

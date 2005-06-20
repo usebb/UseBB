@@ -96,9 +96,10 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 			'form_begin' => '<form action="'.$functions->make_url('admin.php').'" method="post">',
 			'form_end' => '</form>',
 			'username' => $session->sess_info['user_info']['name'],
-			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" />',
+			'password_input' => '<input type="password" name="passwd" id="passwd" size="25" maxlength="255" />',
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" />',
 		));
+		$template->set_js_onload("set_focus('passwd')");
 		
 	}
 	

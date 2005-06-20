@@ -22,13 +22,13 @@
 */
 
 //
-//	Apply BBCode and smilies to selection.
-//	
-//	This function is borrowed from DokuWiki. Uses portions of code by:
-//	- phpBB development team
-//	- MediaWiki development team
-//	- Andreas Gohr <andi@splitbrain.org>
-//	- Jim Raynor <jim_raynor@web.de>
+// Apply BBCode and smilies to selection.
+// 
+// This function is borrowed from DokuWiki. Uses portions of code by:
+// - phpBB development team
+// - MediaWiki development team
+// - Andreas Gohr <andi@splitbrain.org>
+// - Jim Raynor <jim_raynor@web.de>
 //
 function insert_tags(tagOpen, tagClose) {
 	
@@ -165,5 +165,14 @@ function insert_tags(tagOpen, tagClose) {
 function insert_smiley(code) {
 	
 	insert_tags('', ' '+code+' ', '');
+	
+}
+
+//
+// Set focus to input field
+//
+function set_focus(field_id) {
+	
+	document.getElementById(field_id).focus();
 	
 }

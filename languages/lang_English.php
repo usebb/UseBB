@@ -459,5 +459,6 @@ $lang['ACPVersionFailed'] = 'The forum could not determine the latest version. P
 $lang['ACPVersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
 $lang['ACPVersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
 $lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
+$lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
 
 ?>

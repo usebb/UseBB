@@ -175,6 +175,17 @@ class template {
 	}
 	
 	//
+	// Set the Javascript onload statement
+	//
+	function set_js_onload($statement) {
+		
+		$this->add_global_vars(array(
+			'js_onload' => ' onload="javascript:'.$statement.'"'
+		), true);
+		
+	}
+	
+	//
 	// Output the page body
 	//
 	function body() {
@@ -254,6 +265,7 @@ class template {
 			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
 			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
 			'acp_css_head_link' => ( $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
+			'js_onload' => ''
 		));
 		
 		//

@@ -125,12 +125,6 @@ $templates['normal_footer'] = '
 	</p>
 	{debug_info_small}
 	<address id="bottom">
-		<!--
-			We request not to remove the following copyright notice including the link to the UseBB Home Page.
-			This shows your respect to everyone involved in UseBB\'s development and promotes the use of UseBB.
-			If you don\'t want to show the Copyright notice, just leave the Powered by UseBB line. If you
-			completely alter or remove the notice, support at our community forums or IRC channel will be affected.
-		-->
 		{usebb_copyright}
 	</address>
 	<div id="bottom-shadow"></div>

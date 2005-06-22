@@ -383,7 +383,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M y') : '',
 					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.unhtml(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $post_topic_title,
-					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'">#'.$i.'</a>'.$new_post_anchor,
+					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'" rel="nofollow">#'.$i.'</a>'.$new_post_anchor,
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
 					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),

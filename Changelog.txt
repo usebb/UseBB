@@ -10,8 +10,9 @@ UseBB 0.6 Changelog
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.
 - Fixed bug which includes certain characters in the URL.
 - Fixed bug in and renamed kick_user_to_only_viewable_forum to single_forum_mode.
-- Fixed bug that may lead to server errors.
+- Fixed bug which might have led to server errors.
 - Fixed bug which might have led to undefined refere_to errors.
+- Fixed bug which doesn't return the user when logout was canceled.
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).
 - Sorting fixes for member list.

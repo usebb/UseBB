@@ -42,12 +42,29 @@ if ( !$session->sess_info['user_id'] ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		if ( !empty($_POST['logout']) )
+		if ( !empty($_POST['logout']) ) {
+			
+			$refere_to = $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 			$session->destroy();
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+			
+		} else {
+			
+			//
+			// Get us back to the previous page
+			//
+			$refere_to = ( !empty($_SESSION['refere_to']) ) ? $functions->attach_sid($_SESSION['refere_to']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
+			unset($_SESSION['refere_to']);
+			
+		}
+		
+		header('Location: '.$refere_to);
 		
 	} else {
 	
+		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd|install)#', $_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
+		$_SESSION['refere_to'] = ( !empty($_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
+		unset($_SESSION['referer']);
+		
 		//
 		// Include the page header
 		//

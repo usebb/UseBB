@@ -44,11 +44,13 @@
 }
 #adminmenu ul {
 	list-style: none;
+	font-weight: bold;
 }
 #adminmenu ul li ul {
 	margin: 0px 0px 6px 6px;
 	padding: 0px 0px 0px 6px;
 	border-left: 2px solid silver;
+	font-weight: normal;
 }
 #adminmenu ul li.selected {
 	font-weight: bold;

@@ -67,7 +67,7 @@ class admin_functions {
 		$out = '<ul>';
 		foreach ( $categories as $category ) {
 			
-			$out .= '<li><strong>'.$lang['ACPCategory-'.$category].'</strong><ul>';
+			$out .= '<li>'.$lang['ACPCategory-'.$category].'<ul>';
 			foreach ( $items[$category] as $item ) {
 				
 				$selected = ( $location == $item ) ? ' class="selected"' : '';

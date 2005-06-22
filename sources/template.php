@@ -216,7 +216,7 @@ class template {
 			//
 			$timer['end'] = explode(' ', microtime());
 			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
-			$parsetime = round($timer['end'] - $timer['begin'], 2);
+			$parsetime = round($timer['end'] - $timer['begin'], 4);
 			
 			$debug_info = array();
 			$debug_info[] = $lang['ParseTime'].': '.$parsetime.' s';

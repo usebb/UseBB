@@ -93,7 +93,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		
 		$template->set_page_title($lang['AdminLogin']);
 		$template->parse('login_form', 'admin', array(
-			'form_begin' => '<form action="'.$functions->make_url('admin.php').'" method="post">',
+			'form_begin' => '<form action="'.$functions->make_url('admin.php', $_GET).'" method="post">',
 			'form_end' => '</form>',
 			'username' => $session->sess_info['user_info']['name'],
 			'password_input' => '<input type="password" name="passwd" id="passwd" size="25" maxlength="255" />',

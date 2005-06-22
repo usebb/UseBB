@@ -350,23 +350,26 @@ class functions {
 		}
 		
 		$url = $filename;
+		$vars = ( is_array($vars) ) ? $vars : array();
 		
 		//
 		// Pass session ID's
 		//
 		$SID = SID;
-		$is_googlebot = ( preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') ) ? true : false;
-		if ( !empty($SID) && !$is_googlebot && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
+		$SID_parts = explode('=', $SID, 2);
+		
+		if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
 			
-			if ( !is_array($vars) )
-				$vars = array();
+			$vars[$SID_parts[0]] = $SID_parts[1];
 			
-			$SID = explode('=', $SID, 2);
-			$vars[$SID[0]] = $SID[1];
+		} else {
+			
+			if ( isset($vars[$SID_parts[0]]) )
+				unset($vars[$SID_parts[0]]);
 			
 		}
 		
-		if ( is_array($vars) && count($vars) >= 1 ) {
+		if ( count($vars) ) {
 			
 			$url .= '?';
 			

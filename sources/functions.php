@@ -357,17 +357,10 @@ class functions {
 		//
 		$SID = SID;
 		$SID_parts = explode('=', $SID, 2);
+		unset($vars[$SID_parts[0]]);
 		
-		if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) ) {
-			
+		if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
 			$vars[$SID_parts[0]] = $SID_parts[1];
-			
-		} else {
-			
-			if ( isset($vars[$SID_parts[0]]) )
-				unset($vars[$SID_parts[0]]);
-			
-		}
 		
 		if ( count($vars) ) {
 			

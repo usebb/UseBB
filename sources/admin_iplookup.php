@@ -33,7 +33,12 @@ $content = '';
 
 if ( !empty($_REQUEST['ip']) && preg_match('#[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+#', $_REQUEST['ip']) ) {
 	
-	$content .= '<p>'.sprintf($lang['ACPIPLookup'], '<em>'.$_REQUEST['ip'].'</em>', '<em>'.@gethostbyaddr($_REQUEST['ip']).'</em>').'</p>';
+	$hostname = @gethostbyaddr($_REQUEST['ip']);
+	
+	if ( !empty($hostname) && $_REQUEST['ip'] != $hostname )
+		$content .= '<p>'.sprintf($lang['ACPIPLookupResult'], '<em>'.$_REQUEST['ip'].'</em>', '<em>'.$hostname.'</em>').'</p>';
+	else
+		$content .= '<p>'.sprintf($lang['ACPIPLookupNotFound'], '<em>'.$_REQUEST['ip'].'</em>').'</p>';
 	
 }
 

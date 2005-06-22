@@ -31,7 +31,7 @@ if ( !defined('INCLUDED') )
 
 $content = '';
 
-if ( !empty($_REQUEST['ip']) && preg_match('#[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+#', $_REQUEST['ip']) ) {
+if ( !empty($_REQUEST['ip']) && preg_match('#^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$#', $_REQUEST['ip']) ) {
 	
 	$hostname = @gethostbyaddr($_REQUEST['ip']);
 	

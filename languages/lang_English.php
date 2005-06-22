@@ -464,6 +464,6 @@ $lang['ACPVersionLatestVersion'] = 'This forum is powered by UseBB %s which is t
 $lang['ACPVersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
 $lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
 
-$lang['ACPIPLookup'] = 'The hostname corresponding to the IP-address %s is %s.';
+$lang['ACPIPLookup'] = 'The hostname corresponding to the IP address %s is %s.';
 
 ?>

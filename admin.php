@@ -60,6 +60,13 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 			//
 			require(ROOT_PATH.'sources/admin_version.php');
 			
+		} elseif ( $_GET['act'] == 'iplookup' ) {
+			
+			//
+			// IP address lookup
+			//
+			require(ROOT_PATH.'sources/admin_iplookup.php');
+			
 		} else {
 			
 			//

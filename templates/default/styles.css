@@ -426,6 +426,9 @@ table.maintable td.postcontent .poster-ip-addr {
 	text-align: right;
 	padding: 5px 0px 0px 0px;
 }
+table.maintable td.postcontent .poster-ip-addr a {
+	text-decoration: none;
+}
 table.maintable tr.postseperator td {
 	font-size: 0pt;
 	background-color: #D8D8D8;

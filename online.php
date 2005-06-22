@@ -189,7 +189,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		}
 		
 		if ( $functions->get_user_level() == LEVEL_ADMIN )
-			$username .= ' (<em>'.$sessiondata['ip_addr'].'</em>)';
+			$username .= ' (<a href="'.$functions->make_url('admin.php', array('act' => 'iplookup', 'ip' => $sessiondata['ip_addr'])).'"><em>'.$sessiondata['ip_addr'].'</em></a>)';
 		
 		switch ( $sessiondata['location'] ) {
 			

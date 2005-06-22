@@ -444,6 +444,8 @@ $lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) a
 $lang['WhosOnline'] = 'Who\'s Online';
 
 $lang['AdminLogin'] = 'Admin Login';
+$lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
+
 $lang['ACPCategory-main'] = 'General';
 $lang['ACPItem-index'] = 'ACP Index';
 $lang['ACPItem-version'] = 'Version Check';
@@ -451,6 +453,8 @@ $lang['ACPItem-config'] = 'General Configuration';
 $lang['ACPCategory-forums'] = 'Forums';
 $lang['ACPItem-categories'] = 'Categories';
 $lang['ACPItem-forums'] = 'Forums';
+$lang['ACPCategory-various'] = 'Various';
+$lang['ACPItem-iplookup'] = 'IP Address Lookup';
 
 $lang['ACPIndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
 $lang['ACPIndexLinks'] = 'Links';
@@ -459,6 +463,7 @@ $lang['ACPVersionFailed'] = 'The forum could not determine the latest version. P
 $lang['ACPVersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
 $lang['ACPVersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
 $lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
-$lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
+
+$lang['ACPIPLookup'] = 'The hostname that belongs to the IP-address %s is %s.';
 
 ?>

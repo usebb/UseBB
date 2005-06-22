@@ -4,6 +4,7 @@ UseBB 0.6 Changelog
 ------------------------------
 
 - Added to ACP: version check.
+- Added to ACP: IP address lookup.
 - Added auto focus feature using improved template engine.
 - Fixed bug #512: too big font sizes allowed.
 - Fixed bug #535: changing e-mail address forces new password.

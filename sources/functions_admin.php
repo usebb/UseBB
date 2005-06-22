@@ -47,6 +47,7 @@ class admin_functions {
 		$categories = array(
 			'main',
 			'forums',
+			'various',
 		);
 		$items = array(
 			'main' => array(
@@ -56,7 +57,10 @@ class admin_functions {
 			),
 			'forums' => array(
 				'categories',
-				'forums'
+				'forums',
+			),
+			'various' => array(
+				'iplookup',
 			),
 		);
 		
@@ -66,10 +70,9 @@ class admin_functions {
 			$out .= '<li><strong>'.$lang['ACPCategory-'.$category].'</strong><ul>';
 			foreach ( $items[$category] as $item ) {
 				
-				$selected1 = ( $location == $item ) ? '<strong>' : '';
-				$selected2 = ( $location == $item ) ? '</strong>' : '';
+				$selected = ( $location == $item ) ? ' class="selected"' : '';
 				
-				$out .= '<li><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$selected1.$lang['ACPItem-'.$item].$selected2.'</a></li>';
+				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$lang['ACPItem-'.$item].'</a></li>';
 				
 			}
 			$out .= '</ul></li>';

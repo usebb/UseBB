@@ -389,7 +389,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup($functions->replace_badwords(stripslashes($postsdata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
 					'post_editinfo' => $post_editinfo,
-					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == LEVEL_ADMIN ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], $postsdata['poster_ip_addr'])) : '',
+					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == LEVEL_ADMIN ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], '<a href="'.$functions->make_url('admin.php', array('act' => 'iplookup', 'ip' => $postsdata['poster_ip_addr'])).'">'.$postsdata['poster_ip_addr'].'</a>')) : '',
 					'colornum' => $colornum
 				));
 				

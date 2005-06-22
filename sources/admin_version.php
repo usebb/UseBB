@@ -46,7 +46,7 @@ if ( !ini_get('allow_url_fopen') ) {
 	}
 	
 	if ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === -1 )
-		$content .= '<p>'.sprintf($lang['ACPVersionNeedUpdate'], USEBB_VERSION, $_SESSION['latest_version'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</p>';
+		$content .= '<p><strong>'.sprintf($lang['ACPVersionNeedUpdate'], USEBB_VERSION, $_SESSION['latest_version'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
 	elseif ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === 1 )
 		$content .= '<p>'.sprintf($lang['ACPVersionBewareDevVersions'], USEBB_VERSION, $_SESSION['latest_version']).'</p>';
 	else

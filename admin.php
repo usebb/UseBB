@@ -67,6 +67,13 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 			//
 			require(ROOT_PATH.'sources/admin_iplookup.php');
 			
+		} elseif ( $_GET['act'] == 'sqltoolbox' ) {
+			
+			//
+			// SQL toolbox
+			//
+			require(ROOT_PATH.'sources/admin_sqltoolbox.php');
+			
 		} else {
 			
 			//

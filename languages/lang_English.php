@@ -455,6 +455,7 @@ $lang['ACPItem-categories'] = 'Categories';
 $lang['ACPItem-forums'] = 'Forums';
 $lang['ACPCategory-various'] = 'Various';
 $lang['ACPItem-iplookup'] = 'IP Address Lookup';
+$lang['ACPItem-sqltoolbox'] = 'SQL Toolbox';
 
 $lang['ACPIndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
 $lang['ACPIndexLinks'] = 'Links';
@@ -466,5 +467,8 @@ $lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is s
 
 $lang['ACPIPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['ACPIPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
+
+$lang['ACPSQLToolboxWarningTitle'] = 'Important Warning!';
+$lang['ACPSQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCTATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
 
 ?>

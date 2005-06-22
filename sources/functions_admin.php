@@ -61,6 +61,7 @@ class admin_functions {
 			),
 			'various' => array(
 				'iplookup',
+				'sqltoolbox',
 			),
 		);
 		

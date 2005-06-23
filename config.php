@@ -61,6 +61,7 @@ $conf['avatars_force_height'] = 65;
 $conf['board_closed'] = 0;
 $conf['board_closed_reason'] = 'Just closed...';
 $conf['board_descr'] = 'My board\'s description';
+$conf['board_keywords'] = 'forum,board,community,usebb';
 $conf['board_name'] = 'My Community';
 $conf['board_url'] = '';
 $conf['cookie_domain'] = '';

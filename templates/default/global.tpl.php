@@ -92,8 +92,11 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 <head>
 	<title>{board_name}: {page_title}</title>
 	<meta http-equiv="Content-Type" content="{content_type}; charset={character_encoding}" />
+	<meta name="description" content="{board_descr}" />
+	<meta name="keywords" content="{board_keywords}" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />{acp_css_head_link}
-	<link rel="shortcut icon" href="{img_dir}usebb.ico" />{rss_head_link}
+	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
+	{rss_head_link}
 	<script type="text/javascript" src="sources/javascript.js"></script>
 </head>
 <body{js_onload}>

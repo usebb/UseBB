@@ -67,6 +67,7 @@ textarea {
 input[type="submit"], input[type="reset"], input[type="button"] {
 	padding: 0px 10px 0px 10px;
 	cursor: pointer;
+	font-weight: bold;
 }
 input[type="radio"], input[type="checkbox"] {
 	cursor: pointer;

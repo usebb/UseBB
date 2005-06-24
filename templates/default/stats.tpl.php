@@ -98,7 +98,7 @@ $templates['most_active_forums_header'] = '
 			<td class="last">
 				<table class="maintable">
 					<tr>
-						<th colspan=3">{l_MostActiveForums}</th>
+						<th colspan="3">{l_MostActiveForums}</th>
 					</tr>
 ';
 

@@ -351,13 +351,14 @@ class functions {
 		
 		$url = $filename;
 		$vars = ( is_array($vars) ) ? $vars : array();
+		if ( isset($vars[$this->get_config('session_name').'_sid']) )
+			unset($vars[$this->get_config('session_name').'_sid']);
 		
 		//
 		// Pass session ID's
 		//
 		$SID = SID;
 		$SID_parts = explode('=', $SID, 2);
-		unset($vars[$SID_parts[0]]);
 		
 		if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
 			$vars[$SID_parts[0]] = $SID_parts[1];

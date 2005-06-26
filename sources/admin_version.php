@@ -33,7 +33,7 @@ $content = '';
 
 if ( !ini_get('allow_url_fopen') ) {
 	
-	$content .= '<p>'.sprintf($lang['ACPVersionFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
+	$content .= '<p>'.sprintf($lang['VersionFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
 	
 } else {
 	
@@ -46,11 +46,11 @@ if ( !ini_get('allow_url_fopen') ) {
 	}
 	
 	if ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === -1 )
-		$content .= '<p><strong>'.sprintf($lang['ACPVersionNeedUpdate'], USEBB_VERSION, $_SESSION['latest_version'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
+		$content .= '<p><strong>'.sprintf($lang['VersionNeedUpdate'], USEBB_VERSION, $_SESSION['latest_version'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
 	elseif ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) === 1 )
-		$content .= '<p>'.sprintf($lang['ACPVersionBewareDevVersions'], USEBB_VERSION, $_SESSION['latest_version']).'</p>';
+		$content .= '<p>'.sprintf($lang['VersionBewareDevVersions'], USEBB_VERSION, $_SESSION['latest_version']).'</p>';
 	else
-		$content .= '<p>'.sprintf($lang['ACPVersionLatestVersion'], USEBB_VERSION).'</p>';
+		$content .= '<p>'.sprintf($lang['VersionLatestVersion'], USEBB_VERSION).'</p>';
 	
 }
 

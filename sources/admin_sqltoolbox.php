@@ -34,7 +34,7 @@ if ( isset($_POST['warned']) )
 
 if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
-	$content = '<h2>'.$lang['ACPSQLToolboxWarningTitle'].'</h2><p><strong>'.$lang['ACPSQLToolboxWarningContent'].'</strong></p><form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><input type="submit" name="warned" value="'.$lang['OK'].'" /></p></form>';
+	$content = '<h2>'.$lang['SQLToolboxWarningTitle'].'</h2><p><strong>'.$lang['SQLToolboxWarningContent'].'</strong></p><form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><input type="submit" name="warned" value="'.$lang['OK'].'" /></p></form>';
 	
 } else {
 	

@@ -446,29 +446,4 @@ $lang['WhosOnline'] = 'Who\'s Online';
 $lang['AdminLogin'] = 'Admin Login';
 $lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
 
-$lang['ACPCategory-main'] = 'General';
-$lang['ACPItem-index'] = 'ACP Index';
-$lang['ACPItem-version'] = 'Version Check';
-$lang['ACPItem-config'] = 'General Configuration';
-$lang['ACPCategory-forums'] = 'Forums';
-$lang['ACPItem-categories'] = 'Categories';
-$lang['ACPItem-forums'] = 'Forums';
-$lang['ACPCategory-various'] = 'Various';
-$lang['ACPItem-iplookup'] = 'IP Address Lookup';
-$lang['ACPItem-sqltoolbox'] = 'SQL Toolbox';
-
-$lang['ACPIndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
-$lang['ACPIndexLinks'] = 'Links';
-
-$lang['ACPVersionFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
-$lang['ACPVersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
-$lang['ACPVersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
-$lang['ACPVersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
-
-$lang['ACPIPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
-$lang['ACPIPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
-
-$lang['ACPSQLToolboxWarningTitle'] = 'Important Warning!';
-$lang['ACPSQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCTATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
-
 ?>

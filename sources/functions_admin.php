@@ -68,12 +68,12 @@ class admin_functions {
 		$out = '<ul>';
 		foreach ( $categories as $category ) {
 			
-			$out .= '<li>'.$lang['ACPCategory-'.$category].'<ul>';
+			$out .= '<li>'.$lang['Category-'.$category].'<ul>';
 			foreach ( $items[$category] as $item ) {
 				
 				$selected = ( $location == $item ) ? ' class="selected"' : '';
 				
-				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$lang['ACPItem-'.$item].'</a></li>';
+				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$lang['Item-'.$item].'</a></li>';
 				
 			}
 			$out .= '</ul></li>';
@@ -95,11 +95,11 @@ class admin_functions {
 		if ( $location == 'index' )
 			$template->set_page_title($lang['ACP']);
 		else
-			$template->set_page_title('<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['ACPItem-'.$location]);
+			$template->set_page_title('<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['Item-'.$location]);
 		
 		$template->parse('main', 'admin', array(
 			'admin_menu' => $this->create_acp_menu($location),
-			'admin_title' => $lang['ACPItem-'.$location],
+			'admin_title' => $lang['Item-'.$location],
 			'admin_content' => $content
 		));
 		

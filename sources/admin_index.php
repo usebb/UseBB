@@ -29,8 +29,8 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '<p>'.$lang['ACPIndexWelcome'].'</p>
-<h2>'.$lang['ACPIndexLinks'].'</h2>
+$content = '<p>'.$lang['IndexWelcome'].'</p>
+<h2>'.$lang['IndexLinks'].'</h2>
 <ul>
 	<li><a href="http://www.usebb.net/">UseBB Homepage</a></li>
 	<li><a href="http://www.usebb.net/community/">UseBB Community</a></li>

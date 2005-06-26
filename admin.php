@@ -60,37 +60,12 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		require(ROOT_PATH.'sources/functions_admin.php');
 		$admin_functions = new admin_functions;
 		
-		$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
-		
-		if ( $_GET['act'] == 'version' ) {
-			
-			//
-			// Version check
-			//
-			require(ROOT_PATH.'sources/admin_version.php');
-			
-		} elseif ( $_GET['act'] == 'iplookup' ) {
-			
-			//
-			// IP address lookup
-			//
-			require(ROOT_PATH.'sources/admin_iplookup.php');
-			
-		} elseif ( $_GET['act'] == 'sqltoolbox' ) {
-			
-			//
-			// SQL toolbox
-			//
-			require(ROOT_PATH.'sources/admin_sqltoolbox.php');
-			
-		} else {
-			
-			//
-			// Admin index
-			//
-			require(ROOT_PATH.'sources/admin_index.php');
-			
-		}
+		//
+		// Include page
+		//
+		$pages = array('index', 'version', 'iplookup', 'sqltoolbox');
+		$_GET['act'] = ( !empty($_GET['act']) && in_array($_GET['act'], $pages) ) ? $_GET['act'] : 'index';
+		require(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php');
 		
 	} else {
 		

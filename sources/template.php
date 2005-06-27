@@ -54,7 +54,7 @@ class template {
 		
 		global $functions;
 		
-		if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !ini_get('zlib.output_compression') )
+		if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !@ini_get('zlib.output_compression') )
 			ob_start('ob_gzhandler');
 		
 	}

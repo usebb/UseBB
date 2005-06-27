@@ -31,7 +31,7 @@ if ( !defined('INCLUDED') )
 
 $content = '';
 
-if ( !ini_get('allow_url_fopen') ) {
+if ( !@ini_get('allow_url_fopen') ) {
 	
 	$content .= '<p>'.sprintf($lang['VersionFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
 	

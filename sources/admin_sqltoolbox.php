@@ -53,7 +53,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 			print_r($results);
 			$results = ob_get_contents();
 			ob_end_clean();
-			$results = unhtml(trim($results));
+			$results = unhtml(stripslashes(trim($results)));
 			$content .= '<p><textarea rows="5" cols="50" readonly="readonly" id="resultset">'.$results.'</textarea></p>';
 			
 		} elseif ( $result === true ) {

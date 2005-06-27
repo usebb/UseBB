@@ -99,6 +99,9 @@ h1#admintitle {
 	font-weight: normal;
 	color: #BF0000;
 }
+#admincontent #resultset {
+	font-size: 8pt !important;
+}
 
 
 

@@ -29,6 +29,9 @@
 if ( !defined('INCLUDED') )
 	exit();
 
+$lang['AdminLogin'] = 'Admin Login';
+$lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
+
 $lang['Category-main'] = 'General';
 $lang['Item-index'] = 'ACP Index';
 $lang['Item-version'] = 'Version Check';
@@ -53,5 +56,11 @@ $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
 
 $lang['SQLToolboxWarningTitle'] = 'Important Warning!';
 $lang['SQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCTATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
+$lang['SQLToolboxExecuteQuery'] = 'Execute Query';
+$lang['SQLToolboxExecute'] = 'Execute';
+$lang['SQLToolboxMaintenance'] = 'Maintenance';
+$lang['SQLToolboxRepairTables'] = 'Repair tables';
+$lang['SQLToolboxOptimizeTables'] = 'Optimize tables';
+$lang['SQLToolboxExecutedSuccessfully'] = 'Query executed successfully.';
 
 ?>

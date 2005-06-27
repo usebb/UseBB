@@ -38,7 +38,67 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
 } else {
 	
-	$content = '';
+	$content = '<h2>'.$lang['SQLToolboxExecuteQuery'].'</h2>';
+	
+	if ( !empty($_POST['query']) ) {
+		
+		$result = $db->query(stripslashes($_POST['query']), true);
+		
+		if ( is_resource($result) ) {
+			
+			$results = array();
+			while ( $out = $db->fetch_result($result) )
+				$results[] = $out;
+			ob_start();
+			print_r($results);
+			$results = ob_get_contents();
+			ob_end_clean();
+			$results = unhtml(trim($results));
+			$content .= '<p><textarea rows="5" cols="50" readonly="readonly" id="resultset">'.$results.'</textarea></p>';
+			
+		} elseif ( $result === true ) {
+			
+			$content .= '<p>'.$lang['SQLToolboxExecutedSuccessfully'].'</p>';
+			
+		} else {
+			
+			$content .= '<p>'.unhtml($result).'.</p>';
+			
+		}
+		
+	} else {
+		
+		$_POST['query'] = '';
+		
+	}
+	
+	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><textarea name="query" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p><p><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
+	
+	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><ul>';
+	
+	if ( !empty($_GET['do']) && $_GET['do'] == 'repair' ) {
+		
+		$db->query("REPAIR TABLE ".TABLE_PREFIX."badwords, ".TABLE_PREFIX."bans, ".TABLE_PREFIX."cats, ".TABLE_PREFIX."forums, ".TABLE_PREFIX."members, ".TABLE_PREFIX."moderators, ".TABLE_PREFIX."posts, ".TABLE_PREFIX."searches, ".TABLE_PREFIX."sessions, ".TABLE_PREFIX."stats, ".TABLE_PREFIX."subscriptions, ".TABLE_PREFIX."topics");
+		$content .= '<li>'.$lang['SQLToolboxRepairTables'].': '.$lang['Done'].'</li>';
+		
+	} else {
+		
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'repair')).'">'.$lang['SQLToolboxRepairTables'].'</a></li>';
+		
+	}
+	
+	if ( !empty($_GET['do']) && $_GET['do'] == 'optimize' ) {
+		
+		$db->query("OPTIMIZE TABLE ".TABLE_PREFIX."badwords, ".TABLE_PREFIX."bans, ".TABLE_PREFIX."cats, ".TABLE_PREFIX."forums, ".TABLE_PREFIX."members, ".TABLE_PREFIX."moderators, ".TABLE_PREFIX."posts, ".TABLE_PREFIX."searches, ".TABLE_PREFIX."sessions, ".TABLE_PREFIX."stats, ".TABLE_PREFIX."subscriptions, ".TABLE_PREFIX."topics");
+		$content .= '<li>'.$lang['SQLToolboxOptimizeTables'].': '.$lang['Done'].'</li>';
+		
+	} else {
+		
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'optimize')).'">'.$lang['SQLToolboxOptimizeTables'].'</a></li>';
+		
+	}
+	
+	$content .= '</ul>';
 	
 }
 

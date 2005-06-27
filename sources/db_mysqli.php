@@ -64,12 +64,20 @@ class db {
 	//
 	// Execute database queries
 	//
-	function query($query) {
+	function query($query, $return_error=false) {
 		
 		global $functions;
 		
 		$this->queries[] = preg_replace('#\s+#', ' ', $query);
-		$result = @mysqli_query($query, $this->connection) or trigger_error('SQL: '.mysqli_error());
+		$result = @mysqli_query($query, $this->connection) or $error = mysqli_error();
+		if ( isset($error) ) {
+			
+			if ( $return_error ) 
+				return $error;
+			else
+				trigger_error('SQL: '.$error);
+			
+		}
 		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
 			$this->results[] = $result;
 		return $result;

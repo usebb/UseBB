@@ -65,7 +65,7 @@ function slash_trim_global($global) {
 //
 function unhtml($string) {
 	
-	return preg_replace(array('#&([^\#]|\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207))#', '#<#', '#>#', '#"#'), array('&amp;\\1', '&lt;', '&gt;', '&quot;'), $string);
+	return preg_replace(array('#&#', '#&amp;\#([0-9]+)#', '#&\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207)#', '#<#', '#>#', '#"#'), array('&amp;', '&#\\1', '&amp;#\\1', '&lt;', '&gt;', '&quot;'), $string);
 	
 }
 
@@ -1510,7 +1510,7 @@ class functions {
 		
 		if ( !count($this->available['templates']) ) {
 			
-			$handle = opendir('./templates');
+			$handle = opendir(ROOT_PATH.'templates');
 			while ( false !== ( $template_name = readdir($handle) ) ) {
 				
 				if ( preg_match('#^[^\.]#', $template_name) && file_exists('./templates/'.$template_name.'/global.tpl.php') )
@@ -1534,7 +1534,7 @@ class functions {
 		
 		if ( !count($this->available['languages']) ) {
 			
-			$handle = opendir('./languages');
+			$handle = opendir(ROOT_PATH.'languages');
 			while ( false !== ( $language_name = readdir($handle) ) ) {
 				
 				if ( preg_match('#^lang_(.+)\.php$#', $language_name, $language_name) )

@@ -62,7 +62,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 			
 		} else {
 			
-			$content .= '<p>'.unhtml($result).'.</p>';
+			$content .= '<p><strong>'.unhtml($result).'.</strong></p>';
 			
 		}
 		

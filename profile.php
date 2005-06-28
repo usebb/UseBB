@@ -181,7 +181,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.unhtml(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.unhtml(stripslashes($profiledata['aim'])).'</a>' : '',
 				'icq_v'         => ( valid_int($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : unhtml(stripslashes($profiledata['icq'])),
 				'icq_status'    => ( valid_int($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
-				'jabber_v'      => unhtml(stripslashes($profiledata['jabber'])),
+				'jabber_v'      => ( preg_match(EMAIL_PREG, $profiledata['jabber']) ) ? '<a href="jabber:'.$profiledata['jabber'].'"'.$target_blank.'>'.$profiledata['jabber'].'</a>' : unhtml(stripslashes($profiledata['jabber'])),
 				'skype_v'       => unhtml(stripslashes($profiledata['skype']))
 			));
 			

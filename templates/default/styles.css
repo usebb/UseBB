@@ -217,7 +217,7 @@ table.maintable th, table.msgbox th, table.confirmform th {
 }
 table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 	background-color: #EFEFEF;
-	padding: 6px !important;
+	padding: 6px;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
@@ -359,7 +359,7 @@ table.maintable td.online {
 	clear: both;
 	height: 20px;
 }
-table.maintable td.author {
+table.maintable .author {
 	text-align: center;
 	width: 1%;
 	white-space: nowrap;

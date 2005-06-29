@@ -78,7 +78,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
 	if ( !empty($_GET['do']) && $_GET['do'] == 'repair' ) {
 		
-		$db->query("REPAIR TABLE ".TABLE_PREFIX."badwords, ".TABLE_PREFIX."bans, ".TABLE_PREFIX."cats, ".TABLE_PREFIX."forums, ".TABLE_PREFIX."members, ".TABLE_PREFIX."moderators, ".TABLE_PREFIX."posts, ".TABLE_PREFIX."searches, ".TABLE_PREFIX."sessions, ".TABLE_PREFIX."stats, ".TABLE_PREFIX."subscriptions, ".TABLE_PREFIX."topics");
+		$db->query("REPAIR TABLE ".join(', ', $functions->get_usebb_tables()));
 		$content .= '<li>'.$lang['SQLToolboxRepairTables'].': '.$lang['Done'].'</li>';
 		
 	} else {
@@ -89,7 +89,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
 	if ( !empty($_GET['do']) && $_GET['do'] == 'optimize' ) {
 		
-		$db->query("OPTIMIZE TABLE ".TABLE_PREFIX."badwords, ".TABLE_PREFIX."bans, ".TABLE_PREFIX."cats, ".TABLE_PREFIX."forums, ".TABLE_PREFIX."members, ".TABLE_PREFIX."moderators, ".TABLE_PREFIX."posts, ".TABLE_PREFIX."searches, ".TABLE_PREFIX."sessions, ".TABLE_PREFIX."stats, ".TABLE_PREFIX."subscriptions, ".TABLE_PREFIX."topics");
+		$db->query("OPTIMIZE TABLE ".join(', ', $functions->get_usebb_tables()));
 		$content .= '<li>'.$lang['SQLToolboxOptimizeTables'].': '.$lang['Done'].'</li>';
 		
 	} else {

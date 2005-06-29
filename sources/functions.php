@@ -1551,6 +1551,21 @@ class functions {
 		
 	}
 	
+	//
+	// Return the sql tables with the table prefix
+	//
+	function get_usebb_tables() {
+		
+		global $db;
+		
+		$tables = array();
+		$result = $db->query("SHOW TABLES LIKE '".TABLE_PREFIX."%'");
+		while ( $out = $db->fetch_result($result) )
+			$tables[] = current($out);
+		return $tables;
+		
+	}
+	
 }
 
 ?>

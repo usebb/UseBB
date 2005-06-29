@@ -42,11 +42,11 @@ $templates['cat_header'] = '
 			<td colspan="5" class="forumcat"><a href="{cat_url}">&raquo;</a> {cat_name}</td>
 		</tr>
 		<tr>
-			<th></th>
+			<th class="icon"></th>
 			<th>{l_Forum}</th>
-			<th>{l_Topics}</th>
-			<th>{l_Posts}</th>
-			<th>{l_LatestPost}</th>
+			<th class="count">{l_Topics}</th>
+			<th class="count">{l_Posts}</th>
+			<th class="lastpostinfo">{l_LatestPost}</th>
 		</tr>
 ';
 

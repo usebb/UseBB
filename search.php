@@ -66,6 +66,23 @@ while ( $forumdata = $db->fetch_result($result) ) {
 $_REQUEST['mode'] = ( !empty($_REQUEST['mode']) && ( $_REQUEST['mode'] === 'and' || $_REQUEST['mode'] === 'or' ) ) ? $_REQUEST['mode'] : 'and';
 
 //
+// Sanatize the keywords, removing any too short words
+//
+if ( !empty($_REQUEST['keywords']) ) {
+	
+	$keywords = preg_split('#\s+#', $_REQUEST['keywords']);
+	$sanatized_keywords = array();
+	foreach ( $keywords as $keyword ) {
+		
+		if ( strlen($keyword) >= $functions->get_config('search_nonindex_words_min_length') )
+			$sanatized_keywords[] = $keyword;
+		
+	}
+	$_REQUEST['keywords'] = join(' ', $sanatized_keywords);
+	
+}
+
+//
 // Sanatize the forums array
 //
 if ( !empty($_REQUEST['forums']) && is_array($_REQUEST['forums']) && count($_REQUEST['forums']) ) {
@@ -95,7 +112,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 	
 	if ( !empty($_REQUEST['keywords']) ) {
 		
-		$keywords = preg_split('#\s+#', $_REQUEST['keywords']);
+		$keywords = split(' ', $_REQUEST['keywords']);
 		foreach ( $keywords as $key => $val )
 			$keywords[$key] = "p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%'";
 		$query_where_parts[] = ' ( '.join(' '.strtoupper($_REQUEST['mode']).' ', $keywords).' ) ';
@@ -291,6 +308,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 		$template->parse('search_form', 'search', array(
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',
 			'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$keywords.'" />',
+			'keywords_explain' => sprintf($lang['KeywordsExplain'], $functions->get_config('search_nonindex_words_min_length')),
 			'mode_input' => '<input type="radio" name="mode" id="mode_and" value="and"'.$mode_and_checked.' /><label for="mode_and"> '.$lang['AllKeywords'].'</label> <input type="radio" name="mode" id="mode_or" value="or"'.$mode_or_checked.' /><label for="mode_or"> '.$lang['OneOrMoreKeywords'].'</label>',
 			'author_input' => '<input type="text" name="author" size="35" value="'.$author.'" />',
 			'forums_input' => $forums_input,

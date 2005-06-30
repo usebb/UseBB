@@ -40,7 +40,7 @@ $templates['search_form'] = '
 			<th colspan="2">{l_Search}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_SearchKeywords}</td><td>{keywords_input}</td>
+			<td class="fieldtitle">{l_SearchKeywords}</td><td>{keywords_input}<br />{keywords_explain}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_SearchMode}</td><td>{mode_input}</td>

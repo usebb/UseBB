@@ -8,6 +8,7 @@ UseBB 0.6 Changelog
 - Added to ACP: SQL toolbox.
 - Added auto focus on many forms using improved template engine.
 - Added keywords config and description and keywords meta-tags.
+- Added feature which excludes too short words from the search keywords.
 - Fixed bug #512: too big font sizes allowed.
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.

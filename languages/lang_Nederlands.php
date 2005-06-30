@@ -442,6 +442,8 @@ $lang['MembersGuestOnline'] = 'In de laatste %d minuten hebben %d leden (%d verb
 $lang['MemberGuestsOnline'] = 'In de laatste %d minuten hebben %d lid (%d verborgen) en %d gasten het forum bezocht.';
 $lang['MembersGuestsOnline'] = 'In de laatste %d minuten hebben %d leden (%d verborgen) en %d gasten het forum bezocht.';
 $lang['WhosOnline'] = 'Wie is er Online';
+$lang['Done'] = 'Done';
+$lang['KeywordsExplain'] = 'Sleutelwoorden van minimum %d tekens gescheiden door spaties.';
 
 //
 // Date translations

@@ -231,7 +231,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 	$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
-		'user_input'          => '<input type="text" name="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',
+		'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
@@ -240,6 +240,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 		'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'            => '</form>'
 	));
+	$template->set_js_onload("set_focus('user')");
 	
 } elseif ( !empty($_POST['notaccepted']) ) {
 	

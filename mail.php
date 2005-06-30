@@ -147,12 +147,13 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'sendemail' => sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))),
 						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.unhtml(stripslashes($user_to_mail['displayed_name'])).'</a>',
 						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>',
-						'subject_input' => '<input type="text" name="subject" size="50" value="'.$_POST['subject'].'" />',
+						'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 						'form_end' => '</form>'
 					));
+					$template->set_js_onload("set_focus('subject')");
 					
 				}
 				

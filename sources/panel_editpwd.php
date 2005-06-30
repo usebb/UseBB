@@ -79,7 +79,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 	
 	$template->parse('editpwd_form', 'panel', array(
 		'form_begin'           => '<form action="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'" method="post">',
-		'current_passwd_input' => '<input type="password" name="current_passwd" size="25" maxlength="255" />',
+		'current_passwd_input' => '<input type="password" name="current_passwd" id="current_passwd" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
 		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
@@ -87,6 +87,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'             => '</form>'
 	));
+	$template->set_js_onload("set_focus('current_passwd')");
 	
 }
 

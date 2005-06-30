@@ -159,6 +159,7 @@ if ( !isset($_GET['act']) ) {
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 					'form_end' => '</form>'
 				));
+				$template->set_js_onload("set_focus('tags-txtarea')");
 				
 			}
 			

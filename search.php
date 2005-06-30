@@ -290,7 +290,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 		
 		$template->parse('search_form', 'search', array(
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',
-			'keywords_input' => '<input type="text" name="keywords" size="35" value="'.$keywords.'" />',
+			'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$keywords.'" />',
 			'mode_input' => '<input type="radio" name="mode" id="mode_and" value="and"'.$mode_and_checked.' /><label for="mode_and"> '.$lang['AllKeywords'].'</label> <input type="radio" name="mode" id="mode_or" value="or"'.$mode_or_checked.' /><label for="mode_or"> '.$lang['OneOrMoreKeywords'].'</label>',
 			'author_input' => '<input type="text" name="author" size="35" value="'.$author.'" />',
 			'forums_input' => $forums_input,
@@ -298,6 +298,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'form_end' => '</form>'
 		));
+		$template->set_js_onload("set_focus('keywords')");
 		
 	}
 	

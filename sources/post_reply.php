@@ -244,6 +244,8 @@ if ( !$db->num_rows($result) ) {
 				$lock_topic_checked = '';
 				$subscribe_topic_checked = ( $session->sess_info['user_id'] && $session->sess_info['user_info']['auto_subscribe_reply'] ) ? ' checked="checked"' : '';
 				
+				$template->set_js_onload("set_focus('tags-txtarea')");
+				
 			}
 			
 			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';

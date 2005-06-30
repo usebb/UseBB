@@ -106,7 +106,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					), stripslashes($session->sess_info['user_info']['displayed_name']), $session->sess_info['user_info']['email'], $user_to_mail['email']);
 					
 					$template->parse('msgbox', 'global', array(
-						'box_title' => sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))),
+						'box_title' => $lang['Note'],
 						'content' => sprintf($lang['EmailSent'], '<em>'.unhtml(stripslashes($user_to_mail['displayed_name'])).'</em>')
 					));
 					

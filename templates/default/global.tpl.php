@@ -140,14 +140,10 @@ $templates['normal_footer'] = '
 ';
 
 $templates['msgbox'] = '
-	<table class="msgbox">
-		<tr>
-			<th>{box_title}</th>
-		</tr>
-		<tr>
-			<td>{content}</td>
-		</tr>
-	</table>
+	<div class="msgbox">
+		<h3>{box_title}</h3>
+		<p>{content}</p>
+	</div>
 ';
 
 $templates['confirm_form'] = '

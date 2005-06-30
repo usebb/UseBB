@@ -126,12 +126,16 @@ $templates['normal_footer'] = '
 	<p id="linkbar">
 		{link_bar}
 	</p>
+	
 	{debug_info_small}
-	<address id="bottom">
+	
+	<p id="bottom">
 		{usebb_copyright}
-	</address>
+	</p>
 	<div id="bottom-shadow"></div>
+	
 	{debug_info_large}
+	
 	</div>
 	</div>
 	</div>

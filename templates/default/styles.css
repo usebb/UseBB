@@ -193,7 +193,7 @@ p.locationbar a {
 
 /* Global styles */
 
-table.maintable, table.msgbox, table.confirmform {
+table.maintable, table.confirmform {
 	clear: both;
 	border-collapse: collapse;
 	border-left: 1px solid silver;
@@ -202,7 +202,7 @@ table.maintable, table.msgbox, table.confirmform {
 	margin: 0px 0px 20px 0px;
 	width: 100%;
 }
-table.maintable th, table.msgbox th, table.confirmform th {
+table.maintable th, table.confirmform th {
 	color: #EBD6AD;
 	font-weight: bold;
 	background-color: #336699;
@@ -215,7 +215,7 @@ table.maintable th, table.msgbox th, table.confirmform th {
 	border-top: 1px solid silver;
 	white-space: nowrap;
 }
-table.maintable td, table.msgbox td, table.confirmform td, td.msg {
+table.maintable td, table.confirmform td, td.msg {
 	background-color: #EFEFEF;
 	padding: 6px;
 	text-align: left;
@@ -226,7 +226,7 @@ table.maintable td, table.msgbox td, table.confirmform td, td.msg {
 table.maintable td a:visited {
 	color: #555555;
 }
-table.msgbox td, table.confirmform td.msg, td.msg {
+table.confirmform td.msg, td.msg {
 	padding: 18px 36px 18px 36px !important;
 	font-size: 10pt;
 }
@@ -267,6 +267,28 @@ table.maintable td.count {
 }
 table.maintable .lastpostinfo {
 	width: 200px;
+}
+.msgbox h3 {
+	color: #EBD6AD;
+	font-weight: bold;
+	font-size: 8pt;
+	background-color: #336699;
+	background-image: url(gfx/tableheadbg.gif);
+	background-position: top;
+	background-repeat: repeat-x;
+	text-align: left;
+	padding: 4px 6px 4px 6px;
+	border: 1px solid silver;
+}
+.msgbox p {
+	background-color: #EFEFEF;
+	padding: 18px 36px 18px 36px;
+	margin: 0px 0px 20px 0px;
+	text-align: left;
+	border: 1px solid silver;
+	border-top: 0px;
+	line-height: 150%;
+	font-size: 10pt;
 }
 
 /* Forumlist styles */

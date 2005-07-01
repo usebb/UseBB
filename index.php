@@ -155,7 +155,8 @@ if ( !$functions->get_stats('forums') ) {
 				//
 				$template->parse('cat_header', 'forumlist', array(
 					'cat_name' => unhtml(stripslashes($forumdata['cat_name'])),
-					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id']
+					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'],
+					'cat_anchor' => 'cat'.$forumdata['cat_id']
 				));
 				
 			}
@@ -211,7 +212,9 @@ if ( !$functions->get_stats('forums') ) {
 				// If we didn't parse this category footer yet, than do it now
 				//
 				$template->parse('cat_footer', 'forumlist', array(
-					'cat_name' => '<a href="'.$functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'].'" name="cat'.$forumdata['cat_id'].'">'.unhtml(stripslashes($forumdata['cat_name'])).'</a>'
+					'cat_name' => unhtml(stripslashes($forumdata['cat_name'])),
+					'cat_url' => $functions->make_url('index.php', array('cat' => $forumdata['cat_id'])).'#cat'.$forumdata['cat_id'],
+					'cat_anchor' => 'cat'.$forumdata['cat_id']
 				));
 				
 			}

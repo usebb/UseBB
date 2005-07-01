@@ -33,7 +33,6 @@ UseBB 0.6 Changelog
 - Content type can now be set in global.tpl.php.
 - Don't let Google index all post links with duplicate content.
 - Jabber profile field made clickable.
-- Smilies don't require whitespace anymore to be parsed.
 
 UseBB 0.5.1 Changelog
 ------------------------------

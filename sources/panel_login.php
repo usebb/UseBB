@@ -125,7 +125,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		header('Location: '.$refere_to);
 		
 	} else {
-		
+		echo md5($_POST['passwd']).' - '.$userdata['passwd'];
 		//
 		// The password was not correct
 		// another warning

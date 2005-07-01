@@ -219,7 +219,7 @@ if ( empty($_POST['step']) ) {
 	while ( $out = $db->fetch_result($result) ) {
 		
 		$original_name = $out['name'];
-		$out['name'] = preg_replace('#[^A-Za-z0-9_-]#', '', str_replace(' ', '_', $out['name']));
+		$out['name'] = preg_replace('#[^A-Za-z0-9_\-]#', '', str_replace(' ', '_', $out['name']));
 		$out['name'] = ( !empty($out['name']) ) ? $out['name'] : 'user';
 		
 		if ( in_array($out['name'], $usernames) ) {

@@ -17,6 +17,7 @@ UseBB 0.6 Changelog
 - Fixed bug which might have led to server errors.
 - Fixed bug which might have led to undefined refere_to errors.
 - Fixed bug which doesn't return the user when logout was canceled.
+- Fixed bug in regex for mod_rewrite.
 - Fixed bad parsing of &&.
 - Fixed a few missing unhtml calls.
 - Do not add session ID's for Googlebot.

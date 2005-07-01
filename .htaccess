@@ -31,6 +31,6 @@ DirectoryIndex index.php
 	RewriteRule ^faq-([0-9a-zA-Z]{5})\.html$ faq.php?q=$1
 	RewriteRule ^search-results\.html$ search.php?act=results
 	RewriteRule ^search-results-([0-9]+)\.html$ search.php?act=results&page=$1
-	RewriteRule ^search-([A-Za-z0-9_\-\+]+)\.html$ search.php?author=$1
+	RewriteRule ^search-(.+)\.html$ search.php?author=$1
 	RewriteRule ^rss\.xml$ rss.php
 </IfModule>

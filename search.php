@@ -292,7 +292,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 				if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
 					
 					$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-					$forums_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
+					$forums_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
 					$seen_cats[] = $forumdata['cat_id'];
 					
 				}

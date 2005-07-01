@@ -323,7 +323,7 @@ if ( $_GET['act'] == 'delete' ) {
 							if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
 								
 								$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-								$new_forum_input .= '<optgroup label="'.$forumdata['cat_name'].'">';
+								$new_forum_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
 								$seen_cats[] = $forumdata['cat_id'];
 								
 							}

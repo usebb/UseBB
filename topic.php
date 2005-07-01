@@ -364,7 +364,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 						
 					}
 					
-					$post_editinfo = sprintf($template->get_config('post_editinfo_format'), sprintf($lang['PostEditInfo'], $functions->make_profile_link($postsdata['post_edit_by'], $editer_info['poster_name'], $editer_info['poster_level']), $functions->make_date($postsdata['post_edit_time'])));
+					$post_editby = ( $postsdata['post_edit_by'] ) ? $functions->make_profile_link($postsdata['post_edit_by'], $editer_info['poster_name'], $editer_info['poster_level']) : $lang['Unknown'];
+					$post_editinfo = sprintf($template->get_config('post_editinfo_format'), sprintf($lang['PostEditInfo'], $post_editby, $functions->make_date($postsdata['post_edit_time'])));
 					
 				} else {
 					

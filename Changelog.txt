@@ -35,6 +35,7 @@ UseBB 0.6 Changelog
 - Content type can now be set in global.tpl.php.
 - Don't let Google index all post links with duplicate content.
 - Jabber profile field made clickable.
+- Throw error when $session->update() not called before getting session info.
 
 UseBB 0.5.1 Changelog
 ------------------------------

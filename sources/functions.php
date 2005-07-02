@@ -641,6 +641,9 @@ class functions {
 		
 		global $session;
 		
+		if ( !isset($session->sess_info['user_id']) )
+			trigger_error('You first need to call $session->update() before you can get any session info.');
+		
 		if ( $session->sess_info['user_id'] )
 			return $session->sess_info['user_info']['level'];
 		else

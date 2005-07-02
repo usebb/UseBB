@@ -34,7 +34,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Update and get the session information
 //
-#$session->update('index');
+$session->update('index');
 
 //
 // Include the page header

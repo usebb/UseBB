@@ -3,39 +3,41 @@ $Header$
 UseBB 0.6 Changelog
 ------------------------------
 
+- Added ACP skeleton.
 - Added to ACP: version check.
 - Added to ACP: IP address lookup.
 - Added to ACP: SQL toolbox.
 - Added auto focus on many forms using improved template engine.
-- Added keywords config and description and keywords meta-tags.
+- Added keywords config and HTML meta-tags for description and keywords.
 - Added feature which excludes too short words from the search keywords.
-- Fixed bug #512: too big font sizes allowed.
+- Fixed bug #512: too big font sizes allowed in BBCode.
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.
-- Fixed bug which includes certain characters in the URL.
-- Fixed bug in and renamed kick_user_to_only_viewable_forum to single_forum_mode.
-- Fixed bug which might have led to server errors.
-- Fixed bug which might have led to undefined refere_to errors.
-- Fixed bug which doesn't return the user when logout was canceled.
-- Fixed bug in regex for mod_rewrite.
-- Fixed bad parsing of &&.
-- Fixed a few missing unhtml calls.
+- Fixed bug which includes certain characters in the BBCode URL parser.
+- Fixed bug in single_forum_mode which didn't properly detect only viewable forum.
+- Fixed bug which might have led to server errors due to always calling RewriteEngine.
+- Fixed bug which might have led to undefined refere_to errors in login and register form.
+- Fixed bug which doesn't return the user to previous page when logout was cancelled.
+- Fixed bug in regular expression for username search RewriteRule.
+- Fixed bad parsing of some entities in unhtml().
+- Fixed a few missing unhtml() calls.
+- Renamed kick_user_to_only_viewable_forum to single_forum_mode.
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).
 - Sorting fixes for member list.
 - HTTP 404 and 403 error codes returned when applicable.
 - Removed duplicate set_page_title() calls in Your Panel.
 - Replace level integers with constants.
-- Template improvements and fixes.
 - Don't show forum list on search when only one forum is available.
 - CSS has been detached from the templating system.
 - Removed the trash feature, will be reintroduced later.
 - Friendly URL for RSS feed is now rss.xml.
-- Major template engine improvements and code cleanups.
 - Content type can now be set in global.tpl.php.
 - Don't let Google index all post links with duplicate content.
 - Jabber profile field made clickable.
 - Throw error when $session->update() not called before getting session info.
+- Template improvements and fixes.
+- Major template engine improvements and code cleanups.
 
 UseBB 0.5.1 Changelog
 ------------------------------

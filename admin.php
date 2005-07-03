@@ -63,8 +63,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		//
 		// Include page
 		//
-		$pages = array('index', 'version', 'iplookup', 'sqltoolbox');
-		$_GET['act'] = ( !empty($_GET['act']) && in_array($_GET['act'], $pages) ) ? $_GET['act'] : 'index';
+		$_GET['act'] = ( !empty($_GET['act']) && file_exists(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php') ) ? $_GET['act'] : 'index';
 		require(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php');
 		
 	} else {

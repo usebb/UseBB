@@ -105,6 +105,83 @@ class admin_functions {
 		
 	}
 	
+	//
+	// Transform a variable into a PHP string
+	//
+	function make_php_string($variable) {
+		
+		if ( is_int($variable) || is_bool($variable) ) {
+		
+			$variable = $variable;
+			
+		} elseif ( is_string($variable) ) {
+			
+			$variable = '\''.$variable.'\'';
+			
+		} elseif ( is_array($variable) ) {
+			
+			if ( count($variable) ) {
+				
+				$new_variable = array();
+				
+				foreach ( $variable as $variable2 )
+					$new_variable[] = $this->make_php_string($variable2);
+				
+				$variable = 'array('.join(', ', $new_variable).')';
+				
+			} else {
+				
+				$variable = 'array()';
+				
+			}
+			
+		}
+		
+		return $variable;
+		
+	}
+	
+	//
+	// Set forum configuration
+	//
+	function set_config($settings) {
+		
+		if ( !is_array($settings) || !count($settings) )
+			return;
+		
+		$config_file = ROOT_PATH.'config.php';
+		
+		if ( !is_writable($config_file) )
+			trigger_error('config.php is not writable! Please chmod the file so that the webserver can write it.');
+		
+		//
+		// Get the contents of config.php
+		//
+		$fp = fopen($config_file, 'r');
+		$config_content = strtr(fread($fp, filesize($config_file)), array("\$dbs[\'" => "\$dbs['", "\$conf[\'" => "\$conf['", "\'] " => "'] ", "= \'" => "= '", "\';" => "';"));
+		fclose($fp);
+		
+		//
+		// Adjust values
+		//
+		foreach ( $settings as $key => $val ) {
+			
+			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
+			$val = $this->make_php_string($val);
+			
+			$config_content = preg_replace('#\$'.$variable.'\[\''.$key.'\'\] = .+;#', '\$'.$variable.'[\''.$key.'\'] = '.$val.';', $config_content);
+			
+		}
+		
+		//
+		// Write the new contents
+		//
+		$fp = fopen($config_file, 'w');
+		fwrite($fp, $config_content);
+		fclose($fp);
+		
+	}
+	
 }
 
 ?>

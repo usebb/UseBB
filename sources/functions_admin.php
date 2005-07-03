@@ -110,7 +110,7 @@ class admin_functions {
 	//
 	function make_php_string($variable) {
 		
-		if ( is_int($variable) || is_bool($variable) ) {
+		if ( is_int($variable) || is_bool($variable) || is_float($variable) ) {
 		
 			$variable = $variable;
 			
@@ -118,7 +118,7 @@ class admin_functions {
 			
 			$variable = '\''.$variable.'\'';
 			
-		} elseif ( is_array($variable) ) {
+		} elseif ( is_array($variable) || is_object($variable) ) {
 			
 			if ( count($variable) ) {
 				
@@ -158,7 +158,7 @@ class admin_functions {
 		// Get the contents of config.php
 		//
 		$fp = fopen($config_file, 'r');
-		$config_content = strtr(fread($fp, filesize($config_file)), array("\$dbs[\'" => "\$dbs['", "\$conf[\'" => "\$conf['", "\'] " => "'] ", "= \'" => "= '", "\';" => "';"));
+		$config_content = stripslashes(fread($fp, filesize($config_file)));
 		fclose($fp);
 		
 		//
@@ -177,7 +177,7 @@ class admin_functions {
 		// Write the new contents
 		//
 		$fp = fopen($config_file, 'w');
-		fwrite($fp, $config_content);
+		fwrite($fp, addslashes($config_content));
 		fclose($fp);
 		
 	}

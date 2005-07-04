@@ -116,7 +116,7 @@ class admin_functions {
 			
 		} elseif ( is_string($variable) ) {
 			
-			$variable = '\''.$variable.'\'';
+			$variable = "'".$variable."'";
 			
 		} elseif ( is_array($variable) || is_object($variable) ) {
 			
@@ -167,9 +167,7 @@ class admin_functions {
 		foreach ( $settings as $key => $val ) {
 			
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
-			$val = $this->make_php_string($val);
-			
-			$config_content = preg_replace('#\$'.$variable.'\[\''.$key.'\'\] = .+;#', '\$'.$variable.'[\''.$key.'\'] = '.$val.';', $config_content);
+			$config_content = preg_replace('#\$'.$variable."\['".$key."'\] = .+;#", '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
 			
 		}
 		

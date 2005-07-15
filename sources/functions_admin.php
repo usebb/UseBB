@@ -116,7 +116,7 @@ class admin_functions {
 			
 		} elseif ( is_string($variable) ) {
 			
-			$variable = "'".$variable."'";
+			$variable = "'".str_replace("'", "\'", $variable)."'";
 			
 		} elseif ( is_array($variable) || is_object($variable) ) {
 			

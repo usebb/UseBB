@@ -33,10 +33,24 @@ if ( !empty($_POST['type']) && !empty($_POST['server']) && !empty($_POST['userna
 	
 	$new_settings = array();
 	
+	//
+	// Settings represented as strings
+	//
 	foreach ( array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'admin_email', 'board_descr', 'board_keywords', 'board_name', 'date_format', 'language', 'session_name', 'template') as $setting )
 		$new_settings[$setting] = stripslashes($_POST[$setting]);
+	
+	//
+	// Settings represented as integers
+	//
 	foreach ( array('active_topics_count', 'flood_interval', 'members_per_page', 'online_min_updated', 'passwd_min_length', 'posts_per_page', 'session_max_lifetime', 'show_edited_message_timeout', 'topicreview_posts', 'topics_per_page', 'username_max_length') as $setting )
 		$new_settings[$setting] = intval($_POST[$setting]);
+	
+	//
+	// Settings which can be enabled or disabled
+	//
+	foreach ( array('allow_multi_sess', 'auto_free_sql_results', 'board_closed', 'cookie_secure', 'disable_info_emails', 'dst', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank', 'users_must_activate') as $setting )
+		$new_settings[$setting] = ( !empty($setting) ) ? 1 : 0;
+	
 	
 	$admin_functions->set_config($new_settings);
 	

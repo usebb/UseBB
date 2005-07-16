@@ -55,7 +55,7 @@ if ( !empty($_POST['type']) && !empty($_POST['server']) && !empty($_POST['userna
 	$admin_functions->set_config($new_settings);
 	
 }
-
-$admin_functions->create_body('config', $content);
+$admin_functions->set_config(array('friendly_urls' => 1));
+$admin_functions->create_body('config', '');
 
 ?>

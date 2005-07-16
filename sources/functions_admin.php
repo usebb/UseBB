@@ -164,7 +164,11 @@ class admin_functions {
 		foreach ( $settings as $key => $val ) {
 			
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
-			$config_content = preg_replace('#\$'.$variable."\['".$key."'\] = .+;#", '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
+			
+			if ( preg_match('#\$'.$variable."\['".$key."'\] = .+;#", $config_content) )
+				$config_content = preg_replace('#\$'.$variable."\['".$key."'\] = .+;#", '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
+			else
+				$config_content = preg_replace('#\?>#', '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).";\n?>", $config_content);
 			
 		}
 		

@@ -151,9 +151,6 @@ class admin_functions {
 		
 		$config_file = ROOT_PATH.'config.php';
 		
-		if ( !is_writable($config_file) )
-			trigger_error('config.php is not writable! Please chmod the file so that the webserver can write it.');
-		
 		//
 		// Get the contents of config.php
 		//

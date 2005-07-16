@@ -30,12 +30,11 @@ if ( !defined('INCLUDED') )
 	exit();
 
 //
-// Security measures
+// Timer for checking parsetime
 //
-error_reporting(E_ALL);
-set_magic_quotes_runtime(1);
-@ini_set('display_errors', '1');
-@ini_set('mysql.trace_mode', '0');
+$timer = array();
+$timer['begin'] = explode(' ', microtime());
+$timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
 
 //
 // Check PHP version by checking the presence of version_compare()
@@ -45,14 +44,13 @@ if ( !function_exists('version_compare') )
 	die('<h1>Warning!</h1><p>UseBB does not work on PHP '.phpversion().'. You need at least <strong>4.1.0</strong>. Get a recent version from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>');
 
 //
-// Timer for checking parsetime
+// Security measures
 //
-$timer['begin'] = explode(' ', microtime());
-$timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
+error_reporting(E_ALL);
+set_magic_quotes_runtime(1);
+@ini_set('display_errors', '1');
+@ini_set('mysql.trace_mode', '0');
 
-//
-// Unregister globals for more security.
-//
 if ( @ini_get('register_globals') ) {
 	
 	foreach ( $_REQUEST as $var_name => $null )
@@ -61,12 +59,10 @@ if ( @ini_get('register_globals') ) {
 }
 
 //
-// Include all necessary files
+// Include functions.php
 //
 require(ROOT_PATH.'sources/functions.php');
-require(ROOT_PATH.'config.php');
-require(ROOT_PATH.'sources/session.php');
-require(ROOT_PATH.'sources/template.php');
+$functions = new functions;
 	
 //
 // Add slashes and trim get, post and cookie variables
@@ -84,7 +80,6 @@ $_COOKIE = slash_trim_global($_COOKIE);
 // One can however set a publicly displayed name, eventually with non-alphanumeric
 // characters.
 //
-define('TABLE_PREFIX', $dbs['prefix']);
 define('USEBB_VERSION', '0.6-CVS');
 define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
@@ -95,27 +90,6 @@ define('LEVEL_ADMIN', 3);
 define('LEVEL_MOD', 2);
 define('LEVEL_MEMBER', 1);
 define('LEVEL_GUEST', 0);
-
-//
-// Create objects
-//
-$functions = new functions;
-$template = new template;
-$session = new session;
-
-//
-// Load the database class
-//
-$db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
-if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
-	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
-else
-	require($db_class_file);
-
-//
-// Create objects
-//
-$db = new db;
 
 //
 // Set the UseBB error handler
@@ -134,6 +108,28 @@ function error_handler($errno, $error, $file, $line) {
 }
 set_error_handler('error_handler');
 
+//
+// Include all other necessary files
+//
+if ( !file_exists(ROOT_PATH.'config.php') )
+	trigger_error('config.php does not exist! Please rename config.php-dist to config.php and make it writable by the webserver (chmod 0777).');
+if ( !is_writable(ROOT_PATH.'config.php') )
+	trigger_error('config.php is not writable! Please make it writable by the webserver (chmod 0777).');
+require(ROOT_PATH.'config.php');
+define('TABLE_PREFIX', $dbs['prefix']);
+require(ROOT_PATH.'sources/template.php');
+$template = new template;
+require(ROOT_PATH.'sources/session.php');
+$session = new session;
+
+//
+// Load the database class
+//
+$db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
+if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
+	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
+require($db_class_file);
+$db = new db;
 
 //
 // Connect to DB

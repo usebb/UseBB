@@ -35,7 +35,7 @@ if ( !defined('INCLUDED') )
 $filled_in = true;
 $necessary_settings = array(
 	'strings' => array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'admin_email', 'board_descr', 'board_keywords', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('active_topics_count', 'flood_interval', 'members_per_page', 'online_min_updated', 'passwd_min_length', 'posts_per_page', 'session_max_lifetime', 'show_edited_message_timeout', 'topicreview_posts', 'topics_per_page', 'username_max_length')
+	'integers' => array('active_topics_count', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'passwd_min_length', 'posts_per_page', 'session_max_lifetime', 'show_edited_message_timeout', 'topicreview_posts', 'topics_per_page', 'username_max_length', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 foreach ( $necessary_settings['strings'] as $key ) {
 	
@@ -45,12 +45,18 @@ foreach ( $necessary_settings['strings'] as $key ) {
 }
 foreach ( $necessary_settings['integers'] as $key ) {
 	
-	if ( empty($_POST[$key]) || !valid_int($_POST[$key]) )
+	if ( !isset($_POST[$key]) || !valid_int($_POST[$key]) )
 		$filled_in = false;
 	
 }
+$levels = array(
+	LEVEL_GUEST,
+	LEVEL_MEMBER,
+	LEVEL_MOD,
+	LEVEL_ADMIN
+);
 
-if ( $filled_in && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['email_view_level']) && in_array($_POST['language'], $functions->get_language_packs()) && in_array($_POST['template'], $functions->get_template_sets()) && !empty($_POST['timezone']) && !empty($_POST['view_detailed_online_list_min_level']) && !empty($_POST['view_forum_stats_box_min_level']) && !empty($_POST['view_hidden_email_addresses_min_level']) && !empty($_POST['view_memberlist_min_level']) && !empty($_POST['view_stafflist_min_level']) && !empty($_POST['view_stats_min_level']) && !empty($_POST['view_contactadmin_min_level']) ) {
+if ( $filled_in && preg_match(EMAIL_PREG, $_POST['admin_email']) && in_array($_POST['email_view_level'], array(0, 1, 2, 3)) && in_array($_POST['language'], $functions->get_language_packs()) && in_array($_POST['template'], $functions->get_template_sets()) && isset($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) && in_array(intval($_POST['view_detailed_online_list_min_level']), $levels) && in_array(intval($_POST['view_forum_stats_box_min_level']), $levels) && in_array(intval($_POST['view_hidden_email_addresses_min_level']), $levels) && in_array(intval($_POST['view_memberlist_min_level']), $levels) && in_array(intval($_POST['view_stafflist_min_level']), $levels) && in_array(intval($_POST['view_stats_min_level']), $levels) && in_array(intval($_POST['view_contactadmin_min_level']), $levels) ) {
 	
 	$new_settings = array();
 	

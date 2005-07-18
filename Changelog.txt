@@ -40,6 +40,7 @@ UseBB 0.6 Changelog
 - Major template engine improvements and code cleanups.
 - Adjusted docs and installers to suit new locations on UseBB Docs.
 - common.php reorganization, including config.php check.
+- Ignore some uncompatibility warnings on PHP5.
 
 UseBB 0.5.1 Changelog
 ------------------------------

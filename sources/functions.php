@@ -108,6 +108,20 @@ class functions {
 		
 		global $db, $dbs;
 		
+		//
+		// Don't show various errors on PHP5
+		//
+		if ( intval(substr(phpversion(), 0, 1)) > 4 ) {
+			
+			$ignore_warnings = array(
+				'var: Deprecated. Please use the public/private/protected modifiers',
+				'Trying to get property of non-object',
+			);
+			if ( in_array($error, $ignore_warnings) )
+				return;
+			
+		}
+		
 		$errtypes = array(
 			1 => 'E_ERROR',
 			2 => 'E_WARNING',

@@ -41,6 +41,7 @@ UseBB 0.6 Changelog
 - Adjusted docs and installers to suit new locations on UseBB Docs.
 - common.php reorganization, including config.php check.
 - Ignore some uncompatibility warnings on PHP5.
+- Reference objects instead of cloning them for PHP5 compatibility.
 
 UseBB 0.5.1 Changelog
 ------------------------------

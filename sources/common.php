@@ -62,7 +62,7 @@ if ( @ini_get('register_globals') ) {
 // Include functions.php
 //
 require(ROOT_PATH.'sources/functions.php');
-$functions = new functions;
+$functions = &new functions;
 	
 //
 // Add slashes and trim get, post and cookie variables
@@ -118,9 +118,9 @@ if ( !is_writable(ROOT_PATH.'config.php') )
 require(ROOT_PATH.'config.php');
 define('TABLE_PREFIX', $dbs['prefix']);
 require(ROOT_PATH.'sources/template.php');
-$template = new template;
+$template = &new template;
 require(ROOT_PATH.'sources/session.php');
-$session = new session;
+$session = &new session;
 
 //
 // Load the database class
@@ -129,7 +129,7 @@ $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
 	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
 require($db_class_file);
-$db = new db;
+$db = &new db;
 
 //
 // Connect to DB

@@ -30,6 +30,15 @@ if ( !defined('INCLUDED') )
 	exit();
 
 $content = '<p>'.$lang['IndexWelcome'].'</p>
+
+<h2>'.$lang['IndexSystemInfo'].'</h2>
+<ul>
+	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' (<a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a>)</li>
+	<li>'.$lang['IndexPHPVersion'].': '.phpversion().'</li>
+	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
+	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
+</ul>
+
 <h2>'.$lang['IndexLinks'].'</h2>
 <ul>
 	<li><a href="http://www.usebb.net/">UseBB Homepage</a></li>

@@ -43,10 +43,15 @@ $lang['Category-various'] = 'Various';
 $lang['Item-iplookup'] = 'IP Address Lookup';
 $lang['Item-sqltoolbox'] = 'SQL Toolbox';
 
-$lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.';
+$lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
+$lang['IndexSystemInfo'] = 'System Info';
+$lang['IndexUseBBVersion'] = 'UseBB version';
+$lang['IndexPHPVersion'] = 'PHP version';
+$lang['IndexSQLServer'] = 'SQL server';
+$lang['IndexHTTPServer'] = 'HTTP server';
 $lang['IndexLinks'] = 'Links';
 
-$lang['VersionFailed'] = 'The forum could not determine the latest version (PHP\'s allow_url_fopen disabled). Please often check %s to make sure you have the latest one.';
+$lang['VersionFailed'] = 'The forum could not determine the latest version (%s disabled). Please often check %s to make sure you have the latest one.';
 $lang['VersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
 $lang['VersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
 $lang['VersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';

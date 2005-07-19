@@ -33,7 +33,7 @@ $content = '';
 
 if ( !@ini_get('allow_url_fopen') ) {
 	
-	$content .= '<p>'.sprintf($lang['VersionFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
+	$content .= '<p>'.sprintf($lang['VersionFailed'], '<code>allow_url_fopen</code>', '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
 	
 } else {
 	

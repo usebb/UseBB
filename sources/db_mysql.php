@@ -32,6 +32,8 @@ if ( !defined('INCLUDED') )
 if ( !extension_loaded('mysql') )
 	trigger_error('Unable to load module for database server "mysql": PHP mysql extension not available!');
 
+@ini_set('mysql.trace_mode', '0');
+
 //
 // Create the MySQL handlers
 //
@@ -117,6 +119,18 @@ class db {
 	function get_used_queries() {
 		
 		return $this->queries;
+		
+	}
+	
+	//
+	// Get server version info
+	//
+	function get_server_info() {
+		
+		return array(
+			'MySQL',
+			mysql_get_server_info($this->connection)
+		);
 		
 	}
 	

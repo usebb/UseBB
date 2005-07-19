@@ -4,6 +4,7 @@ UseBB 0.6 Changelog
 ------------------------------
 
 - Added ACP skeleton.
+- Added to ACP: system info.
 - Added to ACP: version check.
 - Added to ACP: IP address lookup.
 - Added to ACP: SQL toolbox.

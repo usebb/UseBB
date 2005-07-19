@@ -43,6 +43,8 @@ UseBB 0.6 Changelog
 - common.php reorganization, including config.php check.
 - Ignore some uncompatibility warnings on PHP5.
 - Reference objects instead of cloning them for PHP5 compatibility.
+- Disable MySQL trace mode statement moved to db_mysqli?.php.
+- Added get_server_info() to mysqli? drivers.
 
 UseBB 0.5.1 Changelog
 ------------------------------

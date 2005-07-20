@@ -168,7 +168,7 @@ class functions {
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
-		if ( $errtype == 'SQL_ERROR' ) {
+		if ( $errtype == 'SQL_ERROR' && count($db->get_used_queries()) ) {
 			
 			if ( $this->get_config('debug') >= 2 )
 				$html_msg .= '

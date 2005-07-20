@@ -37,11 +37,11 @@ $dbs = array();
 //
 // Define database configuration
 //
-$dbs['type'] = 'mysql';
+$dbs['type'] = 'pdo-mysql';
 $dbs['server'] = 'localhost';
 $dbs['username'] = 'usebb';
 $dbs['passwd'] = 'usebb';
-$dbs['dbname'] = 'usebba';
+$dbs['dbname'] = 'usebb';
 $dbs['prefix'] = 'usebb_';
 
 //
@@ -68,7 +68,7 @@ $conf['cookie_domain'] = '';
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
-$conf['debug'] = 2;
+$conf['debug'] = 1;
 $conf['disable_info_emails'] = 0;
 $conf['dst'] = 0;
 $conf['email_view_level'] = 1;

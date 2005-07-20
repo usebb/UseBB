@@ -29,6 +29,9 @@
 if ( !defined('INCLUDED') )
 	exit();
 
+if ( !extension_loaded('pdo_mysql') )
+	trigger_error('Unable to load module for database server "pdo-mysql": PHP pdo_mysql extension not available!');
+
 //
 // Create the MySQL handlers
 //

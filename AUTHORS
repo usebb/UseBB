@@ -6,12 +6,22 @@ people involved in UseBB's development.
 Also thanks to many people helping us by reporting bugs,
 giving feature suggestions and various pieces of helpful code.
 
+---
+
+Code Credits
+
 Smilies are copyrighted by aiwebs.co.nz and distributed under
 the terms of the GNU General Public License.
 
 Javascript insert_tags() function copyrighted by the DokuWiki
 development team and distributed under the terms of the
 GNU General Public License.
+
+Several regexes for URL and e-mail address matching copyrighted
+by the phpBB Group and distributed under the terms of the
+GNU General Public License.
+
+---
 
 Last but not least, thanks to Sourceforge.net for partially
 hosting the project and making UseBB's development possible.

@@ -23,6 +23,7 @@ UseBB 0.6 Changelog
 - Fixed bad parsing of some entities in unhtml().
 - Fixed bug which made jump to top after inserting bbcode.
 - Fixed a few missing unhtml() calls.
+- Fixed security issue with URL matching (XSS vulnerability in IE).
 - Renamed kick_user_to_only_viewable_forum to single_forum_mode.
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).

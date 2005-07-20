@@ -981,7 +981,7 @@ class functions {
 			//
 			$ignore_chars = "^a-z0-9"; # warning, rawly included in regex!
 			$string = preg_replace(array(
-				"#([\s][".$ignore_chars."]*?)([\w]+?://[^ \"\n\r\t<]*?)([".$ignore_chars."]*?[\s])#is",
+				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
 				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
@@ -1001,11 +1001,11 @@ class functions {
 				// [s]text[/s]
 					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
-					"#\[img\]([\w]+?://[^ \"\n\r\t<]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
+					"#\[img\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
 				// [url]http://www.usebb.net[/url]
-					"#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
+					"#\[url\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]
-					"#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
+					"#\[url=([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
 				// [mailto]somebody@nonexistent.com[/mailto]
 					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1">\\1</a>',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]

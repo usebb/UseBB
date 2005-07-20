@@ -116,9 +116,10 @@ function insert_tags(tagOpen, tagClose) {
 			
 			txtarea.selectionStart=startPos+tagOpen.length;   
 			txtarea.selectionEnd=startPos+tagOpen.length+myText.length;
-			txtarea.scrollTop=scrollTop;
 			
 		}
+		
+		txtarea.scrollTop=scrollTop;
 		
 	// All others
 	} else {

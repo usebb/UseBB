@@ -134,6 +134,8 @@ if ( !isset($_GET['act']) ) {
 					$enable_sig_checked = ( $postdata['enable_sig'] ) ? ' checked="checked"' : '';
 					$enable_html_checked = ( $postdata['enable_html'] ) ? ' checked="checked"' : '';
 					
+					$template->set_js_onload("set_focus('tags-txtarea')");
+					
 				}
 				
 				$options_input = array();
@@ -159,7 +161,6 @@ if ( !isset($_GET['act']) ) {
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 					'form_end' => '</form>'
 				));
-				$template->set_js_onload("set_focus('tags-txtarea')");
 				
 			}
 			

@@ -128,7 +128,7 @@ class db {
 	function get_server_info() {
 		
 		return array(
-			'MySQL',
+			'MySQL (mysqli)',
 			mysqli_get_server_info($this->connection)
 		);
 		

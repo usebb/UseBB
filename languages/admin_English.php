@@ -47,7 +47,7 @@ $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum.
 $lang['IndexSystemInfo'] = 'System Info';
 $lang['IndexUseBBVersion'] = 'UseBB version';
 $lang['IndexPHPVersion'] = 'PHP version';
-$lang['IndexSQLServer'] = 'SQL server';
+$lang['IndexSQLServer'] = 'SQL server driver';
 $lang['IndexHTTPServer'] = 'HTTP server';
 $lang['IndexLinks'] = 'Links';
 

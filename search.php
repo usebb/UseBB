@@ -146,8 +146,9 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			'results' => $topic_ids
 		);
 		$result_data = addslashes(serialize($result_data));
-		$result = $db->query("SELECT sess_id FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
-		if ( $db->num_rows($result) )
+		$result = $db->query("SELECT COUNT(*) as exist FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
+		$searchdata = $db->fetch_result($result);
+		if ( $searchdata['exist'] )
 			$db->query("UPDATE ".TABLE_PREFIX."searches SET time = ".time().", results = '".$result_data."' WHERE sess_id = '".session_id()."'");
 		else
 			$db->query("INSERT INTO ".TABLE_PREFIX."searches VALUES ('".session_id()."', ".time().", '".$result_data."')");
@@ -168,9 +169,10 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 	if ( !empty($_GET['act']) && $_GET['act'] == 'results' ) {
 		
 		$result = $db->query("SELECT results FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
-		if ( $db->num_rows($result) ) {
+		$search_results = $db->fetch_result($result);
+		
+		if ( !empty($search_results['results']) ) {
 			
-			$search_results = $db->fetch_result($result);
 			$search_results = unserialize(stripslashes($search_results['results']));
 			
 			//

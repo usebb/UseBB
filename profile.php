@@ -70,10 +70,11 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$own_profile = FALSE;
 			
 			$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+			$profiledata = $db->fetch_result($result);
 			
 		}
 		
-		if ( $own_profile || $db->num_rows($result) ) {
+		if ( $own_profile || $profiledata['id'] ) {
 			
 			//
 			// The user exists, show its profile
@@ -86,7 +87,6 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 			} else {
 				
-				$profiledata = $db->fetch_result($result);
 				$template->set_page_title(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))));
 				
 			}

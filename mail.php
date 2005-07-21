@@ -66,16 +66,15 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 			//
 			$own_mailpage = FALSE;
 			
-			$result = $db->query("SELECT displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+			$result = $db->query("SELECT id, displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+			$user_to_mail = $db->fetch_result($result);
 			
 		}
 		
-		if ( $own_mailpage || $db->num_rows($result) ) {
+		if ( $own_mailpage || $user_to_mail['id'] ) {
 			
 			if ( $own_mailpage )
 				$user_to_mail = $session->sess_info['user_info'];
-			else
-				$user_to_mail = $db->fetch_result($result);
 			
 			if ( !$user_to_mail['email_show'] && $functions->get_user_level() < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				

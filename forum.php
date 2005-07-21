@@ -49,9 +49,10 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	//
 	// Get information about the forum
 	//
-	$result = $db->query("SELECT f.name, f.auth, f.topics, f.status, f.hide_mods_list, c.id AS cat_id, c.name AS cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE f.id = ".$_GET['id']." AND f.cat_id = c.id");
+	$result = $db->query("SELECT f.id, f.name, f.auth, f.topics, f.status, f.hide_mods_list, c.id AS cat_id, c.name AS cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE f.id = ".$_GET['id']." AND f.cat_id = c.id");
+	$forumdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$forumdata['id'] ) {
 		
 		//
 		// This forum does not exist, show an error
@@ -64,8 +65,6 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		));
 		
 	} else {	
-		
-		$forumdata = $db->fetch_result($result);
 		
 		if ( $functions->auth($forumdata['auth'], 'view', $_GET['id']) ) {
 			

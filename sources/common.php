@@ -91,6 +91,13 @@ define('LEVEL_MEMBER', 1);
 define('LEVEL_GUEST', 0);
 
 //
+// Without this, PHP 5.1 might drop a notice
+// UseBB uses its own timezone handling where needed
+//
+if ( function_exists('date_default_timezone_set') )
+	date_default_timezone_set('UTC');
+
+//
 // Set the UseBB error handler
 //
 function error_handler($errno, $error, $file, $line) {

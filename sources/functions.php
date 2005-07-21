@@ -133,7 +133,8 @@ class functions {
 			128 => 'E_COMPILE_WARNING',
 			256 => 'E_USER_ERROR',
 			512 => 'E_USER_WARNING',
-			1024 => 'E_USER_NOTICE'
+			1024 => 'E_USER_NOTICE',
+			2048 => 'E_STRICT'
 		);
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
@@ -168,16 +169,24 @@ class functions {
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
-		if ( $errtype == 'SQL_ERROR' && count($db->get_used_queries()) ) {
+		
+		//
+		// FIXME
+		// Needs to be done this way due to bug(?): http://bugs.php.net/bug.php?id=33643
+		//
+		$used_queries = $db->get_used_queries();
+		
+		if ( $errtype == 'SQL_ERROR' && count($used_queries) ) {
 			
 			if ( $this->get_config('debug') >= 2 )
 				$html_msg .= '
-			<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($db->get_used_queries()).'</textarea></p>';
+			<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($used_queries).'</textarea></p>';
 			else 
 				$html_msg .= '
 			<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
 			
 		}
+		
 		$html_msg .= '
 		</blockquote>
 		<p>This error should probably not have occured, so please report it to the webmaster. Thank you for your help.</p>

@@ -48,6 +48,7 @@ UseBB 0.6 Changelog
 - Reference objects instead of cloning them for PHP5 compatibility.
 - Disable MySQL trace mode statement moved to db_mysqli?.php.
 - Added get_server_info() to mysqli? drivers.
+- Ommitted possible PHP bug (33643) (Only variables can be passed by reference).
 
 UseBB 0.5.1 Changelog
 ------------------------------

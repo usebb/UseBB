@@ -981,7 +981,7 @@ class functions {
 				preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
 				foreach ( $matches[1] as $oldpart ) {
 					
-					$newpart = preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $oldpart);
+					$newpart = preg_replace(array('#\[#', '#\]#', "#\n#", "#\r#"), array('&#91;', '&#93;', '<br />', ''), $oldpart);
 					$string = str_replace($oldpart, $newpart, $string);
 					
 				}

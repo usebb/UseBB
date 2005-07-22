@@ -87,8 +87,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 	} else {
 		
 		$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id, ".TABLE_PREFIX."subscriptions s WHERE t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id AND f.id = t.forum_id AND t.id = s.topic_id AND s.user_id = ".$session->sess_info['user_id']." ORDER BY p2.post_time DESC");
-		
-		if ( !$db->num_rows($result) ) {
+		$topics = array();
+		while ( $topicdata = $db->fetch_result($result) )
+			$topics[] = $topicdata;
+				
+		if ( !count($topics) ) {
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],
@@ -104,7 +107,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 				'unsubscribe_submit' => $unsubscribe_submit
 			));
 			
-			while ( $topicdata = $db->fetch_result($result) ) {
+			foreach ( $topics as $topicdata ) {
 				
 				//
 				// Loop through the topics, generating output...

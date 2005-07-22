@@ -44,13 +44,9 @@ $template->set_page_title($lang['Activate']);
 //
 // Check if the user exists
 //
-$result = $db->query("SELECT name, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
-if ( $db->num_rows($result) === 1 ) {
-	
-	//
-	// If it does, get its name and activation key
-	//
-	$userdata = $db->fetch_result($result);
+$result = $db->query("SELECT id, name, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+$userdata = $db->fetch_result($result);
+if ( $userdata['id'] ) {
 	
 	//
 	// If this user is already active,

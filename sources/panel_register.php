@@ -52,21 +52,16 @@ if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !e
 	// Get banned usernames and e-mail addresses
 	//
 	$result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''");
-	
 	$banned = array('usernames' => array(), 'emails' => array());
-	if ( $db->num_rows($result) ) {
+	while ( $out = $db->fetch_result($result) ) {
 		
-		while ( $out = $db->fetch_result($result) ) {
-			
-			//
-			// Store all the usernames and e-mail addresses in an array
-			//
-			if ( !empty($out['name']) )
-				$banned['usernames'][] = $out['name'];
-			if ( !empty($out['email']) )
-				$banned['emails'][] = $out['email'];
-			
-		}
+		//
+		// Store all the usernames and e-mail addresses in an array
+		//
+		if ( !empty($out['name']) )
+			$banned['usernames'][] = $out['name'];
+		if ( !empty($out['email']) )
+			$banned['emails'][] = $out['email'];
 		
 	}
 	

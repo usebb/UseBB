@@ -44,9 +44,10 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Get info about the topic
 	//
-	$result = $db->query("SELECT t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic']);
+	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic']);
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		//
 		// This topic does not exist
@@ -60,8 +61,6 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
-		
 		//
 		// Only if the user can delete topics
 		//
@@ -70,6 +69,8 @@ if ( $_GET['act'] == 'delete' ) {
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
 				if ( !empty($_POST['delete']) ) {
+					
+					$forum_counts_updated = false;
 					
 					//
 					// 1. Delete the topic entry
@@ -82,15 +83,16 @@ if ( $_GET['act'] == 'delete' ) {
 					if ( $topicdata['last_topic_id'] == $_GET['topic'] ) {
 						
 						$result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$topicdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1");
-						if ( !$db->num_rows($result) ) {
+						$lasttopicdata = $db->fetch_result($result);
+						
+						if ( !$lasttopicdata['topic_id'] ) {
 							
 							$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$topicdata['forum_id']);
 							
-							$forum_counts_updated = TRUE;
+							$forum_counts_updated = true;
 							
 						} else {
 							
-							$lasttopicdata = $db->fetch_result($result);
 							$update_last_topic_id = ', last_topic_id = '.$lasttopicdata['topic_id'];
 							
 						}
@@ -104,7 +106,7 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					// 3. Update the forum's counters
 					//
-					if ( !isset($forum_counts_updated) ) {
+					if ( !$forum_counts_updated ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics-1, posts = posts-". ( $topicdata['count_replies']+1 ) .$update_last_topic_id." WHERE id = ".$topicdata['forum_id']);
 						
@@ -118,7 +120,7 @@ if ( $_GET['act'] == 'delete' ) {
 					$users_posted = array();
 					while ( $postsdata = $db->fetch_result($result) ) {
 						
-						if ( !isset($users_posted[$postsdata['poster_id']]) )
+						if ( !array_key_exists($postsdata['poster_id'], $users_posted) )
 							$users_posted[$postsdata['poster_id']] = 1;
 						else
 							$users_posted[$postsdata['poster_id']]++;
@@ -199,9 +201,10 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Get topic information
 	//
-	$result = $db->query("SELECT t.topic_title, t.forum_id, t.count_replies, p.post_time, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND p.id = t.last_post_id AND t.id = ".$_GET['topic']);
+	$result = $db->query("SELECT t.id, t.topic_title, t.forum_id, t.count_replies, p.post_time, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND p.id = t.last_post_id AND t.id = ".$_GET['topic']);
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		//
 		// I didn't see that topic!?
@@ -215,8 +218,6 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
-		
 		//
 		// If the user is granted to move topics
 		//
@@ -229,14 +230,15 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					// Get information about the new forum
 					//
-					$result = $db->query("SELECT f.last_topic_id, f.auth, p.post_time FROM ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON t.id = f.last_topic_id ) LEFT JOIN ".TABLE_PREFIX."posts p ON p.id = t.last_post_id ) WHERE f.id = ".$_POST['new_forum_id']);
-					if ( !$db->num_rows($result) ) {
+					$result = $db->query("SELECT f.id, f.last_topic_id, f.auth, p.post_time FROM ( ( ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON t.id = f.last_topic_id ) LEFT JOIN ".TABLE_PREFIX."posts p ON p.id = t.last_post_id ) WHERE f.id = ".$_POST['new_forum_id']);
+					$forumdata = $db->fetch_result($result);
+					
+					if ( !$forumdata['id'] ) {
 						
 						header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 						
 					} else {
 						
-						$forumdata = $db->fetch_result($result);
 						if ( !$functions->auth($forumdata['auth'], 'view', $_POST['new_forum_id']) ) {
 							
 							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
@@ -247,6 +249,7 @@ if ( $_GET['act'] == 'delete' ) {
 							// Move the topic
 							//
 							$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['new_forum_id']." WHERE id = ".$_GET['topic']);
+							$old_forum_counts_updated = false;
 							
 							if ( $topicdata['last_topic_id'] == $_GET['topic'] ) {
 								
@@ -254,15 +257,16 @@ if ( $_GET['act'] == 'delete' ) {
 								// Adjust the last updated topic
 								//
 								$result = $db->query("SELECT p.topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE p.topic_id = t.id AND t.forum_id = ".$topicdata['forum_id']." ORDER BY p.post_time DESC LIMIT 1");
-								if ( !$db->num_rows($result) ) {
+								$lasttopicdata = $db->fetch_result($result);
+								
+								if ( !$lasttopicdata['topic_id'] ) {
 									
 									$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$topicdata['forum_id']);
 									
-									$old_forum_counts_updated = TRUE;
+									$old_forum_counts_updated = true;
 									
 								} else {
 									
-									$lasttopicdata = $db->fetch_result($result);
 									$update_old_last_topic_id = ', last_topic_id = '.$lasttopicdata['topic_id'];
 									
 								}
@@ -278,7 +282,7 @@ if ( $_GET['act'] == 'delete' ) {
 							//
 							// Adjust forum counts
 							//
-							if ( !isset($old_forum_counts_updated) ) {
+							if ( !$old_forum_counts_updated ) {
 								
 								$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics-1, posts = posts-". ( $topicdata['count_replies']+1 ) .$update_old_last_topic_id." WHERE id = ".$topicdata['forum_id']);
 								
@@ -303,10 +307,17 @@ if ( $_GET['act'] == 'delete' ) {
 				$template->set_page_title($lang['MoveTopic']);
 				
 				$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
-				
-				if ( $db->num_rows($result) === 1 ) {
+				$forumdata = array();
+				while ( $forum = $db->fetch_result($result) ) {
 					
-					$forumdata = $db->fetch_result($result);
+					if ( $functions->auth($forum['auth'], 'view', $forum['id']) )
+						$forumdata[] = $forum;
+					
+				}
+				
+				if ( count($forumdata) === 1 ) {
+					
+					$forumdata = $forumdata[0];
 					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
 					
 				} else {
@@ -316,21 +327,17 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					$new_forum_input = '<select name="new_forum_id">';
 					$seen_cats = array();
-					while ( $forumdata = $db->fetch_result($result) ) {
+					foreach ( $forumdata as $forum ) {
 						
-						if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) ) {
+						if ( !in_array($forum['cat_id'], $seen_cats) ) {
 							
-							if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
-								
-								$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-								$new_forum_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
-								$seen_cats[] = $forumdata['cat_id'];
-								
-							}
-							
-							$new_forum_input .= '<option value="'.$forumdata['id'].'">'.unhtml(stripslashes($forumdata['name'])).'</option>';
+							$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
+							$new_forum_input .= '<optgroup label="'.unhtml(stripslashes($forum['cat_name'])).'">';
+							$seen_cats[] = $forum['cat_id'];
 							
 						}
+						
+						$new_forum_input .= '<option value="'.$forum['id'].'">'.unhtml(stripslashes($forum['name'])).'</option>';
 						
 					}
 					$new_forum_input .= '</optgroup></select>';
@@ -369,15 +376,15 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	$session->update();
 	
-	$result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'lock', $topicdata['id']) ) {
 			
 			//
@@ -417,15 +424,15 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	$session->update();
 	
-	$result = $db->query("SELECT t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.status_locked, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'lock', $topicdata['id']) ) {
 			
 			//
@@ -465,15 +472,15 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	$session->update();
 	
-	$result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'sticky', $topicdata['id']) ) {
 			
 			//
@@ -514,15 +521,15 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	$session->update();
 	
-	$result = $db->query("SELECT t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.status_sticky, f.id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
 		
 	} else {
 		
-		$topicdata = $db->fetch_result($result);
 		if ( !$functions->auth($topicdata['auth'], 'sticky', $topicdata['id']) ) {
 			
 			//

@@ -91,7 +91,7 @@ class template {
 		
 		$this->load_section('global');
 		
-		if ( isset($this->templates['global']['config'][$setting]) )
+		if ( array_key_exists($setting, $this->templates['global']['config']) )
 			return $this->templates['global']['config'][$setting];
 		elseif ( !$functions->get_config('hide_undefined_template_setting_warnings') )
 			trigger_error('The template configuration variable "'.$setting.'" does not exist!');

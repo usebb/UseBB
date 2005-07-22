@@ -217,12 +217,13 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 1. Delete the post entry (and eventually the topic entry)
 					//
+					$topic_deleted = false;
 					$result = $db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE id = ".$_GET['post']);
 					if ( $postdata['count_replies'] < 1 ) {
 						
 						$result = $db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id = ".$postdata['topic_id']);
 						
-						$topic_deleted = TRUE;
+						$topic_deleted = true;
 						$update_topic_count = ', topics = topics-1';
 						
 					} else {
@@ -234,7 +235,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 2. Adjust the topic's first and last post id if needed
 					//
-					if ( !isset($topic_deleted) ) {
+					if ( !$topic_deleted ) {
 						
 						if ( $postdata['first_post_id'] == $_GET['post'] ) {
 							
@@ -265,7 +266,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 3. Adjust the topic's replies count if needed
 					//
-					if ( !isset($topic_deleted) ) {
+					if ( !$topic_deleted ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = count_replies-1".$update_first_post_id.$update_last_post_id." WHERE id = ".$postdata['topic_id']);
 						
@@ -320,7 +321,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'posts'");
 					
-					if ( isset($topic_deleted) ) {
+					if ( $topic_deleted ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'");
 						

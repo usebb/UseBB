@@ -51,7 +51,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 	$result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
 	$userdata = $db->fetch_result($result);
 	
-	if ( $db->num_rows($result) == 0 ) {
+	if ( !$userdata['id'] ) {
 		
 		//
 		// This user does not exist, show an error

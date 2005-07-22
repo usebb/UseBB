@@ -39,9 +39,10 @@ $session->update('posttopic:'.$_GET['forum']);
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$result = $db->query("SELECT name, status, auth, increase_post_count FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum']);
+$result = $db->query("SELECT id, name, status, auth, increase_post_count FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum']);
+$forumdata = $db->fetch_result($result);
 
-if ( !$db->num_rows($result) ) {
+if ( !$forumdata['id'] ) {
 	
 	//
 	// This forum does not exist, show an error
@@ -54,8 +55,6 @@ if ( !$db->num_rows($result) ) {
 	));
 	
 } else {
-	
-	$forumdata = $db->fetch_result($result);
 	
 	if ( !$forumdata['status'] && $functions->get_user_level() != LEVEL_ADMIN ) {
 		

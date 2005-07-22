@@ -94,19 +94,16 @@ class session {
 		//
 		$result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''");
 		$ip_banned = false;
-		if ( $db->num_rows($result) > 0 ) {
+		$banned_ips_sql = array();
+		while ( $out = $db->fetch_result($result) ) {
 			
-			while ( $out = $db->fetch_result($result) ) {
-				
-				$banned_ip = preg_quote($out['ip_addr'], '#');
-				$banned_ip = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), $banned_ip);
-				if ( preg_match('#^'.$banned_ip.'$#', $ip_addr) )
-					$ip_banned = true;
-				$banned_ip = $out['ip_addr'];
-				$banned_ip = preg_replace(array('#\*#', '#\?#'), array('%', '_'), $banned_ip);
-				$banned_ips_sql[] = "ip_addr LIKE '".$banned_ip."'";
-				
-			}
+			$banned_ip = preg_quote($out['ip_addr'], '#');
+			$banned_ip = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), $banned_ip);
+			if ( preg_match('#^'.$banned_ip.'$#', $ip_addr) )
+				$ip_banned = true;
+			$banned_ip = $out['ip_addr'];
+			$banned_ip = preg_replace(array('#\*#', '#\?#'), array('%', '_'), $banned_ip);
+			$banned_ips_sql[] = "ip_addr LIKE '".$banned_ip."'";
 			
 		}
 		
@@ -134,7 +131,7 @@ class session {
 		//
 		// Remove sessions with banned IP addresses
 		//
-		if ( isset($banned_ips_sql) ) {
+		if ( count($banned_ips_sql) ) {
 			
 			$add_to_remove_query[] = join(' OR ', $banned_ips_sql);
 			
@@ -165,6 +162,8 @@ class session {
 			);
 			
 		} else {
+			
+			$user_info_set = false;
 			
 			//
 			// Get information about the current session
@@ -208,10 +207,9 @@ class session {
 				} else {
 					
 					$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0]);
+					$user_info = $db->fetch_result($result);
 					
-					if ( $db->num_rows($result) > 0 ) {
-						
-						$user_info = $db->fetch_result($result);
+					if ( $user_info['id'] ) {
 						
 						//
 						// If the encrypted password in the cookie equals to the password in the database
@@ -234,6 +232,8 @@ class session {
 							$functions->unset_al();
 							
 						}
+						
+						$user_info_set = true;
 						
 					} else {
 						
@@ -277,13 +277,14 @@ class session {
 				
 			}
 			
-			if ( $user_id > LEVEL_GUEST && !isset($user_info) ) {
+			if ( $user_id > LEVEL_GUEST && !$user_info_set ) {
 				
 				$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
+				$user_info = $db->fetch_result($result);
 				
-				if ( $db->num_rows($result) > 0 ) {
+				if ( $user_info['id'] ) {
 					
-					$user_info = $db->fetch_result($result);
+					$user_info_set = true;
 					
 					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != LEVEL_ADMIN ) )
 						$user_id = 0;
@@ -333,7 +334,7 @@ class session {
 				'pages' => $pages,
 				'ip_banned' => FALSE
 			);
-			if ( isset($user_info) )
+			if ( $user_info_set )
 				$this->sess_info['user_info'] = $user_info;
 			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
 			$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();

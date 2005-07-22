@@ -42,10 +42,10 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	if ( !empty($_GET['post']) && valid_int($_GET['post']) ) {
 		
 		$result = $db->query("SELECT p1.topic_id, COUNT(p2.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."posts p2 WHERE p1.id = ".$_GET['post']." AND t.id = p1.topic_id AND p2.topic_id = p1.topic_id AND p2.id <= ".$_GET['post']." GROUP BY p1.topic_id");
+		$out = $db->fetch_result($result);
 		
-		if ( $db->num_rows($result) ) {
+		if ( $out['topic_id'] ) {
 			
-			$out = $db->fetch_result($result);
 			$requested_topic = $out['topic_id'];
 			$post_in_topic = $out['post_in_topic'];
 			
@@ -85,13 +85,10 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		$previous_view = ( array_key_exists($_GET['id'], $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$_GET['id']] : $_SESSION['previous_visit'];
 		
 		$result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$previous_view." GROUP BY p.topic_id");
+		$out = $db->fetch_result($result);
 		
-		if ( $db->num_rows($result) ) {
-			
-			$out = $db->fetch_result($result);
+		if ( $out['post_in_topic'] )
 			$post_in_topic = $out['post_in_topic'];
-			
-		}
 		
 		$requested_topic = $_GET['id'];
 		
@@ -111,9 +108,10 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	$result = $db->query("SELECT t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id");
+	$topicdata = $db->fetch_result($result);
 	
-	if ( !$db->num_rows($result) ) {
+	if ( !$topicdata['id'] ) {
 		
 		//
 		// This topic does not exist, show an error
@@ -126,8 +124,6 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		));
 		
 	} else {
-		
-		$topicdata = $db->fetch_result($result);
 		
 		if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) ) {
 			
@@ -149,9 +145,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			if ( $session->sess_info['user_id'] ) {
 				
-				$result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
-				
-				$subscribed = ( !$db->num_rows($result) ) ? false : true;
+				$result = $db->query("SELECT COUNT(*) as subscribed FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
+				$subscribed = $db->fetch_result($result);
+				$subscribed = ( !$subscribed['subscribed'] ) ? false : true;
 				
 			}
 			if ( !empty($_GET['act']) && in_array($_GET['act'], array('subscribe', 'unsubscribe')) ) {
@@ -227,7 +223,6 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page') - 1);
-			
 			$new_post_anchor_set = false;
 			
 			while ( $postsdata = $db->fetch_result($result) ) {
@@ -239,7 +234,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				//
 				// Used for switching colors in template
 				//
-				$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
+				$colornum = ( $i % 2 ) ? 1 : 2;
 				
 				//
 				// Post count

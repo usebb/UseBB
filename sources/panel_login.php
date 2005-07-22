@@ -58,7 +58,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 	//
 	// If this user does not exist...
 	//
-	if ( $db->num_rows($result) == 0 ) {
+	if ( !$userdata['id'] ) {
 		
 		//
 		// ...show a warning

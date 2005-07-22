@@ -39,9 +39,10 @@ $session->update('reply:'.$_GET['topic']);
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$result = $db->query("SELECT t.topic_title, t.status_locked, t.forum_id, t.count_replies, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.auto_lock, f.increase_post_count FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+$result = $db->query("SELECT t.id, t.topic_title, t.status_locked, t.forum_id, t.count_replies, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.auto_lock, f.increase_post_count FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$_GET['topic']." AND f.id = t.forum_id");
+$topicdata = $db->fetch_result($result);
 
-if ( !$db->num_rows($result) ) {
+if ( !$topicdata['id'] ) {
 	
 	//
 	// This topic does not exist, show an error
@@ -54,8 +55,6 @@ if ( !$db->num_rows($result) ) {
 	));
 	
 } else {
-	
-	$topicdata = $db->fetch_result($result);
 	
 	if ( $topicdata['status_locked'] && !$functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 		
@@ -79,9 +78,9 @@ if ( !$db->num_rows($result) ) {
 		
 		if ( $session->sess_info['user_id'] ) {
 			
-			$result = $db->query("SELECT topic_id FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$_GET['topic']." AND user_id = ".$session->sess_info['user_id']);
-			
-			$subscribed = ( !$db->num_rows($result) ) ? false : true;
+			$result = $db->query("SELECT COUNT(*) as subscribed FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$_GET['topic']." AND user_id = ".$session->sess_info['user_id']);
+			$subscribed = $db->fetch_result($result);
+			$subscribed = ( !$subscribed['subscribed'] ) ? false : true;
 			
 		}
 		
@@ -123,25 +122,21 @@ if ( !$db->num_rows($result) ) {
 				// E-mail subscribed users
 				//
 				$result = $db->query("SELECT s.user_id AS id, u.level, u.email, u.language FROM ".TABLE_PREFIX."subscriptions s, ".TABLE_PREFIX."members u WHERE s.topic_id = ".$_GET['topic']." AND u.id = s.user_id AND s.user_id <> ".$session->sess_info['user_id']);			
-				if ( $db->num_rows($result) ) {
+				while ( $subscribed_user = $db->fetch_result($result) ) {
 					
-					while ( $subscribed_user = $db->fetch_result($result) ) {
+					if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id'], false, $subscribed_user) ) {
 						
-						if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id'], false, $subscribed_user) ) {
-							
-							//
-							// Fetch the language of the user
-							//
-							$user_lang = $functions->fetch_language($subscribed_user['language']);
-							
-							$functions->usebb_mail(sprintf($user_lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $user_lang['NewReplyEmailBody'], array(
-								'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
-								'topic_title' => stripslashes($topicdata['topic_title']),
-								'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
-								'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
-							), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_user['email']);
-							
-						}
+						//
+						// Fetch the language of the user
+						//
+						$user_lang = $functions->fetch_language($subscribed_user['language']);
+						
+						$functions->usebb_mail(sprintf($user_lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $user_lang['NewReplyEmailBody'], array(
+							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
+							'topic_title' => stripslashes($topicdata['topic_title']),
+							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
+							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
+						), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_user['email']);
 						
 					}
 					
@@ -223,17 +218,10 @@ if ( !$db->num_rows($result) ) {
 				if ( !empty($_GET['quotepost']) && valid_int($_GET['quotepost']) ) {
 					
 					$result = $db->query("SELECT p.content, p.poster_guest, u.displayed_name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic']);
-					
-					if ( $db->num_rows($result) ) {
-						
-						$quoteddata = $db->fetch_result($result);
-						
-						$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
-						$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
-						
-						$_POST['content'] = '[quote='.$quoteduser.']'.$quotedpost.'[/quote]';
-						
-					}
+					$quoteddata = $db->fetch_result($result);
+					$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
+					$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
+					$_POST['content'] = '[quote='.$quoteduser.']'.$quotedpost.'[/quote]';
 					
 				}
 				
@@ -291,9 +279,8 @@ if ( !$db->num_rows($result) ) {
 					'view_more_posts' => $view_more_posts
 				));
 				
+				$colornum = 1;				
 				while ( $postsdata = $db->fetch_result($result) ) {
-					
-					$colornum = ( !isset($colornum) || $colornum !== 1 ) ? 1 : 2;
 					
 					$template->parse('post', 'topicreview', array(
 						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['displayed_name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
@@ -301,6 +288,7 @@ if ( !$db->num_rows($result) ) {
 						'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
 						'colornum' => $colornum
 					));
+					$colornum = ( $colornum !== 1 ) ? 1 : 2;
 					
 				}
 				

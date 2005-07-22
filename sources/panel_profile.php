@@ -37,14 +37,9 @@ if ( !empty($_POST['displayed_name']) ) {
 	// Get banned usernames
 	//
 	$result = $db->query("SELECT name FROM ".TABLE_PREFIX."bans WHERE name <> ''");
-	
 	$banned_usernames = array();
-	if ( $db->num_rows($result) ) {
-		
-		while ( $out = $db->fetch_result($result) )
-			$banned_usernames[] = $out['name'];
-		
-	}
+	while ( $out = $db->fetch_result($result) )
+		$banned_usernames[] = $out['name'];
 	
 	//
 	// Check if this displayed name already exists

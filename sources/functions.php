@@ -218,7 +218,7 @@ class functions {
 		//
 		// Member preferences
 		//
-		if ( count($session->sess_info) && $session->sess_info['user_id'] && isset($session->sess_info['user_info'][$setting]) ) {
+		if ( count($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
 			
 			$keep_default = FALSE;
 			
@@ -250,7 +250,7 @@ class functions {
 			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
 			return $path_parts['dirname'];
 			
-		} elseif ( isset($this->board_config[$setting]) ) {
+		} elseif ( array_key_exists($setting, $this->board_config) ) {
 			
 			return $this->board_config[$setting];
 			
@@ -277,7 +277,7 @@ class functions {
 			//
 			// Get the category count
 			//
-			if ( !isset($this->statistics[$stat]) ) {
+			if ( !array_key_exists($stat, $this->statistics) ) {
 				
 				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."cats");
 				$out = $db->fetch_result($result);
@@ -292,7 +292,7 @@ class functions {
 			//
 			// Get the forums
 			//
-			if ( !isset($this->statistics[$stat]) ) {
+			if ( !array_key_exists($stat, $this->statistics) ) {
 				
 				$result = $db->query("SELECT id, auth FROM ".TABLE_PREFIX."forums");
 				$this->statistics['forums'] = 0;
@@ -323,7 +323,7 @@ class functions {
 			//
 			// Get the latest member
 			//
-			if ( !isset($this->statistics[$stat]) ) {
+			if ( !array_key_exists($stat, $this->statistics) ) {
 				
 				$result = $db->query("SELECT id, displayed_name, regdate FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1");
 				$this->statistics[$stat] = $db->fetch_result($result);
@@ -334,7 +334,7 @@ class functions {
 			
 		} else {
 			
-			if ( !isset($this->statistics[$stat]) ) {
+			if ( !array_key_exists($stat, $this->statistics) ) {
 				
 				$result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats");
 				while ( $out = $db->fetch_result($result) )
@@ -342,7 +342,7 @@ class functions {
 				
 			}
 			
-			if ( isset($this->statistics[$stat]) )
+			if ( array_key_exists($stat, $this->statistics) )
 				return $this->statistics[$stat];
 			else
 				trigger_error('The statistic variable "'.$stat.'" does not exist!');
@@ -786,15 +786,12 @@ class functions {
 		} else {
 			
 			$result = $db->query("SELECT u.id, u.displayed_name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE m.forum_id = ".$forum." AND m.user_id = u.id ORDER BY u.displayed_name");
+			while ( $modsdata = $db->fetch_result($result) )
+				$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['displayed_name'], $modsdata['level']);
 				
-			if ( !$db->num_rows($result) ) {
+			if ( !count($forum_moderators) ) {
 				
 				return $lang['Nobody'];
-				
-			} else {
-				
-				while ( $modsdata = $db->fetch_result($result) )
-					$forum_moderators[] = $this->make_profile_link($modsdata['id'], $modsdata['displayed_name'], $modsdata['level']);
 				
 			}
 			
@@ -1124,17 +1121,9 @@ class functions {
 		if ( !isset($this->badwords) ) {
 			
 			$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
-			
-			if ( $db->num_rows($result) ) {
-				
-				while ( $data = $db->fetch_result($result) )
-					$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
-				
-			} else {
-				
-				$this->badwords = array();
-				
-			}
+			$this->badwords = array();
+			while ( $data = $db->fetch_result($result) )
+				$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
 			
 		}
 		
@@ -1411,18 +1400,12 @@ class functions {
 		
 		if ( $session->sess_info['user_id'] && !is_array($this->updated_forums) ) {
 			
-			$this->updated_forums = array();
-			
 			$result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit']);
-			
-			if ( $db->num_rows($result) ) {
+			$this->updated_forums = array();
+			while ( $topicsdata = $db->fetch_result($result) ) {
 				
-				while ( $topicsdata = $db->fetch_result($result) ) {
-					
-					if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists($topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$topicsdata['id']] < $topicsdata['post_time'] ) )
-						$this->updated_forums[] = $topicsdata['forum_id'];
-					
-				}
+				if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists($topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$topicsdata['id']] < $topicsdata['post_time'] ) )
+					$this->updated_forums[] = $topicsdata['forum_id'];
 				
 			}
 			

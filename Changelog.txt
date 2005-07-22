@@ -49,6 +49,7 @@ UseBB 0.6 Changelog
 - Disable MySQL trace mode statement moved to db_mysqli?.php.
 - Added get_server_info() to mysqli? drivers.
 - Ommitted possible PHP bug (33643) (Only variables can be passed by reference).
+- Also search in topic titles.
 
 UseBB 0.5.1 Changelog
 ------------------------------

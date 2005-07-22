@@ -114,7 +114,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 		
 		$keywords = split(' ', $_REQUEST['keywords']);
 		foreach ( $keywords as $key => $val )
-			$keywords[$key] = "p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%'";
+			$keywords[$key] = "( p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%' OR t.topic_title LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%' )";
 		$query_where_parts[] = ' ( '.join(' '.strtoupper($_REQUEST['mode']).' ', $keywords).' ) ';
 		
 	}

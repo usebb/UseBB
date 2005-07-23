@@ -624,9 +624,13 @@ class functions {
 	//
 	// Set the remember cookie
 	//
-	function set_al($userid, $passwdhash) {
+	function set_al($user_id, $passwd_hash) {
 		
-		setcookie($this->get_config('session_name').'_al', $userid.':'.$passwdhash, time()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		$content = array(
+			intval($user_id),
+			$passwd_hash
+		);
+		setcookie($this->get_config('session_name').'_al', serialize($content), time()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
@@ -644,10 +648,10 @@ class functions {
 	//
 	function isset_al() {
 		
-		if ( isset($_COOKIE[$this->get_config('session_name').'_al']) )
-			return TRUE;
+		if ( array_key_exists($this->get_config('session_name').'_al', $_COOKIE) && is_array($_COOKIE[$this->get_config('session_name').'_al']) )
+			return true;
 		else
-			return FALSE;
+			return false;
 		
 	}
 	
@@ -656,8 +660,10 @@ class functions {
 	//
 	function get_al() {
 		
-		$data = explode(':', $_COOKIE[$this->get_config('session_name').'_al'], 2);
-		return $data;
+		if ( $this->isset_al() )
+			return unserialize($_COOKIE[$this->get_config('session_name').'_al']);
+		else
+			return false;
 		
 	}
 	

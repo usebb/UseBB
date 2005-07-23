@@ -220,17 +220,17 @@ class functions {
 		//
 		if ( count($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
 			
-			$keep_default = FALSE;
+			$keep_default = false;
 			
 			if ( $setting == 'language' ) {
 				
 				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
-					$keep_default = TRUE;
+					$keep_default = true;
 				
 			} elseif ( $setting == 'template' ) {
 				
 				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
-					$keep_default = TRUE;
+					$keep_default = true;
 				
 			}
 			
@@ -730,7 +730,7 @@ class functions {
 		} else {
 			
 			if ( !$this->get_config('guests_can_access_board') )
-				return FALSE;
+				return false;
 			else
 				$userlevel = LEVEL_GUEST;
 			
@@ -756,12 +756,12 @@ class functions {
 		
 		//
 		// If the user level is equal or greater than the
-		// auth integer, return a TRUE, otherwise return a FALSE.
+		// auth integer, return a true, otherwise return a false.
 		//
 		if ( $userlevel >= $min_level )
-			return TRUE;
+			return true;
 		else
-			return FALSE;
+			return false;
 		
 	}
 	
@@ -813,7 +813,7 @@ class functions {
 	//
 	// Return a clickable list of pages
 	//
-	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val=NULL, $back_forward_links=TRUE, $url_vars=array()) {
+	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val=NULL, $back_forward_links=true, $url_vars=array()) {
 		
 		global $lang;
 		
@@ -1207,9 +1207,9 @@ class functions {
 		} elseif ( $action == 'check_existance' ) {
 			
 			if ( !empty($timezones[$param]) )
-				return TRUE;
+				return true;
 			else
-				return FALSE;
+				return false;
 			
 		}
 		

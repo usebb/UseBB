@@ -60,14 +60,14 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			//
 			// This user is viewing his own profile, so we don't need a new query
 			//
-			$own_profile = TRUE;
+			$own_profile = true;
 			
 		} else {
 			
 			//
 			// This user is not viewing his own profile, so we need a new query
 			//
-			$own_profile = FALSE;
+			$own_profile = false;
 			
 			$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 			$profiledata = $db->fetch_result($result);

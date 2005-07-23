@@ -284,7 +284,7 @@ if ( !isset($_GET['act']) ) {
 							
 							$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = 0, posts = 0, last_topic_id = 0 WHERE id = ".$postdata['forum_id']);
 							
-							$forum_counts_updated = TRUE;
+							$forum_counts_updated = true;
 							
 						} else {
 							

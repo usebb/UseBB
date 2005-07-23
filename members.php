@@ -61,7 +61,7 @@ if ( empty($_GET['act']) ) {
 		$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 		$limit_start = ( $page - 1 ) * $functions->get_config('members_per_page');
 		$limit_end = $functions->get_config('members_per_page');
-		$page_links = $functions->make_page_links($numpages, $page, $functions->get_stats('members'), $functions->get_config('members_per_page'), 'members.php', NULL, TRUE, array('sortby' => $_GET['sortby']));
+		$page_links = $functions->make_page_links($numpages, $page, $functions->get_stats('members'), $functions->get_config('members_per_page'), 'members.php', NULL, true, array('sortby' => $_GET['sortby']));
 		
 		$template->parse('header', 'memberlist', array(
 			'page_links' => $page_links

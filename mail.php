@@ -57,14 +57,14 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 			//
 			// This user wants to send an email to himself, so we don't need a new query
 			//
-			$own_mailpage = TRUE;
+			$own_mailpage = true;
 			
 		} else {
 			
 			//
 			// This user is not emailing himself, so we need a new query
 			//
-			$own_mailpage = FALSE;
+			$own_mailpage = false;
 			
 			$result = $db->query("SELECT id, displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 			$user_to_mail = $db->fetch_result($result);

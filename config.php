@@ -55,7 +55,6 @@ $conf = array();
 $conf['active_topics_count'] = 15;
 $conf['admin_email'] = 'email@example.net';
 $conf['allow_multi_sess'] = 1;
-$conf['auto_free_sql_results'] = 1;
 $conf['avatars_force_width'] = 65;
 $conf['avatars_force_height'] = 65;
 $conf['board_closed'] = 0;

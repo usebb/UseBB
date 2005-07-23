@@ -44,7 +44,6 @@ class db {
 	//
 	var $connection;
 	var $queries = array();
-	var $results = array();
 	
 	//
 	// Make a connection to the MySQL server
@@ -80,8 +79,6 @@ class db {
 				trigger_error('SQL: '.$error);
 			
 		}
-		if ( $functions->get_config('auto_free_sql_results') && is_resource($result) )
-			$this->results[] = $result;
 		return $result;
 		
 	}
@@ -138,15 +135,6 @@ class db {
 	// Disconnect the database connection
 	//
 	function disconnect() {
-		
-		global $functions;
-		
-		if ( $functions->get_config('auto_free_sql_results') ) {
-			
-			foreach ( $this->results as $result )
-				@mysql_free_result($result);
-			
-		}
 		
 		@mysql_close($this->connection);
 		

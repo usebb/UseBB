@@ -42,9 +42,6 @@ class db {
 	//
 	var $connection;
 	var $queries = array();
-	var $results = array();
-	var $current = array();
-	var $counts = array();
 	
 	//
 	// Make a connection to the MySQL server
@@ -69,15 +66,9 @@ class db {
 	function query($query, $return_error=false) {
 		
 		$this->queries[] = preg_replace('#\s+#', ' ', $query);
-		
-		$current_results = array();
-		foreach ( $this->connection->query($query) as $current_result )
-			$current_results[] = $current_result;
-		reset($current_results);
-		$this->results[] = $current_results;
-		$this->counts[] = count($current_results);
-		
-		return count($this->results)-1;
+		$query = $this->connection->prepare($query);
+		$query->execute();
+		return $query;
 		
 	}
 	
@@ -86,16 +77,7 @@ class db {
 	//
 	function fetch_result($result) {
 		
-		if ( !in_array($result, $this->current) ) {
-			
-			$this->current[] = $result;
-			return current($this->results[$result]);
-			
-		} else {
-			
-			return next($this->results[$result]);
-			
-		}
+		return $result->fetch(PDO_FETCH_ASSOC);
 		
 	}
 	
@@ -104,7 +86,7 @@ class db {
 	//
 	function num_rows($result) {
 		
-		return $this->counts[$result];
+		return $result->rowCount();
 		
 	}
 	
@@ -132,7 +114,7 @@ class db {
 	function get_server_info() {
 		
 		return array(
-			'PDO-MySQL (Highly Experimental)',
+			'MySQL (pdo-mysql)',
 			$this->connection->getAttribute(PDO_ATTR_SERVER_VERSION)
 		);
 		

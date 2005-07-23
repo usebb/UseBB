@@ -110,6 +110,9 @@ class admin_functions {
 	//
 	function make_php_string($variable) {
 		
+		if ( function_exists('var_export') )
+			return var_export($variable);
+		
 		if ( is_int($variable) || is_bool($variable) || is_float($variable) ) {
 		
 			$variable = $variable;

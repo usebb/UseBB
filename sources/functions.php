@@ -660,10 +660,19 @@ class functions {
 	//
 	function get_al() {
 		
-		if ( $this->isset_al() )
-			return unserialize(stripslashes($_COOKIE[$this->get_config('session_name').'_al']));
-		else
+		if ( $this->isset_al() ) {
+			
+			$content = stripslashes($_COOKIE[$this->get_config('session_name').'_al']);
+			if ( substr($content, 0, 1) == 'a' )
+				return unserialize($content);
+			else
+				return explode(':', $content, 2);
+			
+		} else {
+			
 			return false;
+			
+		}
 		
 	}
 	

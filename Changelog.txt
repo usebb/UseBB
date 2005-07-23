@@ -50,6 +50,9 @@ UseBB 0.6 Changelog
 - Added get_server_info() to mysqli? drivers.
 - Ommitted possible PHP bug (33643) (Only variables can be passed by reference).
 - Also search in topic titles.
+- Deleted about all db::num_rows() calls to make PDO driver possible.
+- Code cleanups to session handler.
+- Auto login cookie now contains data in serialized array.
 
 UseBB 0.5.1 Changelog
 ------------------------------

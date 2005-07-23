@@ -189,10 +189,8 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Move topics
 	//
-	
 	$session->update($_GET['act'].'topic:'.$_GET['topic']);
 		
-	
 	//
 	// Include the page header
 	//
@@ -307,17 +305,20 @@ if ( $_GET['act'] == 'delete' ) {
 				$template->set_page_title($lang['MoveTopic']);
 				
 				$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
-				$forumdata = array();
-				while ( $forum = $db->fetch_result($result) ) {
+				$forums = array();
+				while ( $forumdata = $db->fetch_result($result) ) {
 					
-					if ( $functions->auth($forum['auth'], 'view', $forum['id']) )
-						$forumdata[] = $forum;
+					if ( $functions->auth($forumdata['auth'], 'view', $forumdata['id']) )
+						$forums[] = $forumdata;
 					
 				}
 				
-				if ( count($forumdata) === 1 ) {
+				if ( !count($forums) ) {
 					
-					$forumdata = $forumdata[0];
+					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					
+				} elseif ( count($forums) === 1 ) {
+					
 					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
 					
 				} else {
@@ -327,17 +328,17 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					$new_forum_input = '<select name="new_forum_id">';
 					$seen_cats = array();
-					foreach ( $forumdata as $forum ) {
+					foreach ( $forums as $forumdata ) {
 						
-						if ( !in_array($forum['cat_id'], $seen_cats) ) {
+						if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
 							
 							$new_forum_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
-							$new_forum_input .= '<optgroup label="'.unhtml(stripslashes($forum['cat_name'])).'">';
-							$seen_cats[] = $forum['cat_id'];
+							$new_forum_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
+							$seen_cats[] = $forumdata['cat_id'];
 							
 						}
 						
-						$new_forum_input .= '<option value="'.$forum['id'].'">'.unhtml(stripslashes($forum['name'])).'</option>';
+						$new_forum_input .= '<option value="'.$forumdata['id'].'">'.unhtml(stripslashes($forumdata['name'])).'</option>';
 						
 					}
 					$new_forum_input .= '</optgroup></select>';

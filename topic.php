@@ -408,7 +408,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			if ( $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'delete')).'">'.$lang['DeleteTopic'].'</a>';
 			
-			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('forums')) > 1 )
+			if ( $functions->auth($topicdata['auth'], 'move', $topicdata['forum_id']) && intval($functions->get_stats('viewable_forums')) > 1 )
 				$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'move')).'">'.$lang['MoveTopic'].'</a>';
 			
 			if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {

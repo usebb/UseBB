@@ -648,7 +648,7 @@ class functions {
 	//
 	function isset_al() {
 		
-		if ( array_key_exists($this->get_config('session_name').'_al', $_COOKIE) && is_array($_COOKIE[$this->get_config('session_name').'_al']) )
+		if ( !empty($_COOKIE[$this->get_config('session_name').'_al']) )
 			return true;
 		else
 			return false;
@@ -661,7 +661,7 @@ class functions {
 	function get_al() {
 		
 		if ( $this->isset_al() )
-			return unserialize($_COOKIE[$this->get_config('session_name').'_al']);
+			return unserialize(stripslashes($_COOKIE[$this->get_config('session_name').'_al']));
 		else
 			return false;
 		

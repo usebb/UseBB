@@ -11,7 +11,6 @@ UseBB 0.6 Changelog
 - Added auto focus on many forms using improved template engine.
 - Added keywords config and HTML meta-tags for description and keywords.
 - Added feature which excludes too short words from the search keywords.
-- Added HIGHLY experimental PHP 5.1 PDO MySQL driver.
 - Fixed bug #512: too big font sizes allowed in BBCode.
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.
@@ -50,7 +49,6 @@ UseBB 0.6 Changelog
 - Added get_server_info() to mysqli? drivers.
 - Ommitted possible PHP bug (33643) (Only variables can be passed by reference).
 - Also search in topic titles.
-- Deleted about all db::num_rows() calls to make PDO driver possible.
 - Code cleanups to session handler.
 - Auto login cookie now contains data in serialized array.
 

@@ -37,7 +37,7 @@ class session {
 	//
 	// This session's ID
 	//
-	var $sess_info=array();
+	var $sess_info = array();
 
 	//
 	// Start or continue a session
@@ -158,7 +158,7 @@ class session {
 				'user_id' => 0,
 				'ip_addr' => $ip_addr,
 				'updated' => $current_time,
-				'ip_banned' => TRUE
+				'ip_banned' => true
 			);
 			
 		} else {
@@ -199,12 +199,17 @@ class session {
 				//
 				$cookie_data = $functions->get_al();
 				
-				if ( !valid_int($cookie_data[0]) || $cookie_data[0] < 1 ) {
+				if ( !valid_int($cookie_data[0]) || !intval($cookie_data[0]) ) {
 					
+					//
+					// There's something wrong with the user id
+					//
 					$user_id = 0;
 					$functions->unset_al();
 					
 				} else {
+					
+					$cookie_data[0] = intval($cookie_data[0]);
 					
 					$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0]);
 					$user_info = $db->fetch_result($result);
@@ -226,6 +231,11 @@ class session {
 							$_SESSION['previous_visit'] = $user_info['last_pageview'];
 							$_SESSION['viewed_topics'] = array();
 							
+							//
+							// So we have the user info, no need to find it later
+							//
+							$user_info_set = true;
+							
 						} else {
 							
 							$user_id = 0;
@@ -233,10 +243,11 @@ class session {
 							
 						}
 						
-						$user_info_set = true;
-						
 					} else {
 						
+						//
+						// The user ID does not exist at all
+						//
 						$user_id = 0;
 						$functions->unset_al();
 						
@@ -251,6 +262,9 @@ class session {
 			//
 			if ( $current_sess_info['started'] ) {
 				
+				//
+				// The user ID did not change
+				//
 				if ( empty($user_id) && $user_id !== LEVEL_GUEST )
 					$user_id = $current_sess_info['user_id'];
 				
@@ -270,49 +284,60 @@ class session {
 				
 			} else {
 				
+				//
+				// The session did not start yet, so this must be a guest
+				//
 				if ( empty($user_id) )
 					$user_id = 0;
-				
 				$pages = 1;
 				
 			}
 			
 			if ( $user_id > LEVEL_GUEST && !$user_info_set ) {
 				
+				//
+				// We don't already have the user info
+				// manual login (no autologin cookie) probably
+				//
 				$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
 				$user_info = $db->fetch_result($result);
 				
 				if ( $user_info['id'] ) {
 					
-					$user_info_set = true;
-					
-					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != LEVEL_ADMIN ) )
+					//
+					// If the user is active and not banned and
+					// [ the board is not closed or the user is an admin ]
+					//
+					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != LEVEL_ADMIN ) ) {
+						
 						$user_id = 0;
-					elseif ( !isset($_SESSION['previous_visit']) || $_SESSION['previous_visit'] == 0 )
-						$_SESSION['previous_visit'] = $user_info['last_pageview'];
+						
+					} else {
+						
+						if ( !isset($_SESSION['previous_visit']) || $_SESSION['previous_visit'] == 0 )
+							$_SESSION['previous_visit'] = $user_info['last_pageview'];
+						
+					}
 					
 				} else {
 					
+					//
+					// No such user ID exists
+					//
 					$user_id = 0;
 					
 				}
 				
 			}
 			
-			if ( $current_sess_info['started'] ) {
-				
-				$update_query = "UPDATE ".TABLE_PREFIX."sessions SET user_id = ".$user_id.", ip_addr = '".$ip_addr."', updated = ".$current_time.", location = '".$location."', pages = ".$pages." WHERE sess_id = '".session_id()."'";
-				
-			} else {
-				
-				$update_query = "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".session_id()."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
-				
-			}
-			
+			//
+			// Now we either insert or update the session info
+			//
+			$update_query = ( $current_sess_info['started'] ) ? "UPDATE ".TABLE_PREFIX."sessions SET user_id = ".$user_id.", ip_addr = '".$ip_addr."', updated = ".$current_time.", location = '".$location."', pages = ".$pages." WHERE sess_id = '".session_id()."'" : "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".session_id()."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
 			$db->query($update_query);
 			
 			//
-			// Update the last login timestamp of the user
+			// Update the last login and last pageview timestamp of the user
 			//
 			if ( $user_id ) {
 				
@@ -332,13 +357,16 @@ class session {
 				'updated' => $current_time,
 				'location' => $location,
 				'pages' => $pages,
-				'ip_banned' => FALSE
+				'ip_banned' => false,
+				'user_info' => ( $user_id ) ? $user_info : array()
 			);
-			if ( $user_info_set )
-				$this->sess_info['user_info'] = $user_info;
-			$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
-			$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
-			$_SESSION['latest_post'] = ( isset($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
+			
+			//
+			// Several session info we maintain
+			//
+			$_SESSION['previous_visit'] = ( !empty($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
+			$_SESSION['viewed_topics'] = ( !empty($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
+			$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
 			
 		}
 		

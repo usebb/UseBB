@@ -212,7 +212,6 @@ class functions {
 		if ( !isset($this->board_config) ) {
 			
 			$this->board_config = $conf;
-			unset($conf);
 			
 		}
 		

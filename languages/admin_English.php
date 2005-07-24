@@ -56,6 +56,15 @@ $lang['VersionLatestVersion'] = 'This forum is powered by UseBB %s which is the 
 $lang['VersionNeedUpdate'] = 'This forum running UseBB %s needs to be updated to version %s to stay secure and bug free! Visit %s to download the latest version.';
 $lang['VersionBewareDevVersions'] = 'This forum is running %s however %s is still the latest stable version. Beware of the problems and uncompatibilities that might exist with development versions.';
 
+$lang['ConfigInfo'] = 'On this page you can edit all settings of your UseBB forum. Be careful altering the database configuration.';
+$lang['ConfigDBConfig'] = 'Database configuration';
+$lang['ConfigDB-type'] = 'Type';
+$lang['ConfigDB-server'] = 'Server';
+$lang['ConfigDB-username'] = 'Username';
+$lang['ConfigDB-passwd'] = 'Password';
+$lang['ConfigDB-dbname'] = 'Database name';
+$lang['ConfigDB-prefix'] = 'Table prefix';
+
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
 

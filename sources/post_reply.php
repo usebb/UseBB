@@ -232,7 +232,10 @@ if ( !$topicdata['id'] ) {
 				$lock_topic_checked = '';
 				$subscribe_topic_checked = ( $session->sess_info['user_id'] && $session->sess_info['user_info']['auto_subscribe_reply'] ) ? ' checked="checked"' : '';
 				
-				$template->set_js_onload("set_focus('tags-txtarea')");
+				if ( $session->sess_info['user_id'] )
+					$template->set_js_onload("set_focus('tags-txtarea')");
+				else
+					$template->set_js_onload("set_focus('user')");
 				
 			}
 			
@@ -255,7 +258,7 @@ if ( !$topicdata['id'] ) {
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
-				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
+				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="2">'.$_POST['content'].'</textarea>',
 				'bbcode_controls' => $functions->get_bbcode_controls(),

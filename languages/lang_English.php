@@ -408,6 +408,7 @@ $lang['Birthday'] = 'Birthday';
 $lang['Age'] = 'Age';
 $lang['Month'] = 'Month';
 $lang['Day'] = 'Day';
+$lang['Year'] = 'Year';
 $lang['PoweredBy'] = '%s is powered by %s';
 $lang['GeneralStats'] = 'General statistics';
 $lang['Members'] = 'Members';

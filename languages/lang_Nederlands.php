@@ -408,6 +408,7 @@ $lang['Birthday'] = 'Verjaardag';
 $lang['Age'] = 'Leeftijd';
 $lang['Month'] = 'Maand';
 $lang['Day'] = 'Dag';
+$lang['Year'] = 'Jaar';
 $lang['PoweredBy'] = '%s wordt aangedreven door %s';
 $lang['GeneralStats'] = 'Algemene statistieken';
 $lang['Members'] = 'Leden';

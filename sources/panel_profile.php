@@ -228,6 +228,14 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 		
 	}
 	$birthday_day_input .= '</select>';
+	$birthday_year_input = '<select name="birthday_year"><option value="">'.$lang['Year'].'</option>';
+	for ( $i = intval(date('Y')); $i >= 1900; $i-- ) {
+		
+		$selected = ( $birthday_year == $i ) ? ' selected="selected"' : '';
+		$birthday_year_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
+		
+	}
+	$birthday_year_input .= '</select>';
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
@@ -237,7 +245,7 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 		'displayed_name_input'  => '<input type="text" size="50" maxlength="255" name="displayed_name" value="'.unhtml(stripslashes($user_info['displayed_name'])).'" />',
 		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($user_info['real_name'])).'" />',
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($user_info['location'])).'" />',
-		'birthday_year_input' => '<input type="text" size="4" maxlength="4" name="birthday_year" value="'.$birthday_year.'" />',
+		'birthday_year_input' => $birthday_year_input,
 		'birthday_month_input' => $birthday_month_input,
 		'birthday_day_input' => $birthday_day_input,
 		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$user_info['website'].'" />',

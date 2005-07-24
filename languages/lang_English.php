@@ -445,6 +445,6 @@ $lang['MembersGuestsOnline'] = 'In the last %d minutes, %d members (%d hidden) a
 $lang['WhosOnline'] = 'Who\'s Online';
 $lang['Done'] = 'Done';
 $lang['KeywordsExplain'] = 'Any keywords of at least %d characters seperated by spaces.';
-$lang['BCCMyself'] = 'Send a copy to my own e-mail address.'
+$lang['BCCMyself'] = 'Send a copy to my own e-mail address.';
 
 ?>

@@ -96,6 +96,7 @@ class functions {
 	var $board_config;
 	var $statistics = array();
 	var $languages = array();
+	var $language_sections = array();
 	var $mod_auth;
 	var $badwords;
 	var $updated_forums;
@@ -437,20 +438,48 @@ class functions {
 	//
 	// Fetch a language file
 	//
-	function fetch_language($language='') {
+	function fetch_language($language='', $section='') {
 		
 		$language = ( !empty($language) && in_array($language, $this->get_language_packs()) ) ? $language : $this->get_config('language');
+		$section = ( !empty($section) ) ? $section : 'lang';
 		
-		if ( !array_key_exists($language, $this->languages) ) {
+		if ( !array_key_exists($language, $this->language_sections) || !in_array($section, $this->language_sections[$language]) ) {
 			
-			require(ROOT_PATH.'languages/lang_'.$language.'.php');
-			
-			if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
-				$lang = array_merge($this->fetch_language('English'), $lang);
+			if ( $section != 'lang' ) {
+				
+				$lang = $GLOBALS['lang'];
+				if ( !file_exists(ROOT_PATH.'languages/'.$section.'_'.$language.'.php') ) {
+					
+					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
+						require(ROOT_PATH.'languages/'.$section.'_English.php');
+					else
+						trigger_error('Section "'.$section.'" for language pack "'.$language.'" could not be found. No English fallback was available. Please use an updated language pack or also upload the English one.');
+					
+				} else {
+					
+					require(ROOT_PATH.'languages/lang_'.$language.'.php');
+					
+					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
+						$lang = array_merge($this->fetch_language('English', $section), $lang);
+					
+				}
+				
+			} else {
+				
+				require(ROOT_PATH.'languages/'.$section.'_'.$language.'.php');
+				
+				if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
+					$lang = array_merge($this->fetch_language('English', $section), $lang);
+				
+			}
 			
 			$this->languages[$language] = $lang;
 			
 		}
+		
+		if ( !array_key_exists($language, $this->language_sections) )
+			$this->language_sections[$language] = array();
+		$this->language_sections[$language][] = $section;
 		
 		return $this->languages[$language];
 		

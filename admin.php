@@ -46,11 +46,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	//
 	// Get Admin variables
 	//
-	$admin_file = ROOT_PATH.'languages/admin_'.$functions->get_config('language').'.php';
-	if ( !file_exists($admin_file) || !is_readable($admin_file) )
-		trigger_error('Unable to get "'.$functions->get_config('language').'" Admin!');
-	else
-		require($admin_file);
+	$lang = $functions->fetch_language('', 'admin');
 	
 	if ( !empty($_POST['passwd']) )
 		$_SESSION['admin_pwd'] = md5($_POST['passwd']);

@@ -457,7 +457,7 @@ class functions {
 					
 				} else {
 					
-					require(ROOT_PATH.'languages/lang_'.$language.'.php');
+					require(ROOT_PATH.'languages/'.$section.'_'.$language.'.php');
 					
 					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 						$lang = array_merge($this->fetch_language('English', $section), $lang);

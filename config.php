@@ -52,7 +52,7 @@ $conf = array();
 //
 // Define configuration
 //
-$conf['active_topics_count'] = 15;
+$conf['active_topics_count'] = 25;
 $conf['admin_email'] = 'email@example.net';
 $conf['allow_multi_sess'] = 1;
 $conf['avatars_force_width'] = 65;

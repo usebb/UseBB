@@ -154,7 +154,7 @@ $lang['SendpwdEmailSubject'] = 'New Password';
 $lang['SendpwdActivated'] = 'The new password for your account %s has been sent to %s. You are now able to login with your new password.';
 $lang['SendpwdNotActivated'] = 'The new password for your account %s has been sent to %s, together with information on how to reactivate your account.';
 $lang['ForumIndex'] = 'Forum Index';
-$lang['MissingFields'] = 'The following fields were missing or incorrect: %s.';
+$lang['MissingFields'] = 'The following required fields were missing or incorrect: %s.';
 $lang['TermsOfUseContent'] = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.
 
 You agree not to post any abusive, offensive, obscene or inappropriate content or content that is forbidden by law on these forums. Doing so can cause your account on these forums to get banned or removed and your internet service provider eventually noticed about your behaviour. Therefore, your IP address is stored with every post you place. You also agree that administrators and moderators are permitted to edit, delete, move or lock your topics when they think this is needed.

@@ -32,9 +32,6 @@ html, body {
 a img {
 	border: 0px;
 }
-label {
-	cursor: pointer;
-}
 a:link, a:active, a:visited {
 	color: #336699;
 	text-decoration: underline;
@@ -69,7 +66,7 @@ input[type="submit"], input[type="reset"], input[type="button"] {
 	cursor: pointer;
 	font-weight: bold;
 }
-input[type="radio"], input[type="checkbox"] {
+label, input[type="radio"], input[type="checkbox"], select {
 	cursor: pointer;
 }
 optgroup option {

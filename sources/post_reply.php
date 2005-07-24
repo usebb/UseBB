@@ -194,9 +194,8 @@ if ( !$topicdata['id'] ) {
 					
 				} elseif ( !empty($_POST['preview']) ) {
 					
-					$template->parse('msgbox', 'global', array(
-						'box_title' => $lang['Preview'],
-						'content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+					$template->parse('preview', 'various', array(
+						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
 					));
 					
 				} elseif ( time() <= $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {

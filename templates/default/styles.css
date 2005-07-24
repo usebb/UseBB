@@ -265,7 +265,7 @@ table.maintable td.count {
 table.maintable .lastpostinfo {
 	width: 200px;
 }
-.msgbox h3 {
+.msgbox h3, .preview h3 {
 	color: #EBD6AD;
 	font-weight: bold;
 	font-size: 8pt;
@@ -277,7 +277,7 @@ table.maintable .lastpostinfo {
 	padding: 4px 6px 4px 6px;
 	border: 1px solid silver;
 }
-.msgbox p {
+.msgbox p, .preview div {
 	background-color: #EFEFEF;
 	padding: 18px 36px 18px 36px;
 	margin: 0px 0px 20px 0px;
@@ -286,6 +286,10 @@ table.maintable .lastpostinfo {
 	border-top: 0px;
 	line-height: 150%;
 	font-size: 10pt;
+}
+.preview div {
+	line-height: 125%;
+	padding: 18px;
 }
 
 /* Forumlist styles */

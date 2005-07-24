@@ -153,6 +153,13 @@ $templates['post_form'] = '
 	{form_end}
 ';
 
+$templates['preview'] = '
+	<div class="preview">
+		<h3>{l_Preview}</h3>
+		<div>{post_content}</div>
+	</div>
+';
+
 $templates['profile'] = '
 	<table class="maintable">
 		<tr>

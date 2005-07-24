@@ -11,6 +11,7 @@ UseBB 0.6 Changelog
 - Added auto focus on many forms using improved template engine.
 - Added keywords config and HTML meta-tags for description and keywords.
 - Added feature which excludes too short words from the search keywords.
+- Added possibility to BCC to own e-mail address on mail form.
 - Fixed bug #512: too big font sizes allowed in BBCode.
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.

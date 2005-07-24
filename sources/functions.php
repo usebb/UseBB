@@ -603,7 +603,7 @@ class functions {
 	//
 	// Send an email
 	//
-	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to) {
+	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to, $bcc_email='') {
 		
 		if ( !is_array($bodyvars) )
 			$bodyvars = array();
@@ -616,7 +616,13 @@ class functions {
 		foreach ( $bodyvars as $key => $val )
 			$body = str_replace('['.$key.']', $val, $body);
 		
-		if ( !mail($to, $subject, $body, 'From: '.$from_name.' <'.$from_email.'>'."\r\n".'X-Mailer: UseBB/'.USEBB_VERSION) )
+		$headers = array();
+		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+		if ( !empty($bcc_email) )
+			$headers[] = 'Bcc: '.$bcc_email;
+		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
+		
+		if ( !mail($to, $subject, $body, join("\r\n", $headers)) )
 			trigger_error('Unable to send e-mail!');
 		
 	}

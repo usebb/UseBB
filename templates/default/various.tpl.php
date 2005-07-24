@@ -92,7 +92,7 @@ $templates['mail_form'] = '
 			<td colspan="2">{body_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{l_EverythingRequired}</td>
+			<td colspan="2">{bcc_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>

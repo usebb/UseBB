@@ -99,10 +99,11 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					// All information is passed, now send the mail
 					//
+					$bcc_email = ( !empty($_POST['bcc']) ) ? $session->sess_info['user_info']['email'] : '';
 					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
 						'username' => stripslashes($session->sess_info['user_info']['displayed_name']),
 						'body' => $_POST['body']
-					), stripslashes($session->sess_info['user_info']['displayed_name']), $session->sess_info['user_info']['email'], $user_to_mail['email']);
+					), stripslashes($session->sess_info['user_info']['displayed_name']), $session->sess_info['user_info']['email'], $user_to_mail['email'], $bcc_email);
 					
 					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Note'],
@@ -134,6 +135,8 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 							
 						}
 						
+						
+						
 					}
 					
 					//
@@ -141,6 +144,8 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					$_POST['subject'] = ( !empty($_POST['subject']) ) ? unhtml($_POST['subject']) : '';
 					$_POST['body'] = ( !empty($_POST['body']) ) ? unhtml($_POST['body']) : '';
+					$bcc_checked = ( !empty($_POST['bcc']) ) ? ' checked="checked"' : '';
+					
 					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))),
@@ -148,6 +153,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>',
 						'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
+						'bcc_input' => '<input type="checkbox" name="bcc" id="bcc" value="1"'.$bcc_checked.'><label for="bcc"> '.$lang['BCCMyself'].'</label>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 						'form_end' => '</form>'

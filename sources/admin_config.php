@@ -323,11 +323,43 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		</tr>
 	';
 	
-	$tmp = array('output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level');
+	//
+	// Output compression
+	//
+	$output_compression_input = '<select name="conf-output_compression">';
+	foreach ( array(0, 1, 2, 3) as $output_compression_mode ) {
+		
+		$selected = ( $_POST['conf-output_compression'] == $output_compression_mode ) ? ' selected="selected"' : '';
+		$output_compression_input .= '<option value="'.$output_compression_mode.'"'.$selected.'>'.$lang['ConfigBoard-output_compression'.$output_compression_mode].'</option>';
+		
+	}
+	$output_compression_input .= '</select>';
+	$input['output_compression'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-output_compression'].'</td><td>'.$output_compression_input.'</td>
+		</tr>
+	';
 	
 	//
+	// Several *_min_level settings
 	//
-	//
+	foreach ( array('view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level') as $key ) {
+		
+		$level_input = '<select name="conf-'.$key.'">';
+		foreach ( $user_levels as $level_mode ) {
+			
+			$selected = ( $_POST['conf-'.$key] == $level_mode ) ? ' selected="selected"' : '';
+			$level_input .= '<option value="'.$level_mode.'"'.$selected.'>'.$lang['ConfigBoard-level'.$level_mode].'</option>';
+			
+		}
+		$level_input .= '</select>';
+		$input[$key] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>'.$level_input.'</td>
+		</tr>
+	';
+		
+	}
+	
+	sort($input);
 	$content .= join('', $input);
 	
 	$content .= '	<tr>

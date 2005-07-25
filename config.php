@@ -53,7 +53,7 @@ $conf = array();
 // Define configuration
 //
 $conf['active_topics_count'] = 25;
-$conf['admin_email'] = 'email@example.net';
+$conf['admin_email'] = 'pc_freak@telenet.be';
 $conf['allow_multi_sess'] = 1;
 $conf['avatars_force_width'] = 65;
 $conf['avatars_force_height'] = 65;
@@ -79,9 +79,9 @@ $conf['enable_quickreply'] = 1;
 $conf['enable_rss'] = 1;
 $conf['enable_stafflist'] = 1;
 $conf['enable_stats'] = 1;
-$conf['exclude_forums_active_topics'] = array();
-$conf['exclude_forums_rss'] = array();
-$conf['exclude_forums_stats'] = array(1);
+$conf['exclude_forums_active_topics'] = array ();
+$conf['exclude_forums_rss'] = array ();
+$conf['exclude_forums_stats'] = array (  0 => '1',);
 $conf['flood_interval'] = 30;
 $conf['friendly_urls'] = 1;
 $conf['guests_can_access_board'] = 1;

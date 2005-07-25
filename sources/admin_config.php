@@ -98,35 +98,19 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	$admin_functions->set_config($new_settings);
 	
+	$content = '<p>'.$lang['ConfigSet'].'</p>';
+	
 } else {
 	
-	$content = '<p>'.$lang['ConfigInfo'].'</p>
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
+		$content = '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p>';
+	else
+		$content = '<p>'.$lang['ConfigInfo'].'</p>';
+	
+	$content .= '
 	
 	<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">
 	
-	<h2>'.$lang['ConfigDBConfig'].'</h2>
-	<table class="adminconfigtable">
-	';
-	
-	//
-	// Easy output of database config
-	//
-	foreach ( $dbs as $key => $val ) {
-		
-		$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
-		$content .= '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigDB-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
-		</tr>
-	';
-		
-	}
-	
-	$content .= '	<tr>
-			<td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td>
-		</tr>
-	</table>
-	
-	<h2>'.$lang['ConfigBoardConfig'].'</h2>
 	<table class="adminconfigtable">
 	';
 	
@@ -200,6 +184,19 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	}
 	
 	//
+	// Database config
+	//
+	foreach ( $dbs as $key => $val ) {
+		
+		$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
+		$input[$key] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigDB-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
+		</tr>
+	';
+		
+	}
+	
+	//
 	// Exclude from active topics
 	//
 	$input['exclude_forums_active_topics'] = '	<tr>
@@ -235,31 +232,21 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	}
 	$timezone_input .= '</select>';
 	$input['timezone'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-timezone'].'</td><td>'.$timezone_input.'</td>
+			<td class="fieldtitle">'.$lang['ConfigBoard-timezone'].' <small>*</small></td><td>'.$timezone_input.'</td>
 		</tr>
 	';
 	
 	//
 	// Language
 	//
-	$available_languages = $functions->get_language_packs();
-	if ( count($available_languages) < 2 ) {
+	$language_input = '<select name="conf-language">';
+	foreach ( $functions->get_language_packs() as $single_language ) {
 		
-		$single_language = $available_languages;
-		$language_input = $single_language[0];
-		
-	} else {
-		
-		$language_input = '<select name="conf-language">';
-		foreach ( $available_languages as $single_language ) {
-			
-			$selected = ( $_POST['conf-language'] == $single_language ) ? ' selected="selected"' : '';
-			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
-			
-		}
-		$language_input .= '</select>';
+		$selected = ( $_POST['conf-language'] == $single_language ) ? ' selected="selected"' : '';
+		$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
 		
 	}
+	$language_input .= '</select>';
 	$input['language'] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'</td>
 		</tr>
@@ -268,24 +255,14 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	// Template
 	//
-	$available_templates = $functions->get_template_sets();
-	if ( count($available_templates) < 2 ) {
+	$template_input = '<select name="conf-template">';
+	foreach ( $functions->get_template_sets() as $single_template ) {
 		
-		$single_template = $available_templates;
-		$template_input = $single_template[0];
-		
-	} else {
-		
-		$template_input = '<select name="conf-template">';
-		foreach ( $available_templates as $single_template ) {
-			
-			$selected = ( $_POST['conf-template'] == $single_template ) ? ' selected="selected"' : '';
-			$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';
-			
-		}
-		$template_input .= '</select>';
+		$selected = ( $_POST['conf-template'] == $single_template ) ? ' selected="selected"' : '';
+		$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';
 		
 	}
+	$template_input .= '</select>';
 	$input['template'] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'</td>
 		</tr>
@@ -359,8 +336,92 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	
-	sort($input);
-	$content .= join('', $input);
+	//
+	// Implement sections
+	//
+	$sections = array(
+		'general' => array(
+			'board_name',
+			'board_descr',
+			'board_keywords',
+			'board_url',
+			'board_closed',
+			'board_closed_reason',
+			'admin_email',
+			'language',
+			'template',
+		),
+		'cookies' => array(
+			'cookie_domain',
+			'cookie_path',
+			'cookie_secure',
+		),
+		'sessions' => array(
+			'allow_multi_sess',
+			'session_max_lifetime',
+			'session_name',
+			'session_save_path'
+		),
+		'page_counts' => array(
+			'active_topics_count',
+			'rss_items_count',
+			'members_per_page',
+			'posts_per_page',
+			'topics_per_page',
+		),
+		'date_time' => array(
+			'date_format',
+			'timezone',
+			'dst',
+		),
+		'email' => array(
+			'disable_info_emails',
+			'email_view_level',
+			'view_hidden_email_addresses_min_level',
+		),
+		'additional' => array(
+			'enable_contactadmin',
+			'enable_detailed_online_list',
+			'enable_forum_stats_box',
+			'enable_memberlist',
+			'enable_quickreply',
+			'enable_rss',
+			'enable_stafflist',
+			'enable_stats',
+		),
+		'advanced' => array(
+			'debug',
+			'output_compression',
+			'rel_nofollow',
+			'single_forum_mode',
+			'target_blank',
+		),
+		'database' => array(
+			'type',
+			'server',
+			'username',
+			'passwd',
+			'dbname',
+			'prefix'
+		)
+	);
+	foreach ( $sections as $section_name => $parts ) {
+		
+		$content .= '	<tr>
+			<th colspan="2">'.$lang['ConfigBoardSection-'.$section_name].'</th>
+		</tr>
+	';
+		
+		foreach ( $parts as $part ) {
+			
+			$content .= $input[$part];
+			unset($input[$part]);
+			
+		}
+		
+	}
+	ksort($input);
+	print_r(array_keys($input));
 	
 	$content .= '	<tr>
 			<td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td>

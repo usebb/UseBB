@@ -107,14 +107,28 @@ h1#admintitle {
 
 .adminconfigtable {
 	border-collapse: collapse;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
 	margin: 0px 0px 10px 0px;
 	width: 100%;
 }
-.adminconfigtable tr {
-	border-bottom: 1px solid silver;
+.adminconfigtable th, .adminconfigtable td {
+	border-left: 1px solid silver;
+	border-top: 1px solid silver;
+}
+.adminconfigtable th {
+	font-weight: bold;
+	padding: 4px 6px 4px 6px;
+	background-image: url(gfx/topmenu_bg.png);
+	background-repeat: repeat-x;
+	background-color: #E8E8E8;
+	color: #333333;
+	text-align: left;
+	border-left: 5px solid silver;
 }
 .adminconfigtable td {
-	padding: 4px;
+	padding: 6px;
 	text-align: left;
 }
 .adminconfigtable td.fieldtitle {

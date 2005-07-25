@@ -113,7 +113,7 @@ class admin_functions {
 	function make_php_string($variable) {
 		
 		if ( function_exists('var_export') )
-			return str_replace("\n", ' ', var_export($variable));
+			return str_replace("\n", '', var_export($variable, true));
 		
 		if ( is_int($variable) || is_bool($variable) || is_float($variable) ) {
 		

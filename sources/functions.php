@@ -207,11 +207,12 @@ class functions {
 	//
 	function get_config($setting) {
 		
-		global $session, $conf;
+		global $session;
 		
 		if ( !isset($this->board_config) ) {
 			
-			$this->board_config = $conf;
+			$this->board_config = $GLOBALS['conf'];
+			unset($GLOBALS['conf']);
 			
 		}
 		

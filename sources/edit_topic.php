@@ -44,7 +44,7 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	// Get info about the topic
 	//
-	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic']);
+	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.count_replies, f.name AS forum_name, f.auth, f.last_topic_id, f.increase_post_count FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.forum_id = f.id AND t.id = ".$_GET['topic']);
 	$topicdata = $db->fetch_result($result);
 	
 	if ( !$topicdata['id'] ) {
@@ -115,24 +115,25 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					// 4. Adjust users' posts levels by defining which users posted and how many posts made
 					//
-					$result = $db->query("SELECT poster_id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$_GET['topic']);
-					
-					$users_posted = array();
-					while ( $postsdata = $db->fetch_result($result) ) {
+					if ( $topicdata['increase_post_count'] ) {
 						
-						if ( !array_key_exists($postsdata['poster_id'], $users_posted) )
-							$users_posted[$postsdata['poster_id']] = 1;
-						else
-							$users_posted[$postsdata['poster_id']]++;
+						$result = $db->query("SELECT poster_id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$_GET['topic']);
 						
-					}
-					
-					foreach ( $users_posted as $userid => $postcount ) {
+						$users_posted = array();
+						while ( $postsdata = $db->fetch_result($result) ) {
+							
+							if ( !array_key_exists($postsdata['poster_id'], $users_posted) )
+								$users_posted[$postsdata['poster_id']] = 1;
+							else
+								$users_posted[$postsdata['poster_id']]++;
+							
+						}
 						
 						//
 						// Adjust the count for every user that posted
 						//
-						$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-".$postcount." WHERE id = ".$userid);
+						foreach ( $users_posted as $userid => $postcount )
+							$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-".$postcount." WHERE id = ".$userid);
 						
 					}
 					

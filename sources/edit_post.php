@@ -187,7 +187,7 @@ if ( !isset($_GET['act']) ) {
 	//
 	// Get info about the post
 	//
-	$result = $db->query("SELECT p.id, p.poster_id, u.level AS poster_level, f.id AS forum_id, f.auth, f.last_topic_id, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post']);
+	$result = $db->query("SELECT p.id, p.poster_id, u.level AS poster_level, f.id AS forum_id, f.auth, f.last_topic_id, f.increase_post_count, t.id AS topic_id, t.count_replies, t.topic_title, t.first_post_id, t.last_post_id FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.id = ".$_GET['post']);
 	$postdata = $db->fetch_result($result);
 	
 	if ( !$postdata['id'] ) {
@@ -309,7 +309,7 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 6. Adjust user's posts level
 					//
-					if ( $postdata['poster_id'] > LEVEL_GUEST ) {
+					if ( $postdata['poster_id'] > LEVEL_GUEST && $postdata['increase_post_count'] ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts-1 WHERE id = ".$postdata['poster_id']);
 						

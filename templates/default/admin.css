@@ -22,7 +22,7 @@
 }
 #adminlogin td {
 	background-color: #EFEFEF;
-	padding: 6px !important;
+	padding: 6px;
 	text-align: left;
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
@@ -100,20 +100,22 @@ h1#admintitle {
 	color: #BF0000;
 }
 #admincontent #resultset {
-	font-size: 8pt !important;
+	font-size: 8pt;
 }
 
 #adminconfigcontent {
 	list-style: none;
 	margin-left: 0px !important;
+	text-align: center;
 }
 #adminconfigcontent li {
 	display: inline;
 	border-right: 2px solid silver;
-	padding-right: 4px;
+	padding-right: 3px;
+	margin-right: 3px;
 }
 
-#adminconfigtable {
+#adminconfigtable, #admincatstable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
@@ -122,11 +124,11 @@ h1#admintitle {
 	width: 100%;
 	clear: right;
 }
-#adminconfigtable th, #adminconfigtable td {
+#adminconfigtable th, #adminconfigtable td, #admincatstable th, #admincatstable td {
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-#adminconfigtable th {
+#adminconfigtable th, #admincatstable th {
 	font-weight: bold;
 	padding: 4px 6px 4px 6px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -134,22 +136,28 @@ h1#admintitle {
 	background-color: #E8E8E8;
 	color: #333333;
 	text-align: left;
+}
+#adminconfigtable th {
 	border-left: 5px solid silver;
 }
-#adminconfigtable td {
+#adminconfigtable td, #admincatstable td {
 	padding: 6px;
 	text-align: left;
 }
-#adminconfigtable td.fieldtitle {
+#adminconfigtable td.fieldtitle, #admincatstable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
 	width: 40%;
-	background-color: #E8E8E8 !important;
+	background-color: #E8E8E8;
 }
-#adminconfigtable td.submit {
+#admincatstable td.action {
+	background-color: #E8E8E8;
+	text-align: center;
+}
+#adminconfigtable td.submit, #admincatstable td.submit {
 	font-weight: bold;
 	text-align: center;
-	background-color: #E8E8E8 !important;
+	background-color: #E8E8E8;
 }
 
 

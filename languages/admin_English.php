@@ -160,6 +160,12 @@ $lang['ConfigBoard-level1'] = 'Members';
 $lang['ConfigBoard-level2'] = 'Moderators';
 $lang['ConfigBoard-level3'] = 'Administrators';
 
+$lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board. You can create a new category by entering a name and sort ID in the input fields.';
+$lang['CategoriesCatName'] = 'Category name';
+$lang['CategoriesSortID'] = 'Sort ID';
+$lang['CategoriesEdit'] = 'Edit';
+$lang['CategoriesDelete'] = 'Delete';
+
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
 

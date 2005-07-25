@@ -209,21 +209,15 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		)
 	);
 	
-	$content .= '
-	
-	<ul id="adminconfigcontent">
-	';
+	$content .= '<ul id="adminconfigcontent">';
 	
 	foreach ( $sections as $section_name => $null )
-		$content .= '	<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li>
-	';
+		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li>';
 	
-	$content .= '</ul>
+	$content .= '</ul>';
 	
-	<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">
-	
-	<table id="adminconfigtable">
-	';
+	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">';
+	$content .= '<table id="adminconfigtable">';
 	
 	//
 	// These are all the current config settings
@@ -247,10 +241,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		if ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'language', 'template')) )
 			continue;
 		
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
 		
 	}
 	
@@ -262,10 +253,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		if ( in_array($key, array('debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
 			continue;
 		
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
 		
 	}
 	
@@ -275,10 +263,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	foreach ( $onoff_settings as $key ) {
 		
 		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label></td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label></td></tr>';
 		
 	}
 	
@@ -287,10 +272,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	foreach ( $optional_strings as $key ) {
 		
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
 		
 	}
 	
@@ -300,36 +282,24 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	foreach ( $dbs as $key => $val ) {
 		
 		$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigDB-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigDB-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
 		
 	}
 	
 	//
 	// Exclude from active topics
 	//
-	$input['exclude_forums_active_topics'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_active_topics'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_active_topics').'</td>
-		</tr>
-	';
+	$input['exclude_forums_active_topics'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_active_topics'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_active_topics').'</td></tr>';
 	
 	//
 	// Exclude from RSS
 	//
-	$input['exclude_forums_rss'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_rss'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_rss').'</td>
-		</tr>
-	';
+	$input['exclude_forums_rss'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_rss'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_rss').'</td></tr>';
 	
 	//
 	// Exclude from stats
 	//
-	$input['exclude_forums_stats'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_stats'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_stats').'</td>
-		</tr>
-	';
+	$input['exclude_forums_stats'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_stats'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_stats').'</td></tr>';
 	
 	//
 	// Timezone
@@ -342,10 +312,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$timezone_input .= '</select>';
-	$input['timezone'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-timezone'].' <small>*</small></td><td>'.$timezone_input.'</td>
-		</tr>
-	';
+	$input['timezone'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-timezone'].' <small>*</small></td><td>'.$timezone_input.'</td></tr>';
 	
 	//
 	// Language
@@ -358,10 +325,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$language_input .= '</select>';
-	$input['language'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'</td>
-		</tr>
-	';
+	$input['language'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'</td></tr>';
 	
 	//
 	// Template
@@ -374,10 +338,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$template_input .= '</select>';
-	$input['template'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'</td>
-		</tr>
-	';
+	$input['template'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'</td></tr>';
 	
 	//
 	// Debug
@@ -390,10 +351,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$debug_input .= '</select>';
-	$input['debug'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-debug'].'</td><td>'.$debug_input.'</td>
-		</tr>
-	';
+	$input['debug'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-debug'].'</td><td>'.$debug_input.'</td></tr>';
 	
 	//
 	// E-mail view level
@@ -406,10 +364,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$email_view_level_input .= '</select>';
-	$input['email_view_level'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-email_view_level'].'</td><td>'.$email_view_level_input.'</td>
-		</tr>
-	';
+	$input['email_view_level'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-email_view_level'].'</td><td>'.$email_view_level_input.'</td></tr>';
 	
 	//
 	// Output compression
@@ -422,10 +377,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	$output_compression_input .= '</select>';
-	$input['output_compression'] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-output_compression'].'</td><td>'.$output_compression_input.'</td>
-		</tr>
-	';
+	$input['output_compression'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-output_compression'].'</td><td>'.$output_compression_input.'</td></tr>';
 	
 	//
 	// Several *_min_level settings
@@ -440,10 +392,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 			
 		}
 		$level_input .= '</select>';
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>'.$level_input.'</td>
-		</tr>
-	';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>'.$level_input.'</td></tr>';
 		
 	}
 	
@@ -452,10 +401,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	foreach ( $sections as $section_name => $parts ) {
 		
-		$content .= '	<tr>
-			<th colspan="2"><a name="'.$section_name.'"></a>'.$lang['ConfigBoardSection-'.$section_name].'</th>
-		</tr>
-	';
+		$content .= '<tr><th colspan="2"><a name="'.$section_name.'"></a>'.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
 		
 		foreach ( $parts as $part ) {
 			
@@ -466,12 +412,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	
-	$content .= '	<tr>
-			<td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td>
-		</tr>
-	</table>
-	</form>
-	';
+	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 }
 

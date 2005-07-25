@@ -165,6 +165,10 @@ $lang['CategoriesCatName'] = 'Category name';
 $lang['CategoriesSortID'] = 'Sort ID';
 $lang['CategoriesEdit'] = 'Edit';
 $lang['CategoriesDelete'] = 'Delete';
+$lang['CategoriesSortChangesApplied'] = 'Your changes to the sort ID\'s have been applied.';
+$lang['CategoriesSortChangesNewCatApplied'] = 'Your changes to the sort ID\'s have been applied and a new category was added.';
+$lang['CategoriesConfirmCatDelete'] = 'Confirm category deletion';
+$lang['CategoriesConfirmCatDeleteContent'] = 'Are you sure you want to delete the category %s? This will delete the underlying forums and their contents! This action is irreversible!';
 
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';

@@ -224,6 +224,15 @@ class admin_functions {
 		
 	}
 	
+	//
+	// Delete forums
+	//
+	function delete_forums($where) {
+		
+		die('not implemented');
+		
+	}
+	
 }
 
 ?>

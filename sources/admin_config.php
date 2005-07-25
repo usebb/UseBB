@@ -102,10 +102,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	
 } else {
 	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
-		$content = '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p>';
-	else
-		$content = '<p>'.$lang['ConfigInfo'].'</p>';
+	$content = ( $_SERVER['REQUEST_METHOD'] == 'POST' ) ? '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p>' : '<p>'.$lang['ConfigInfo'].'</p>';
 	
 	//
 	// Sections
@@ -212,7 +209,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	$content .= '<ul id="adminconfigcontent">';
 	
 	foreach ( $sections as $section_name => $null )
-		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li>';
+		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
 	
 	$content .= '</ul>';
 	
@@ -412,7 +409,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	
-	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 }
 

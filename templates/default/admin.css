@@ -107,12 +107,14 @@ h1#admintitle {
 	list-style: none;
 	margin-left: 0px !important;
 	text-align: center;
+	padding: 4px;
+	border: 1px solid silver;
+	background-color: #E8E8E8;
 }
 #adminconfigcontent li {
 	display: inline;
 	border-right: 2px solid silver;
-	padding-right: 3px;
-	margin-right: 3px;
+	padding-right: 4px;
 }
 
 #adminconfigtable, #admincatstable {

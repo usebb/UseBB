@@ -446,6 +446,7 @@ $lang['WhosOnline'] = 'Wie is er Online';
 $lang['Done'] = 'Done';
 $lang['KeywordsExplain'] = 'Sleutelwoorden van minimum %d tekens gescheiden door spaties.';
 $lang['BCCMyself'] = 'Verzend een kopie naar mijn eigen e-mailadres.';
+$lang['Save'] = 'Opslaan';
 
 //
 // Date translations

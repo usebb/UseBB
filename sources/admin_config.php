@@ -225,9 +225,8 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	<table id="adminconfigtable">
 	';
 	
-	//
-	// These are all the current config settings
-	//
+	$input = array();
+	
 	foreach ( $functions->board_config as $key => $val ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
@@ -235,62 +234,66 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		else
 			$_POST['conf-'.$key] = $val;
 		
-	}
-	
-	$input = array();
-	
-	//
-	// Necessary string settings
-	//
-	foreach ( $necessary_settings['strings'] as $key ) {
-		
-		if ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'language', 'template')) )
-			continue;
-		
-		$input[$key] = '	<tr>
+		if ( in_array($key, $necessary_settings['strings']) && !in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'language', 'template')) ) {
+			
+			//
+			// Necessary strings
+			//
+			$input[$key] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
 		</tr>
 	';
-		
-	}
-	
-	//
-	// Necessary integer settings
-	//
-	foreach ( $necessary_settings['integers'] as $key ) {
-		
-		if ( in_array($key, array('debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
-			continue;
-		
-		$input[$key] = '	<tr>
+			
+		} elseif ( in_array($key, $necessary_settings['integers']) && !in_array($key, array('debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) ) {
+			
+			//
+			// Necessary integers
+			//
+			$input[$key] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
 		</tr>
 	';
-		
-	}
-	
-	//
-	// On/off settings
-	//
-	foreach ( $onoff_settings as $key ) {
-		
-		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
-		$input[$key] = '	<tr>
+			
+		} elseif ( in_array($key, $onoff_settings) ) {
+			
+			//
+			// On/off settings
+			//
+			$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
+			$input[$key] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label></td>
 		</tr>
 	';
-		
-	}
-	
-	//
-	// Optional string settings
-	//
-	foreach ( $optional_strings as $key ) {
-		
-		$input[$key] = '	<tr>
+			
+		} elseif ( in_array($key, $optional_strings) ) {
+			
+			//
+			// Optional strings
+			//
+			$input[$key] = '	<tr>
 			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td>
 		</tr>
 	';
+			
+		} elseif ( in_array($key, array('view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) ) {
+			
+			//
+			// *_min_level settings
+			//
+			$level_input = '<select name="conf-'.$key.'">';
+			foreach ( $user_levels as $level_mode ) {
+				
+				$selected = ( $_POST['conf-'.$key] == $level_mode ) ? ' selected="selected"' : '';
+				$level_input .= '<option value="'.$level_mode.'"'.$selected.'>'.$lang['ConfigBoard-level'.$level_mode].'</option>';
+				
+			}
+			$level_input .= '</select>';
+			$input[$key] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>'.$level_input.'</td>
+		</tr>
+	';
+			
+		}
 		
 	}
 	
@@ -426,26 +429,6 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 			<td class="fieldtitle">'.$lang['ConfigBoard-output_compression'].'</td><td>'.$output_compression_input.'</td>
 		</tr>
 	';
-	
-	//
-	// Several *_min_level settings
-	//
-	foreach ( array('view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level') as $key ) {
-		
-		$level_input = '<select name="conf-'.$key.'">';
-		foreach ( $user_levels as $level_mode ) {
-			
-			$selected = ( $_POST['conf-'.$key] == $level_mode ) ? ' selected="selected"' : '';
-			$level_input .= '<option value="'.$level_mode.'"'.$selected.'>'.$lang['ConfigBoard-level'.$level_mode].'</option>';
-			
-		}
-		$level_input .= '</select>';
-		$input[$key] = '	<tr>
-			<td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>'.$level_input.'</td>
-		</tr>
-	';
-		
-	}
 	
 	//
 	// Implement sections

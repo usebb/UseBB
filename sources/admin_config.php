@@ -107,11 +107,122 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	else
 		$content = '<p>'.$lang['ConfigInfo'].'</p>';
 	
+	//
+	// Sections
+	//
+	$sections = array(
+		'general' => array(
+			'board_name',
+			'board_descr',
+			'board_keywords',
+			'board_url',
+			'board_closed',
+			'board_closed_reason',
+			'admin_email',
+			'language',
+		),
+		'cookies' => array(
+			'cookie_domain',
+			'cookie_path',
+			'cookie_secure',
+		),
+		'sessions' => array(
+			'session_name',
+			'allow_multi_sess',
+			'session_max_lifetime',
+			'session_save_path',
+		),
+		'page_counts' => array(
+			'active_topics_count',
+			'topics_per_page',
+			'posts_per_page',
+			'topicreview_posts',
+			'members_per_page',
+			'rss_items_count',
+		),
+		'date_time' => array(
+			'date_format',
+			'timezone',
+			'dst',
+		),
+		'email' => array(
+			'email_view_level',
+			'view_hidden_email_addresses_min_level',
+			'disable_info_emails',
+		),
+		'user_rights' => array(
+			'guests_can_access_board',
+			'guests_can_view_profiles',
+			'sig_allow_bbcode',
+			'sig_allow_smilies',
+			'users_must_activate',
+			'view_contactadmin_min_level',
+			'view_detailed_online_list_min_level',
+			'view_forum_stats_box_min_level',
+			'view_memberlist_min_level',
+			'view_stafflist_min_level',
+			'view_stats_min_level',
+		),
+		'layout' => array(
+			'template',
+			'avatars_force_height',
+			'avatars_force_width',
+			'hide_avatars',
+			'hide_signatures',
+			'hide_userinfo',
+		),
+		'additional' => array(
+			'enable_contactadmin',
+			'enable_detailed_online_list',
+			'enable_forum_stats_box',
+			'enable_memberlist',
+			'enable_quickreply',
+			'enable_rss',
+			'exclude_forums_rss',
+			'enable_stafflist',
+			'enable_stats',
+			'exclude_forums_stats',
+		),
+		'advanced' => array(
+			'friendly_urls',
+			'rel_nofollow',
+			'return_to_topic_after_posting',
+			'single_forum_mode',
+			'target_blank',
+			'output_compression',
+			'debug',
+			'exclude_forums_active_topics',
+			'flood_interval',
+			'online_min_updated',
+			'search_nonindex_words_min_length',
+			'show_edited_message_timeout',
+			'passwd_min_length',
+			'username_max_length',
+		),
+		'database' => array(
+			'type',
+			'server',
+			'username',
+			'passwd',
+			'dbname',
+			'prefix'
+		)
+	);
+	
 	$content .= '
+	
+	<ul id="adminconfigcontent">
+	';
+	
+	foreach ( $sections as $section_name => $null )
+		$content .= '	<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li>
+	';
+	
+	$content .= '</ul>
 	
 	<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">
 	
-	<table class="adminconfigtable">
+	<table id="adminconfigtable">
 	';
 	
 	//
@@ -339,76 +450,10 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	// Implement sections
 	//
-	$sections = array(
-		'general' => array(
-			'board_name',
-			'board_descr',
-			'board_keywords',
-			'board_url',
-			'board_closed',
-			'board_closed_reason',
-			'admin_email',
-			'language',
-			'template',
-		),
-		'cookies' => array(
-			'cookie_domain',
-			'cookie_path',
-			'cookie_secure',
-		),
-		'sessions' => array(
-			'allow_multi_sess',
-			'session_max_lifetime',
-			'session_name',
-			'session_save_path'
-		),
-		'page_counts' => array(
-			'active_topics_count',
-			'rss_items_count',
-			'members_per_page',
-			'posts_per_page',
-			'topics_per_page',
-		),
-		'date_time' => array(
-			'date_format',
-			'timezone',
-			'dst',
-		),
-		'email' => array(
-			'disable_info_emails',
-			'email_view_level',
-			'view_hidden_email_addresses_min_level',
-		),
-		'additional' => array(
-			'enable_contactadmin',
-			'enable_detailed_online_list',
-			'enable_forum_stats_box',
-			'enable_memberlist',
-			'enable_quickreply',
-			'enable_rss',
-			'enable_stafflist',
-			'enable_stats',
-		),
-		'advanced' => array(
-			'debug',
-			'output_compression',
-			'rel_nofollow',
-			'single_forum_mode',
-			'target_blank',
-		),
-		'database' => array(
-			'type',
-			'server',
-			'username',
-			'passwd',
-			'dbname',
-			'prefix'
-		)
-	);
 	foreach ( $sections as $section_name => $parts ) {
 		
 		$content .= '	<tr>
-			<th colspan="2">'.$lang['ConfigBoardSection-'.$section_name].'</th>
+			<th colspan="2"><a name="'.$section_name.'"></a>'.$lang['ConfigBoardSection-'.$section_name].'</th>
 		</tr>
 	';
 		
@@ -420,8 +465,6 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		}
 		
 	}
-	ksort($input);
-	print_r(array_keys($input));
 	
 	$content .= '	<tr>
 			<td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td>

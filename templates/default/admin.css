@@ -103,21 +103,30 @@ h1#admintitle {
 	font-size: 8pt !important;
 }
 
+#adminconfigcontent {
+	list-style: none;
+	margin-left: 0px !important;
+}
+#adminconfigcontent li {
+	display: inline;
+	border-right: 2px solid silver;
+	padding-right: 4px;
+}
 
-
-.adminconfigtable {
+#adminconfigtable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
 	margin: 0px 0px 10px 0px;
 	width: 100%;
+	clear: right;
 }
-.adminconfigtable th, .adminconfigtable td {
+#adminconfigtable th, #adminconfigtable td {
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-.adminconfigtable th {
+#adminconfigtable th {
 	font-weight: bold;
 	padding: 4px 6px 4px 6px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -127,17 +136,17 @@ h1#admintitle {
 	text-align: left;
 	border-left: 5px solid silver;
 }
-.adminconfigtable td {
+#adminconfigtable td {
 	padding: 6px;
 	text-align: left;
 }
-.adminconfigtable td.fieldtitle {
+#adminconfigtable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
 	width: 40%;
 	background-color: #E8E8E8 !important;
 }
-.adminconfigtable td.submit {
+#adminconfigtable td.submit {
 	font-weight: bold;
 	text-align: center;
 	background-color: #E8E8E8 !important;

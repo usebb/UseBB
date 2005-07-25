@@ -49,6 +49,10 @@ foreach ( $necessary_settings['integers'] as $key ) {
 		$filled_in = false;
 	
 }
+
+//
+// Some extra arrays used
+//
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'board_closed', 'cookie_secure', 'disable_info_emails', 'dst', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank', 'users_must_activate');
 $optional_strings = array('board_closed_reason', 'board_url', 'cookie_domain', 'cookie_path', 'session_save_path');
@@ -89,6 +93,9 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	$new_settings['exclude_forums_stats'] = ( isset($_POST['conf-exclude_forums_stats']) && is_array($_POST['conf-exclude_forums_stats']) ) ? $_POST['conf-exclude_forums_stats'] : array();
 	$new_settings['timezone'] = (float)$_POST['conf-timezone'];
 	
+	//
+	// Now set the board settings
+	//
 	$admin_functions->set_config($new_settings);
 	
 } else {
@@ -125,7 +132,6 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	
 	//
 	// These are all the current config settings
-	// Here we build the input tags for strings and integers, except for some values
 	//
 	foreach ( $functions->board_config as $key => $val ) {
 		
@@ -138,6 +144,9 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	
 	$input = array();
 	
+	//
+	// Necessary string settings
+	//
 	foreach ( $necessary_settings['strings'] as $key ) {
 		
 		if ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'language', 'template')) )
@@ -149,6 +158,10 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	';
 		
 	}
+	
+	//
+	// Necessary integer settings
+	//
 	foreach ( $necessary_settings['integers'] as $key ) {
 		
 		if ( in_array($key, array('debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
@@ -160,6 +173,10 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	';
 		
 	}
+	
+	//
+	// On/off settings
+	//
 	foreach ( $onoff_settings as $key ) {
 		
 		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
@@ -169,6 +186,10 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	';
 		
 	}
+	
+	//
+	// Optional string settings
+	//
 	foreach ( $optional_strings as $key ) {
 		
 		$input[$key] = '	<tr>
@@ -178,6 +199,135 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 		
 	}
 	
+	//
+	// Exclude from active topics
+	//
+	$input['exclude_forums_active_topics'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_active_topics'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_active_topics').'</td>
+		</tr>
+	';
+	
+	//
+	// Exclude from RSS
+	//
+	$input['exclude_forums_rss'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_rss'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_rss').'</td>
+		</tr>
+	';
+	
+	//
+	// Exclude from stats
+	//
+	$input['exclude_forums_stats'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-exclude_forums_stats'].'</td><td>'.$admin_functions->forum_select_box('conf-exclude_forums_stats').'</td>
+		</tr>
+	';
+	
+	//
+	// Timezone
+	//
+	$timezone_input = 'UTC/GMT <select name="conf-timezone">';
+	foreach ( $functions->timezone_handler('get_zones') as $key => $val ) {
+		
+		$selected = ( $_POST['conf-timezone'] == $key ) ? ' selected="selected"' : '';
+		$timezone_input .= '<option value="'.$key.'"'.$selected.'>'.$val.'</option>';
+		
+	}
+	$timezone_input .= '</select>';
+	$input['timezone'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-timezone'].'</td><td>'.$timezone_input.'</td>
+		</tr>
+	';
+	
+	//
+	// Language
+	//
+	$available_languages = $functions->get_language_packs();
+	if ( count($available_languages) < 2 ) {
+		
+		$single_language = $available_languages;
+		$language_input = $single_language[0];
+		
+	} else {
+		
+		$language_input = '<select name="conf-language">';
+		foreach ( $available_languages as $single_language ) {
+			
+			$selected = ( $_POST['conf-language'] == $single_language ) ? ' selected="selected"' : '';
+			$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
+			
+		}
+		$language_input .= '</select>';
+		
+	}
+	$input['language'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'</td>
+		</tr>
+	';
+	
+	//
+	// Template
+	//
+	$available_templates = $functions->get_template_sets();
+	if ( count($available_templates) < 2 ) {
+		
+		$single_template = $available_templates;
+		$template_input = $single_template[0];
+		
+	} else {
+		
+		$template_input = '<select name="conf-template">';
+		foreach ( $available_templates as $single_template ) {
+			
+			$selected = ( $_POST['conf-template'] == $single_template ) ? ' selected="selected"' : '';
+			$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';
+			
+		}
+		$template_input .= '</select>';
+		
+	}
+	$input['template'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'</td>
+		</tr>
+	';
+	
+	//
+	// Debug
+	//
+	$debug_input = '<select name="conf-debug">';
+	foreach ( array(0, 1, 2) as $debug_mode ) {
+		
+		$selected = ( $_POST['conf-debug'] == $debug_mode ) ? ' selected="selected"' : '';
+		$debug_input .= '<option value="'.$debug_mode.'"'.$selected.'>'.$lang['ConfigBoard-debug'.$debug_mode].'</option>';
+		
+	}
+	$debug_input .= '</select>';
+	$input['debug'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-debug'].'</td><td>'.$debug_input.'</td>
+		</tr>
+	';
+	
+	//
+	// E-mail view level
+	//
+	$email_view_level_input = '<select name="conf-email_view_level">';
+	foreach ( array(0, 1, 2, 3) as $email_view_level_mode ) {
+		
+		$selected = ( $_POST['conf-email_view_level'] == $email_view_level_mode ) ? ' selected="selected"' : '';
+		$email_view_level_input .= '<option value="'.$email_view_level_mode.'"'.$selected.'>'.$lang['ConfigBoard-email_view_level'.$email_view_level_mode].'</option>';
+		
+	}
+	$email_view_level_input .= '</select>';
+	$input['email_view_level'] = '	<tr>
+			<td class="fieldtitle">'.$lang['ConfigBoard-email_view_level'].'</td><td>'.$email_view_level_input.'</td>
+		</tr>
+	';
+	
+	$tmp = array('output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level');
+	
+	//
+	//
+	//
 	$content .= join('', $input);
 	
 	$content .= '	<tr>

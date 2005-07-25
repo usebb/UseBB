@@ -129,6 +129,17 @@ $lang['ConfigBoard-board_url'] = 'Board URL (empty for auto-detect)';
 $lang['ConfigBoard-cookie_domain'] = 'Cookie domain';
 $lang['ConfigBoard-cookie_path'] = 'Cookie path';
 $lang['ConfigBoard-session_save_path'] = 'Session save path';
+$lang['ConfigBoard-exclude_forums_active_topics'] = 'Exclude forums from active topics';
+$lang['ConfigBoard-exclude_forums_rss'] = 'Exclude forums from RSS feed';
+$lang['ConfigBoard-exclude_forums_stats'] = 'Exclude forums from statistics page';
+$lang['ConfigBoard-timezone'] = 'Timezone';
+$lang['ConfigBoard-debug0'] = 'No debug';
+$lang['ConfigBoard-debug1'] = 'Simple debug information';
+$lang['ConfigBoard-debug2'] = 'Extended debug information';
+$lang['ConfigBoard-email_view_level0'] = 'Hide all e-mail addresses';
+$lang['ConfigBoard-email_view_level1'] = 'Enable e-mail form';
+$lang['ConfigBoard-email_view_level2'] = 'Show spam proof';
+$lang['ConfigBoard-email_view_level3'] = 'Show raw';
 
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';

@@ -37,6 +37,8 @@ if ( $functions->get_user_level() < LEVEL_ADMIN )
 
 class admin_functions {
 	
+	var $all_forums;
+	
 	//
 	// Create the ACP menu
 	//
@@ -181,6 +183,44 @@ class admin_functions {
 		$fp = fopen($config_file, 'w');
 		fwrite($fp, addslashes($config_content));
 		fclose($fp);
+		
+	}
+	
+	//
+	// Forum select
+	//
+	function forum_select_box($input_name) {
+		
+		global $db;
+		
+		if ( !is_array($this->all_forums) ) {
+			
+			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
+			$this->all_forums = array();
+			while ( $forumdata = $db->fetch_result($result) )
+				$this->all_forums[] = $forumdata;
+			
+		}
+		
+		$forums_input = '<select name="'.$input_name.'[]" size="5" multiple="multiple">';
+		$seen_cats = array();
+		$_POST[$input_name] = ( is_array($_POST[$input_name]) ) ? $_POST[$input_name] : array();
+		foreach ( $this->all_forums as $forumdata ) {
+			
+			if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
+				
+				$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
+				$forums_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
+				$seen_cats[] = $forumdata['cat_id'];
+				
+			}
+			
+			$selected = ( in_array($forumdata['id'], $_POST[$input_name]) ) ? ' selected="selected"' : '';
+			$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forumdata['name'])).'</option>';
+			
+		}
+		$forums_input .= '</optgroup></select>';
+		return $forums_input;
 		
 	}
 	

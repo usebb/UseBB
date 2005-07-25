@@ -105,25 +105,25 @@ h1#admintitle {
 
 
 
-#adminconfigtable {
+.adminconfigtable {
 	border-collapse: collapse;
 	margin: 0px 0px 10px 0px;
 	width: 100%;
 }
-#adminconfigtable tr {
+.adminconfigtable tr {
 	border-bottom: 1px solid silver;
 }
-#adminconfigtable td {
+.adminconfigtable td {
 	padding: 4px;
 	text-align: left;
 }
-#adminconfigtable td.fieldtitle {
-	font-weight: bold;
-	text-align: right;
-	width: 35%;
+.adminconfigtable td.fieldtitle {
+	font-weight: normal;
+	text-align: left;
+	width: 40%;
 	background-color: #E8E8E8 !important;
 }
-#adminconfigtable td.submit {
+.adminconfigtable td.submit {
 	font-weight: bold;
 	text-align: center;
 	background-color: #E8E8E8 !important;

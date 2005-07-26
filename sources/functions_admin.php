@@ -227,9 +227,59 @@ class admin_functions {
 	//
 	// Delete forums
 	//
-	function delete_forums($where) {
+	function delete_forums($condition) {
 		
-		die('not implemented');
+		global $db;
+		
+		//
+		// Get the forum ID's and counts
+		//
+		$result = $db->query("SELECT id, topics, posts FROM ".TABLE_PREFIX."forums WHERE ".$condition);
+		$forum_ids = array();
+		$topics = $posts = 0;
+		while ( $forumdata = $db->fetch_result($result) ) {
+			
+			$forum_ids[] = $forumdata['id'];
+			$topics = $topics + $forumdata['topics'];
+			$posts = $posts + $forumdata['posts'];
+			
+		}
+		
+		if ( count($forum_ids) ) {
+			
+			//
+			// Delete the forums
+			//
+			$db->query("DELETE FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).")");
+			
+			//
+			// Delete the posts and topic subscriptions
+			//
+			$result = $db->query("SELECT id FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
+			while ( $topicdata = $db->fetch_result($result) ) {
+				
+				$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topicdata['id']);
+				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$topicdata['id']);
+				
+			}
+			
+			//
+			// Delete the topics
+			//
+			$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
+			
+			//
+			// Update the stats
+			//
+			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$topics." WHERE name = 'topics'");
+			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$posts." WHERE name = 'posts'");
+			
+			//
+			// Reload moderator perms for the affected forums
+			//
+			#$this->reload_moderator_perms($forum_ids);
+			
+		}
 		
 	}
 	

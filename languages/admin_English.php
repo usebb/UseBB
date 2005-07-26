@@ -160,15 +160,21 @@ $lang['ConfigBoard-level1'] = 'Members';
 $lang['ConfigBoard-level2'] = 'Moderators';
 $lang['ConfigBoard-level3'] = 'Administrators';
 
-$lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board. You can create a new category by entering a name and sort ID in the input fields.';
+$lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
+$lang['CategoriesAddNewCat'] = 'Add a new category';
+$lang['CategoriesAdjustSortIDs'] = 'Adjust the sort ID\'s';
+$lang['CategoriesSortAutomatically'] = 'Sort categories automatically';
+$lang['CategoriesNoCatsExist'] = 'This board does not contain any categories yet.';
 $lang['CategoriesCatName'] = 'Category name';
 $lang['CategoriesSortID'] = 'Sort ID';
 $lang['CategoriesEdit'] = 'Edit';
 $lang['CategoriesDelete'] = 'Delete';
+$lang['CategoriesMissingFields'] = 'Some required fields were missing. Please fill them in correctly.';
 $lang['CategoriesSortChangesApplied'] = 'Your changes to the sort ID\'s have been applied.';
-$lang['CategoriesSortChangesNewCatApplied'] = 'Your changes to the sort ID\'s have been applied and a new category was added.';
 $lang['CategoriesConfirmCatDelete'] = 'Confirm category deletion';
-$lang['CategoriesConfirmCatDeleteContent'] = 'Are you sure you want to delete the category %s? This will delete the underlying forums and their contents! This action is irreversible!';
+$lang['CategoriesConfirmCatDeleteContent'] = 'Are you sure you want to delete the category %s? This action is irreversible!';
+$lang['CategoriesMoveContents'] = 'Move the contents of the category to %s';
+$lang['CategoriesDeleteContents'] = 'Delete the contents';
 
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';

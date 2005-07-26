@@ -152,6 +152,10 @@ h1#admintitle {
 	width: 40%;
 	background-color: #E8E8E8;
 }
+#admincatstable th.action, #admincatstable td.action {
+	width: 1%;
+	white-space: pre;
+}
 #admincatstable td.action {
 	background-color: #E8E8E8;
 	text-align: center;
@@ -162,6 +166,16 @@ h1#admintitle {
 	background-color: #E8E8E8;
 }
 
+
+#admincategoriesmenu {
+	list-style: none;
+	margin-left: 0px !important;
+}
+#admincategoriesmenu li {
+	display: inline;
+	border-left: 2px solid silver;
+	padding-left: 4px;
+}
 
 
 #adminbottomfix {

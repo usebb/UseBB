@@ -130,6 +130,12 @@ if ( !$topicdata['id'] ) {
 						// Fetch the language of the user
 						//
 						$user_lang = $functions->fetch_language($subscribed_user['language']);
+						if ( function_exists('mb_language') ) {
+							
+							mb_language($subscribed_user['language']);
+							mb_internal_encoding($user_lang['character_encoding']);
+							
+						}
 						
 						$functions->usebb_mail(sprintf($user_lang['NewReplyEmailSubject'], stripslashes($topicdata['topic_title'])), $user_lang['NewReplyEmailBody'], array(
 							'poster_name' => ( $session->sess_info['user_id'] ) ? stripslashes($session->sess_info['user_info']['displayed_name']) : stripslashes($poster_guest),
@@ -137,8 +143,21 @@ if ( !$topicdata['id'] ) {
 							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
 							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
 						), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_user['email']);
+
+						
+
 						
 					}
+					
+				}
+				
+				//
+				// Set back the language encoding we might have changed for the e-mails
+				//
+				if ( function_exists('mb_language') ) {
+					
+					mb_language($functions->get_config('language'));
+					mb_internal_encoding($lang['character_encoding']);
 					
 				}
 				

@@ -474,7 +474,6 @@ class functions {
 			}
 			
 			$this->languages[$language] = $lang;
-			
 		}
 		
 		if ( !array_key_exists($language, $this->language_sections) )
@@ -634,10 +633,17 @@ class functions {
 	//
 	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to, $bcc_email='') {
 		
+		global $lang;
+		
 		if ( !is_array($bodyvars) )
 			$bodyvars = array();
 		
-		$body = str_replace("\n", "\r\n", str_replace("\r\n", "\n", $rawbody));
+		$body = str_replace("\r\n", "\n", $rawbody);
+		
+		// For Windows
+		if ( strstr(PHP_OS, 'WIN') !== false )
+			$body = str_replace("\n", "\r\n", $rawbody);
+
 		$bodyvars['board_name'] = $this->get_config('board_name');
 		$bodyvars['board_link'] = $this->get_config('board_url');
 		$bodyvars['admin_email'] = $this->get_config('admin_email');
@@ -646,11 +652,27 @@ class functions {
 			$body = str_replace('['.$key.']', $val, $body);
 		
 		$headers = array();
-		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+		
+		if ( function_exists('mb_encode_mimeheader') ) {
+			
+			//
+			// If exists mbstring, encode some headers
+			//
+			$from_name = mb_encode_mimeheader($from_name);
+			$subject = mb_encode_mimeheader($subject);
+			$headers[] = 'MIME-Version: 1.0';
+			$headers[] = 'Content-Type: text/plain; charset='.$lang['character_encoding'];
+			if ( strtolower($lang['character_encoding']) == 'utf-8' )
+				$headers[] = 'Content-Transfer-Encoding: 8bit';
+			
+		}
+		
 		if ( !empty($bcc_email) )
 			$headers[] = 'Bcc: '.$bcc_email;
+		$headers[] = 'Date: '.date('r');
 		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
-		
+		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+
 		if ( !mail($to, $subject, $body, join("\r\n", $headers)) )
 			trigger_error('Unable to send e-mail!');
 		

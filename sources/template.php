@@ -199,7 +199,7 @@ class template {
 		if ( empty($this->content_type) )
 			$this->content_type = ( !empty($content_type) ) ? $content_type : 'text/html';
 		if ( empty($this->character_encoding) )
-			$this->character_encoding = ( !empty($lang['character_encoding']) ) ? $lang['character_encoding'] : 'iso-8859-1';
+			$this->character_encoding = $lang['character_encoding'];
 		
 		//
 		// Set content type and charset

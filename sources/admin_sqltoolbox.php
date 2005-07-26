@@ -38,7 +38,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
 } else {
 	
-	$content = '<h2>'.$lang['SQLToolboxExecuteQuery'].'</h2>';
+	$content = '<h2>'.$lang['SQLToolboxExecuteQuery'].'</h2><p>'.$lang['SQLToolboxExecuteQueryInfo'].'</p>';
 	
 	if ( !empty($_POST['query']) ) {
 		
@@ -74,31 +74,31 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><textarea name="query" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p><p><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
-	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><ul>';
+	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><p>'.$lang['SQLToolboxMaintenanceInfo'].'</p><ul id="adminfunctionsmenu">';
 	
 	if ( !empty($_GET['do']) && $_GET['do'] == 'repair' ) {
 		
 		$db->query("REPAIR TABLE ".join(', ', $functions->get_usebb_tables()));
-		$content .= '<li>'.$lang['SQLToolboxRepairTables'].': '.$lang['Done'].'</li>';
+		$content .= '<li>'.$lang['SQLToolboxRepairTables'].': '.$lang['Done'].'</li> ';
 		
 	} else {
 		
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'repair')).'">'.$lang['SQLToolboxRepairTables'].'</a></li>';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'repair')).'">'.$lang['SQLToolboxRepairTables'].'</a></li> ';
 		
 	}
 	
 	if ( !empty($_GET['do']) && $_GET['do'] == 'optimize' ) {
 		
 		$db->query("OPTIMIZE TABLE ".join(', ', $functions->get_usebb_tables()));
-		$content .= '<li>'.$lang['SQLToolboxOptimizeTables'].': '.$lang['Done'].'</li>';
+		$content .= '<li>'.$lang['SQLToolboxOptimizeTables'].': '.$lang['Done'].'</li> ';
 		
 	} else {
 		
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'optimize')).'">'.$lang['SQLToolboxOptimizeTables'].'</a></li>';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox', 'do' => 'optimize')).'">'.$lang['SQLToolboxOptimizeTables'].'</a></li> ';
 		
 	}
 	
-	$content .= '</ul>';
+	$content .= '</ul><p>'.$lang['SQLToolboxMaintenanceNote'].'</p>';
 	
 }
 

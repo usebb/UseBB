@@ -29,7 +29,9 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '';
+$content = '<p>'.$lang['IPLookupInfo'].'</p>';
+
+$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post"><p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" /> <input type="submit" value="'.$lang['Search'].'" /></p></form>';
 
 if ( !empty($_REQUEST['ip']) && preg_match('#^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$#', $_REQUEST['ip']) ) {
 	
@@ -41,8 +43,6 @@ if ( !empty($_REQUEST['ip']) && preg_match('#^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$#',
 		$content .= '<p>'.sprintf($lang['IPLookupNotFound'], '<em>'.$_REQUEST['ip'].'</em>').'</p>';
 	
 }
-
-$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post"><p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" /> <input type="submit" value="'.$lang['Search'].'" /></p></form>';
 
 $admin_functions->create_body('iplookup', $content);
 $template->set_js_onload("set_focus('ip')");

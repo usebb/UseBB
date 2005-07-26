@@ -167,8 +167,6 @@ $lang['CategoriesSortAutomatically'] = 'Sort categories automatically';
 $lang['CategoriesNoCatsExist'] = 'This board does not contain any categories yet.';
 $lang['CategoriesCatName'] = 'Category name';
 $lang['CategoriesSortID'] = 'Sort ID';
-$lang['CategoriesEdit'] = 'Edit';
-$lang['CategoriesDelete'] = 'Delete';
 $lang['CategoriesMissingFields'] = 'Some required fields were missing. Please fill them in correctly.';
 $lang['CategoriesSortChangesApplied'] = 'Your changes to the sort ID\'s have been applied.';
 $lang['CategoriesConfirmCatDelete'] = 'Confirm category deletion';
@@ -176,16 +174,20 @@ $lang['CategoriesConfirmCatDeleteContent'] = 'Are you sure you want to delete th
 $lang['CategoriesMoveContents'] = 'Move the contents of the category to %s';
 $lang['CategoriesDeleteContents'] = 'Delete the contents';
 
+$lang['IPLookupInfo'] = 'Enter an IP address to lookup the corresponding hostname.';
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
 
 $lang['SQLToolboxWarningTitle'] = 'Important Warning!';
 $lang['SQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCTATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
 $lang['SQLToolboxExecuteQuery'] = 'Execute Query';
+$lang['SQLToolboxExecuteQueryInfo'] = 'Enter an SQL query to execute. Eventually, results will be shown in a second text box.';
 $lang['SQLToolboxExecute'] = 'Execute';
+$lang['SQLToolboxExecutedSuccessfully'] = 'Query executed successfully.';
 $lang['SQLToolboxMaintenance'] = 'Maintenance';
+$lang['SQLToolboxMaintenanceInfo'] = 'These functions optimize (and repair) the SQL tables used by UseBB. Optimizing the tables often enough is recommended for larger boards.';
 $lang['SQLToolboxRepairTables'] = 'Repair tables';
 $lang['SQLToolboxOptimizeTables'] = 'Optimize tables';
-$lang['SQLToolboxExecutedSuccessfully'] = 'Query executed successfully.';
+$lang['SQLToolboxMaintenanceNote'] = 'Note: this does not restore any lost data in the database.';
 
 ?>

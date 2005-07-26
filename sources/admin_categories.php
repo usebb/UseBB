@@ -45,7 +45,7 @@ $_GET['do'] = ( !empty($_GET['do']) ) ? $_GET['do'] : 'index';
 if ( $_GET['do'] == 'index' ) {
 	
 	$content = '<p>'.$lang['CategoriesInfo'].'</p>';
-	$content .= '<ul id="admincategoriesmenu">';
+	$content .= '<ul id="adminfunctionsmenu">';
 		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'add')).'">'.$lang['CategoriesAddNewCat'].'</a></li> ';
 		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'adjustsortids')).'">'.$lang['CategoriesAdjustSortIDs'].'</a></li> ';
 		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'autosort')).'">'.$lang['CategoriesSortAutomatically'].'</a></li> ';
@@ -79,14 +79,14 @@ if ( $_GET['do'] == 'index' ) {
 		}
 		
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories')).'" method="post">';
-		$content .= '<table id="admincatstable"><tr><th>'.$lang['CategoriesCatName'].'</th><th class="action">'.$lang['CategoriesEdit'].'</th><th class="action">'.$lang['CategoriesDelete'].'</th><th class="action">'.$lang['CategoriesSortID'].'</th></tr>';
+		$content .= '<table id="admincatstable"><tr><th>'.$lang['CategoriesCatName'].'</th><th class="action">'.$lang['Edit'].'</th><th class="action">'.$lang['Delete'].'</th><th class="action">'.$lang['CategoriesSortID'].'</th></tr>';
 		
 		$i = 1;
 		if ( count($cats) ) {
 			
 			foreach ( $cats as $cat ) {
 				
-				$content .= '<tr><td><em>'.unhtml(stripslashes($cat['name'])).'</em></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'edit', 'id' => $cat['id'])).'">'.$lang['CategoriesEdit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'delete', 'id' => $cat['id'])).'">'.$lang['CategoriesDelete'].'</a></td><td class="action"><input type="text" name="sort_id-'.$cat['id'].'" value="'.$cat['sort_id'].'" size="3" maxlength="11" tabindex="'.$i.'" /></td></tr>';
+				$content .= '<tr><td><em>'.unhtml(stripslashes($cat['name'])).'</em></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'edit', 'id' => $cat['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'delete', 'id' => $cat['id'])).'">'.$lang['Delete'].'</a></td><td class="action"><input type="text" name="sort_id-'.$cat['id'].'" value="'.$cat['sort_id'].'" size="3" maxlength="11" tabindex="'.$i.'" /></td></tr>';
 				$i++;
 				
 			}

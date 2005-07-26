@@ -167,11 +167,11 @@ h1#admintitle {
 }
 
 
-#admincategoriesmenu {
+#adminfunctionsmenu {
 	list-style: none;
 	margin-left: 0px !important;
 }
-#admincategoriesmenu li {
+#adminfunctionsmenu li {
 	display: inline;
 	border-left: 2px solid silver;
 	padding-left: 4px;

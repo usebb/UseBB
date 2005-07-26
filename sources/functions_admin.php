@@ -195,7 +195,7 @@ class admin_functions {
 		
 		if ( !is_array($this->all_forums) ) {
 			
-			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
+			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
 			$this->all_forums = array();
 			while ( $forumdata = $db->fetch_result($result) )
 				$this->all_forums[] = $forumdata;

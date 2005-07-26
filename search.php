@@ -288,7 +288,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			
 			$forums_input = '<select name="forums[]" size="10" multiple="multiple"><option value="all"'.$forums_all_selected.'>'.$lang['AllForums'].'</option>';
 			$seen_cats = array();
-			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id IN( ".join(', ', $forum_ids)." ) ORDER BY c.sort_id ASC, c.id ASC, f.sort_id ASC, f.id ASC");
+			$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id IN( ".join(', ', $forum_ids)." ) ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
 			while ( $forumdata = $db->fetch_result($result) ) {
 				
 				if ( !in_array($forumdata['cat_id'], $seen_cats) ) {

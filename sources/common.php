@@ -69,6 +69,7 @@ $functions = &new functions;
 $_GET = slash_trim_global($_GET);
 $_POST = slash_trim_global($_POST);
 $_COOKIE = slash_trim_global($_COOKIE);
+$_REQUEST = slash_trim_global($_REQUEST);
 
 //
 // Define some constants

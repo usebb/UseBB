@@ -29,6 +29,7 @@ UseBB 0.6 Changelog
 - Fixed a few missing unhtml() calls.
 - Fixed security issue with URL matching (XSS vulnerability in IE).
 - Fixed security issue with color BBCode (XSS vulnerability in IE).
+- Fixed security issue with accessing $_REQUEST.
 - Fixed some wrong sorting of categories and forums in various files.
 - Renamed kick_user_to_only_viewable_forum to single_forum_mode.
 - Do not add session ID's for Googlebot.

@@ -170,10 +170,10 @@ class admin_functions {
 			
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
 			
-			if ( preg_match('#\$'.$variable."\['".$key."'\] = .+;#", $config_content) )
-				$config_content = preg_replace('#\$'.$variable."\['".$key."'\] = .+;#", '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
+			if ( preg_match('#\s\$'.$variable."\['".$key."'\] = .+;#", $config_content) )
+				$config_content = preg_replace('#(\s)\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
 			else
-				$config_content = preg_replace('#\?>#', '\$'.$variable."['".$key."'] = ".$this->make_php_string($val).";\n?>", $config_content);
+				$config_content = preg_replace('#(\s*?)\?>#', "\n\$".$variable."['".$key."'] = ".$this->make_php_string($val).";\\1?>", $config_content);
 			
 		}
 		

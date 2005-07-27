@@ -94,6 +94,7 @@ function valid_int($string) {
 class functions {
 	
 	var $board_config;
+	var $board_config_original;
 	var $statistics = array();
 	var $languages = array();
 	var $language_sections = array();
@@ -212,6 +213,7 @@ class functions {
 		if ( !isset($this->board_config) ) {
 			
 			$this->board_config = $GLOBALS['conf'];
+			$this->board_config_original = $GLOBALS['conf'];
 			unset($GLOBALS['conf']);
 			
 		}
@@ -471,6 +473,10 @@ class functions {
 				if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 					$lang = array_merge($this->fetch_language('English', $section), $lang);
 				
+				if ( empty($lang['character_encoding']) )
+					$lang['character_encoding'] = 'iso-8859-1';
+				mb_internal_encoding($lang['character_encoding']);
+				
 			}
 			
 			$this->languages[$language] = $lang;
@@ -631,12 +637,28 @@ class functions {
 	//
 	// Send an email
 	//
-	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to, $bcc_email='') {
+	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to, $bcc_email='', $language='', $charset='') {
 		
 		global $lang;
 		
-		if ( !is_array($bodyvars) )
-			$bodyvars = array();
+		$bodyvars = ( is_array($bodyvars) ) ? $bodyvars : array();
+		
+		//
+		// Eventually use the right language and character encoding which may be passed
+		// in the parameters when another language is used (e.g. subscription notices)
+		//
+		$language = ( !empty($language) ) ? $language : $this->get_config('language');
+		$charset = ( !empty($charset) ) ? $charset : $lang['character_encoding'];
+		
+		//
+		// Set the correct mb_language when neccessary (only for Japanese, English or UTF-8)
+		//
+		if ( in_array($language, array('Japanese', 'ja', 'English', 'en')) )
+			mb_language($language);
+		elseif ( strtolower($charset) == 'utf-8' )
+			mb_language('uni');
+		else
+			mb_language('en');
 		
 		$body = str_replace("\r\n", "\n", $rawbody);
 		
@@ -653,27 +675,19 @@ class functions {
 		
 		$headers = array();
 		
-		if ( function_exists('mb_encode_mimeheader') ) {
-			
-			//
-			// If exists mbstring, encode some headers
-			//
-			$from_name = mb_encode_mimeheader($from_name);
-			$subject = mb_encode_mimeheader($subject);
-			$headers[] = 'MIME-Version: 1.0';
-			$headers[] = 'Content-Type: text/plain; charset='.$lang['character_encoding'];
-			if ( strtolower($lang['character_encoding']) == 'utf-8' )
-				$headers[] = 'Content-Transfer-Encoding: 8bit';
-			
-		}
-		
+		$from_name = mb_encode_mimeheader($from_name);
+		$subject = mb_encode_mimeheader($subject);
+		$headers[] = 'MIME-Version: 1.0';
+		$headers[] = 'Content-Type: text/plain; charset='.$charset;
+		if ( strtolower($lang['character_encoding']) == 'utf-8' )
+			$headers[] = 'Content-Transfer-Encoding: 8bit';
 		if ( !empty($bcc_email) )
 			$headers[] = 'Bcc: '.$bcc_email;
 		$headers[] = 'Date: '.date('r');
 		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
 		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
 
-		if ( !mail($to, $subject, $body, join("\r\n", $headers)) )
+		if ( !mb_send_mail($to, $subject, $body, join("\r\n", $headers)) )
 			trigger_error('Unable to send e-mail!');
 		
 	}

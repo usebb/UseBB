@@ -33,20 +33,29 @@ if ( !defined('INCLUDED') )
 // Easily check if necessary fields are filled in
 //
 $filled_in = true;
+$missing = array();
 $necessary_settings = array(
-	'strings' => array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'admin_email', 'board_descr', 'board_keywords', 'board_name', 'date_format', 'language', 'session_name', 'template'),
+	'strings' => array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
 	'integers' => array('active_topics_count', 'avatars_force_width', 'avatars_force_height', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'topicreview_posts', 'topics_per_page', 'username_max_length', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 foreach ( $necessary_settings['strings'] as $key ) {
 	
-	if ( empty($_POST['conf-'.$key]) )
+	if ( empty($_POST['conf-'.$key]) ) {
+		
 		$filled_in = false;
+		$missing[] = $key;
+		
+	}
 	
 }
 foreach ( $necessary_settings['integers'] as $key ) {
 	
-	if ( !isset($_POST['conf-'.$key]) || !valid_int($_POST['conf-'.$key]) )
+	if ( !isset($_POST['conf-'.$key]) || !valid_int($_POST['conf-'.$key]) ) {
+		
 		$filled_in = false;
+		$missing[] = $key;
+		
+	}
 	
 }
 
@@ -55,7 +64,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'board_closed', 'cookie_secure', 'disable_info_emails', 'dst', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank', 'users_must_activate');
-$optional_strings = array('board_closed_reason', 'board_url', 'cookie_domain', 'cookie_path', 'session_save_path');
+$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'session_save_path');
 
 if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_array(intval($_POST['conf-debug']), array(0, 1, 2)) && in_array($_POST['conf-email_view_level'], array(0, 1, 2, 3)) && in_array($_POST['conf-language'], $functions->get_language_packs()) && in_array(intval($_POST['conf-output_compression']), array(0, 1, 2, 3)) && in_array($_POST['conf-template'], $functions->get_template_sets()) && isset($_POST['conf-timezone']) && $functions->timezone_handler('check_existance', $_POST['conf-timezone']) && in_array(intval($_POST['conf-view_detailed_online_list_min_level']), $user_levels) && in_array(intval($_POST['conf-view_forum_stats_box_min_level']), $user_levels) && in_array(intval($_POST['conf-view_hidden_email_addresses_min_level']), $user_levels) && in_array(intval($_POST['conf-view_memberlist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stafflist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stats_min_level']), $user_levels) && in_array(intval($_POST['conf-view_contactadmin_min_level']), $user_levels) ) {
 	
@@ -102,10 +111,22 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	
 } else {
 	
-	$content = ( $_SERVER['REQUEST_METHOD'] == 'POST' ) ? '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p>' : '<p>'.$lang['ConfigInfo'].'</p>';
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		
+		$content = '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
+		foreach ( $missing as $key )
+			$content .= '<li>'.$lang['ConfigBoard-'.$key].'</li>';
+		
+		$content .= '</ul>';
+		
+	} else {
+		
+		$content = '<p>'.$lang['ConfigInfo'].'</p>';
+		
+	}
 	
 	//
-	// Sections
+	// All configuration variables
 	//
 	$sections = array(
 		'general' => array(
@@ -219,12 +240,16 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	// These are all the current config settings
 	//
-	foreach ( $functions->board_config as $key => $val ) {
+	foreach ( $sections as $section_name => $parts ) {
 		
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
-			$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : '';
-		else
-			$_POST['conf-'.$key] = $val;
+		foreach ( $parts as $key ) {
+			
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
+				$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : '';
+			else
+				$_POST['conf-'.$key] = ( isset($functions->board_config_original[$key]) ) ? $functions->board_config_original[$key] : '';
+			
+		}
 		
 	}
 	
@@ -278,8 +303,8 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	//
 	foreach ( $dbs as $key => $val ) {
 		
-		$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigDB-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+		$_POST['conf-'.$key] = ( !empty($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
 		
 	}
 	

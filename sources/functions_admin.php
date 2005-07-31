@@ -277,9 +277,56 @@ class admin_functions {
 			//
 			// Reload moderator perms for the affected forums
 			//
-			#$this->reload_moderator_perms($forum_ids);
+			$this->reload_moderator_perms($forum_ids);
 			
 		}
+		
+	}
+	
+	//
+	// Reload moderator permissions for certain forums
+	//
+	function reload_moderator_perms($forum_ids) {
+		
+		global $db;
+		
+		/*//
+		// Get an array of forums that do exist
+		//
+		$result = $db->query("SELECT id FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).")");
+		$forums = array();
+		while ( $forumdata = $db->fetch_result($result) )
+			$forums[] = $forumdata['id'];
+		
+		//
+		// Eventually delete the moderator entries for forums that were removed
+		//
+		$deleted_forums = array_diff($forum_ids, $forums);
+		if ( count($deleted_forums) )
+			$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id IN(".join(', ', $deleted_forums).")");
+		
+		//
+		// Get a list of all moderators and the forums they moderate
+		//
+		$result = $db->query("SELECT forum_id, user_id FROM ".TABLE_PREFIX."moderators");
+		$moderators = array();
+		while ( $moderatordata = $db->fetch_result($result) ) {
+			
+			if ( !array_key_exists($moderatordata['user_id'], $moderators) )
+				$moderators[$moderatordata['user_id']] = array();
+			
+			$moderators[$moderatordata['user_id']][] = $moderatordata['forum_id'];
+			
+		}
+		
+		//
+		// Adjust the levels of moderators
+		//
+		foreach ( $moderators as $moderator ) {
+			
+			if ( count
+			
+		}*/
 		
 	}
 	

@@ -17,6 +17,7 @@ UseBB 0.6 Changelog
 - Fixed bug #535: changing e-mail address forces new password.
 - Fixed bug #537: tabindex for 'remember me' checkbox missing.
 - Fixed bug #602: mail function unable to send correct e-mails (patch by Tadashi Jokagi).
+- Fixed bug #611: mb_internal_encoding() error in functions.php.
 - Fixed bug which includes certain characters in the BBCode URL parser.
 - Fixed bug in single_forum_mode which didn't properly detect only viewable forum.
 - Fixed bug which might have led to server errors due to always calling RewriteEngine.

@@ -475,7 +475,9 @@ class functions {
 				
 				if ( empty($lang['character_encoding']) )
 					$lang['character_encoding'] = 'iso-8859-1';
-				mb_internal_encoding($lang['character_encoding']);
+				
+				if ( function_exists('mb_internal_encoding') )
+					mb_internal_encoding($lang['character_encoding']);
 				
 			}
 			
@@ -653,12 +655,16 @@ class functions {
 		//
 		// Set the correct mb_language when neccessary (only for Japanese, English or UTF-8)
 		//
-		if ( in_array($language, array('Japanese', 'ja', 'English', 'en')) )
-			mb_language($language);
-		elseif ( strtolower($charset) == 'utf-8' )
-			mb_language('uni');
-		else
-			mb_language('en');
+		if ( function_exists('mb_language') ) {
+			
+			if ( in_array($language, array('Japanese', 'ja', 'English', 'en')) )
+				mb_language($language);
+			elseif ( strtolower($charset) == 'utf-8' )
+				mb_language('uni');
+			else
+				mb_language('en');
+			
+		}
 		
 		$body = str_replace("\r\n", "\n", $rawbody);
 		
@@ -675,8 +681,13 @@ class functions {
 		
 		$headers = array();
 		
-		$from_name = mb_encode_mimeheader($from_name);
-		$subject = mb_encode_mimeheader($subject);
+		if ( function_exists('mb_encode_mimeheader') ) {
+			
+			$from_name = mb_encode_mimeheader($from_name);
+			$subject = mb_encode_mimeheader($subject);
+			
+		}
+		
 		$headers[] = 'MIME-Version: 1.0';
 		$headers[] = 'Content-Type: text/plain; charset='.$charset;
 		if ( strtolower($lang['character_encoding']) == 'utf-8' )
@@ -687,8 +698,17 @@ class functions {
 		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
 		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
 
-		if ( !mb_send_mail($to, $subject, $body, join("\r\n", $headers)) )
-			trigger_error('Unable to send e-mail!');
+		if ( function_exists('mb_send_mail') ) {
+			
+			if ( !mb_send_mail($to, $subject, $body, join("\r\n", $headers)) )
+				trigger_error('Unable to send e-mail!');
+			
+		} else {
+			
+			if ( !mail($to, $subject, $body, join("\r\n", $headers)) )
+				trigger_error('Unable to send e-mail!');
+			
+		}
 		
 	}
 	

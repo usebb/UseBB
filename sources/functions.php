@@ -714,7 +714,7 @@ class functions {
 		
 		if ( function_exists('mb_language') ) {
 			
-			mb_language($functions->get_config('language'));
+			mb_language($this->get_config('language'));
 			mb_internal_encoding($lang['character_encoding']);
 			
 		}

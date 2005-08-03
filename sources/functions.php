@@ -666,12 +666,14 @@ class functions {
 			
 		}
 		
-		$body = str_replace("\r\n", "\n", $rawbody);
+		$body = str_replace(array("\r\n", "\r"), "\n", $rawbody);
 		
-		// For Windows
-		if ( strstr(PHP_OS, 'WIN') !== false )
-			$body = str_replace("\n", "\r\n", $rawbody);
-
+		//
+		// Windows: \r\n; other: \n
+		//
+		$cr = ( strstr(PHP_OS, 'WIN') !== false ) ? "\r\n" : "\n";
+		$body = str_replace("\n", $cr, $rawbody);
+		
 		$bodyvars['board_name'] = $this->get_config('board_name');
 		$bodyvars['board_link'] = $this->get_config('board_url');
 		$bodyvars['admin_email'] = $this->get_config('admin_email');
@@ -689,24 +691,31 @@ class functions {
 		}
 		
 		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-Type: text/plain; charset='.$charset;
-		if ( strtolower($lang['character_encoding']) == 'utf-8' )
-			$headers[] = 'Content-Transfer-Encoding: 8bit';
 		if ( !empty($bcc_email) )
 			$headers[] = 'Bcc: '.$bcc_email;
 		$headers[] = 'Date: '.date('r');
 		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
 		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
-
+		
 		if ( function_exists('mb_send_mail') ) {
 			
-			if ( !mb_send_mail($to, $subject, $body, join("\r\n", $headers)) )
+			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers), "-f$from_email") )
 				trigger_error('Unable to send e-mail!');
 			
 		} else {
 			
-			if ( !mail($to, $subject, $body, join("\r\n", $headers)) )
+			if ( strtolower($charset) == 'utf-8' )
+				$headers[] = 'Content-Transfer-Encoding: 8bit';
+			
+			if ( !mail($to, $subject, $body, join($cr, $headers), "-f$from_email") )
 				trigger_error('Unable to send e-mail!');
+			
+		}
+		
+		if ( function_exists('mb_language') ) {
+			
+			mb_language($functions->get_config('language'));
+			mb_internal_encoding($lang['character_encoding']);
 			
 		}
 		

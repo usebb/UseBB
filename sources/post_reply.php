@@ -137,9 +137,6 @@ if ( !$topicdata['id'] ) {
 							'topic_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id,
 							'unsubscribe_link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'], 'act' => 'unsubscribe'), false)
 						), $functions->get_config('board_name'), $functions->get_config('admin_email'), $subscribed_user['email'], $subscribed_user['language'], $user_lang['character_encoding']);
-
-						
-
 						
 					}
 					

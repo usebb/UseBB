@@ -60,6 +60,7 @@ UseBB 0.6 Changelog
 - Code cleanups to session handler.
 - Auto login cookie now contains data in serialized array.
 - Birthday year input field replaced with select box.
+- RSS feed query rewrite, the feed now shows the x latest posts intead of updated topics.
 
 UseBB 0.5.1 Changelog
 ------------------------------

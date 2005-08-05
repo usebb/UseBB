@@ -131,7 +131,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 	else
 		$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 	
-	$query = "SELECT DISTINCT t.id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts);
+	$query = "SELECT DISTINCT t.id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." LIMIT ".$functions->get_config('search_limit_results');
 	$result = $db->query($query);
 	$topic_ids = array();
 	while ( $searchdata = $db->fetch_result($result) )

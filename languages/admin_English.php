@@ -96,6 +96,7 @@ $lang['ConfigBoard-output_compression'] = 'Output compression';
 $lang['ConfigBoard-passwd_min_length'] = 'Password minimum length';
 $lang['ConfigBoard-posts_per_page'] = 'Posts per page';
 $lang['ConfigBoard-rss_items_count'] = 'RSS items count';
+$lang['ConfigBoard-search_limit_results'] = 'Limit search results to x items';
 $lang['ConfigBoard-search_nonindex_words_min_length'] = 'Search keyword minimum length';
 $lang['ConfigBoard-session_max_lifetime'] = 'Maximum session lifetime (seconds)';
 $lang['ConfigBoard-show_edited_message_timeout'] = 'Show edited message timeout (seconds)';

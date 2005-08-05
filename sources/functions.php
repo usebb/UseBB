@@ -699,7 +699,7 @@ class functions {
 		
 		if ( function_exists('mb_send_mail') ) {
 			
-			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers), "-f$from_email") )
+			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers)) )
 				trigger_error('Unable to send e-mail!');
 			
 		} else {
@@ -707,7 +707,7 @@ class functions {
 			if ( strtolower($charset) == 'utf-8' )
 				$headers[] = 'Content-Transfer-Encoding: 8bit';
 			
-			if ( !mail($to, $subject, $body, join($cr, $headers), "-f$from_email") )
+			if ( !mail($to, $subject, $body, join($cr, $headers)) )
 				trigger_error('Unable to send e-mail!');
 			
 		}

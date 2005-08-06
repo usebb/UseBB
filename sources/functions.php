@@ -1211,15 +1211,9 @@ class functions {
 		global $template;
 		
 		$smilies = $template->get_config('smilies');
-		$smilies_unique = array();
-		foreach ( $smilies as $pattern => $img ) {
-			
-			if ( !array_key_exists($img, $smilies_unique) )
-				$smilies_unique[$img] = $pattern;
-			
-		}
+		$smilies = array_unique($smilies);
 		$out = array();
-		foreach ( $smilies_unique as $img => $pattern ) {
+		foreach ( $smilies as $pattern => $img ) {
 			
 			$out[] = '<a href="javascript:insert_smiley(\''.addslashes(unhtml($pattern)).'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 			

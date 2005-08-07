@@ -355,6 +355,22 @@ class admin_functions {
 		
 	}
 	
+	//
+	// Get categories
+	//
+	function get_cats_array() {
+		
+		global $db;
+		
+		$result = $db->query("SELECT id, name, sort_id FROM ".TABLE_PREFIX."cats ORDER BY sort_id ASC, name");
+		$cats = array();
+		while ( $catinfo = $db->fetch_result($result) )
+			$cats[$catinfo['id']] = $catinfo;
+		
+		return $cats;
+		
+	}
+	
 }
 
 ?>

@@ -29,20 +29,18 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$result = $db->query("SELECT id, name, sort_id FROM ".TABLE_PREFIX."cats ORDER BY sort_id ASC, name");
-$cats = array();
+$cats = $admin_functions->get_cats_array();
 $filled_in = true;
-while ( $catinfo = $db->fetch_result($result) ) {
+foreach ( $cats as $cat ) {
 	
-	$cats[$catinfo['id']] = $catinfo;
-	if ( !isset($_POST['sort_id-'.$catinfo['id']]) || !valid_int($_POST['sort_id-'.$catinfo['id']]) )
+	if ( !isset($_POST['sort_id-'.$cat['id']]) || !valid_int($_POST['sort_id-'.$cat['id']]) )
 		$filled_in = false;
 	
 }
 
 $_GET['do'] = ( !empty($_GET['do']) ) ? $_GET['do'] : 'index';
 
-if ( $_GET['do'] == 'index' ) {
+if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 	
 	$content = '<p>'.$lang['CategoriesInfo'].'</p>';
 	$content .= '<ul id="adminfunctionsmenu">';
@@ -61,13 +59,9 @@ if ( $_GET['do'] == 'index' ) {
 			
 			if ( $filled_in ) {
 				
-				foreach ( $cats as $cat ) {
-					
+				foreach ( $cats as $cat )
 					$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$_POST['sort_id-'.$cat['id']]." WHERE id = ".$cat['id']);
-					$cats[$cat['id']]['sort_id'] = $_POST['sort_id-'.$cat['id']];
-					
-				}
-				
+				$cats = $admin_functions->get_cats_array();
 				$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
 				
 			} else {
@@ -75,6 +69,25 @@ if ( $_GET['do'] == 'index' ) {
 				$content .= '<p><strong>'.$lang['CategoriesMissingFields'].'</strong></p>';
 				
 			}
+			
+		} elseif ( $_GET['do'] == 'adjustsortids' ) {
+			
+			$cat_sort_id = 1;
+			foreach ( $cats as $cat ) {
+				
+				$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$cat_sort_id." WHERE id = ".$cat['id']);
+				$cat_sort_id++;
+				
+			}
+			$cats = $admin_functions->get_cats_array();
+			$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
+			
+		} elseif ( $_GET['do'] == 'autosort' ) {
+			
+			foreach ( $cats as $cat )
+				$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = 0 WHERE id = ".$cat['id']);
+			$cats = $admin_functions->get_cats_array();
+			$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
 			
 		}
 		

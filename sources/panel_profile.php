@@ -192,8 +192,9 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	//
 	// Keep submitted info in the form, even when erroneous
 	//
+	$user_info = array();
 	foreach ( $session->sess_info['user_info'] as $key => $val )
-		$user_info[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : $val;
+		$user_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : $val;
 	
 	//
 	// Create the birthday fields

@@ -95,7 +95,7 @@ h1#admintitle {
 #admincontent ul {
 	margin-left: 25px;
 }
-#admincontent strong {
+#admincontent strong, #admincontent .strong {
 	font-weight: normal;
 	color: #BF0000;
 }
@@ -149,8 +149,11 @@ h1#admintitle {
 #adminconfigtable td.fieldtitle, #admincatstable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
-	width: 40%;
+	width: 25%;
 	background-color: #E8E8E8;
+}
+#adminconfigtable td.fieldtitle {
+	width: 40%;
 }
 #admincatstable th.action, #admincatstable td.action {
 	width: 1%;
@@ -164,6 +167,12 @@ h1#admintitle {
 	font-weight: bold;
 	text-align: center;
 	background-color: #E8E8E8;
+}
+#admincontent p.submit {
+	font-weight: bold;
+	padding: 3px;
+	background-color: #E8E8E8;
+	text-align: center;
 }
 
 

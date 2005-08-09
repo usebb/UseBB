@@ -34,7 +34,9 @@ if ( isset($_POST['warned']) )
 
 if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	
-	$content = '<h2>'.$lang['SQLToolboxWarningTitle'].'</h2><p><strong>'.$lang['SQLToolboxWarningContent'].'</strong></p><form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><input type="submit" name="warned" value="'.$lang['OK'].'" /></p></form>';
+	$content = '<h2>'.$lang['SQLToolboxWarningTitle'].'</h2><p><strong>'.$lang['SQLToolboxWarningContent'].'</strong></p>';
+	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post">';
+	$content .= '<p class="submit"><input type="submit" name="warned" value="'.$lang['OK'].'" /></p></form>';
 	
 } else {
 	
@@ -72,7 +74,9 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 		
 	}
 	
-	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post"><p><textarea name="query" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p><p><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
+	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post">';
+	$content .= '<p><textarea name="query" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p>';
+	$content .= '<p class="submit"><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
 	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><p>'.$lang['SQLToolboxMaintenanceInfo'].'</p><ul id="adminfunctionsmenu">';
 	

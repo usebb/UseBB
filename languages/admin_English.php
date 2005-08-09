@@ -174,6 +174,7 @@ $lang['CategoriesConfirmCatDelete'] = 'Confirm category deletion';
 $lang['CategoriesConfirmCatDeleteContent'] = 'Are you sure you want to delete the category %s? This action is irreversible!';
 $lang['CategoriesMoveContents'] = 'Move the contents of the category to %s';
 $lang['CategoriesDeleteContents'] = 'Delete the contents';
+$lang['CategoriesEditingCat'] = 'Editing category %s';
 
 $lang['IPLookupInfo'] = 'Enter an IP address to lookup the corresponding hostname.';
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';

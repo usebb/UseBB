@@ -1136,7 +1136,7 @@ class functions {
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]
 					"#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1">\\3</a>',
 				// [color=red]text[/color]
-					"#\[color=([a-z0-9]+)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
+					"#\[color=([\#a-z0-9]+)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
 				// [size=999]too big text[/size]
 					"#\[size=([0-9]{3,})\](.*?)\[/size\]#is" => '\\2',
 				// [size=14]text[/size]

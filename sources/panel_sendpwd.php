@@ -58,7 +58,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlspecialcharsstripslashes(($_POST['user'])).'</em>')
+			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} elseif ( $userdata['banned'] ) {

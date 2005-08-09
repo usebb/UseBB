@@ -447,5 +447,6 @@ $lang['Done'] = 'Done';
 $lang['KeywordsExplain'] = 'Any keywords of at least %d characters seperated by spaces.';
 $lang['BCCMyself'] = 'Send a copy to my own e-mail address.';
 $lang['Save'] = 'Save';
+$lang['Add'] = 'Add';
 
 ?>

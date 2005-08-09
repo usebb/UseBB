@@ -149,8 +149,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$content .= '</form>';
 		
 	}
-	###################################################################
-	###################################################################
+	
 } elseif ( $_GET['do'] == 'edit' && !empty($_GET['id']) && valid_int($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
 	
 	$catinfo = $cats[$_GET['id']];
@@ -168,13 +167,38 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			$content .= '<p><strong>'.sprintf($lang['MissingFields'], $lang['CategoriesCatName']).'</strong></p>';
 		
 		$submitted_cat_info = array();
-		foreach ( $catinfo as $key => $val )
-			$submitted_cat_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : $val;
+		foreach ( array('name') as $key )
+			$submitted_cat_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : $catinfo[$key];
 		
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'edit', 'id' => $_GET['id'])).'" method="post">';
 		$content .= '<table id="admincatstable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['CategoriesCatName'].'</td><td><input type="text" size="30" name="name" maxlength="255" value="'.unhtml(stripslashes($submitted_cat_info['name'])).'" /></td></tr>';
 		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+		
+	}
+	
+} elseif ( $_GET['do'] == 'add' ) {
+	
+	if ( !empty($_POST['name']) ) {
+		
+		$db->query("INSERT INTO ".TABLE_PREFIX."cats VALUES(NULL, '".$_POST['name']."', 0)");
+		header('Location: '.$functions->get_config('board_url').$functions->make_url('admin.php', array('act' => 'categories')));
+		
+	} else {
+		
+		$content = '<h2>'.$lang['CategoriesAddNewCat'].'</h2>';
+		
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
+			$content .= '<p><strong>'.sprintf($lang['MissingFields'], $lang['CategoriesCatName']).'</strong></p>';
+		
+		$submitted_cat_info = array();
+		foreach ( array('name') as $key )
+			$submitted_cat_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : '';
+		
+		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'add')).'" method="post">';
+		$content .= '<table id="admincatstable">';
+		$content .= '<tr><td class="fieldtitle">'.$lang['CategoriesCatName'].'</td><td><input type="text" size="30" name="name" maxlength="255" value="'.unhtml(stripslashes($submitted_cat_info['name'])).'" /></td></tr>';
+		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Add'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 		
 	}
 	

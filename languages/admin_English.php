@@ -176,6 +176,21 @@ $lang['CategoriesMoveContents'] = 'Move the contents of the category to %s';
 $lang['CategoriesDeleteContents'] = 'Delete the contents';
 $lang['CategoriesEditingCat'] = 'Editing category %s';
 
+$lang['ForumsInfo'] = 'This section gives you the control over the various forums that exist at your board.';
+$lang['ForumsAddNewForum'] = 'Add a new forum';
+$lang['ForumsAdjustSortIDs'] = 'Adjust the sort ID\'s';
+$lang['ForumsSortAutomatically'] = 'Sort forums automatically';
+$lang['ForumsNoForumsExist'] = 'This board does not contain any forums yet.';
+$lang['ForumsForumName'] = 'Forum name';
+$lang['ForumsSortID'] = 'Sort ID';
+$lang['ForumsMissingFields'] = 'Some required fields were missing. Please fill them in correctly.';
+$lang['ForumsSortChangesApplied'] = 'Your changes to the sort ID\'s have been applied.';
+$lang['ForumsConfirmForumDelete'] = 'Confirm forum deletion';
+$lang['ForumsConfirmForumDeleteContent'] = 'Are you sure you want to delete the forum %s? This action is irreversible!';
+$lang['ForumsMoveContents'] = 'Move the contents of the forum to %s';
+$lang['ForumsDeleteContents'] = 'Delete the contents';
+$lang['ForumsEditingForum'] = 'Editing forum %s';
+
 $lang['IPLookupInfo'] = 'Enter an IP address to lookup the corresponding hostname.';
 $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';

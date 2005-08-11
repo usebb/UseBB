@@ -189,7 +189,7 @@ class admin_functions {
 	//
 	// Forum select
 	//
-	function forum_select_box($input_name) {
+	function forum_select_box($input_name, $multiple=true, $filter_ids=array(), $add='') {
 		
 		global $db;
 		
@@ -202,10 +202,13 @@ class admin_functions {
 			
 		}
 		
-		$forums_input = '<select name="'.$input_name.'[]" size="5" multiple="multiple">';
+		$forums_input = ( $multiple ) ? '<select name="'.$input_name.'[]" size="5" multiple="multiple">' : '<select name="'.$input_name.'">';
 		$seen_cats = array();
-		$_POST[$input_name] = ( is_array($_POST[$input_name]) ) ? $_POST[$input_name] : array();
+		$_POST[$input_name] = ( isset($_POST[$input_name]) && is_array($_POST[$input_name]) ) ? $_POST[$input_name] : array();
 		foreach ( $this->all_forums as $forumdata ) {
+			
+			if ( is_array($filter_ids) && in_array($forumdata['id'], $filter_ids) )
+				continue;
 			
 			if ( !in_array($forumdata['cat_id'], $seen_cats) ) {
 				
@@ -219,7 +222,7 @@ class admin_functions {
 			$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forumdata['name'])).'</option>';
 			
 		}
-		$forums_input .= '</optgroup></select>';
+		$forums_input .= '</optgroup>'.$add.'</select>';
 		return $forums_input;
 		
 	}
@@ -308,7 +311,7 @@ class admin_functions {
 		// Each user_id is an array key, if it is an empty array(), his moderator
 		// status needs to be unset. Only moderators are fetched, no admins.
 		//
-		$result = $db->query("SELECT m.forum_id, m.user_id FROM ".TABLE_PREFIX."moderators m, ".TABLE_PREFIX."members m2 WHERE m.user_id = m2.id AND m2.level = ".LEVEL_MOD." AND forum_id IN(".join(', ', $forum_ids).")");
+		$result = $db->query("SELECT m.forum_id, m.user_id FROM ".TABLE_PREFIX."moderators m, ".TABLE_PREFIX."members m2 WHERE m.user_id = m2.id AND m2.level = ".LEVEL_MOD);
 		$moderators = array();
 		while ( $moderatordata = $db->fetch_result($result) ) {
 			
@@ -342,7 +345,8 @@ class admin_functions {
 				}
 				
 			}
-			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE id IN(".join(', ', $unset_moderators).")");
+			if ( count($unset_moderators) )
+				$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE id IN(".join(', ', $unset_moderators).")");
 			$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id IN(".join(', ', $deleted_forums).")");
 			
 		}
@@ -368,6 +372,22 @@ class admin_functions {
 			$cats[$catinfo['id']] = $catinfo;
 		
 		return $cats;
+		
+	}
+	
+	//
+	// Get forums
+	//
+	function get_forums_array() {
+		
+		global $db;
+		
+		$result = $db->query("SELECT f.id, f.name, f.sort_id, c.id as cat_id, c.name as cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
+		$forums = array();
+		while ( $foruminfo = $db->fetch_result($result) )
+			$forums[$foruminfo['id']] = $foruminfo;
+		
+		return $forums;
 		
 	}
 	

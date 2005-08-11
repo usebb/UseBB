@@ -1251,7 +1251,8 @@ class functions {
 		$matches = array();
 		preg_match_all("#<textarea.*?>(.*?)</textarea>#is", $string, $matches[0]);
 		preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches[1]);
-		$matches = array_merge($matches[0][0], $matches[1][0]);
+		preg_match_all("#<script.*?>(.*?)</script>#is", $string, $matches[2]);
+		$matches = array_merge($matches[0][0], $matches[1][0], $matches[2][0]);
 		foreach ( $matches as $oldpart ) {
 			
 			$newpart = str_replace("\n", "\0", $oldpart);

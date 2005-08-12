@@ -85,14 +85,6 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$profiledata = $session->sess_info['user_info'];
 				$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['ViewProfile']);
 				
-			} else {
-				
-				$template->set_page_title(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))));
-				
-			}
-			
-			if ( $own_profile ) {
-				
 				//
 				// View the panel menu if the user is viewing his own profile
 				//
@@ -105,10 +97,14 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">'.$lang['EditPasswd'].'</a>',
 				));
 				
+			} else {
+				
+				$template->set_page_title(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))));
+				
 			}
 			
 			$username = unhtml(stripslashes($profiledata['displayed_name']));
-			if ( $functions->get_user_level() == LEVEL_ADMIN )
+			if ( $functions->get_user_level() == LEVEL_ADMIN || $own_profile )
 				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
 			
 			switch ( $profiledata['level'] ) {

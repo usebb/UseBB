@@ -69,6 +69,13 @@ class session {
 		if ( !@ini_get('session.auto_start') )
 			session_start();
 		
+		//
+		// Several session info we maintain
+		//
+		$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
+		$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
+		$_SESSION['latest_post'] = ( isset($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
+		
 	}
 	
 	//
@@ -360,13 +367,6 @@ class session {
 				'ip_banned' => false,
 				'user_info' => ( $user_id ) ? $user_info : array()
 			);
-			
-			//
-			// Several session info we maintain
-			//
-			$_SESSION['previous_visit'] = ( !empty($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : time();
-			$_SESSION['viewed_topics'] = ( !empty($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
-			$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
 			
 		}
 		

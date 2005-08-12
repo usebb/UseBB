@@ -34,6 +34,7 @@ UseBB 0.6 Changelog
 - Fixed security issue with color BBCode (XSS vulnerability in IE).
 - Fixed security issue with accessing $_REQUEST.
 - Fixed some wrong sorting of categories and forums in various files.
+- Fixed a potentional Undefined index error on getnewpost.
 - Renamed kick_user_to_only_viewable_forum to single_forum_mode.
 - Do not add session ID's for Googlebot.
 - Statistics grammar change (singular vs plural).

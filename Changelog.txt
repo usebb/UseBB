@@ -65,6 +65,7 @@ UseBB 0.6 Changelog
 - RSS feed query rewrite, the feed now shows the x latest posts intead of updated topics.
 - Limit search results to x items.
 - Don't compress <script />.
+- Disable flood protection for admins and moderators.
 
 UseBB 0.5.1 Changelog
 ------------------------------

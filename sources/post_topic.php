@@ -68,7 +68,7 @@ if ( !$forumdata['id'] ) {
 		
 		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) && empty($_POST['preview']) && time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['subject']) && !empty($_POST['content']) && empty($_POST['preview']) && ( time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') || $functions->get_user_level() > LEVEL_MEMBER ) ) {
 			
 			//
 			// Save the guest's username in the session

@@ -146,7 +146,7 @@ if ( $_GET['act'] == 'login' ) {
 	
 } else {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
 

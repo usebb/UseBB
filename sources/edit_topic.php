@@ -149,11 +149,11 @@ if ( $_GET['act'] == 'delete' ) {
 					
 					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-". ( $topicdata['count_replies']+1 ) ." WHERE name = 'posts'");
 					
-					header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])));
+					$functions->redirect('forum.php', array('id' => $topicdata['forum_id']));
 					
 				} else {
 					
-					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					$functions->redirect('topic.php', array('id' => $_GET['topic']));
 					
 				}
 				
@@ -234,13 +234,13 @@ if ( $_GET['act'] == 'delete' ) {
 					
 					if ( !$forumdata['id'] ) {
 						
-						header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+						$functions->redirect('topic.php', array('id' => $_GET['topic']));
 						
 					} else {
 						
 						if ( !$functions->auth($forumdata['auth'], 'view', $_POST['new_forum_id']) ) {
 							
-							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+							$functions->redirect('topic.php', array('id' => $_GET['topic']));
 							
 						} else {
 							
@@ -289,7 +289,7 @@ if ( $_GET['act'] == 'delete' ) {
 							
 							$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+". ( $topicdata['count_replies']+1 ) .$update_new_last_topic_id." WHERE id = ".$_POST['new_forum_id']);
 							
-							header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+							$functions->redirect('topic.php', array('id' => $_GET['topic']));
 							
 						}
 						
@@ -297,7 +297,7 @@ if ( $_GET['act'] == 'delete' ) {
 				
 				} else {
 					
-					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					$functions->redirect('topic.php', array('id' => $_GET['topic']));
 					
 				}
 				
@@ -316,7 +316,7 @@ if ( $_GET['act'] == 'delete' ) {
 				
 				if ( !count($forums) ) {
 					
-					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+					$functions->redirect('topic.php', array('id' => $_GET['topic']));
 					
 				} elseif ( count($forums) === 1 ) {
 					
@@ -383,7 +383,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$topicdata['id'] ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		$functions->redirect('topic.php', array('id' => $_GET['topic']));
 		
 	} else {
 		
@@ -405,13 +405,13 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( $topicdata['status_locked'] ) {
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			} else {
 				
 				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id = ".$_GET['topic']);
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			}
 			
@@ -431,7 +431,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$topicdata['id'] ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		$functions->redirect('topic.php', array('id' => $_GET['topic']));
 		
 	} else {
 		
@@ -453,13 +453,13 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( !$topicdata['status_locked'] ) {
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			} else {
 				
 				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 0 WHERE id = ".$_GET['topic']);
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			}
 			
@@ -479,7 +479,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$topicdata['id'] ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		$functions->redirect('topic.php', array('id' => $_GET['topic']));
 		
 	} else {
 		
@@ -501,13 +501,13 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( $topicdata['status_sticky'] ) {
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			} else {
 				
 				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 1 WHERE id = ".$_GET['topic']);
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			}
 			
@@ -528,7 +528,7 @@ if ( $_GET['act'] == 'delete' ) {
 	
 	if ( !$topicdata['id'] ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+		$functions->redirect('topic.php', array('id' => $_GET['topic']));
 		
 	} else {
 		
@@ -550,13 +550,13 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( !$topicdata['status_sticky'] ) {
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			} else {
 				
 				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET status_sticky = 0 WHERE id = ".$_GET['topic']);
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic'])));
+				$functions->redirect('topic.php', array('id' => $_GET['topic']));
 				
 			}
 			

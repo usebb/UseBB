@@ -486,7 +486,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	// There's no forum ID! Get us back to the index...
 	//
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
 

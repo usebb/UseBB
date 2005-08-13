@@ -190,7 +190,7 @@ class session {
 				$SID = SID;
 				$goto = str_replace($SID, '', $_SERVER['REQUEST_URI']);
 				setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
-				header('Location: '.$goto);
+				$functions->raw_redirect($goto);
 				exit();
 				
 			}

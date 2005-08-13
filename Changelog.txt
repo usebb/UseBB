@@ -68,6 +68,7 @@ UseBB 0.6 Changelog
 - Don't compress <script />.
 - Disable flood protection for admins and moderators.
 - Members can see their username next to their displayed name, just like admins can.
+- New redirect functions provide easier and more robust redirecting.
 
 UseBB 0.5.1 Changelog
 ------------------------------

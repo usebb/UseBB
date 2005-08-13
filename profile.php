@@ -207,7 +207,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	//
 	// There's no user ID! Get us back to the index...
 	//
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
 

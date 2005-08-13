@@ -153,7 +153,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 		else
 			$db->query("INSERT INTO ".TABLE_PREFIX."searches VALUES ('".session_id()."', ".time().", '".$result_data."')");
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('search.php', array('act' => 'results'), false));
+		$functions->redirect('search.php', array('act' => 'results'));
 		
 	} else {
 		
@@ -240,7 +240,7 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			
 		} else {
 			
-			header('Location: '.$functions->get_config('board_url').$functions->make_url('search.php', array(), false));
+			$functions->redirect('search.php');
 			
 		}
 		

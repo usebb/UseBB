@@ -502,8 +502,7 @@ class functions {
 		if ( !$session->sess_info['user_id'] ) {
 			
 			$_SESSION['referer'] = $_SERVER['REQUEST_URI'];
-			header('Location: '.$this->get_config('board_url').$this->make_url('panel.php', array('act' => 'login'), false));
-			exit();
+			$this->redirect('panel.php', array('act' => 'login'));
 			
 		} else {
 			
@@ -1686,6 +1685,28 @@ class functions {
 		while ( $out = $db->fetch_result($result) )
 			$tables[] = current($out);
 		return $tables;
+		
+	}
+	
+	//
+	// Redirect the user to a certain location within UseBB
+	//
+	function redirect($page, $vars=array(), $anchor='') {
+		
+		$goto = $this->get_config('board_url').$this->make_url($page, $vars, false);
+		if ( !empty($anchor) )
+			$goto .= '#'.$anchor;
+		$this->raw_redirect($goto);
+		
+	}
+	
+	//
+	// Redirect with a predefined URL
+	//
+	function raw_redirect($url) {
+		
+		@header('Location: '.$url);
+		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		
 	}
 	

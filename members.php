@@ -42,7 +42,7 @@ if ( empty($_GET['act']) ) {
 	
 	if ( !$functions->get_config('enable_memberlist') ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+		$functions->redirect('index.php');
 		
 	} elseif ( $functions->get_user_level() < $functions->get_config('view_memberlist_min_level') ) {
 		
@@ -147,7 +147,7 @@ if ( empty($_GET['act']) ) {
 	
 	if ( !$functions->get_config('enable_stafflist') ) {
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+		$functions->redirect('index.php');
 		
 	} elseif ( $functions->get_user_level() < $functions->get_config('view_stafflist_min_level') ) {
 		
@@ -230,7 +230,7 @@ if ( empty($_GET['act']) ) {
 	
 } else {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
 

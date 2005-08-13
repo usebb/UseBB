@@ -36,7 +36,7 @@ $session->update('logout');
 
 if ( !$session->sess_info['user_id'] ) {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 } else {
 	
@@ -57,7 +57,7 @@ if ( !$session->sess_info['user_id'] ) {
 			
 		}
 		
-		header('Location: '.$refere_to);
+		$functions->raw_redirect($refere_to);
 		
 	} else {
 	

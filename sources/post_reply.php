@@ -160,9 +160,9 @@ if ( !$topicdata['id'] ) {
 			$_SESSION['latest_post'] = time();
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $inserted_post_id), false).'#post'.$inserted_post_id);
+				$functions->redirect('topic.php', array('post' => $inserted_post_id), 'post'.$inserted_post_id);
 			else
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id']), false));
+				$functions->redirect('forum.php', array('id' => $topicdata['forum_id']));
 			
 		} else {
 			

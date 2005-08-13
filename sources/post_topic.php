@@ -123,9 +123,9 @@ if ( !$forumdata['id'] ) {
 			$_SESSION['latest_post'] = time();
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $inserted_topic_id), false));
+				$functions->redirect('topic.php', array('id' => $inserted_topic_id));
 			else
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $_GET['forum']), false));
+				$functions->redirect('forum.php', array('id' => $_GET['forum']));
 			
 		} else {
 			

@@ -191,7 +191,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 	// There's no user ID or the mail form has not been enabled!
 	// Get us back to the index...
 	//
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
 

@@ -160,7 +160,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		}
 		
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('admin.php', array('act' => 'forums')));
+		$functions->redirect('admin.php', array('act' => 'forums'));
 		
 	} else {
 		
@@ -184,7 +184,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 	if ( !empty($_POST['name']) ) {
 		
 		$db->query("UPDATE ".TABLE_PREFIX."forums SET name = '".$_POST['name']."' WHERE id = ".$_GET['id']);
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('admin.php', array('act' => 'forums')));
+		$functions->redirect('admin.php', array('act' => 'forums'));
 		
 	} else {
 		
@@ -211,7 +211,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 	if ( !empty($_POST['name']) ) {
 		
 		$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', 0)");
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('admin.php', array('act' => 'forums')));
+		$functions->redirect('admin.php', array('act' => 'forums'));
 		
 	} else {
 		

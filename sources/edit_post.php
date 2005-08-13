@@ -83,7 +83,7 @@ if ( !isset($_GET['act']) ) {
 					
 				}
 				
-				header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $_GET['post']), false).'#post'.$_GET['post']);
+				$functions->redirect('topic.php', array('post' => $_GET['post']), 'post'.$_GET['post']);
 				
 			} else {
 				
@@ -324,17 +324,17 @@ if ( !isset($_GET['act']) ) {
 						
 						$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'");
 						
-						header('Location: '.$functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $postdata['forum_id'])));
+						$functions->redirect('forum.php', array('id' => $postdata['forum_id']));
 						
 					} else {
 						
-						header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $postdata['topic_id'])));
+						$functions->redirect('topic.php', array('id' => $postdata['topic_id']));
 						
 					}
 					
 				} else {
 					
-					header('Location: '.$functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post']);
+					$functions->redirect('topic.php', array('post' => $_GET['post']), 'post'.$_GET['post']);
 					
 				}
 				

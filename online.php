@@ -40,7 +40,7 @@ require(ROOT_PATH.'sources/page_head.php');
 
 if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 } elseif ( $functions->get_user_level() < $functions->get_config('view_detailed_online_list_min_level') ) {
 	

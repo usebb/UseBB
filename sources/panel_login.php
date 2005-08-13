@@ -122,7 +122,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		//
 		$refere_to = ( !empty($_SESSION['refere_to']) ) ? $functions->attach_sid($_SESSION['refere_to']) : $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 		unset($_SESSION['refere_to']);
-		header('Location: '.$refere_to);
+		$functions->raw_redirect($refere_to);
 		
 	} else {
 		
@@ -196,7 +196,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		//
 		// If he/she is logged in, return to index
 		//
-		header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+		$functions->redirect('index.php');
 		
 	}
 	

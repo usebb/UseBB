@@ -199,7 +199,7 @@ if ( $functions->get_config('enable_stats') ) {
 	
 } else {
 	
-	header('Location: '.$functions->get_config('board_url').$functions->make_url('index.php', array(), false));
+	$functions->redirect('index.php');
 	
 }
  

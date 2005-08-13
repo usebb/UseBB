@@ -341,19 +341,25 @@ table.maintable td.online {
 	margin: 0px 0px 6px 0px;
 }
 #toolbartop a, #toolbarbottom a {
-	background-image: url(gfx/topmenu_bg.png);
+	background-image: url(gfx/button_normal.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	text-decoration: none !important;
-	padding: 2px 8px 2px 8px;
-	margin: 0px 0px 0px 5px;
-	border: 1px solid #336699;
+	padding: 3px 11px 3px 11px;
+	margin: 0px 0px 0px 4px;
+	border-top: 1px solid #99b2cc;
+	border-left: 1px solid #99b2cc;
+	border-bottom: 1px solid #336699;
+	border-right: 1px solid #336699;
 	font-weight: bold;
 }
 #toolbartop a:hover, #toolbarbottom a:hover {
-	background-image: url(gfx/topmenu_bg_reverse.png);
-	background-repeat: repeat-x;
+	background-image: url(gfx/button_reverse.png);
 	background-color: #FFFFFF;
+	border-top: 1px solid #336699;
+	border-left: 1px solid #336699;
+	border-bottom: 1px solid #99b2cc;
+	border-right: 1px solid #99b2cc;
 }
 #pagelinkstop {
 	float: left;

@@ -1451,48 +1451,59 @@ class functions {
 		
 		$found_load = false;
 		
-		if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
+		if ( strstr(PHP_OS, 'WIN') !== false ) {
 			
 			//
-			// We use the Linux method of getting the 3 average load
-			// values of the server. This only works on Linux afaik...
+			// Afaik we can't get this on Windows
 			//
-			$fh = fopen('/proc/loadavg', 'r');
-			$out = fread($fh, 14);
-			fclose($fh);
-			if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) )
-				return $match[1]; // we use the load average value of the past 1 minute
-			else
-				$found_load = false;
+			return false;
 			
-		}
-		
-		if ( !$found_load ) {
+		} else {
 			
-			//
-			// Another way is running the uptime command and using its
-			// output. This should also work on FreeBSD. The var $tmp
-			// is unnecessary at this moment.
-			//
-			$out = @exec('uptime', $tmp, $retval);
-			
-			if ( !$retval ) {
+			if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
 				
 				//
-				// $retval contains the exit code 0 when ran successfully...
+				// We use the Linux method of getting the 3 average load
+				// values of the server. This only works on Linux afaik...
 				//
-				if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) )
+				$fh = fopen('/proc/loadavg', 'r');
+				$out = fread($fh, 14);
+				fclose($fh);
+				if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) )
 					return $match[1]; // we use the load average value of the past 1 minute
 				else
+					$found_load = false;
+				
+			}
+			
+			if ( !$found_load ) {
+				
+				//
+				// Another way is running the uptime command and using its
+				// output. This should also work on FreeBSD. The var $tmp
+				// is unnecessary at this moment.
+				//
+				$out = @exec('uptime', $tmp, $retval);
+				
+				if ( !$retval ) {
+					
+					//
+					// $retval contains the exit code 0 when ran successfully...
+					//
+					if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) )
+						return $match[1]; // we use the load average value of the past 1 minute
+					else
+						return false;
+					
+				} else {
+					
+					//
+					// We can't determine the server load... The server can't access
+					// /proc/loadavg, can't run uptime or is running an unsupported OS
+					//
 					return false;
-				
-			} else {
-				
-				//
-				// We can't determine the server load... The server can't access
-				// /proc/loadavg, can't run uptime or is running an unsupported OS
-				//
-				return false;
+					
+				}
 				
 			}
 			

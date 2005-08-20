@@ -37,6 +37,7 @@ $content = '<p>'.$lang['IndexWelcome'].'</p>
 	<li>'.$lang['IndexPHPVersion'].': '.phpversion().'</li>
 	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
 	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
+	<li>'.$lang['IndexOS'].': '.PHP_OS.'</li>
 </ul>
 
 <h2>'.$lang['IndexLinks'].'</h2>

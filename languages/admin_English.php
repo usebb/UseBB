@@ -49,6 +49,7 @@ $lang['IndexUseBBVersion'] = 'UseBB version';
 $lang['IndexPHPVersion'] = 'PHP version';
 $lang['IndexSQLServer'] = 'SQL server driver';
 $lang['IndexHTTPServer'] = 'HTTP server';
+$lang['IndexOS'] = 'Operating system';
 $lang['IndexLinks'] = 'Links';
 
 $lang['VersionFailed'] = 'The forum could not determine the latest version (%s disabled). Please often check %s to make sure you have the latest one.';

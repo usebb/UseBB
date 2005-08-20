@@ -361,57 +361,62 @@ class functions {
 		
 		global $session;
 		
+		@ini_set('session.use_trans_sid', '0');
+		
 		if ( $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
-			$url = str_replace('.php', '', $filename);
+			//
+			// Friendly URL's
+			//
+			$url = preg_replace('#\.php$#', '', $filename);
 			foreach ( $vars as $key => $val ) {
 				
 				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )
-					$url .= '-'.$key.$val;
+					$url .= '-'.urlencode($key.$val);
 				else
-					$url .= '-'.$val;
+					$url .= '-'.urlencode($val);
 				
 			}
-			if ( $filename == 'rss.php' )
-				return $url.'.xml';
-			else
-				return $url.'.html';
+			$url .= ( $filename == 'rss.php' ) ? '.xml' : '.html';
+			
+		} else {
+			
+			$url = $filename;
+			$vars = ( is_array($vars) ) ? $vars : array();
+			if ( isset($vars[$this->get_config('session_name').'_sid']) )
+				unset($vars[$this->get_config('session_name').'_sid']);
+			
+			//
+			// Pass session ID's
+			//
+			$SID = SID;
+			$SID_parts = explode('=', $SID, 2);
+			
+			if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
+				$vars[$SID_parts[0]] = $SID_parts[1];
+			
+			if ( count($vars) ) {
+				
+				$url .= '?';
+				
+				if ( $html ) {
+					
+					foreach ( $vars as $key => $val )
+						$safe[] = urlencode($key).'='.urlencode($val);
+					$url .= join('&amp;', $safe);
+					
+				} else {
+					
+					foreach ( $vars as $key => $val )
+						$safe[] = $key.'='.$val;
+					$url .= join('&', $safe);
+					
+				}
+				
+			}
 			
 		}
 		
-		$url = $filename;
-		$vars = ( is_array($vars) ) ? $vars : array();
-		if ( isset($vars[$this->get_config('session_name').'_sid']) )
-			unset($vars[$this->get_config('session_name').'_sid']);
-		
-		//
-		// Pass session ID's
-		//
-		$SID = SID;
-		$SID_parts = explode('=', $SID, 2);
-		
-		if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
-			$vars[$SID_parts[0]] = $SID_parts[1];
-		
-		if ( count($vars) ) {
-			
-			$url .= '?';
-			
-			if ( $html ) {
-				
-				foreach ( $vars as $key => $val )
-					$safe[] = urlencode($key).'='.urlencode($val);
-				$url .= join('&amp;', $safe);
-				
-			} else {
-				
-				foreach ( $vars as $key => $val )
-					$safe[] = $key.'='.$val;
-				$url .= join('&', $safe);
-				
-			}
-			
-		}
 		return $url;
 		
 	}

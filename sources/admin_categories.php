@@ -75,7 +75,8 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			$cat_sort_id = 1;
 			foreach ( $cats as $cat ) {
 				
-				$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$cat_sort_id." WHERE id = ".$cat['id']);
+				if ( $cat['sort_id'] != $cat_sort_id )
+					$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$cat_sort_id." WHERE id = ".$cat['id']);
 				$cat_sort_id++;
 				
 			}
@@ -84,8 +85,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		} elseif ( $_GET['do'] == 'autosort' ) {
 			
-			foreach ( $cats as $cat )
-				$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = 0 WHERE id = ".$cat['id']);
+			$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = 0");
 			$cats = $admin_functions->get_cats_array();
 			$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
 			

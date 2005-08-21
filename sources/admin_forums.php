@@ -86,7 +86,8 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 					
 				}
 				
-				$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = ".$forum_sort_id." WHERE id = ".$forum['id']);
+				if ( $forum['sort_id'] != $forum_sort_id )
+					$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = ".$forum_sort_id." WHERE id = ".$forum['id']);
 				
 			}
 			$forums = $admin_functions->get_forums_array();
@@ -94,8 +95,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		} elseif ( $_GET['do'] == 'autosort' ) {
 			
-			foreach ( $forums as $forum )
-				$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = 0 WHERE id = ".$forum['id']);
+			$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = 0");
 			$forums = $admin_functions->get_forums_array();
 			$content .= '<p>'.$lang['ForumsSortChangesApplied'].'</p>';
 			

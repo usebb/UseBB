@@ -146,9 +146,11 @@ class functions {
 		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
 		error_log($log_msg);
 		
-		$html_msg  = '<html>
+		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<title>UseBB General Error</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<style type="text/css">
 			body {
 				font-family: sans-serif;
@@ -170,7 +172,7 @@ class functions {
 		<h1>UseBB General Error</h1>
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
-			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
+			<p>In file <strong>'.str_replace(dirname($file).'/', '', $file).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
 				
 		if ( $errtype == 'SQL_ERROR' ) {
 			

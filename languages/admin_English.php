@@ -183,6 +183,7 @@ $lang['ForumsAdjustSortIDs'] = 'Adjust the sort ID\'s';
 $lang['ForumsSortAutomatically'] = 'Sort forums automatically';
 $lang['ForumsNoForumsExist'] = 'This board does not contain any forums yet.';
 $lang['ForumsForumName'] = 'Forum name';
+$lang['ForumsCatName'] = 'Category name';
 $lang['ForumsSortID'] = 'Sort ID';
 $lang['ForumsMissingFields'] = 'Some required fields were missing. Please fill them in correctly.';
 $lang['ForumsSortChangesApplied'] = 'Your changes to the sort ID\'s have been applied.';

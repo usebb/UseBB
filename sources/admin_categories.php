@@ -110,13 +110,13 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 	}
 	
-} elseif ( $_GET['do'] == 'delete' && !empty($_GET['id']) && valid_int($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
+} elseif ( $_GET['do'] == 'delete' && !empty($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		if ( !empty($_POST['delete']) ) {
 			
-			if ( !empty($_POST['move_contents']) && valid_int($_POST['move_contents']) && array_key_exists($_POST['move_contents'], $cats) )
+			if ( !empty($_POST['move_contents']) && array_key_exists($_POST['move_contents'], $cats) )
 				$db->query("UPDATE ".TABLE_PREFIX."forums SET cat_id = ".$_POST['move_contents']." WHERE cat_id = ".$_GET['id']);
 			else
 				$admin_functions->delete_forums('cat_id = '.$_GET['id']);
@@ -150,7 +150,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 	}
 	
-} elseif ( $_GET['do'] == 'edit' && !empty($_GET['id']) && valid_int($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
+} elseif ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
 	
 	$catinfo = $cats[$_GET['id']];
 	

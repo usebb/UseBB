@@ -226,13 +226,13 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		}
 		
 		$submitted_forum_info = array();
-		foreach ( array('name') as $key )
+		foreach ( array('name', 'cat_id') as $key )
 			$submitted_forum_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : $foruminfo[$key];
 		
 		$category_select = '<select name="cat_id">';
 		foreach ( $cats as $cat ) {
 			
-			$selected = ( $cat['id'] == $foruminfo['cat_id'] ) ? ' selected="selected"' : '';
+			$selected = ( $submitted_forum_info['cat_id'] == $cat['id'] ) ? ' selected="selected"' : '';
 			$category_select .= '<option value="'.$cat['id'].'"'.$selected.'>'.unhtml(stripslashes($cat['name'])).'</option>';
 			
 		}

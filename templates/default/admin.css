@@ -52,6 +52,9 @@
 	border-left: 2px solid silver;
 	font-weight: normal;
 }
+#adminmenu ul li ul a {
+	display: block;
+}
 #adminmenu ul li.selected {
 	font-weight: bold;
 }

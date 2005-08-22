@@ -31,6 +31,21 @@ class functions {
 	function usebb_die($errno, $error, $file, $line) {
 		
 		global $connerror;
+		
+		//
+		// Don't show various errors on PHP5
+		//
+		if ( intval(substr(phpversion(), 0, 1)) > 4 ) {
+			
+			$ignore_warnings = array(
+				'var: Deprecated. Please use the public/private/protected modifiers',
+				'Trying to get property of non-object',
+			);
+			if ( in_array($error, $ignore_warnings) )
+				return;
+			
+		}
+		
 		$connerror = $error;
 		
 	}
@@ -138,7 +153,7 @@ if ( empty($_POST['step']) ) {
 		
 	} else {
 		
-		echo '<p>First, edit the configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
+		echo '<p>First, edit the database configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
 		echo '<p><strong>Tip:</strong> if you already use MySQL 4.1, it might be interesting to set <code>$dbs[\'type\']</code> to <code>\'mysqli\'</code>. If you don\'t know which version you are running, leave the default value.</p>';
 		echo '<p><strong>Another tip:</strong> you might want to check <a href="http://usebb.sourceforge.net/docs/doku.php?id=configuration:config.php_guide" target="_blank">this document</a> out to change config.php.</p>';
 		echo to_step(2);

@@ -363,8 +363,6 @@ class functions {
 		
 		global $session;
 		
-		@ini_set('session.use_trans_sid', '0');
-		
 		if ( $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
 			//

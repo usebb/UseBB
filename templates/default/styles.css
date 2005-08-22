@@ -527,7 +527,7 @@ table.statslayout td.last {
 
 /* */
 
-td.msg {
+table.confirmform td.msg, td.msg {
 	padding: 18px 36px 18px 36px !important;
 	font-size: 10pt;
 }

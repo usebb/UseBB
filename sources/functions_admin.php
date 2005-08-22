@@ -94,6 +94,9 @@ class admin_functions {
 		
 		global $functions, $template, $lang;
 		
+		if ( empty($content) )
+			$functions->redirect('admin.php');
+		
 		if ( $location == 'index' )
 			$template->set_page_title($lang['ACP']);
 		else

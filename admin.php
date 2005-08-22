@@ -62,6 +62,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		// Include page
 		//
 		$_GET['act'] = ( !empty($_GET['act']) && file_exists(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php') ) ? $_GET['act'] : 'index';
+		$content = '';
 		require(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php');
 		
 	} else {

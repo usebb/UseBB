@@ -48,10 +48,12 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	//
 	$lang = $functions->fetch_language('', 'admin');
 	
-	if ( !empty($_POST['passwd']) )
+	if ( !empty($_POST['passwd']) && md5($_POST['passwd']) === $session->sess_info['user_info']['passwd'] ) {
+		
 		$_SESSION['admin_pwd'] = md5($_POST['passwd']);
-	
-	if ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] ) {
+		$functions->redirect('admin.php', $_GET);
+		
+	} elseif ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] ) {
 		
 		require(ROOT_PATH.'sources/functions_admin.php');
 		$admin_functions = &new admin_functions;

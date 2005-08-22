@@ -223,10 +223,6 @@ table.maintable td, table.confirmform td, td.msg {
 table.maintable td a:visited {
 	color: #555555;
 }
-table.confirmform td.msg, td.msg {
-	padding: 18px 36px 18px 36px !important;
-	font-size: 10pt;
-}
 td.fieldtitle {
 	background-color: #E8E8E8 !important;
 	width: 25%;
@@ -531,6 +527,10 @@ table.statslayout td.last {
 
 /* */
 
+td.msg {
+	padding: 18px 36px 18px 36px !important;
+	font-size: 10pt;
+}
 table.maintable td.minimal {
 	background-color: #E8E8E8;
 	width: 1%;

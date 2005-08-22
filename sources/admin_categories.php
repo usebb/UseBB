@@ -150,53 +150,47 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 	}
 	
-} elseif ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
+} elseif ( ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $cats) ) || $_GET['do'] == 'add' ) {
 	
-	$catinfo = $cats[$_GET['id']];
+	if ( $_GET['do'] == 'edit' )
+		$catinfo = $cats[$_GET['id']];
 	
 	if ( !empty($_POST['name']) ) {
 		
-		$db->query("UPDATE ".TABLE_PREFIX."cats SET name = '".$_POST['name']."' WHERE id = ".$_GET['id']);
+		if ( $_GET['do'] == 'edit' )
+			$db->query("UPDATE ".TABLE_PREFIX."cats SET name = '".$_POST['name']."' WHERE id = ".$_GET['id']);
+		else
+			$db->query("INSERT INTO ".TABLE_PREFIX."cats VALUES(NULL, '".$_POST['name']."', 0)");
 		$functions->redirect('admin.php', array('act' => 'categories'));
 		
 	} else {
 		
-		$content = '<h2>'.sprintf($lang['CategoriesEditingCat'], '<em>'.unhtml(stripslashes($catinfo['name'])).'</em>').'</h2>';
+		if ( $_GET['do'] == 'edit' )
+			$content = '<h2>'.sprintf($lang['CategoriesEditingCat'], '<em>'.unhtml(stripslashes($catinfo['name'])).'</em>').'</h2>';
+		else
+			$content = '<h2>'.$lang['CategoriesAddNewCat'].'</h2>';
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 			$content .= '<p><strong>'.sprintf($lang['MissingFields'], $lang['CategoriesCatName']).'</strong></p>';
 		
-		$_POST['name'] = ( isset($_POST['name']) ) ? $_POST['name'] : $catinfo['name'];
+		if ( $_GET['do'] == 'edit' ) {
+			
+			$form = $functions->make_url('admin.php', array('act' => 'categories', 'do' => 'edit', 'id' => $_GET['id']));
+			$_POST['name'] = ( isset($_POST['name']) ) ? $_POST['name'] : $catinfo['name'];
+			$action = $lang['Edit'];
+			
+		} else {
+			
+			$form = $functions->make_url('admin.php', array('act' => 'categories', 'do' => 'add'));
+			$_POST['name'] = ( isset($_POST['name']) ) ? $_POST['name'] : '';
+			$action = $lang['Add'];
+			
+		}
 		
-		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'edit', 'id' => $_GET['id'])).'" method="post">';
+		$content .= '<form action="'.$form.'" method="post">';
 		$content .= '<table id="admincatstable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['CategoriesCatName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
-		
-		$template->set_js_onload("set_focus('name')");
-		
-	}
-	
-} elseif ( $_GET['do'] == 'add' ) {
-	
-	if ( !empty($_POST['name']) ) {
-		
-		$db->query("INSERT INTO ".TABLE_PREFIX."cats VALUES(NULL, '".$_POST['name']."', 0)");
-		$functions->redirect('admin.php', array('act' => 'categories'));
-		
-	} else {
-		
-		$content = '<h2>'.$lang['CategoriesAddNewCat'].'</h2>';
-		
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
-			$content .= '<p><strong>'.sprintf($lang['MissingFields'], $lang['CategoriesCatName']).'</strong></p>';
-		
-		$_POST['name'] = ( isset($_POST['name']) ) ? $_POST['name'] : '';
-		
-		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'add')).'" method="post">';
-		$content .= '<table id="admincatstable">';
-		$content .= '<tr><td class="fieldtitle">'.$lang['CategoriesCatName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Add'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 		
 		$template->set_js_onload("set_focus('name')");
 		

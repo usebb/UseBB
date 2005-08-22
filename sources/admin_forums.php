@@ -177,11 +177,15 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 	}
 	
-} elseif ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) {
+} elseif ( ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) || $_GET['do'] == 'add' ) {
 	
-	$foruminfo = $forums[$_GET['id']];
-	foreach ( range(0, 9) as $authid )
-		$foruminfo['auth'.$authid] = $foruminfo['auth'][$authid];
+	if ( $_GET['do'] == 'edit' ) {
+		
+		$foruminfo = $forums[$_GET['id']];
+		foreach ( range(0, 9) as $authid )
+			$foruminfo['auth'.$authid] = $foruminfo['auth'][$authid];
+		
+	}
 	$cats = $admin_functions->get_cats_array();
 	$user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 	$default_auth = '0011222223';
@@ -194,26 +198,41 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$_POST['increase_post_count'] = ( !empty($_POST['increase_post_count']) ) ? 1 : 0;
 		$_POST['hide_mods_list'] = ( !empty($_POST['hide_mods_list']) ) ? 1 : 0;
 		
-		$_POST['auth'] = '';
-		foreach ( range(0, 9) as $authid )
-			$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
-		
-		$db->query("UPDATE ".TABLE_PREFIX."forums SET
-			name = '".$_POST['name']."',
-			cat_id = '".$_POST['cat_id']."',
-			descr = '".$_POST['descr']."',
-			status = ".$_POST['status'].",
-			auth = '".$_POST['auth']."',
-			auto_lock = ".$_POST['auto_lock'].",
-			increase_post_count = ".$_POST['increase_post_count'].",
-			hide_mods_list = ".$_POST['hide_mods_list']."
-		WHERE id = ".$_GET['id']);
+		if ( $_GET['do'] == 'edit' ) {
+			
+			$_POST['auth'] = '';
+			foreach ( range(0, 9) as $authid )
+				$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
+			
+			$db->query("UPDATE ".TABLE_PREFIX."forums SET
+				name = '".$_POST['name']."',
+				cat_id = '".$_POST['cat_id']."',
+				descr = '".$_POST['descr']."',
+				status = ".$_POST['status'].",
+				auth = '".$_POST['auth']."',
+				auto_lock = ".$_POST['auto_lock'].",
+				increase_post_count = ".$_POST['increase_post_count'].",
+				hide_mods_list = ".$_POST['hide_mods_list']."
+			WHERE id = ".$_GET['id']);
+			
+		} else {
+			
+			$_POST['auth'] = '';
+			foreach ( range(0, 9) as $authid )
+				$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $default_auth[$authid];
+			
+			$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', '".$_POST['cat_id']."', '".$_POST['descr']."', ".$_POST['status'].", 0, 0, 0, 0, '".$_POST['auth']."', ".$_POST['auto_lock'].", ".$_POST['increase_post_count'].", ".$_POST['hide_mods_list'].")");
+			
+		}
 		
 		$functions->redirect('admin.php', array('act' => 'forums'));
 		
 	} else {
 		
-		$content = '<h2>'.sprintf($lang['ForumsEditingForum'], '<em>'.unhtml(stripslashes($foruminfo['name'])).'</em>').'</h2>';
+		if ( $_GET['do'] == 'edit' )
+			$content = '<h2>'.sprintf($lang['ForumsEditingForum'], '<em>'.unhtml(stripslashes($foruminfo['name'])).'</em>').'</h2>';
+		else
+			$content = '<h2>'.$lang['ForumsAddNewForum'].'</h2>';
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
@@ -227,8 +246,37 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		}
 		
-		foreach ( $foruminfo as $id => $val )
-			$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : $val;
+		if ( $_GET['do'] == 'edit' ) {
+			
+			foreach ( $foruminfo as $id => $val )
+				$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : $val;
+			
+			$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'edit', 'id' => $_GET['id']));
+			$action = $lang['Edit'];
+			
+		} else {
+			
+			$fields = array('name', 'cat_id', 'descr', 'status', 'auto_lock', 'increase_post_count', 'hide_mods_list');
+			foreach ( range(0, 9) as $authid )
+				$fields[] = 'auth'.$authid;
+			
+			foreach ( $fields as $id )
+				$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : '';
+			
+			if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
+				
+				$_POST['status'] = 1;
+				$_POST['increase_post_count'] = 1;
+				foreach ( range(0, 9) as $authid )
+					$_POST['auth'.$authid] = $default_auth[$authid];
+				
+			}
+			
+			$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'add'));
+			$action = $lang['Add'];
+			
+		}
+		
 		$_POST['auto_lock'] = ( valid_int($_POST['auto_lock']) && $_POST['auto_lock'] > 0 ) ? $_POST['auto_lock'] : '';
 		$status_checked = ( $_POST['status'] ) ? ' checked="checked"' : '';
 		$increase_post_count_checked = ( $_POST['increase_post_count'] ) ? ' checked="checked"' : '';
@@ -243,7 +291,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		}
 		$category_select .= '</select>';
 		
-		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'edit', 'id' => $_GET['id'])).'" method="post">';
+		$content .= '<form action="'.$form.'" method="post">';
 		$content .= '<table id="adminforumstable">';
 			$content .= '<tr><th colspan="2">'.$lang['ForumsGeneral'].'</th></tr>';
 			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
@@ -270,40 +318,13 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				
 			}
 			
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 		
 		$template->set_js_onload("set_focus('name')");
 		
 	}
 	
-}/* elseif ( $_GET['do'] == 'add' ) {
-	
-	if ( !empty($_POST['name']) ) {
-		
-		$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', 0)");
-		$functions->redirect('admin.php', array('act' => 'forums'));
-		
-	} else {
-		
-		$content = '<h2>'.$lang['ForumsAddNewForum'].'</h2>';
-		
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
-			$content .= '<p><strong>'.sprintf($lang['MissingFields'], $lang['ForumsForumName']).'</strong></p>';
-		
-		$_POST = array();
-		foreach ( array('name') as $key )
-			$_POST[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : '';
-		
-		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'add')).'" method="post">';
-		$content .= '<table id="adminforumstable">';
-		$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Add'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
-		
-		$template->set_js_onload("set_focus('name')");
-		
-	}
-	
-}*/
+}
 
 $admin_functions->create_body('forums', $content);
 

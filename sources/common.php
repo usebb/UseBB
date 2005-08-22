@@ -81,7 +81,7 @@ $_REQUEST = slash_trim_global($_REQUEST);
 // One can however set a publicly displayed name, eventually with non-alphanumeric
 // characters.
 //
-define('USEBB_VERSION', '0.6-CVS');
+define('USEBB_VERSION', '0.6');
 define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
 define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
 define('PWD_PREG', '#^[A-Za-z0-9]+$#');

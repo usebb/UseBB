@@ -6,6 +6,7 @@ Until UseBB is in a stable state, this guide will remain very simple.
 Before installing UseBB, make sure your host accords to the minimal system requirements.
 * Minimal: HTTP-server supporting PHP, PHP 4.1.0, MySQL 3.23
 * Recommended: GNU/Linux, most recent versions of Apache, PHP and MySQL
+UseBB works on PHP 5 (tested with 5.1.0b3).
 
 You might want to use install/install.php to quickly set up your board. Otherwise, you can follow these directions:
 

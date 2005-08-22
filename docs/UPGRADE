@@ -1,14 +1,13 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Current version: 0.5.1
+Current version: 0.6
 
 Notes:
-	- Install and upgrade scripts now recognize the database table prefix setting!
-	- German translation has been removed from the package!
+	- UseBB now works completely on PHP 5 (tested with 5.1.0b3).
 	- There are several new config options and some of them have been removed and will not have any effect any more!
 
-* Upgrading from 0.5:
+* Upgrading from 0.5.x:
 	Just reupload all (newer) files. No database changes.
 
 * Upgrading from 0.4.x:

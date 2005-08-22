@@ -366,7 +366,7 @@ class admin_functions {
 		
 		global $db;
 		
-		$result = $db->query("SELECT id, name, sort_id FROM ".TABLE_PREFIX."cats ORDER BY sort_id ASC, name");
+		$result = $db->query("SELECT * FROM ".TABLE_PREFIX."cats ORDER BY sort_id ASC, name");
 		$cats = array();
 		while ( $catinfo = $db->fetch_result($result) )
 			$cats[$catinfo['id']] = $catinfo;
@@ -382,7 +382,7 @@ class admin_functions {
 		
 		global $db;
 		
-		$result = $db->query("SELECT f.id, f.name, f.sort_id, c.id as cat_id, c.name as cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
+		$result = $db->query("SELECT f.*, c.id as cat_id, c.name as cat_name FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."cats c WHERE c.id = f.cat_id ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
 		$forums = array();
 		while ( $foruminfo = $db->fetch_result($result) )
 			$forums[$foruminfo['id']] = $foruminfo;

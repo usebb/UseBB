@@ -28,9 +28,6 @@
 	border-top: 1px solid silver;
 	vertical-align: middle;
 }
-
-
-
 #adminmenu {
 	clear: both;
 	float: left;
@@ -58,9 +55,6 @@
 #adminmenu ul li.selected {
 	font-weight: bold;
 }
-
-
-
 h1#admintitle {
 	color: #EBD6AD;
 	font-weight: bold;
@@ -74,9 +68,6 @@ h1#admintitle {
 	margin: 0px 0px 0px 195px;
 	border: 1px solid silver;
 }
-
-
-
 #admincontent {
 	background-color: #EFEFEF;
 	padding: 10px 10px 0px 10px;
@@ -105,7 +96,6 @@ h1#admintitle {
 #admincontent #resultset {
 	font-size: 8pt;
 }
-
 #adminconfigcontent {
 	list-style: none;
 	margin-left: 0px !important;
@@ -119,7 +109,6 @@ h1#admintitle {
 	border-right: 2px solid silver;
 	padding-right: 4px;
 }
-
 #adminconfigtable, #admincatstable, #adminforumstable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
@@ -152,7 +141,7 @@ h1#admintitle {
 #adminconfigtable td.fieldtitle, #admincatstable td.fieldtitle, #adminforumstable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
-	width: 25%;
+	width: 35%;
 	background-color: #E8E8E8;
 }
 #adminconfigtable td.fieldtitle {
@@ -177,8 +166,9 @@ h1#admintitle {
 	background-color: #E8E8E8;
 	text-align: center;
 }
-
-
+#admincontent textarea {
+	font-size: 8pt !important;
+}
 #adminfunctionsmenu {
 	list-style: none;
 	margin-left: 0px !important;
@@ -188,8 +178,6 @@ h1#admintitle {
 	border-left: 2px solid silver;
 	padding-left: 4px;
 }
-
-
 #adminbottomfix {
 	clear: both;
 	height: 10px;

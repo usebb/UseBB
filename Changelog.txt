@@ -72,6 +72,7 @@ UseBB 0.6 Changelog
 - Members can see their username next to their displayed name, just like admins can.
 - New redirect functions provide easier and more robust redirecting.
 - Don't try to get server load on Windows.
+- Allow + in e-mail addresses.
 
 UseBB 0.5.1 Changelog
 ------------------------------

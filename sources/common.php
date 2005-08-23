@@ -83,7 +83,7 @@ $_REQUEST = slash_trim_global($_REQUEST);
 //
 define('USEBB_VERSION', '0.6');
 define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
-define('EMAIL_PREG', '#^[a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
+define('EMAIL_PREG', '#^[a-z0-9&\-_.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
 define('PWD_PREG', '#^[A-Za-z0-9]+$#');
 define('WEB_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?$#i');
 define('IMG_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?\.(gif|png|jpe?g)$#i');

@@ -37,21 +37,16 @@ if ( $functions->get_user_level() < LEVEL_ADMIN )
 
 class admin_functions {
 	
+	var $acp;
+	var $acp_modules;
 	var $all_forums;
 	
 	//
-	// Create the ACP menu
+	// Initialize the ACP menu arrays
 	//
-	function create_acp_menu($location) {
+	function admin_functions() {
 		
-		global $functions, $lang;
-		
-		$categories = array(
-			'main',
-			'forums',
-			'various',
-		);
-		$items = array(
+		$this->acp = array(
 			'main' => array(
 				'index',
 				'version',
@@ -67,15 +62,73 @@ class admin_functions {
 			),
 		);
 		
-		$out = '<ul>';
-		foreach ( $categories as $category ) {
+		//
+		// Load ACP modules
+		//
+		$modules_dir = ROOT_PATH.'sources/modules/';
+		
+		//
+		// Does the module dir exist.
+		//
+		if ( file_exists($modules_dir) && is_dir($modules_dir) ) {
 			
-			$out .= '<li>'.$lang['Category-'.$category].'<ul>';
-			foreach ( $items[$category] as $item ) {
+			$handle = opendir($modules_dir);
+			$this->acp_modules = array();
+			
+			while ( false !== ( $module_name = readdir($handle) ) ) {
+				
+				//
+				// Is it a .php file?
+				//
+				if ( preg_match('#\.php$#', $module_name) ) {
+					
+					require($modules_dir.$module_name);
+					
+					//
+					// Check if this is a valid UseBB module
+					//
+					if ( !empty($is_usebb_module) && isset($usebb_module) && is_object($usebb_module) && method_exists($usebb_module, 'get_module_info') && method_exists($usebb_module, 'run_module') ) {
+						
+						$module_info = $usebb_module->get_module_info();
+						
+						if ( is_array($module_info) && !empty($module_info['acp_category']) && array_key_exists($module_info['acp_category'], $this->acp) && !empty($module_info['short_name']) && !empty($module_info['long_name']) ) {
+							
+							$this->acp_modules[$module_info['short_name']] = $module_info;
+							$this->acp[$module_info['acp_category']][] = 'mod_'.$module_info['short_name'];
+							
+						}
+						
+					}
+					
+					unset($is_usebb_module);
+					unset($usebb_module);
+					
+				}
+				
+			}
+			
+			closedir($handle);
+			
+		}
+		
+	}
+	
+	//
+	// Create the ACP menu
+	//
+	function create_acp_menu($location) {
+		
+		global $functions, $lang;
+		
+		$out = '<ul>';
+		foreach ( $this->acp as $category_name => $category ) {
+			
+			$out .= '<li>'.$lang['Category-'.$category_name].'<ul>';
+			foreach ( $this->acp[$category_name] as $item ) {
 				
 				$selected = ( $location == $item ) ? ' class="selected"' : '';
-				
-				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$lang['Item-'.$item].'</a></li>';
+				$name = ( preg_match('#^mod_([A-Za-z0-9]+)$#', $item, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$item];
+				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$name.'</a></li>';
 				
 			}
 			$out .= '</ul></li>';

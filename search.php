@@ -233,9 +233,9 @@ if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($
 			
 			$template->parse('results_footer', 'search', array(
 				'page_links' => $page_links,
-				'keywords' => stripslashes($search_results['keywords']),
+				'keywords' => unhtml(stripslashes($search_results['keywords'])),
 				'mode' => ( $search_results['mode'] == 'and' ) ? $lang['AllKeywords'] : $lang['OneOrMoreKeywords'],
-				'author' => stripslashes($search_results['author']),
+				'author' => unhtml(stripslashes($search_results['author'])),
 			));
 			
 		} else {

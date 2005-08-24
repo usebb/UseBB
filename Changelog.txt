@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.7 Changelog
+------------------------------
+
+- Fixed XSS vulnerability in search results.
+
 UseBB 0.6 Changelog
 ------------------------------
 

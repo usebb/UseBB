@@ -32,6 +32,8 @@ if ( !defined('INCLUDED') )
 $lang['AdminLogin'] = 'Administrator inloggen';
 $lang['AdminPasswordExplain'] = 'Om veiligheidsredenen dien je je account\'s wachtwoord in te voeren om toegang te krijgen tot het ACP.';
 
+$lang['RunningBadACPModule'] = 'UseBB kan deze module niet uitvoeren omdat een of meerdere aspecten ontbreken (geen $usebb_module object gevonden en/of ontbrekende run_module() objectmethode).';
+
 $lang['Category-main'] = 'Algemeen';
 $lang['Item-index'] = 'ACP-index';
 $lang['Item-version'] = 'Versiecontrole';

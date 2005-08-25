@@ -85,23 +85,21 @@ class admin_functions {
 					require($modules_dir.$module_name);
 					
 					//
-					// Check if this is a valid UseBB module
+					// Valid information returned?
 					//
-					if ( !empty($is_usebb_module) && isset($usebb_module) && is_object($usebb_module) && method_exists($usebb_module, 'get_module_info') && method_exists($usebb_module, 'run_module') ) {
+					if ( isset($usebb_module_info) && is_array($usebb_module_info) && !empty($usebb_module_info['acp_category']) && array_key_exists($usebb_module_info['acp_category'], $this->acp) && !empty($usebb_module_info['short_name']) && !empty($usebb_module_info['long_name']) ) {
 						
-						$module_info = $usebb_module->get_module_info();
-						
-						if ( is_array($module_info) && !empty($module_info['acp_category']) && array_key_exists($module_info['acp_category'], $this->acp) && !empty($module_info['short_name']) && !empty($module_info['long_name']) ) {
-							
-							$this->acp_modules[$module_info['short_name']] = $module_info;
-							$this->acp[$module_info['acp_category']][] = 'mod_'.$module_info['short_name'];
-							
-						}
+						//
+						// Add the filename and save to module list and menu
+						//
+						$usebb_module_info['filename'] = $module_name;
+						$this->acp_modules[$usebb_module_info['short_name']] = $usebb_module_info;
+						$this->acp[$usebb_module_info['acp_category']][] = 'mod_'.$usebb_module_info['short_name'];
 						
 					}
 					
-					unset($is_usebb_module);
-					unset($usebb_module);
+					if ( isset($usebb_module_info) )
+						unset($usebb_module_info);
 					
 				}
 				
@@ -110,6 +108,28 @@ class admin_functions {
 			closedir($handle);
 			
 		}
+		
+	}
+	
+	//
+	// Run a UseBB module
+	//
+	function run_module($module_name) {
+		
+		global $lang;
+		
+		//
+		// Load the module
+		//
+		define('RUN_MODULE', true);
+		require(ROOT_PATH.'sources/modules/'.$this->acp_modules[$module_name]['filename']);
+		
+		//
+		// Able to run?
+		//
+		$content = ( isset($usebb_module) && is_object($usebb_module) && method_exists($usebb_module, 'run_module') ) ? $usebb_module->run_module() : '<p><strong>'.$lang['RunningBadACPModule'].'</strong></p>';
+		
+		$this->create_body('mod_'.$module_name, $content);
 		
 	}
 	
@@ -150,14 +170,16 @@ class admin_functions {
 		if ( empty($content) )
 			$functions->redirect('admin.php');
 		
+		$name = ( preg_match('#^mod_([A-Za-z0-9]+)$#', $location, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$location];
+		
 		if ( $location == 'index' )
 			$template->set_page_title($lang['ACP']);
 		else
-			$template->set_page_title('<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['Item-'.$location]);
+			$template->set_page_title('<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>'.$template->get_config('locationbar_item_delimiter').$name);
 		
 		$template->parse('main', 'admin', array(
 			'admin_menu' => $this->create_acp_menu($location),
-			'admin_title' => $lang['Item-'.$location],
+			'admin_title' => $name,
 			'admin_content' => $content
 		));
 		

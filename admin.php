@@ -64,12 +64,25 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
 		if ( preg_match('#^mod_([A-Za-z0-9]+)$#', $_GET['act'], $module_name) && array_key_exists($module_name[1], $admin_functions->acp_modules) ) {
 			
-			
+			//
+			// ACP module
+			//
+			$admin_functions->run_module($module_name[1]);
 			
 		} elseif ( file_exists(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php') ) {
 			
+			//
+			// Regular page
+			//
 			$content = '';
 			require(ROOT_PATH.'sources/admin_'.$_GET['act'].'.php');
+			
+		} else {
+			
+			//
+			// Non existent
+			//
+			$functions->redirect('admin.php');
 			
 		}
 		

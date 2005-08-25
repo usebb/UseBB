@@ -221,7 +221,7 @@ $lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s
 $lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
 
 $lang['SQLToolboxWarningTitle'] = 'Important Warning!';
-$lang['SQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCTATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
+$lang['SQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';
 $lang['SQLToolboxExecuteQuery'] = 'Execute Query';
 $lang['SQLToolboxExecuteQueryInfo'] = 'Enter an SQL query to execute. Eventually, results will be shown in a second text box.';
 $lang['SQLToolboxExecute'] = 'Execute';

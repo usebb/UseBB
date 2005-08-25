@@ -221,7 +221,7 @@ $lang['IPLookupResult'] = 'De hostnaam die overeenkomt met het IP-adres %s is %s
 $lang['IPLookupNotFound'] = 'Geen overeenkomstige hostnaam voor %s kon worden gevonden.';
 
 $lang['SQLToolboxWarningTitle'] = 'Belangrijke waarschuwing!';
-$lang['SQLToolboxWarningContent'] = 'Wees voorzichtig met de query-uitvoermogelijkheid. Het uitvoeren van ALTER, DELETE, TRUNCTATE of andere soorten queries kunnen je forum onomkeerbaar beschadigen! Gebruik dit enkel wanneer je weet wat je doet.';
+$lang['SQLToolboxWarningContent'] = 'Wees voorzichtig met de query-uitvoermogelijkheid. Het uitvoeren van ALTER, DELETE, TRUNCATE of andere soorten queries kunnen je forum onomkeerbaar beschadigen! Gebruik dit enkel wanneer je weet wat je doet.';
 $lang['SQLToolboxExecuteQuery'] = 'Query uitvoeren';
 $lang['SQLToolboxExecuteQueryInfo'] = 'Voer een query in om deze uit te voeren. Resultaten worden eventueel in een tweede tekstveld weergegeven.';
 $lang['SQLToolboxExecute'] = 'Uitvoeren';

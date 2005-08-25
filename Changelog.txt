@@ -5,6 +5,7 @@ UseBB 0.7 Changelog
 
 - Added ACP module system.
 - Fixed XSS vulnerability in search results.
+- Fixed bug #658: search form gives error when no viewable forums.
 
 UseBB 0.6 Changelog
 ------------------------------

@@ -106,7 +106,14 @@ if ( !empty($_REQUEST['forums']) && is_array($_REQUEST['forums']) && count($_REQ
 	
 }
 
-if ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($_REQUEST['forums']) ) {
+if ( !count($forum_ids) ) {
+	
+	$template->parse('msgbox', 'global', array(
+		'box_title' => $lang['Note'],
+		'content' => $lang['NoViewableForums']
+	));
+	
+} elseif ( ( !empty($_REQUEST['keywords']) || !empty($_REQUEST['author']) ) && count($_REQUEST['forums']) ) {
 	
 	$query_where_parts = array();
 	

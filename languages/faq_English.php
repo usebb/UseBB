@@ -69,6 +69,7 @@ $faq[] = array('Why do I have to wait a certain amount of time between posting?'
 $faq[] = array('--', 'Various');
 $faq[] = array('I don\'t receive any e-mails from this board!', 'The board administrator may have disabled informational e-mails or the e-mail address set up in your profile doesn\'t work anymore.');
 $faq[] = array('What\'s the RSS feed?', 'RSS feeds are used to fetch recent information from a website or a forum to view in a news/RSS reader or some browsers.');
+$faq[] = array('Where in my profile can I place my Google Talk account?', 'Google Talk is an IM network using the Jabber/XMPP protocol. You can place your account name (completely, including the domain name) in the Jabber/XMPP profile field.');
 
 $faq[] = array('--', 'UseBB Issues');
 $faq[] = array('Who made this forum? What is UseBB?', 'This bulletin board, called <em>UseBB</em>, is developed by the UseBB Team. UseBB is Open Source software released under the GPL license. You can download UseBB for free from <a href="http://www.usebb.net">www.usebb.net</a>. Note the administrator(s) of this forum/website may have added additional functionality.');

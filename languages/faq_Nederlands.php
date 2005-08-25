@@ -69,6 +69,7 @@ $faq[] = array('Waarom hoef ik te wachten tussen het plaatsen van twee berichten
 $faq[] = array('--', 'Diversen');
 $faq[] = array('Ik ontvang geen enkele e-mail van dit forum!', 'Een administrator kan het forum zo ingesteld hebben dat er geen e-mails meer worden verzonden, of het e-mailadres waarmee je registreerde werkt niet meer.');
 $faq[] = array('Wat is de RSS feed?', 'RSS feeds worden gebruikt om recente informatie van een website of forum weer te geven in een nieuws- of RSS-lezer of bepaalde browsers.');
+$faq[] = array('Waar in mijn profiel kan ik mijn Google Talk-account plaatsen?', 'Google Talk is een IM-netwerk dat gebruik maakt van het Jabber/XMPP-protocol. Je kan je gebruikersnaam (volledig, inclusief de domeinnaam) opgeven in je profiel bij het Jabber/XMPP-veld.');
 
 $faq[] = array('--', 'Omtrent UseBB');
 $faq[] = array('Wie maakte dit forum? Wat is UseBB?', 'Dit forum, genaamd <em>UseBB</em>, wordt ontwikkeld door het UseBB Team. UseBB is Open Source-software vrijgegeven onder de GPL-licentie. Je kan UseBB gratis downloaden op <a href="http://www.usebb.net">www.usebb.net</a>. Merk op dat de administrator(s) van dit forum extra functionaliteit kunnen hebben toegevoegd.');

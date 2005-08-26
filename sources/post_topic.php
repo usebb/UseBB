@@ -186,10 +186,10 @@ if ( !$forumdata['id'] ) {
 				$sticky_topic_checked = '';
 				$subscribe_topic_checked = ( $session->sess_info['user_id'] && $session->sess_info['user_info']['auto_subscribe_topic'] ) ? ' checked="checked"' : '';
 				
-				if ( $session->sess_info['user_id'] )
-					$template->set_js_onload("set_focus('subject')");
-				else
+				if ( !$session->sess_info['user_id'] )
 					$template->set_js_onload("set_focus('user')");
+				else
+					$template->set_js_onload("set_focus('subject')");
 				
 			}
 			
@@ -221,8 +221,8 @@ if ( !$forumdata['id'] ) {
 				'bbcode_controls' => $functions->get_bbcode_controls(),
 				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,
-				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="4" />',
-				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
+				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="5" />',
+				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" tabindex="4" />',
 				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
 			));

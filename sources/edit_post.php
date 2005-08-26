@@ -132,7 +132,12 @@ if ( !isset($_GET['act']) ) {
 					$enable_sig_checked = ( $postdata['enable_sig'] ) ? ' checked="checked"' : '';
 					$enable_html_checked = ( $postdata['enable_html'] ) ? ' checked="checked"' : '';
 					
-					$template->set_js_onload("set_focus('tags-txtarea')");
+					if ( !$postdata['poster_id'] )
+						$template->set_js_onload("set_focus('poster_guest')");
+					elseif ( $postdata['first_post_id'] == $_GET['post'] )
+						$template->set_js_onload("set_focus('topic_title')");
+					else
+						$template->set_js_onload("set_focus('tags-txtarea')");
 					
 				}
 				
@@ -148,14 +153,14 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('post_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',
 					'post_title' => $lang['EditPost'],
-					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" />',
-					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" size="50" value="'.$topic_title.'" />',
-					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea">'.$content.'</textarea>',
+					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" id="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" tabindex="1" />',
+					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" id="topic_title" size="50" value="'.$topic_title.'" tabindex="2" />',
+					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="3">'.$content.'</textarea>',
 					'bbcode_controls' => $functions->get_bbcode_controls(),
 					'smiley_controls' => $functions->get_smiley_controls(),
 					'options_input' => $options_input,
-					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
-					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
+					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="5" />',
+					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" tabindex="4" />',
 					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 					'form_end' => '</form>'
 				));

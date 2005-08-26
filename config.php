@@ -71,6 +71,7 @@ $conf['debug'] = 1;
 $conf['disable_info_emails'] = 0;
 $conf['dst'] = 0;
 $conf['email_view_level'] = 1;
+$conf['enable_acp_modules'] = 1;
 $conf['enable_contactadmin'] = 1;
 $conf['enable_detailed_online_list'] = 1;
 $conf['enable_forum_stats_box'] = 1;

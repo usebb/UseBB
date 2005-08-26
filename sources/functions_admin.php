@@ -46,6 +46,8 @@ class admin_functions {
 	//
 	function admin_functions() {
 		
+		global $functions;
+		
 		$this->acp = array(
 			'main' => array(
 				'index',
@@ -66,11 +68,7 @@ class admin_functions {
 		// Load ACP modules
 		//
 		$modules_dir = ROOT_PATH.'sources/modules/';
-		
-		//
-		// Does the module dir exist.
-		//
-		if ( file_exists($modules_dir) && is_dir($modules_dir) ) {
+		if ( $functions->get_config('enable_acp_modules') && file_exists($modules_dir) && is_dir($modules_dir) ) {
 			
 			$handle = opendir($modules_dir);
 			$this->acp_modules = array();

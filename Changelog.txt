@@ -6,6 +6,7 @@ UseBB 0.7 Changelog
 - Added ACP module system.
 - Fixed XSS vulnerability in search results.
 - Fixed bug #658: search form gives error when no viewable forums.
+- Fixed bug which didn't accept auth value 0 on edit forum form.
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
 
 UseBB 0.6 Changelog

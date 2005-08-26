@@ -202,7 +202,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 			$_POST['auth'] = '';
 			foreach ( range(0, 9) as $authid )
-				$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
+				$_POST['auth'] .= ( isset($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
 			
 			$db->query("UPDATE ".TABLE_PREFIX."forums SET
 				name = '".$_POST['name']."',

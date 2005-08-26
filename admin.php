@@ -36,12 +36,12 @@ require(ROOT_PATH.'sources/common.php');
 //
 $session->update('admin');
 
+//
+// Include the page header
+//
+require(ROOT_PATH.'sources/page_head.php');
+
 if ( $functions->get_user_level() == LEVEL_ADMIN ) {
-	
-	//
-	// Include the page header
-	//
-	require(ROOT_PATH.'sources/page_head.php');
 	
 	//
 	// Get Admin variables
@@ -120,15 +120,15 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		
 	}
 	
-	//
-	// Include the page footer
-	//
-	require(ROOT_PATH.'sources/page_foot.php');
-	
 } else {
 	
 	$functions->redir_to_login();
 	
 }
+
+//
+// Include the page footer
+//
+require(ROOT_PATH.'sources/page_foot.php');
 
 ?>

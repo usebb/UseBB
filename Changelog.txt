@@ -14,6 +14,7 @@ UseBB 0.7 Changelog
 - Fixed translating } and { when not needed (disabling Javascript in HTML posts).
 - Include trailing / in BBCode URL's.
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
+- Add Re: to RSS feed titles when applicable.
 
 UseBB 0.6 Changelog
 ------------------------------

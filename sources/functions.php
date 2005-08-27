@@ -1158,6 +1158,8 @@ class functions {
 			//
 			// Now parse quote tags
 			//
+			while ( preg_match("#\[quote(=.*?)?\](\s.*?\s)\[/quote\]#is", $string, $matches) )
+				$string = preg_replace('#'.preg_quote($matches[2], '#').'#is', trim($matches[2]), $string);
 			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )

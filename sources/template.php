@@ -283,7 +283,7 @@ class template {
 			$current_template = $this->templates[$request['section']][$request['template_name']];
 			$finds = $replaces = array();
 			
-			if ( preg_match('#\{l_[a-zA-Z]+\}#', $current_template) ) {
+			if ( preg_match('#\{l_[a-zA-Z0-9]+\}#', $current_template) ) {
 				
 				foreach ( $lang as $key => $val ) {
 					
@@ -307,8 +307,8 @@ class template {
 				
 			}
 			
-			#foreach ( $replaces as $key => $val )
-			#	$replaces[$key] = preg_replace(array('#\{#', '#\}#'), array('&#123;', '&#125;'), $val);
+			foreach ( $replaces as $key => $val )
+				$replaces[$key] = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '&#123;\\1&#125;', $val);
 			
 			$current_template = preg_replace($finds, $replaces, $current_template);
 			$this->body .= $current_template;

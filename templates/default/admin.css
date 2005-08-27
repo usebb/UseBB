@@ -109,7 +109,7 @@ h1#admintitle {
 	border-right: 2px solid silver;
 	padding-right: 4px;
 }
-#adminconfigtable, #admincatstable, #adminforumstable {
+#adminconfigtable, #admincatstable, #adminforumstable, #adminmodulestable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
@@ -118,11 +118,11 @@ h1#admintitle {
 	width: 100%;
 	clear: right;
 }
-#adminconfigtable th, #adminconfigtable td, #admincatstable th, #admincatstable td, #adminforumstable th, #adminforumstable td {
+#adminconfigtable th, #adminconfigtable td, #admincatstable th, #admincatstable td, #adminforumstable th, #adminforumstable td, #adminmodulestable th, #adminmodulestable td {
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-#adminconfigtable th, #admincatstable th, #adminforumstable th {
+#adminconfigtable th, #admincatstable th, #adminforumstable th, #adminmodulestable th {
 	font-weight: bold;
 	padding: 4px 6px 4px 6px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -134,7 +134,7 @@ h1#admintitle {
 #adminconfigtable th {
 	border-left: 5px solid silver;
 }
-#adminconfigtable td, #admincatstable td, #adminforumstable td {
+#adminconfigtable td, #admincatstable td, #adminforumstable td, #adminmodulestable td {
 	padding: 6px;
 	text-align: left;
 }

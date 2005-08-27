@@ -44,6 +44,7 @@ $lang['Item-forums'] = 'Forums';
 $lang['Category-various'] = 'Diversen';
 $lang['Item-iplookup'] = 'IP-adres opzoeken';
 $lang['Item-sqltoolbox'] = 'SQL-werkset';
+$lang['Item-modules'] = 'ACP-modules';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -234,5 +235,18 @@ $lang['SQLToolboxMaintenanceInfo'] = 'Deze functies optimaliseren en herstellen 
 $lang['SQLToolboxRepairTables'] = 'Tabellen herstellen';
 $lang['SQLToolboxOptimizeTables'] = 'Tabellen optimaliseren';
 $lang['SQLToolboxMaintenanceNote'] = 'Merk op: dit herstelt geen verloren data in de database.';
+
+$lang['ModulesInfo'] = 'ACP-modules maken het mogelijk het ACP uit te breiden met eigen functies of functies gemaakt door derden. Modules kunnen gevonden worden via de UseBB-website: %s.';
+$lang['ModulesOverview'] = 'Modules-overzicht';
+$lang['ModulesLongName'] = 'Lange naam';
+$lang['ModulesShortName'] = 'Korte naam';
+$lang['ModulesCategory'] = 'Categorie';
+$lang['ModulesFilename'] = 'Bestandsnaam';
+$lang['ModulesDisabled'] = 'ACP-modules zijn uitgeschakeld in de forumconfiguratie.';
+$lang['ModulesNoneAvailable'] = 'Op dit moment zijn er geen modules ingeladen.';
+$lang['ModulesHowToUse'] = 'Modules-howto';
+$lang['ModulesInstall'] = 'Om modules te installeren, maak een map %s aan in de %s-map en upload er modules in. Deze zullen automatisch geladen worden en zullen in het menu verschijnen.';
+$lang['ModulesUninstall'] = 'Om modules te verwijderen, verwijder het bestand uit de %s-map.';
+$lang['ModulesCreateOwn'] = 'Om je eigen modules te schrijven, raadpleeg de documentatie op %s.';
 
 ?>

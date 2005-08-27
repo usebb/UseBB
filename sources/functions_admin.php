@@ -38,7 +38,7 @@ if ( $functions->get_user_level() < LEVEL_ADMIN )
 class admin_functions {
 	
 	var $acp;
-	var $acp_modules;
+	var $acp_modules = array();
 	var $all_forums;
 	
 	//
@@ -61,6 +61,7 @@ class admin_functions {
 			'various' => array(
 				'iplookup',
 				'sqltoolbox',
+				'modules',
 			),
 		);
 		
@@ -71,7 +72,6 @@ class admin_functions {
 		if ( $functions->get_config('enable_acp_modules') && file_exists($modules_dir) && is_dir($modules_dir) ) {
 			
 			$handle = opendir($modules_dir);
-			$this->acp_modules = array();
 			
 			while ( false !== ( $module_name = readdir($handle) ) ) {
 				

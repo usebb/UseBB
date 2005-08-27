@@ -44,6 +44,7 @@ $lang['Item-forums'] = 'Forums';
 $lang['Category-various'] = 'Various';
 $lang['Item-iplookup'] = 'IP Address Lookup';
 $lang['Item-sqltoolbox'] = 'SQL Toolbox';
+$lang['Item-modules'] = 'ACP modules';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -234,5 +235,18 @@ $lang['SQLToolboxMaintenanceInfo'] = 'These functions optimize (and repair) the 
 $lang['SQLToolboxRepairTables'] = 'Repair tables';
 $lang['SQLToolboxOptimizeTables'] = 'Optimize tables';
 $lang['SQLToolboxMaintenanceNote'] = 'Note: this does not restore any lost data in the database.';
+
+$lang['ModulesInfo'] = 'ACP modules able you to extend the ACP with your own features or features made by 3rd party programmers. Modules can be found via the UseBB website: %s.';
+$lang['ModulesOverview'] = 'Modules Overview';
+$lang['ModulesLongName'] = 'Long name';
+$lang['ModulesShortName'] = 'Short name';
+$lang['ModulesCategory'] = 'Category';
+$lang['ModulesFilename'] = 'Filename';
+$lang['ModulesDisabled'] = 'ACP modules have been disabled in the board configuration.';
+$lang['ModulesNoneAvailable'] = 'No modules are available at this time.';
+$lang['ModulesHowToUse'] = 'Modules HowTo';
+$lang['ModulesInstall'] = 'To install modules, create a directory %s in the %s directory and upload modules in it. They will be loaded automatically and will appear in the ACP menu.';
+$lang['ModulesUninstall'] = 'To uninstall modules, remove the module from the %s directory.';
+$lang['ModulesCreateOwn'] = 'To write your own modules, consult the documentation at %s.';
 
 ?>

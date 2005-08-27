@@ -273,7 +273,7 @@ table.maintable .lastpostinfo {
 	padding: 4px 6px 4px 6px;
 	border: 1px solid silver;
 }
-.msgbox p, .preview div {
+.msgbox p, .preview div.preview {
 	background-color: #EFEFEF;
 	padding: 18px 36px 18px 36px;
 	margin: 0px 0px 20px 0px;
@@ -283,7 +283,7 @@ table.maintable .lastpostinfo {
 	line-height: 150%;
 	font-size: 10pt;
 }
-.preview div {
+.preview div.preview {
 	line-height: 125%;
 	padding: 18px;
 }

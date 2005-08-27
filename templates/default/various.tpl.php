@@ -156,7 +156,7 @@ $templates['post_form'] = '
 $templates['preview'] = '
 	<div class="preview">
 		<h3>{l_Preview}</h3>
-		<div>{post_content}</div>
+		<div class="preview">{post_content}</div>
 	</div>
 ';
 

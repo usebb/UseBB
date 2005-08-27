@@ -1108,7 +1108,7 @@ class functions {
 			//
 			// Parse URL's and e-mail addresses
 			//
-			$ignore_chars = "^a-z0-9"; # warning, rawly included in regex!
+			$ignore_chars = "^a-z0-9/"; # warning, rawly included in regex!
 			$string = preg_replace(array(
 				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"

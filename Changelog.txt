@@ -10,6 +10,7 @@ UseBB 0.7 Changelog
 - Fixed bug which returned empty page when member accesses ACP.
 - Fixed some auto focus and tabindex on post forms.
 - Fixed malfunctioning mark updated topics feature.
+- Include trailing / in BBCode URL's.
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
 
 UseBB 0.6 Changelog

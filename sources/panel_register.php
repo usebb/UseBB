@@ -104,7 +104,7 @@ if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !e
 //
 // If all necessary information has been posted and the user accepted the terms
 //
-if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && strlen($_POST['user']) <= $functions->get_config('username_max_length') && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 	
 	//
 	// Generate the activation key if necessary
@@ -198,7 +198,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 		// Define missing fields
 		//
 		$errors = array();
-		if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) || strlen($_POST['user']) > $functions->get_config('username_max_length') )
+		if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 			$errors[] = $lang['Username'];
 		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
@@ -226,7 +226,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 	$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	$template->parse('register_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
-		'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',
+		'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="255" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 		'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),

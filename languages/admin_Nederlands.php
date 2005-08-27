@@ -106,7 +106,6 @@ $lang['ConfigBoard-session_max_lifetime'] = 'Maximale sessieleeftijd (seconden)'
 $lang['ConfigBoard-show_edited_message_timeout'] = 'Toon bewerkt bericht-mededeling enkel wanneer bewerkt na x seconden na het plaatsen';
 $lang['ConfigBoard-topicreview_posts'] = 'Aantal berichten in onderwerpreview';
 $lang['ConfigBoard-topics_per_page'] = 'Onderwerpen per pagina';
-$lang['ConfigBoard-username_max_length'] = 'Maximale lengte gebruikersnaam';
 $lang['ConfigBoard-view_detailed_online_list_min_level'] = 'Vereiste niveau voor bekijken gedetailleerde onlinelijst';
 $lang['ConfigBoard-view_forum_stats_box_min_level'] = 'Vereiste niveau voor bekijken kleine statistieken';
 $lang['ConfigBoard-view_hidden_email_addresses_min_level'] = 'Vereiste niveau voor bekijken verborgen e-mailadressen';

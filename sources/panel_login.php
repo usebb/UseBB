@@ -180,7 +180,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		
 		$template->parse('login_form', 'various', array(
 			'form_begin'     => '<form action="'.$functions->make_url('panel.php', array('act' => 'login')).'" method="post">',
-			'user_input'     => '<input type="text" name="user" id="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
+			'user_input'     => '<input type="text" name="user" id="user" size="25" maxlength="255" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" tabindex="2" />',
 			'remember_input' => $remember_input,
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" tabindex="4" />',

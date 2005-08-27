@@ -106,7 +106,6 @@ $lang['ConfigBoard-session_max_lifetime'] = 'Maximum session lifetime (seconds)'
 $lang['ConfigBoard-show_edited_message_timeout'] = 'Show edited message note only when edited after x seconds after posting';
 $lang['ConfigBoard-topicreview_posts'] = 'Topic review post count';
 $lang['ConfigBoard-topics_per_page'] = 'Topics per page';
-$lang['ConfigBoard-username_max_length'] = 'Maximum username length';
 $lang['ConfigBoard-view_detailed_online_list_min_level'] = 'Minimum level for viewing detailed online list';
 $lang['ConfigBoard-view_forum_stats_box_min_level'] = 'Minimum level for viewing statistics box';
 $lang['ConfigBoard-view_hidden_email_addresses_min_level'] = 'Minimum level for viewing hidden e-mail addresses';

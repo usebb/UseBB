@@ -67,7 +67,7 @@ if ( !isset($_GET['act']) ) {
 		if ( $session->sess_info['user_id'] && ( $postdata['poster_id'] == $session->sess_info['user_id'] || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			$_POST['poster_guest'] = ( !empty($_POST['poster_guest']) ) ? preg_replace('#\s+#', '_', $_POST['poster_guest']) : '';
-			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) && strlen($_POST['poster_guest']) <= $functions->get_config('username_max_length') ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
+			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
 				
 				$update_poster_guest = ( !$postdata['poster_id'] ) ? ", poster_guest = '".$_POST['poster_guest']."'" : '';
 				$enable_bbcode = ( !empty($_POST['enable_bbcode']) ) ? 1 : 0;
@@ -100,7 +100,7 @@ if ( !isset($_GET['act']) ) {
 					$enable_html_checked = ( !empty($_POST['enable_html']) ) ? ' checked="checked"' : '';
 					
 					$errors = array();
-					if ( ( !$postdata['poster_id'] ) && ( empty($_POST['poster_guest']) || !preg_match(USER_PREG, $_POST['poster_guest']) || strlen($_POST['poster_guest']) > $functions->get_config('username_max_length') ) )
+					if ( ( !$postdata['poster_id'] ) && ( empty($_POST['poster_guest']) || !preg_match(USER_PREG, $_POST['poster_guest']) ) )
 						$errors[] = $lang['Username'];
 					if ( $postdata['first_post_id'] == $_GET['post'] && empty($_POST['topic_title']) )
 						$errors[] = $lang['Subject'];
@@ -153,7 +153,7 @@ if ( !isset($_GET['act']) ) {
 				$template->parse('post_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',
 					'post_title' => $lang['EditPost'],
-					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="poster_guest" id="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" tabindex="1" />',
+					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="255" name="poster_guest" id="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" tabindex="1" />',
 					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" id="topic_title" size="50" value="'.$topic_title.'" tabindex="2" />',
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="3">'.$content.'</textarea>',
 					'bbcode_controls' => $functions->get_bbcode_controls(),

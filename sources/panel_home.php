@@ -54,6 +54,15 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 		'content' => $msgbox_content
 	));
 	
+} elseif ( !empty($_GET['do']) && $_GET['do'] == 'markallasread' ) {
+	
+	$_SESSION['previous_visit'] = time();
+	
+	$template->parse('msgbox', 'global', array(
+		'box_title' => $lang['Note'],
+		'content' => $lang['MarkAllAsReadDone']
+	));
+	
 } else {
 	
 	//
@@ -86,7 +95,8 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 		'total_time_v' => $total_time[1],
 		'pages_v' => $session->sess_info['pages'],
 		'al_status' => $al_status,
-		'al_change' => $al_change
+		'al_change' => $al_change,
+		'mark_all_as_read' => '<a href="'.$functions->make_url('panel.php', array('do' => 'markallasread')).'">'.$lang['MarkAllAsRead'].'</a>'
 	));
 	
 }

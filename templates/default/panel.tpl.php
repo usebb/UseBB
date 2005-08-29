@@ -63,6 +63,9 @@ $templates['sess_info'] = '
 		<tr>
 			<td class="fieldtitle">{l_AutoLogin}</td><td>{al_status} ({al_change})</td>
 		</tr>
+		<tr>
+			<td class="fieldtitle">{l_MarkAllAsRead}</td><td>{mark_all_as_read}</td>
+		</tr>
 	</table>
 ';
 

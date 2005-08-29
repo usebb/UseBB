@@ -448,6 +448,8 @@ $lang['KeywordsExplain'] = 'Sleutelwoorden van minimum %d tekens gescheiden door
 $lang['BCCMyself'] = 'Verzend een kopie naar mijn eigen e-mailadres.';
 $lang['Save'] = 'Opslaan';
 $lang['Add'] = 'Toevoegen';
+$lang['MarkAllAsRead'] = 'Alles gelezen markeren';
+$lang['MarkAllAsReadDone'] = 'Alle forums en onderwerpen zijn nu als gelezen gemarkeerd.';
 
 //
 // Date translations

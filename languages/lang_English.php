@@ -448,5 +448,7 @@ $lang['KeywordsExplain'] = 'Any keywords of at least %d characters seperated by 
 $lang['BCCMyself'] = 'Send a copy to my own e-mail address.';
 $lang['Save'] = 'Save';
 $lang['Add'] = 'Add';
+$lang['MarkAllAsRead'] = 'Mark all as read';
+$lang['MarkAllAsReadDone'] = 'All forums and topics are now marked as read.';
 
 ?>

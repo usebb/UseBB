@@ -184,12 +184,21 @@ class functions {
 			
 			if ( count($used_queries) ) {
 				
-				if ( $this->get_config('debug') >= 2 )
+				if ( $this->get_config('debug') >= 2 ) {
+					
 					$html_msg .= '
 				<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($used_queries).'</textarea></p>';
-				else 
+			
+				if ( preg_match("#^Table '.+' doesn't exist#", $error) )
+					$html_msg .= '
+				<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document.</p>';
+					
+				} else  {
+					
 					$html_msg .= '
 				<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
+					
+				}
 				
 			}
 			

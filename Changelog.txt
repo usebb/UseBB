@@ -17,6 +17,7 @@ UseBB 0.7 Changelog
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
 - Add Re: to RSS feed titles when applicable.
 - Removed obsolete username_max_length.
+- Added note about installing UseBB on "table doesn't exist" SQL error.
 
 UseBB 0.6 Changelog
 ------------------------------

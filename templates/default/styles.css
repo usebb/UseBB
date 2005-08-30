@@ -462,11 +462,8 @@ table.maintable td.postcontent .poster-ip-addr {
 table.maintable td.postcontent .poster-ip-addr a {
 	text-decoration: none;
 }
-table.maintable tr.postseperator td {
-	font-size: 0pt;
-	background-color: #D8D8D8;
-	padding: 0px !important;
-	height: 4px;
+table.maintable td.posterinfo, table.maintable td.postcontent {
+	border-bottom: 4px solid #D8D8D8;
 }
 #actionlinks {
 	color: #323232;
@@ -615,7 +612,7 @@ p#linkbar {
 	text-decoration: none;
 }
 #bottom-shadow {
-	clear: both;
+	float: left;
 	height: 5px;
 	background-image: url(gfx/topmenu_shadow.png);
 	background-repeat: repeat-x;
@@ -623,6 +620,9 @@ p#linkbar {
 	line-height: 100%;
 	overflow: hidden;
 	width: 100%; /* Be nice to Safari */
+}
+#shadow-right {
+	padding-bottom: 40px;
 }
 
 #debug-info-small {

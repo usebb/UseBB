@@ -67,9 +67,6 @@ $templates['post'] = '
 				<div class="post">{post_content}{poster_sig}{post_editinfo}</div>{poster_ip_addr}
 			</td>
 		</tr>
-		<tr class="postseperator">
-			<td colspan="2">&nbsp;</td>
-		</tr>
 ';
 
 $templates['footer'] = '

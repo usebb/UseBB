@@ -19,6 +19,7 @@ UseBB 0.7 Changelog
 - Add Re: to RSS feed titles when applicable.
 - Removed obsolete username_max_length.
 - Added note about installing UseBB on "table doesn't exist" SQL error.
+- Various template fixes, mostly for Opera.
 
 UseBB 0.6 Changelog
 ------------------------------

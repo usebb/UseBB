@@ -621,7 +621,7 @@ p#linkbar {
 	overflow: hidden;
 	width: 100%; /* Be nice to Safari */
 }
-#shadow-right {
+#shadow-left>#shadow-right {
 	padding-bottom: 40px;
 }
 

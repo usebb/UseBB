@@ -188,10 +188,10 @@ class functions {
 					
 					$html_msg .= '
 				<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($used_queries).'</textarea></p>';
-			
-				if ( preg_match("#^Table '.+' doesn't exist#", $error) )
-					$html_msg .= '
-				<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document.</p>';
+					
+					if ( preg_match("#^Table '.+' doesn't exist#", $error) )
+						$html_msg .= '
+				<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document. Also check the table prefix set in config.php.</p>';
 					
 				} else  {
 					

@@ -20,6 +20,7 @@ UseBB 0.7 Changelog
 - Removed obsolete username_max_length.
 - Added note about installing UseBB on "table doesn't exist" SQL error.
 - Various template fixes, mostly for Opera.
+- Make database password and table prefix mandatory.
 
 UseBB 0.6 Changelog
 ------------------------------

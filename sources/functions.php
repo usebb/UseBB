@@ -221,6 +221,9 @@ class functions {
 		
 		global $session;
 		
+		//
+		// Load settings
+		//
 		if ( !isset($this->board_config) ) {
 			
 			$this->board_config = $GLOBALS['conf'];
@@ -253,18 +256,38 @@ class functions {
 			
 		}
 		
-		if ( $setting == 'board_url' && empty($this->board_config['board_url']) ) {
+		//
+		// Fill in missing settings
+		//
+		if ( empty($this->board_config[$setting]) ) {
 			
-			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-			$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
-			return $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+			if ( $setting == 'board_url' ) {
+				
+				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+				$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
+				$this->board_config['board_url'] = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+				
+			} elseif ( $setting == 'cookie_path' ) {
+				
+				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+				$this->board_config['cookie_path'] = $path_parts['dirname'];
+				
+			} elseif ( $setting == 'search_limit_results' ) {
+				
+				$this->board_config['search_limit_results'] = 1000;
+				
+			} elseif ( $setting == 'search_nonindex_words_min_length' ) {
+				
+				$this->board_config['search_nonindex_words_min_length'] = 3;
+				
+			}
 			
-		} elseif ( $setting == 'cookie_path' && empty($this->board_config['cookie_path']) ) {
-			
-			$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-			return $path_parts['dirname'];
-			
-		} elseif ( array_key_exists($setting, $this->board_config) ) {
+		}
+		
+		//
+		// Return setting
+		//
+		if ( array_key_exists($setting, $this->board_config) ) {
 			
 			return $this->board_config[$setting];
 			

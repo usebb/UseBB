@@ -54,7 +54,7 @@ $templates['topic'] = '
 			<comments>{comments}</comments>
 			<category><![CDATA[{category}]]></category>
 			<pubDate>{pubDate}</pubDate>
-			<guid>{guid}</guid>
+			<guid isPermaLink="true">{guid}</guid>
 		</item>
 ';
 

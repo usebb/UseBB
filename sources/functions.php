@@ -1117,9 +1117,10 @@ class functions {
 			//
 			// Parse URL's and e-mail addresses
 			//
-			$ignore_chars = "^a-z0-9/"; # warning, rawly included in regex!
+			$ignore_chars = "^a-z0-9"; # warning, rawly included in regex!
+			$ignore_chars_url_end = "^a-z0-9/"; # to include trailing /
 			$string = preg_replace(array(
-				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars."]*?[\s])#is",
+				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars_url_end."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
 				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',

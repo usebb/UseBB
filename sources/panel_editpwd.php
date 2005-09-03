@@ -60,7 +60,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 		$errors = array();
 		if ( empty($_POST['current_passwd']) || md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = $lang['CurrentPassword'];
-		if ( empty($_POST['new_passwd1']) || empty($_POST['new_passwd2']) || strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] !== $_POST['new_passwd2'] )
+		if ( empty($_POST['new_passwd1']) || empty($_POST['new_passwd2']) || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] !== $_POST['new_passwd2'] )
 			$errors[] = $lang['NewPassword'];
 		
 		//
@@ -71,6 +71,15 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+			));
+			
+		}
+		
+		if ( !empty($_POST['new_passwd1']) && strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['StringTooShort'], $lang['NewPassword'], $functions->get_config('passwd_min_length'))
 			));
 			
 		}

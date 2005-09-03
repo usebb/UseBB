@@ -187,7 +187,7 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 			
 		}
 		
-		if ( entities_strlen($_POST['signature']) > $functions->get_config('sig_max_length') ) {
+		if ( !empty($_POST['signature']) && entities_strlen($_POST['signature']) > $functions->get_config('sig_max_length') ) {
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],

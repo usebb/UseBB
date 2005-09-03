@@ -202,7 +202,7 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 			$errors[] = $lang['Username'];
 		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 			$errors[] = $lang['Email'];
-		if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+		if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
 			$errors[] = $lang['Password'];
 		
 		//
@@ -213,6 +213,15 @@ if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+			));
+			
+		}
+		
+		if ( !empty($_POST['passwd1']) && strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['StringTooShort'], $lang['Password'], $functions->get_config('passwd_min_length'))
 			));
 			
 		}

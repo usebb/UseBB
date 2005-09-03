@@ -23,6 +23,7 @@ UseBB 0.7 Changelog
 - Added note about installing UseBB on "table doesn't exist" SQL error.
 - Various template fixes, mostly for Opera.
 - Make database password and table prefix mandatory.
+- Throw error when passwords are too short.
 
 UseBB 0.6 Changelog
 ------------------------------

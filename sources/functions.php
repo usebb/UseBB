@@ -265,22 +265,25 @@ class functions {
 				
 				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
 				$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
-				$this->board_config['board_url'] = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+				$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
 				
 			} elseif ( $setting == 'cookie_path' ) {
 				
 				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-				$this->board_config['cookie_path'] = $path_parts['dirname'];
+				$set_to = $path_parts['dirname'];
 				
-			} elseif ( $setting == 'search_limit_results' ) {
+			} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
 				
-				$this->board_config['search_limit_results'] = 1000;
+				$set_to = 1000;
 				
 			} elseif ( $setting == 'search_nonindex_words_min_length' ) {
 				
-				$this->board_config['search_nonindex_words_min_length'] = 3;
+				$set_to = 3;
 				
 			}
+			
+			if ( isset($set_to) )
+				$this->board_config[$setting] = $set_to;
 			
 		}
 		

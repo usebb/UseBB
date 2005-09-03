@@ -60,7 +60,7 @@ if ( !empty($_POST['displayed_name']) ) {
 	
 }
 
-if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_name_banned && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_name_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
 			
@@ -183,6 +183,15 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['MissingFields'], join(', ', $errors))
+			));
+			
+		}
+		
+		if ( entities_strlen($_POST['signature']) > $functions->get_config('sig_max_length') ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['StringTooLong'], $lang['Signature'], $functions->get_config('sig_max_length'))
 			));
 			
 		}

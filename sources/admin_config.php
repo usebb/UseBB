@@ -36,7 +36,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('type', 'server', 'username', 'dbname', 'admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('active_topics_count', 'avatars_force_width', 'avatars_force_height', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'topicreview_posts', 'topics_per_page', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('active_topics_count', 'avatars_force_width', 'avatars_force_height', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 foreach ( $necessary_settings['strings'] as $key ) {
 	
@@ -173,6 +173,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 			'guests_can_view_profiles',
 			'sig_allow_bbcode',
 			'sig_allow_smilies',
+			'sig_max_length',
 			'users_must_activate',
 			'view_contactadmin_min_level',
 			'view_detailed_online_list_min_level',

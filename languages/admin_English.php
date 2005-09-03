@@ -136,6 +136,7 @@ $lang['ConfigBoard-rel_nofollow'] = 'Enable Google\'s nofollow for BBCode links'
 $lang['ConfigBoard-return_to_topic_after_posting'] = 'Return to the topic after posting';
 $lang['ConfigBoard-sig_allow_bbcode'] = 'Enable BBCode in signatures';
 $lang['ConfigBoard-sig_allow_smilies'] = 'Enable smilies in signatures';
+$lang['ConfigBoard-sig_max_length'] = 'Max signature length';
 $lang['ConfigBoard-single_forum_mode'] = 'Single forum mode (when applicable)';
 $lang['ConfigBoard-target_blank'] = 'BBCode links open new window';
 $lang['ConfigBoard-users_must_activate'] = 'Users must activate via e-mail';

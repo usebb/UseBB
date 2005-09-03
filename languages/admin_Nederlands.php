@@ -136,6 +136,7 @@ $lang['ConfigBoard-rel_nofollow'] = 'Google\'s nofollow inschakelen voor BBCode-
 $lang['ConfigBoard-return_to_topic_after_posting'] = 'Terugkeren naar onderwerp na het plaatsen';
 $lang['ConfigBoard-sig_allow_bbcode'] = 'BBCode in handtekeningen inschakelen';
 $lang['ConfigBoard-sig_allow_smilies'] = 'Smilies in handtekeningen inschakelen';
+$lang['ConfigBoard-sig_max_length'] = 'Maximale lengte handtekening';
 $lang['ConfigBoard-single_forum_mode'] = 'Enkel forum-modus (indien van toepassing)';
 $lang['ConfigBoard-target_blank'] = 'BBCode-links openen een nieuw venster';
 $lang['ConfigBoard-users_must_activate'] = 'E-mailactivatie inschakelen';

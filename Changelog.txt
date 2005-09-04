@@ -24,6 +24,7 @@ UseBB 0.7 Changelog
 - Various template fixes, mostly for Opera.
 - Make database password and table prefix mandatory.
 - Throw error when passwords are too short.
+- Don't require leading and trailing whitespace for smilies.
 
 UseBB 0.6 Changelog
 ------------------------------

@@ -394,7 +394,7 @@ class functions {
 	//
 	// Interactive URL builder
 	//
-	function make_url($filename, $vars=array(), $html=true) {
+	function make_url($filename, $vars=array(), $html=true, $enable_sid=true) {
 		
 		global $session;
 		
@@ -427,7 +427,7 @@ class functions {
 			$SID = SID;
 			$SID_parts = explode('=', $SID, 2);
 			
-			if ( !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
+			if ( $enable_sid && !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
 				$vars[$SID_parts[0]] = $SID_parts[1];
 			
 			if ( count($vars) ) {
@@ -1052,7 +1052,7 @@ class functions {
 	//
 	// Apply BBCode and smilies to a string
 	//
-	function markup($string, $bbcode=true, $smilies=true, $html=false) {
+	function markup($string, $bbcode=true, $smilies=true, $html=false, $full_path_smilies=false) {
 		
 		global $db, $template, $lang;
 		
@@ -1068,8 +1068,10 @@ class functions {
 		
 		if ( $smilies ) {
 			
+			$full_path = ( $full_path_smilies ) ? $this->get_config('board_url') : '';
+			
 			foreach ( $template->get_config('smilies') as $pattern => $img )
-				$string = preg_replace('#'.preg_quote(unhtml($pattern), '#').'#', '<img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />', $string);
+				$string = preg_replace('#'.preg_quote(unhtml($pattern), '#').'#', '<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />', $string);
 			
 		}
 		

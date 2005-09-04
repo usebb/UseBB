@@ -97,7 +97,7 @@ if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 		// There are viewable forums
 		//
 		
-		$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+		$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 		
 		$reply_counts = array();
 		while ( $topicdata = $db->fetch_result($result) ) {
@@ -116,13 +116,13 @@ if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 			//
 			$template->parse('topic', 'rss', array(
 				'title' => $title,
-				'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], false, $topicdata['enable_html']),
+				'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true),
 				'author' => ( !empty($topicdata['poster_id']) ) ? unhtml(stripslashes($topicdata['last_poster_name'])) : $topicdata['last_poster_guest'],
-				'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id'])).'#post'.$topicdata['post_id'],
-				'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['topic_id'], 'quotepost' => $topicdata['post_id'])),
+				'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id'],
+				'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['topic_id'], 'quotepost' => $topicdata['post_id']), true, false),
 				'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),
 				'pubDate' => $functions->make_date($topicdata['post_time'], 'D, d M Y H:i:s', true, false).' GMT',
-				'guid' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id'])).'#post'.$topicdata['post_id']
+				'guid' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id']
 			), true);
 			
 		}

@@ -18,7 +18,10 @@ UseBB 0.7 Changelog
 - Fixed get_config() to set some missing but required config settings.
 - Include trailing / in BBCode URL's.
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
-- Add Re: to RSS feed titles when applicable.
+- RSS feed improvements:
+	- Add "Re:" when applicable.
+	- Parse smileys viewable in RSS reader.
+	- Don't add session ID's to URL's in feed.
 - Removed obsolete username_max_length.
 - Added note about installing UseBB on "table doesn't exist" SQL error.
 - Various template fixes, mostly for Opera.

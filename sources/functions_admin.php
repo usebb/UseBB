@@ -47,6 +47,7 @@ class admin_functions {
 	function admin_functions() {
 		
 		global $functions;
+		global $lang;
 		
 		$this->acp = array(
 			'main' => array(
@@ -85,7 +86,17 @@ class admin_functions {
 					//
 					// Valid information returned?
 					//
-					if ( isset($usebb_module_info) && is_array($usebb_module_info) && !empty($usebb_module_info['acp_category']) && array_key_exists($usebb_module_info['acp_category'], $this->acp) && !empty($usebb_module_info['short_name']) && !empty($usebb_module_info['long_name']) ) {
+					if ( isset($usebb_module_info) && is_array($usebb_module_info) && !empty($usebb_module_info['acp_category']) && ( array_key_exists($usebb_module_info['acp_category'], $this->acp) || !empty($usebb_module_info['new_acp_category_long_name']) ) && !empty($usebb_module_info['short_name']) && !empty($usebb_module_info['long_name']) ) {
+						
+						//
+						// Eventually create a new category
+						//
+						if ( !array_key_exists($usebb_module_info['acp_category'], $this->acp) ) {
+							
+							$this->acp[$usebb_module_info['acp_category']] = array();
+							$lang['Category-'.$usebb_module_info['acp_category']] = $usebb_module_info['new_acp_category_long_name'];
+							
+						}
 						
 						//
 						// Add the filename and save to module list and menu

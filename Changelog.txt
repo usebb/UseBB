@@ -9,6 +9,7 @@ UseBB 0.7 Changelog
 - Fixed XSS vulnerability in search results.
 - Fixed bug #658: search form gives error when no viewable forums.
 - Fixed bug #669: no newlines in quote tags cause problems.
+- Fixed bug #687: mb_language(): Unknown language.
 - Fixed bug which didn't accept auth value 0 on edit forum form.
 - Fixed bug which returned empty page when member accesses ACP.
 - Fixed some auto focus and tabindex on post forms.

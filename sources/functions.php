@@ -751,9 +751,18 @@ class functions {
 			
 		}
 		
-		if ( function_exists('mb_language') ) {
+		//
+		// Reset to board's default language
+		//
+		$board_default_lang = $this->get_config('language');
+		if ( $language != $board_default_lang && function_exists('mb_language') ) {
 			
-			mb_language($this->get_config('language'));
+			if ( in_array($board_default_lang, array('Japanese', 'ja', 'English', 'en')) )
+				mb_language($board_default_lang);
+			elseif ( strtolower($board_default_lang) == 'utf-8' )
+				mb_language('uni');
+			else
+				mb_language('en');
 			mb_internal_encoding($lang['character_encoding']);
 			
 		}

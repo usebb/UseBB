@@ -53,7 +53,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 	$content .= '<h2>'.$lang['ModulesUpload'].'</h2>';
 	
 	$modules_dir = ROOT_PATH.'sources/modules/';
-	if ( is_writable($modules_dir) ) {
+	if ( file_exists($modules_dir) && is_writable($modules_dir) ) {
 		
 		if ( array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
 			

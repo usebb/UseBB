@@ -76,45 +76,78 @@ class admin_functions {
 			
 			while ( false !== ( $module_name = readdir($handle) ) ) {
 				
+				$usebb_module_info = $this->check_module($module_name);
+				
 				//
-				// Is it a .php file?
+				// Valid UseBB ACP module?
 				//
-				if ( preg_match('#\.php$#', $module_name) ) {
-					
-					require($modules_dir.$module_name);
+				if ( is_array($usebb_module_info) ) {
 					
 					//
-					// Valid information returned?
+					// Eventually create a new category
 					//
-					if ( isset($usebb_module_info) && is_array($usebb_module_info) && !empty($usebb_module_info['acp_category']) && ( array_key_exists($usebb_module_info['acp_category'], $this->acp) || !empty($usebb_module_info['new_acp_category_long_name']) ) && !empty($usebb_module_info['short_name']) && !empty($usebb_module_info['long_name']) ) {
+					if ( !array_key_exists($usebb_module_info['acp_category'], $this->acp) ) {
 						
-						//
-						// Eventually create a new category
-						//
-						if ( !array_key_exists($usebb_module_info['acp_category'], $this->acp) ) {
-							
-							$this->acp[$usebb_module_info['acp_category']] = array();
-							$lang['Category-'.$usebb_module_info['acp_category']] = $usebb_module_info['new_acp_category_long_name'];
-							
-						}
-						
-						//
-						// Add the filename and save to module list and menu
-						//
-						$usebb_module_info['filename'] = $module_name;
-						$this->acp_modules[$usebb_module_info['short_name']] = $usebb_module_info;
-						$this->acp[$usebb_module_info['acp_category']][] = 'mod_'.$usebb_module_info['short_name'];
+						$this->acp[$usebb_module_info['acp_category']] = array();
+						$lang['Category-'.$usebb_module_info['acp_category']] = $usebb_module_info['new_acp_category_long_name'];
 						
 					}
 					
-					if ( isset($usebb_module_info) )
-						unset($usebb_module_info);
+					//
+					// Add the filename and save to module list and menu
+					//
+					$usebb_module_info['filename'] = $module_name;
+					$this->acp_modules[$usebb_module_info['short_name']] = $usebb_module_info;
+					$this->acp[$usebb_module_info['acp_category']][] = 'mod_'.$usebb_module_info['short_name'];
 					
 				}
 				
 			}
 			
 			closedir($handle);
+			
+		}
+		
+	}
+	
+	//
+	// Check if a .php file is a valid UseBB ACP module
+	//
+	function check_module($module_name) {
+		
+		$modules_dir = ROOT_PATH.'sources/modules/';
+		
+		if ( preg_match('#\.php$#', $module_name) ) {
+			
+			ob_start();
+			require($modules_dir.$module_name);
+			ob_end_clean();
+			
+			//
+			// Valid information returned?
+			//
+			if ( isset($usebb_module_info) && is_array($usebb_module_info) && !empty($usebb_module_info['acp_category']) && ( array_key_exists($usebb_module_info['acp_category'], $this->acp) || !empty($usebb_module_info['new_acp_category_long_name']) ) && !empty($usebb_module_info['short_name']) && !empty($usebb_module_info['long_name']) ) {
+				
+				//
+				// This is a valid module, return module info
+				//
+				return $usebb_module_info;
+				
+			} else {
+				
+				//
+				// No UseBB module info found
+				//
+				return false;
+				
+			}
+			
+		} else {
+			
+			//
+			// Not a .php file
+			//
+			return false;
 			
 		}
 		
@@ -131,7 +164,9 @@ class admin_functions {
 		// Load the module
 		//
 		define('RUN_MODULE', true);
+		ob_start();
 		require(ROOT_PATH.'sources/modules/'.$this->acp_modules[$module_name]['filename']);
+		ob_end_clean();
 		
 		//
 		// Able to run?

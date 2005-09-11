@@ -237,16 +237,17 @@ $lang['SQLToolboxOptimizeTables'] = 'Optimize tables';
 $lang['SQLToolboxMaintenanceNote'] = 'Note: this does not restore any lost data in the database.';
 
 $lang['ModulesInfo'] = 'ACP modules able you to extend the ACP with your own features or features made by 3rd party programmers. Modules can be found via the UseBB website: %s.';
-$lang['ModulesOverview'] = 'Modules Overview';
+$lang['ModulesOverview'] = 'Modules overview';
 $lang['ModulesLongName'] = 'Long name';
 $lang['ModulesShortName'] = 'Short name';
 $lang['ModulesCategory'] = 'Category';
 $lang['ModulesFilename'] = 'Filename';
 $lang['ModulesDisabled'] = 'ACP modules have been disabled in the board configuration.';
 $lang['ModulesNoneAvailable'] = 'No modules are available at this time.';
-$lang['ModulesHowToUse'] = 'Modules HowTo';
-$lang['ModulesInstall'] = 'To install modules, create a directory %s in the %s directory and upload modules in it. They will be loaded automatically and will appear in the ACP menu.';
-$lang['ModulesUninstall'] = 'To uninstall modules, remove the module from the %s directory.';
-$lang['ModulesCreateOwn'] = 'To write your own modules, consult the documentation at %s.';
+$lang['ModulesUpload'] = 'Upload module';
+$lang['ModulesUploadInfo'] = 'Enter a local filename of a UseBB ACP module to upload it.';
+$lang['ModulesUploadNoPHPFile'] = 'The module %s you are trying to upload is not a .php file.';
+$lang['ModulesUploadSuccesful'] = 'The module %s has been uploaded succesfully.';
+$lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver (try chmod 777).';
 
 ?>

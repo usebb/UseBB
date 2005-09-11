@@ -244,9 +244,5 @@ $lang['ModulesCategory'] = 'Categorie';
 $lang['ModulesFilename'] = 'Bestandsnaam';
 $lang['ModulesDisabled'] = 'ACP-modules zijn uitgeschakeld in de forumconfiguratie.';
 $lang['ModulesNoneAvailable'] = 'Op dit moment zijn er geen modules ingeladen.';
-$lang['ModulesHowToUse'] = 'Modules-howto';
-$lang['ModulesInstall'] = 'Om modules te installeren, maak een map %s aan in de %s-map en upload er modules in. Deze zullen automatisch geladen worden en zullen in het menu verschijnen.';
-$lang['ModulesUninstall'] = 'Om modules te verwijderen, verwijder het bestand uit de %s-map.';
-$lang['ModulesCreateOwn'] = 'Om je eigen modules te schrijven, raadpleeg de documentatie op %s.';
 
 ?>

@@ -50,10 +50,39 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 	}
 	
-	$content .= '<h2>'.$lang['ModulesHowToUse'].'</h2>';
-	$content .= '<p>'.sprintf($lang['ModulesInstall'], '<code>modules/</code>', '<code>sources/</code>').'</p>';
-	$content .= '<p>'.sprintf($lang['ModulesUninstall'], '<code>modules/</code>').'</p>';
-	$content .= '<p>'.sprintf($lang['ModulesCreateOwn'], '<a href="http://usebb.sourceforge.net/">UseBB Development</a>').'</p>';
+	$content .= '<h2>'.$lang['ModulesUpload'].'</h2>';
+	
+	$modules_dir = ROOT_PATH.'sources/modules/';
+	if ( is_writable($modules_dir) ) {
+		
+		if ( array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
+			
+			$acp_module = $_FILES['acp_module'];
+			
+			if ( preg_match('#\.php$#', $acp_module['name']) ) {
+				
+				copy($acp_module['tmp_name'], dirname($_SERVER['PATH_TRANSLATED']).'/sources/modules/'.$acp_module['name']);
+				$content .= '<p>'.sprintf($lang['ModulesUploadSuccesful'], '<code>'.$acp_module['name'].'</code>').'</p>';
+				
+			} else {
+				
+				$content .= '<p><strong>'.sprintf($lang['ModulesUploadNoPHPFile'], '<code>'.$acp_module['name'].'</code>').'</strong></p>';
+				
+			}
+			
+		} else {
+			
+			$content .= '<p>'.$lang['ModulesUploadInfo'].'</p>';
+			
+		}
+		
+		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules')).'" method="post" enctype="multipart/form-data"><p><input type="file" name="acp_module" size="25" /> <input type="submit" value="'.$lang['ModulesUpload'].'" /></p></form>';
+		
+	} else {
+	
+		$content .= '<p>'.sprintf($lang['ModulesUploadDisabled'], '<code>sources/modules/</code>').'</p>';
+	
+	}
 	
 } else {
 	

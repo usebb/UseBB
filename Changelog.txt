@@ -29,7 +29,6 @@ UseBB 0.7 Changelog
 - Make database password and table prefix mandatory.
 - Throw error when passwords are too short.
 - Don't require leading and trailing whitespace for smilies.
-- Able ACP modules to create a new category in the ACP menu.
 
 UseBB 0.6 Changelog
 ------------------------------

@@ -113,14 +113,14 @@ class admin_functions {
 	//
 	// Check if a .php file is a valid UseBB ACP module
 	//
-	function check_module($module_name) {
-		
-		$modules_dir = ROOT_PATH.'sources/modules/';
+	function check_module($module_name, $actual_module_name='') {
 		
 		if ( preg_match('#\.php$#', $module_name) ) {
 			
+			$module_name = ( !empty($actual_module_name) ) ? $actual_module_name : ROOT_PATH.'sources/modules/'.$module_name;
+			
 			ob_start();
-			require($modules_dir.$module_name);
+			require($module_name);
 			ob_end_clean();
 			
 			//

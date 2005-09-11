@@ -59,14 +59,14 @@ if ( $functions->get_config('enable_acp_modules') ) {
 			
 			$acp_module = $_FILES['acp_module'];
 			
-			if ( preg_match('#\.php$#', $acp_module['name']) ) {
+			if ( $admin_functions->check_module($acp_module['name'], $acp_module['tmp_name']) ) {
 				
 				copy($acp_module['tmp_name'], dirname($_SERVER['PATH_TRANSLATED']).'/sources/modules/'.$acp_module['name']);
 				$content .= '<p>'.sprintf($lang['ModulesUploadSuccesful'], '<code>'.$acp_module['name'].'</code>').'</p>';
 				
 			} else {
 				
-				$content .= '<p><strong>'.sprintf($lang['ModulesUploadNoPHPFile'], '<code>'.$acp_module['name'].'</code>').'</strong></p>';
+				$content .= '<p><strong>'.sprintf($lang['ModulesUploadNoValidModule'], '<code>'.$acp_module['name'].'</code>').'</strong></p>';
 				
 			}
 			

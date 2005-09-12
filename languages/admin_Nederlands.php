@@ -250,5 +250,7 @@ $lang['ModulesUploadDuplicateModule'] = 'Er bestaat reeds een module onder de be
 $lang['ModulesUploadNoValidModule'] = 'Het bestand %s is geen geldige ACP-module.';
 $lang['ModulesUploadFailed'] = 'De module %s kon niet ge&iuml;nstalleerd worden. Kopi&euml;ren mislukt.';
 $lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver (probeer chmod 777).';
+$lang['ModulesConfirmModuleDelete'] = 'Bevestigen van verwijderen module';
+$lang['ModulesConfirmModuleDeleteInfo'] = 'Ben je zeker dat je de module %s (%s) wilt verwijderen?';
 
 ?>

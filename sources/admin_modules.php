@@ -32,6 +32,7 @@ if ( !defined('INCLUDED') )
 if ( $functions->get_config('enable_acp_modules') ) {
 	
 	$_GET['do'] = ( !empty($_GET['do']) ) ? $_GET['do'] : 'index';
+	$modules_dir = ROOT_PATH.'sources/modules/';
 	
 	if ( $_GET['do'] == 'index' ) {
 		
@@ -45,7 +46,9 @@ if ( $functions->get_config('enable_acp_modules') ) {
 			$content .= '<table id="adminmodulestable"><tr><th>'.$lang['ModulesLongName'].'</th><th>'.$lang['ModulesShortName'].'</th><th>'.$lang['ModulesCategory'].'</th><th>'.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
 			foreach ( $admin_functions->acp_modules as $module ) {
 				
-				$content .= '<tr><td><a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'"><em>'.$module['long_name'].'</em></a></td><td><code>(mod_)'.$module['short_name'].'</code></td><td>'.$lang['Category-'.$module['acp_category']].'</td><td><code>'.$module['filename'].'</code></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $module['short_name'])).'">'.$lang['Delete'].'</a></td></tr>';
+				$delete_link = ( is_writable($modules_dir.$module['filename']) ) ? '<a href="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $module['short_name'])).'">'.$lang['Delete'].'</a>' : $lang['ModulesDeleteNotPermitted'];
+				
+				$content .= '<tr><td><a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'"><em>'.$module['long_name'].'</em></a></td><td><code>(mod_)'.$module['short_name'].'</code></td><td>'.$lang['Category-'.$module['acp_category']].'</td><td><code>'.$module['filename'].'</code></td><td class="action">'.$delete_link.'</td></tr>';
 				
 			}
 			$content .= '</table>';
@@ -58,9 +61,8 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 	} elseif ( $_GET['do'] == 'upload' ) {
 		
-		$content .= '<h2>'.$lang['ModulesUpload'].'</h2>';
+		$content = '<h2>'.$lang['ModulesUpload'].'</h2>';
 		
-		$modules_dir = ROOT_PATH.'sources/modules/';
 		if ( file_exists($modules_dir) && is_writable($modules_dir) ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
@@ -98,11 +100,32 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 		}
 		
+	} elseif ( $_GET['do'] == 'delete' && !empty($_GET['name']) && array_key_exists($_GET['name'], $admin_functions->acp_modules) && is_writable($modules_dir.$admin_functions->acp_modules[$_GET['name']]['filename']) ) {
+		
+		$acp_module = $admin_functions->acp_modules[$_GET['name']];
+		
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+			
+			if ( !empty($_POST['delete']) )
+				unlink($modules_dir.$acp_module['filename']);
+			
+			$functions->redirect('admin.php', array('act' => 'modules'));
+			
+		} else {
+			
+			$content = '<h2>'.$lang['ModulesConfirmModuleDelete'].'</h2>';
+			$content .= '<p>'.sprintf($lang['ModulesConfirmModuleDeleteInfo'], '<em>'.$acp_module['long_name'].'</em>', '<code>(mod_)'.$acp_module['short_name'].'</code>').'</p>';
+			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $_GET['name'])).'" method="post">';
+			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
+			$content .= '</form>';
+			
+		}
+		
 	}
 	
 } else {
 	
-	$content .= '<p>'.$lang['ModulesDisabled'].'</p>';
+	$content = '<p>'.$lang['ModulesDisabled'].'</p>';
 	
 }
 

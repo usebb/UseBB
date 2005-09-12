@@ -241,6 +241,7 @@ $lang['ModulesLongName'] = 'Long name';
 $lang['ModulesShortName'] = 'Short name';
 $lang['ModulesCategory'] = 'Category';
 $lang['ModulesFilename'] = 'Filename';
+$lang['ModulesDeleteNotPermitted'] = 'Not permitted';
 $lang['ModulesDisabled'] = 'ACP modules have been disabled in the board configuration.';
 $lang['ModulesNoneAvailable'] = 'No modules are available at this time.';
 $lang['ModulesUpload'] = 'Upload module';
@@ -249,5 +250,7 @@ $lang['ModulesUploadDuplicateModule'] = 'A module under the filename %s already 
 $lang['ModulesUploadNoValidModule'] = 'The file %s is not a valid UseBB module.';
 $lang['ModulesUploadFailed'] = 'Could not install the module %s. Copying failed.';
 $lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver (try chmod 777).';
+$lang['ModulesConfirmModuleDelete'] = 'Confirm module deletion';
+$lang['ModulesConfirmModuleDeleteInfo'] = 'Are you sure you want to delete the module %s (%s)?';
 
 ?>

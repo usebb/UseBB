@@ -80,9 +80,9 @@ class admin_functions {
 				$usebb_module_info = $this->check_module($module_name);
 				
 				//
-				// Valid UseBB ACP module?
+				// If valid module and not exist yet
 				//
-				if ( is_array($usebb_module_info) ) {
+				if ( is_array($usebb_module_info) && !array_key_exists($usebb_module_info['short_name'], $this->acp_modules) ) {
 					
 					//
 					// Eventually create a new category

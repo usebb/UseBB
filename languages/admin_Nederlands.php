@@ -241,6 +241,7 @@ $lang['ModulesLongName'] = 'Lange naam';
 $lang['ModulesShortName'] = 'Korte naam';
 $lang['ModulesCategory'] = 'Categorie';
 $lang['ModulesFilename'] = 'Bestandsnaam';
+$lang['ModulesDeleteNotPermitted'] = 'Niet toegestaan';
 $lang['ModulesDisabled'] = 'ACP-modules zijn uitgeschakeld in de forumconfiguratie.';
 $lang['ModulesNoneAvailable'] = 'Op dit moment zijn er geen modules ingeladen.';
 $lang['ModulesUpload'] = 'Module uploaden';

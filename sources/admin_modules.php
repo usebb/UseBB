@@ -55,11 +55,15 @@ if ( $functions->get_config('enable_acp_modules') ) {
 	$modules_dir = ROOT_PATH.'sources/modules/';
 	if ( file_exists($modules_dir) && is_writable($modules_dir) ) {
 		
-		if ( array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
 			
 			$acp_module = $_FILES['acp_module'];
 			
-			if ( $admin_functions->check_module($acp_module['name'], $acp_module['tmp_name']) ) {
+			if ( in_array($acp_module['name'], $admin_functions->acp_modules_files) ) {
+				
+				$content .= '<p><strong>'.sprintf($lang['ModulesUploadDuplicateModule'], '<code>'.$acp_module['name'].'</code>').'</strong></p>';
+				
+			} elseif ( $admin_functions->check_module($acp_module['name'], $acp_module['tmp_name']) ) {
 				
 				copy($acp_module['tmp_name'], dirname($_SERVER['PATH_TRANSLATED']).'/sources/modules/'.$acp_module['name']);
 				$content .= '<p>'.sprintf($lang['ModulesUploadSuccesful'], '<code>'.$acp_module['name'].'</code>').'</p>';

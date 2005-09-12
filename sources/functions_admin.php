@@ -39,6 +39,7 @@ class admin_functions {
 	
 	var $acp;
 	var $acp_modules = array();
+	var $acp_modules_files = array();
 	var $all_forums;
 	
 	//
@@ -97,6 +98,7 @@ class admin_functions {
 					// Add the filename and save to module list and menu
 					//
 					$usebb_module_info['filename'] = $module_name;
+					$this->acp_modules_files[] = $module_name;
 					$this->acp_modules[$usebb_module_info['short_name']] = $usebb_module_info;
 					$this->acp[$usebb_module_info['acp_category']][] = 'mod_'.$usebb_module_info['short_name'];
 					

@@ -246,7 +246,8 @@ $lang['ModulesDisabled'] = 'ACP modules have been disabled in the board configur
 $lang['ModulesNoneAvailable'] = 'No modules are available at this time.';
 $lang['ModulesUpload'] = 'Upload module';
 $lang['ModulesUploadInfo'] = 'Enter a local filename of a UseBB ACP module to upload it.';
-$lang['ModulesUploadNoValidModule'] = 'The module %s you are trying to upload is not a valid UseBB module.';
+$lang['ModulesUploadDuplicateModule'] = 'A module under the filename %s already exists.';
+$lang['ModulesUploadNoValidModule'] = 'The file %s is not a valid UseBB module.';
 $lang['ModulesUploadSuccesful'] = 'The module %s has been uploaded succesfully.';
 $lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver (try chmod 777).';
 

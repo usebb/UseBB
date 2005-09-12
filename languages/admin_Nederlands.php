@@ -246,7 +246,8 @@ $lang['ModulesDisabled'] = 'ACP-modules zijn uitgeschakeld in de forumconfigurat
 $lang['ModulesNoneAvailable'] = 'Op dit moment zijn er geen modules ingeladen.';
 $lang['ModulesUpload'] = 'Module uploaden';
 $lang['ModulesUploadInfo'] = 'Voer een lokale bestandsnaam van een UseBB ACP-module in om deze te uploaden.';
-$lang['ModulesUploadNoValidModule'] = 'De module %s die je probeerde te uploaden is geen valide ACP-module.';
+$lang['ModulesUploadDuplicateModule'] = 'Er bestaat reeds een module onder de bestandsnaam %s.';
+$lang['ModulesUploadNoValidModule'] = 'Het bestand %s is geen geldige ACP-module.';
 $lang['ModulesUploadSuccesful'] = 'De module %s werd succesvol geupload.';
 $lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver (probeer chmod 777).';
 

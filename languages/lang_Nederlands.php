@@ -452,6 +452,7 @@ $lang['MarkAllAsRead'] = 'Alles gelezen markeren';
 $lang['MarkAllAsReadDone'] = 'Alle forums en onderwerpen zijn nu als gelezen gemarkeerd.';
 $lang['StringTooShort'] = '%s is te kort, er zijn tenminste %d karakters benodigd.';
 $lang['StringTooLong'] = '%s is te lang, maximaal %d karakters zijn toegestaan.';
+$lang['Upload'] = 'Uploaden';
 
 //
 // Date translations

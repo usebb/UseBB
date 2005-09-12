@@ -237,7 +237,6 @@ $lang['SQLToolboxOptimizeTables'] = 'Tabellen optimaliseren';
 $lang['SQLToolboxMaintenanceNote'] = 'Merk op: dit herstelt geen verloren data in de database.';
 
 $lang['ModulesInfo'] = 'ACP-modules maken het mogelijk het ACP uit te breiden met eigen functies of functies gemaakt door derden. Modules kunnen gevonden worden via de UseBB-website: %s.';
-$lang['ModulesOverview'] = 'Modules-overzicht';
 $lang['ModulesLongName'] = 'Lange naam';
 $lang['ModulesShortName'] = 'Korte naam';
 $lang['ModulesCategory'] = 'Categorie';
@@ -246,9 +245,9 @@ $lang['ModulesDisabled'] = 'ACP-modules zijn uitgeschakeld in de forumconfigurat
 $lang['ModulesNoneAvailable'] = 'Op dit moment zijn er geen modules ingeladen.';
 $lang['ModulesUpload'] = 'Module uploaden';
 $lang['ModulesUploadInfo'] = 'Voer een lokale bestandsnaam van een UseBB ACP-module in om deze te uploaden.';
-$lang['ModulesUploadDuplicateModule'] = 'Er bestaat reeds een module onder de bestandsnaam %s.';
+$lang['ModulesUploadDuplicateModule'] = 'Er bestaat reeds een module onder de bestandsnaam %s. Gelieve deze eerst te verwijderen.';
 $lang['ModulesUploadNoValidModule'] = 'Het bestand %s is geen geldige ACP-module.';
-$lang['ModulesUploadSuccesful'] = 'De module %s werd succesvol geupload.';
+$lang['ModulesUploadFailed'] = 'De module %s kon niet ge&iuml;nstalleerd worden. Kopi&euml;ren mislukt.';
 $lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver (probeer chmod 777).';
 
 ?>

@@ -147,11 +147,11 @@ h1#admintitle {
 #adminconfigtable td.fieldtitle {
 	width: 40%;
 }
-#admincatstable th.action, #admincatstable td.action, #adminforumstable th.action, #adminforumstable td.action {
+#admincatstable th.action, #admincatstable td.action, #adminforumstable th.action, #adminforumstable td.action, #adminmodulestable th.action, #adminmodulestable td.action {
 	width: 1%;
 	white-space: pre;
 }
-#admincatstable td.action, #adminforumstable td.action {
+#admincatstable td.action, #adminforumstable td.action, #adminmodulestable td.action {
 	background-color: #E8E8E8;
 	text-align: center;
 }

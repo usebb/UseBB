@@ -226,8 +226,7 @@ class functions {
 		//
 		if ( !isset($this->board_config) ) {
 			
-			$this->board_config = $GLOBALS['conf'];
-			$this->board_config_original = $GLOBALS['conf'];
+			$this->board_config = $this->board_config_original = $GLOBALS['conf'];
 			unset($GLOBALS['conf']);
 			
 		}
@@ -241,16 +240,25 @@ class functions {
 			
 			if ( $setting == 'language' ) {
 				
+				//
+				// Keep default when missing language pack
+				//
 				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
 					$keep_default = true;
 				
 			} elseif ( $setting == 'template' ) {
 				
+				//
+				// Keep default when missing template set
+				//
 				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
 					$keep_default = true;
 				
 			}
 			
+			//
+			// Overwrite board setting with user setting
+			//
 			if ( !$keep_default )
 				$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
 			
@@ -259,49 +267,67 @@ class functions {
 		//
 		// Fill in missing settings
 		//
-		if ( empty($this->board_config[$setting]) ) {
+		if ( !array_key_exists($setting, $this->board_config) ) {
 			
-			if ( $setting == 'board_url' ) {
+			if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
 				
+				//
+				// Trigger error when a config value wasn't found and
+				// hide_undefined_config_setting_warnings is explicitly false.
+				//
+				trigger_error('Unable to get config setting "'.$setting.'"!<br /><br />To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
+				
+			} elseif ( $setting == 'board_url' ) {
+				
+				//
+				// Automatically find the board URL
+				//
 				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
 				$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
 				$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
 				
 			} elseif ( $setting == 'cookie_path' ) {
 				
+				//
+				// Automatically find the board path
+				//
 				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
 				$set_to = $path_parts['dirname'];
 				
 			} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
 				
+				//
+				// Set these to 1000 when the value is missing from the config
+				//
 				$set_to = 1000;
 				
 			} elseif ( $setting == 'search_nonindex_words_min_length' ) {
 				
+				//
+				// Set this to 3 when the value is missing from the config
+				//
 				$set_to = 3;
+				
+			} else {
+				
+				//
+				// Set all other missing settings to false
+				//
+				$set_to = false;
 				
 			}
 			
-			if ( isset($set_to) )
-				$this->board_config[$setting] = $set_to;
+			//
+			// Set the new value
+			//
+			$this->board_config[$setting] = $set_to;
 			
 		}
 		
 		//
 		// Return setting
 		//
-		if ( array_key_exists($setting, $this->board_config) ) {
-			
-			return $this->board_config[$setting];
-			
-		} else {
-			
-			if ( isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] )
-				trigger_error('Unable to get configuration value "'.$setting.'"!');
-			else
-				return false;
-			
-		}
+		return $this->board_config[$setting];
 		
 	}
 	

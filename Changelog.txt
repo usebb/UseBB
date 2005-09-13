@@ -4,6 +4,7 @@ UseBB 0.7 Changelog
 ------------------------------
 
 - Added ACP module system.
+- Added to ACP: module overview system with upload/delete.
 - Added mark all as read feature in panel.
 - Added max signature length.
 - Fixed XSS vulnerability in search results.

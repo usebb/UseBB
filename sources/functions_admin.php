@@ -214,7 +214,7 @@ class admin_functions {
 		global $functions, $template, $lang;
 		
 		if ( empty($content) )
-			$functions->redirect('admin.php', array('act' => $_GET['act']));
+			$functions->redirect('admin.php');
 		
 		$name = ( preg_match('#^mod_([A-Za-z0-9]+)$#', $location, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$location];
 		

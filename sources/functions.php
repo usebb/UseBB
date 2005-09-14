@@ -143,8 +143,7 @@ class functions {
 		if ( $errtype == 'SQL_ERROR' )
 			$error = ( $this->get_config('debug') >= 2 ) ? substr($error, 5) : 'Fatal SQL error!';
 		
-		$log_msg = '[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.$error.'] ['.$file.':'.$line.']';
-		error_log($log_msg);
+		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -172,7 +171,7 @@ class functions {
 		<h1>UseBB General Error</h1>
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
-			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.$error.'</p>';
+			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
 				
 		if ( $errtype == 'SQL_ERROR' ) {
 			
@@ -267,7 +266,7 @@ class functions {
 		//
 		// Fill in missing settings
 		//
-		if ( !array_key_exists($setting, $this->board_config) ) {
+		if ( !array_key_exists($setting, $this->board_config) || trim($this->board_config[$setting]) === '' ) {
 			
 			if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
 				
@@ -275,7 +274,7 @@ class functions {
 				// Trigger error when a config value wasn't found and
 				// hide_undefined_config_setting_warnings is explicitly false.
 				//
-				trigger_error('Unable to get config setting "'.$setting.'"!<br /><br />To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
+				trigger_error('Unable to get config setting "'.$setting.'"!'."\n\n".'To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
 				
 			} elseif ( $setting == 'board_url' ) {
 				

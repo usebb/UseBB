@@ -128,13 +128,12 @@ $templates['normal_footer'] = '
 	</p>
 	
 	{debug_info_small}
+	{debug_info_large}
 	
 	<p id="bottom">
 		{usebb_copyright}
 	</p>
 	<div id="bottom-shadow"></div>
-	
-	{debug_info_large}
 	
 	</div>
 	</div>

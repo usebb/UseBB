@@ -634,15 +634,21 @@ p#linkbar {
 	color: #333333;
 	font-size: 7pt;
 }
-
 #debug-info-large {
-	margin: 20px 0px 0px 0px;
+	margin: 0px auto 20px auto;
 	font-size: 7pt;
 	text-align: center;
 	color: #333333;
+	width: 85%;
 }
-#debug-info-large select, #debug-info-large textarea {
+#debug-info-large div {
+	background-color: #E8E8E8;
+	padding: 3px;
+}
+#debug-info-large textarea {
 	color: #333333;
 	font-size: 7pt !important;
 	margin: 3px 0px 0px 0px;
+	border: 1px solid silver;
+	padding: 3px;
 }

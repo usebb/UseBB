@@ -23,6 +23,19 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * Edit topic interface
+ *
+ * Interface to editing topics.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ */
+
 //
 // Die when called directly in browser
 //

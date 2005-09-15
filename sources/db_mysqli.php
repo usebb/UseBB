@@ -23,6 +23,20 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * MySQLi (>= 4.1) database driver
+ *
+ * Contains the db class for MySQLi handling.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
+
 //
 // Die when called directly in browser
 //
@@ -34,9 +48,19 @@ if ( !extension_loaded('mysqli') )
 
 @ini_set('mysql.trace_mode', '0');
 
-//
-// Create the MySQL handlers
-//
+/**
+ * MySQLi (>= 4.1) database driver
+ *
+ * Performs database handling for MySQL 4.1.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
 class db {
 	
 	//

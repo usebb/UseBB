@@ -23,6 +23,20 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * Common include file
+ *
+ * Does all kinds of stuff to initiate the board.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
+
 //
 // Die when called directly in browser
 //
@@ -81,15 +95,45 @@ $_REQUEST = slash_trim_global($_REQUEST);
 // One can however set a publicly displayed name, eventually with non-alphanumeric
 // characters.
 //
+/**
+ * Current UseBB version.
+ */
 define('USEBB_VERSION', '0.7-CVS');
+/**
+ * Regular expression for matching usernames.
+ */
 define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
+/**
+ * Regular expression for matching e-mail addresses.
+ */
 define('EMAIL_PREG', '#^[a-z0-9&\-_.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
+/**
+ * Regular expression for matching passwords.
+ */
 define('PWD_PREG', '#^[A-Za-z0-9]+$#');
+/**
+ * Regular expression for matching URL's.
+ */
 define('WEB_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?$#i');
+/**
+ * Regular expression for matching image URL's.
+ */
 define('IMG_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?\.(gif|png|jpe?g)$#i');
+/**
+ * Level for admins.
+ */
 define('LEVEL_ADMIN', 3);
+/**
+ * Level for moderators.
+ */
 define('LEVEL_MOD', 2);
+/**
+ * Level for members.
+ */
 define('LEVEL_MEMBER', 1);
+/**
+ * Level for guests.
+ */
 define('LEVEL_GUEST', 0);
 
 //
@@ -99,9 +143,13 @@ define('LEVEL_GUEST', 0);
 if ( function_exists('date_default_timezone_set') )
 	date_default_timezone_set('UTC');
 
-//
-// Set the UseBB error handler
-//
+/**
+ * Wrapper for calling usebb_die() to assign to set_error_handler()
+ *
+ * This is not called directly but is used with trigger_error().
+ *
+ * @access private
+ */
 function error_handler($errno, $error, $file, $line) {
 	
 	//

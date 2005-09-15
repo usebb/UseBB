@@ -23,15 +23,39 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * Session management
+ *
+ * Contains the session class to do session management.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage	Core
+ */
+
 //
 // Die when called directly in browser
 //
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Create the session handlers
-//
+/**
+ * Session management
+ *
+ * Does all kinds of session management in addition to PHP's functions.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage	Core
+ */
 class session {
 	
 	//

@@ -23,6 +23,20 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * ACP functions
+ *
+ * Contains the admin_functions class with functions for the ACP.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
+
 //
 // Die when called directly in browser
 //
@@ -35,6 +49,19 @@ if ( !defined('INCLUDED') )
 if ( $functions->get_user_level() < LEVEL_ADMIN )
 	trigger_error('You can not load the admin functions class while the user is not an admin!');
 
+/**
+ * ACP functions
+ *
+ * Functions only usable in the ACP.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
 class admin_functions {
 	
 	var $acp;

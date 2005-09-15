@@ -7,6 +7,7 @@ UseBB 0.7 Changelog
 - Added to ACP: module overview system with upload/delete.
 - Added mark all as read feature in panel.
 - Added max signature length.
+- Added DocBlocks for phpDocumentator.
 - Fixed XSS vulnerability in search results.
 - Fixed bug #658: search form gives error when no viewable forums.
 - Fixed bug #669: no newlines in quote tags cause problems.

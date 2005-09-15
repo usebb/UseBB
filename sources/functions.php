@@ -23,15 +23,32 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * Functions
+ *
+ * Contains all kinds of procedural functions and the functions class.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
+
 //
 // Die when called directly in browser
 //
 if ( !defined('INCLUDED') )
 	exit();
 
-//
-// Add slashes to and trim variables
-//
+/**
+ * Adds slashes to and trim an array
+ *
+ * @param array $global Array to slash/trim
+ * @returns array Slashed/trimmed array
+ */
 function slash_trim_global($global) {
 	
 	if ( is_array($global) ) {
@@ -58,30 +75,36 @@ function slash_trim_global($global) {
 	
 }
 
-//
-// Replacement for htmlspecialchars()
-// Doesn't mess up Cyrillic (and other) characters
-// which are sent in entities by a browser
-//
+/**
+ * Disable HTML in a string without disabling entities
+ *
+ * @param string $string String to un-HTML
+ * @returns string Parsed $string
+ */
 function unhtml($string) {
 	
 	return preg_replace(array('#&#', '#&amp;\#([0-9]+)#', '#&\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207)#', '#<#', '#>#', '#"#'), array('&amp;', '&#\\1', '&amp;#\\1', '&lt;', '&gt;', '&quot;'), $string);
 	
 }
 
-//
-// Find the length of a string containing entities
-//
+/**
+ * Gives the length of a string and counts a HTML entitiy as one character.
+ *
+ * @param string $string String to find length of
+ * @returns int Length of $string
+ */
 function entities_strlen($string) {
 	
 	return strlen(preg_replace('#&\#?[a-z0-9]+;#', '.', $string));
 	
 }
 
-//
-// Check if a value is a valid integer string
-// Obtained from http://phpsec.org/projects/guide/1.html
-//
+/**
+ * Check if a variable contains a valid integer
+ *
+ * @param string $string String to check
+ * @returns bool Contains valid integer
+ */
 function valid_int($string) {
 	
 	if ( $string == strval(intval($string)) )
@@ -91,8 +114,24 @@ function valid_int($string) {
 	
 }
 
+/**
+ * Functions
+ *
+ * All kinds of functions used everywhere.
+ *
+ * @author	UseBB Team
+ * @link	http://www.usebb.net
+ * @license	GPL-2
+ * @version	$Revision$
+ * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @package	UseBB
+ * @subpackage Core
+ */
 class functions {
 	
+	/**#@+
+	 * @access private
+	 */
 	var $board_config;
 	var $board_config_original;
 	var $statistics = array();
@@ -102,10 +141,15 @@ class functions {
 	var $badwords;
 	var $updated_forums;
 	var $available = array('templates' => array(), 'languages' => array());
+	/**#@-*/
 	
-	//
-	// General error die function
-	//
+	/**
+	 * General error die function
+	 *
+	 * This is not called directly but is used with trigger_error().
+	 *
+	 * @access private
+	 */
 	function usebb_die($errno, $error, $file, $line) {
 		
 		global $db, $dbs;
@@ -213,9 +257,12 @@ class functions {
 		
 	}
 	
-	//
-	// Get configuration variables
-	//
+	/**
+	 * Get configuration variables
+	 *
+	 * @param string $setting Setting to retrieve
+	 * @returns mixed Value of setting
+	 */
 	function get_config($setting) {
 		
 		global $session;
@@ -330,9 +377,12 @@ class functions {
 		
 	}
 	
-	//
-	// Get board statistics
-	//
+	/**
+	 * Get board statistics
+	 *
+	 * @param string $stat Statistical value to retrieve
+	 * @returns mixed Statistical value
+	 */
 	function get_stats($stat) {
 		
 		global $db;
@@ -416,9 +466,15 @@ class functions {
 		
 	}
 	
-	//
-	// Interactive URL builder
-	//
+	/**
+	 * Interactive URL builder
+	 *
+	 * @param string $filename .php filename to link to
+	 * @param array $vars GET variabeles
+	 * @param bool $html Return HTML URL
+	 * @param bool $enable_sid Enable session ID's
+	 * @returns string URL
+	 */
 	function make_url($filename, $vars=array(), $html=true, $enable_sid=true) {
 		
 		global $session;
@@ -481,9 +537,12 @@ class functions {
 		
 	}
 	
-	//
-	// Attaches a SID to URLs which should contain one (e.g. referer URLs)
-	//
+	/**
+	 * Attaches a SID to URLs which should contain one (e.g. referer URLs)
+	 *
+	 * @param string $url URL
+	 * @returns string URL
+	 */
 	function attach_sid($url) {
 		
 		$SID = SID;
@@ -502,9 +561,13 @@ class functions {
 		
 	}
 	
-	//
-	// Fetch a language file
-	//
+	/**
+	 * Fetch a language file
+	 *
+	 * @param string $language Language name (default language is used when missing)
+	 * @param string $section Section name (main section is used when missing)
+	 * @returns array Language variables
+	 */
 	function fetch_language($language='', $section='') {
 		
 		$language = ( !empty($language) && in_array($language, $this->get_language_packs()) ) ? $language : $this->get_config('language');
@@ -557,9 +620,9 @@ class functions {
 		
 	}
 	
-	//
-	// Kick a user to the login form
-	//
+	/**
+	 * Kick a user to the login form
+	 */
 	function redir_to_login() {
 		
 		global $session, $template, $lang;
@@ -582,9 +645,15 @@ class functions {
 		
 	}
 	
-	//
-	// Generate a date given a timestamp
-	//
+	/**
+	 * Generate a date given a timestamp
+	 *
+	 * @param int $stamp Unix timestamp
+	 * @param string $format Date format syntax (identical to PHP's date() - default is used when missing)
+	 * @param bool $keep_gmt Use GMT and no time zones
+	 * @param bool $translate Localize dates
+	 * @returns string Date
+	 */
 	function make_date($stamp, $format='', $keep_gmt=false, $translate=true) {
 		
 		global $lang;
@@ -603,10 +672,14 @@ class functions {
 		
 	}
 	
-	//
-	// Generate a time past string
-	//
-	function time_past($timestamp, $until='') {
+	/**
+	 * Generate a time past string
+	 *
+	 * @param int $timestamp Unix timestamp
+	 * @param int $until Calculate time past until this Unix timestamp (current is used when missing)
+	 * @returns string Time past
+	 */
+	function time_past($timestamp, $until=null) {
 	
 		global $lang;
 	
@@ -640,9 +713,12 @@ class functions {
 	
 	}
 	
-	//
-	// Generate an e-mail link
-	//
+	/**
+	 * Generate an e-mail link
+	 *
+	 * @param array $user User information
+	 * @returns string HTML
+	 */
 	function show_email($user) {
 		
 		global $session, $lang;
@@ -675,9 +751,11 @@ class functions {
 		
 	}
 	
-	//
-	// Generate a random key
-	//
+	/**
+	 * Generate a random key
+	 *
+	 * @returns string Random key
+	 */
 	function random_key() {
 		
 		$characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -700,9 +778,21 @@ class functions {
 		
 	}
 	
-	//
-	// Send an email
-	//
+	/**
+	 * Send an email
+	 *
+	 * Why don't they just send me an e-mail? -- Belgian ad for coffee
+	 *
+	 * @param string $subject Subject of e-mail
+	 * @param string $rawbody Body of e-mail
+	 * @param array $bodyvars Variables for e-mail body
+	 * @param string $from_name Name of sender
+	 * @param string $from_email E-mail of sender
+	 * @param string $to E-mail of recipient
+	 * @param string $bcc_email E-mail of BCC recipient (no BCC when missing)
+	 * @param string $language Language name the e-mail is in (default language when missing)
+	 * @param string $charset Character set the e-mail is in (default charset when missing)
+	 */
 	function usebb_mail($subject, $rawbody, $bodyvars=array(), $from_name, $from_email, $to, $bcc_email='', $language='', $charset='') {
 		
 		global $lang;
@@ -794,9 +884,12 @@ class functions {
 		
 	}
 	
-	//
-	// Set the remember cookie
-	//
+	/**
+	 * Set the remember cookie
+	 *
+	 * @param int $user_id User ID
+	 * @param string $passwd_hash Password hash
+	 */
 	function set_al($user_id, $passwd_hash) {
 		
 		$content = array(
@@ -807,18 +900,20 @@ class functions {
 		
 	}
 	
-	//
-	// Unset the remember cookie
-	//
+	/**
+	 * Unset the remember cookie
+	 */
 	function unset_al() {
 		
 		setcookie($this->get_config('session_name').'_al', '', time()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	
-	//
-	// Is the remember cookie set?
-	//
+	/**
+	 * Is the remember cookie set?
+	 *
+	 * @returns bool Remember cookie set
+	 */
 	function isset_al() {
 		
 		if ( !empty($_COOKIE[$this->get_config('session_name').'_al']) )
@@ -828,9 +923,11 @@ class functions {
 		
 	}
 	
-	//
-	// Get the remember cookie's value
-	//
+	/**
+	 * Get the remember cookie's value
+	 *
+	 * @returns mixed Array with user ID and password hash -or- false when not set
+	 */
 	function get_al() {
 		
 		if ( $this->isset_al() ) {
@@ -849,9 +946,11 @@ class functions {
 		
 	}
 	
-	//
-	// Get the user's level
-	//
+	/**
+	 * Get the user's level
+	 *
+	 * @returns int User level
+	 */
 	function get_user_level() {
 		
 		global $session;
@@ -866,10 +965,18 @@ class functions {
 		
 	}
 	
-	//
-	// Authorization function
-	// Defines whether a user has permission to take a certain action.
-	//
+	/**
+	 * Authorization function
+	 *
+	 * Defines whether a user has permission to take a certain action.
+	 *
+	 * @param string $auth_int Authorization "integer" (string because of leading zeroes)
+	 * @param string $action Action to establish
+	 * @param int $forum_id ID of forum
+	 * @param bool $self For own account
+	 * @param array $alternative_user_info When not for own account, array with user information
+	 * @returns bool Allowed
+	 */
 	function auth($auth_int, $action, $forum_id, $self=true, $alternative_user_info=null) {
 		
 		global $session, $db;
@@ -947,9 +1054,13 @@ class functions {
 		
 	}
 	
-	//
-	// Return a list of moderators, clickable and seperated with commas
-	//
+	/**
+	 * Return a list of moderators, clickable and seperated with commas
+	 *
+	 * @param int $forum Forum ID
+	 * @param array $listarray Array with all moderators (automatically requested when missing)
+	 * @returns string Moderator list
+	 */
 	function get_mods_list($forum, $listarray=false) {
 		
 		global $db, $lang;
@@ -992,9 +1103,19 @@ class functions {
 		
 	}
 	
-	//
-	// Return a clickable list of pages
-	//
+	/**
+	 * Return a clickable list of pages
+	 *
+	 * @param int $pages_number Total number of pages
+	 * @param int $current_page Current page
+	 * @param int $items_number Number of items
+	 * @param int $items_per_page Items per page
+	 * @param string $page_name .php page name
+	 * @param int $page_id_val URL id GET value
+	 * @param bool $back_forward_links Enable back and forward links
+	 * @param array $url_vars Other URL vars
+	 * @returns string HTML
+	 */
 	function make_page_links($pages_number, $current_page, $items_number, $items_per_page, $page_name, $page_id_val=NULL, $back_forward_links=true, $url_vars=array()) {
 		
 		global $lang;
@@ -1083,9 +1204,16 @@ class functions {
 		
 	}
 	
-	//
-	// Apply BBCode and smilies to a string
-	//
+	/**
+	 * Apply BBCode and smilies to a string
+	 *
+	 * @param string $string String to markup
+	 * @param bool $bbcode Enable BBCode
+	 * @param bool $smilies Enable smilies
+	 * @param bool $html Enable HTML
+	 * @param bool $full_path_smilies Enable full path smilies
+	 * @returns string HTML
+	 */
 	function markup($string, $bbcode=true, $smilies=true, $html=false, $full_path_smilies=false) {
 		
 		global $db, $template, $lang;
@@ -1250,9 +1378,11 @@ class functions {
 		
 	}
 	
-	//
-	// Return the BBCode control buttons
-	//
+	/**
+	 * Return the BBCode control buttons
+	 *
+	 * @returns string HTML BBCode controls
+	 */
 	function get_bbcode_controls() {
 		
 		global $lang, $template;
@@ -1281,9 +1411,11 @@ class functions {
 		
 	}
 	
-	//
-	// Return the smiley control graphics
-	//
+	/**
+	 * Return the smiley control graphics
+	 *
+	 * @returns string HTML smiley controls
+	 */
 	function get_smiley_controls() {
 		
 		global $template;
@@ -1301,6 +1433,12 @@ class functions {
 		
 	}
 	
+	/**
+	 * Censor text
+	 *
+	 * @param string $string Text to censor
+	 * @returns string Censored text
+	 */
 	function replace_badwords($string) {
 		
 		global $db;
@@ -1321,9 +1459,12 @@ class functions {
 		
 	}
 	
-	//
-	// Replace all whitespace by a space except in <textarea /> and <pre />
-	//
+	/**
+	 * Replace all whitespace by a space except in <textarea /> and <pre />
+	 *
+	 * @param string $string Source code to compress
+	 * @returns string Compressed source code
+	 */
 	function compress_sourcecode($string) {
 		
 		$matches = array();
@@ -1344,9 +1485,13 @@ class functions {
 		
 	}
 	
-	//
-	// Timezone handling
-	//
+	/**
+	 * Timezone handling
+	 *
+	 * @param string $action 'get_zones' or 'check_existance'
+	 * @param mixed $param Time zone param for 'check_existance'
+	 * @returns mixed Array with timezones or bool
+	 */
 	function timezone_handler($action, $param=NULL) {
 		
 		$timezones = array(
@@ -1397,9 +1542,14 @@ class functions {
 		
 	}
 
-	//
-	// Make a user's profile link
-	//
+	/**
+	 * Make a user's profile link
+	 *
+	 * @param int $user_id User ID
+	 * @param string $username Username
+	 * @param int $level Level
+	 * @returns string HTML
+	 */
 	function make_profile_link($user_id, $username, $level) {
 		
 		switch ( $level ) {
@@ -1420,9 +1570,9 @@ class functions {
 		
 	}
 	
-	//
-	// Create a forum statistics box like on the forum index
-	//
+	/**
+	 * Create a forum statistics box like on the forum index
+	 */
 	function forum_stats_box() {
 		
 		global $db, $template, $lang, $session;
@@ -1523,9 +1673,11 @@ class functions {
 		
 	}
 	
-	//
-	// Get the server's load avarage value
-	//
+	/**
+	 * Get the server's load avarage value
+	 *
+	 * @returns float Server load average
+	 */
 	function get_server_load() {
 		
 		$found_load = false;
@@ -1549,7 +1701,7 @@ class functions {
 				$out = fread($fh, 14);
 				fclose($fh);
 				if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) )
-					return $match[1]; // we use the load average value of the past 1 minute
+					return (float)$match[1]; // we use the load average value of the past 1 minute
 				else
 					$found_load = false;
 				
@@ -1570,7 +1722,7 @@ class functions {
 					// $retval contains the exit code 0 when ran successfully...
 					//
 					if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) )
-						return $match[1]; // we use the load average value of the past 1 minute
+						return (float)$match[1]; // we use the load average value of the past 1 minute
 					else
 						return false;
 					
@@ -1590,9 +1742,14 @@ class functions {
 		
 	}
 	
-	//
-	// Define the icon for forums
-	//
+	/**
+	 * Define the icon for forums
+	 *
+	 * @param int $id Forum ID
+	 * @param bool $open Open (or locked)
+	 * @param int $post_time Unix timestamp of update
+	 * @returns array Array with forum icon and status
+	 */
 	function forum_icon($id, $open, $post_time) {
 		
 		global $db, $session, $template, $lang;
@@ -1644,9 +1801,14 @@ class functions {
 		
 	}
 	
-	//
-	// Define the icon for topics
-	//
+	/**
+	 * Define the icon for topics
+	 *
+	 * @param int $id Topic ID
+	 * @param bool $locked Locked (or open)
+	 * @param int $post_time Unix timestamp of update
+	 * @returns array Array with topic icon and status
+	 */
 	function topic_icon($id, $locked, $post_time) {
 		
 		global $session, $template, $lang;
@@ -1685,9 +1847,12 @@ class functions {
 		
 	}
 	
-	//
-	// Calculate the age of a person based on a birthday date
-	//
+	/**
+	 * Calculate the age of a person based on a birthday date
+	 *
+	 * @param int $birthday Unix timestamp
+	 * @returns int Age
+	 */
 	function calculate_age($birthday) {
 		
 		$month = intval(substr($birthday, 4, 2));
@@ -1715,9 +1880,11 @@ class functions {
 		
 	}
 	
-	//
-	// Get a list of template sets
-	//
+	/**
+	 * Get a list of template sets
+	 *
+	 * @returns array List of available template sets
+	 */
 	function get_template_sets() {
 		
 		if ( !count($this->available['templates']) ) {
@@ -1739,9 +1906,11 @@ class functions {
 		
 	}
 	
-	//
-	// Get a list of language packs
-	//
+	/**
+	 * Get a list of language packs
+	 *
+	 * @returns array List of available language packs
+	 */
 	function get_language_packs() {
 		
 		if ( !count($this->available['languages']) ) {
@@ -1763,9 +1932,11 @@ class functions {
 		
 	}
 	
-	//
-	// Return the sql tables with the table prefix
-	//
+	/**
+	 * Return the sql tables with the table prefix
+	 *
+	 * @returns array List of SQL tables with UseBB table prefix
+	 */
 	function get_usebb_tables() {
 		
 		global $db;
@@ -1778,9 +1949,13 @@ class functions {
 		
 	}
 	
-	//
-	// Redirect the user to a certain location within UseBB
-	//
+	/**
+	 * Redirect the user to a certain location within UseBB
+	 *
+	 * @param string $page .php file to link to
+	 * @param array $vars Array with GET variables
+	 * @param string $anchor HTML anchor
+	 */
 	function redirect($page, $vars=array(), $anchor='') {
 		
 		$goto = $this->get_config('board_url').$this->make_url($page, $vars, false);
@@ -1790,9 +1965,11 @@ class functions {
 		
 	}
 	
-	//
-	// Redirect with a predefined URL
-	//
+	/**
+	 * Redirect with a predefined URL
+	 *
+	 * @param string $url URL
+	 */
 	function raw_redirect($url) {
 		
 		@header('Location: '.$url);

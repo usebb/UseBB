@@ -648,6 +648,7 @@ p#linkbar {
 #debug-info-large textarea {
 	color: #333333;
 	font-size: 7pt !important;
+	font-family: monospace !important;
 	margin: 3px 0px 0px 0px;
 	border: 1px solid silver;
 	padding: 3px;

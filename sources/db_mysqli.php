@@ -24,7 +24,7 @@
 */
 
 /**
- * MySQLi (>= 4.1) database driver
+ * MySQLi database driver
  *
  * Contains the db class for MySQLi handling.
  *
@@ -46,12 +46,12 @@ if ( !defined('INCLUDED') )
 if ( !extension_loaded('mysqli') )
 	trigger_error('Unable to load module for database server "mysqli": PHP mysqli extension not available!');
 
-@ini_set('mysql.trace_mode', '0');
+@ini_set('mysqli.trace_mode', '0');
 
 /**
- * MySQLi (>= 4.1) database driver
+ * MySQLi database driver
  *
- * Performs database handling for MySQL 4.1.
+ * Performs database handling for MySQLi.
  *
  * @author	UseBB Team
  * @link	http://www.usebb.net
@@ -63,15 +63,18 @@ if ( !extension_loaded('mysqli') )
  */
 class db {
 	
-	//
-	// Variables in this class
-	//
+	/**#@+
+	 * @access private
+	 */
 	var $connection;
 	var $queries = array();
+	/**#@-*/
 	
-	//
-	// Make a connection to the MySQL server
-	//
+	/**
+	 * Make a connection to the MySQL server
+	 *
+	 * @param array $config Database configuration
+	 */
 	function connect($config) {
 		
 		//
@@ -86,9 +89,13 @@ class db {
 		
 	}
 	
-	//
-	// Execute database queries
-	//
+	/**
+	 * Execute database queries
+	 *
+	 * @param string $query SQL query
+	 * @param bool $return_error Return error instead of giving general error
+	 * @returns mixed SQL result resource or SQL error (only when $return_error is true)
+	 */
 	function query($query, $return_error=false) {
 		
 		global $functions;
@@ -107,45 +114,57 @@ class db {
 		
 	}
 	
-	//
-	// Fetch query results
-	//
+	/**
+	 * Fetch query results
+	 *
+	 * @param resource $result SQL query resource
+	 * @returns array Array containing one result
+	 */
 	function fetch_result($result) {
 		
 		return mysqli_fetch_array($result, MYSQL_ASSOC);
 		
 	}
 	
-	//
-	// Count row number
-	//
+	/**
+	 * Count row number
+	 *
+	 * @param resource $result SQL query resource
+	 * @returns int Number of result rows
+	 */
 	function num_rows($result) {
 		
 		return mysqli_num_rows($result);
 		
 	}
 	
-	//
-	// Last ID
-	//
+	/**
+	 * Last inserted ID
+	 *
+	 * @returns int Last inserted auto increment ID
+	 */
 	function last_id() {
 		
 		return mysqli_insert_id($this->connection);
 		
 	}
 	
-	//
-	// Get used queries array
-	//
+	/**
+	 * Get used queries array
+	 *
+	 * @returns array Array containing executed queries
+	 */
 	function get_used_queries() {
 		
 		return $this->queries;
 		
 	}
 	
-	//
-	// Get server version info
-	//
+	/**
+	 * Get server version info
+	 *
+	 * @returns array Array containing database driver info and server version
+	 */
 	function get_server_info() {
 		
 		return array(
@@ -155,9 +174,9 @@ class db {
 		
 	}
 	
-	//
-	// Disconnect the database connection
-	//
+	/**
+	 * Disconnect the database connection
+	 */
 	function disconnect() {
 		
 		@mysqli_close($this->connection);

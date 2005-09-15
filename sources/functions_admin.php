@@ -26,7 +26,7 @@
 /**
  * ACP functions
  *
- * Contains the admin_functions class with functions for the ACP.
+ * Contains the admin_functions class with functions for the ACP. This file can only be included when being admin.
  *
  * @author	UseBB Team
  * @link	http://www.usebb.net
@@ -64,35 +64,45 @@ if ( $functions->get_user_level() < LEVEL_ADMIN )
  */
 class admin_functions {
 	
-	var $acp;
+	/**
+	 * @var array Contains the ACP menu structure
+	 */
+	var $acp = array(
+		'main' => array(
+			'index',
+			'version',
+			'config',
+		),
+		'forums' => array(
+			'categories',
+			'forums',
+		),
+		'various' => array(
+			'iplookup',
+			'sqltoolbox',
+			'modules',
+		),
+	);
+	/**
+	 * @var array Contains information about available ACP modules
+	 */
 	var $acp_modules = array();
+	/**
+	 * @var array Contains filenames of available ACP modules.
+	 */
 	var $acp_modules_files = array();
+	/**
+	 * @access private
+	 */
 	var $all_forums;
 	
-	//
-	// Initialize the ACP menu arrays
-	//
+	/**
+	 * Loads available ACP modules and fills $acp_modules(_files)
+	 */
 	function admin_functions() {
 		
 		global $functions;
 		global $lang;
-		
-		$this->acp = array(
-			'main' => array(
-				'index',
-				'version',
-				'config',
-			),
-			'forums' => array(
-				'categories',
-				'forums',
-			),
-			'various' => array(
-				'iplookup',
-				'sqltoolbox',
-				'modules',
-			),
-		);
 		
 		//
 		// Load ACP modules
@@ -139,9 +149,13 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Check if a .php file is a valid UseBB ACP module
-	//
+	/**
+	 * Check if a .php file is a valid UseBB ACP module
+	 *
+	 * @param string $module_name Module filename
+	 * @param string $actual_module_name Actual module filename (not checked on extension)
+	 * @returns mixed Array with module info or false when module is invalid
+	 */
 	function check_module($module_name, $actual_module_name='') {
 		
 		if ( preg_match('#\.php$#', $module_name) ) {
@@ -182,9 +196,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Run a UseBB module
-	//
+	/**
+	 * Run a UseBB module
+	 *
+	 * @param string $module_name Module short name
+	 */
 	function run_module($module_name) {
 		
 		global $lang;
@@ -206,9 +222,12 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Create the ACP menu
-	//
+	/**
+	 * Create the ACP menu
+	 *
+	 * @param string $location Current ACP location
+	 * @returns string HTML ACP menu
+	 */
 	function create_acp_menu($location) {
 		
 		global $functions, $lang;
@@ -233,9 +252,12 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Create the admin body
-	//
+	/**
+	 * Create the admin body
+	 *
+	 * @param string $location Current ACP location
+	 * @param string $content ACP HTML content
+	 */
 	function create_body($location, $content) {
 		
 		global $functions, $template, $lang;
@@ -258,9 +280,14 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Transform a variable into a PHP string
-	//
+	/**
+	 * Transform a variable into legal PHP code
+	 *
+	 * On PHP 4 >= 4.2.0, PHP 5 this calls var_export().
+	 *
+	 * @param mixed $variable Variable to transform to PHP
+	 * @returns string PHP code
+	 */
 	function make_php_string($variable) {
 		
 		if ( function_exists('var_export') )
@@ -297,9 +324,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Set forum configuration
-	//
+	/**
+	 * Set forum configuration
+	 *
+	 * @param array $settings Array containing forum settings to change
+	 */
 	function set_config($settings) {
 		
 		if ( !is_array($settings) || !count($settings) )
@@ -337,9 +366,15 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Forum select
-	//
+	/**
+	 * Make a forum select box
+	 *
+	 * @param string $input_name HTML <select /> name attribute
+	 * @param bool $multiple Allow multiple selections
+	 * @param array $filter_ids Array containing forum ID's to exclude
+	 * @param string $add HTML to add as last elements in <select />
+	 * @returns string HTML <select />
+	 */
 	function forum_select_box($input_name, $multiple=true, $filter_ids=array(), $add='') {
 		
 		global $db;
@@ -378,9 +413,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Delete forums
-	//
+	/**
+	 * Cleanly delete forums
+	 *
+	 * @param string $condition SQL condition to match forums
+	 */
 	function delete_forums($condition) {
 		
 		global $db;
@@ -437,9 +474,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Reload moderator permissions for certain forums
-	//
+	/**
+	 * Reload moderator permissions for certain forums
+	 *
+	 * @param array $forum_ids Array of forum ID's to reload permissions for
+	 */
 	function reload_moderator_perms($forum_ids) {
 		
 		global $db;
@@ -510,9 +549,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Get categories
-	//
+	/**
+	 * Get categories
+	 *
+	 * @returns array Array containing category information
+	 */
 	function get_cats_array() {
 		
 		global $db;
@@ -526,9 +567,11 @@ class admin_functions {
 		
 	}
 	
-	//
-	// Get forums
-	//
+	/**
+	 * Get forums
+	 *
+	 * @returns array Array containing forum information
+	 */
 	function get_forums_array() {
 		
 		global $db;

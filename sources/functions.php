@@ -144,10 +144,6 @@ class functions {
 	/**#@-*/
 	
 	/**
-	 * General error die function
-	 *
-	 * This is not called directly but is used with trigger_error().
-	 *
 	 * @access private
 	 */
 	function usebb_die($errno, $error, $file, $line) {

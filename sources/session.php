@@ -58,14 +58,14 @@ if ( !defined('INCLUDED') )
  */
 class session {
 	
-	//
-	// This session's ID
-	//
+	/**
+	 * @var array Array containing all session info, as well as user info. update() must be called before this contains information.
+	 */
 	var $sess_info = array();
 
-	//
-	// Start or continue a session
-	//
+	/**
+	 * Start or continue a session
+	 */
 	function start() {
 		
 		global $functions;
@@ -102,9 +102,14 @@ class session {
 		
 	}
 	
-	//
-	// Update the session table for this session
-	//
+	/**
+	 * Update the session table for this session
+	 *
+	 * This method also checks for banned IP-addresses or user accounts and checks for auto-login cookies. update() must be called before $sess_info contains usable information.
+	 *
+	 * @param string $location Current forum location (current location when missing)
+	 * @param int $user_id New user ID (current ID when missing)
+	 */
 	function update($location=NULL, $user_id=NULL) {
 		
 		global $functions, $db;
@@ -396,9 +401,9 @@ class session {
 		
 	}
 	
-	//
-	// Destroy a running session
-	//
+	/**
+	 * Destroy a running session
+	 */
 	function destroy() {
 		
 		global $functions, $db;

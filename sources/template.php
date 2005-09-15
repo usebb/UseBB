@@ -58,22 +58,34 @@ if ( !defined('INCLUDED') )
  */
 class template {
 	
-	//
-	// Variables
-	//
+	/**
+	 * @var string Output content type (used in HTTP headers and templates). This may be set during runtime.
+	 */
 	var $content_type = '';
+	/**
+	 * @var string Character encoding (used in HTTP headers and templates). This may be set during runtime.
+	 */
 	var $character_encoding = '';
+	/**
+	 * @var bool Parse templates marked as special only
+	 */
 	var $parse_special_templates_only = false;
+	/**#@+
+	 * @access private
+	 */
 	var $loaded_sections = array();
 	var $templates = array();
 	var $requests = array();
 	var $global_vars = array();
 	var $raw_contents = array();
 	var $body = '';
+	/**#@-*/
 	
-	//
-	// Activate gzip compression if needed, BEFORE doing a session_start()
-	//
+	/**
+	 * Constructor for template class
+	 *
+	 * Activates gzip compression if needed, before doing a session_start()
+	 */
 	function template() {
 		
 		global $functions;
@@ -83,9 +95,13 @@ class template {
 		
 	}
 	
-	//
-	// Load a given template section in the template array
-	//
+	/**
+	 * Load a given template section
+	 *
+	 * Called automatically when needed
+	 *
+	 * @param string $section Template section to load
+	 */
 	function load_section($section) {
 		
 		global $functions;
@@ -106,9 +122,12 @@ class template {
 		
 	}
 	
-	//
-	// Get the template config
-	//
+	/**
+	 * Get template configuration variables
+	 *
+	 * @param string $setting Configuration variable
+	 * @returns mixed Configuration value
+	 */
 	function get_config($setting) {
 		
 		global $functions;
@@ -124,9 +143,14 @@ class template {
 		
 	}
 	
-	//
-	// Parse a template
-	//
+	/**
+	 * Parse a template
+	 *
+	 * @param string $name Template name
+	 * @param string $section Template section
+	 * @param array $variables Template variables
+	 * @param bool $is_special Mark as a special template
+	 */
 	function parse($name, $section, $variables=array(), $is_special=false) {
 		
 		global $functions;
@@ -156,9 +180,12 @@ class template {
 		
 	}
 	
-	//
-	// Add global template variables
-	//
+	/**
+	 * Add global template variables
+	 *
+	 * @param array $variables Template variables
+	 * @param bool $override Override variables when already exist
+	 */
 	function add_global_vars($variables, $override=false) {
 		
 		foreach ( $variables as $key => $val ) {
@@ -170,9 +197,11 @@ class template {
 		
 	}
 	
-	//
-	// Set the page title
-	//
+	/**
+	 * Set the page title
+	 *
+	 * @param string $page_title Page title (may be HTML)
+	 */
 	function set_page_title($page_title) {
 		
 		global $functions;
@@ -184,9 +213,11 @@ class template {
 		
 	}
 	
-	//
-	// Add raw content, used for the ACP
-	//
+	/**
+	 * Add raw content outside templates
+	 *
+	 * @param string $content Raw content to place between the templates
+	 */
 	function add_raw_content($content) {
 		
 		$this->requests[] = array(
@@ -198,9 +229,11 @@ class template {
 		
 	}
 	
-	//
-	// Set the Javascript onload statement
-	//
+	/**
+	 * Set the JavaScript onload statement
+	 *
+	 * @param string $statement JavaScript statement
+	 */
 	function set_js_onload($statement) {
 		
 		$this->add_global_vars(array(
@@ -209,9 +242,9 @@ class template {
 		
 	}
 	
-	//
-	// Output the page body
-	//
+	/**
+	 * Output the page body
+	 */
 	function body() {
 		
 		global $db, $functions, $timer, $lang, $session;

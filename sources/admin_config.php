@@ -263,7 +263,7 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 				$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : '';
 			else
-				$_POST['conf-'.$key] = ( isset($functions->board_config_original[$key]) ) ? $functions->board_config_original[$key] : '';
+				$_POST['conf-'.$key] = $functions->get_config($key, true);
 			
 		}
 		

@@ -263,7 +263,7 @@ class functions {
 	 * @param string $setting Setting to retrieve
 	 * @returns mixed Value of setting
 	 */
-	function get_config($setting) {
+	function get_config($setting, $original=false) {
 		
 		global $session;
 		
@@ -277,103 +277,117 @@ class functions {
 			
 		}
 		
-		//
-		// Member preferences
-		//
-		if ( count($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
+		if ( $original ) {
 			
-			$keep_default = false;
+			//
+			// Return unedited config
+			//
+			if ( array_key_exists($setting, $this->board_config_original) )
+				return $this->board_config_original[$setting];
+			else
+				return '';
 			
-			if ( $setting == 'language' ) {
+		} else {
+			
+			//
+			// Member preferences
+			//
+			if ( count($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
+				
+				$keep_default = false;
+				
+				if ( $setting == 'language' ) {
+					
+					//
+					// Keep default when missing language pack
+					//
+					if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
+						$keep_default = true;
+					
+				} elseif ( $setting == 'template' ) {
+					
+					//
+					// Keep default when missing template set
+					//
+					if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
+						$keep_default = true;
+					
+				}
 				
 				//
-				// Keep default when missing language pack
+				// Overwrite board setting with user setting
 				//
-				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
-					$keep_default = true;
-				
-			} elseif ( $setting == 'template' ) {
-				
-				//
-				// Keep default when missing template set
-				//
-				if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
-					$keep_default = true;
+				if ( !$keep_default )
+					$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
 				
 			}
 			
 			//
-			// Overwrite board setting with user setting
+			// Fill in missing settings
 			//
-			if ( !$keep_default )
-				$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
-			
-		}
-		
-		//
-		// Fill in missing settings
-		//
-		if ( !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
-			
-			if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
+			if ( !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
+				
+				if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
+					
+					//
+					// Trigger error when a config value wasn't found and
+					// hide_undefined_config_setting_warnings is explicitly false.
+					//
+					trigger_error('Unable to get config setting "'.$setting.'"!'."\n\n".'To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
+					
+				} elseif ( $setting == 'board_url' ) {
+					
+					//
+					// Automatically find the board URL
+					//
+					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
+					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+					
+				} elseif ( $setting == 'cookie_path' ) {
+					
+					//
+					// Automatically find the board path
+					//
+					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					$set_to = $path_parts['dirname'];
+					
+				} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
+					
+					//
+					// Set these to 1000 when the value is missing from the config
+					//
+					$set_to = 1000;
+					
+				} elseif ( $setting == 'search_nonindex_words_min_length' ) {
+					
+					//
+					// Set this to 3 when the value is missing from the config
+					//
+					$set_to = 3;
+					
+				} else {
+					
+					//
+					// Set all other missing settings to false
+					//
+					$set_to = false;
+					
+				}
 				
 				//
-				// Trigger error when a config value wasn't found and
-				// hide_undefined_config_setting_warnings is explicitly false.
+				// Set the new value
 				//
-				trigger_error('Unable to get config setting "'.$setting.'"!'."\n\n".'To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
-				
-			} elseif ( $setting == 'board_url' ) {
-				
-				//
-				// Automatically find the board URL
-				//
-				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-				$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
-				$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
-				
-			} elseif ( $setting == 'cookie_path' ) {
-				
-				//
-				// Automatically find the board path
-				//
-				$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-				$set_to = $path_parts['dirname'];
-				
-			} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
-				
-				//
-				// Set these to 1000 when the value is missing from the config
-				//
-				$set_to = 1000;
-				
-			} elseif ( $setting == 'search_nonindex_words_min_length' ) {
-				
-				//
-				// Set this to 3 when the value is missing from the config
-				//
-				$set_to = 3;
-				
-			} else {
-				
-				//
-				// Set all other missing settings to false
-				//
-				$set_to = false;
+				$this->board_config[$setting] = $set_to;
 				
 			}
 			
 			//
-			// Set the new value
+			// Return setting
 			//
-			$this->board_config[$setting] = $set_to;
+			return $this->board_config[$setting];
 			
 		}
-		
-		//
-		// Return setting
-		//
-		return $this->board_config[$setting];
 		
 	}
 	

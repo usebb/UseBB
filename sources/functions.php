@@ -266,7 +266,7 @@ class functions {
 		//
 		// Fill in missing settings
 		//
-		if ( !array_key_exists($setting, $this->board_config) || trim($this->board_config[$setting]) === '' ) {
+		if ( !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
 			
 			if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
 				

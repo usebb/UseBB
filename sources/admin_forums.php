@@ -193,148 +193,158 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 	
 } elseif ( ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) || $_GET['do'] == 'add' ) {
 	
-	if ( $_GET['do'] == 'edit' ) {
-		
-		$foruminfo = $forums[$_GET['id']];
-		foreach ( range(0, 9) as $authid )
-			$foruminfo['auth'.$authid] = $foruminfo['auth'][$authid];
-		
-	}
 	$cats = $admin_functions->get_cats_array();
-	$user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
-	$default_auth = '0011222223';
 	
-	if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) ) {
+	if ( !count($cats) ) {
 		
-		$_POST['descr'] = ( !empty($_POST['descr']) ) ? $_POST['descr'] : '';
-		$_POST['auto_lock'] = ( !empty($_POST['auto_lock']) && valid_int($_POST['auto_lock']) ) ? $_POST['auto_lock'] : 0;
-		$_POST['status'] = ( !empty($_POST['status']) ) ? 1 : 0;
-		$_POST['increase_post_count'] = ( !empty($_POST['increase_post_count']) ) ? 1 : 0;
-		$_POST['hide_mods_list'] = ( !empty($_POST['hide_mods_list']) ) ? 1 : 0;
-		
-		if ( $_GET['do'] == 'edit' ) {
-			
-			$_POST['auth'] = '';
-			foreach ( range(0, 9) as $authid )
-				$_POST['auth'] .= ( isset($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
-			
-			$db->query("UPDATE ".TABLE_PREFIX."forums SET
-				name = '".$_POST['name']."',
-				cat_id = '".$_POST['cat_id']."',
-				descr = '".$_POST['descr']."',
-				status = ".$_POST['status'].",
-				auth = '".$_POST['auth']."',
-				auto_lock = ".$_POST['auto_lock'].",
-				increase_post_count = ".$_POST['increase_post_count'].",
-				hide_mods_list = ".$_POST['hide_mods_list']."
-			WHERE id = ".$_GET['id']);
-			
-		} else {
-			
-			$_POST['auth'] = '';
-			foreach ( range(0, 9) as $authid )
-				$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $default_auth[$authid];
-			
-			$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', '".$_POST['cat_id']."', '".$_POST['descr']."', ".$_POST['status'].", 0, 0, 0, 0, '".$_POST['auth']."', ".$_POST['auto_lock'].", ".$_POST['increase_post_count'].", ".$_POST['hide_mods_list'].")");
-			
-		}
-		
-		$functions->redirect('admin.php', array('act' => 'forums'));
+		$content = '<h2>'.$lang['ForumsAddNewForum'].'</h2><p>'.$lang['CategoriesNoCatsExist'].'</p>';
 		
 	} else {
 		
-		if ( $_GET['do'] == 'edit' )
-			$content = '<h2>'.sprintf($lang['ForumsEditingForum'], '<em>'.unhtml(stripslashes($foruminfo['name'])).'</em>').'</h2>';
-		else
-			$content = '<h2>'.$lang['ForumsAddNewForum'].'</h2>';
-		
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		if ( $_GET['do'] == 'edit' ) {
 			
-			$errors = array();
-			if ( empty($_POST['name']) )
-				$errors[] = $lang['ForumsForumName'];
-			if ( empty($_POST['cat_id']) || !array_key_exists($_POST['cat_id'], $cats) )
-				$errors[] = $lang['ForumsCatName'];
-			
-			$content .= '<p><strong>'.sprintf($lang['MissingFields'], join(', ', $errors)).'</strong></p>';
+			$foruminfo = $forums[$_GET['id']];
+			foreach ( range(0, 9) as $authid )
+				$foruminfo['auth'.$authid] = $foruminfo['auth'][$authid];
 			
 		}
 		
-		if ( $_GET['do'] == 'edit' ) {
+		$user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
+		$default_auth = '0011222223';
+		
+		if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) ) {
 			
-			foreach ( $foruminfo as $id => $val )
-				$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : $val;
+			$_POST['descr'] = ( !empty($_POST['descr']) ) ? $_POST['descr'] : '';
+			$_POST['auto_lock'] = ( !empty($_POST['auto_lock']) && valid_int($_POST['auto_lock']) ) ? $_POST['auto_lock'] : 0;
+			$_POST['status'] = ( !empty($_POST['status']) ) ? 1 : 0;
+			$_POST['increase_post_count'] = ( !empty($_POST['increase_post_count']) ) ? 1 : 0;
+			$_POST['hide_mods_list'] = ( !empty($_POST['hide_mods_list']) ) ? 1 : 0;
 			
-			$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'edit', 'id' => $_GET['id']));
-			$action = $lang['Edit'];
+			if ( $_GET['do'] == 'edit' ) {
+				
+				$_POST['auth'] = '';
+				foreach ( range(0, 9) as $authid )
+					$_POST['auth'] .= ( isset($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $foruminfo['auth'.$authid];
+				
+				$db->query("UPDATE ".TABLE_PREFIX."forums SET
+					name = '".$_POST['name']."',
+					cat_id = '".$_POST['cat_id']."',
+					descr = '".$_POST['descr']."',
+					status = ".$_POST['status'].",
+					auth = '".$_POST['auth']."',
+					auto_lock = ".$_POST['auto_lock'].",
+					increase_post_count = ".$_POST['increase_post_count'].",
+					hide_mods_list = ".$_POST['hide_mods_list']."
+				WHERE id = ".$_GET['id']);
+				
+			} else {
+				
+				$_POST['auth'] = '';
+				foreach ( range(0, 9) as $authid )
+					$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $default_auth[$authid];
+				
+				$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', '".$_POST['cat_id']."', '".$_POST['descr']."', ".$_POST['status'].", 0, 0, 0, 0, '".$_POST['auth']."', ".$_POST['auto_lock'].", ".$_POST['increase_post_count'].", ".$_POST['hide_mods_list'].")");
+				
+			}
+			
+			$functions->redirect('admin.php', array('act' => 'forums'));
 			
 		} else {
 			
-			$fields = array('name', 'cat_id', 'descr', 'status', 'auto_lock', 'increase_post_count', 'hide_mods_list');
-			foreach ( range(0, 9) as $authid )
-				$fields[] = 'auth'.$authid;
+			if ( $_GET['do'] == 'edit' )
+				$content = '<h2>'.sprintf($lang['ForumsEditingForum'], '<em>'.unhtml(stripslashes($foruminfo['name'])).'</em>').'</h2>';
+			else
+				$content = '<h2>'.$lang['ForumsAddNewForum'].'</h2>';
 			
-			foreach ( $fields as $id )
-				$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : '';
-			
-			if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
-				$_POST['status'] = 1;
-				$_POST['increase_post_count'] = 1;
-				foreach ( range(0, 9) as $authid )
-					$_POST['auth'.$authid] = $default_auth[$authid];
+				$errors = array();
+				if ( empty($_POST['name']) )
+					$errors[] = $lang['ForumsForumName'];
+				if ( empty($_POST['cat_id']) || !array_key_exists($_POST['cat_id'], $cats) )
+					$errors[] = $lang['ForumsCatName'];
+				
+				$content .= '<p><strong>'.sprintf($lang['MissingFields'], join(', ', $errors)).'</strong></p>';
 				
 			}
 			
-			$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'add'));
-			$action = $lang['Add'];
-			
-		}
-		
-		$_POST['auto_lock'] = ( valid_int($_POST['auto_lock']) && $_POST['auto_lock'] > 0 ) ? $_POST['auto_lock'] : '';
-		$status_checked = ( $_POST['status'] ) ? ' checked="checked"' : '';
-		$increase_post_count_checked = ( $_POST['increase_post_count'] ) ? ' checked="checked"' : '';
-		$hide_mods_list_checked = ( $_POST['hide_mods_list'] ) ? ' checked="checked"' : '';
-		
-		$category_select = '<select name="cat_id">';
-		foreach ( $cats as $cat ) {
-			
-			$selected = ( $_POST['cat_id'] == $cat['id'] ) ? ' selected="selected"' : '';
-			$category_select .= '<option value="'.$cat['id'].'"'.$selected.'>'.unhtml(stripslashes($cat['name'])).'</option>';
-			
-		}
-		$category_select .= '</select>';
-		
-		$content .= '<form action="'.$form.'" method="post">';
-		$content .= '<table id="adminforumstable">';
-			$content .= '<tr><th colspan="2">'.$lang['ForumsGeneral'].'</th></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsCatName'].'</td><td>'.$category_select.'</td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsDescription'].'</td><td><textarea name="descr" rows="3" cols="50">'.unhtml(stripslashes($_POST['descr'])).'</textarea></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsStatus'].'</td><td><input type="checkbox" name="status" id="status" value="1"'.$status_checked.' /><label for="status"> '.$lang['ForumsStatusOpen'].'</label></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsAutoLock'].'</td><td><input type="text" size="11" name="auto_lock" maxlength="11" value="'.$_POST['auto_lock'].'" /></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsIncreasePostCount'].'</td><td><input type="checkbox" name="increase_post_count" id="increase_post_count" value="1"'.$increase_post_count_checked.' /><label for="increase_post_count"> '.$lang['Yes'].'</label></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['ForumsHideModsList'].'</td><td><input type="checkbox" name="hide_mods_list" id="hide_mods_list" value="1"'.$hide_mods_list_checked.' /><label for="hide_mods_list"> '.$lang['Yes'].'</label></td></tr>';
-			
-			$content .= '<tr><th colspan="2">'.$lang['ForumsAuth'].'</th></tr><tr><td colspan="2"><strong>'.$lang['ForumsAuthNote'].'</strong></td></tr>';
-			
-			foreach ( range(0, 9) as $authid ) {
+			if ( $_GET['do'] == 'edit' ) {
 				
-				$level_input = '<select name="auth'.$authid.'">';
-				foreach ( $user_levels as $level_mode ) {
+				foreach ( $foruminfo as $id => $val )
+					$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : $val;
+				
+				$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'edit', 'id' => $_GET['id']));
+				$action = $lang['Edit'];
+				
+			} else {
+				
+				$fields = array('name', 'cat_id', 'descr', 'status', 'auto_lock', 'increase_post_count', 'hide_mods_list');
+				foreach ( range(0, 9) as $authid )
+					$fields[] = 'auth'.$authid;
+				
+				foreach ( $fields as $id )
+					$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : '';
+				
+				if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
 					
-					$selected = ( $_POST['auth'.$authid] == $level_mode ) ? ' selected="selected"' : '';
-					$level_input .= '<option value="'.$level_mode.'"'.$selected.'>'.$lang['Forums-level'.$level_mode].'</option>';
+					$_POST['status'] = 1;
+					$_POST['increase_post_count'] = 1;
+					foreach ( range(0, 9) as $authid )
+						$_POST['auth'.$authid] = $default_auth[$authid];
 					
 				}
-				$level_input .= '</select>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['Forums-auth'.$authid].'</td><td>'.$level_input.'</td></tr>';
+				
+				$form = $functions->make_url('admin.php', array('act' => 'forums', 'do' => 'add'));
+				$action = $lang['Add'];
 				
 			}
 			
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
-		
-		$template->set_js_onload("set_focus('name')");
+			$_POST['auto_lock'] = ( valid_int($_POST['auto_lock']) && $_POST['auto_lock'] > 0 ) ? $_POST['auto_lock'] : '';
+			$status_checked = ( $_POST['status'] ) ? ' checked="checked"' : '';
+			$increase_post_count_checked = ( $_POST['increase_post_count'] ) ? ' checked="checked"' : '';
+			$hide_mods_list_checked = ( $_POST['hide_mods_list'] ) ? ' checked="checked"' : '';
+			
+			$category_select = '<select name="cat_id">';
+			foreach ( $cats as $cat ) {
+				
+				$selected = ( $_POST['cat_id'] == $cat['id'] ) ? ' selected="selected"' : '';
+				$category_select .= '<option value="'.$cat['id'].'"'.$selected.'>'.unhtml(stripslashes($cat['name'])).'</option>';
+				
+			}
+			$category_select .= '</select>';
+			
+			$content .= '<form action="'.$form.'" method="post">';
+			$content .= '<table id="adminforumstable">';
+				$content .= '<tr><th colspan="2">'.$lang['ForumsGeneral'].'</th></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsCatName'].'</td><td>'.$category_select.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsDescription'].'</td><td><textarea name="descr" rows="3" cols="50">'.unhtml(stripslashes($_POST['descr'])).'</textarea></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsStatus'].'</td><td><input type="checkbox" name="status" id="status" value="1"'.$status_checked.' /><label for="status"> '.$lang['ForumsStatusOpen'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsAutoLock'].'</td><td><input type="text" size="11" name="auto_lock" maxlength="11" value="'.$_POST['auto_lock'].'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsIncreasePostCount'].'</td><td><input type="checkbox" name="increase_post_count" id="increase_post_count" value="1"'.$increase_post_count_checked.' /><label for="increase_post_count"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsHideModsList'].'</td><td><input type="checkbox" name="hide_mods_list" id="hide_mods_list" value="1"'.$hide_mods_list_checked.' /><label for="hide_mods_list"> '.$lang['Yes'].'</label></td></tr>';
+				
+				$content .= '<tr><th colspan="2">'.$lang['ForumsAuth'].'</th></tr><tr><td colspan="2"><strong>'.$lang['ForumsAuthNote'].'</strong></td></tr>';
+				
+				foreach ( range(0, 9) as $authid ) {
+					
+					$level_input = '<select name="auth'.$authid.'">';
+					foreach ( $user_levels as $level_mode ) {
+						
+						$selected = ( $_POST['auth'.$authid] == $level_mode ) ? ' selected="selected"' : '';
+						$level_input .= '<option value="'.$level_mode.'"'.$selected.'>'.$lang['Forums-level'.$level_mode].'</option>';
+						
+					}
+					$level_input .= '</select>';
+					$content .= '<tr><td class="fieldtitle">'.$lang['Forums-auth'.$authid].'</td><td>'.$level_input.'</td></tr>';
+					
+				}
+				
+			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+			
+			$template->set_js_onload("set_focus('name')");
+			
+		}
 		
 	}
 	

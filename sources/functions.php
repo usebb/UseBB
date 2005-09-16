@@ -338,8 +338,10 @@ class functions {
 					// Automatically find the board URL
 					//
 					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					if ( !preg_match('#/$#', $path_parts['dirname']) )
+						$path_parts['dirname'] .= '/';
 					$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
-					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'].'/';
+					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
 					
 				} elseif ( $setting == 'cookie_path' ) {
 					

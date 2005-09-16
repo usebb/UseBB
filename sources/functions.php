@@ -518,8 +518,9 @@ class functions {
 			//
 			$SID = SID;
 			$SID_parts = explode('=', $SID, 2);
+			$_SERVER['HTTP_USER_AGENT'] = ( !empty($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '';
 			
-			if ( $enable_sid && !empty($SID) && !preg_match('#'.preg_quote(gethostbyaddr($session->sess_info['ip_addr']), '#').'#', 'googlebot.com$') && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
+			if ( $enable_sid && !empty($SID) && !preg_match('#Googlebot#', $_SERVER['HTTP_USER_AGENT']) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
 				$vars[$SID_parts[0]] = $SID_parts[1];
 			
 			if ( count($vars) ) {

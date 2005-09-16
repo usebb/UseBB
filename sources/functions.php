@@ -257,6 +257,7 @@ class functions {
 	 * Get configuration variables
 	 *
 	 * @param string $setting Setting to retrieve
+	 * @param bool $original Use original config.php configuration
 	 * @returns mixed Value of setting
 	 */
 	function get_config($setting, $original=false) {

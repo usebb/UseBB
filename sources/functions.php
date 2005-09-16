@@ -518,8 +518,13 @@ class functions {
 			//
 			// Pass session ID's
 			//
-			$SID = SID;
-			$SID_parts = explode('=', $SID, 2);
+			if ( defined('SID') ) {
+				
+				$SID = SID;
+				$SID_parts = explode('=', $SID, 2);
+				
+			}
+			
 			$_SERVER['HTTP_USER_AGENT'] = ( !empty($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '';
 			
 			if ( $enable_sid && !empty($SID) && !preg_match('#Googlebot#i', $_SERVER['HTTP_USER_AGENT']) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )

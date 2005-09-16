@@ -73,18 +73,13 @@ if ( @ini_get('register_globals') ) {
 }
 
 //
-// Include functions.php
+// Include config.php
 //
-require(ROOT_PATH.'sources/functions.php');
-$functions = &new functions;
-	
-//
-// Add slashes and trim get, post and cookie variables
-//
-$_GET = slash_trim_global($_GET);
-$_POST = slash_trim_global($_POST);
-$_COOKIE = slash_trim_global($_COOKIE);
-$_REQUEST = slash_trim_global($_REQUEST);
+if ( !file_exists(ROOT_PATH.'config.php') )
+	trigger_error('config.php does not exist! Please rename config.php-dist to config.php and make it writable by the webserver (chmod 0777).');
+if ( !is_writable(ROOT_PATH.'config.php') )
+	trigger_error('config.php is not writable! Please make it writable by the webserver (chmod 0777).');
+require(ROOT_PATH.'config.php');
 
 //
 // Define some constants
@@ -135,6 +130,34 @@ define('LEVEL_MEMBER', 1);
  * Level for guests.
  */
 define('LEVEL_GUEST', 0);
+/**
+ * SQL table prefix
+ */
+define('TABLE_PREFIX', $dbs['prefix']);
+
+//
+// Include functions.php
+//
+require(ROOT_PATH.'sources/functions.php');
+$functions = &new functions;
+
+//
+// Fix unavailable $_SERVER['REQUEST_URI'] on IIS
+//
+if ( !array_key_exists('REQUEST_URI', $_SERVER) ) {
+	
+	$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+	$_SERVER['REQUEST_URI'] = $functions->get_config('board_url').$functions->make_url($path_parts['basename'], $_GET, false);
+	
+}
+
+//
+// Add slashes and trim get, post and cookie variables
+//
+$_GET = slash_trim_global($_GET);
+$_POST = slash_trim_global($_POST);
+$_COOKIE = slash_trim_global($_COOKIE);
+$_REQUEST = slash_trim_global($_REQUEST);
 
 //
 // Without this, PHP 5.1 might drop a notice
@@ -144,10 +167,6 @@ if ( function_exists('date_default_timezone_set') )
 	date_default_timezone_set('UTC');
 
 /**
- * Wrapper for calling usebb_die() to assign to set_error_handler()
- *
- * This is not called directly but is used with trigger_error().
- *
  * @access private
  */
 function error_handler($errno, $error, $file, $line) {
@@ -167,12 +186,6 @@ set_error_handler('error_handler');
 //
 // Include all other necessary files
 //
-if ( !file_exists(ROOT_PATH.'config.php') )
-	trigger_error('config.php does not exist! Please rename config.php-dist to config.php and make it writable by the webserver (chmod 0777).');
-if ( !is_writable(ROOT_PATH.'config.php') )
-	trigger_error('config.php is not writable! Please make it writable by the webserver (chmod 0777).');
-require(ROOT_PATH.'config.php');
-define('TABLE_PREFIX', $dbs['prefix']);
 require(ROOT_PATH.'sources/template.php');
 $template = &new template;
 require(ROOT_PATH.'sources/session.php');

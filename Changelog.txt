@@ -22,6 +22,7 @@ UseBB 0.7 Changelog
 - Fixed translating } and { when not needed (disabling Javascript in HTML posts).
 - Fixed bad styles on quote in preview box.
 - Fixed get_config() to set some missing but required config settings.
+- Fixed unavailable $_SERVER['REQUEST_URI'] on IIS.
 - Include trailing / in BBCode URL's.
 - Renamed Jabber to Jabber/XMPP and made a FAQ entry about Google Talk.
 - RSS feed improvements:

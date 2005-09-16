@@ -150,7 +150,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 			if ( !empty($_POST['move_contents']) && array_key_exists($_POST['move_contents'], $forums) ) {
 				
-				$result = $db->query("SELECT f.id, f.topics, f.posts, f.last_topic_id, t.last_post_id FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE t.id = f.last_topic_id AND f.id IN(".$_GET['id'].", ".$_POST['move_contents'].")");
+				$result = $db->query("SELECT f.id, f.topics, f.posts, f.last_topic_id, t.last_post_id FROM ".TABLE_PREFIX."forums f LEFT JOIN ".TABLE_PREFIX."topics t ON t.id = f.last_topic_id WHERE f.id IN(".$_GET['id'].", ".$_POST['move_contents'].")");
 				$old_forum = $new_forum = array();
 				while ( $forumdata = $db->fetch_result($result) ) {
 					

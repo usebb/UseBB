@@ -417,8 +417,9 @@ class admin_functions {
 	 * Cleanly delete forums
 	 *
 	 * @param string $condition SQL condition to match forums
+	 * @param bool $change_stats Change the global statistics
 	 */
-	function delete_forums($condition) {
+	function delete_forums($condition, $change_stats=true) {
 		
 		global $db;
 		
@@ -462,8 +463,12 @@ class admin_functions {
 			//
 			// Update the stats
 			//
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$topics." WHERE name = 'topics'");
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$posts." WHERE name = 'posts'");
+			if ( $change_stats ) {
+				
+				$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$topics." WHERE name = 'topics'");
+				$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$posts." WHERE name = 'posts'");
+				
+			}
 			
 			//
 			// Reload moderator perms for the affected forums

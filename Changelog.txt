@@ -16,6 +16,7 @@ UseBB 0.7 Changelog
 - Fixed bug #709: Undefined index on deleting (to) empty forum.
 - Fixed bug which didn't accept auth value 0 on edit forum form.
 - Fixed bug which returned empty page when member accesses ACP.
+- Fixed bug which changed global stats when forum is deleted and content moved.
 - Fixed some auto focus and tabindex on post forms.
 - Fixed malfunctioning mark updated topics feature.
 - Fixed translating } and { when not needed (disabling Javascript in HTML posts).

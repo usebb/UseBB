@@ -170,7 +170,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				
 			}
 				
-			$admin_functions->delete_forums('id = '.$_GET['id']);
+			$admin_functions->delete_forums('id = '.$_GET['id'], false);
 			
 		}
 		

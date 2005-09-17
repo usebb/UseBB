@@ -37,7 +37,7 @@ if ( defined('RUN_MODULE') ) { # required
 		
 	}
 	
-	$usebb_module = &new usebb_module; # required
+	$usebb_module = new usebb_module; # required
 	
 }
 

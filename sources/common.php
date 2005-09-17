@@ -73,6 +73,55 @@ if ( @ini_get('register_globals') ) {
 }
 
 //
+// Fix unavailable $_SERVER['REQUEST_URI'] on IIS
+//
+if ( empty($_SERVER['REQUEST_URI']) ) {
+	
+	$_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'];
+	if ( !empty($_SERVER['QUERY_STRING']) )
+		$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+	
+}
+
+//
+// Without this, PHP 5.1 might drop a notice
+// UseBB uses its own timezone handling where needed
+//
+if ( function_exists('date_default_timezone_set') )
+	date_default_timezone_set('UTC');
+
+//
+// Include functions.php
+//
+require(ROOT_PATH.'sources/functions.php');
+$functions = new functions;
+
+//
+// Add slashes and trim get, post and cookie variables
+//
+$_GET = slash_trim_global($_GET);
+$_POST = slash_trim_global($_POST);
+$_COOKIE = slash_trim_global($_COOKIE);
+$_REQUEST = slash_trim_global($_REQUEST);
+
+/**
+ * @access private
+ */
+function error_handler($errno, $error, $file, $line) {
+	
+	//
+	// We use this workaround to make the error handler work
+	// on < PHP 4.3.0. These older versions do not accept an 
+	// array containing a link to a function inside a class.
+	//
+	
+	global $functions;
+	$functions->usebb_die($errno, $error, $file, $line);
+	
+}
+set_error_handler('error_handler');
+
+//
 // Include config.php
 //
 if ( !file_exists(ROOT_PATH.'config.php') )
@@ -136,61 +185,12 @@ define('LEVEL_GUEST', 0);
 define('TABLE_PREFIX', $dbs['prefix']);
 
 //
-// Fix unavailable $_SERVER['REQUEST_URI'] on IIS
-//
-if ( empty($_SERVER['REQUEST_URI']) ) {
-	
-	$_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'];
-	if ( !empty($_SERVER['QUERY_STRING']) )
-		$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
-	
-}
-
-//
-// Without this, PHP 5.1 might drop a notice
-// UseBB uses its own timezone handling where needed
-//
-if ( function_exists('date_default_timezone_set') )
-	date_default_timezone_set('UTC');
-
-//
-// Include functions.php
-//
-require(ROOT_PATH.'sources/functions.php');
-$functions = &new functions;
-
-//
-// Add slashes and trim get, post and cookie variables
-//
-$_GET = slash_trim_global($_GET);
-$_POST = slash_trim_global($_POST);
-$_COOKIE = slash_trim_global($_COOKIE);
-$_REQUEST = slash_trim_global($_REQUEST);
-
-/**
- * @access private
- */
-function error_handler($errno, $error, $file, $line) {
-	
-	//
-	// We use this workaround to make the error handler work
-	// on < PHP 4.3.0. These older versions do not accept an 
-	// array containing a link to a function inside a class.
-	//
-	
-	global $functions;
-	$functions->usebb_die($errno, $error, $file, $line);
-	
-}
-set_error_handler('error_handler');
-
-//
 // Include all other necessary files
 //
 require(ROOT_PATH.'sources/template.php');
-$template = &new template;
+$template = new template;
 require(ROOT_PATH.'sources/session.php');
-$session = &new session;
+$session = new session;
 
 //
 // Load the database class
@@ -199,7 +199,7 @@ $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
 	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
 require($db_class_file);
-$db = &new db;
+$db = new db;
 
 //
 // Connect to DB

@@ -136,20 +136,28 @@ define('LEVEL_GUEST', 0);
 define('TABLE_PREFIX', $dbs['prefix']);
 
 //
+// Fix unavailable $_SERVER['REQUEST_URI'] on IIS
+//
+if ( empty($_SERVER['REQUEST_URI']) ) {
+	
+	$_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'];
+	if ( !empty($_SERVER['QUERY_STRING']) )
+		$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+	
+}
+
+//
+// Without this, PHP 5.1 might drop a notice
+// UseBB uses its own timezone handling where needed
+//
+if ( function_exists('date_default_timezone_set') )
+	date_default_timezone_set('UTC');
+
+//
 // Include functions.php
 //
 require(ROOT_PATH.'sources/functions.php');
 $functions = &new functions;
-
-//
-// Fix unavailable $_SERVER['REQUEST_URI'] on IIS
-//
-if ( !array_key_exists('REQUEST_URI', $_SERVER) ) {
-	
-	$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-	$_SERVER['REQUEST_URI'] = $functions->get_config('board_url').$functions->make_url($path_parts['basename'], $_GET, false);
-	
-}
 
 //
 // Add slashes and trim get, post and cookie variables
@@ -158,13 +166,6 @@ $_GET = slash_trim_global($_GET);
 $_POST = slash_trim_global($_POST);
 $_COOKIE = slash_trim_global($_COOKIE);
 $_REQUEST = slash_trim_global($_REQUEST);
-
-//
-// Without this, PHP 5.1 might drop a notice
-// UseBB uses its own timezone handling where needed
-//
-if ( function_exists('date_default_timezone_set') )
-	date_default_timezone_set('UTC');
 
 /**
  * @access private

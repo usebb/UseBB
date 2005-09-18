@@ -289,7 +289,7 @@ class functions {
 			//
 			// Member preferences
 			//
-			if ( count($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
+			if ( isset($session->sess_info) && $session->sess_info['user_id'] && array_key_exists($setting, $session->sess_info['user_info']) ) {
 				
 				$keep_default = false;
 				

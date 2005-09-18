@@ -1,6 +1,6 @@
 $Header$
 
-UseBB 0.7 Changelog
+UseBB 0.7 beta 1 Changelog
 ------------------------------
 
 - Added ACP module system.

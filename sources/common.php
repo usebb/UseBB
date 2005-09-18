@@ -142,7 +142,7 @@ require(ROOT_PATH.'config.php');
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '0.7-CVS');
+define('USEBB_VERSION', '0.7 beta 1');
 /**
  * Regular expression for matching usernames.
  */

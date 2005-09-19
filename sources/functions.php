@@ -1753,7 +1753,7 @@ class functions {
 				
 			}
 			
-			if ( $found_load ) {
+			if ( !$found_load ) {
 				
 				//
 				// Another way is running the uptime command and using its

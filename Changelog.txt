@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.7 beta 2 Changelog
+------------------------------
+
+- Fixed bad smiley parsing code.
+
 UseBB 0.7 beta 1 Changelog
 ------------------------------
 

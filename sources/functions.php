@@ -1252,7 +1252,7 @@ class functions {
 			$full_path = ( $full_path_smilies ) ? $this->get_config('board_url') : '';
 			
 			foreach ( $template->get_config('smilies') as $pattern => $img )
-				$string = preg_replace('#'.preg_quote(unhtml($pattern), '#').'#', '<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />', $string);
+				$string = preg_replace('#'.preg_quote(unhtml($pattern), '#').'#', '<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.preg_replace('#\..+$#', '', $img).'" />', $string);
 			
 		}
 		

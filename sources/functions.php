@@ -1753,14 +1753,16 @@ class functions {
 				
 			}
 			
-			if ( !$found_load ) {
+			if ( $found_load ) {
 				
 				//
 				// Another way is running the uptime command and using its
 				// output. This should also work on FreeBSD. The var $tmp
 				// is unnecessary at this moment.
 				//
+				$tmp = array();
 				$out = @exec('uptime', $tmp, $retval);
+				unset($tmp);
 				
 				if ( !$retval ) {
 					

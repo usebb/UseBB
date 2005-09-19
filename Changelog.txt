@@ -4,6 +4,7 @@ UseBB 0.7 beta 2 Changelog
 ------------------------------
 
 - Fixed bad smiley parsing code.
+- Backtrace on error page.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

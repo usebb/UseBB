@@ -199,11 +199,19 @@ class functions {
 				color: #336699;
 			}
 			blockquote {
-				width: 50%;
+				width: 55%;
 				border-top: 2px solid silver;
 				border-bottom: 2px solid silver;
 				font-family: monospace;
 				font-size: 8pt;
+			}
+			#error {
+				color: #7f0000;
+			}
+			textarea {
+				width: 98%;
+				border: 1px solid silver;
+				padding: 3px;
 			}
 		</style>
 	</head>
@@ -211,7 +219,8 @@ class functions {
 		<h1>UseBB General Error</h1>
 		<p>An error was encoutered. We apologize for any inconvenience.</p>
 		<blockquote>
-			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p><p><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
+			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p>
+			<p id="error"><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
 				
 		if ( $errtype == 'SQL_ERROR' ) {
 			
@@ -226,18 +235,36 @@ class functions {
 				if ( $this->get_config('debug') >= 2 ) {
 					
 					$html_msg .= '
-				<p>SQL query causing the error:<br /><textarea rows="6" cols="60" readonly="readonly">'.end($used_queries).'</textarea></p>';
+			<p>SQL query causing the error (<strong>sensitive information</strong>):<br /><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
 					
 					if ( preg_match("#^Table '.+' doesn't exist#", $error) )
 						$html_msg .= '
-				<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document. Also check the table prefix set in config.php.</p>';
+			<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document. Also check the table prefix set in config.php.</p>';
 					
-				} else  {
+				} else {
 					
 					$html_msg .= '
-				<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
+			<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
 					
 				}
+				
+			}
+			
+		} else {
+			
+			if ( $this->get_config('debug') >= 2 ) {
+				
+				ob_start();
+				print_r(debug_backtrace());
+				$backtrace = ob_get_contents();
+				ob_end_clean();
+				$html_msg .= '
+			<p>Backtrace (<strong>sensitive information</strong>):<br /><textarea rows="10" cols="60" readonly="readonly">'.unhtml($backtrace).'</textarea></p>';
+				
+			} else {
+				
+				$html_msg .= '
+			<p>Enable debug mode level 2 to see a backtrace.</p>';
 				
 			}
 			

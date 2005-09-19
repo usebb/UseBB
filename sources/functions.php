@@ -241,7 +241,7 @@ class functions {
 						$html_msg .= '
 			<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document. Also check the table prefix set in config.php.</p>';
 					
-				} else {
+				} elseif ( is_array($this->board_config) ) {
 					
 					$html_msg .= '
 			<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
@@ -261,7 +261,7 @@ class functions {
 				$html_msg .= '
 			<p>Backtrace (<strong>sensitive information</strong>):<br /><textarea rows="10" cols="60" readonly="readonly">'.unhtml($backtrace).'</textarea></p>';
 				
-			} else {
+			} elseif ( is_array($this->board_config) ) {
 				
 				$html_msg .= '
 			<p>Enable debug mode level 2 to see a backtrace.</p>';
@@ -294,7 +294,7 @@ class functions {
 		//
 		// Load settings
 		//
-		if ( !isset($this->board_config) ) {
+		if ( !isset($this->board_config) && isset($GLOBALS['conf']) ) {
 			
 			$this->board_config = $this->board_config_original = $GLOBALS['conf'];
 			unset($GLOBALS['conf']);
@@ -349,7 +349,7 @@ class functions {
 			//
 			// Fill in missing settings
 			//
-			if ( !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
+			if ( is_array($this->board_config) && !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
 				
 				if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
 					

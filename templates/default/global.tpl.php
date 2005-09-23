@@ -62,13 +62,6 @@ $templates['config'] = array(
 	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
 	'smilies' => array(
-		':lol:' => 'lol.gif',
-		':mrgreen:' => 'mrgreen.gif',
-		':oops:' => 'redface.gif',
-		':shock:' => 'eek.gif',
-		':roll:' => 'rolleyes.gif',
-		':evil:' => 'evil.gif',
-		':twisted:' => 'twisted.gif',
 		':)' => 'smile.gif',
 		';)' => 'wink.gif',
 		':D' => 'biggrin.gif',
@@ -80,6 +73,13 @@ $templates['config'] = array(
 		':x' => 'mad.gif',
 		':|' => 'neutral.gif',
 		':\'(' => 'cry.gif',
+		':lol:' => 'lol.gif',
+		':mrgreen:' => 'mrgreen.gif',
+		':oops:' => 'redface.gif',
+		':shock:' => 'eek.gif',
+		':roll:' => 'rolleyes.gif',
+		':evil:' => 'evil.gif',
+		':twisted:' => 'twisted.gif',
 	)
 );
 

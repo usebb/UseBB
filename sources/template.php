@@ -208,7 +208,7 @@ class template {
 		
 		$this->add_global_vars(array(
 			'page_title' => strip_tags($page_title),
-			'location_bar' => '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
+			'location_bar' => ( $functions->get_config('single_forum_mode') && $functions->get_stats('viewable_forums') === 1 ) ? $page_title : '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
 		), true);
 		
 	}

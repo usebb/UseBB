@@ -7,6 +7,8 @@ UseBB 0.7 beta 2 Changelog
 - Fixed missing friendly URL for "mark all as read".
 - Backtrace on error page.
 - Remove the extension check on images.
+- Hide forum index link in breadcrumbs on single forum mode.
+- Don't use Location header on IIS.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

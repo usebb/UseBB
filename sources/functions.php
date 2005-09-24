@@ -2022,7 +2022,11 @@ class functions {
 	 */
 	function raw_redirect($url) {
 		
-		@header('Location: '.$url);
+		//
+		// Don't use Location on IIS
+		//
+		if ( !empty($_SERVER['SERVER_SOFTWARE']) && !preg_match('#Microsoft\-IIS#', $_SERVER['SERVER_SOFTWARE']) )
+			@header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		
 	}

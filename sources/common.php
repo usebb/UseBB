@@ -84,6 +84,12 @@ if ( empty($_SERVER['REQUEST_URI']) ) {
 }
 
 //
+// Fix some undefined values
+//
+foreach ( array('HTTP_USER_AGENT', 'SERVER_SOFTWARE') as $key )
+	$_SERVER[$key] = ( !empty($_SERVER[$key]) ) ? $_SERVER[$key] : '';
+
+//
 // Without this, PHP 5.1 might drop a notice
 // UseBB uses its own timezone handling where needed
 //

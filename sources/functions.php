@@ -552,8 +552,6 @@ class functions {
 				
 			}
 			
-			$_SERVER['HTTP_USER_AGENT'] = ( !empty($_SERVER['HTTP_USER_AGENT']) ) ? $_SERVER['HTTP_USER_AGENT'] : '';
-			
 			if ( $enable_sid && !empty($SID) && !preg_match('#Googlebot#i', $_SERVER['HTTP_USER_AGENT']) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
 				$vars[$SID_parts[0]] = $SID_parts[1];
 			
@@ -2025,7 +2023,7 @@ class functions {
 		//
 		// Don't use Location on IIS
 		//
-		if ( !empty($_SERVER['SERVER_SOFTWARE']) && !preg_match('#Microsoft\-IIS#', $_SERVER['SERVER_SOFTWARE']) )
+		if ( !preg_match('#Microsoft\-IIS#', $_SERVER['SERVER_SOFTWARE']) )
 			@header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		

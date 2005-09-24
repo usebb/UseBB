@@ -1378,7 +1378,7 @@ class functions {
 				// [s]text[/s]
 					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
-					"#\[img\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\.(gif|png|jpe?g)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
+					"#\[img\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/img\]#is" => '<img src="\\1.\\2" alt="'.$lang['UserPostedImage'].'" />',
 				// [url]http://www.usebb.net[/url]
 					"#\[url\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]

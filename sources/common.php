@@ -162,7 +162,7 @@ define('WEB_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?$#i');
 /**
  * Regular expression for matching image URL's.
  */
-define('IMG_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?\.(gif|png|jpe?g)$#i');
+define('IMG_PREG', '#^[\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?$#i');
 /**
  * Level for admins.
  */

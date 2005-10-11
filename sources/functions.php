@@ -1761,6 +1761,7 @@ class functions {
 				// is unnecessary at this moment.
 				//
 				$tmp = array();
+				$retval = 1;
 				$out = @exec('uptime', $tmp, $retval);
 				unset($tmp);
 				

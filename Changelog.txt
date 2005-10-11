@@ -3,6 +3,7 @@ $Header$
 UseBB 0.7 beta 2 Changelog
 ------------------------------
 
+- Fixed bug #738: subscription emails sent to [language_name].
 - Fixed bug #744: dollar sign followed by numerical value disappears.
 - Fixed bad smiley parsing code.
 - Fixed missing friendly URL for "mark all as read".

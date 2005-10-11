@@ -365,7 +365,7 @@ class template {
 			}
 			
 			foreach ( $replaces as $key => $val )
-				$replaces[$key] = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '&#123;\\1&#125;', $val);
+				$replaces[$key] = preg_replace(array('#\{([a-zA-Z0-9_]+)\}#', '#\$#'), array('&#123;\\1&#125;', '&#36;'), $val);
 			
 			$current_template = preg_replace($finds, $replaces, $current_template);
 			$this->body .= $current_template;

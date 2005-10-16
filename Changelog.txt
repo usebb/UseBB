@@ -13,6 +13,7 @@ UseBB 0.7 beta 2 Changelog
 - Hide forum index link in breadcrumbs on single forum mode.
 - Don't use Location header on IIS.
 - Allow e-mail addresses with capital letters.
+- Parse www.example.com and ftp.example.com URL's.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

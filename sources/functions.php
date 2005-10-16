@@ -1378,7 +1378,9 @@ class functions {
 				// [img]image[/img]
 					"#\[img\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/img\]#is" => '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />',
 				// www.usebb.net
-					"#([\s])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="http://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\4',
+					"#([\s])(www\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="http://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+				// ftp.usebb.net
+					"#([\s])(ftp\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="ftp://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				// [url]http://www.usebb.net[/url]
 					"#\[url\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]

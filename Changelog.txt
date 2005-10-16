@@ -12,6 +12,7 @@ UseBB 0.7 beta 2 Changelog
 - Remove the extension check on images.
 - Hide forum index link in breadcrumbs on single forum mode.
 - Don't use Location header on IIS.
+- Allow e-mail addresses with capital letters.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

@@ -152,15 +152,15 @@ define('USEBB_VERSION', '0.7-CVS');
 /**
  * Regular expression for matching usernames.
  */
-define('USER_PREG', '#^[A-Za-z0-9_\-]+$#');
+define('USER_PREG', '#^[a-z0-9_\-]+$#i');
 /**
  * Regular expression for matching e-mail addresses.
  */
-define('EMAIL_PREG', '#^[a-z0-9&\-_.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#');
+define('EMAIL_PREG', '#^[a-z0-9&\-_.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#i');
 /**
  * Regular expression for matching passwords.
  */
-define('PWD_PREG', '#^[A-Za-z0-9]+$#');
+define('PWD_PREG', '#^[a-z0-9]+$#i');
 /**
  * Regular expression for matching URL's.
  */

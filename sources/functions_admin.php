@@ -331,6 +331,8 @@ class admin_functions {
 	 */
 	function set_config($settings) {
 		
+		global $functions;
+		
 		if ( !is_array($settings) || !count($settings) )
 			return;
 		
@@ -350,7 +352,7 @@ class admin_functions {
 			
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
 			
-			if ( preg_match('#\s\$'.$variable."\['".$key."'\] = .+;#", $config_content) )
+			if ( $variable == 'dbs' || array_key_exists($key, $functions->board_config_original) )
 				$config_content = preg_replace('#(\s)\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
 			else
 				$config_content = preg_replace('#(\s*?)\?>#', "\n\$".$variable."['".$key."'] = ".$this->make_php_string($val).";\\1?>", $config_content);

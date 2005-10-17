@@ -165,6 +165,8 @@ $lang['ConfigBoard-level1'] = 'Members';
 $lang['ConfigBoard-level2'] = 'Moderators';
 $lang['ConfigBoard-level3'] = 'Administrators';
 $lang['ConfigBoard-enable_acp_modules'] = 'Enable ACP modules';
+$lang['ConfigBoard-disable_registrations'] = 'Disable user registrations';
+$lang['ConfigBoard-disable_registrations_reason'] = 'Disable user registrations reason';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

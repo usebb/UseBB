@@ -3,6 +3,7 @@ $Header$
 UseBB 0.7 beta 2 Changelog
 ------------------------------
 
+- Added ability to disable registrations plus to give a reason.
 - Fixed bug #738: subscription emails sent to [language_name].
 - Fixed bug #744: dollar sign followed by numerical value disappears.
 - Fixed bug #763: confusing IndexStats language value.

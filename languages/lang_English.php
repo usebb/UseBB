@@ -453,5 +453,6 @@ $lang['MarkAllAsReadDone'] = 'All forums and topics are now marked as read.';
 $lang['StringTooShort'] = '%s is too short, at least %d characters are required.';
 $lang['StringTooLong'] = '%s is too long, only %d characters are allowed.';
 $lang['Upload'] = 'Upload';
+$lang['RegistrationsDisabled'] = 'Registrations disabled';
 
 ?>

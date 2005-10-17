@@ -165,6 +165,8 @@ $lang['ConfigBoard-level1'] = 'Leden';
 $lang['ConfigBoard-level2'] = 'Moderators';
 $lang['ConfigBoard-level3'] = 'Administrators';
 $lang['ConfigBoard-enable_acp_modules'] = 'ACP-modules inschakelen';
+$lang['ConfigBoard-disable_registrations'] = 'Gebruikersregistratie uitschakelen';
+$lang['ConfigBoard-disable_registrations_reason'] = 'Reden van uitschakeling';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

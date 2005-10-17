@@ -453,6 +453,7 @@ $lang['MarkAllAsReadDone'] = 'Alle forums en onderwerpen zijn nu als gelezen gem
 $lang['StringTooShort'] = '%s is te kort, er zijn tenminste %d karakters benodigd.';
 $lang['StringTooLong'] = '%s is te lang, maximaal %d karakters zijn toegestaan.';
 $lang['Upload'] = 'Uploaden';
+$lang['RegistrationsDisabled'] = 'Registraties uitgeschakeld';
 
 //
 // Date translations

@@ -217,15 +217,16 @@ class template {
 	 * Add raw content outside templates
 	 *
 	 * @param string $content Raw content to place between the templates
+	 * @param bool $strip_slashes Strip slashes from $content (true by default)
 	 */
-	function add_raw_content($content) {
+	function add_raw_content($content, $strip_slashes=true) {
 		
 		$this->requests[] = array(
 			'raw' => true,
 			'num' => count($this->raw_contents)
 		);
 		
-		$this->raw_contents[] = $content;
+		$this->raw_contents[] = ( $strip_slashes ) ? stripslashes($content) : $content;
 		
 	}
 	

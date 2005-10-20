@@ -16,6 +16,7 @@ UseBB 0.7 beta 2 Changelog
 - Allow e-mail addresses with capital letters.
 - Parse www.example.com and ftp.example.com URL's.
 - Better detect missing or commented out config settings when writing.
+- Strip slashes from raw template content by default.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

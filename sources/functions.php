@@ -276,6 +276,8 @@ class functions {
 		<p>If you are the webmaster of this board and you believe this is a bug, please send a bug report.</p>
 	</body>
 </html>';
+		
+		ob_end_clean();
 		die($html_msg);
 		
 	}

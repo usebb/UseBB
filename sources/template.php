@@ -84,7 +84,8 @@ class template {
 	/**
 	 * Constructor for template class
 	 *
-	 * Activates gzip compression if needed, before doing a session_start()
+	 * Activates gzip compression if needed, before doing a session_start(). 
+	 * Also activates a second output buffer to trigger unwanted output from mods and produce an error later.
 	 */
 	function template() {
 		
@@ -92,6 +93,8 @@ class template {
 		
 		if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !@ini_get('zlib.output_compression') )
 			ob_start('ob_gzhandler');
+		
+		ob_start();
 		
 	}
 	
@@ -245,6 +248,8 @@ class template {
 	
 	/**
 	 * Output the page body
+	 *
+	 * This method parses all the template data and takes care of unwanted output by triggering an error.
 	 */
 	function body() {
 		
@@ -378,6 +383,11 @@ class template {
 		//
 		if ( $functions->get_config('output_compression') === 1 || $functions->get_config('output_compression') === 3 )
 			$this->body = $functions->compress_sourcecode($this->body);
+		
+		$unwanted_output = ob_get_contents();
+		if ( !empty($unwanted_output) )
+			trigger_error('Unwanted output was triggered. Please do not use echo(), print(), or any other statements that produce direct output, but use $template->add_raw_content() instead.');
+		ob_end_clean();
 		
 		echo $this->body;
 		

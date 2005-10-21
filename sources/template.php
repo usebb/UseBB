@@ -270,6 +270,17 @@ class template {
 		header('Content-Type: '.$this->content_type.'; charset='.$this->character_encoding);
 		
 		//
+		// Set cache control
+		// Borrowed from phpBB 2.0.0 branch
+		//
+		if ( !empty($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache/2') )
+			header('Cache-Control: no-cache, pre-check=0, post-check=0');
+		else
+			header('Cache-Control: private, pre-check=0, post-check=0, max-age=0');
+		header('Expires: 0');
+		header('Pragma: no-cache');
+		
+		//
 		// Debug features
 		//
 		if ( $functions->get_config('debug') ) {

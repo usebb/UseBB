@@ -5,12 +5,12 @@ UseBB 0.7 beta 2 Changelog
 
 - Added ability to disable registrations plus to give a reason.
 - Added access key Alt+S for sending new topics and replies.
+- Added backtrace on error page.
 - Fixed bug #738: subscription emails sent to [language_name].
 - Fixed bug #744: dollar sign followed by numerical value disappears.
 - Fixed bug #763: confusing IndexStats language value.
 - Fixed bad smiley parsing code.
 - Fixed missing friendly URL for "mark all as read".
-- Backtrace on error page.
 - Remove the extension check on images.
 - Hide forum index link in breadcrumbs on single forum mode.
 - Don't use Location header on IIS.

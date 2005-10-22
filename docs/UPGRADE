@@ -1,11 +1,14 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Current version: 0.7 beta 1
+Current version: 0.7 beta 2
 
 Notes:
 	- UseBB now works completely on PHP 5 (tested with 5.1.0b3).
 	- There are several new config options and some of them have been removed and will not have any effect any more!
+
+* Upgrading from 0.7 beta 1:
+	Just reupload all (newer) files. No database changes.
 
 * Upgrading from 0.6:
 	Just reupload all (newer) files. No database changes.

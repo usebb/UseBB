@@ -22,6 +22,7 @@ UseBB 0.7 beta 2 Changelog
 - Strip slashes from raw template content by default.
 - The system now produces an error when unwanted output was triggered.
 - HTTP cache control headers added to output.
+- Several small template changes and fixes.
 
 UseBB 0.7 beta 1 Changelog
 ------------------------------

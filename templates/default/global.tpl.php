@@ -57,8 +57,8 @@ $templates['config'] = array(
 	'textarea_cols'						=> '60',
 	'quick_reply_textarea_rows'			=> '5',
 	'quick_reply_textarea_cols'			=> '60',
-	'post_form_bbcode_seperator'		=> '',
-	'post_form_smiley_seperator'		=> '',
+	'post_form_bbcode_seperator'		=> '</li><li>',
+	'post_form_smiley_seperator'		=> '</li><li>',
 	'debug_info_small'					=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'					=> '<div id="debug-info-large">%s</div>',
 	'smilies' => array(

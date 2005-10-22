@@ -25,7 +25,7 @@
 
 define('INCLUDED', true);
 
-if ( intval($_POST['step']) >= 2 )
+if ( !empty($_POST['step']) && intval($_POST['step']) >= 2 )
 	include('../config.php');
 
 class functions {

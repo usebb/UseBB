@@ -130,11 +130,19 @@ set_error_handler('error_handler');
 //
 // Include config.php
 //
-if ( !file_exists(ROOT_PATH.'config.php') )
+$config_file = ROOT_PATH.'config.php';
+if ( file_exists($config_file) ) {
+	
+	if ( !is_writable($config_file) )
+		trigger_error('config.php is not writable! Please make it writable by the webserver (chmod 0777).');
+	
+	require(ROOT_PATH.'config.php');
+	
+} else {
+	
 	trigger_error('config.php does not exist! Please rename config.php-dist to config.php and make it writable by the webserver (chmod 0777).');
-if ( !is_writable(ROOT_PATH.'config.php') )
-	trigger_error('config.php is not writable! Please make it writable by the webserver (chmod 0777).');
-require(ROOT_PATH.'config.php');
+	
+}
 
 //
 // Define some constants

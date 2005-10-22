@@ -66,7 +66,7 @@ $conf = array();
 // Define configuration
 //
 $conf['active_topics_count'] = 25;
-$conf['admin_email'] = 'example@example.net';
+$conf['admin_email'] = 'pc_freak@telenet.be';
 $conf['allow_multi_sess'] = 1;
 $conf['avatars_force_width'] = 65;
 $conf['avatars_force_height'] = 65;

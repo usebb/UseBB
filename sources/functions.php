@@ -148,7 +148,7 @@ class functions {
 	 */
 	function usebb_die($errno, $error, $file, $line) {
 		
-		global $db, $dbs;
+		global $db, $dbs, $template;
 		
 		//
 		// Don't show various errors on PHP5
@@ -277,7 +277,8 @@ class functions {
 	</body>
 </html>';
 		
-		ob_end_clean();
+		if ( isset($template) )
+			ob_end_clean();
 		die($html_msg);
 		
 	}

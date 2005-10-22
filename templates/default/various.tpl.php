@@ -138,9 +138,9 @@ $templates['post_form'] = '
 		<tr>
 			<td class="fieldtitle">{l_Content}</td>
 			<td rowspan="2">
-				<div id="bbcode-controls">{bbcode_controls}</div>
-				<div id="smiley-controls">{smiley_controls}</div>
+				<ul id="bbcode-controls"><li>{bbcode_controls}</li></ul>
 				{content_input}
+				<ul id="smiley-controls"><li>{smiley_controls}</li></ul>
 			</td>
 		</tr>
 		<tr>

@@ -240,6 +240,10 @@ td.formcontrols input {
 td.formcontrols a {
 	color: #336699 !important;
 }
+td.formcontrols .postformshortcut {
+	margin-top: 5px;
+	color: #666666;
+}
 table.maintable th.icon {
 	width: 25px;
 }

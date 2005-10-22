@@ -454,5 +454,6 @@ $lang['StringTooShort'] = '%s is too short, at least %d characters are required.
 $lang['StringTooLong'] = '%s is too long, only %d characters are allowed.';
 $lang['Upload'] = 'Upload';
 $lang['RegistrationsDisabled'] = 'Registrations disabled';
+$lang['PostFormShortcut'] = 'Press Alt+S (Cmd+S on Apple) to quickly send this form.';
 
 ?>

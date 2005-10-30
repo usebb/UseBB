@@ -651,8 +651,14 @@ class functions {
 				if ( empty($lang['character_encoding']) )
 					$lang['character_encoding'] = 'iso-8859-1';
 				
-				if ( function_exists('mb_internal_encoding') )
-					mb_internal_encoding($lang['character_encoding']);
+				if ( function_exists('mb_internal_encoding') ) {
+					
+					if ( $lang['character_encoding'] == 'iso-8859-8-i' )
+						mb_internal_encoding('iso-8859-8');
+					else
+						mb_internal_encoding($lang['character_encoding']);
+					
+				}
 				
 			}
 			
@@ -925,7 +931,11 @@ class functions {
 				mb_language('uni');
 			else
 				mb_language('en');
-			mb_internal_encoding($lang['character_encoding']);
+			
+			if ( $lang['character_encoding'] == 'iso-8859-8-i' )
+				mb_internal_encoding('iso-8859-8');
+			else
+				mb_internal_encoding($lang['character_encoding']);
 			
 		}
 		

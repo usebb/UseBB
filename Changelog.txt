@@ -4,6 +4,7 @@ UseBB 0.7 beta 3 Changelog
 ------------------------------
 
 - Fixed XSS vulnerability with $_SERVER['PHP_SELF'].
+- Fixed bug #805: General Error on iso-8859-8-i encoding.
 
 UseBB 0.7 beta 2 Changelog
 ------------------------------

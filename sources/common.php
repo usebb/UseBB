@@ -88,8 +88,6 @@ if ( empty($_SERVER['REQUEST_URI']) ) {
 	
 }
 
-die($_SERVER['REQUEST_URI']);
-
 //
 // Fix some undefined values
 //

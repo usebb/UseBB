@@ -73,6 +73,11 @@ if ( @ini_get('register_globals') ) {
 }
 
 //
+// Make $_SERVER['PHP_SELF'] safe
+//
+$_SERVER['PHP_SELF'] = str_replace(array('<', '>'), array('%3C', '%3E'), $_SERVER['PHP_SELF']);
+
+//
 // Fix unavailable $_SERVER['REQUEST_URI'] on IIS
 //
 if ( empty($_SERVER['REQUEST_URI']) ) {
@@ -82,6 +87,8 @@ if ( empty($_SERVER['REQUEST_URI']) ) {
 		$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 	
 }
+
+die($_SERVER['REQUEST_URI']);
 
 //
 // Fix some undefined values
@@ -156,7 +163,7 @@ if ( file_exists($config_file) ) {
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '0.7 beta 2');
+define('USEBB_VERSION', '0.7-CVS');
 /**
  * Regular expression for matching usernames.
  */

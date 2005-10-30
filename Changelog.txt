@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.7 beta 3 Changelog
+------------------------------
+
+- Fixed XSS vulnerability with $_SERVER['PHP_SELF'].
+
 UseBB 0.7 beta 2 Changelog
 ------------------------------
 

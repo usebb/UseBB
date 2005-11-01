@@ -217,7 +217,7 @@ class functions {
 	</head>
 	<body>
 		<h1>UseBB General Error</h1>
-		<p>An error was encoutered. We apologize for any inconvenience.</p>
+		<p>An error was encountered. We apologize for any inconvenience.</p>
 		<blockquote>
 			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p>
 			<p id="error"><em>'.$errtype.'</em> - '.nl2br($error).'</p>';

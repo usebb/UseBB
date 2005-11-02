@@ -318,6 +318,13 @@ table.maintable td.online {
 	background-color: #E8E8E8;
 	color: #333333;
 }
+table.maintable td.stats-cell {
+	line-height: 150%;
+}
+table.maintable td .detailed-list-link {
+	float: right;
+	font-weight: bold;
+}
 
 /* Topiclist styles */
 

@@ -36,17 +36,17 @@ if ( !defined('INCLUDED') )
 $templates['forum_stats_box'] = '
 	<table class="maintable">
 		<tr>
-			<th colspan="2">{l_Statistics}</th>
+			<th colspan="2">{board_name} {l_Statistics}</th>
 		</tr>
 		<tr>
 			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{l_Statistics}" /></td>
-			<td>{small_stats}<br />{newest_member}</td>
+			<td class="stats-cell">{small_stats}<br />{newest_member}</td>
 		</tr>
 		<tr>
-			<td class="online">&raquo; {l_WhosOnline} {detailed_list_link}</td>
+			<td class="online">&raquo; {l_WhosOnline}</td>
 		</tr>
 		<tr>
-			<td>{users_online}<br />{members_online}</td>
+			<td class="stats-cell"><div class="detailed-list-link">{detailed_list_link}</div>{users_online}<br />{members_online}</td>
 		</tr>
 	</table>
 ';

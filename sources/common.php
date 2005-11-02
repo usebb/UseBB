@@ -165,7 +165,7 @@ define('USEBB_VERSION', '0.7-CVS');
 /**
  * Regular expression for matching usernames.
  */
-define('USER_PREG', '#^[a-z0-9_\-]+$#i');
+define('USER_PREG', '#^[a-z0-9_\- ]+$#i');
 /**
  * Regular expression for matching e-mail addresses.
  */

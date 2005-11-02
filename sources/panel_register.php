@@ -64,7 +64,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	
 } else {
 	
-	$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
+	$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 	
 	$username_taken = false;
 	$username_banned = false;

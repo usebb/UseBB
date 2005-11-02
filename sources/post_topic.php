@@ -79,7 +79,7 @@ if ( !$forumdata['id'] ) {
 		
 	} elseif ( $functions->auth($forumdata['auth'], 'post', $_GET['forum']) ) {
 		
-		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', '_', $_POST['user']) : '';
+		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 		
 		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ) && !empty($_POST['subject']) && !empty($_POST['content']) && empty($_POST['preview']) && ( time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') || $functions->get_user_level() > LEVEL_MEMBER ) ) {
 			

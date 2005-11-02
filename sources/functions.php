@@ -1770,7 +1770,7 @@ class functions {
 				
 			}
 			
-			if ( !$found_load ) {
+			if ( !$found_load && !in_array('exec', preg_split('#\s*,\s*#', @ini_get('disable_functions'))) ) {
 				
 				//
 				// Another way is running the uptime command and using its

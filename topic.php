@@ -291,7 +291,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					//
 					if ( !empty($postsdata['rank']) ) {
 						
-						$poster_rank = unhtml(stripslashes($postsdata['rank']));
+						$poster_rank = stripslashes($postsdata['rank']);
 						
 					} else {
 						

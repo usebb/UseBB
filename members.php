@@ -122,7 +122,7 @@ if ( empty($_GET['act']) ) {
 				'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 				'real_name' => unhtml(stripslashes($userdata['real_name'])),
 				'level' => $level,
-				'rank' => unhtml(stripslashes($userdata['rank'])),
+				'rank' => stripslashes($userdata['rank']),
 				'registered' => $functions->make_date($userdata['regdate']),
 				'posts' => $userdata['posts'],
 				'email' => $functions->show_email($userdata),
@@ -197,7 +197,7 @@ if ( empty($_GET['act']) ) {
 				$template->parse('user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
-					'rank' => unhtml(stripslashes($userdata['rank'])),
+					'rank' => stripslashes($userdata['rank']),
 					'registered' => $functions->make_date($userdata['regdate']),
 					'posts' => $userdata['posts'],
 					'email' => $functions->show_email($userdata),
@@ -220,7 +220,7 @@ if ( empty($_GET['act']) ) {
 				$template->parse('user', 'stafflist', array(
 					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
 					'real_name' => unhtml(stripslashes($userdata['real_name'])),
-					'rank' => unhtml(stripslashes($userdata['rank'])),
+					'rank' => stripslashes($userdata['rank']),
 					'registered' => $functions->make_date($userdata['regdate']),
 					'posts' => $userdata['posts'],
 					'email' => $functions->show_email($userdata),

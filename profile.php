@@ -171,7 +171,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'userid_v'      => $_GET['id'],
 				'real_name_v'   => unhtml(stripslashes($profiledata['real_name'])),
 				'level_v'       => $level,
-				'rank_v'        => unhtml(stripslashes($profiledata['rank'])),
+				'rank_v'        => stripslashes($profiledata['rank']),
 				'avatar_v'      => $avatar,
 				'regdate_v'     => $functions->make_date($profiledata['regdate']),
 				'posts_v'       => $profiledata['posts'],

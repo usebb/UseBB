@@ -6,6 +6,7 @@ UseBB 0.7 beta 3 Changelog
 - Fixed XSS vulnerability with $_SERVER['PHP_SELF'].
 - Fixed bug #805: General Error on iso-8859-8-i encoding.
 - Fixed bug #809: exec() has been disabled for security reasons.
+- Fixed malfunctioning mysqli driver.
 - mod_rewrite URLs now also match when followed by a non-word character.
 - Allow spaces in usernames (not transformed to underscores).
 - Don't focus on user name when box when filled in from session.

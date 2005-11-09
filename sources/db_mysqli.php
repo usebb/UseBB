@@ -85,7 +85,7 @@ class db {
 		//
 		// Select database
 		//
-		@mysqli_select_db($config['dbname'], $this->connection) or trigger_error('SQL: '.mysqli_error());
+		@mysqli_select_db($this->connection, $config['dbname']) or trigger_error('SQL: '.mysqli_error());
 		
 	}
 	
@@ -101,7 +101,7 @@ class db {
 		global $functions;
 		
 		$this->queries[] = preg_replace('#\s+#', ' ', $query);
-		$result = @mysqli_query($query, $this->connection) or $error = mysqli_error();
+		$result = @mysqli_query($this->connection, $query) or $error = mysqli_error();
 		if ( isset($error) ) {
 			
 			if ( $return_error ) 

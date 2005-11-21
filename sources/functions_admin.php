@@ -473,86 +473,59 @@ class admin_functions {
 			}
 			
 			//
-			// Reload moderator perms for the affected forums
+			// Reload moderator perms
 			//
-			$this->reload_moderator_perms($forum_ids);
+			$this->reload_moderator_perms();
 			
 		}
 		
 	}
 	
 	/**
-	 * Reload moderator permissions for certain forums
+	 * Reload moderator permissions
 	 *
-	 * @param array $forum_ids Array of forum ID's to reload permissions for
+	 * Adjusts user levels and deletes moderator entries for deleted forums
 	 */
-	function reload_moderator_perms($forum_ids) {
+	function reload_moderator_perms() {
 		
 		global $db;
 		
 		//
-		// Get an array of forums that do exist
+		// Get an array of existing forums
 		//
-		$result = $db->query("SELECT id FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).")");
-		$existing_forums = array();
-		while ( $forumdata = $db->fetch_result($result) )
-			$existing_forums[] = $forumdata['id'];
+		$existing_forums = $this->get_forums_array();
+		$existing_forums = array_keys($existing_forums);
 		
-		//
-		// Get an array of forums that were deleted
-		//
-		$deleted_forums = array_diff($forum_ids, $existing_forums);
-		
-		//
-		// Get a list of all forums given in the parameter, including deleted forums
-		// Each user_id is an array key, if it is an empty array(), his moderator
-		// status needs to be unset. Only moderators are fetched, no admins.
-		//
-		$result = $db->query("SELECT m.forum_id, m.user_id FROM ".TABLE_PREFIX."moderators m, ".TABLE_PREFIX."members m2 WHERE m.user_id = m2.id AND m2.level = ".LEVEL_MOD);
-		$moderators = array();
-		while ( $moderatordata = $db->fetch_result($result) ) {
+		if ( count($existing_forums) ) {
 			
 			//
-			// New array for the moderator's forums
+			// Delete moderator entries from unexisting forums
 			//
-			if ( !array_key_exists($moderatordata['user_id'], $moderators) )
-				$moderators[$moderatordata['user_id']] = array();
+			$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id NOT IN(".join(', ', $existing_forums).")");
 			
 			//
-			// Only add this forum if it was not deleted
+			// Get all moderator user ID's
 			//
-			if ( !count($deleted_forums) || !in_array($moderatordata['forum_id'], $deleted_forums) )
-				$moderators[$moderatordata['user_id']][] = $moderatordata['forum_id'];
+			$result = $db->query("SELECT DISTINCT(user_id) as user_id FROM ".TABLE_PREFIX."moderators");
+			$all_moderators = array();
+			while ( $modsdata = $db->fetch_result($result) )
+				$all_moderators[] = $modsdata['user_id'];
+			
+			//
+			// Set user levels right
+			//
+			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 2 WHERE level = 1 AND id IN(".join(', ', $all_moderators).")");
+			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE level = 2 AND id NOT IN(".join(', ', $all_moderators).")");
+			
+		} else {
+			
+			//
+			// Remove all moderator permissions
+			//
+			$db->query("DELETE FROM ".TABLE_PREFIX."moderators");
+			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE level = 2");
 			
 		}
-		
-		//
-		// Unset moderator statuses for moderators which had their forums deleted
-		//
-		if ( count($deleted_forums) ) {
-			
-			$unset_moderators = array();
-			foreach ( $moderators as $user_id => $forums ) {
-				
-				if ( !count($forums) ) {
-					
-					$unset_moderators[] = $user_id;
-					unset($moderators[$user_id]); // so we have a clean array later on
-					
-				}
-				
-			}
-			if ( count($unset_moderators) )
-				$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE id IN(".join(', ', $unset_moderators).")");
-			$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id IN(".join(', ', $deleted_forums).")");
-			
-		}
-		
-		//
-		// Give users moderator status when they have been added as a moderator
-		//
-		if ( count($moderators) )
-			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 2 WHERE level = 1 AND id IN(".join(', ', array_keys($moderators)).")");
 		
 	}
 	

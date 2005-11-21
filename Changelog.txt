@@ -1,8 +1,9 @@
 $Header$
 
-UseBB 0.7 beta 3 Changelog
+UseBB 0.7 final Changelog
 ------------------------------
 
+- Added moderator control on forum edit form.
 - Fixed XSS vulnerability with $_SERVER['PHP_SELF'].
 - Fixed bug #805: General Error on iso-8859-8-i encoding.
 - Fixed bug #809: exec() has been disabled for security reasons.

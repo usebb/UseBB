@@ -191,6 +191,12 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 	}
 	
+#######################################
+#######################################
+#######################################
+#######################################
+#######################################
+
 } elseif ( ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) || $_GET['do'] == 'add' ) {
 	
 	$cats = $admin_functions->get_cats_array();
@@ -212,7 +218,42 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 		$default_auth = '0011222223';
 		
-		if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) ) {
+		$forum_moderators_checked = $forum_moderators_unknown = array();
+		
+		if ( !empty($_POST['moderators']) ) {
+			
+			$forum_moderators_unchecked = preg_split('#\s*,\s*#', unhtml(stripslashes($_POST['moderators'])));
+				
+			$result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members WHERE name IN ('".join("', '", $forum_moderators_unchecked)."') ORDER BY name ASC");
+			
+			while ( $modsdata = $db->fetch_result($result) )
+				$forum_moderators_checked[$modsdata['id']] = unhtml(stripslashes($modsdata['name']));
+			
+			$forum_moderators_unknown = array_diff($forum_moderators_unchecked, $forum_moderators_checked);			
+			$forum_moderators = join(', ', $forum_moderators_checked);
+			
+		} else {
+			
+			if ( $_GET['do'] == 'edit' ) {
+			
+				$forum_moderators = array();
+				
+				$result = $db->query("SELECT u.name FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."moderators m WHERE u.id = m.user_id AND m.forum_id = ".$_GET['id']." ORDER BY u.name ASC");
+				
+				while ( $modsdata = $db->fetch_result($result) )
+					$forum_moderators[] = unhtml(stripslashes($modsdata['name']));
+				
+				$forum_moderators = join(', ', $forum_moderators);
+				
+			} else {
+				
+				$forum_moderators = '';
+				
+			}
+			
+		}
+		
+		if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) && !count($forum_moderators_unknown) ) {
 			
 			$_POST['descr'] = ( !empty($_POST['descr']) ) ? $_POST['descr'] : '';
 			$_POST['auto_lock'] = ( !empty($_POST['auto_lock']) && valid_int($_POST['auto_lock']) ) ? $_POST['auto_lock'] : 0;
@@ -237,6 +278,11 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 					hide_mods_list = ".$_POST['hide_mods_list']."
 				WHERE id = ".$_GET['id']);
 				
+				//
+				// Remove moderator entries
+				//
+				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id = ".$_GET['id']);
+				
 			} else {
 				
 				$_POST['auth'] = '';
@@ -246,6 +292,19 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', '".$_POST['cat_id']."', '".$_POST['descr']."', ".$_POST['status'].", 0, 0, 0, 0, '".$_POST['auth']."', ".$_POST['auto_lock'].", ".$_POST['increase_post_count'].", ".$_POST['hide_mods_list'].")");
 				
 			}
+			
+			//
+			// Add moderator entries
+			//
+			if ( count($forum_moderators_checked) ) {
+				
+				$forum_moderators = array_keys($forum_moderators_checked);
+				
+				foreach ( $forum_moderators as $forum_moderator )
+					$db->query("INSERT INTO ".TABLE_PREFIX."moderators VALUES(".$_GET['id'].", ".$forum_moderator.")");
+				
+			}
+			$admin_functions->reload_moderator_perms();
 			
 			$functions->redirect('admin.php', array('act' => 'forums'));
 			
@@ -262,9 +321,13 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				if ( empty($_POST['name']) )
 					$errors[] = $lang['ForumsForumName'];
 				if ( empty($_POST['cat_id']) || !array_key_exists($_POST['cat_id'], $cats) )
-					$errors[] = $lang['ForumsCatName'];
+					$errors[] = $lang['ForumsCatName'];					
 				
-				$content .= '<p><strong>'.sprintf($lang['MissingFields'], join(', ', $errors)).'</strong></p>';
+				if ( count($errors) )
+					$content .= '<p><strong>'.sprintf($lang['MissingFields'], join(', ', $errors)).'</strong></p>';
+				
+				if ( count($forum_moderators_unknown) )
+					$content .= '<p><strong>'.sprintf($lang['ForumsModeratorsUnknown'], '<em>'.join(', ', $forum_moderators_unknown).'</em>').'</strong></p>';
 				
 			}
 			
@@ -322,6 +385,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsStatus'].'</td><td><input type="checkbox" name="status" id="status" value="1"'.$status_checked.' /><label for="status"> '.$lang['ForumsStatusOpen'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsAutoLock'].'</td><td><input type="text" size="11" name="auto_lock" maxlength="11" value="'.$_POST['auto_lock'].'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsIncreasePostCount'].'</td><td><input type="checkbox" name="increase_post_count" id="increase_post_count" value="1"'.$increase_post_count_checked.' /><label for="increase_post_count"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsModerators'].'</td><td><input type="text" size="30" name="moderators" id="moderators" value="'.$forum_moderators.'" /><br />'.$lang['ForumsModeratorsExplain'].'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsHideModsList'].'</td><td><input type="checkbox" name="hide_mods_list" id="hide_mods_list" value="1"'.$hide_mods_list_checked.' /><label for="hide_mods_list"> '.$lang['Yes'].'</label></td></tr>';
 				
 				$content .= '<tr><th colspan="2">'.$lang['ForumsAuth'].'</th></tr><tr><td colspan="2"><strong>'.$lang['ForumsAuthNote'].'</strong></td></tr>';

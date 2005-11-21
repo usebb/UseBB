@@ -250,24 +250,6 @@ class functions {
 				
 			}
 			
-		} else {
-			
-			if ( $this->get_config('debug') >= 2 ) {
-				
-				ob_start();
-				print_r(debug_backtrace());
-				$backtrace = ob_get_contents();
-				ob_end_clean();
-				$html_msg .= '
-			<p>Backtrace (<strong>sensitive information</strong>):<br /><textarea rows="10" cols="60" readonly="readonly">'.unhtml($backtrace).'</textarea></p>';
-				
-			} elseif ( is_array($this->board_config) ) {
-				
-				$html_msg .= '
-			<p>Enable debug mode level 2 to see a backtrace.</p>';
-				
-			}
-			
 		}
 		
 		$html_msg .= '

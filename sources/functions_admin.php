@@ -514,8 +514,16 @@ class admin_functions {
 			//
 			// Set user levels right
 			//
-			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 2 WHERE level = 1 AND id IN(".join(', ', $all_moderators).")");
-			$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE level = 2 AND id NOT IN(".join(', ', $all_moderators).")");
+			if ( count($all_moderators) ) {
+				
+				$db->query("UPDATE ".TABLE_PREFIX."members SET level = 2 WHERE level = 1 AND id IN(".join(', ', $all_moderators).")");
+				$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE level = 2 AND id NOT IN(".join(', ', $all_moderators).")");
+				
+			} else {
+				
+				$db->query("UPDATE ".TABLE_PREFIX."members SET level = 1 WHERE level = 2");
+				
+			}
 			
 		} else {
 			

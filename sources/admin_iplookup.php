@@ -74,7 +74,7 @@ if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
 	if ( !empty($_POST['search_usernames']) ) {
 		
-		$result = $db->query("SELECT DISTINCT(u.name) as name FROM usebb_members u, usebb_posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
+		$result = $db->query("SELECT DISTINCT(u.name) as name FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
 		
 		$usernames = array();
 		while ( $user = $db->fetch_result($result) )

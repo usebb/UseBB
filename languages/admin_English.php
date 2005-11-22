@@ -205,6 +205,7 @@ $lang['ForumsSortChangesApplied'] = 'Your changes to the sort ID\'s have been ap
 $lang['ForumsConfirmForumDelete'] = 'Confirm forum deletion';
 $lang['ForumsConfirmForumDeleteContent'] = 'Are you sure you want to delete the forum %s? This action is irreversible!';
 $lang['ForumsMoveContents'] = 'Move the contents of the forum to %s';
+$lang['ForumsMoveModerators'] = 'When moving contents, also move moderators.';
 $lang['ForumsDeleteContents'] = 'Delete the contents';
 $lang['ForumsEditingForum'] = 'Editing forum %s';
 $lang['ForumsGeneral'] = 'General settings';

@@ -168,6 +168,12 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				$db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['move_contents']." WHERE forum_id = ".$_GET['id']);
 				$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = ".$topics.", posts = ".$posts.", last_topic_id = ".$last_topic_id." WHERE id = ".$_POST['move_contents']);
 				
+				//
+				// Move moderators
+				//
+				if ( !empty($_POST['move_mods']) )
+					$db->query("UPDATE ".TABLE_PREFIX."moderators SET forum_id = ".$_POST['move_contents']." WHERE forum_id = ".$_GET['id']);
+				
 			}
 				
 			$admin_functions->delete_forums('id = '.$_GET['id'], false);
@@ -185,17 +191,13 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 			$content .= '<p>'.sprintf($lang['ForumsMoveContents'], $admin_functions->forum_select_box('move_contents', false, array($_GET['id']), '<option value="" class="strong">-'.$lang['ForumsDeleteContents'].'-</option>')).'</p>';
 			
+			$content .= '<p><input type="checkbox" name="move_mods" id="move_mods" value="1" /><label for="move_mods"> '.$lang['ForumsMoveModerators'].'</label></p>';
+			
 		}
 		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 		$content .= '</form>';
 		
 	}
-	
-#######################################
-#######################################
-#######################################
-#######################################
-#######################################
 
 } elseif ( ( $_GET['do'] == 'edit' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) || $_GET['do'] == 'add' ) {
 	

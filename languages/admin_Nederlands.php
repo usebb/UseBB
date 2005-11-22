@@ -204,6 +204,7 @@ $lang['ForumsSortChangesApplied'] = 'Je aanpassingen aan de sort-ID\'s werden op
 $lang['ForumsConfirmForumDelete'] = 'Bevestigen van verwijderen forum';
 $lang['ForumsConfirmForumDeleteContent'] = 'Ben je zeker dat je het forum %s wilt verwijderen? Deze actie is onomkeerbaar!';
 $lang['ForumsMoveContents'] = 'Verplaats de inhoud van het forum naar %s';
+$lang['ForumsMoveModerators'] = 'Bij het verplaatsen van inhoud, verplaats ook moderators.';
 $lang['ForumsDeleteContents'] = 'Verwijder de inhoud';
 $lang['ForumsEditingForum'] = 'Bewerk forum %s';
 $lang['ForumsGeneral'] = 'Algemene instellingen';

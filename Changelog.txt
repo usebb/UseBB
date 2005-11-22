@@ -5,6 +5,7 @@ UseBB 0.7 final Changelog
 
 - Added moderator control on forum edit form.
 - Added move moderators option on deleting forum.
+- Added username search on IP-address in ACP.
 - Fixed XSS vulnerability with $_SERVER['PHP_SELF'].
 - Fixed bug #805: General Error on iso-8859-8-i encoding.
 - Fixed bug #809: exec() has been disabled for security reasons.

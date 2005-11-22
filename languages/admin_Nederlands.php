@@ -225,9 +225,13 @@ $lang['Forums-auth7'] = 'Onderwerpen sluiten';
 $lang['Forums-auth8'] = 'Stickies plaatsen';
 $lang['Forums-auth9'] = 'HTML plaatsen (gevaarlijk)';
 
-$lang['IPLookupInfo'] = 'Voer een IP-adres in om de overeenkomstige hostnaam op te zoeken.';
+$lang['IPLookupSearchHostname'] = 'Zoek hostnaam';
+$lang['IPLookupSearchUsernames'] = 'Zoek gebruikersnaam';
 $lang['IPLookupResult'] = 'De hostnaam die overeenkomt met het IP-adres %s is %s.';
 $lang['IPLookupNotFound'] = 'Geen overeenkomstige hostnaam voor %s kon worden gevonden.';
+$lang['IPLookupUsernamesSingular'] = 'De gebruikersnaam %s werd door %s gebruikt om berichten te plaatsen.';
+$lang['IPLookupUsernamesPlural'] = 'De %d gebruikersnamen %s werden door %s gebruikt om berichten te plaatsen.';
+$lang['IPLookupUsernamesNotFound'] = 'Geen gebruikersnamen konden voor %s worden gevonden.';
 
 $lang['SQLToolboxWarningTitle'] = 'Belangrijke waarschuwing!';
 $lang['SQLToolboxWarningContent'] = 'Wees voorzichtig met de query-uitvoermogelijkheid. Het uitvoeren van ALTER, DELETE, TRUNCATE of andere soorten queries kunnen je forum onomkeerbaar beschadigen! Gebruik dit enkel wanneer je weet wat je doet.';

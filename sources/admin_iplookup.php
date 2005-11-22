@@ -43,18 +43,51 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '<p>'.$lang['IPLookupInfo'].'</p>';
+$ip_addr_format = '#^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$#';
 
-$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post"><p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" /> <input type="submit" value="'.$lang['Search'].'" /></p></form>';
+if ( !empty($_REQUEST['ip']) && preg_match($ip_addr_format, $_REQUEST['ip']) )
+	$ip_addr = $_REQUEST['ip'];
+elseif ( !empty($_POST['ip']) && preg_match($ip_addr_format, $_POST['ip']) )
+	$ip_addr = $_POST['ip'];
+else
+	$ip_addr = '';
 
-if ( !empty($_REQUEST['ip']) && preg_match('#^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$#', $_REQUEST['ip']) ) {
+$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post">';
+$content .= '<p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" value="'.$ip_addr.'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
+$content .= '<p><input type="checkbox" name="search_hostname" id="search_hostname" value="1" checked="checked" /><label for="search_hostname"> '.$lang['IPLookupSearchHostname'].'</label> <input type="checkbox" name="search_usernames" id="search_usernames" value="1" checked="checked" /><label for="search_usernames"> '.$lang['IPLookupSearchUsernames'].'</label></p>';
+$content .= '</form>';
+
+if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
-	$hostname = @gethostbyaddr($_REQUEST['ip']);
+	$content .= '<hr />';
 	
-	if ( !empty($hostname) && $_REQUEST['ip'] != $hostname )
-		$content .= '<p>'.sprintf($lang['IPLookupResult'], '<em>'.$_REQUEST['ip'].'</em>', '<em>'.$hostname.'</em>').'</p>';
-	else
-		$content .= '<p>'.sprintf($lang['IPLookupNotFound'], '<em>'.$_REQUEST['ip'].'</em>').'</p>';
+	if ( !empty($_POST['search_hostname']) ) {
+		
+		$hostname = @gethostbyaddr($ip_addr);
+		
+		if ( !empty($hostname) && $ip_addr != $hostname )
+			$content .= '<p>'.sprintf($lang['IPLookupResult'], '<em>'.$ip_addr.'</em>', '<em>'.$hostname.'</em>').'</p>';
+		else
+			$content .= '<p>'.sprintf($lang['IPLookupNotFound'], '<em>'.$ip_addr.'</em>').'</p>';
+		
+	}
+	
+	if ( !empty($_POST['search_usernames']) ) {
+		
+		$result = $db->query("SELECT DISTINCT(u.name) as name FROM usebb_members u, usebb_posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
+		
+		$usernames = array();
+		while ( $user = $db->fetch_result($result) )
+			$usernames[] = unhtml(stripslashes($user['name']));
+		
+		if ( count($usernames) === 1 )
+			$content .= '<p>'.sprintf($lang['IPLookupUsernamesSingular'], '<em>'.$usernames[0].'</em>', '<em>'.$ip_addr.'</em>').'</p>';
+		elseif ( count($usernames) > 1 )
+			$content .= '<p>'.sprintf($lang['IPLookupUsernamesPlural'], count($usernames), '<em>'.join(', ', $usernames).'</em>', '<em>'.$ip_addr.'</em>').'</p>';
+		else
+			$content .= '<p>'.sprintf($lang['IPLookupUsernamesNotFound'], '<em>'.$ip_addr.'</em>').'</p>';
+		
+	}
 	
 }
 

@@ -52,9 +52,20 @@ elseif ( !empty($_POST['ip']) && preg_match($ip_addr_format, $_POST['ip']) )
 else
 	$ip_addr = '';
 
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	
+	$search_hostname_checked = ( !empty($_POST['search_hostname']) ) ? ' checked="checked"' : '';
+	$search_usernames_checked = ( !empty($_POST['search_usernames']) ) ? ' checked="checked"' : '';
+	
+} else {
+	
+	$search_hostname_checked = $search_usernames_checked = ' checked="checked"';
+	
+}
+
 $content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post">';
 $content .= '<p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" value="'.$ip_addr.'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
-$content .= '<p><input type="checkbox" name="search_hostname" id="search_hostname" value="1" checked="checked" /><label for="search_hostname"> '.$lang['IPLookupSearchHostname'].'</label> <input type="checkbox" name="search_usernames" id="search_usernames" value="1" checked="checked" /><label for="search_usernames"> '.$lang['IPLookupSearchUsernames'].'</label></p>';
+$content .= '<p><input type="checkbox" name="search_hostname" id="search_hostname" value="1"'.$search_hostname_checked.' /><label for="search_hostname"> '.$lang['IPLookupSearchHostname'].'</label> <input type="checkbox" name="search_usernames" id="search_usernames" value="1"'.$search_usernames_checked.' /><label for="search_usernames"> '.$lang['IPLookupSearchUsernames'].'</label></p>';
 $content .= '</form>';
 
 if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {

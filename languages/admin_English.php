@@ -45,6 +45,8 @@ $lang['Category-various'] = 'Various';
 $lang['Item-iplookup'] = 'IP Address Lookup';
 $lang['Item-sqltoolbox'] = 'SQL Toolbox';
 $lang['Item-modules'] = 'ACP modules';
+$lang['Category-members'] = 'Members';
+$lang['Item-members'] = 'Edit Members';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -262,5 +264,10 @@ $lang['ModulesUploadFailed'] = 'Could not install the module %s. Copying failed.
 $lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver (try chmod 777).';
 $lang['ModulesConfirmModuleDelete'] = 'Confirm module deletion';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Are you sure you want to delete the module %s (%s)?';
+
+$lang['MembersSearchMember'] = 'Search member';
+$lang['MembersSearchMemberExplain'] = 'Username or displayed name';
+$lang['MembersSearchMemberNotFound'] = 'No members with username or displayed name %s found.';
+$lang['MembersSearchMemberList'] = 'The following members were found';
 
 ?>

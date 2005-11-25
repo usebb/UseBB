@@ -77,6 +77,9 @@ class admin_functions {
 			'categories',
 			'forums',
 		),
+		'members' => array(
+			'members',
+		),
 		'various' => array(
 			'iplookup',
 			'sqltoolbox',

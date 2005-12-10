@@ -145,7 +145,12 @@ select option {
 		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">
 ';
 
-if ( $_GET['step'] === 1 ) {
+if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_run') ) {
+	
+	$out .= '		<p>This installer has been run already. To enable it again, delete the <code>installer_run</code> config value from <code>config.php</code>.</p>
+';
+	
+} elseif ( $_GET['step'] === 1 ) {
 	
 	foreach ( array('db_type', 'db_server', 'db_username', 'db_passwd', 'db_dbname', 'db_prefix', 'admin_username', 'admin_email', 'admin_passwd1', 'admin_passwd2') as $key )
 		$_POST[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : '';
@@ -158,8 +163,11 @@ if ( $_GET['step'] === 1 ) {
 			'username' => $_POST['db_username'],
 			'passwd' => $_POST['db_passwd'],
 			'dbname' => $_POST['db_dbname'],
-			'prefix' => $_POST['db_prefix']
+			'prefix' => $_POST['db_prefix'],
+			'installer_run' => 1
 		));
+		
+		$_SESSION['installer_running'] = 1;
 		
 		$_SESSION['admin_username'] = $_POST['admin_username'];
 		$_SESSION['admin_email'] = $_POST['admin_email'];
@@ -295,13 +303,16 @@ if ( $_GET['step'] === 1 ) {
 			
 		}
 		
-		$queries[] = "INSERT INTO ".TABLE_PREFIX."members ( id, name, displayed_name, email, passwd, regdate, level, active, template, language, date_format ) VALUES ( NULL, '".$_SESSION['admin_username']."', '".$_SESSION['admin_username']."', '".$_SESSION['admin_email']."', '".$_SESSION['admin_passwd']."', ".time().", 3, 1, '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."' )";
+		$queries[] = "INSERT INTO ".TABLE_PREFIX."members ( id, name, displayed_name, email, passwd, regdate, level, active, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures ) VALUES ( NULL, '".$_SESSION['admin_username']."', '".$_SESSION['admin_username']."', '".$_SESSION['admin_email']."', '".$_SESSION['admin_passwd']."', ".time().", 3, 1, '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures')." )";
 		$queries[] = "UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'";
 		
 		foreach ( $queries as $query )
 			$db->query($query);
 		
+		unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
+		
 		$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/support/">support pages</a> at UseBB.net.</p>
+		<p class="important"><strong>Warning:</strong> please remove the <code>install/</code> directory to keep your forum safe.</p>
 		<p>Thanks for choosing UseBB!</p>
 ';
 		

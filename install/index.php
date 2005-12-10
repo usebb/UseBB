@@ -26,8 +26,6 @@
 define('INCLUDED', true);
 define('ROOT_PATH', '../');
 
-
-
 if ( !empty($_GET['step']) && intval($_GET['step']) < 2 )
 	define('NO_DB', true);
 
@@ -235,7 +233,7 @@ if ( $_GET['step'] === 1 ) {
 			</tr>
 		</table>
 		
-		<p>This will also create an admin account for your forum. Fill in the fields below. Note a username can only contain alphanumeric characters, _ and -. The password can only contain alphanumeric characters.</p>
+		<p>This will also create an admin account for your forum. Fill in the fields below. Note a username can only contain alphanumeric characters, spaces, _ and -. The password can only contain alphanumeric characters.</p>
 		
 		<table>
 			<tr>

@@ -36,9 +36,9 @@ if ( !defined('INCLUDED') )
 $templates['header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
 <rss version="2.0" xml:lang="{language_code}">
 	<channel>
-		<title><![CDATA[{board_name}]]></title>
+		<title>{board_name}</title>
 		<link>{board_url}</link>
-		<description><![CDATA[{board_descr}]]></description>
+		<description>{board_descr}</description>
 		<language>{language_code}</language>
 		<pubDate>{pubDate}</pubDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>

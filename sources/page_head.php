@@ -72,9 +72,9 @@ $template->add_global_vars(array(
 	//
 	// board settings
 	//
-	'board_name' => $functions->get_config('board_name'),
-	'board_descr' => $functions->get_config('board_descr'),
-	'board_keywords' => $functions->get_config('board_keywords'),
+	'board_name' => unhtml($functions->get_config('board_name')),
+	'board_descr' => unhtml($functions->get_config('board_descr')),
+	'board_keywords' => unhtml($functions->get_config('board_keywords')),
 	'board_url' => $functions->get_config('board_url'),
 	'admin_email' => $functions->get_config('admin_email'),
 	

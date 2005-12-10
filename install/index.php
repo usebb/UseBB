@@ -38,7 +38,7 @@ define('IS_INSTALLER', true);
 //
 require(ROOT_PATH.'sources/common.php');
 
-$lang = $functions->fetch_language();
+$lang = $functions->fetch_language('English');
 
 require(ROOT_PATH.'sources/functions_admin.php');
 

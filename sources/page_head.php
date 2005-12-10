@@ -46,7 +46,7 @@ if ( !defined('INCLUDED') )
 //
 // Fetch the language array
 //
-$lang = $functions->fetch_language('English');
+$lang = $functions->fetch_language();
 
 $link_bar = array();
 if ( $functions->get_user_level() == LEVEL_ADMIN )

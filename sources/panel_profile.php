@@ -78,7 +78,7 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	
 	if ( !empty($_POST['avatar']) ) {
 			
-			$avatar_type = 1;
+		$avatar_type = 1;
 		$avatar_remote = $_POST['avatar'];
 		
 	} else {
@@ -219,47 +219,7 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	foreach ( $session->sess_info['user_info'] as $key => $val )
 		$user_info[$key] = ( isset($_POST[$key]) ) ? $_POST[$key] : $val;
 	
-	//
-	// Create the birthday fields
-	//	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		
-		$birthday_year = $_POST['birthday_year'];
-		$birthday_month = $_POST['birthday_month'];
-		$birthday_day = $_POST['birthday_day'];
-		
-	} else {
-		
-		$birthday = $session->sess_info['user_info']['birthday'];
-		$birthday_year = ( $birthday ) ? intval(substr($birthday, 0, 4)) : '';
-		$birthday_month = ( $birthday ) ? intval(substr($birthday, 4, 2)) : 0;
-		$birthday_day = ( $birthday ) ? intval(substr($birthday, 6, 2)) : 0;
-		
-	}
-	$birthday_month_input = '<select name="birthday_month"><option value="">'.$lang['Month'].'</option>';
-	for ( $i = 1; $i <= 12; $i++ ) {
-		
-		$selected = ( $birthday_month == $i ) ? ' selected="selected"' : '';
-		$birthday_month_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
-		
-	}
-	$birthday_month_input .= '</select>';
-	$birthday_day_input = '<select name="birthday_day"><option value="">'.$lang['Day'].'</option>';
-	for ( $i = 1; $i <= 31; $i++ ) {
-		
-		$selected = ( $birthday_day == $i ) ? ' selected="selected"' : '';
-		$birthday_day_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
-		
-	}
-	$birthday_day_input .= '</select>';
-	$birthday_year_input = '<select name="birthday_year"><option value="">'.$lang['Year'].'</option>';
-	for ( $i = intval(date('Y')); $i >= 1900; $i-- ) {
-		
-		$selected = ( $birthday_year == $i ) ? ' selected="selected"' : '';
-		$birthday_year_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
-		
-	}
-	$birthday_year_input .= '</select>';
+	list($birthday_year_input, $birthday_month_input, $birthday_day_input) = $functions->birthday_input_fields($session->sess_info['user_info']['birthday']);
 	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',

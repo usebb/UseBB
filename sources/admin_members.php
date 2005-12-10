@@ -43,8 +43,6 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '';
-
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
 	$result = $db->query("SELECT * FROM usebb_members WHERE id = ".$_GET['id']);
@@ -55,15 +53,272 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		//
 		// User exists
 		//
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		
+		$username_taken = $displayed_name_taken = false;
+		
+		//
+		// Check if this username already exists
+		//
+		if ( !empty($_POST['name']) ) {
 			
+			$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE ( name = '".$_POST['name']."' OR displayed_name = '".$_POST['name']."' ) AND id <> ".$_GET['id']);
+			$out = $db->fetch_result($result);
+			if ( $out['count'] )
+				$username_taken = true;
 			
+		}
+		
+		//
+		// Check if this displayed name already exists
+		//
+		if ( !empty($_POST['displayed_name']) ) {
+			
+			$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE ( name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' ) AND id <> ".$_GET['id']);
+			$out = $db->fetch_result($result);
+			if ( $out['count'] )
+				$displayed_name_taken = true;
+			
+		}
+		
+		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['posts']) && valid_int($_POST['posts']) ) {
+			
+			if ( !empty($_POST['avatar']) ) {
+					
+				$avatar_type = 1;
+				$avatar_remote = $_POST['avatar'];
+				
+			} else {
+				
+				$avatar_type = 0;
+				$avatar_remote = '';
+				
+			}
+			
+			if ( !empty($_POST['birthday_month']) && valid_int($_POST['birthday_month']) && !empty($_POST['birthday_day']) && valid_int($_POST['birthday_day']) && !empty($_POST['birthday_year']) && valid_int($_POST['birthday_year']) )
+				$birthday = sprintf('%04d%02d%02d', $_POST['birthday_year'], $_POST['birthday_month'], $_POST['birthday_day']);
+			else
+				$birthday = 0;
+			
+			$_POST['level'] = ( !empty($_POST['level']) && in_array($_POST['level'], array(LEVEL_ADMIN, LEVEL_MOD, LEVEL_MEMBER)) ) ? $_POST['level'] : $memberdata['level'];
+			$_POST['banned'] = ( !empty($_POST['banned']) ) ? 1 : 0;
+			
+			$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_language_packs()) ) ? $_POST['language'] : $memberdata['language'];
+			$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_template_sets()) ) ? $_POST['template'] : $memberdata['template'];
+			$_POST['email_show'] = ( !empty($_POST['email_show']) ) ? 1 : 0;
+			$_POST['last_login_show'] = ( !empty($_POST['last_login_show']) ) ? 1 : 0;
+			$_POST['hide_from_online_list'] = ( !empty($_POST['hide_from_online_list']) ) ? 1 : 0;
+			$_POST['date_format'] = ( !empty($_POST['date_format']) ) ? $_POST['date_format'] : $memberdata['date_format'];
+			$_POST['timezone'] = ( valid_int($_POST['timezone']) && $functions->timezone_handler('check_existance', $_POST['timezone']) ) ? $_POST['timezone'] : $memberdata['timezone'];
+			$_POST['dst'] = ( !empty($_POST['dst']) ) ? 1 : 0;
+			$_POST['quickreply'] = ( !empty($_POST['quickreply']) ) ? 1 : 0;
+			$_POST['return_to_topic'] = ( !empty($_POST['return_to_topic']) ) ? 1 : 0;
+			$_POST['target_blank'] = ( !empty($_POST['target_blank']) ) ? 1 : 0;
+			$_POST['hide_avatars'] = ( !empty($_POST['hide_avatars']) ) ? 1 : 0;
+			$_POST['hide_userinfo'] = ( !empty($_POST['hide_userinfo']) ) ? 1 : 0;
+			$_POST['hide_signatures'] = ( !empty($_POST['hide_signatures']) ) ? 1 : 0;
+			$_POST['auto_subscribe_topic'] = ( !empty($_POST['auto_subscribe_topic']) ) ? 1 : 0;
+			$_POST['auto_subscribe_reply'] = ( !empty($_POST['auto_subscribe_reply']) ) ? 1 : 0;
+			
+			$result = $db->query("UPDATE ".TABLE_PREFIX."members SET
+				name = '".$_POST['name']."',
+				displayed_name = '".$_POST['displayed_name']."',
+				real_name = '".$_POST['real_name']."',
+				avatar_type = ".$avatar_type.",
+				avatar_remote = '".$avatar_remote."',
+				birthday = '".$birthday."',
+				location = '".$_POST['location']."',
+				website = '".$_POST['website']."',
+				occupation = '".$_POST['occupation']."',
+				interests = '".$_POST['interests']."',
+				signature = '".$_POST['signature']."',
+				level = ".$_POST['level'].",
+				rank = '".$_POST['rank']."',
+				banned = ".$_POST['banned'].",
+				banned_reason = '".$_POST['banned_reason']."',
+				posts = ".$_POST['posts'].",
+				email = '".$_POST['email']."',
+				msnm  = '".$_POST['msnm']."',
+				yahoom = '".$_POST['yahoom']."',
+				aim = '".$_POST['aim']."',
+				icq = '".$_POST['icq']."',
+				jabber = '".$_POST['jabber']."',
+				skype = '".$_POST['skype']."',
+				language = '".$_POST['language']."',
+				template = '".$_POST['template']."',
+				email_show = ".$_POST['email_show'].",
+				last_login_show = ".$_POST['last_login_show'].",
+				hide_from_online_list = ".$_POST['hide_from_online_list'].",
+				date_format = '".$_POST['date_format']."',
+				timezone = '".$_POST['timezone']."',
+				dst = ".$_POST['dst'].",
+				enable_quickreply = ".$_POST['quickreply'].",
+				return_to_topic_after_posting = ".$_POST['return_to_topic'].",
+				auto_subscribe_topic = ".$_POST['auto_subscribe_topic'].",
+				auto_subscribe_reply = ".$_POST['auto_subscribe_reply'].",
+				target_blank = ".$_POST['target_blank'].",
+				hide_avatars = ".$_POST['hide_avatars'].",
+				hide_userinfo = ".$_POST['hide_userinfo'].",
+				hide_signatures = ".$_POST['hide_signatures']."
+			WHERE id = ".$memberdata['id']);
+			
+			if ( !empty($_POST['passwd1']) )
+				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['passwd1'])."' WHERE id = ".$memberdata['id']);
+			
+			$functions->redirect('admin.php', array('act' => 'members'));
 			
 		} else {
 			
+			$content = '<h2>'.sprintf($lang['MembersEditingMember'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</h2>';
+			$content .= '<p>'.$lang['MembersEditingMemberInfo'].'</p>';
 			
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+				
+				$errors = array();
+				if ( empty($_POST['name']) || !preg_match(USER_PREG, $_POST['name']) )
+					$errors[] = $lang['Username'];
+				if ( empty($_POST['displayed_name']) )
+					$errors[] = $lang['DisplayedName'];
+				if ( ( !empty($_POST['passwd1']) || !empty($_POST['passwd2']) ) && ( !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] ) )
+					$errors[] = $lang['Password'];
+				if ( !( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) )
+					$errors[] = $lang['Birthday'];
+				if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
+					$errors[] = $lang['Email'];
+				if ( empty($_POST['posts']) || !valid_int($_POST['posts']) )
+					$errors[] = $lang['Posts'];
+				
+				//
+				// Show an error message
+				//
+				if ( count($errors) )
+					$content .= '<p><strong>'.sprintf($lang['MissingFields'], join(', ', $errors)).'</strong></p>';
+				
+				if ( $username_taken )
+					$content .= '<p><strong>'.sprintf($lang['MembersEditingMemberUsernameExists'], '<em>'.unhtml(stripslashes($_POST['name'])).'</em>').'</strong></p>';
+				
+				if ( $displayed_name_taken )
+					$content .= '<p><strong>'.sprintf($lang['MembersEditingMemberDisplayedNameExists'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>').'</strong></p>';
+				
+				if ( !empty($_POST['passwd1']) && strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') )
+					$content .= '<p><strong>'.sprintf($lang['StringTooShort'], $lang['Password'], $functions->get_config('passwd_min_length')).'</strong></p>';
+				
+			}
+			
+			foreach ( $memberdata as $id => $val )
+				$_POST[$id] = ( isset($_POST[$id]) ) ? $_POST[$id] : $val;
+			
+			list($birthday_year_input, $birthday_month_input, $birthday_day_input) = $functions->birthday_input_fields($_POST['birthday']);
+			
+			$level_input = '<select name="level">';
+			$selected = ( $_POST['level'] == 3 ) ? ' selected="selected"' : '';
+			$level_input .= '<option value="3"'.$selected.'>'.$lang['Administrator'].'</option>';
+			$selected = ( $_POST['level'] != 3 ) ? ' selected="selected"' : '';
+			$level_input .= '<option value="'.$_POST['level'].'"'.$selected.'>'.$lang['Member'].'/'.$lang['Moderator'].'</option>';
+			$level_input .= '</select>';
+			
+			$available_languages = $functions->get_language_packs();
+			$language_input = '<select name="language">';
+			foreach ( $available_languages as $single_language ) {
+				
+				$selected = ( $_POST['language'] == $single_language ) ? ' selected="selected"' : '';
+				$language_input .= '<option value="'.$single_language.'"'.$selected.'>'.$single_language.'</option>';
+				
+			}
+			$language_input .= '</select>';
+			
+			$available_templates = $functions->get_template_sets();
+			$template_input = '<select name="template">';
+			foreach ( $available_templates as $single_template ) {
+				
+				$selected = ( $_POST['template'] == $single_template ) ? ' selected="selected"' : '';
+				$template_input .= '<option value="'.$single_template.'"'.$selected.'>'.$single_template.'</option>';
+				
+			}
+			$template_input .= '</select>';
+			
+			$email_show_checked = ( $_POST['email_show'] ) ? ' checked="checked"' : '';
+			$last_login_show_checked = ( $_POST['last_login_show'] ) ? ' checked="checked"' : '';
+			$hide_from_online_list_checked = ( $_POST['hide_from_online_list'] ) ? ' checked="checked"' : '';
+		
+			$timezone_input = 'UTC/GMT <select name="timezone">';
+			foreach ( $functions->timezone_handler('get_zones') as $key => $val ) {
+				
+				$selected = ( $_POST['timezone'] == $key ) ? ' selected="selected"' : '';
+				$timezone_input .= '<option value="'.$key.'"'.$selected.'>'.$val.'</option>';
+				
+			}
+			$timezone_input .= '</select>';
+		
+			$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
+			$dst_checked = ( $_POST['dst'] ) ? ' checked="checked"' : '';
+			$quickreply_checked = ( $_POST['enable_quickreply'] ) ? ' checked="checked"' : '';
+			$return_to_topic_checked = ( $_POST['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
+			$target_blank_checked = ( $_POST['target_blank'] ) ? ' checked="checked"' : '';
+			$hide_avatars_checked = ( $_POST['hide_avatars'] ) ? ' checked="checked"' : '';
+			$hide_userinfo_checked = ( $_POST['hide_userinfo'] ) ? ' checked="checked"' : '';
+			$hide_signatures_checked = ( $_POST['hide_signatures'] ) ? ' checked="checked"' : '';
+			$auto_subscribe_topic_checked = ( $_POST['auto_subscribe_topic'] ) ? ' checked="checked"' : '';
+			$auto_subscribe_reply_checked = ( $_POST['auto_subscribe_reply'] ) ? ' checked="checked"' : '';
+			
+			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $_GET['id'])).'" method="post">';
+			$content .= '<table id="adminmemberstable">';
+			
+			$content .= '<tr><th colspan="2">'.$lang['EditProfile'].'</th></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['DisplayedName'].' <small>*</small></td><td><input type="text" size="30" name="displayed_name" maxlength="255" value="'.unhtml(stripslashes($_POST['displayed_name'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Password'].'</td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].'</td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['RealName'].'</td><td><input type="text" size="30" name="real_name" maxlength="255" value="'.unhtml(stripslashes($_POST['real_name'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['AvatarURL'].'</td><td><input type="text" size="30" name="avatar" maxlength="255" value="'.unhtml(stripslashes($_POST['avatar_remote'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Birthday'].'</td><td>'.$birthday_month_input.' '.$birthday_day_input.' '.$birthday_year_input.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Location'].'</td><td><input type="text" size="30" name="location" maxlength="255" value="'.unhtml(stripslashes($_POST['location'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Website'].'</td><td><input type="text" size="30" name="website" maxlength="255" value="'.unhtml(stripslashes($_POST['website'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Occupation'].'</td><td><input type="text" size="30" name="occupation" maxlength="255" value="'.unhtml(stripslashes($_POST['occupation'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Interests'].'</td><td><input type="text" size="30" name="interests" maxlength="255" value="'.unhtml(stripslashes($_POST['interests'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Signature'].'</td><td><textarea rows="5" cols="30" name="signature">'.unhtml(stripslashes($_POST['signature'])).'</textarea></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Level'].'</td><td>'.$level_input.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Rank'].'</td><td><input type="text" size="30" name="rank" maxlength="255" value="'.unhtml(stripslashes($_POST['rank'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><input type="checkbox" name="banned" id="banned" value="1"'.$banned_checked.' /><label for="banned"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Posts'].' <small>*</small></td><td><input type="text" size="11" name="posts" maxlength="11" value="'.unhtml(stripslashes($_POST['posts'])).'" /></td></tr>';
+			$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
+			
+			$content .= '<tr><th colspan="2">'.$lang['ContactInfo'].'</th></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['MSNM'].'</td><td><input type="text" size="30" name="msnm" maxlength="255" value="'.unhtml(stripslashes($_POST['msnm'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['YahooM'].'</td><td><input type="text" size="30" name="yahoom" maxlength="255" value="'.unhtml(stripslashes($_POST['yahoom'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['AIM'].'</td><td><input type="text" size="30" name="aim" maxlength="255" value="'.unhtml(stripslashes($_POST['aim'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ICQ'].'</td><td><input type="text" size="30" name="icq" maxlength="255" value="'.unhtml(stripslashes($_POST['icq'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Jabber'].'</td><td><input type="text" size="30" name="jabber" maxlength="255" value="'.unhtml(stripslashes($_POST['jabber'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Skype'].'</td><td><input type="text" size="30" name="skype" maxlength="255" value="'.unhtml(stripslashes($_POST['skype'])).'" /></td></tr>';
+			
+			$content .= '<tr><th colspan="2">'.$lang['EditOptions'].'</th></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Language'].'</td><td>'.$language_input.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Template'].'</td><td>'.$template_input.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['PublicEmail'].'</td><td><input type="checkbox" name="email_show" id="email_show" value="1"'.$email_show_checked.' /><label for="email_show"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['PublicLastLogin'].'</td><td><input type="checkbox" name="last_login_show" id="last_login_show" value="1"'.$last_login_show_checked.' /><label for="last_login_show"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideFromOnlineList'].'</td><td><input type="checkbox" name="hide_from_online_list" id="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /><label for="hide_from_online_list"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['DateFormat'].'</td><td><input type="text" name="date_format" size="25" maxlength="255" value="'.$_POST['date_format'].'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Timezone'].'</td><td>'.$timezone_input.'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['DST'].'</td><td><input type="checkbox" name="dst" id="dst" value="1"'.$dst_checked.' /><label for="dst"> '.$lang['Enabled'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['QuickReply'].'</td><td><input type="checkbox" name="quickreply" id="quickreply" value="1"'.$quickreply_checked.' /><label for="quickreply"> '.$lang['Enabled'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ReturnToTopicAfterPosting'].'</td><td><input type="checkbox" name="return_to_topic" id="return_to_topic" value="1"'.$return_to_topic_checked.' /><label for="return_to_topic"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle" rowspan="2">'.$lang['AutoSubscribe'].'</td><td><input type="checkbox" name="auto_subscribe_topic" id="auto_subscribe_topic" value="1"'.$auto_subscribe_topic_checked.' /><label for="auto_subscribe_topic"> '.$lang['OnPostingNewTopics'].'</label></td></tr>';
+				$content .= '<tr><td><input type="checkbox" name="auto_subscribe_reply" id="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /><label for="auto_subscribe_reply"> '.$lang['OnPostingNewReplies'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['OpenLinksNewWindow'].'</td><td><input type="checkbox" name="target_blank" id="target_blank" value="1"'.$target_blank_checked.' /><label for="target_blank"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllAvatars'].'</td><td><input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideUserinfo'].'</td><td><input type="checkbox" name="hide_userinfo" id="hide_userinfo" value="1"'.$hide_userinfo_checked.' /><label for="hide_userinfo"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllSignatures'].'</td><td><input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label></td></tr>';
+			
+			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+			
+			$template->set_js_onload("set_focus('name')");
 			
 		}
+		
+	} else {
+		
+		$functions->redirect('admin.php', array('act' => 'members'));
 		
 	}
 	
@@ -72,6 +327,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	$search_member = ( !empty($_POST['search_member']) ) ? $_POST['search_member'] : '';
 	
 	$content = '<h2>'.$lang['MembersSearchMember'].'</h2>';
+	$content .= '<p>'.$lang['MembersSearchMemberInfo'].'</p>';
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members')).'" method="post">';
 	$content .= '<p>'.$lang['MembersSearchMemberExplain'].': <input type="text" name="search_member" id="search_member" size="20" maxlength="255" value="'.unhtml(stripslashes($search_member)).'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
 	$content .= '</form>';

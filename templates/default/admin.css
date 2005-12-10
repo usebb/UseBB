@@ -52,8 +52,10 @@
 #adminmenu ul li ul a {
 	display: block;
 }
-#adminmenu ul li.selected {
+#adminmenu ul li.selected, #adminmenu ul li.selected a {
 	font-weight: bold;
+	color: #555 !important;
+	text-decoration: none !important;
 }
 h1#admintitle {
 	color: #EBD6AD;
@@ -109,7 +111,7 @@ h1#admintitle {
 	border-right: 2px solid silver;
 	padding-right: 4px;
 }
-#adminconfigtable, #admincatstable, #adminforumstable, #adminmodulestable {
+#adminconfigtable, #admincatstable, #adminforumstable, #adminmodulestable, #adminmemberstable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
@@ -118,11 +120,11 @@ h1#admintitle {
 	width: 100%;
 	clear: right;
 }
-#adminconfigtable th, #adminconfigtable td, #admincatstable th, #admincatstable td, #adminforumstable th, #adminforumstable td, #adminmodulestable th, #adminmodulestable td {
+#adminconfigtable th, #adminconfigtable td, #admincatstable th, #admincatstable td, #adminforumstable th, #adminforumstable td, #adminmodulestable th, #adminmodulestable td, #adminmemberstable th, #adminmemberstable td {
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-#adminconfigtable th, #admincatstable th, #adminforumstable th, #adminmodulestable th {
+#adminconfigtable th, #admincatstable th, #adminforumstable th, #adminmodulestable th, #adminmemberstable th {
 	font-weight: bold;
 	padding: 4px 6px 4px 6px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -134,11 +136,11 @@ h1#admintitle {
 #adminconfigtable th {
 	border-left: 5px solid silver;
 }
-#adminconfigtable td, #admincatstable td, #adminforumstable td, #adminmodulestable td {
+#adminconfigtable td, #admincatstable td, #adminforumstable td, #adminmodulestable td, #adminmemberstable td {
 	padding: 6px;
 	text-align: left;
 }
-#adminconfigtable td.fieldtitle, #admincatstable td.fieldtitle, #adminforumstable td.fieldtitle {
+#adminconfigtable td.fieldtitle, #admincatstable td.fieldtitle, #adminforumstable td.fieldtitle, #adminmemberstable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
 	width: 35%;
@@ -155,7 +157,7 @@ h1#admintitle {
 	background-color: #E8E8E8;
 	text-align: center;
 }
-#adminconfigtable td.submit, #admincatstable td.submit, #adminforumstable td.submit {
+#adminconfigtable td.submit, #admincatstable td.submit, #adminforumstable td.submit, #adminmemberstable td.submit {
 	font-weight: bold;
 	text-align: center;
 	background-color: #E8E8E8;

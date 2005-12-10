@@ -266,8 +266,15 @@ $lang['ModulesConfirmModuleDelete'] = 'Confirm module deletion';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Are you sure you want to delete the module %s (%s)?';
 
 $lang['MembersSearchMember'] = 'Search member';
+$lang['MembersSearchMemberInfo'] = 'Enter a (part of a) username or displayed name to edit.';
 $lang['MembersSearchMemberExplain'] = 'Username or displayed name';
 $lang['MembersSearchMemberNotFound'] = 'No members with username or displayed name %s found.';
 $lang['MembersSearchMemberList'] = 'The following members were found';
+$lang['MembersEditingMember'] = 'Editing member %s';
+$lang['MembersEditingMemberInfo'] = 'Update the user\'s info and submit the form. Fields marked with an asterisk (*) are required.';
+$lang['MembersEditingMemberUsernameExists'] = 'The username %s already exists as a username or displayed name.';
+$lang['MembersEditingMemberDisplayedNameExists'] = 'The displayed name %s already exists as a username or displayed name.';
+$lang['MembersEditingMemberBanned'] = 'Banned';
+$lang['MembersEditingMemberBannedReason'] = 'Reason for ban';
 
 ?>

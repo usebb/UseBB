@@ -45,6 +45,8 @@ $lang['Category-various'] = 'Diversen';
 $lang['Item-iplookup'] = 'IP-adres opzoeken';
 $lang['Item-sqltoolbox'] = 'SQL-werkset';
 $lang['Item-modules'] = 'ACP-modules';
+$lang['Category-members'] = 'Leden';
+$lang['Item-members'] = 'Leden Bewerken';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -261,5 +263,17 @@ $lang['ModulesUploadFailed'] = 'De module %s kon niet ge&iuml;nstalleerd worden.
 $lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver (probeer chmod 777).';
 $lang['ModulesConfirmModuleDelete'] = 'Bevestigen van verwijderen module';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Ben je zeker dat je de module %s (%s) wilt verwijderen?';
+
+$lang['MembersSearchMember'] = 'Lid zoeken';
+$lang['MembersSearchMemberInfo'] = 'Voer een (deel van een) gebruikersnaam of weergegeven naam in om te bewerken.';
+$lang['MembersSearchMemberExplain'] = 'Gebruikersnaam of weergegeven naam';
+$lang['MembersSearchMemberNotFound'] = 'Geen leden met gebruikersnaam of weergegeven naam %s gevonden.';
+$lang['MembersSearchMemberList'] = 'De volgende leden werden gevonden';
+$lang['MembersEditingMember'] = 'Bewerk lid %s';
+$lang['MembersEditingMemberInfo'] = 'Pas de informatie van het lid aan en verzend het formulier. Velden met een asterisk (*) zijn verplicht.';
+$lang['MembersEditingMemberUsernameExists'] = 'De gebruikersnaam %s bestaat reeds als een gebruikersnaam of weergegeven naam.';
+$lang['MembersEditingMemberDisplayedNameExists'] = 'De weergegeven naam %s bestaat reeds als een gebruikersnaam of weergegeven naam.';
+$lang['MembersEditingMemberBanned'] = 'Geband';
+$lang['MembersEditingMemberBannedReason'] = 'Reden voor ban';
 
 ?>

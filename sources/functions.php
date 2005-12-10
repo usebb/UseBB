@@ -286,7 +286,7 @@ class functions {
 			
 		}
 		
-		if ( $original ) {
+		if ( defined('IS_INSTALLER') || $original ) {
 			
 			//
 			// Return unedited config
@@ -504,7 +504,7 @@ class functions {
 		
 		global $session;
 		
-		if ( $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
+		if ( !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
 			//
 			// Friendly URL's

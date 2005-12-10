@@ -3,6 +3,7 @@ $Header$
 UseBB 0.7 final Changelog
 ------------------------------
 
+- Added new installer system.
 - Added to ACP: edit member feature.
 - Added to ACP: moderator control on forum edit form.
 - Added to ACP: move moderators option on deleting forum.
@@ -12,6 +13,7 @@ UseBB 0.7 final Changelog
 - Fixed bug #809: exec() has been disabled for security reasons.
 - Fixed malfunctioning mysqli driver.
 - Fixed non unhtml'ed board name and description.
+- Some fixes to make intern installer work.
 - mod_rewrite URLs now also match \.html?\W*.
 - Allow spaces in usernames (not transformed to underscores).
 - Allow HTML in ranks.

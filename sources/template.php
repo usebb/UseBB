@@ -338,7 +338,7 @@ class template {
 			'text_direction' => ( !empty($lang['text_direction']) ) ? $lang['text_direction'] : 'ltr',
 			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
 			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
-			'acp_css_head_link' => ( $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
+			'acp_css_head_link' => ( !defined('IS_INSTALLER') && $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
 			'js_onload' => ''
 		));
 		
@@ -400,7 +400,7 @@ class template {
 			trigger_error('Unwanted output was triggered. Please do not use echo(), print(), or any other statements that produce direct output, but use $template->add_raw_content() instead.');
 		ob_end_clean();
 		
-		echo $this->body;
+		echo trim($this->body);
 		
 	}
 	

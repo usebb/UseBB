@@ -77,6 +77,9 @@ class db {
 	 */
 	function connect($config) {
 		
+		if ( defined('NO_DB') )
+			return;
+		
 		//
 		// Connect to server
 		//

@@ -46,7 +46,7 @@ if ( !defined('INCLUDED') )
 //
 // Security check
 //
-if ( $functions->get_user_level() < LEVEL_ADMIN )
+if ( !defined('IS_INSTALLER') && $functions->get_user_level() < LEVEL_ADMIN )
 	trigger_error('You can not load the admin functions class while the user is not an admin!');
 
 /**

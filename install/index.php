@@ -163,8 +163,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			'username' => $_POST['db_username'],
 			'passwd' => $_POST['db_passwd'],
 			'dbname' => $_POST['db_dbname'],
-			'prefix' => $_POST['db_prefix'],
-			'installer_run' => 1
+			'prefix' => $_POST['db_prefix']
 		));
 		
 		$_SESSION['installer_running'] = 1;
@@ -308,6 +307,10 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		
 		foreach ( $queries as $query )
 			$db->query($query);
+		
+		$admin_functions->set_config(array(
+			'installer_run' => 1
+		));
 		
 		unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
 		

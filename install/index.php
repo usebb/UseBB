@@ -26,7 +26,7 @@
 define('INCLUDED', true);
 define('ROOT_PATH', '../');
 
-if ( !empty($_GET['step']) && intval($_GET['step']) < 2 )
+if ( empty($_GET['step']) || intval($_GET['step']) < 2 )
 	define('NO_DB', true);
 
 define('IS_INSTALLER', true);

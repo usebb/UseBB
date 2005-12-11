@@ -83,12 +83,12 @@ class db {
 		//
 		// Connect to server
 		//
-		$this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysqli_error());
+		$this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysqli_error($this->connection));
 		
 		//
 		// Select database
 		//
-		@mysqli_select_db($this->connection, $config['dbname']) or trigger_error('SQL: '.mysqli_error());
+		@mysqli_select_db($this->connection, $config['dbname']) or trigger_error('SQL: '.mysqli_error($this->connection));
 		
 	}
 	
@@ -104,7 +104,7 @@ class db {
 		global $functions;
 		
 		$this->queries[] = preg_replace('#\s+#', ' ', $query);
-		$result = @mysqli_query($this->connection, $query) or $error = mysqli_error();
+		$result = @mysqli_query($this->connection, $query) or $error = mysqli_error($this->connection);
 		if ( isset($error) ) {
 			
 			if ( $return_error ) 
@@ -125,7 +125,7 @@ class db {
 	 */
 	function fetch_result($result) {
 		
-		return mysqli_fetch_array($result, MYSQL_ASSOC);
+		return mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 	}
 	

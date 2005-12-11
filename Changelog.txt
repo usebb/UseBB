@@ -18,7 +18,7 @@ UseBB 0.7 final Changelog
 - mod_rewrite URLs now also match \.html?\W*.
 - Allow spaces in usernames (not transformed to underscores).
 - Allow HTML in ranks.
-- Don't focus on user name when box when filled in from session.
+- Don't focus on user name when filled in from session.
 - Minor template improvements.
 
 UseBB 0.7 beta 2 Changelog

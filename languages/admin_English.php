@@ -129,6 +129,7 @@ $lang['ConfigBoard-enable_rss'] = 'Enable RSS feed';
 $lang['ConfigBoard-enable_stafflist'] = 'Enable staff list';
 $lang['ConfigBoard-enable_stats'] = 'Enable statistics page';
 $lang['ConfigBoard-friendly_urls'] = 'Enable friendly URL\'s';
+$lang['ConfigBoard-friendly_urls-info'] = 'Requires Apache and mod_rewrite.';
 $lang['ConfigBoard-guests_can_access_board'] = 'Guests can access the board';
 $lang['ConfigBoard-guests_can_view_profiles'] = 'Guests can view member profiles';
 $lang['ConfigBoard-hide_avatars'] = 'Hide all avatars';

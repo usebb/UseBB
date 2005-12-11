@@ -303,7 +303,8 @@ if ( $filled_in && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_arra
 	foreach ( $onoff_settings as $key ) {
 		
 		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label></td></tr>';
+		$extrainfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<br />'.$lang['ConfigBoard-'.$key.'-info'] : '';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label>'.$extrainfo.'</td></tr>';
 		
 	}
 	

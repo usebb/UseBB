@@ -129,6 +129,7 @@ $lang['ConfigBoard-enable_rss'] = 'RSS-feed inschakelen';
 $lang['ConfigBoard-enable_stafflist'] = 'Staflijst inschakelen';
 $lang['ConfigBoard-enable_stats'] = 'Statistiekenpagina inschakelen';
 $lang['ConfigBoard-friendly_urls'] = 'Vriendelijke URL\'s inschakelen';
+$lang['ConfigBoard-friendly_urls-info'] = 'Vereist Apache en mod_rewrite.';
 $lang['ConfigBoard-guests_can_access_board'] = 'Gasten kunnen het forum bekijken';
 $lang['ConfigBoard-guests_can_view_profiles'] = 'Gasten kunnen profielen bekijken';
 $lang['ConfigBoard-hide_avatars'] = 'Verberg alle avatars';

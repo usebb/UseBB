@@ -12,7 +12,7 @@ and PHP 5.1.1 with MySQL 4.1.15 using the mysqli driver.
 
 You might want to use install/index.php to quickly set up your board. Otherwise, you can follow these directions:
 
-1. Execute install/schemas/mysql.sql and install/usebb.sql on your database. Currently, UseBB needs 12 tables.
+1. Execute install/schemas/mysql.sql and install/usebb.sql on your database.
 2. Rename config.php-dist to config.php and edit to your preferences.
 	You might want to use http://usebb.sourceforge.net/docs/doku.php?id=configuration:config.php_guide
 3. Upload all the files to your host.

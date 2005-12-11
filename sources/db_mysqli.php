@@ -43,7 +43,7 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( !extension_loaded('mysqli') )
+if ( !extension_loaded('mysqli') && !defined('NO_DB') )
 	trigger_error('Unable to load module for database server "mysqli": PHP mysqli extension not available!');
 
 @ini_set('mysql.trace_mode', '0');

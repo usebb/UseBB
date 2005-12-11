@@ -161,7 +161,7 @@ if ( file_exists($config_file) ) {
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '0.7-CVS');
+define('USEBB_VERSION', '0.7');
 /**
  * Regular expression for matching usernames.
  */

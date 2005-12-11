@@ -275,5 +275,7 @@ $lang['MembersEditingMemberUsernameExists'] = 'De gebruikersnaam %s bestaat reed
 $lang['MembersEditingMemberDisplayedNameExists'] = 'De weergegeven naam %s bestaat reeds als een gebruikersnaam of weergegeven naam.';
 $lang['MembersEditingMemberBanned'] = 'Geband';
 $lang['MembersEditingMemberBannedReason'] = 'Reden voor ban';
+$lang['MembersEditingMemberCantChangeOwnLevel'] = 'Je kan je eigen niveau niet aanpassen.';
+$lang['MembersEditingMemberCantBanSelf'] = 'Je kan jezelf niet bannen.';
 
 ?>

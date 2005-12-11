@@ -276,5 +276,7 @@ $lang['MembersEditingMemberUsernameExists'] = 'The username %s already exists as
 $lang['MembersEditingMemberDisplayedNameExists'] = 'The displayed name %s already exists as a username or displayed name.';
 $lang['MembersEditingMemberBanned'] = 'Banned';
 $lang['MembersEditingMemberBannedReason'] = 'Reason for ban';
+$lang['MembersEditingMemberCantChangeOwnLevel'] = 'You can\'t change your own level.';
+$lang['MembersEditingMemberCantBanSelf'] = 'You can\'t ban yourself.';
 
 ?>

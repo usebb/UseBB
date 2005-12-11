@@ -80,7 +80,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 		}
 		
-		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['posts']) && valid_int($_POST['posts']) ) {
+		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && isset($_POST['posts']) && valid_int($_POST['posts']) ) {
 			
 			if ( !empty($_POST['avatar']) ) {
 					
@@ -99,8 +99,9 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			else
 				$birthday = 0;
 			
-			$_POST['level'] = ( !empty($_POST['level']) && in_array($_POST['level'], array(LEVEL_ADMIN, LEVEL_MOD, LEVEL_MEMBER)) ) ? $_POST['level'] : $memberdata['level'];
-			$_POST['banned'] = ( !empty($_POST['banned']) ) ? 1 : 0;
+			$_POST['level'] = ( !empty($_POST['level']) && in_array($_POST['level'], array(LEVEL_ADMIN, LEVEL_MOD, LEVEL_MEMBER)) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['level'] : $memberdata['level'];
+			$_POST['banned'] = ( !empty($_POST['banned']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? 1 : 0;
+			$_POST['banned_reason'] = ( !empty($_POST['banned_reason']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['banned_reason'] : '';
 			
 			$_POST['language'] = ( !empty($_POST['language']) && in_array($_POST['language'], $functions->get_language_packs()) ) ? $_POST['language'] : $memberdata['language'];
 			$_POST['template'] = ( !empty($_POST['template']) && in_array($_POST['template'], $functions->get_template_sets()) ) ? $_POST['template'] : $memberdata['template'];
@@ -164,6 +165,9 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			if ( !empty($_POST['passwd1']) )
 				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['passwd1'])."' WHERE id = ".$memberdata['id']);
 			
+			if ( $_POST['level'] < $memberdata['level'] )
+				$admin_functions->reload_moderator_perms();
+			
 			$functions->redirect('admin.php', array('act' => 'members'));
 			
 		} else {
@@ -209,12 +213,25 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			list($birthday_year_input, $birthday_month_input, $birthday_day_input) = $functions->birthday_input_fields($_POST['birthday']);
 			
-			$level_input = '<select name="level">';
-			$selected = ( $_POST['level'] == 3 ) ? ' selected="selected"' : '';
-			$level_input .= '<option value="3"'.$selected.'>'.$lang['Administrator'].'</option>';
-			$selected = ( $_POST['level'] != 3 ) ? ' selected="selected"' : '';
-			$level_input .= '<option value="'.$_POST['level'].'"'.$selected.'>'.$lang['Member'].'/'.$lang['Moderator'].'</option>';
-			$level_input .= '</select>';
+			if ( $memberdata['id'] == $session->sess_info['user_id'] ) {
+				
+				$level_input = $lang['MembersEditingMemberCantChangeOwnLevel'];
+				
+				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td rowspan="2">'.$lang['MembersEditingMemberCantBanSelf'].'</td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td></tr>';
+				
+			} else {
+				
+				$level_input = '<select name="level">';
+				$selected = ( $_POST['level'] == 3 ) ? ' selected="selected"' : '';
+				$level_input .= '<option value="3"'.$selected.'>'.$lang['Administrator'].'</option>';
+				$selected = ( $_POST['level'] != 3 ) ? ' selected="selected"' : '';
+				$level_input .= '<option value="1"'.$selected.'>'.$lang['Member'].'/'.$lang['Moderator'].'</option>';
+				$level_input .= '</select>';
+				
+				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
+				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><input type="checkbox" name="banned" id="banned" value="1"'.$banned_checked.' /><label for="banned"> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+				
+			}
 			
 			$available_languages = $functions->get_language_packs();
 			$language_input = '<select name="language">';
@@ -248,8 +265,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 			}
 			$timezone_input .= '</select>';
-		
-			$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
+			
 			$dst_checked = ( $_POST['dst'] ) ? ' checked="checked"' : '';
 			$quickreply_checked = ( $_POST['enable_quickreply'] ) ? ' checked="checked"' : '';
 			$return_to_topic_checked = ( $_POST['return_to_topic_after_posting'] ) ? ' checked="checked"' : '';
@@ -278,8 +294,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['Signature'].'</td><td><textarea rows="5" cols="30" name="signature">'.unhtml(stripslashes($_POST['signature'])).'</textarea></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Level'].'</td><td>'.$level_input.'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Rank'].'</td><td><input type="text" size="30" name="rank" maxlength="255" value="'.unhtml(stripslashes($_POST['rank'])).'" /></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><input type="checkbox" name="banned" id="banned" value="1"'.$banned_checked.' /><label for="banned"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+				$content .= $banned_input;
 				$content .= '<tr><td class="fieldtitle">'.$lang['Posts'].' <small>*</small></td><td><input type="text" size="11" name="posts" maxlength="11" value="'.unhtml(stripslashes($_POST['posts'])).'" /></td></tr>';
 			$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
 			

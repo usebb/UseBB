@@ -487,7 +487,9 @@ class admin_functions {
 	/**
 	 * Reload moderator permissions
 	 *
-	 * Adjusts user levels and deletes moderator entries for deleted forums
+	 * - Deletes moderator entries for unexisting forums
+	 * - Set user level for moderators to 2 when set to 1
+	 * - Set user level for non-moderators to 1 when set to 2
 	 */
 	function reload_moderator_perms() {
 		

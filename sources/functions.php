@@ -164,6 +164,15 @@ class functions {
 			
 		}
 		
+		//
+		// Ignore these warnings
+		//
+		$ignore_warnings = array(
+			'ini_set() has been disabled for security reasons',
+		);
+		if ( in_array($error, $ignore_warnings) )
+			return;
+		
 		$errtypes = array(
 			1 => 'E_ERROR',
 			2 => 'E_WARNING',

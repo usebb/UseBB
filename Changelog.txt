@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 0.8 beta 1 Changelog
+------------------------------
+
+- Fixed bug #868: ini_set() disabled for security.
+
 UseBB 0.7 final Changelog
 ------------------------------
 

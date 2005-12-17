@@ -54,6 +54,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		// User exists
 		//
 		
+		if ( !empty($_POST['name']) )
+			$_POST['name'] = preg_replace('#\s+#', ' ', $_POST['name']);
+		
+		if ( !empty($_POST['displayed_name']) )
+			$_POST['displayed_name'] = preg_replace('#\s+#', ' ', $_POST['displayed_name']);
+		
 		$username_taken = $displayed_name_taken = false;
 		
 		//

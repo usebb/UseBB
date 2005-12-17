@@ -118,7 +118,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$username = unhtml(stripslashes($profiledata['displayed_name']));
 			if ( $functions->get_user_level() == LEVEL_ADMIN || $own_profile )
-				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
+				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>) - <a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $_GET['id'])).'">'.$lang['EditThisMember'].'</a>';
 			
 			switch ( $profiledata['level'] ) {
 				

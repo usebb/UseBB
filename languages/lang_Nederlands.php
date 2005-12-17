@@ -455,6 +455,7 @@ $lang['StringTooLong'] = '%s is te lang, maximaal %d karakters zijn toegestaan.'
 $lang['Upload'] = 'Uploaden';
 $lang['RegistrationsDisabled'] = 'Registraties uitgeschakeld';
 $lang['PostFormShortcut'] = 'Druk op Alt+S (Cmd+S op Apple) om dit formulier snel te verzenden.';
+$lang['EditThisMember'] = 'Bewerk dit lid';
 
 //
 // Date translations

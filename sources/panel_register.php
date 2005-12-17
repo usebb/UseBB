@@ -66,9 +66,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	
 	$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 	
-	$username_taken = false;
-	$username_banned = false;
-	$email_banned = false;
+	$username_taken = $username_banned = $email_taken = $email_banned = false;
 	if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ) {
 		
 		//
@@ -111,11 +109,23 @@ if ( $functions->get_config('disable_registrations') ) {
 		
 		if ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
 			
+			//
+			// Check if this email already exists
+			//
+			if ( !$functions->get_config('allow_duplicate_emails') ) {
+				
+				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE email = '".$_POST['email']."'");
+				$out = $db->fetch_result($result);
+				if ( $out['count'] )
+					$email_taken = true;
+				
+			}
+			
 			foreach ( $banned['emails'] as $banned_email ) {
 				
 				$banned_email = preg_quote($banned_email, '#');
 				$banned_email = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_email);
-				if ( preg_match('#^'.$banned_email.'$#', $_POST['email']) )
+				if ( preg_match('#^'.$banned_email.'$#i', $_POST['email']) )
 					$email_banned = true;
 				
 			}
@@ -127,7 +137,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	// If all necessary information has been posted and the user accepted the terms
 	//
-	if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+	if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 		
 		//
 		// Generate the activation key if necessary
@@ -195,23 +205,30 @@ if ( $functions->get_config('disable_registrations') ) {
 			if ( $username_taken ) {
 				
 				$template->parse('msgbox', 'global', array(
-					'box_title' => $lang['Error'],
+					'box_title' => $lang['Note'],
 					'content' => sprintf($lang['DisplayedNameTaken'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 				));
 				
 			} elseif ( $username_banned ) {
 				
 				$template->parse('msgbox', 'global', array(
-					'box_title' => $lang['Error'],
+					'box_title' => $lang['Note'],
 					'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 				));
 				
 			}
 			
-			if ( $email_banned ) {
+			if ( $email_taken ) {
 				
 				$template->parse('msgbox', 'global', array(
-					'box_title' => $lang['Error'],
+					'box_title' => $lang['Note'],
+					'content' => sprintf($lang['EmailTaken'], $_POST['email'])
+				));
+				
+			} elseif ( $email_banned ) {
+				
+				$template->parse('msgbox', 'global', array(
+					'box_title' => $lang['Note'],
 					'content' => sprintf($lang['BannedEmail'], $_POST['email'])
 				));
 				

@@ -456,6 +456,7 @@ $lang['Upload'] = 'Uploaden';
 $lang['RegistrationsDisabled'] = 'Registraties uitgeschakeld';
 $lang['PostFormShortcut'] = 'Druk op Alt+S (Cmd+S op Apple) om dit formulier snel te verzenden.';
 $lang['EditThisMember'] = 'Bewerk dit lid';
+$lang['EmailTaken'] = 'Het e-mailadres %s wordt reeds op dit forum gebruikt. Gelieve een andere te kiezen.';
 
 //
 // Date translations

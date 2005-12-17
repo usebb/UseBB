@@ -43,38 +43,78 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$displayed_name_taken = false;
-$displayed_name_banned = false;
-if ( !empty($_POST['displayed_name']) ) {
+if ( !empty($_POST['displayed_name']) )
+	$_POST['displayed_name'] = preg_replace('#\s+#', ' ', $_POST['displayed_name']);
+
+$displayed_name_taken = $displayed_name_banned = $email_taken = $email_banned = false;
+if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ) {
 	
 	//
-	// Get banned usernames
+	// Get banned displayed_names and e-mail addresses
 	//
-	$result = $db->query("SELECT name FROM ".TABLE_PREFIX."bans WHERE name <> ''");
-	$banned_usernames = array();
-	while ( $out = $db->fetch_result($result) )
-		$banned_usernames[] = $out['name'];
-	
-	//
-	// Check if this displayed name already exists
-	//
-	$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE ( name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' ) AND id <> ".$session->sess_info['user_id']);
-	$out = $db->fetch_result($result);
-	if ( $out['count'] )
-		$displayed_name_taken = true;
-	
-	foreach ( $banned_usernames as $banned_username ) {
+	$result = $db->query("SELECT name, email FROM ".TABLE_PREFIX."bans WHERE name <> '' OR email <> ''");
+	$banned = array('displayed_names' => array(), 'emails' => array());
+	while ( $out = $db->fetch_result($result) ) {
 		
-		$banned_username = preg_quote($banned_username, '#');
-		$banned_username = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_username);
-		if ( preg_match('#^'.$banned_username.'$#i', $_POST['displayed_name']) )
-			$displayed_name_banned = true;
+		//
+		// Store all the displayed_names and e-mail addresses in an array
+		//
+		if ( !empty($out['name']) )
+			$banned['displayed_names'][] = $out['name'];
+		if ( !empty($out['email']) )
+			$banned['emails'][] = $out['email'];
+		
+	}
+	
+	if ( !empty($_POST['displayed_name']) ) {
+		
+		//
+		// Check if this displayed_name already exists
+		//
+		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' AND id <> ".$session->sess_info['user_id']);
+		$out = $db->fetch_result($result);
+		if ( $out['count'] )
+			$displayed_name_taken = true;
+		
+		foreach ( $banned['displayed_names'] as $banned_displayed_name ) {
+			
+			$banned_displayed_name = preg_quote($banned_displayed_name, '#');
+			$banned_displayed_name = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_displayed_name);
+			if ( preg_match('#^'.$banned_displayed_name.'$#i', $_POST['displayed_name']) )
+				$displayed_name_banned = true;
+			
+		}
+		
+	}
+	
+	if ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+		
+		//
+		// Check if this email already exists
+		//
+		if ( !$functions->get_config('allow_duplicate_emails') ) {
+			
+			$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE email = '".$_POST['email']."' AND id <> ".$session->sess_info['user_id']);
+			$out = $db->fetch_result($result);
+			if ( $out['count'] )
+				$email_taken = true;
+			
+		}
+		
+		foreach ( $banned['emails'] as $banned_email ) {
+			
+			$banned_email = preg_quote($banned_email, '#');
+			$banned_email = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_email);
+			if ( preg_match('#^'.$banned_email.'$#i', $_POST['email']) )
+				$email_banned = true;
+			
+		}
 		
 	}
 	
 }
 
-if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_name_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
 			
@@ -167,15 +207,31 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 		if ( $displayed_name_taken ) {
 			
 			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
+				'box_title' => $lang['Note'],
 				'content' => sprintf($lang['DisplayedNameTaken'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>')
 			));
 			
 		} elseif ( $displayed_name_banned ) {
 			
 			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
+				'box_title' => $lang['Note'],
 				'content' => sprintf($lang['BannedUsername'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>')
+			));
+			
+		}
+		
+		if ( $email_taken ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Note'],
+				'content' => sprintf($lang['EmailTaken'], $_POST['email'])
+			));
+			
+		} elseif ( $email_banned ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Note'],
+				'content' => sprintf($lang['BannedEmail'], $_POST['email'])
 			));
 			
 		}

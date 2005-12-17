@@ -374,17 +374,15 @@ class functions {
 					
 				} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
 					
-					//
-					// Set these to 1000 when the value is missing from the config
-					//
 					$set_to = 1000;
 					
 				} elseif ( $setting == 'search_nonindex_words_min_length' ) {
 					
-					//
-					// Set this to 3 when the value is missing from the config
-					//
 					$set_to = 3;
+					
+				} elseif ( $setting == 'allow_duplicate_emails' ) {
+					
+					$set_to = true;
 					
 				} else {
 					

@@ -456,5 +456,6 @@ $lang['Upload'] = 'Upload';
 $lang['RegistrationsDisabled'] = 'Registrations disabled';
 $lang['PostFormShortcut'] = 'Press Alt+S (Cmd+S on Apple) to quickly send this form.';
 $lang['EditThisMember'] = 'Edit this member';
+$lang['EmailTaken'] = 'The e-mail address %s is already being used on this board. Please choose an other address.';
 
 ?>

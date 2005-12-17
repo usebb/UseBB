@@ -68,6 +68,7 @@ $conf = array();
 $conf['active_topics_count'] = 25;
 $conf['admin_email'] = 'example@example.net';
 $conf['allow_multi_sess'] = 1;
+$conf['allow_duplicate_emails'] = 0;
 $conf['avatars_force_width'] = 65;
 $conf['avatars_force_height'] = 65;
 $conf['board_closed'] = 0;

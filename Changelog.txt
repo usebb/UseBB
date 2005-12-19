@@ -8,6 +8,8 @@ UseBB 0.8 beta 1 Changelog
 - Added edit member shortcut on profile.
 - Fixed bug #868: ini_set() disabled for security.
 - Fixed some bad handling of input on member editing.
+- Fixed ACP module handling to allow _-. in short names.
+- Better module overview.
 
 UseBB 0.7 final Changelog
 ------------------------------

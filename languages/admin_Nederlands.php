@@ -201,6 +201,7 @@ $lang['ForumsAutoLock'] = 'Onderwerpen automatisch sluiten na x antwoorden';
 $lang['ForumsIncreasePostCount'] = 'Gebruikers\' berichtenteller aanpassen';
 $lang['ForumsModerators'] = 'Moderators';
 $lang['ForumsModeratorsExplain'] = 'Gebruikersnamen (niet weergegeven namen), gescheiden door komma\'s. Hoofdletterongevoelig.';
+$lang['ForumsModeratorsUnknown'] = 'Onbekende leden: %s.';
 $lang['ForumsHideModsList'] = 'Lijst met moderators verbergen';
 $lang['ForumsSortID'] = 'Sort.-ID';
 $lang['ForumsMissingFields'] = 'Enkele vereiste velden ontbreken. Gelieve deze in te vullen.';

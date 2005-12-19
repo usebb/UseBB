@@ -10,10 +10,29 @@ if ( defined('RUN_MODULE') ) {
 	
 	class usebb_module {
 		
-		function load_translation($name) {
+		function load_translation($name, $section) {
 			
-			require(ROOT_PATH.'languages/lang_'.$name.'.php');
+			if ( file_exists(ROOT_PATH.'languages/'.$section.'_'.$name.'.php') )
+				require(ROOT_PATH.'languages/'.$section.'_'.$name.'.php');
+			else
+				$lang = array();
 			return $lang;
+			
+		}
+		
+		function list_keys($name, $section) {
+			
+			$English = array_keys($this->load_translation('English', $section));
+			$translation = array_keys($this->load_translation($name, $section));
+			$changes = array_diff($English, $translation);
+			sort($changes);
+			
+			$out = '<h2>Missing keys in <em>'.$section.'_'.$name.'.php</em>: '.count($changes).'</h2><ul>';
+			foreach ( $changes as $key )
+				$out .= '<li>'.$key.'</li>';
+			$out .= '</ul>';
+			
+			return $out;
 			
 		}
 		
@@ -26,16 +45,9 @@ if ( defined('RUN_MODULE') ) {
 			
 			if ( !empty($_GET['check']) && in_array($_GET['check'], $functions->get_language_packs()) ) {
 				
-				$English = array_keys($this->load_translation('English'));
-				$translation = array_keys($this->load_translation($_GET['check']));
-				$changes = array_diff($English, $translation);
-				sort($changes);
-				
-				$out = '<h2>Missing keys in <em>'.$_GET['check'].'</em>: '.count($changes).'</h2><ul>';
-				foreach ( $changes as $key )
-					$out .= '<li>'.$key.'</li>';
-				$out .= '</ul>';
-				
+				$out = '';
+				$out .= $this->list_keys($_GET['check'], 'lang');
+				$out .= $this->list_keys($_GET['check'], 'admin');
 				return $out;
 				
 			} else {

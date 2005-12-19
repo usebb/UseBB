@@ -76,7 +76,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		// Include page
 		//
 		$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
-		if ( preg_match('#^mod_([A-Za-z0-9]+)$#', $_GET['act'], $module_name) && array_key_exists($module_name[1], $admin_functions->acp_modules) ) {
+		if ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $_GET['act'], $module_name) && array_key_exists($module_name[1], $admin_functions->acp_modules) ) {
 			
 			//
 			// ACP module

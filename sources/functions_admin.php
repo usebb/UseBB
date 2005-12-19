@@ -242,7 +242,7 @@ class admin_functions {
 			foreach ( $this->acp[$category_name] as $item ) {
 				
 				$selected = ( $location == $item ) ? ' class="selected"' : '';
-				$name = ( preg_match('#^mod_([A-Za-z0-9]+)$#', $item, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$item];
+				$name = ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $item, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$item];
 				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$name.'</a></li>';
 				
 			}
@@ -268,7 +268,7 @@ class admin_functions {
 		if ( empty($content) )
 			$functions->redirect('admin.php');
 		
-		$name = ( preg_match('#^mod_([A-Za-z0-9]+)$#', $location, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$location];
+		$name = ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $location, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$location];
 		
 		if ( $location == 'index' )
 			$template->set_page_title($lang['ACP']);

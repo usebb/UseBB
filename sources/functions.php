@@ -157,7 +157,7 @@ class functions {
 			
 			$ignore_warnings = array(
 				'var: Deprecated. Please use the public/private/protected modifiers',
-				'Trying to get property of non-object',
+				'Trying to get property of non-object'
 			);
 			if ( in_array($error, $ignore_warnings) )
 				return;
@@ -169,6 +169,8 @@ class functions {
 		//
 		$ignore_warnings = array(
 			'ini_set() has been disabled for security reasons',
+			'ini_get() has been disabled for security reasons',
+			'exec() has been disabled for security reasons'
 		);
 		if ( in_array($error, $ignore_warnings) )
 			return;
@@ -1743,7 +1745,7 @@ class functions {
 			
 		} else {
 			
-			if ( file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
+			if ( 0 && file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
 				
 				//
 				// We use the Linux method of getting the 3 average load
@@ -1759,7 +1761,7 @@ class functions {
 				
 			}
 			
-			if ( !$found_load && !in_array('exec', preg_split('#\s*,\s*#', @ini_get('disable_functions'))) ) {
+			if ( !$found_load ) {
 				
 				//
 				// Another way is running the uptime command and using its

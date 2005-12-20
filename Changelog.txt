@@ -10,6 +10,7 @@ UseBB 0.8 beta 1 Changelog
 - Fixed some bad handling of input on member editing.
 - Fixed ACP module handling to allow _-. in short names.
 - Better module overview.
+- Don't warn about disabled ini_get() and exec().
 
 UseBB 0.7 final Changelog
 ------------------------------

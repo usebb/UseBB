@@ -155,13 +155,13 @@ $lang['SendpwdActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verst
 $lang['SendpwdNotActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s, tesamen met informatie over het heractiveren van je account.';
 $lang['ForumIndex'] = 'Forum-index';
 $lang['MissingFields'] = 'De volgende verplichte velden ontbreken of zijn foutief ingevuld: %s.';
-$lang['TermsOfUseContent'] = 'Je aanvaard dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
+$lang['TermsOfUseContent'] = 'Je aanvaardt dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
 
 Je gaat ermee akkoord geen misbruikende, offensieve, obscene of onaanvaardbare inhoud of inhoud dat bij wet verboden is te plaatsen op dit discussieforum. Indien je dit wel doet kan dit resulteren in het bannen van je account of zelfs het verwijderen ervan, en je internetprovider eventueel op de hoogte gebracht van je gedrag. Daarvoor wordt je IP-adres opgeslagen bij elk bericht dat je plaatst. Je gaat er ook mee akkoord dat administrators en moderators het recht hebben je onderwerpen te bewerken, verwijderen, verplaatsen of sluiten wanneer ze denken dat dit nodig is.
 
 Alle informatie die je op dit discussieforum plaatst wordt opgeslagen in een databasesysteem voor later gebruik. De forumadministrators zullen deze informatie niet openbaar maken zonder je toestemming of juridische verplichting. Hoewel, noch de webmaster, administrators of moderators noch het UseBB Team kan aansprakelijk gesteld worden voor het lekken van enige informatie als gevolg van een hack.
 
-Dit discussieforum gebruikt cookies voor de opslag van tijdelijke informatie benodigd voor het forumsysteem op je eigen computer. Een cookie kan, indien gewenst, ook je gebruikers-ID en wachtwoord in een geencrypteerde vorm opslaan om het automatisch inloggen mogelijk te maken. Indien je geen cookies wilt laten opslaa, raadpleeg de handleiding van je browser.
+Dit discussieforum gebruikt cookies voor de opslag van tijdelijke informatie benodigd voor het forumsysteem op je eigen computer. Een cookie kan, indien gewenst, ook je gebruikers-ID en wachtwoord in een geencrypteerde vorm opslaan om het automatisch inloggen mogelijk te maken. Indien je geen cookies wilt laten opslaan, raadpleeg de handleiding van je browser.
 
 Door het klikken op de "Aanvaarden"-knop geef je aan gebonden te zijn aan deze gebruikersovereenkomst.';
 $lang['TermsOfUse'] = 'Gebruikersovereenkomst';
@@ -404,7 +404,7 @@ $lang['OnPostingNewTopics'] = 'Bij het plaatsen van onderwerpen';
 $lang['OnPostingNewReplies'] = 'Bij het plaatsen van antwoorden';
 $lang['UnsubscribeSelected'] = 'Geselecteerde uitschrijven';
 $lang['SelectedTopicsUnsubscribed'] = 'Je bent nu van de geslecteerde onderwerpen uitgeschreven.';
-$lang['Birthday'] = 'Verjaardag';
+$lang['Birthday'] = 'Geboortedatum';
 $lang['Age'] = 'Leeftijd';
 $lang['Month'] = 'Maand';
 $lang['Day'] = 'Dag';

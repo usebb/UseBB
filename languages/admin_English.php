@@ -47,6 +47,7 @@ $lang['Item-sqltoolbox'] = 'SQL Toolbox';
 $lang['Item-modules'] = 'ACP modules';
 $lang['Category-members'] = 'Members';
 $lang['Item-members'] = 'Edit Members';
+$lang['Item-delete_members'] = 'Delete Members';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -280,5 +281,13 @@ $lang['MembersEditingMemberBanned'] = 'Banned';
 $lang['MembersEditingMemberBannedReason'] = 'Reason for ban';
 $lang['MembersEditingMemberCantChangeOwnLevel'] = 'You can\'t change your own level.';
 $lang['MembersEditingMemberCantBanSelf'] = 'You can\'t ban yourself.';
+
+$lang['DeleteMembersSearchMember'] = 'Search member';
+$lang['DeleteMembersSearchMemberInfo'] = 'Enter a (part of a) username or displayed name to delete.';
+$lang['DeleteMembersSearchMemberExplain'] = 'Username or displayed name';
+$lang['DeleteMembersSearchMemberNotFound'] = 'No members with username or displayed name %s found.';
+$lang['DeleteMembersSearchMemberList'] = 'The following members were found';
+$lang['DeleteMembersConfirmMemberDelete'] = 'Confirm member deletion';
+$lang['DeleteMembersConfirmMemberDeleteContent'] = 'Are you sure you want to delete the member %s? This is irreversible!';
 
 ?>

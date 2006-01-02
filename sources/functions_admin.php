@@ -79,6 +79,7 @@ class admin_functions {
 		),
 		'members' => array(
 			'members',
+			'delete_members',
 		),
 		'various' => array(
 			'iplookup',

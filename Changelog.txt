@@ -3,6 +3,7 @@ $Header$
 UseBB 0.8 Changelog
 ------------------------------
 
+- Added to ACP: delete members.
 - Added translation helper module.
 - Added allow_duplicate_emails config value.
 - Added edit member shortcut on profile.

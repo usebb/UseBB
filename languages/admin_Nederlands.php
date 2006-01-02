@@ -47,6 +47,7 @@ $lang['Item-sqltoolbox'] = 'SQL-werkset';
 $lang['Item-modules'] = 'ACP-modules';
 $lang['Category-members'] = 'Leden';
 $lang['Item-members'] = 'Leden Bewerken';
+$lang['Item-delete_members'] = 'Leden Verwijderen';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -280,5 +281,13 @@ $lang['MembersEditingMemberBanned'] = 'Geband';
 $lang['MembersEditingMemberBannedReason'] = 'Reden voor ban';
 $lang['MembersEditingMemberCantChangeOwnLevel'] = 'Je kan je eigen niveau niet aanpassen.';
 $lang['MembersEditingMemberCantBanSelf'] = 'Je kan jezelf niet bannen.';
+
+$lang['DeleteMembersSearchMember'] = 'Lid zoeken';
+$lang['DeleteMembersSearchMemberInfo'] = 'Voer een (deel van een) gebruikersnaam of weergegeven naam in om te verwijderen.';
+$lang['DeleteMembersSearchMemberExplain'] = 'Gebruikersnaam of weergegeven naam';
+$lang['DeleteMembersSearchMemberNotFound'] = 'Geen leden met gebruikersnaam of weergegeven naam %s gevonden.';
+$lang['DeleteMembersSearchMemberList'] = 'De volgende leden werden gevonden';
+$lang['DeleteMembersConfirmMemberDelete'] = 'Bevestigen van verwijderen lid';
+$lang['DeleteMembersConfirmMemberDeleteContent'] = 'Ben je zeker dat je het lid %s wilt verwijderen? Dit is onomkeerbaar!';
 
 ?>

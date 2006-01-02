@@ -45,7 +45,7 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT * FROM usebb_members WHERE id = ".$_GET['id']);
+	$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {
@@ -54,12 +54,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			if ( !empty($_POST['delete']) ) {
 					
-				$db->query("UPDATE usebb_posts SET poster_id = 0, poster_guest = '".$memberdata['displayed_name']."' WHERE poster_id = ".$_GET['id']);
-				$db->query("UPDATE usebb_posts SET post_edit_by = 0 WHERE post_edit_by = ".$_GET['id']);
-				$db->query("DELETE FROM usebb_subscriptions WHERE user_id = ".$_GET['id']);
-				$db->query("DELETE FROM usebb_moderators WHERE user_id = ".$_GET['id']);
-				$db->query("DELETE FROM usebb_members WHERE id = ".$_GET['id']);
-				$db->query("DELETE FROM usebb_sessions WHERE user_id = ".$_GET['id']);
+				$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['displayed_name']."' WHERE poster_id = ".$_GET['id']);
+				$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by = ".$_GET['id']);
+				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$_GET['id']);
+				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$_GET['id']);
+				$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = ".$_GET['id']);
 				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'members'");
 				
 			}
@@ -95,7 +95,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	if ( !empty($search_member) ) {
 		
 		$search_member_sql = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['search_member']);
-		$result = $db->query("SELECT id, name, displayed_name FROM usebb_members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
+		$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
 		$matching_members = array();
 		while ( $memberdata = $db->fetch_result($result) )
 			$matching_members[$memberdata['id']] = array(unhtml(stripslashes($memberdata['name'])), unhtml(stripslashes($memberdata['displayed_name'])));

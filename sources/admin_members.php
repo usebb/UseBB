@@ -45,7 +45,7 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT * FROM usebb_members WHERE id = ".$_GET['id']);
+	$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {
@@ -283,7 +283,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$auto_subscribe_reply_checked = ( $_POST['auto_subscribe_reply'] ) ? ' checked="checked"' : '';
 			
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $_GET['id'])).'" method="post">';
-			$content .= '<table id="adminmemberstable">';
+			$content .= '<table id="adminregulartable">';
 			
 			$content .= '<tr><th colspan="2">'.$lang['EditProfile'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
@@ -356,7 +356,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	if ( !empty($search_member) ) {
 		
 		$search_member_sql = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['search_member']);
-		$result = $db->query("SELECT id, name, displayed_name FROM usebb_members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
+		$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
 		$matching_members = array();
 		while ( $memberdata = $db->fetch_result($result) )
 			$matching_members[$memberdata['id']] = array(unhtml(stripslashes($memberdata['name'])), unhtml(stripslashes($memberdata['displayed_name'])));

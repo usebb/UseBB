@@ -15,6 +15,7 @@ UseBB 0.8 Changelog
 - Better module overview.
 - Don't warn about disabled ini_get() and exec().
 - Some additional confirmation messages in the ACP.
+- Less CSS id's in ACP.
 
 UseBB 0.7 final Changelog
 ------------------------------

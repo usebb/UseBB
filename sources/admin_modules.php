@@ -57,7 +57,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 		if ( count($admin_functions->acp_modules) ) {
 			
-			$content .= '<table id="adminmodulestable"><tr><th>'.$lang['ModulesLongName'].' - '.$lang['ModulesCategory'].'</th><th>'.$lang['ModulesShortName'].' - '.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
+			$content .= '<table id="adminregulartable"><tr><th>'.$lang['ModulesLongName'].' - '.$lang['ModulesCategory'].'</th><th>'.$lang['ModulesShortName'].' - '.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
 			foreach ( $admin_functions->acp_modules as $module ) {
 				
 				$delete_link = ( is_writable($modules_dir.$module['filename']) ) ? '<a href="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $module['short_name'])).'">'.$lang['Delete'].'</a>' : $lang['ModulesDeleteNotPermitted'];

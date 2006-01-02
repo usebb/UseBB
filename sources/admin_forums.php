@@ -116,7 +116,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		}
 		
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'forums')).'" method="post">';
-		$content .= '<table id="adminforumstable"><tr><th>'.$lang['ForumsForumName'].'</th><th class="action">'.$lang['Edit'].'</th><th class="action">'.$lang['Delete'].'</th><th class="action">'.$lang['ForumsSortID'].'</th></tr>';
+		$content .= '<table id="adminregulartable"><tr><th>'.$lang['ForumsForumName'].'</th><th class="action">'.$lang['Edit'].'</th><th class="action">'.$lang['Delete'].'</th><th class="action">'.$lang['ForumsSortID'].'</th></tr>';
 		
 		$i = 1;
 		if ( count($forums) ) {
@@ -388,7 +388,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			$category_select .= '</select>';
 			
 			$content .= '<form action="'.$form.'" method="post">';
-			$content .= '<table id="adminforumstable">';
+			$content .= '<table id="adminregulartable">';
 				$content .= '<tr><th colspan="2">'.$lang['ForumsGeneral'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsCatName'].'</td><td>'.$category_select.'</td></tr>';

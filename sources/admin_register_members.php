@@ -104,7 +104,7 @@ if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !e
 	$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'register_members')).'" method="post">';
-	$content .= '<table id="adminmemberstable">';
+	$content .= '<table id="adminregulartable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Password'].' <small>*</small></td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].' <small>*</small></td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';

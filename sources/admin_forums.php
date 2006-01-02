@@ -171,8 +171,17 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				//
 				// Move moderators
 				//
-				if ( !empty($_POST['move_mods']) )
+				if ( !empty($_POST['move_mods']) ) {
+					
+					$forum_moderators = array();
+					$result = $db->query("SELECT user_id FROM ".TABLE_PREFIX."moderators WHERE forum_id = ".$_GET['id']);
+					while ( $modsdata = $db->fetch_result($result) )
+						$forum_moderators[] = $modsdata['user_id'];
+					
+					$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE forum_id = ".$_POST['move_contents']." AND user_id IN(".join(', ', $forum_moderators).")");
 					$db->query("UPDATE ".TABLE_PREFIX."moderators SET forum_id = ".$_POST['move_contents']." WHERE forum_id = ".$_GET['id']);
+					
+				}
 				
 			}
 				

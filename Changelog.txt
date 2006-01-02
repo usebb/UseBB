@@ -1,12 +1,13 @@
 $Header$
 
-UseBB 0.8 beta 1 Changelog
+UseBB 0.8 Changelog
 ------------------------------
 
 - Added translation helper module.
 - Added allow_duplicate_emails config value.
 - Added edit member shortcut on profile.
 - Fixed bug #868: ini_set() disabled for security.
+- Fixed bug #889: moving moderators may cause duplicates.
 - Fixed some bad handling of input on member editing.
 - Fixed ACP module handling to allow _-. in short names.
 - Better module overview.

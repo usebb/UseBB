@@ -48,6 +48,7 @@ $lang['Item-modules'] = 'ACP-modules';
 $lang['Category-members'] = 'Leden';
 $lang['Item-members'] = 'Leden Bewerken';
 $lang['Item-delete_members'] = 'Leden Verwijderen';
+$lang['Item-register_members'] = 'Leden Registreren';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -281,6 +282,7 @@ $lang['MembersEditingMemberBanned'] = 'Geband';
 $lang['MembersEditingMemberBannedReason'] = 'Reden voor ban';
 $lang['MembersEditingMemberCantChangeOwnLevel'] = 'Je kan je eigen niveau niet aanpassen.';
 $lang['MembersEditingMemberCantBanSelf'] = 'Je kan jezelf niet bannen.';
+$lang['MembersEditingComplete'] = 'Account van lid %s werd succesvol bewerkt.';
 
 $lang['DeleteMembersSearchMember'] = 'Lid zoeken';
 $lang['DeleteMembersSearchMemberInfo'] = 'Voer een (deel van een) gebruikersnaam of weergegeven naam in om te verwijderen.';
@@ -289,5 +291,9 @@ $lang['DeleteMembersSearchMemberNotFound'] = 'Geen leden met gebruikersnaam of w
 $lang['DeleteMembersSearchMemberList'] = 'De volgende leden werden gevonden';
 $lang['DeleteMembersConfirmMemberDelete'] = 'Bevestigen van verwijderen lid';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Ben je zeker dat je het lid %s wilt verwijderen? Dit is onomkeerbaar!';
+$lang['DeleteMembersComplete'] = 'Lid %s werd succesvol verwijderd.';
+
+$lang['RegisterMembersExplain'] = 'Hier kan je accounts voorregistreren. Vul de volgende informatie in om een account aan te maken.';
+$lang['RegisterMembersComplete'] = 'Registratie van gebruiker %s voltooid. De gebruiker kan meteen inloggen.';
 
 ?>

@@ -79,6 +79,7 @@ class admin_functions {
 		),
 		'members' => array(
 			'members',
+			'register_members',
 			'delete_members',
 		),
 		'various' => array(

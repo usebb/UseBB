@@ -174,7 +174,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			if ( $_POST['level'] < $memberdata['level'] )
 				$admin_functions->reload_moderator_perms();
 			
-			$functions->redirect('admin.php', array('act' => 'members'));
+			$content = '<p>'.sprintf($lang['MembersEditingComplete'], '<em>'.unhtml(stripslashes($_POST['name'])).'</em>').'</p>';
 			
 		} else {
 			

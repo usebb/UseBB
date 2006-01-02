@@ -64,7 +64,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 			}
 			
-			$functions->redirect('admin.php', array('act' => 'delete_members'));
+			$content = '<p>'.sprintf($lang['DeleteMembersComplete'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</p>';
 			
 		} else {
 			

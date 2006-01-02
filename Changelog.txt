@@ -3,6 +3,7 @@ $Header$
 UseBB 0.8 Changelog
 ------------------------------
 
+- Added to ACP: register members.
 - Added to ACP: delete members.
 - Added translation helper module.
 - Added allow_duplicate_emails config value.
@@ -13,6 +14,7 @@ UseBB 0.8 Changelog
 - Fixed ACP module handling to allow _-. in short names.
 - Better module overview.
 - Don't warn about disabled ini_get() and exec().
+- Some additional confirmation messages in the ACP.
 
 UseBB 0.7 final Changelog
 ------------------------------

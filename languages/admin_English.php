@@ -49,6 +49,7 @@ $lang['Category-members'] = 'Members';
 $lang['Item-members'] = 'Edit Members';
 $lang['Item-delete_members'] = 'Delete Members';
 $lang['Item-register_members'] = 'Register Members';
+$lang['Item-activate_members'] = 'Activate Members';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -295,5 +296,8 @@ $lang['DeleteMembersComplete'] = 'Deletion of member %s complete.';
 
 $lang['RegisterMembersExplain'] = 'Here you can preregister member accounts. Just fill in the following information to create an account.';
 $lang['RegisterMembersComplete'] = 'Registration of user %s is complete. The user can log in right away.';
+
+$lang['ActivateMembersExplain'] = 'This is a list of unactivated members on your forum. Here you can approve accounts manually. Accounts marked with an asterisk (*) have been active before.';
+$lang['ActivateMembersNoMembers'] = 'There are no unactivated member accounts on this board.';
 
 ?>

@@ -4,6 +4,7 @@ UseBB 0.8 Changelog
 ------------------------------
 
 - Added to ACP: register members.
+- Added to ACP: activate members.
 - Added to ACP: delete members.
 - Added translation helper module.
 - Added allow_duplicate_emails config value.

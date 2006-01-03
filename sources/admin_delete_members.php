@@ -62,9 +62,13 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = ".$_GET['id']);
 				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'members'");
 				
+				$content = '<p>'.sprintf($lang['DeleteMembersComplete'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</p>';
+				
+			} else {
+				
+				$functions->redirect('admin.php', array('act' => 'delete_members'));
+				
 			}
-			
-			$content = '<p>'.sprintf($lang['DeleteMembersComplete'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</p>';
 			
 		} else {
 			

@@ -65,6 +65,7 @@ $conf = array();
 //
 // Define configuration
 //
+$conf['activation_mode'] = 2;
 $conf['active_topics_count'] = 25;
 $conf['admin_email'] = 'example@example.net';
 $conf['allow_multi_sess'] = 1;
@@ -133,7 +134,6 @@ $conf['template'] = 'default';
 $conf['timezone'] = 0;
 $conf['topicreview_posts'] = 5;
 $conf['topics_per_page'] = 25;
-$conf['users_must_activate'] = 1;
 $conf['view_detailed_online_list_min_level'] = 0;
 $conf['view_forum_stats_box_min_level'] = 0;
 $conf['view_hidden_email_addresses_min_level'] = 3;

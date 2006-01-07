@@ -59,10 +59,17 @@ $lang['IndexSQLServer'] = 'SQL-server driver';
 $lang['IndexHTTPServer'] = 'HTTP-server';
 $lang['IndexOS'] = 'Besturingssysteem';
 $lang['IndexLinks'] = 'Links';
+$lang['IndexUnactiveMembers'] = 'Niet-geactiveerde Leden';
+$lang['IndexNoUnactiveMembers'] = 'Er zijn geen leden die wachten op admin-activatie.';
+$lang['IndexOneUnactiveMember'] = 'Er is 1 lid die wacht op admin-activatie.';
+$lang['IndexMoreUnactiveMembers'] = 'Er zijn %d leden die wachten op admin-activatie.';
 
 $lang['VersionFailed'] = 'Het forum kon de laatste versie niet achterhalen (%s is uitgeschakeld). Gelieve geregeld %s te bezoeken om er zeker van te zijn dat je de laatste versie hebt.';
+$lang['VersionLatestVersionTitle'] = 'Dit is de laatste versie';
 $lang['VersionLatestVersion'] = 'Dit forum wordt aangedreven door UseBB %s welke de laatste stabiele versie is.';
+$lang['VersionNeedUpdateTitle'] = 'Nieuwe versie beschikbaar!';
 $lang['VersionNeedUpdate'] = 'Dit forum draaiend op UseBB %s moet geupdate worden naar versie %s om veilig en bugvrij te blijven! Bezoek %s om de laatste versie te downloaden.';
+$lang['VersionBewareDevVersionsTitle'] = 'Ontwikkelingsversie gevonden';
 $lang['VersionBewareDevVersions'] = 'Dit forum draait op versie %s hoewel %s nog steeds de laatste stabiele versie is. Hou rekening met de (compatibiliteits)problemen die kunnen bestaan met ontwikkelingsversies.';
 
 $lang['ConfigInfo'] = 'Op deze pagina kan je alle instellingen van je forum wijzigen. Wees voorzichtig met het aanpassen van de databaseconfiguratie. Velden aangeduid met een asterisk (*) zijn verplicht.';
@@ -132,7 +139,7 @@ $lang['ConfigBoard-enable_rss'] = 'RSS-feed inschakelen';
 $lang['ConfigBoard-enable_stafflist'] = 'Staflijst inschakelen';
 $lang['ConfigBoard-enable_stats'] = 'Statistiekenpagina inschakelen';
 $lang['ConfigBoard-friendly_urls'] = 'Vriendelijke URL\'s inschakelen';
-$lang['ConfigBoard-friendly_urls-info'] = 'Vereist Apache en mod_rewrite.';
+$lang['ConfigBoard-friendly_urls-info'] = 'Vereist Apache en mod_rewrite. Schakelt sessie-ID\'s in URL uit.';
 $lang['ConfigBoard-guests_can_access_board'] = 'Gasten kunnen het forum bekijken';
 $lang['ConfigBoard-guests_can_view_profiles'] = 'Gasten kunnen profielen bekijken';
 $lang['ConfigBoard-hide_avatars'] = 'Verberg alle avatars';
@@ -148,7 +155,7 @@ $lang['ConfigBoard-target_blank'] = 'BBCode-links openen een nieuw venster';
 $lang['ConfigBoard-activation_mode'] = 'Activatiemodus';
 $lang['ConfigBoard-activation_mode0'] = 'Geen activatie';
 $lang['ConfigBoard-activation_mode1'] = 'E-mailactivatie';
-$lang['ConfigBoard-activation_mode2'] = 'Activatie door admin';
+$lang['ConfigBoard-activation_mode2'] = 'Admin-activatie';
 $lang['ConfigBoard-board_closed_reason'] = 'Reden van sluiting';
 $lang['ConfigBoard-board_url'] = 'Forum-URL (leeg voor automatisch detecteren)';
 $lang['ConfigBoard-cookie_domain'] = 'Cookie-domein';
@@ -302,7 +309,7 @@ $lang['RegisterMembersComplete'] = 'Registratie van gebruiker %s voltooid. De ge
 
 $lang['ActivateMembersExplain'] = 'Dit is een lijst van niet geactiveerde accounts op je forum. Hier kan je accounts manueel activeren. Een asterisk (*) duidt aan dat de account reeds gebruikt werd.';
 $lang['ActivateMembersNoMembers'] = 'Geen leden.';
-$lang['ActivateMembersListAdmin'] = 'Activatie door admin';
+$lang['ActivateMembersListAdmin'] = 'Admin-activatie';
 $lang['ActivateMembersListEmail'] = 'E-mailactivatie';
 $lang['ActivateMembersListAll'] = 'Alle';
 

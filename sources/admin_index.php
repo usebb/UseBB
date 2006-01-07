@@ -43,9 +43,25 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$content = '<p>'.$lang['IndexWelcome'].'</p>
+$content = '<p>'.$lang['IndexWelcome'].'</p>';
 
-<h2>'.$lang['IndexSystemInfo'].'</h2>
+$content .= '<h2><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members')).'">'.$lang['IndexUnactiveMembers'].'</a></h2>';
+$result = $db->query("SELECT COUNT(id) as count FROM ".TABLE_PREFIX."members WHERE active = 0 AND active_key = ''");
+$out = $db->fetch_result($result);
+switch ( $out['count'] ) {
+	
+	case 0:
+		$content .= '<p>'.$lang['IndexNoUnactiveMembers'].'</p>';
+		break;
+	case 1:
+		$content .= '<p><strong>'.$lang['IndexOneUnactiveMember'].'</strong></p>';
+		break;
+	default:
+		$content .= '<p><strong>'.sprintf($lang['IndexMoreUnactiveMembers'], $out['count']).'</strong></p>';
+	
+}
+
+$content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <ul>
 	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' (<a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a>)</li>
 	<li>'.$lang['IndexPHPVersion'].': '.phpversion().'</li>

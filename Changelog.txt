@@ -20,8 +20,9 @@ UseBB 0.8 Changelog
 - Better module overview.
 - Don't warn about disabled ini_get() and exec().
 - Some additional confirmation messages in the ACP.
-- Version check now contains H2 titles.
 - Members awaiting admin-activation message on ACP index.
+- Registering first user does not require activation anymore.
+- Version check now contains H2 titles.
 - Less CSS id's in ACP.
 
 UseBB 0.7 final Changelog

@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2005 UseBB Team
+	Copyright (C) 2003-2006 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @copyright	Copyright (C) 2003-2006 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -77,7 +77,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li><a href="http://www.usebb.net/community/">UseBB Community</a></li>
 	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
 </ul>
-<p>Copyright &copy; 2003-2005 UseBB Team</p>';
+<p>Copyright &copy; 2003-2006 UseBB Team</p>';
 
 $admin_functions->create_body('index', $content);
 

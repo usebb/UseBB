@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2005 UseBB Team
+	Copyright (C) 2003-2006 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2005 UseBB Team
+ * @copyright	Copyright (C) 2003-2006 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */

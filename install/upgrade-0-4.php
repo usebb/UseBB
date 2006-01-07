@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2005 UseBB Team
+	Copyright (C) 2003-2006 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -273,6 +273,6 @@ if ( empty($_POST['step']) ) {
 
 ?>
 </div>
-<address>Copyright &copy; 2003-2005 UseBB Team</address>
+<address>Copyright &copy; 2003-2006 UseBB Team</address>
 </body>
 </html>

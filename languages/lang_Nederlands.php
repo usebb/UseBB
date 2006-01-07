@@ -95,7 +95,7 @@ $lang['Password'] = 'Wachtwoord';
 $lang['PasswordAgain'] = 'Wachtwoord (nogmaals)';
 $lang['EverythingRequired'] = 'Alle velden zijn vereist!';
 $lang['RegisteredNotActivated'] = 'Je account %s werd aangemaakt. Een e-mail werd verstuurd naar %s met instructies voor het activeren van je account. Je account moet geactiveerd worden voordat je kan inloggen.';
-$lang['RegisteredActivated'] = 'Je account %s werd aangemaakt. Een e-mail werd verstuurd naar %s met je accountinformatie. Je kan meteen inloggen.';
+$lang['RegisteredActivated'] = 'Je account %s werd aangemaakt. Je kan meteen inloggen.';
 $lang['Never'] = 'Nooit';
 $lang['Member'] = 'Lid';
 $lang['RegistrationActivationEmailBody'] = 'Hallo,
@@ -114,30 +114,13 @@ Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het i
 [board_name]
 [board_link]
 [admin_email]';
-$lang['SendpwdActivationEmailSubject'] = 'Nieuw wachtwoord';
 $lang['NoForums'] = 'Dit is een leeg discussieforum. De administrator heeft nog geen forums aangemaakt.';
 $lang['AlreadyActivated'] = 'De account met ID %d werd reeds geactiveerd.';
 $lang['Activate'] = 'Activeren';
-$lang['Activated'] = 'Je account %s werd nu ge(re)activeerd. Je kan nu inloggen met de gebruikersnaam en wachtwoord in de e-mail.';
+$lang['Activated'] = 'Je account %s werd nu ge(re)activeerd. Je kan nu inloggen met je gebruikersnaam en wachtwoord.';
 $lang['WrongActivationKey'] = 'Je account met ID %d kon niet geactiveerd worden. De activatiesleutel is foutief. Ben je zeker dat je ondertussen geen nieuw wachtwoord aangevraagd hebt?';
 $lang['RegisterIt'] = 'Je kan het aanmaken via de \'Registreer\'-link.';
 $lang['BoardClosed'] = 'Discussieforum Gesloten';
-$lang['SendpwdActivationEmailBody'] = 'Hallo,
-
-Dit is de forumsoftware van [board_name]. Je hebt zonet een nieuw wachtwoord aangevraagd voor je account [account_name]. Gelieve op onderstaande link te klikken om je account te heractiveren:
-
-[activate_link]
-
-of kopieer en plak het in de adresbalk van je browser. Daarna kan je inloggen met de volgende gebruikersnaam en wachtwoord:
-
-Gebruikersnaam: [account_name]
-Wachtwoord: [password]
-
-Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het inlogformulier.
-
-[board_name]
-[board_link]
-[admin_email]';
 $lang['SendpwdEmailBody'] = 'Hallo,
 
 Dit is de forumsoftware van [board_name]. Je hebt zonet een nieuw wachtwoord aangevraagd voor je account [account_name]. Je kan inloggen met de volgende gebruikersnaam en wachtwoord:
@@ -457,6 +440,37 @@ $lang['RegistrationsDisabled'] = 'Registraties uitgeschakeld';
 $lang['PostFormShortcut'] = 'Druk op Alt+S (Cmd+S op Apple) om dit formulier snel te verzenden.';
 $lang['EditThisMember'] = 'Bewerk dit lid';
 $lang['EmailTaken'] = 'Het e-mailadres %s wordt reeds op dit forum gebruikt. Gelieve een andere te kiezen.';
+$lang['RegisteredNotActivatedByAdmin'] = 'Je account %s werd nu aangemaakt. Voor je kan inloggen moet de administrator van dit forum je account activeren. Gelieve hiervoor geduld uit te oefenen.';
+$lang['AdminActivationEmailBody'] = 'Hallo,
+
+Dit is de forumsoftware van [board_name]. Je hebt zonet een account genaamd [account_name] geregistreerd. De administrator van het forum moet je account echter nog activeren. Zodra dit is gebeurd, kan je inloggen met:
+
+Gebruikersnaam: [account_name]
+Wachtwoord: [password]
+
+Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het inlogformulier. Bedankt voor het registreren!
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['AdminActivationEmailSubject'] = 'Account wacht op activatie';
+$lang['NewEmailNotActivatedByAdmin'] = 'Je profiel werd succesvol aangepast. Omdat je het e-mailadres van je account %s hebt aangepast, moet de administrator van dit forum je account opnieuw activeren. Ondertussen word je uitgelogd.';
+$lang['NewEmailAdminActivationEmailBody'] = 'Hallo,
+
+Dit is de forumsoftware van [board_name]. Je hebt zonet het e-mailadres van je account [account_name] aangepast, maar je account werd door de administrator nog niet gereactiveerd. Gelieve hiervoor geduld uit te oefenen.
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['NewEmailAdminActivationEmailSubject'] = 'Account wacht op reactivatie';
+$lang['AdminActivatedAccountEmailBody'] = 'Hallo,
+
+Dit is de forumsoftware van [board_name]. De administrator heeft je account [account_name] geactiveerd. Je kan nu inloggen.
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['AdminActivatedAccountEmailSubject'] = 'Account geactiveerd';
 
 //
 // Date translations

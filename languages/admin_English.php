@@ -145,7 +145,10 @@ $lang['ConfigBoard-sig_allow_smilies'] = 'Enable smilies in signatures';
 $lang['ConfigBoard-sig_max_length'] = 'Max signature length';
 $lang['ConfigBoard-single_forum_mode'] = 'Single forum mode (when applicable)';
 $lang['ConfigBoard-target_blank'] = 'BBCode links open new window';
-$lang['ConfigBoard-users_must_activate'] = 'Users must activate via e-mail';
+$lang['ConfigBoard-activation_mode'] = 'Activation mode';
+$lang['ConfigBoard-activation_mode0'] = 'No activation';
+$lang['ConfigBoard-activation_mode1'] = 'E-mail activation';
+$lang['ConfigBoard-activation_mode2'] = 'Admin activation';
 $lang['ConfigBoard-board_closed_reason'] = 'Board closed reason';
 $lang['ConfigBoard-board_url'] = 'Board URL (empty for auto-detect)';
 $lang['ConfigBoard-cookie_domain'] = 'Cookie domain';
@@ -164,8 +167,8 @@ $lang['ConfigBoard-email_view_level2'] = 'Show spam proof';
 $lang['ConfigBoard-email_view_level3'] = 'Show raw';
 $lang['ConfigBoard-output_compression0'] = 'Disabled';
 $lang['ConfigBoard-output_compression1'] = 'Compress HTML';
-$lang['ConfigBoard-output_compression2'] = 'Enable gzip';
-$lang['ConfigBoard-output_compression3'] = 'Compress HTML and enable gzip';
+$lang['ConfigBoard-output_compression2'] = 'Enable Gzip';
+$lang['ConfigBoard-output_compression3'] = 'Compress HTML + Gzip';
 $lang['ConfigBoard-level0'] = 'Guests';
 $lang['ConfigBoard-level1'] = 'Members';
 $lang['ConfigBoard-level2'] = 'Moderators';
@@ -297,7 +300,10 @@ $lang['DeleteMembersComplete'] = 'Deletion of member %s complete.';
 $lang['RegisterMembersExplain'] = 'Here you can preregister member accounts. Just fill in the following information to create an account.';
 $lang['RegisterMembersComplete'] = 'Registration of user %s is complete. The user can log in right away.';
 
-$lang['ActivateMembersExplain'] = 'This is a list of unactivated members on your forum. Here you can approve accounts manually. Accounts marked with an asterisk (*) have been active before.';
-$lang['ActivateMembersNoMembers'] = 'There are no unactivated member accounts on this board.';
+$lang['ActivateMembersExplain'] = 'This is a list of unactivated members on your forum. Here you can approve accounts manually. An asterisk (*) means the user account has been active before.';
+$lang['ActivateMembersNoMembers'] = 'No members to list.';
+$lang['ActivateMembersListAdmin'] = 'Admin approval';
+$lang['ActivateMembersListEmail'] = 'Email approval';
+$lang['ActivateMembersListAll'] = 'All';
 
 ?>

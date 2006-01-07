@@ -45,12 +45,18 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = 0");
+	$result = $db->query("SELECT id, name, language, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = 0");
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {
 		
 		$db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
+		
+		$user_lang = $functions->fetch_language($memberdata['language']);
+		
+		$functions->usebb_mail($user_lang['AdminActivatedAccountEmailSubject'], $user_lang['AdminActivatedAccountEmailBody'], array(
+			'account_name' => stripslashes($memberdata['name'])
+		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $memberdata['email'], null, $memberdata['language'], $user_lang['character_encoding']);
 		
 	}
 	
@@ -58,27 +64,60 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
 } else {
 	
-	$result = $db->query("SELECT id, name, regdate, last_login FROM ".TABLE_PREFIX."members WHERE active = 0 ORDER BY regdate ASC");
+	$content = '<p>'.$lang['ActivateMembersExplain'].'</p>';
+	
+	$list_modes = array('admin', 'email', 'all');
+	$_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $list_modes) ) ? $_GET['show'] : $list_modes[0];
+	
+	$content .= '<ul id="adminfunctionsmenu">';
+	foreach ( $list_modes as $mode ) {
+		
+		if ( $_GET['show'] == $mode ) {
+			
+			switch ( $mode ) {
+				
+				case 'admin':
+					$query_where_part = "active = 0 AND active_key = ''";
+					break;
+				case 'email':
+					$query_where_part = "active = 0 AND active_key <> ''";
+					break;
+				case 'all':
+					$query_where_part = "active = 0";
+					break;
+				
+			}
+			
+			$content .= '<li>'.$lang['ActivateMembersList'.ucfirst($mode)].'</li> ';
+			
+		} else {
+			
+			$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'show' => $mode)).'">'.$lang['ActivateMembersList'.ucfirst($mode)].'</a></li> ';
+			
+		}
+		
+	}
+	$content .= '</ul>';
+	
+	$result = $db->query("SELECT id, name, regdate, active_key, last_login FROM ".TABLE_PREFIX."members WHERE ".$query_where_part);
 	$unactivated = array();
 	while ( $userinfo = $db->fetch_result($result) )
 		$unactivated[] = $userinfo;
 	
 	if ( count($unactivated) ) {
 		
-		$content = '<p>'.$lang['ActivateMembersExplain'].'</p>';
-		
 		$content .= '<table id="adminregulartable"><tr><th>'.$lang['Username'].'</th><th>'.$lang['Registered'].'</th><th class="action">'.$lang['Activate'].'</th><th class="action">'.$lang['Edit'].'</th><th>'.$lang['Delete'].'</th></tr>';
 		foreach ( $unactivated as $userinfo ) {
 			
-			$logged_in = ( $userinfo['last_login'] ) ? ' <small>*</small>' : '';
-			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'id' => $userinfo['id'])).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+			$logged_in_previously = ( $userinfo['last_login'] ) ? ' <small>*</small>' : '';
+			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in_previously.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'id' => $userinfo['id'])).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
 			
 		}
 		$content .= '</table>';
 		
 	} else {
 		
-		$content = '<p>'.$lang['ActivateMembersNoMembers'].'</p>';
+		$content .= '<p>'.$lang['ActivateMembersNoMembers'].'</p>';
 		
 	}
 	

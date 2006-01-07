@@ -71,7 +71,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 		//
 		// Check if this displayed_name already exists
 		//
-		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' AND id <> ".$session->sess_info['user_id']);
+		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members WHERE ( name = '".$_POST['displayed_name']."' OR displayed_name = '".$_POST['displayed_name']."' ) AND id <> ".$session->sess_info['user_id']);
 		$out = $db->fetch_result($result);
 		if ( $out['count'] )
 			$displayed_name_taken = true;
@@ -129,22 +129,29 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	}
 	
 	//
-	// Set some variables needed in the query
+	// If the e-mail address changed
 	//
-	$active = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? 0 : 1;
-	$active_key = ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-	
-	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
+	if ( $_POST['email'] != $session->sess_info['user_info']['email'] ) {
 		
-		//
-		// Send an e-mail if the user must activate
-		//
-		$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
-			'account_name' => stripslashes($session->sess_info['user_info']['name']),
-			'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false)
-		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-		
-		$active_key = md5($active_key);
+		switch ( intval($functions->get_config('activation_mode')) ) {
+			
+			case 0:
+				$active = 1;
+				$active_key_md5 = '';
+				$msgbox_content = $lang['ProfileEdited'];
+				break;
+			case 1:
+				$active = 0;
+				$active_key = $functions->random_key(); # used in the email url
+				$active_key_md5 = md5($active_key);
+				$msgbox_content = sprintf($lang['NewEmailNotActivated'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email']);
+				break;
+			case 2:
+				$active = 0;
+				$active_key_md5 = '';
+				$msgbox_content = sprintf($lang['NewEmailNotActivatedByAdmin'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email']);
+			
+		}
 		
 	}
 	
@@ -158,7 +165,7 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 	//
 	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET
 		active        = ".$active.",
-		active_key    = '".$active_key."',
+		active_key    = '".$active_key_md5."',
 		email         = '".$_POST['email']."',
 		avatar_type   = ".$avatar_type.",
 		avatar_remote = '".$avatar_remote."',
@@ -178,27 +185,32 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 		skype         = '".$_POST['skype']."'
 	WHERE id = ".$session->sess_info['user_info']['id']);
 	
-	if ( $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_config('users_must_activate') ) {
+	//
+	// Send correct e-mails
+	//
+	if ( $_POST['email'] != $session->sess_info['user_info']['email'] ) {
 		
-		//
-		// Show a message box if users must activate
-		//
-		$template->parse('msgbox', 'global', array(
-			'box_title' => $lang['Note'],
-			'content' => sprintf($lang['NewEmailNotActivated'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email'])
-		));
-		
-	} else {
-		
-		//
-		// Else, jump to the index
-		//
-		$template->parse('msgbox', 'global', array(
-			'box_title' => $lang['Note'],
-			'content' => $lang['ProfileEdited']
-		));
+		if ( intval($functions->get_config('activation_mode')) === 1 ) {
+			
+			$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
+				'account_name' => stripslashes($session->sess_info['user_info']['name']),
+				'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false)
+			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+			
+		} elseif ( intval($functions->get_config('activation_mode')) === 2 ) {
+			
+			$functions->usebb_mail($lang['NewEmailAdminActivationEmailSubject'], $lang['NewEmailAdminActivationEmailBody'], array(
+				'account_name' => stripslashes($session->sess_info['user_info']['name'])
+			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+			
+		}
 		
 	}
+	
+	$template->parse('msgbox', 'global', array(
+		'box_title' => $lang['Note'],
+		'content' => $msgbox_content
+	));
 	
 } else {
 	

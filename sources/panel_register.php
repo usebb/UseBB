@@ -139,12 +139,6 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 		
-		//
-		// Generate the activation key if necessary
-		//
-		$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
-		$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-		
 		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
 		$out = $db->fetch_result($result);
 		if ( !$out['count'] )
@@ -153,11 +147,47 @@ if ( $functions->get_config('disable_registrations') ) {
 			$level = 1;
 		
 		//
+		// Generate the activation key if necessary
+		//
+		if ( $level == 3 ) {
+			
+			//
+			// The first user does not need activation
+			//
+			$active = 1;
+			$active_key_md5 = '';
+			$msgbox_content = sprintf($lang['RegisteredActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
+			
+		} else {
+			
+			switch ( intval($functions->get_config('activation_mode')) ) {
+				
+				case 0:
+					$active = 1;
+					$active_key_md5 = '';
+					$msgbox_content = sprintf($lang['RegisteredActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
+					break;
+				case 1:
+					$active = 0;
+					$active_key = $functions->random_key(); # used in the email url
+					$active_key_md5 = md5($active_key);
+					$msgbox_content = sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
+					break;
+				case 2:
+					$active = 0;
+					$active_key_md5 = '';
+					$msgbox_content = sprintf($lang['RegisteredNotActivatedByAdmin'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
+				
+			}
+			
+		}
+		
+		//
 		// Create a new row in the user table
 		//
-		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".md5($active_key)."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )");
+		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".$active_key_md5."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."' )");
 		
-		if ( $functions->get_config('users_must_activate') ) {
+		if ( intval($functions->get_config('activation_mode')) === 1 && $level != 3 ) {
 			
 			//
 			// Send the activation e-mail if necessary
@@ -170,10 +200,21 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 		} elseif ( !$functions->get_config('disable_info_emails') ) {
 			
-			$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
-				'account_name' => stripslashes($_POST['user']),
-				'password' => $_POST['passwd1']
-			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+			if ( intval($functions->get_config('activation_mode')) === 2 && $level != 3 ) {
+				
+				$functions->usebb_mail($lang['AdminActivationEmailSubject'], $lang['AdminActivationEmailBody'], array(
+					'account_name' => stripslashes($_POST['user']),
+					'password' => $_POST['passwd1']
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+				
+			} else {
+				
+				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
+					'account_name' => stripslashes($_POST['user']),
+					'password' => $_POST['passwd1']
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+				
+			}
 			
 		}
 		
@@ -187,7 +228,7 @@ if ( $functions->get_config('disable_registrations') ) {
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Register'],
-			'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['RegisteredActivated'], '<em>'.$_POST['user'].'</em>', $_POST['email'])
+			'content' => $msgbox_content
 		));
 		
 	} elseif ( !empty($_POST['acceptedterms']) ) {

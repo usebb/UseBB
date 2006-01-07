@@ -90,42 +90,24 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 		
 		if ( $_POST['email'] == $userdata['email'] ) {
 			
-			//
-			// Generate the activation key if necessary
-			//
-			$active = ( $functions->get_config('users_must_activate') ) ? 0 : 1;
-			$active_key = ( $functions->get_config('users_must_activate') ) ? $functions->random_key() : '';
-			
 			$new_password = $functions->random_key();
 			
 			//
 			// Update the row in the user table
 			//
-			$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."', active = ".$active.", active_key = '".md5($active_key)."' WHERE id = ".$userdata['id']);
+			$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."' WHERE id = ".$userdata['id']);
 			
-			if ( $functions->get_config('users_must_activate') ) {
-				
-				//
-				// Send the activation e-mail if necessary
-				//
-				$functions->usebb_mail($lang['SendpwdActivationEmailSubject'], $lang['SendpwdActivationEmailBody'], array(
-					'account_name' => stripslashes($_POST['user']),
-					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $userdata['id'], 'key' => $active_key), false),
-					'password' => $new_password
-				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-				
-			} elseif ( !$functions->get_config('disable_info_emails') ) {
-				
-				$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
-					'account_name' => stripslashes($_POST['user']),
-					'password' => $new_password
-				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-				
-			}
+			//
+			// E-mail new password
+			//
+			$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
+				'account_name' => stripslashes($_POST['user']),
+				'password' => $new_password
+			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['SendPassword'],
-				'content' => ( $functions->get_config('users_must_activate') ) ? sprintf($lang['SendpwdNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']) : sprintf($lang['SendpwdActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email'])
+				'content' => sprintf($lang['SendpwdActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email'])
 			));
 			
 		} else {

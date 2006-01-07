@@ -65,7 +65,7 @@ $conf = array();
 //
 // Define configuration
 //
-$conf['activation_mode'] = 2;
+$conf['activation_mode'] = 1;
 $conf['active_topics_count'] = 25;
 $conf['admin_email'] = 'example@example.net';
 $conf['allow_multi_sess'] = 1;

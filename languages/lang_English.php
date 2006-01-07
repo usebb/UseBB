@@ -95,7 +95,7 @@ $lang['Password'] = 'Password';
 $lang['PasswordAgain'] = 'Password (again)';
 $lang['EverythingRequired'] = 'All fields are required!';
 $lang['RegisteredNotActivated'] = 'Your account %s has now been created. An e-mail has been dispatched to %s with instructions on how to activate your account. You need to activate in order to log in with your account.';
-$lang['RegisteredActivated'] = 'Your account %s has now been created. An e-mail has been dispatched to %s with your login details. You can log in right away.';
+$lang['RegisteredActivated'] = 'Your account %s has now been created. You can log in right away.';
 $lang['Never'] = 'Never';
 $lang['Member'] = 'Member';
 $lang['RegistrationActivationEmailBody'] = 'Hello,
@@ -114,30 +114,13 @@ If you forget your password, you can request a new one via the link on the login
 [board_name]
 [board_link]
 [admin_email]';
-$lang['SendpwdActivationEmailSubject'] = 'New Password';
 $lang['NoForums'] = 'This is an empty board. The administrator has not yet created any forums.';
 $lang['AlreadyActivated'] = 'Account with ID %d has already been activated.';
 $lang['Activate'] = 'Activate';
-$lang['Activated'] = 'Your account %s has now been (re)activated. You are now able to log in with the password in the e-mail you received.';
+$lang['Activated'] = 'Your account %s has now been (re)activated. You are now able to log in with your username and password.';
 $lang['WrongActivationKey'] = 'We were unable to activate your account with ID %d. The activation key is incorrect. Are you sure you didn\'t request a new password in the mean time?';
 $lang['RegisterIt'] = 'You can create it via the \'Register\' link.';
 $lang['BoardClosed'] = 'Board Closed';
-$lang['SendpwdActivationEmailBody'] = 'Hello,
-
-This is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. Please click the link below to reactivate your account:
-
-[activate_link]
-
-or copy-n-paste it to your browser. Then you can log in using this username and password:
-
-Username: [account_name]
-Password: [password]
-
-If you forget your password, you can request a new one via the link on the login form. 
-
-[board_name]
-[board_link]
-[admin_email]';
 $lang['SendpwdEmailBody'] = 'Hello,
 
 This is the forum software of [board_name] speaking. You have just requested a new password for account [account_name]. You can log in using this username and password:
@@ -152,7 +135,6 @@ If you forget your password, you can request a new one via the link on the login
 [admin_email]';
 $lang['SendpwdEmailSubject'] = 'New Password';
 $lang['SendpwdActivated'] = 'The new password for your account %s has been sent to %s. You are now able to login with your new password.';
-$lang['SendpwdNotActivated'] = 'The new password for your account %s has been sent to %s, together with information on how to reactivate your account.';
 $lang['ForumIndex'] = 'Forum Index';
 $lang['MissingFields'] = 'The following required fields were missing or incorrect: %s.';
 $lang['TermsOfUseContent'] = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.
@@ -193,7 +175,7 @@ $lang['AvatarURL'] = 'Avatar URL';
 $lang['BannedUser'] = 'Banned Account';
 $lang['BannedUserExplain'] = 'Your account %s is being banned from this board. The reason is:';
 $lang['BannedUsername'] = 'The username %s is being banned from this board. Please choose another one.';
-$lang['BannedEmail'] = 'The e-mail address %s is being from this board. Please choose another one.';
+$lang['BannedEmail'] = 'The e-mail address %s is being banned from this board. Please choose another one.';
 $lang['PostsPerDay'] = 'Posts per day';
 $lang['BoardClosedOnlyAdmins'] = 'Only administrators can log in when the board is closed.';
 $lang['NoPosts'] = 'No Posts';
@@ -226,7 +208,7 @@ $lang['EditProfile'] = 'Edit Profile';
 $lang['EditOptions'] = 'Edit Options';
 $lang['EditPasswd'] = 'Edit Password';
 $lang['PanelHome'] = 'Panel Home';
-$lang['NewEmailNotActivated'] = 'Your profile has been edited succesfully. Because you have changed your e-mail address for your account %s, you need to reactivate it. An e-mail has been sent to %s with instructions on how to do this. You will be logged out in the mean time.';
+$lang['NewEmailNotActivated'] = 'Your profile has been edited succesfully. Because you have changed the e-mail address for your account %s, you need to reactivate it. An e-mail has been sent to %s with instructions on how to do this. You will be logged out in the mean time.';
 $lang['Required'] = 'Required';
 $lang['ViewProfile'] = 'View Profile';
 $lang['NewEmailActivationEmailBody'] = 'Hello,
@@ -457,5 +439,36 @@ $lang['RegistrationsDisabled'] = 'Registrations disabled';
 $lang['PostFormShortcut'] = 'Press Alt+S (Cmd+S on Apple) to quickly send this form.';
 $lang['EditThisMember'] = 'Edit this member';
 $lang['EmailTaken'] = 'The e-mail address %s is already being used on this board. Please choose an other address.';
+$lang['RegisteredNotActivatedByAdmin'] = 'Your account %s has now been created. Before you will be able to login, the administrator of this forum must activate your account. Please allow some time for this to happen.';
+$lang['AdminActivationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just registered an account named [account_name]. The administrator of the forum still needs to activate your account. Once this has happened, you can login using the following:
+
+Username: [account_name]
+Password: [password]
+
+If you forget your password, you can request a new one via the link on the login form. Thank you for registering!
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['AdminActivationEmailSubject'] = 'Account awaiting activation';
+$lang['NewEmailNotActivatedByAdmin'] = 'Your profile has been edited succesfully. Because you have changed the e-mail address for your account %s, the admin of this board needs to reactivate it. You will be logged out in the mean time.';
+$lang['NewEmailAdminActivationEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. You have just altered the e-mail address of your account [account_name], but it has not been reactivated yet. The administrator of the board first needs to reactivate your account. Please allow some time for this to happen.
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['NewEmailAdminActivationEmailSubject'] = 'Account awaiting reactivation';
+$lang['AdminActivatedAccountEmailBody'] = 'Hello,
+
+This is the forum software of [board_name] speaking. The administrator has activated your account [account_name]. You can now log in.
+
+[board_name]
+[board_link]
+[admin_email]';
+$lang['AdminActivatedAccountEmailSubject'] = 'Account activated';
 
 ?>

@@ -49,6 +49,7 @@ $lang['Category-members'] = 'Leden';
 $lang['Item-members'] = 'Leden Bewerken';
 $lang['Item-delete_members'] = 'Leden Verwijderen';
 $lang['Item-register_members'] = 'Leden Registreren';
+$lang['Item-activate_members'] = 'Leden Activeren';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -144,7 +145,10 @@ $lang['ConfigBoard-sig_allow_smilies'] = 'Smilies in handtekeningen inschakelen'
 $lang['ConfigBoard-sig_max_length'] = 'Maximale lengte handtekening';
 $lang['ConfigBoard-single_forum_mode'] = 'Enkel forum-modus (indien van toepassing)';
 $lang['ConfigBoard-target_blank'] = 'BBCode-links openen een nieuw venster';
-$lang['ConfigBoard-users_must_activate'] = 'E-mailactivatie inschakelen';
+$lang['ConfigBoard-activation_mode'] = 'Activatiemodus';
+$lang['ConfigBoard-activation_mode0'] = 'Geen activatie';
+$lang['ConfigBoard-activation_mode1'] = 'E-mailactivatie';
+$lang['ConfigBoard-activation_mode2'] = 'Activatie door admin';
 $lang['ConfigBoard-board_closed_reason'] = 'Reden van sluiting';
 $lang['ConfigBoard-board_url'] = 'Forum-URL (leeg voor automatisch detecteren)';
 $lang['ConfigBoard-cookie_domain'] = 'Cookie-domein';
@@ -295,5 +299,11 @@ $lang['DeleteMembersComplete'] = 'Lid %s werd succesvol verwijderd.';
 
 $lang['RegisterMembersExplain'] = 'Hier kan je accounts voorregistreren. Vul de volgende informatie in om een account aan te maken.';
 $lang['RegisterMembersComplete'] = 'Registratie van gebruiker %s voltooid. De gebruiker kan meteen inloggen.';
+
+$lang['ActivateMembersExplain'] = 'Dit is een lijst van niet geactiveerde accounts op je forum. Hier kan je accounts manueel activeren. Een asterisk (*) duidt aan dat de account reeds gebruikt werd.';
+$lang['ActivateMembersNoMembers'] = 'Geen leden.';
+$lang['ActivateMembersListAdmin'] = 'Activatie door admin';
+$lang['ActivateMembersListEmail'] = 'E-mailactivatie';
+$lang['ActivateMembersListAll'] = 'Alle';
 
 ?>

@@ -300,6 +300,12 @@ class functions {
 		if ( defined('IS_INSTALLER') || $original ) {
 			
 			//
+			// Fix config name change
+			//
+			if ( $setting == 'activation_mode' && !array_key_exists($setting, $this->board_config_original) )
+				return $this->get_config('users_must_activate');
+			
+			//
 			// Return unedited config
 			//
 			if ( array_key_exists($setting, $this->board_config_original) )
@@ -385,6 +391,10 @@ class functions {
 				} elseif ( $setting == 'allow_duplicate_emails' ) {
 					
 					$set_to = true;
+					
+				} elseif ( $setting == 'activation_mode' ) {
+					
+					$set_to = $this->get_config('users_must_activate');
 					
 				} else {
 					
@@ -803,7 +813,7 @@ class functions {
 	function random_key() {
 		
 		$characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-		$length = 10;
+		$length = ( $this->get_config('passwd_min_length') > 10 ) ? $this->get_config('passwd_min_length') : 10;
 		$key = '';
 		
 		for ( $i=0; $i<$length; $i++ ) {

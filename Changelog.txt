@@ -11,6 +11,7 @@ UseBB 0.8 Changelog
 - Added allow_duplicate_emails config value.
 - Added edit member shortcut on profile.
 - Fixed bug #868: ini_set() disabled for security.
+- Fixed bug #882: SQL error on edit members with custom table prefix.
 - Fixed bug #889: moving moderators may cause duplicates.
 - Fixed some bad handling of input on member editing.
 - Fixed ACP module handling to allow _-. in short names.
@@ -19,6 +20,8 @@ UseBB 0.8 Changelog
 - Better module overview.
 - Don't warn about disabled ini_get() and exec().
 - Some additional confirmation messages in the ACP.
+- Version check now contains H2 titles.
+- Members awaiting admin-activation message on ACP index.
 - Less CSS id's in ACP.
 
 UseBB 0.7 final Changelog

@@ -12,6 +12,7 @@ UseBB 0.8 Changelog
 - Added allow_duplicate_emails config value.
 - Added edit member shortcut on profile.
 - Added database table shortcuts on SQL toolbox.
+- Added BBCode and smiley controls to signature box.
 - Fixed bug #868: ini_set() disabled for security.
 - Fixed bug #882: SQL error on edit members with custom table prefix.
 - Fixed bug #889: moving moderators may cause duplicates.

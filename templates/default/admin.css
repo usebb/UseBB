@@ -184,3 +184,21 @@ h1#admintitle {
 	clear: both;
 	height: 10px;
 }
+
+ul#adminsqlbuttons {
+	list-style: none;
+	margin: 0 0 5px 0;
+	line-height: 250%;
+}
+
+ul#adminsqlbuttons li {
+	display: inline;
+	margin: 0 3px 0 0;
+}
+
+ul#adminsqlbuttons li a {
+	background-color: #D8D8D8;
+	padding: 2px;
+	border: 1px solid silver;
+	text-decoration: none;
+}

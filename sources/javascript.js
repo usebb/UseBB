@@ -144,3 +144,12 @@ function set_focus(field_id) {
 	document.getElementById(field_id).focus();
 	
 }
+
+//
+// Insert database table name
+//
+function insert_table(name) {
+	
+	insert_tags(name, '');
+	
+}

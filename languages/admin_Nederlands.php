@@ -39,8 +39,8 @@ $lang['Item-index'] = 'ACP-index';
 $lang['Item-version'] = 'Versiecontrole';
 $lang['Item-config'] = 'Algemene configuratie';
 $lang['Category-forums'] = 'Forums';
-$lang['Item-categories'] = 'Categorie&euml;n';
-$lang['Item-forums'] = 'Forums';
+$lang['Item-categories'] = 'Categorie&euml;n Beheren';
+$lang['Item-forums'] = 'Forums Beheren';
 $lang['Category-various'] = 'Diversen';
 $lang['Item-iplookup'] = 'IP-adres opzoeken';
 $lang['Item-sqltoolbox'] = 'SQL-werkset';
@@ -50,6 +50,7 @@ $lang['Item-members'] = 'Leden Bewerken';
 $lang['Item-delete_members'] = 'Leden Verwijderen';
 $lang['Item-register_members'] = 'Leden Registreren';
 $lang['Item-activate_members'] = 'Leden Activeren';
+$lang['Item-prune_forums'] = 'Forum-pruning';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -312,5 +313,21 @@ $lang['ActivateMembersNoMembers'] = 'Geen leden.';
 $lang['ActivateMembersListAdmin'] = 'Admin-activatie';
 $lang['ActivateMembersListEmail'] = 'E-mailactivatie';
 $lang['ActivateMembersListAll'] = 'Alle';
+
+$lang['PruneForumsStart'] = 'Start prunen';
+$lang['PruneForumsExplain'] = 'Door forums te prunen kunnen inactieve onderwerpen verplaatst of verwijderd en het forum schoon gehouden worden.';
+$lang['PruneForumsForums'] = 'Te prunen forums';
+$lang['PruneForumsAction'] = 'Actie';
+$lang['PruneForumsActionMove'] = 'Verplaatsen';
+$lang['PruneForumsActionDelete'] = 'Verwijderen';
+$lang['PruneForumsMoveTo'] = 'Verplaatsen naar';
+$lang['PruneForumsTopicAge'] = 'Onderwerpleeftijd';
+$lang['PruneForumsTopicAgeField'] = 'Laatste bericht %s dagen geleden.';
+$lang['PruneForumsMoveToForumSelectedForPruning'] = 'Het &quot;verplaatsen naar&quot;-forum kan niet voor pruning worden geselecteerd.';
+$lang['PruneForumsConfirm'] = 'Bevestigen';
+$lang['PruneForumsConfirmText'] = 'Ik begrijp dat deze actie onherroepelijk is.';
+$lang['PruneForumsNotConfirmed'] = 'Je moet deze actie eerst bevestigen.';
+$lang['PruneForumsDone'] = 'Het prunen is voltooid. %d onderwerpen werden gepruned.';
+$lang['PruneForumsExcludeStickies'] = 'Sticky onderwerpen uitsluiten';
 
 ?>

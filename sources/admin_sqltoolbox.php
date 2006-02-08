@@ -89,7 +89,11 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	}
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'sqltoolbox')).'" method="post">';
-	$content .= '<p><textarea name="query" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p>';
+	$content .= '<ul id="adminsqlbuttons">';
+	foreach ( $functions->get_usebb_tables() as $table )
+		$content .= '<li><a href="javascript:insert_table(\''.$table.'\')">'.$table.'</a></li> ';
+	$content .= '</ul>';
+	$content .= '<p><textarea name="query" id="tags-txtarea" rows="5" cols="50">'.stripslashes($_POST['query']).'</textarea></p>';
 	$content .= '<p class="submit"><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
 	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><p>'.$lang['SQLToolboxMaintenanceInfo'].'</p><ul id="adminfunctionsmenu">';

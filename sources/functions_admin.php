@@ -76,6 +76,7 @@ class admin_functions {
 		'forums' => array(
 			'categories',
 			'forums',
+			'prune_forums',
 		),
 		'members' => array(
 			'members',
@@ -398,6 +399,17 @@ class admin_functions {
 		
 		$forums_input = ( $multiple ) ? '<select name="'.$input_name.'[]" size="5" multiple="multiple">' : '<select name="'.$input_name.'">';
 		$seen_cats = array();
+		
+		if ( !empty($_POST[$input_name]) ) {
+			
+			$_POST[$input_name] = ( $multiple ) ? $_POST[$input_name] : array($_POST[$input_name]);
+			
+		} else {
+			
+			$_POST[$input_name] = array();
+			
+		}
+		
 		$_POST[$input_name] = ( isset($_POST[$input_name]) && is_array($_POST[$input_name]) ) ? $_POST[$input_name] : array();
 		foreach ( $this->all_forums as $forumdata ) {
 			

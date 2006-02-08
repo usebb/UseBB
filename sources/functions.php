@@ -141,6 +141,7 @@ class functions {
 	var $badwords;
 	var $updated_forums;
 	var $available = array('templates' => array(), 'languages' => array());
+	var $db_tables = array();
 	/**#@-*/
 	
 	/**
@@ -2061,11 +2062,15 @@ class functions {
 		
 		global $db;
 		
-		$tables = array();
-		$result = $db->query("SHOW TABLES LIKE '".TABLE_PREFIX."%'");
-		while ( $out = $db->fetch_result($result) )
-			$tables[] = current($out);
-		return $tables;
+		if ( !count($this->db_tables) ) {
+			
+			$result = $db->query("SHOW TABLES LIKE '".TABLE_PREFIX."%'");
+			while ( $out = $db->fetch_result($result) )
+				$this->db_tables[] = current($out);
+			
+		}
+		
+		return $this->db_tables;
 		
 	}
 	

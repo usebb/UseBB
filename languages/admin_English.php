@@ -39,8 +39,8 @@ $lang['Item-index'] = 'ACP Index';
 $lang['Item-version'] = 'Version Check';
 $lang['Item-config'] = 'General Configuration';
 $lang['Category-forums'] = 'Forums';
-$lang['Item-categories'] = 'Categories';
-$lang['Item-forums'] = 'Forums';
+$lang['Item-categories'] = 'Manage Categories';
+$lang['Item-forums'] = 'Manage Forums';
 $lang['Category-various'] = 'Various';
 $lang['Item-iplookup'] = 'IP Address Lookup';
 $lang['Item-sqltoolbox'] = 'SQL Toolbox';
@@ -50,6 +50,7 @@ $lang['Item-members'] = 'Edit Members';
 $lang['Item-delete_members'] = 'Delete Members';
 $lang['Item-register_members'] = 'Register Members';
 $lang['Item-activate_members'] = 'Activate Members';
+$lang['Item-prune_forums'] = 'Prune Forums';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -312,5 +313,21 @@ $lang['ActivateMembersNoMembers'] = 'No members to list.';
 $lang['ActivateMembersListAdmin'] = 'Admin approval';
 $lang['ActivateMembersListEmail'] = 'Email approval';
 $lang['ActivateMembersListAll'] = 'All';
+
+$lang['PruneForumsStart'] = 'Start Pruning';
+$lang['PruneForumsExplain'] = 'By pruning forums, you can delete or move old topics and keep your forum clean.';
+$lang['PruneForumsForums'] = 'Forums to prune';
+$lang['PruneForumsAction'] = 'Action';
+$lang['PruneForumsActionMove'] = 'Move topics';
+$lang['PruneForumsActionDelete'] = 'Delete topics';
+$lang['PruneForumsMoveTo'] = 'Move topics to';
+$lang['PruneForumsTopicAge'] = 'Topic age';
+$lang['PruneForumsTopicAgeField'] = 'Last reply %s days ago.';
+$lang['PruneForumsMoveToForumSelectedForPruning'] = 'The &quot;move to&quot; forum cannot be selected for pruning.';
+$lang['PruneForumsConfirm'] = 'Confirm';
+$lang['PruneForumsConfirmText'] = 'I understand this action is irreversible.';
+$lang['PruneForumsNotConfirmed'] = 'You need to confirm this action first.';
+$lang['PruneForumsDone'] = 'Pruning has completed. %d topics were pruned.';
+$lang['PruneForumsExcludeStickies'] = 'Exclude sticky topics';
 
 ?>

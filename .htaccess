@@ -5,33 +5,33 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteRule ^(index|panel|faq|search|active|online|members|rss|stats)\.html?\W*$ $1.php
-	RewriteRule ^index-([0-9]+)\.html?\W*$ index.php?cat=$1
-	RewriteRule ^panel-(login|logout|register|sendpwd|editprofile|editoptions|editpwd|subscriptions)\.html?\W*$ panel.php?act=$1
-	RewriteRule ^panel-al(0|1)\.html?\W*$ panel.php?al=$1
-	RewriteRule ^panel-activate-([0-9]+)-([0-9a-zA-Z]+)\.html?\W*$ panel.php?act=activate&id=$1&key=$2
+	RewriteRule ^(index|panel|faq|search|active|online|members|rss|stats)\.html?[\.,;\-\(\)\[\]]*$ $1.php
+	RewriteRule ^index-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ index.php?cat=$1
+	RewriteRule ^panel-(login|logout|register|sendpwd|editprofile|editoptions|editpwd|subscriptions)\.html?[\.,;\-\(\)\[\]]*$ panel.php?act=$1
+	RewriteRule ^panel-al(0|1)\.html?[\.,;\-\(\)\[\]]*$ panel.php?al=$1
+	RewriteRule ^panel-activate-([0-9]+)-([0-9a-zA-Z]+)\.html?[\.,;\-\(\)\[\]]*$ panel.php?act=activate&id=$1&key=$2
 	RewriteRule ^panel-markallasread\.html? panel.php?do=markallasread
-	RewriteRule ^forum-([0-9]+)\.html?\W*$ forum.php?id=$1
-	RewriteRule ^forum-([0-9]+)-([0-9]+)\.html?\W*$ forum.php?id=$1&page=$2
-	RewriteRule ^topic-([0-9]+)\.html?\W*$ topic.php?id=$1
-	RewriteRule ^topic-([0-9]+)-([0-9]+)\.html?\W*$ topic.php?id=$1&page=$2
-	RewriteRule ^topic-([0-9]+)-((un)?subscribe)\.html?\W*$ topic.php?id=$1&act=$2
-	RewriteRule ^topic-([0-9]+)-getnewpost\.html?\W*$ topic.php?id=$1&act=getnewpost
-	RewriteRule ^topic-post([0-9]+)\.html?\W*$ topic.php?post=$1
-	RewriteRule ^profile-([0-9]+)\.html?\W*$ profile.php?id=$1
-	RewriteRule ^mail-([0-9]+)\.html?\W*$ mail.php?id=$1
-	RewriteRule ^post-forum([0-9]+)\.html?\W*$ post.php?forum=$1
-	RewriteRule ^post-topic([0-9]+)\.html?\W*$ post.php?topic=$1
-	RewriteRule ^post-topic([0-9]+)-quotepost([0-9]+)\.html?\W*$ post.php?topic=$1&quotepost=$2
-	RewriteRule ^edit-post([0-9]+)\.html?\W*$ edit.php?post=$1
-	RewriteRule ^edit-post([0-9]+)-delete\.html?\W*$ edit.php?post=$1&act=delete
-	RewriteRule ^edit-topic([0-9]+)-(delete|trash|move|lock|sticky|unlock|unsticky)\.html?\W*$ edit.php?topic=$1&act=$2
-	RewriteRule ^online-([0-9]+)\.html?\W*$ online.php?page=$1
-	RewriteRule ^members-(username|level|regdate|posts)-([0-9]+)\.html?\W*$ members.php?sortby=$1&page=$2
-	RewriteRule ^members-staff\.html?\W*$ members.php?act=staff
-	RewriteRule ^faq-([0-9a-zA-Z]{5})\.html?\W*$ faq.php?q=$1
-	RewriteRule ^search-results\.html?\W*$ search.php?act=results
-	RewriteRule ^search-results-([0-9]+)\.html?\W*$ search.php?act=results&page=$1
-	RewriteRule ^search-(.+)\.html?\W*$ search.php?author=$1
-	RewriteRule ^rss\.xml$ rss.php
+	RewriteRule ^forum-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ forum.php?id=$1
+	RewriteRule ^forum-([0-9]+)-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ forum.php?id=$1&page=$2
+	RewriteRule ^topic-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ topic.php?id=$1
+	RewriteRule ^topic-([0-9]+)-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ topic.php?id=$1&page=$2
+	RewriteRule ^topic-([0-9]+)-((un)?subscribe)\.html?[\.,;\-\(\)\[\]]*$ topic.php?id=$1&act=$2
+	RewriteRule ^topic-([0-9]+)-getnewpost\.html?[\.,;\-\(\)\[\]]*$ topic.php?id=$1&act=getnewpost
+	RewriteRule ^topic-post([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ topic.php?post=$1
+	RewriteRule ^profile-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ profile.php?id=$1
+	RewriteRule ^mail-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ mail.php?id=$1
+	RewriteRule ^post-forum([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ post.php?forum=$1
+	RewriteRule ^post-topic([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ post.php?topic=$1
+	RewriteRule ^post-topic([0-9]+)-quotepost([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ post.php?topic=$1&quotepost=$2
+	RewriteRule ^edit-post([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ edit.php?post=$1
+	RewriteRule ^edit-post([0-9]+)-delete\.html?[\.,;\-\(\)\[\]]*$ edit.php?post=$1&act=delete
+	RewriteRule ^edit-topic([0-9]+)-(delete|trash|move|lock|sticky|unlock|unsticky)\.html?[\.,;\-\(\)\[\]]*$ edit.php?topic=$1&act=$2
+	RewriteRule ^online-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ online.php?page=$1
+	RewriteRule ^members-(username|level|regdate|posts)-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ members.php?sortby=$1&page=$2
+	RewriteRule ^members-staff\.html?[\.,;\-\(\)\[\]]*$ members.php?act=staff
+	RewriteRule ^faq-([0-9a-zA-Z]{5})\.html?[\.,;\-\(\)\[\]]*$ faq.php?q=$1
+	RewriteRule ^search-results\.html?[\.,;\-\(\)\[\]]*$ search.php?act=results
+	RewriteRule ^search-results-([0-9]+)\.html?[\.,;\-\(\)\[\]]*$ search.php?act=results&page=$1
+	RewriteRule ^search-(.+)\.html?[\.,;\-\(\)\[\]]*$ search.php?author=$1
+	RewriteRule ^rss\.xml[\.,;\-\(\)\[\]]*$ rss.php
 </IfModule>

@@ -20,6 +20,7 @@ UseBB 0.8 Changelog
 - Fixed ACP module handling to allow _-. in short names.
 - Fixed some bugs on the user panel.
 - Fixed some translation errors.
+- Fixed URL matching on some mod_rewrite versions.
 - Better module overview.
 - Don't warn about disabled ini_get() and exec().
 - Some additional confirmation messages in the ACP.

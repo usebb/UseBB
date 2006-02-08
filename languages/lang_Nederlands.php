@@ -138,7 +138,7 @@ $lang['SendpwdActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verst
 $lang['SendpwdNotActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s, tesamen met informatie over het heractiveren van je account.';
 $lang['ForumIndex'] = 'Forum-index';
 $lang['MissingFields'] = 'De volgende verplichte velden ontbreken of zijn foutief ingevuld: %s.';
-$lang['TermsOfUseContent'] = 'Je aanvaardt dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
+$lang['TermsOfUseContent'] = 'Je aanvaard dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
 
 Je gaat ermee akkoord geen misbruikende, offensieve, obscene of onaanvaardbare inhoud of inhoud dat bij wet verboden is te plaatsen op dit discussieforum. Indien je dit wel doet kan dit resulteren in het bannen van je account of zelfs het verwijderen ervan, en je internetprovider eventueel op de hoogte gebracht van je gedrag. Daarvoor wordt je IP-adres opgeslagen bij elk bericht dat je plaatst. Je gaat er ook mee akkoord dat administrators en moderators het recht hebben je onderwerpen te bewerken, verwijderen, verplaatsen of sluiten wanneer ze denken dat dit nodig is.
 

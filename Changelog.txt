@@ -28,6 +28,7 @@ UseBB 0.8 Changelog
 - Version check now contains H2 titles.
 - Less CSS id's in ACP.
 - Changes for better display of large smiley list.
+- Major changes in member and staff list design.
 
 UseBB 0.7 final Changelog
 ------------------------------

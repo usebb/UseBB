@@ -34,35 +34,33 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['header'] = '
-';
-
-$templates['cat_header'] = '
 	<table class="maintable">
 		<tr>
-			<td colspan="4" class="forumcat">&raquo; {level}</td>
-		</tr>
-		<tr>
-			<th>{l_Username}</th>
-			<th>{l_RealName}</th>
+			<th>{l_Username} / {l_RealName}</th>
 			<th>{l_Rank}</th>
 			<th>{l_Email}</th>
 		</tr>
 ';
 
+$templates['cat_header'] = '
+		<tr>
+			<td colspan="3" class="forumcat">&raquo; {level}</td>
+		</tr>
+';
+
 $templates['user'] = '
 		<tr>
-			<td>{username}</td>
-			<td>{real_name}</td>
+			<td>{username}<div class="jump-in-data">{real_name}</div></td>
 			<td>{rank}</td>
 			<td>{email}</td>
 		</tr>
 ';
 
 $templates['cat_footer'] = '
-	</table>
 ';
 
 $templates['footer'] = '
+	</table>
 ';
 
 ?>

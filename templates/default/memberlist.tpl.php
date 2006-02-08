@@ -37,10 +37,8 @@ $templates['header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
-			<th>{l_Username}</th>
-			<th>{l_RealName}</th>
-			<th>{l_Level}</th>
-			<th>{l_Rank}</th>
+			<th>{l_Username} / {l_RealName}</th>
+			<th>{l_Level} / {l_Rank}</th>
 			<th>{l_Registered}</th>
 			<th>{l_Posts}</th>
 		</tr>
@@ -48,10 +46,8 @@ $templates['header'] = '
 
 $templates['user'] = '
 		<tr>
-			<td>{username}</td>
-			<td>{real_name}</td>
-			<td class="minimal">{level}</td>
-			<td class="minimal">{rank}</td>
+			<td>{username}<div class="jump-in-data">{real_name}</div></td>
+			<td>{level}<div class="jump-in-data">{rank}</div></td>
 			<td>{registered}</td>
 			<td class="count">{posts}</td>
 		</tr>
@@ -59,7 +55,7 @@ $templates['user'] = '
 
 $templates['footer'] = '
 		<tr>
-			<td colspan="6" class="formcontrols">{sort_by_links}</td>
+			<td colspan="4" class="formcontrols">{sort_by_links}</td>
 		</tr>
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>

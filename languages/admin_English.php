@@ -75,7 +75,7 @@ $lang['VersionBewareDevVersions'] = 'This forum is running %s however %s is stil
 
 $lang['ConfigInfo'] = 'On this page you can edit all settings of your UseBB forum. Be careful altering the database configuration. Fields marked with an asterisk (*) are required.';
 $lang['ConfigSet'] = 'The new configuration has been set. It will be visible upon loading a new page.';
-$lang['ConfigMissingFields'] = 'Some fields were missing or incorrect (i.e. text were a number was expected). Please check the following fields:';
+$lang['ConfigMissingFields'] = 'Some fields were missing or incorrect (i.e. text where a number was expected). Please check the following fields:';
 $lang['ConfigBoard-type'] = 'Type';
 $lang['ConfigBoard-server'] = 'Server';
 $lang['ConfigBoard-username'] = 'Username';

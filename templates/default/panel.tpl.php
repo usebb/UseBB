@@ -133,7 +133,12 @@ $templates['edit_profile'] = '
 			<td class="fieldtitle">{l_Interests}</td><td>{interests_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Signature}</td><td>{signature_input}</td>
+			<td class="fieldtitle">{l_Signature}</td>
+			<td>
+				<ul id="bbcode-controls"><li>{bbcode_controls}</li></ul>
+				{signature_input}
+				<ul id="smiley-controls"><li>{smiley_controls}</li></ul>
+			</td>
 		</tr>
 		<tr>
 			<th colspan="2">{l_ContactInfo}</th>

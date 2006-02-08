@@ -129,7 +129,6 @@ $lang['ConfigBoard-view_contactadmin_min_level'] = 'Minimum level for viewing co
 $lang['ConfigBoard-allow_multi_sess'] = 'Allow multiple sessions per IP';
 $lang['ConfigBoard-board_closed'] = 'Close the board';
 $lang['ConfigBoard-cookie_secure'] = 'Secure cookies (for HTTPS)';
-$lang['ConfigBoard-disable_info_emails'] = 'Disable informational e-mails';
 $lang['ConfigBoard-dst'] = 'Daylight saving times';
 $lang['ConfigBoard-enable_contactadmin'] = 'Enable contact admin link';
 $lang['ConfigBoard-enable_detailed_online_list'] = 'Enable detailed online list';

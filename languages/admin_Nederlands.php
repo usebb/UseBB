@@ -129,7 +129,6 @@ $lang['ConfigBoard-view_contactadmin_min_level'] = 'Vereiste niveau voor bekijke
 $lang['ConfigBoard-allow_multi_sess'] = 'Sta meerdere sessies toe per IP-adres';
 $lang['ConfigBoard-board_closed'] = 'Sluit het forum';
 $lang['ConfigBoard-cookie_secure'] = 'Beveiligde cookies (voor HTTPS)';
-$lang['ConfigBoard-disable_info_emails'] = 'Informatie-emails uitschakelen';
 $lang['ConfigBoard-dst'] = 'Zomertijd';
 $lang['ConfigBoard-enable_contactadmin'] = '\'Admin contacteren\'-link inschakelen';
 $lang['ConfigBoard-enable_detailed_online_list'] = 'Gedetailleerde onlinelijst inschakelen';

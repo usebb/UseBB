@@ -77,7 +77,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 // Some extra arrays used
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
-$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_secure', 'disable_info_emails', 'disable_registrations', 'dst', 'enable_acp_modules', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
+$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_secure', 'disable_registrations', 'dst', 'enable_acp_modules', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('passwd', 'prefix', 'board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path');
 
 if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 2)) && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_array(intval($_POST['conf-debug']), array(0, 1, 2)) && in_array($_POST['conf-email_view_level'], array(0, 1, 2, 3)) && in_array($_POST['conf-language'], $functions->get_language_packs()) && in_array(intval($_POST['conf-output_compression']), array(0, 1, 2, 3)) && in_array($_POST['conf-template'], $functions->get_template_sets()) && isset($_POST['conf-timezone']) && $functions->timezone_handler('check_existance', $_POST['conf-timezone']) && in_array(intval($_POST['conf-view_detailed_online_list_min_level']), $user_levels) && in_array(intval($_POST['conf-view_forum_stats_box_min_level']), $user_levels) && in_array(intval($_POST['conf-view_hidden_email_addresses_min_level']), $user_levels) && in_array(intval($_POST['conf-view_memberlist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stafflist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stats_min_level']), $user_levels) && in_array(intval($_POST['conf-view_contactadmin_min_level']), $user_levels) ) {
@@ -180,7 +180,6 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		'email' => array(
 			'email_view_level',
 			'view_hidden_email_addresses_min_level',
-			'disable_info_emails',
 		),
 		'user_rights' => array(
 			'guests_can_access_board',

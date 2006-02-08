@@ -24,6 +24,7 @@ UseBB 0.8 Changelog
 - Some additional confirmation messages in the ACP.
 - Members awaiting admin-activation message on ACP index.
 - Registering first user does not require activation anymore.
+- Removed disable_info_emails setting.
 - Version check now contains H2 titles.
 - Less CSS id's in ACP.
 

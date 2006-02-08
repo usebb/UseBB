@@ -198,7 +198,7 @@ if ( $functions->get_config('disable_registrations') ) {
 				'password' => $_POST['passwd1']
 			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 			
-		} elseif ( !$functions->get_config('disable_info_emails') ) {
+		} else {
 			
 			if ( intval($functions->get_config('activation_mode')) === 2 && $level != 3 ) {
 				

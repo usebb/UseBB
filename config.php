@@ -83,7 +83,6 @@ $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
 $conf['debug'] = 0;
-$conf['disable_info_emails'] = 0;
 $conf['disable_registrations'] = 0;
 $conf['disable_registrations_reason'] = 'No new users allowed at this time.';
 $conf['dst'] = 0;

@@ -104,7 +104,7 @@ $template->add_global_vars(array(
 	'link_rss' => $functions->make_url('rss.php'),
 	'link_stats' => $functions->make_url('stats.php'),
 	
-	'rss_head_link' => ( $functions->get_config('enable_rss') ) ? '<link rel="newsfeed" type="application/rss+xml" title="'.$lang['RSSFeed'].'" href="'.$functions->make_url('rss.php').'" />' : '',
+	'rss_head_link' => ( $functions->get_config('enable_rss') ) ? '<link rel="alternate" type="application/rss+xml" title="'.unhtml($functions->get_config('board_name')).' '.$lang['RSSFeed'].'" href="'.$functions->make_url('rss.php').'" />' : '',
 	'usebb_copyright' => sprintf($lang['PoweredBy'], $functions->get_config('board_name'), '<a href="http://www.usebb.net">UseBB</a> '.USEBB_VERSION),
 	'usebb_version' => USEBB_VERSION
 	

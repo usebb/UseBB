@@ -15,6 +15,7 @@ UseBB 0.8 Changelog
 - Fixed bug #868: ini_set() disabled for security.
 - Fixed bug #882: SQL error on edit members with custom table prefix.
 - Fixed bug #889: moving moderators may cause duplicates.
+- Fixed bug #939: link tag for feed autodiscovery not working.
 - Fixed some bad handling of input on member editing.
 - Fixed ACP module handling to allow _-. in short names.
 - Fixed some bugs on the user panel.

@@ -27,6 +27,7 @@ UseBB 0.8 Changelog
 - Removed disable_info_emails setting.
 - Version check now contains H2 titles.
 - Less CSS id's in ACP.
+- Changes for better display of large smiley list.
 
 UseBB 0.7 final Changelog
 ------------------------------

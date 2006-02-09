@@ -153,6 +153,12 @@ if ( !empty($_POST['displayed_name']) && !$displayed_name_taken && !$displayed_n
 			
 		}
 		
+	} else {
+		
+		$active = 1;
+		$active_key_md5 = '';
+		$msgbox_content = $lang['ProfileEdited'];
+		
 	}
 	
 	if ( !empty($_POST['birthday_month']) && valid_int($_POST['birthday_month']) && !empty($_POST['birthday_day']) && valid_int($_POST['birthday_day']) && !empty($_POST['birthday_year']) && valid_int($_POST['birthday_year']) )

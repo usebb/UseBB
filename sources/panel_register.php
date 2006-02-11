@@ -137,7 +137,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	// If all necessary information has been posted and the user accepted the terms
 	//
-	if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+	if ( !empty($_POST['user']) && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 		
 		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
 		$out = $db->fetch_result($result);
@@ -231,6 +231,8 @@ if ( $functions->get_config('disable_registrations') ) {
 			'content' => $msgbox_content
 		));
 		
+		unset($_SESSION['saltcode']);
+		
 	} elseif ( !empty($_POST['acceptedterms']) ) {
 		
 		//
@@ -242,6 +244,12 @@ if ( $functions->get_config('disable_registrations') ) {
 			//
 			// The form has been submitted but there are missing fields
 			//
+			
+			//
+			// Because this often happens with bad config values...
+			//
+			if ( empty($_SESSION['saltcode']) )
+				trigger_error("Missing saltcode in session data!\n\nThis is most likely due to malfunctioning sessions. Please check UseBB's cookie/session configuration values.");
 			
 			if ( $username_taken ) {
 				

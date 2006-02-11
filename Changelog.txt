@@ -4,6 +4,7 @@ UseBB 1.0 Changelog
 ------------------------------
 
 - Added error upon lost saltcode when registering.
+- Make trigger_error() errors E_USER_ERROR.
 
 UseBB 0.8 Changelog
 ------------------------------

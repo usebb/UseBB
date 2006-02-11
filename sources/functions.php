@@ -187,9 +187,14 @@ class functions {
 			128 => 'E_COMPILE_WARNING',
 			256 => 'E_USER_ERROR',
 			512 => 'E_USER_WARNING',
-			1024 => 'E_USER_NOTICE',
-			2048 => 'E_STRICT'
+			1024 => 'E_USER_NOTICE'
 		);
+		
+		//
+		// Make trigger_error() calls E_USER_ERROR
+		//
+		$errno = ( $errno == 1024 ) ? 256 : $errno;
+		
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
 		if ( $errtype == 'SQL_ERROR' )

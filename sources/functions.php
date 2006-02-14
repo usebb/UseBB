@@ -193,7 +193,7 @@ class functions {
 		//
 		// Make trigger_error() calls E_USER_ERROR
 		//
-		$errno = ( $errno == 1024 ) ? 256 : $errno;
+		$errno = ( $errno == E_USER_NOTICE ) ? E_USER_ERROR : $errno;
 		
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		

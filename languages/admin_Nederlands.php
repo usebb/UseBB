@@ -317,6 +317,7 @@ $lang['PruneForumsStart'] = 'Start prunen';
 $lang['PruneForumsExplain'] = 'Door forums te prunen kunnen inactieve onderwerpen verplaatst of verwijderd en het forum schoon gehouden worden.';
 $lang['PruneForumsForums'] = 'Te prunen forums';
 $lang['PruneForumsAction'] = 'Actie';
+$lang['PruneForumsActionLock'] = 'Sluiten';
 $lang['PruneForumsActionMove'] = 'Verplaatsen';
 $lang['PruneForumsActionDelete'] = 'Verwijderen';
 $lang['PruneForumsMoveTo'] = 'Verplaatsen naar';

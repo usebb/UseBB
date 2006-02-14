@@ -63,7 +63,7 @@ if ( !empty($_POST['forums']) && is_array($_POST['forums']) && count($_POST['for
 	
 }
 
-if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] == 'delete' || ( $_POST['action'] == 'move' && !empty($_POST['move_to']) && valid_int($_POST['move_to']) && in_array($_POST['move_to'], $forum_ids) && !in_array($_POST['move_to'], $_POST['forums']) ) ) && !empty($_POST['latest_post']) && valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 && !empty($_POST['confirm']) ) {
+if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] == 'delete' || ( $_POST['action'] == 'move' && !empty($_POST['move_to']) && valid_int($_POST['move_to']) && in_array($_POST['move_to'], $forum_ids) && !in_array($_POST['move_to'], $_POST['forums']) ) || $_POST['action'] == 'lock' ) && !empty($_POST['latest_post']) && valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 && !empty($_POST['confirm']) ) {
 	
 	//
 	// What we need:
@@ -102,7 +102,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 			$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
 		$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics + ".$total['topics'].", posts = posts + ".$total['posts']." WHERE id = ".$_POST['move_to']);
 		
-	} else {
+	} elseif ( $_POST['action'] == 'delete' ) {
 		
 		//
 		// Delete topics
@@ -114,6 +114,13 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 			$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
 		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['topics']." WHERE name = 'topics'");
 		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['posts']." WHERE name = 'posts'");
+		
+	} else {
+		
+		//
+		// Lock topics
+		//
+		$db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id IN (".join(', ', $topics).")");
 		
 	}
 	
@@ -128,7 +135,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		$errors = array();
 		if ( !count($_POST['forums']) )
 			$errors[] = $lang['PruneForumsForums'];
-		if ( empty($_POST['action']) || ( $_POST['action'] != 'delete' && $_POST['action'] != 'move' ) )
+		if ( empty($_POST['action']) || !in_array($_POST['action'], array('delete', 'move', 'lock')) )
 			$errors[] = $lang['PruneForumsAction'];
 		if ( !empty($_POST['action']) && $_POST['action'] == 'move' && ( empty($_POST['move_to']) || !valid_int($_POST['move_to']) || !in_array($_POST['move_to'], $forum_ids) ) )
 			$errors[] = $lang['PruneForumsMoveTo'];
@@ -149,6 +156,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		
 		$delete_checked = ( !empty($_POST['action']) && $_POST['action'] == 'delete' ) ? ' checked="checked"' : '';
 		$move_checked = ( !empty($_POST['action']) && $_POST['action'] == 'move' ) ? ' checked="checked"' : '';
+		$lock_checked = ( !empty($_POST['action']) && $_POST['action'] == 'lock' ) ? ' checked="checked"' : '';
 		$exclude_stickies_checked = ( !empty($_POST['exclude_stickies']) ) ? ' checked="checked"' : '';
 		$_POST['latest_post'] = ( valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 ) ? $_POST['latest_post'] : '';
 		
@@ -163,7 +171,8 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		$content = '<p>'.$lang['PruneForumsExplain'].'</p>';
 		
 		$delete_checked = '';
-		$move_checked = ' checked="checked"';
+		$move_checked = '';
+		$lock_checked = ' checked="checked"';
 		$exclude_stickies_checked = ' checked="checked"';
 		$_POST['latest_post'] = '';
 		
@@ -172,7 +181,11 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'prune_forums')).'" method="post">';
 	$content .= '<table id="adminregulartable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsForums'].'</td><td>'.$admin_functions->forum_select_box('forums').'</td></tr>';
-		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsAction'].'</td><td><input type="radio" name="action" value="move" id="move"'.$move_checked.' /><label for="move"> '.$lang['PruneForumsActionMove'].'</label> <input type="radio" name="action" value="delete" id="delete"'.$delete_checked.' /><label for="delete"> '.$lang['PruneForumsActionDelete'].'</label></td></tr>';
+		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsAction'].'</td><td>';
+			$content .= '<input type="radio" name="action" value="lock" id="lock"'.$lock_checked.' /><label for="lock"> '.$lang['PruneForumsActionLock'].'</label> ';
+			$content .= '<input type="radio" name="action" value="move" id="move"'.$move_checked.' /><label for="move"> '.$lang['PruneForumsActionMove'].'</label> ';
+			$content .= '<input type="radio" name="action" value="delete" id="delete"'.$delete_checked.' /><label for="delete"> '.$lang['PruneForumsActionDelete'].'</label>';
+		$content .= '</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsMoveTo'].'</td><td>'.$admin_functions->forum_select_box('move_to', false).'</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsTopicAge'].'</td><td>'.sprintf($lang['PruneForumsTopicAgeField'], '<input type="text" name="latest_post" size="4" maxlength="4" value="'.$_POST['latest_post'].'" />').'</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsExcludeStickies'].'</td><td><input type="checkbox" name="exclude_stickies" id="exclude_stickies" value="1"'.$exclude_stickies_checked.' /><label for="exclude_stickies"> '.$lang['PruneForumsExcludeStickies'].'</label></td></tr>';

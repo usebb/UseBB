@@ -310,9 +310,10 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			if ( count($forum_moderators_checked) ) {
 				
 				$forum_moderators = array_keys($forum_moderators_checked);
+				$forum = ( $_GET['do'] == 'add' ) ? $db->last_id() : $_GET['id'];
 				
 				foreach ( $forum_moderators as $forum_moderator )
-					$db->query("INSERT INTO ".TABLE_PREFIX."moderators VALUES(".$_GET['id'].", ".$forum_moderator.")");
+					$db->query("INSERT INTO ".TABLE_PREFIX."moderators VALUES(".$forum.", ".$forum_moderator.")");
 				
 			}
 			$admin_functions->reload_moderator_perms();

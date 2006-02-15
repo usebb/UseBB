@@ -471,6 +471,16 @@ Dit is de forumsoftware van [board_name]. De administrator heeft je account [acc
 [board_link]
 [admin_email]';
 $lang['AdminActivatedAccountEmailSubject'] = 'Account geactiveerd';
+$lang['Sort'] = 'Sorteren';
+$lang['SortBy'] = 'Sorteren op';
+$lang['SortBy-displayed_name'] = 'Gebruikersnaam';
+$lang['SortBy-real_name'] = 'Echte naam';
+$lang['SortBy-level'] = 'Niveau';
+$lang['SortBy-rank'] = 'Rank';
+$lang['SortBy-regdate'] = 'Geregistreerd';
+$lang['SortBy-posts'] = 'Berichten';
+$lang['SortOrder-asc'] = 'Oplopend';
+$lang['SortOrder-desc'] = 'Aflopend';
 
 //
 // Date translations

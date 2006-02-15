@@ -368,7 +368,6 @@ $lang['RealName'] = 'Real name';
 $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
-$lang['SortBy'] = 'Sort by: %s';
 $lang['TopicReview'] = 'Topic review';
 $lang['ViewMorePosts'] = 'View more posts';
 $lang['DisplayedName'] = 'Displayed name';
@@ -470,5 +469,15 @@ This is the forum software of [board_name] speaking. The administrator has activ
 [board_link]
 [admin_email]';
 $lang['AdminActivatedAccountEmailSubject'] = 'Account activated';
+$lang['Sort'] = 'Sort';
+$lang['SortBy'] = 'Sort by';
+$lang['SortBy-displayed_name'] = 'Username';
+$lang['SortBy-real_name'] = 'Real name';
+$lang['SortBy-level'] = 'Level';
+$lang['SortBy-rank'] = 'Rank';
+$lang['SortBy-regdate'] = 'Registered';
+$lang['SortBy-posts'] = 'Posts';
+$lang['SortOrder-asc'] = 'Ascending';
+$lang['SortOrder-desc'] = 'Descending';
 
 ?>

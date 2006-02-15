@@ -523,13 +523,14 @@ class functions {
 	 * @param array $vars GET variabeles
 	 * @param bool $html Return HTML URL
 	 * @param bool $enable_sid Enable session ID's
+	 * @param bool $force_php Force linking to .php files
 	 * @returns string URL
 	 */
-	function make_url($filename, $vars=array(), $html=true, $enable_sid=true) {
+	function make_url($filename, $vars=array(), $html=true, $enable_sid=true, $force_php=false) {
 		
 		global $session;
 		
-		if ( !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
+		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
 			//
 			// Friendly URL's

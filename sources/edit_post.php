@@ -155,12 +155,12 @@ if ( !isset($_GET['act']) ) {
 				}
 				
 				$options_input = array();
-				$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';
-				$options_input[] = '<input type="checkbox" name="enable_smilies" id="enable_smilies" value="1"'.$enable_smilies_checked.' /><label for="enable_smilies"> '.$lang['EnableSmilies'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="enable_bbcode" value="1"'.$enable_bbcode_checked.' /> '.$lang['EnableBBCode'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="enable_smilies" value="1"'.$enable_smilies_checked.' /> '.$lang['EnableSmilies'].'</label>';
 				if ( $postdata['poster_id'] && !empty($postdata['signature']) )
-					$options_input[] = '<input type="checkbox" name="enable_sig" id="enable_sig" value="1"'.$enable_sig_checked.' /><label for="enable_sig"> '.$lang['EnableSig'].'</label>';
+					$options_input[] = '<label><input type="checkbox" name="enable_sig" value="1"'.$enable_sig_checked.' /> '.$lang['EnableSig'].'</label>';
 				if ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) )
-					$options_input[] = '<input type="checkbox" name="enable_html" id="enable_html" value="1"'.$enable_html_checked.' /><label for="enable_html"> '.$lang['EnableHTML'].'</label>';
+					$options_input[] = '<label><input type="checkbox" name="enable_html" value="1"'.$enable_html_checked.' /> '.$lang['EnableHTML'].'</label>';
 				$options_input = join('<br />', $options_input);
 				
 				$template->parse('post_form', 'various', array(

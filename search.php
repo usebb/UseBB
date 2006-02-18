@@ -364,7 +364,7 @@ if ( !count($forum_ids) ) {
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',
 			'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$keywords.'" />',
 			'keywords_explain' => sprintf($lang['KeywordsExplain'], $functions->get_config('search_nonindex_words_min_length')),
-			'mode_input' => '<input type="radio" name="mode" id="mode_and" value="and"'.$mode_and_checked.' /><label for="mode_and"> '.$lang['AllKeywords'].'</label> <input type="radio" name="mode" id="mode_or" value="or"'.$mode_or_checked.' /><label for="mode_or"> '.$lang['OneOrMoreKeywords'].'</label>',
+			'mode_input' => '<label><input type="radio" name="mode" value="and"'.$mode_and_checked.' /> '.$lang['AllKeywords'].'</label> <label><input type="radio" name="mode" value="or"'.$mode_or_checked.' /> '.$lang['OneOrMoreKeywords'].'</label>',
 			'author_input' => '<input type="text" name="author" size="35" value="'.$author.'" />',
 			'forums_input' => $forums_input,
 			'sort_input' => $sort_input,

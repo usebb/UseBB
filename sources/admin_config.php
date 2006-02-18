@@ -313,7 +313,7 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		
 		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
 		$extrainfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<br />'.$lang['ConfigBoard-'.$key.'-info'] : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="checkbox" name="conf-'.$key.'" id="conf-'.$key.'" value="1"'.$enabled.' /><label for="conf-'.$key.'"> '.$lang['Yes'].'</label>'.$extrainfo.'</td></tr>';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><label><input type="checkbox" name="conf-'.$key.'" value="1"'.$enabled.' /> '.$lang['Yes'].'</label>'.$extrainfo.'</td></tr>';
 		
 	}
 	

@@ -251,16 +251,16 @@ if ( !$topicdata['id'] ) {
 			$_POST['content'] = ( !empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
 			
 			$options_input = array();
-			$options_input[] = '<input type="checkbox" name="enable_bbcode" id="enable_bbcode" value="1"'.$enable_bbcode_checked.' /><label for="enable_bbcode"> '.$lang['EnableBBCode'].'</label>';
-			$options_input[] = '<input type="checkbox" name="enable_smilies" id="enable_smilies" value="1"'.$enable_smilies_checked.' /><label for="enable_smilies"> '.$lang['EnableSmilies'].'</label>';
+			$options_input[] = '<label><input type="checkbox" name="enable_bbcode" value="1"'.$enable_bbcode_checked.' /> '.$lang['EnableBBCode'].'</label>';
+			$options_input[] = '<label><input type="checkbox" name="enable_smilies" value="1"'.$enable_smilies_checked.' /> '.$lang['EnableSmilies'].'</label>';
 			if ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info']['signature']) )
-				$options_input[] = '<input type="checkbox" name="enable_sig" id="enable_sig" value="1"'.$enable_sig_checked.' /><label for="enable_sig"> '.$lang['EnableSig'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="enable_sig" value="1"'.$enable_sig_checked.' /> '.$lang['EnableSig'].'</label>';
 			if ( $functions->auth($topicdata['auth'], 'html', $topicdata['forum_id']) )
-				$options_input[] = '<input type="checkbox" name="enable_html" id="enable_html" value="1"'.$enable_html_checked.' /><label for="enable_html"> '.$lang['EnableHTML'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="enable_html" value="1"'.$enable_html_checked.' /> '.$lang['EnableHTML'].'</label>';
 			if ( !$topicdata['status_locked'] && $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) )
-				$options_input[] = '<input type="checkbox" name="lock_topic" id="lock_topic" value="1"'.$lock_topic_checked.' /><label for="lock_topic"> '.$lang['LockTopicAfterPost'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="lock_topic" value="1"'.$lock_topic_checked.' /> '.$lang['LockTopicAfterPost'].'</label>';
 			if ( $session->sess_info['user_id'] && !$subscribed )
-				$options_input[] = '<input type="checkbox" name="subscribe_topic" id="subscribe_topic" value="1"'.$subscribe_topic_checked.' /><label for="subscribe_topic"> '.$lang['SubscribeToThisTopic'].'</label>';
+				$options_input[] = '<label><input type="checkbox" name="subscribe_topic" value="1"'.$subscribe_topic_checked.' /> '.$lang['SubscribeToThisTopic'].'</label>';
 			$options_input = join('<br />', $options_input);
 			
 			$template->parse('post_form', 'various', array(

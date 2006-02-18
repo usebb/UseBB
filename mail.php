@@ -166,7 +166,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>',
 						'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
-						'bcc_input' => '<input type="checkbox" name="bcc" id="bcc" value="1"'.$bcc_checked.'><label for="bcc"> '.$lang['BCCMyself'].'</label>',
+						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.' /> '.$lang['BCCMyself'].'</label>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 						'form_end' => '</form>'

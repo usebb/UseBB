@@ -188,7 +188,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			
 		} else {
 			
-			$remember_input = '<input type="checkbox" name="remember" id="remember" value="1" checked="checked" tabindex="3" /><label for="remember"> '.$lang['Yes'].'</label>';
+			$remember_input = '<label><input type="checkbox" name="remember" value="1" checked="checked" tabindex="3" /> '.$lang['Yes'].'</label>';
 			
 		}
 		

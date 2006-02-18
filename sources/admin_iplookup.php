@@ -65,7 +65,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 $content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'iplookup')).'" method="post">';
 $content .= '<p>'.$lang['IPAddress'].': <input type="text" name="ip" id="ip" size="15" maxlength="15" value="'.$ip_addr.'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
-$content .= '<p><input type="checkbox" name="search_hostname" id="search_hostname" value="1"'.$search_hostname_checked.' /><label for="search_hostname"> '.$lang['IPLookupSearchHostname'].'</label> <input type="checkbox" name="search_usernames" id="search_usernames" value="1"'.$search_usernames_checked.' /><label for="search_usernames"> '.$lang['IPLookupSearchUsernames'].'</label></p>';
+$content .= '<p><label><input type="checkbox" name="search_hostname" value="1"'.$search_hostname_checked.' /> '.$lang['IPLookupSearchHostname'].'</label> <label><input type="checkbox" name="search_usernames" value="1"'.$search_usernames_checked.' /> '.$lang['IPLookupSearchUsernames'].'</label></p>';
 $content .= '</form>';
 
 if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {

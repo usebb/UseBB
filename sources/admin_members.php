@@ -235,7 +235,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$level_input .= '</select>';
 				
 				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
-				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><input type="checkbox" name="banned" id="banned" value="1"'.$banned_checked.' /><label for="banned"> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><<label>input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
 				
 			}
 			
@@ -316,20 +316,20 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<tr><th colspan="2">'.$lang['EditOptions'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Language'].'</td><td>'.$language_input.'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Template'].'</td><td>'.$template_input.'</td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['PublicEmail'].'</td><td><input type="checkbox" name="email_show" id="email_show" value="1"'.$email_show_checked.' /><label for="email_show"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['PublicLastLogin'].'</td><td><input type="checkbox" name="last_login_show" id="last_login_show" value="1"'.$last_login_show_checked.' /><label for="last_login_show"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['HideFromOnlineList'].'</td><td><input type="checkbox" name="hide_from_online_list" id="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /><label for="hide_from_online_list"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['PublicEmail'].'</td><td><label><input type="checkbox" name="email_show" value="1"'.$email_show_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['PublicLastLogin'].'</td><td><label><input type="checkbox" name="last_login_show" value="1"'.$last_login_show_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideFromOnlineList'].'</td><td><label><input type="checkbox" name="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['DateFormat'].'</td><td><input type="text" name="date_format" size="25" maxlength="255" value="'.$_POST['date_format'].'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Timezone'].'</td><td>'.$timezone_input.'</td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['DST'].'</td><td><input type="checkbox" name="dst" id="dst" value="1"'.$dst_checked.' /><label for="dst"> '.$lang['Enabled'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['QuickReply'].'</td><td><input type="checkbox" name="quickreply" id="quickreply" value="1"'.$quickreply_checked.' /><label for="quickreply"> '.$lang['Enabled'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['ReturnToTopicAfterPosting'].'</td><td><input type="checkbox" name="return_to_topic" id="return_to_topic" value="1"'.$return_to_topic_checked.' /><label for="return_to_topic"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle" rowspan="2">'.$lang['AutoSubscribe'].'</td><td><input type="checkbox" name="auto_subscribe_topic" id="auto_subscribe_topic" value="1"'.$auto_subscribe_topic_checked.' /><label for="auto_subscribe_topic"> '.$lang['OnPostingNewTopics'].'</label></td></tr>';
-				$content .= '<tr><td><input type="checkbox" name="auto_subscribe_reply" id="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /><label for="auto_subscribe_reply"> '.$lang['OnPostingNewReplies'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['OpenLinksNewWindow'].'</td><td><input type="checkbox" name="target_blank" id="target_blank" value="1"'.$target_blank_checked.' /><label for="target_blank"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllAvatars'].'</td><td><input type="checkbox" name="hide_avatars" id="hide_avatars" value="1"'.$hide_avatars_checked.' /><label for="hide_avatars"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['HideUserinfo'].'</td><td><input type="checkbox" name="hide_userinfo" id="hide_userinfo" value="1"'.$hide_userinfo_checked.' /><label for="hide_userinfo"> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllSignatures'].'</td><td><input type="checkbox" name="hide_signatures" id="hide_signatures" value="1"'.$hide_signatures_checked.' /><label for="hide_signatures"> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['DST'].'</td><td><label><input type="checkbox" name="dst" value="1"'.$dst_checked.' /> '.$lang['Enabled'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['QuickReply'].'</td><td><label><input type="checkbox" name="quickreply" value="1"'.$quickreply_checked.' /> '.$lang['Enabled'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ReturnToTopicAfterPosting'].'</td><td><label><input type="checkbox" name="return_to_topic" value="1"'.$return_to_topic_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle" rowspan="2">'.$lang['AutoSubscribe'].'</td><td><label><input type="checkbox" name="auto_subscribe_topic" value="1"'.$auto_subscribe_topic_checked.' /> '.$lang['OnPostingNewTopics'].'</label></td></tr>';
+				$content .= '<tr><td><label><input type="checkbox" name="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /> '.$lang['OnPostingNewReplies'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['OpenLinksNewWindow'].'</td><td><label><input type="checkbox" name="target_blank" value="1"'.$target_blank_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllAvatars'].'</td><td><label><input type="checkbox" name="hide_avatars" value="1"'.$hide_avatars_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideUserinfo'].'</td><td><label><input type="checkbox" name="hide_userinfo" value="1"'.$hide_userinfo_checked.' /> '.$lang['Yes'].'</label></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllSignatures'].'</td><td><label><input type="checkbox" name="hide_signatures" value="1"'.$hide_signatures_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 			
 			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 			

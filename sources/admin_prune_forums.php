@@ -182,14 +182,14 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 	$content .= '<table id="adminregulartable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsForums'].'</td><td>'.$admin_functions->forum_select_box('forums').'</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsAction'].'</td><td>';
-			$content .= '<input type="radio" name="action" value="lock" id="lock"'.$lock_checked.' /><label for="lock"> '.$lang['PruneForumsActionLock'].'</label> ';
-			$content .= '<input type="radio" name="action" value="move" id="move"'.$move_checked.' /><label for="move"> '.$lang['PruneForumsActionMove'].'</label> ';
-			$content .= '<input type="radio" name="action" value="delete" id="delete"'.$delete_checked.' /><label for="delete"> '.$lang['PruneForumsActionDelete'].'</label>';
+			$content .= '<label><input type="radio" name="action" value="lock"'.$lock_checked.' /> '.$lang['PruneForumsActionLock'].'</label> ';
+			$content .= '<label><input type="radio" name="action" value="move"'.$move_checked.' /> '.$lang['PruneForumsActionMove'].'</label> ';
+			$content .= '<label><input type="radio" name="action" value="delete"'.$delete_checked.' /> '.$lang['PruneForumsActionDelete'].'</label>';
 		$content .= '</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsMoveTo'].'</td><td>'.$admin_functions->forum_select_box('move_to', false).'</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsTopicAge'].'</td><td>'.sprintf($lang['PruneForumsTopicAgeField'], '<input type="text" name="latest_post" size="4" maxlength="4" value="'.$_POST['latest_post'].'" />').'</td></tr>';
-		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsExcludeStickies'].'</td><td><input type="checkbox" name="exclude_stickies" id="exclude_stickies" value="1"'.$exclude_stickies_checked.' /><label for="exclude_stickies"> '.$lang['PruneForumsExcludeStickies'].'</label></td></tr>';
-		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsConfirm'].'</td><td><input type="checkbox" name="confirm" id="confirm" value="1" /><label for="confirm"> '.$lang['PruneForumsConfirmText'].'</label></td></tr>';
+		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsExcludeStickies'].'</td><td><label><input type="checkbox" name="exclude_stickies" value="1"'.$exclude_stickies_checked.' /> '.$lang['PruneForumsExcludeStickies'].'</label></td></tr>';
+		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsConfirm'].'</td><td><label><input type="checkbox" name="confirm" value="1" /> '.$lang['PruneForumsConfirmText'].'</label></td></tr>';
 		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['PruneForumsStart'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr>';
 	$content .= '</table></form>';
 	

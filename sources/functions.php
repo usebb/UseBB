@@ -1207,7 +1207,7 @@ class functions {
 						if ( valid_int($page_id_val) )
 							$url_vars['id'] = $page_id_val;
 						$url_vars['page'] = $i;
-						$page_links[] = '<a href="'.$this->make_url($page_name, $url_vars, NULL, NULL, $force_php).'">'.$i.'</a>';
+						$page_links[] = '<a href="'.$this->make_url($page_name, $url_vars, true, true, $force_php).'">'.$i.'</a>';
 						
 					} else {
 						
@@ -1234,25 +1234,25 @@ class functions {
 				if ( $current_page > 1 ) {
 					
 					$url_vars['page'] = $current_page-1;
-					$page_links = '<a href="'.$this->make_url($page_name, $url_vars, NULL, NULL, $force_php).'">&lt;</a> '.$page_links;
+					$page_links = '<a href="'.$this->make_url($page_name, $url_vars, true, true, $force_php).'">&lt;</a> '.$page_links;
 					
 				}
 				if ( $current_page < $pages_number ) {
 					
 					$url_vars['page'] = $current_page+1;
-					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars, NULL, NULL, $force_php).'">&gt;</a>';
+					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars, true, true, $force_php).'">&gt;</a>';
 					
 				}
 				if ( $current_page > 2 ) {
 					
 					$url_vars['page'] = 1;
-					$page_links = '<a href="'.$this->make_url($page_name, $url_vars, NULL, NULL, $force_php).'">&laquo;</a> '.$page_links;
+					$page_links = '<a href="'.$this->make_url($page_name, $url_vars, true, true, $force_php).'">&laquo;</a> '.$page_links;
 					
 				}
 				if ( $current_page+1 < $pages_number ) {
 					
 					$url_vars['page'] = $pages_number;
-					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars, NULL, NULL, $force_php).'">&raquo;</a>';
+					$page_links .= ' <a href="'.$this->make_url($page_name, $url_vars, true, true, $force_php).'">&raquo;</a>';
 					
 				}
 				

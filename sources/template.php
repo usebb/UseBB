@@ -265,6 +265,12 @@ class template {
 			$this->character_encoding = $lang['character_encoding'];
 		
 		//
+		// application/xhtml+xml check
+		// Sends as text/html when browser does not support XHTML
+		//
+		$this->content_type = ( $this->content_type == 'application/xhtml+xml' && ( empty($_SERVER['HTTP_ACCEPT']) || strstr($_SERVER['HTTP_ACCEPT'], $this->content_type) === false ) ) ? 'text/html' : $this->content_type;
+		
+		//
 		// Set content type and charset
 		//
 		header('Content-Type: '.$this->content_type.'; charset='.$this->character_encoding);

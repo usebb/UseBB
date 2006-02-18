@@ -38,7 +38,7 @@ $templates = array();
 // Define configuration variables of this template set
 //
 $templates['config'] = array(
-	'content_type'						=> 'text/html',
+	'content_type'						=> 'application/xhtml+xml',
 	'item_delimiter'					=> ' &middot; ',
 	'locationbar_item_delimiter'		=> ' &raquo; ',
 	'postlinks_item_delimiter'			=> ' | ',

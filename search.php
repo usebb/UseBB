@@ -119,6 +119,22 @@ if ( !empty($_REQUEST['forums']) && is_array($_REQUEST['forums']) && count($_REQ
 	
 }
 
+//
+// Sort options
+//
+$sort_items = array(
+	'latest_post' => 'p2.post_time',
+	'topic_title' => 't.topic_title',
+	'forum' => 't.forum_id',
+	'author' => 'u.displayed_name',
+	'replies' => 't.count_replies',
+	'views' => 't.count_views'
+);
+$sort_orders = array('desc', 'asc');
+
+$_REQUEST['sort_by'] = ( !empty($_REQUEST['sort_by']) && array_key_exists($_REQUEST['sort_by'], $sort_items) ) ? $_REQUEST['sort_by'] : 'latest_post';
+$_REQUEST['order'] = ( !empty($_REQUEST['order']) && in_array($_REQUEST['order'], $sort_orders) ) ? $_REQUEST['order'] : 'desc';
+
 if ( !count($forum_ids) ) {
 	
 	$template->parse('msgbox', 'global', array(
@@ -163,6 +179,8 @@ if ( !count($forum_ids) ) {
 			'keywords' => ( !empty($_REQUEST['keywords']) ) ? $_REQUEST['keywords'] : '',
 			'mode' => $_REQUEST['mode'],
 			'author' => ( !empty($_REQUEST['author']) ) ? $_REQUEST['author'] : '',
+			'sort_by' => $sort_items[$_REQUEST['sort_by']],
+			'order' => $_REQUEST['order'],
 			'results' => $topic_ids
 		);
 		$result_data = addslashes(serialize($result_data));
@@ -211,7 +229,7 @@ if ( !count($forum_ids) ) {
 				'author' => unhtml(stripslashes($search_results['author'])),
 			));
 			
-			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY ".$search_results['sort_by']." ".$search_results['order']." LIMIT ".$limit_start.", ".$limit_end);
 			
 			while ( $topicdata = $db->fetch_result($result) ) {
 				
@@ -327,6 +345,22 @@ if ( !count($forum_ids) ) {
 			
 		}
 		
+		$sort_input = '<select name="sort_by">';
+		foreach ( $sort_items as $sort_item => $null ) {
+			
+			$selected = ( $_REQUEST['sort_by'] == $sort_item ) ? ' selected="selected"' : '';
+			$sort_input .= '<option value="'.$sort_item.'"'.$selected.'>'.$lang['SortBy-'.$sort_item].'</option>';
+			
+		}
+		$sort_input .= '</select> <select name="order">';
+		foreach ( $sort_orders as $sort_order ) {
+			
+			$selected = ( $_REQUEST['order'] == $sort_order ) ? ' selected="selected"' : '';
+			$sort_input .= '<option value="'.$sort_order.'"'.$selected.'>'.$lang['SortOrder-'.$sort_order].'</option>';
+			
+		}
+		$sort_input .= '</select> ';
+		
 		$template->parse('search_form', 'search', array(
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',
 			'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$keywords.'" />',
@@ -334,6 +368,7 @@ if ( !count($forum_ids) ) {
 			'mode_input' => '<input type="radio" name="mode" id="mode_and" value="and"'.$mode_and_checked.' /><label for="mode_and"> '.$lang['AllKeywords'].'</label> <input type="radio" name="mode" id="mode_or" value="or"'.$mode_or_checked.' /><label for="mode_or"> '.$lang['OneOrMoreKeywords'].'</label>',
 			'author_input' => '<input type="text" name="author" size="35" value="'.$author.'" />',
 			'forums_input' => $forums_input,
+			'sort_input' => $sort_input,
 			'submit_button' => '<input type="submit" value="'.$lang['Search'].'" />',
 			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'form_end' => '</form>'

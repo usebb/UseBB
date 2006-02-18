@@ -5,6 +5,7 @@ UseBB 1.0 Changelog
 
 - Added searching and detailed sorting on member list.
 - Added forum pruning by locking topics.
+- Added sorting options on search form.
 - Fixed bug #971: Undefined index: id upon creating forum.
 - config.php must no longer be writable by PHP.
 - Added error upon lost saltcode when registering.

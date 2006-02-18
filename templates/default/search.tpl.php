@@ -52,6 +52,9 @@ $templates['search_form'] = '
 			<td class="fieldtitle">{l_SearchForums}</td><td>{forums_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_SortBy}</td><td>{sort_input}</td>
+		</tr>
+		<tr>
 			<td class="formcontrols" colspan="2">{submit_button} {reset_button}</td>
 		</tr>
 	</table>

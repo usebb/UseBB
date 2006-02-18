@@ -352,14 +352,13 @@ if ( !count($forum_ids) ) {
 			$sort_input .= '<option value="'.$sort_item.'"'.$selected.'>'.$lang['SortBy-'.$sort_item].'</option>';
 			
 		}
-		$sort_input .= '</select> <select name="order">';
+		$sort_input .= '</select>';
 		foreach ( $sort_orders as $sort_order ) {
 			
-			$selected = ( $_REQUEST['order'] == $sort_order ) ? ' selected="selected"' : '';
-			$sort_input .= '<option value="'.$sort_order.'"'.$selected.'>'.$lang['SortOrder-'.$sort_order].'</option>';
+			$selected = ( $_REQUEST['order'] == $sort_order ) ? ' checked="checked"' : '';
+			$sort_input .= ' <label><input type="radio" name="order" value="'.$sort_order.'"'.$selected.' /> '.$lang['SortOrder-'.$sort_order].'</label>';
 			
 		}
-		$sort_input .= '</select> ';
 		
 		$template->parse('search_form', 'search', array(
 			'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',

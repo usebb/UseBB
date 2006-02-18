@@ -98,7 +98,7 @@ select option {
 #wrapper #content {
 	padding: 0px 25px 10px 25px;
 }
-#wrapper #content p, #wrapper #content table {
+#wrapper #content p, #wrapper #content table, #wrapper #content pre {
 	margin: 0px 0px 15px 0px;
 }
 #wrapper #content p.important {
@@ -155,16 +155,12 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	foreach ( array('db_type', 'db_server', 'db_username', 'db_passwd', 'db_dbname', 'db_prefix', 'admin_username', 'admin_email', 'admin_passwd1', 'admin_passwd2') as $key )
 		$_POST[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : '';
 	
-	if ( !empty($_POST['db_type']) && in_array($_POST['db_type'], array('mysql', 'mysqli')) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && preg_match(PWD_PREG, $_POST['admin_passwd1']) && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
+	if ( !empty($_SESSION['manually_saved']) ) {
 		
-		$admin_functions->set_config(array(
-			'type' => $_POST['db_type'],
-			'server' => $_POST['db_server'],
-			'username' => $_POST['db_username'],
-			'passwd' => $_POST['db_passwd'],
-			'dbname' => $_POST['db_dbname'],
-			'prefix' => $_POST['db_prefix']
-		));
+		unset($_SESSION['manually_saved']);
+		$functions->redirect('index.php', array('step' => 2));
+		
+	} elseif ( !empty($_POST['db_type']) && in_array($_POST['db_type'], array('mysql', 'mysqli')) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && preg_match(PWD_PREG, $_POST['admin_passwd1']) && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
 		
 		$_SESSION['installer_running'] = 1;
 		
@@ -172,7 +168,37 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		$_SESSION['admin_email'] = $_POST['admin_email'];
 		$_SESSION['admin_passwd'] = md5($_POST['admin_passwd1']);
 		
-		$functions->redirect('index.php', array('step' => 2));
+		if ( !is_writable(ROOT_PATH.'config.php') ) {
+			
+			$_SESSION['manually_saved'] = 1;
+			
+			$out .= '		<p>Because <code>config.php</code> is not writable, you will need to edit it yourself. Copy the following and overwrite the values in <code>config.php</code>:</p>
+		<pre>//
+// Define database configuration
+//
+$dbs[\'type\'] = \''.$_POST['db_type'].'\';
+$dbs[\'server\'] = \''.$_POST['db_server'].'\';
+$dbs[\'username\'] = \''.$_POST['db_username'].'\';
+$dbs[\'passwd\'] = \''.$_POST['db_passwd'].'\';
+$dbs[\'dbname\'] = \''.$_POST['db_dbname'].'\';
+$dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
+		<p>Only continue when you have saved (and uploaded) <code>config.php</code>.</p>
+		<p id="submit"><input type="submit" value="Continue" /></p>';
+			
+		} else {
+			
+			$admin_functions->set_config(array(
+				'type' => $_POST['db_type'],
+				'server' => $_POST['db_server'],
+				'username' => $_POST['db_username'],
+				'passwd' => $_POST['db_passwd'],
+				'dbname' => $_POST['db_dbname'],
+				'prefix' => $_POST['db_prefix']
+			));
+			
+			$functions->redirect('index.php', array('step' => 2));
+			
+		}
 		
 	} else {
 		
@@ -272,60 +298,54 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	
 } elseif ( $_GET['step'] === 2 && !empty($_SESSION['admin_username']) && preg_match(USER_PREG, $_SESSION['admin_username']) && !empty($_SESSION['admin_email']) && preg_match(EMAIL_PREG, $_SESSION['admin_email']) && !empty($_SESSION['admin_passwd']) ) {
 	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	$lines_schema = file('./schemas/mysql.sql');
+	$lines_data = file('./usebb.sql');
+	$lines = array_merge($lines_schema, $lines_data);
+	$queries = array();
+	$i = 0;
+	
+	foreach ($lines as $sql) {
 		
-		$lines_schema = file('./schemas/mysql.sql');
-		$lines_data = file('./usebb.sql');
-		$lines = array_merge($lines_schema, $lines_data);
-		$queries = array();
-		$i = 0;
-		
-		foreach ($lines as $sql) {
+		$sql = trim(stripslashes($sql));
+		if ( !empty($sql) && !preg_match('#^[-\#]#', $sql) ) {
 			
-			$sql = trim(stripslashes($sql));
-			if ( !empty($sql) && !preg_match('#^[-\#]#', $sql) ) {
+			if ( !array_key_exists($i, $queries) )
+				$queries[$i] = '';
+			
+			$queries[$i] .= $sql.' ';
+			
+			if ( preg_match('#;$#', $sql) ) {
 				
-				if ( !array_key_exists($i, $queries) )
-					$queries[$i] = '';
-				
-				$queries[$i] .= $sql.' ';
-				
-				if ( preg_match('#;$#', $sql) ) {
-					
-					$query = trim(str_replace('usebb_', TABLE_PREFIX, preg_replace("#\s#", ' ', $queries[$i])));
-					$queries[$i] = substr($query, 0, strlen($query)-1);
-					$i++;
-					
-				}
+				$query = trim(str_replace('usebb_', TABLE_PREFIX, preg_replace("#\s#", ' ', $queries[$i])));
+				$queries[$i] = substr($query, 0, strlen($query)-1);
+				$i++;
 				
 			}
 			
 		}
 		
-		$queries[] = "INSERT INTO ".TABLE_PREFIX."members ( id, name, displayed_name, email, passwd, regdate, level, active, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures ) VALUES ( NULL, '".$_SESSION['admin_username']."', '".$_SESSION['admin_username']."', '".$_SESSION['admin_email']."', '".$_SESSION['admin_passwd']."', ".time().", 3, 1, '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures')." )";
-		$queries[] = "UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'";
-		
-		foreach ( $queries as $query )
-			$db->query($query);
+	}
+	
+	$queries[] = "INSERT INTO ".TABLE_PREFIX."members ( id, name, displayed_name, email, passwd, regdate, level, active, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures ) VALUES ( NULL, '".$_SESSION['admin_username']."', '".$_SESSION['admin_username']."', '".$_SESSION['admin_email']."', '".$_SESSION['admin_passwd']."', ".time().", 3, 1, '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures')." )";
+	$queries[] = "UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'";
+	
+	foreach ( $queries as $query )
+		$db->query($query);
+	
+	if ( is_writable(ROOT_PATH.'config.php') ) {
 		
 		$admin_functions->set_config(array(
 			'installer_run' => 1
 		));
 		
-		unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
-		
-		$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/support/">support pages</a> at UseBB.net.</p>
+	}
+	
+	unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
+	
+	$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/support/">support pages</a> at UseBB.net.</p>
 		<p class="important"><strong>Warning:</strong> please remove the <code>install/</code> directory to keep your forum safe.</p>
 		<p>Thanks for choosing UseBB!</p>
 ';
-		
-	} else {
-		
-		$out .= '		<p>The configuration values have been written to <code>config.php</code>. Click below to continue the installation.</p>
-		<p id="submit"><input type="submit" value="Continue installation" /></p>
-';
-		
-	}
 	
 } else {
 	

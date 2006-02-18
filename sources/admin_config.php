@@ -119,9 +119,18 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	//
 	// Now set the board settings
 	//
-	$admin_functions->set_config($new_settings);
-	
-	$content = '<p>'.$lang['ConfigSet'].'</p>';
+	if ( !is_writable(ROOT_PATH.'config.php') ) {
+		
+		$config_content = $admin_functions->set_config($new_settings);
+		$content = '<p>'.$lang['SaveConfigManually'].'</p>';
+		$content .= '<p><textarea rows="15" cols="50" readonly="readonly">'.trim(unhtml($config_content)).'</textarea></p>';
+		
+	} else {
+		
+		$admin_functions->set_config($new_settings);
+		$content = '<p>'.$lang['ConfigSet'].'</p>';
+		
+	}
 	
 } else {
 	

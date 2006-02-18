@@ -482,6 +482,7 @@ $lang['SortBy-posts'] = 'Berichten';
 $lang['SortOrder-asc'] = 'Oplopend';
 $lang['SortOrder-desc'] = 'Aflopend';
 $lang['NoUsersFound'] = 'Geen leden gevonden.';
+$lang['SaveConfigManually'] = 'Omdat config.php niet beschrijfbaar is, kan UseBB de configuratie niet zelf opslaan. Gelieve de volgende inhoud manueel in config.php op te slaan en eventueel te uploaden.';
 
 //
 // Date translations

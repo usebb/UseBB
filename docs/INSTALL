@@ -17,6 +17,7 @@ To install UseBB, you have two choices:
 - Use the automatic installer:
 	1. Rename config.php-dist to config.php.
 	2. Chmod config.php so that it is writable by the webserver (try chmod 0777).
+		(not necessary but recommended)
 	3. Use the installation wizard, located at install/index.php.
 
 	-OR-
@@ -27,6 +28,7 @@ To install UseBB, you have two choices:
 	3. Upload all the files to your host.
 	4. Delete the directory install/ for security reasons.
 	5. Chmod config.php so that it is writable by the webserver (try chmod 0777).
+		(not necessary but recommended)
 	6. Register a first user. It will automatically be an administrator.
 
 --

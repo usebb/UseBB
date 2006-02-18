@@ -480,5 +480,6 @@ $lang['SortBy-posts'] = 'Posts';
 $lang['SortOrder-asc'] = 'Ascending';
 $lang['SortOrder-desc'] = 'Descending';
 $lang['NoUsersFound'] = 'No members found.';
+$lang['SaveConfigManually'] = 'Because config.php is not writable, UseBB cannot save the configuration values itself. Please save the following contents to config.php and upload if necessary.';
 
 ?>

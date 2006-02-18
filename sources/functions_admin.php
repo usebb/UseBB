@@ -360,18 +360,26 @@ class admin_functions {
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
 			
 			if ( $variable == 'dbs' || array_key_exists($key, $functions->board_config_original) )
-				$config_content = preg_replace('#(\s)\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
+				$config_content = preg_replace('#(\s)?\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
 			else
-				$config_content = preg_replace('#(\s*?)\?>#', "\n\$".$variable."['".$key."'] = ".$this->make_php_string($val).";\\1?>", $config_content);
+				$config_content = preg_replace('#(\s*?)?\?>#', "\n\$".$variable."['".$key."'] = ".$this->make_php_string($val).";\\1?>", $config_content);
 			
 		}
 		
-		//
-		// Write the new contents
-		//
-		$fp = fopen($config_file, 'w');
-		fwrite($fp, addslashes($config_content));
-		fclose($fp);
+		if ( !is_writable(ROOT_PATH.'config.php') ) {
+			
+			return $config_content;
+			
+		} else {
+			
+			//
+			// Write the new contents
+			//
+			$fp = fopen($config_file, 'w');
+			fwrite($fp, addslashes($config_content));
+			fclose($fp);
+			
+		}
 		
 	}
 	

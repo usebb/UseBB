@@ -479,5 +479,6 @@ $lang['SortBy-regdate'] = 'Registered';
 $lang['SortBy-posts'] = 'Posts';
 $lang['SortOrder-asc'] = 'Ascending';
 $lang['SortOrder-desc'] = 'Descending';
+$lang['NoUsersFound'] = 'No members found.';
 
 ?>

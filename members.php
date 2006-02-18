@@ -115,46 +115,50 @@ if ( empty($_GET['act']) ) {
 			'sort_by_links' => $sort_by_links
 		));
 		
-		//
-		// Get members information
-		//
-		
-		$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $_GET['search'])."%' ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order'])." LIMIT ".$limit_start.", ".$limit_end);
-		
-		while ( $userdata = $db->fetch_result($result) ) {
+		if ( !$num_members ) {
 			
-			switch ( $userdata['level'] ) {
+			//
+			// No members found
+			//
+			$template->parse('no_users_found', 'memberlist');
+			
+		} else {
+			
+			//
+			// Get members information
+			//
+			
+			$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $_GET['search'])."%' ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order'])." LIMIT ".$limit_start.", ".$limit_end);
+			
+			while ( $userdata = $db->fetch_result($result) ) {
 				
-				case 3:
-					$level = $lang['Administrator'];
-					break;
-				case 2:
-					$level = $lang['Moderator'];
-					break;
-				case 1:
-					$level = $lang['Member'];
-					break;
+				switch ( $userdata['level'] ) {
+					
+					case 3:
+						$level = $lang['Administrator'];
+						break;
+					case 2:
+						$level = $lang['Moderator'];
+						break;
+					case 1:
+						$level = $lang['Member'];
+						break;
+					
+				}
+				
+				$template->parse('user', 'memberlist', array(
+					'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
+					'real_name' => unhtml(stripslashes($userdata['real_name'])),
+					'level' => $level,
+					'rank' => stripslashes($userdata['rank']),
+					'registered' => $functions->make_date($userdata['regdate']),
+					'posts' => $userdata['posts'],
+					'email' => $functions->show_email($userdata),
+				));
 				
 			}
 			
-			$template->parse('user', 'memberlist', array(
-				'username' => $functions->make_profile_link($userdata['id'], $userdata['displayed_name'], $userdata['level']),
-				'real_name' => unhtml(stripslashes($userdata['real_name'])),
-				'level' => $level,
-				'rank' => stripslashes($userdata['rank']),
-				'registered' => $functions->make_date($userdata['regdate']),
-				'posts' => $userdata['posts'],
-				'email' => $functions->show_email($userdata),
-			));
-			
 		}
-		
-		/*$sort_by_links = array(
-			'<a href="'.$functions->make_url('members.php', array('sortby' => 'username', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'username' ) ? $lang['Username'] : '<strong>'.$lang['Username'].'</strong>' ) . '</a>',
-			'<a href="'.$functions->make_url('members.php', array('sortby' => 'level', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'level' ) ? $lang['Level'] : '<strong>'.$lang['Level'].'</strong>' ) . '</a>',
-			'<a href="'.$functions->make_url('members.php', array('sortby' => 'regdate', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'regdate' ) ? $lang['Registered'] : '<strong>'.$lang['Registered'].'</strong>' ) . '</a>',
-			'<a href="'.$functions->make_url('members.php', array('sortby' => 'posts', 'page' => $page)).'">' . ( ( $_GET['sortby'] != 'posts' ) ? $lang['Posts'] : '<strong>'.$lang['Posts'].'</strong>' ) . '</a>',
-		);*/
 		
 		$template->parse('footer', 'memberlist', array(
 			'page_links' => $page_links,

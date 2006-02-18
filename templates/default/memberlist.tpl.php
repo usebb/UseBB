@@ -53,6 +53,12 @@ $templates['user'] = '
 		</tr>
 ';
 
+$templates['no_users_found'] = '
+		<tr>
+			<td class="msg" colspan="4">{l_NoUsersFound}</td>
+		</tr>
+';
+
 $templates['footer'] = '
 		<tr>
 			<td colspan="4" class="formcontrols">{sort_by_links}</td>

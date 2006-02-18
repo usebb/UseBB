@@ -481,6 +481,7 @@ $lang['SortBy-regdate'] = 'Geregistreerd';
 $lang['SortBy-posts'] = 'Berichten';
 $lang['SortOrder-asc'] = 'Oplopend';
 $lang['SortOrder-desc'] = 'Aflopend';
+$lang['NoUsersFound'] = 'Geen leden gevonden.';
 
 //
 // Date translations

@@ -86,7 +86,7 @@ $templates['subscriptions_topic'] = '
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
 			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
 			<td class="author">{author}</td>
-			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
+			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><div>{on_date}</div></td>
 			<td class="minimal">{unsubscribe_check}</td>
 		</tr>
 ';
@@ -193,7 +193,7 @@ $templates['edit_options'] = '
 			<td class="fieldtitle">{l_HideFromOnlineList}</td><td>{hide_from_online_list_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_DateFormat}</td><td>{date_format_input}<br />{date_format_help}</td>
+			<td class="fieldtitle">{l_DateFormat}</td><td>{date_format_input}<div class="moreinfo">{date_format_help}</div></td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Timezone}</td><td>{timezone_input}</td>

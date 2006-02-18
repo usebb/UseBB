@@ -64,7 +64,7 @@ $templates['topic'] = '
 			<td class="author">{author}</td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>
-			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
+			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><div>{on_date}</div></td>
 		</tr>
 ';
 

@@ -56,7 +56,7 @@ $templates['forum'] = '
 			<td><div class="forumname">{forum_name}</div><div class="forumdescr">{forum_descr}</div><div class="forummods">{forum_mods}</div></td>
 			<td class="count">{total_topics}</td>
 			<td class="count">{total_posts}</td>
-			<td class="lastpostinfo">{latest_post}<br />{by_author}<br />{on_date}</td>
+			<td class="lastpostinfo">{latest_post}<div>{by_author}</div><div>{on_date}</div></td>
 		</tr>
 ';
 

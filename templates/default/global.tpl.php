@@ -48,7 +48,7 @@ $templates['config'] = array(
 	'closed_newposts_icon'				=> 'closed_newposts.gif',
 	'newpost_link_format'				=> '<a href="%s"><img src="%s" alt="%s" /></a> ',
 	'newpost_link_icon'					=> 'new.gif',
-	'sig_format'						=> '<div class="signature">_______________<br />%s</div>',
+	'sig_format'						=> '<div class="signature">_______________<div>%s</div></div>',
 	'quote_format'						=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
 	'code_format'						=> '<pre class="code">%s</pre>',
 	'post_editinfo_format'				=> '<div class="editinfo">&laquo; %s &raquo;</div>',

@@ -591,6 +591,9 @@ p#linkbar {
 	color: #666;
 	margin-left: 10px;
 }
+.moreinfo {
+	padding-top: 3px;
+}
 
 #bbcode-controls, #smiley-controls {
 	list-style: none;

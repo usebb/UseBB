@@ -40,7 +40,7 @@ $templates['search_form'] = '
 			<th colspan="2">{l_Search}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_SearchKeywords}</td><td>{keywords_input}<br />{keywords_explain}</td>
+			<td class="fieldtitle">{l_SearchKeywords}</td><td>{keywords_input}<div class="moreinfo">{keywords_explain}</div></td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_SearchMode}</td><td>{mode_input}</td>
@@ -62,10 +62,7 @@ $templates['results_header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
-			<td colspan="7" class="forumcat">
-				{l_SearchKeywords}: <em>{keywords}</em> - 
-				{l_SearchAuthor}: <em>{author}</em>
-				<br />{l_SearchMode}: {mode}
+			<td colspan="7" class="forumcat">{l_SearchKeywords}: <em>{keywords}</em> - {l_SearchAuthor}: <em>{author}</em><div>{l_SearchMode}: {mode}</div>
 			</td>
 		</tr>
 		<tr>
@@ -87,7 +84,7 @@ $templates['results_topic'] = '
 			<td class="author">{author}</td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>
-			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><br />{on_date}</td>
+			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><div>{on_date}</div></td>
 		</tr>
 ';
 

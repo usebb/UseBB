@@ -40,13 +40,13 @@ $templates['forum_stats_box'] = '
 		</tr>
 		<tr>
 			<td rowspan="3" class="icon"><img src="{img_dir}stats.gif" alt="{l_Statistics}" /></td>
-			<td class="stats-cell">{small_stats}<br />{newest_member}</td>
+			<td class="stats-cell">{small_stats}<div>{newest_member}</div></td>
 		</tr>
 		<tr>
 			<td class="online">&raquo; {l_WhosOnline}</td>
 		</tr>
 		<tr>
-			<td class="stats-cell"><div class="detailed-list-link">{detailed_list_link}</div>{users_online}<br />{members_online}</td>
+			<td class="stats-cell"><div class="detailed-list-link">{detailed_list_link}</div>{users_online}<div>{members_online}</div></td>
 		</tr>
 	</table>
 ';
@@ -58,10 +58,10 @@ $templates['login_form'] = '
 			<th colspan="2">{l_LogIn}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{user_input}<br />{link_reg}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{user_input}<div class="moreinfo">{link_reg}</div></td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Password}</td><td>{password_input}<br />{link_sendpwd}</td>
+			<td class="fieldtitle">{l_Password}</td><td>{password_input}<div class="moreinfo">{link_sendpwd}</div></td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_RememberMe}</td><td>{remember_input}</td>

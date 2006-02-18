@@ -8,6 +8,7 @@ UseBB 1.0 Changelog
 - Fixed bug #971: Undefined index: id upon creating forum.
 - Added error upon lost saltcode when registering.
 - Make trigger_error() errors E_USER_ERROR.
+- Various template improvements.
 
 UseBB 0.8 Changelog
 ------------------------------

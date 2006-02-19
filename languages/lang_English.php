@@ -414,8 +414,6 @@ $lang['SearchMode'] = 'Search mode';
 $lang['SearchAuthor'] = 'Search author';
 $lang['SearchForums'] = 'Search forums';
 $lang['AllForums'] = 'All forums';
-$lang['AllKeywords'] = 'All keywords';
-$lang['OneOrMoreKeywords'] = 'One or more keywords';
 $lang['NoSearchResults'] = 'Sorry, but no results were found matching the criteria you supplied.';
 $lang['SearchMembersPosts'] = 'Search member\'s posts';
 $lang['CurrentPage'] = 'Current page';
@@ -487,5 +485,10 @@ $lang['SortOrder-asc'] = 'Ascending';
 $lang['SortOrder-desc'] = 'Descending';
 $lang['NoUsersFound'] = 'No members found.';
 $lang['SaveConfigManually'] = 'Because config.php is not writable, UseBB cannot save the configuration values itself. Please save the following contents to config.php and upload if necessary.';
+$lang['ShowResultsAs'] = 'Show results as';
+$lang['ShowMode-topics'] = 'Topics';
+$lang['ShowMode-posts'] = 'Posts';
+$lang['Mode-and'] = 'All keywords (AND)';
+$lang['Mode-or'] = 'Any keywords (OR)';
 
 ?>

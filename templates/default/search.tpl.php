@@ -55,6 +55,9 @@ $templates['search_form'] = '
 			<td class="fieldtitle">{l_SortBy}</td><td>{sort_input}</td>
 		</tr>
 		<tr>
+			<td class="fieldtitle">{l_ShowResultsAs}</td><td>{show_mode_input}</td>
+		</tr>
+		<tr>
 			<td class="formcontrols" colspan="2">{submit_button} {reset_button}</td>
 		</tr>
 	</table>
@@ -65,8 +68,7 @@ $templates['results_header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
-			<td colspan="7" class="forumcat">{l_SearchKeywords}: <em>{keywords}</em> - {l_SearchAuthor}: <em>{author}</em><div>{l_SearchMode}: {mode}</div>
-			</td>
+			<td colspan="7" class="forumcat">{l_SearchKeywords}: <em>{keywords}</em><div>{l_SearchMode}: {mode}</div></td>
 		</tr>
 		<tr>
 			<th></th>
@@ -92,6 +94,33 @@ $templates['results_topic'] = '
 ';
 
 $templates['results_footer'] = '
+	</table>
+	<p id="pagelinksotherbottom">{page_links}</p>
+';
+
+$templates['results_posts_header'] = '
+	<p id="pagelinksothertop">{page_links}</p>
+	<table class="maintable">
+		<tr>
+			<td colspan="2" class="forumcat">{l_SearchKeywords}: <em>{keywords}</em><div>{l_SearchMode}: {mode}</div></td>
+		</tr>
+';
+
+$templates['results_posts_post'] = '
+		<tr class="tr2 results-posts-post-info">
+			<td>
+				<div class="results-posts-post-date">{post_date}</div>
+				<div><strong>{topic_title}</strong> ({forum})</div>
+			</td>
+		</tr>
+		<tr class="tr1">
+			<td class="results-posts-post-content">
+				<div><strong>{poster_name}</strong>: <em>{post_content}</em></div>
+			</td>
+		</tr>
+';
+
+$templates['results_posts_footer'] = '
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

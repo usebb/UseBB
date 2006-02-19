@@ -594,6 +594,18 @@ p#linkbar {
 .moreinfo {
 	padding-top: 3px;
 }
+.results-posts-post-date {
+	float: right;
+}
+.results-posts-post-content {
+	border-bottom: 4px solid #D8D8D8;
+}
+.results-posts-post-content div {
+	line-height: 150%;
+	color: #333;
+	height: 48px;
+	overflow: hidden;
+}
 
 #bbcode-controls, #smiley-controls {
 	list-style: none;

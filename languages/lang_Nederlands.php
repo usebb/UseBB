@@ -416,8 +416,6 @@ $lang['SearchMode'] = 'Zoekmodus';
 $lang['SearchAuthor'] = 'Zoeken op auteur';
 $lang['SearchForums'] = 'Zoeken in forums';
 $lang['AllForums'] = 'Alle forums';
-$lang['AllKeywords'] = 'Alle sleutelwoorden';
-$lang['OneOrMoreKeywords'] = 'E&eacute;n of meerdere sleutelwoorden';
 $lang['NoSearchResults'] = 'Sorry, maar er werden geen resultaten gevonden die aan de opgegeven criteria voldoen.';
 $lang['SearchMembersPosts'] = 'Zoek berichten van lid';
 $lang['CurrentPage'] = 'Huidige pagina';
@@ -489,6 +487,11 @@ $lang['SortOrder-asc'] = 'Oplopend';
 $lang['SortOrder-desc'] = 'Aflopend';
 $lang['NoUsersFound'] = 'Geen leden gevonden.';
 $lang['SaveConfigManually'] = 'Omdat config.php niet beschrijfbaar is, kan UseBB de configuratie niet zelf opslaan. Gelieve de volgende inhoud manueel in config.php op te slaan en eventueel te uploaden.';
+$lang['ShowResultsAs'] = 'Toon resultaten als';
+$lang['ShowMode-topics'] = 'Onderwerpen';
+$lang['ShowMode-posts'] = 'Berichten';
+$lang['Mode-and'] = 'Alle zoekwoorden';
+$lang['Mode-or'] = 'E&eacute;n of meerdere zoekwoorden';
 
 //
 // Date translations

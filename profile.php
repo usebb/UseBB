@@ -176,7 +176,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'regdate_v'     => $functions->make_date($profiledata['regdate']),
 				'posts_v'       => $profiledata['posts'],
 				'postsperday_v' => $posts_per_day,
-				'searchposts'   => '<a href="'.$functions->make_url('search.php', array('author' => urlencode(unhtml(stripslashes($profiledata['displayed_name']))))).'">'.$lang['SearchMembersPosts'].'</a>',
+				'searchposts'   => '<a href="'.$functions->make_url('search.php', array('author' => stripslashes($profiledata['displayed_name'])), true, true, true).'" rel="nofollow">'.$lang['SearchMembersPosts'].'</a>',
 				'lastlogin_v'   => $last_login,
 				'age_v'         => $age,
 				'location_v'    => unhtml(stripslashes($profiledata['location'])),

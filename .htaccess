@@ -27,11 +27,9 @@ DirectoryIndex index.php
 	RewriteRule ^edit-post([0-9]+)-delete\.html?[\.,;\-]?$ edit.php?post=$1&act=delete
 	RewriteRule ^edit-topic([0-9]+)-(delete|trash|move|lock|sticky|unlock|unsticky)\.html?[\.,;\-]?$ edit.php?topic=$1&act=$2
 	RewriteRule ^online-([0-9]+)\.html?[\.,;\-]?$ online.php?page=$1
-	RewriteRule ^members-(username|level|regdate|posts)-([0-9]+)\.html?[\.,;\-]?$ members.php?sortby=$1&page=$2
 	RewriteRule ^members-staff\.html?[\.,;\-]?$ members.php?act=staff
 	RewriteRule ^faq-([0-9a-zA-Z]{5})\.html?[\.,;\-]?$ faq.php?q=$1
 	RewriteRule ^search-results\.html?[\.,;\-]?$ search.php?act=results
 	RewriteRule ^search-results-([0-9]+)\.html?[\.,;\-]?$ search.php?act=results&page=$1
-	RewriteRule ^search-(.+)\.html?[\.,;\-]?$ search.php?author=$1
 	RewriteRule ^rss\.xml[\.,;\-]?$ rss.php
 </IfModule>

@@ -1303,6 +1303,11 @@ class functions {
 			foreach ( $all_smilies as $pattern => $img )
 				$string = preg_replace('#([^"])('.preg_quote(unhtml($pattern), '#').')([^"])#', '\\1<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\3', $string);
 			
+			//
+			// Entity + smiley fix
+			//
+			$string = preg_replace('#(&[a-z0-9]+)<img src="[^"]+" alt="([^"]+)" />#', '\\1\\2', $string);
+			
 		}
 		
 		if ( $bbcode ) {
@@ -1331,7 +1336,7 @@ class functions {
 								
 								if ( $i < $end_tags_count ) {
 									
-									$string_part .= preg_replace('#<img src="(.*?)" alt="(.*?)" />#', '\\2', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
 									
 								} else {
 									
@@ -1344,7 +1349,7 @@ class functions {
 								
 								if ( $i === $end_tags_count ) {
 									
-									$string_part .= preg_replace('#<img src="(.*?)" alt="(.*?)" />#', '\\2', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
 									
 								} else {
 									

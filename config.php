@@ -82,7 +82,7 @@ $conf['cookie_domain'] = '';
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
-$conf['debug'] = 0;
+$conf['debug'] = 1;
 $conf['disable_registrations'] = 0;
 $conf['disable_registrations_reason'] = 'No new users allowed at this time.';
 $conf['dst'] = 0;
@@ -140,5 +140,6 @@ $conf['view_memberlist_min_level'] = 0;
 $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 0;
 $conf['view_contactadmin_min_level'] = 0;
+$conf['installer_run'] = 1;
 
 ?>

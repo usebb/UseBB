@@ -115,15 +115,18 @@ class session {
 		global $functions, $db;
 		
 		//
-		// Some required workarounds...
+		// First, get the user's IP address and time
 		//
-		$location = addslashes($location);
 		$current_time = time();
+		$ip_addr = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : getenv('REMOTE_ADDR');
 		
 		//
-		// First, get the user's IP address
+		// Check if we will run cleanup
+		// Cleanup is ran about 1 time per 10 requests
 		//
-		$ip_addr = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : getenv('REMOTE_ADDR');
+		$seed = explode(' ', microtime());
+		mt_srand($seed[0] * $seed[1]);
+		$run_cleanup = ( mt_rand(0, 9) === 0 ) ? true : false;
 		
 		//
 		// Get banned IP addresses
@@ -133,56 +136,52 @@ class session {
 		$banned_ips_sql = array();
 		while ( $out = $db->fetch_result($result) ) {
 			
-			$banned_ip = preg_quote($out['ip_addr'], '#');
-			$banned_ip = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), $banned_ip);
-			if ( preg_match('#^'.$banned_ip.'$#', $ip_addr) )
+			if ( !$ip_banned && preg_match('#^'.preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), preg_quote($out['ip_addr'], '#')).'$#', $ip_addr) )
 				$ip_banned = true;
-			$banned_ip = $out['ip_addr'];
-			$banned_ip = preg_replace(array('#\*#', '#\?#'), array('%', '_'), $banned_ip);
-			$banned_ips_sql[] = "ip_addr LIKE '".$banned_ip."'";
+			
+			if ( $run_cleanup )
+				$banned_ips_sql[] = "ip_addr LIKE '".preg_replace(array('#\*#', '#\?#'), array('%', '_'), $out['ip_addr'])."'";
+			
+		}
+		
+		if ( $run_cleanup ) {
+			
+			$add_to_remove_query = array();
+			
+			//
+			// Remove older clone sessions if needed
+			//
+			if ( !$functions->get_config('allow_multi_sess') )
+				$add_to_remove_query[] = "( ip_addr = '".$ip_addr."' AND sess_id <> '".session_id()."' )";
+			
+			//
+			// Remove outdated sessions and searches if needed
+			//
+			if ( $functions->get_config('session_max_lifetime') ) {
+				
+				$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
+				$add_to_remove_query[] = "updated < ".$min_updated;
+				$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
+				
+			}
+			
+			//
+			// Remove sessions with banned IP addresses
+			//
+			if ( count($banned_ips_sql) )
+				$add_to_remove_query[] = join(' OR ', $banned_ips_sql);
+			
+			//
+			// Now run the cleanup query
+			//
+			if ( count($add_to_remove_query) )
+				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".join(' OR ', $add_to_remove_query));
 			
 		}
 		
 		//
-		// Remove older clone sessions if needed
+		// IP address banned
 		//
-		$add_to_remove_query = array();
-		if ( !$functions->get_config('allow_multi_sess') ) {
-			
-			$add_to_remove_query[] = "( ip_addr = '".$ip_addr."' AND sess_id <> '".session_id()."' )";
-			
-		}
-		
-		//
-		// Remove outdated sessions and searches if needed
-		//
-		if ( $functions->get_config('session_max_lifetime') ) {
-			
-			$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
-			$add_to_remove_query[] = "updated < ".$min_updated;
-			$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
-			
-		}
-		
-		//
-		// Remove sessions with banned IP addresses
-		//
-		if ( count($banned_ips_sql) ) {
-			
-			$add_to_remove_query[] = join(' OR ', $banned_ips_sql);
-			
-		}
-		
-		//
-		// Now run the cleanup query
-		//
-		if ( count($add_to_remove_query) ) {
-			
-			$add_to_remove_query = join(' OR ', $add_to_remove_query);
-			$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE ".$add_to_remove_query);
-			
-		}
-		
 		if ( $ip_banned ) {
 			
 			//
@@ -197,207 +196,235 @@ class session {
 				'ip_banned' => true
 			);
 			
+			return;
+			
+		}
+		
+		//
+		// Get information about the current session (and user)
+		//
+		$result = $db->query("SELECT s.user_id, s.started, s.location AS slocation, s.pages, s.ip_addr, u.* FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE sess_id = '".session_id()."'");
+		$user_data = $db->fetch_result($result);
+		
+		if ( is_array($user_data) ) {
+			
+			//
+			// Data exists in DB
+			//
+			$session_started = true;
+			
+			$user_data['user_id'] = ( !empty($user_data['user_id']) ) ? $user_data['user_id'] : 0;
+			$current_sess_info = array(
+				'user_id' => $user_data['user_id'],
+				'started' => $user_data['started'],
+				'location' => $user_data['slocation'],
+				'pages' => $user_data['pages'],
+				'ip_addr' => $user_data['ip_addr']
+			);
+			
+			if ( $current_sess_info['user_id'] )
+				unset($user_data['user_id'], $user_data['started'], $user_data['slocation'], $user_data['pages'], $user_data['ip_addr']);
+			else
+				unset($user_data);
+			
 		} else {
 			
-			$user_info_set = false;
+			$session_started = false;
+			unset($user_data);
+			
+		}
+		
+		//
+		// If this session ID exists in DB and if it doesn't belong to this IP address
+		//
+		if ( $session_started && $current_sess_info['ip_addr'] !== $ip_addr ) {
 			
 			//
-			// Get information about the current session
+			// Reload the page, stripping the wrong session ID
+			// in the URL (if present) and unsetting the cookie
 			//
-			$result = $db->query("SELECT user_id, started, location, pages, ip_addr FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'");
-			$current_sess_info = $db->fetch_result($result);
+			$SID = SID;
+			setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
+			$functions->raw_redirect(str_replace($SID, '', $_SERVER['REQUEST_URI']));
 			
 			//
-			// If this session ID exists in database and if it doesn't belong to this IP address
+			// Developer note:
+			// This is a dirty way of getting rid of the session ID, but it is the only one,
+			// as PHP starts the session anyway when getting a session ID, and we are only
+			// working in top of it. Also we do not want to destroy the session itself.
 			//
-			if ( is_array($current_sess_info) && $current_sess_info['ip_addr'] != $ip_addr ) {
-				
-				//
-				// Reload the page, stripping the wrong session ID
-				// in the URL (if present) and unsetting the cookie
-				//
-				$SID = SID;
-				$goto = str_replace($SID, '', $_SERVER['REQUEST_URI']);
-				setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
-				$functions->raw_redirect($goto);
-				exit();
-				
-			}
+			
+		}
+		
+		//
+		// There are some possibilities now:
+		// - Use the id from the parameters
+		// OR
+		// - The user is not yet logged in
+		//   -> check auto login cookie
+		// - The user is logged in
+		//   -> check current user data
+		//
+		if ( $user_id !== NULL && valid_int($user_id) ) {
 			
 			//
-			// Auto login
+			// ID passed by parameter
 			//
-			if ( $functions->isset_al() && !$current_sess_info['user_id'] ) {
+			$user_data = $this->get_user_data($user_id);
+			$user_id = ( $this->check_user($user_data) ) ? $user_id : 0;
+			
+		} elseif ( !$session_started || !$current_sess_info['user_id'] ) {
+			
+			//
+			// Not logged in
+			//
+			if ( $functions->isset_al() ) {
 				
 				//
-				// If there is a remember cookie
-				// and the user is not logged in...
+				// Try auto login cookie
 				//
 				$cookie_data = $functions->get_al();
 				
-				if ( !valid_int($cookie_data[0]) || !intval($cookie_data[0]) ) {
+				if ( !empty($cookie_data[0]) && valid_int($cookie_data[0]) && !empty($cookie_data[1]) && strlen($cookie_data[1]) == 32 ) {
+					
+					$user_data = $this->get_user_data($cookie_data[0]);
+					$user_id = ( $cookie_data[1] === $user_data['passwd'] && $this->check_user($user_data) ) ? $cookie_data[0] : 0;
+					
+				} else {
 					
 					//
-					// There's something wrong with the user id
+					// Invalid cookie
 					//
-					$user_id = 0;
 					$functions->unset_al();
-					
-				} else {
-					
-					$cookie_data[0] = intval($cookie_data[0]);
-					
-					$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$cookie_data[0]);
-					$user_info = $db->fetch_result($result);
-					
-					if ( $user_info['id'] ) {
-						
-						//
-						// If the encrypted password in the cookie equals to the password in the database
-						// the user is active and not banned and [ the board is not closed or the user is an admin ]
-						//
-						if ( $cookie_data[1] === $user_info['passwd'] && $user_info['active'] && !$user_info['banned'] && ( !$functions->get_config('board_closed') || $user_info['level'] == LEVEL_ADMIN ) ) {
-							
-							//
-							// Change the user id that will be entered in the DB below
-							// and renew the cookie (or it will not work anymore after a year)
-							//
-							$user_id = $cookie_data[0];
-							$functions->set_al($user_info['id'], $user_info['passwd']);
-							$_SESSION['previous_visit'] = $user_info['last_pageview'];
-							$_SESSION['viewed_topics'] = array();
-							
-							//
-							// So we have the user info, no need to find it later
-							//
-							$user_info_set = true;
-							
-						} else {
-							
-							$user_id = 0;
-							$functions->unset_al();
-							
-						}
-						
-					} else {
-						
-						//
-						// The user ID does not exist at all
-						//
-						$user_id = 0;
-						$functions->unset_al();
-						
-					}
-					
-				}
-				
-			}
-			
-			//
-			// Insert the new session info or update the existing session info
-			//
-			if ( $current_sess_info['started'] ) {
-				
-				//
-				// The user ID did not change
-				//
-				if ( empty($user_id) && $user_id !== LEVEL_GUEST )
-					$user_id = $current_sess_info['user_id'];
-				
-				//
-				// Update the location and page count if a page has been passed
-				//
-				if ( empty($location) ) {
-					
-					$location = $current_sess_info['location'];
-					$pages = $current_sess_info['pages'];
-					
-				} else {
-					
-					$pages = $current_sess_info['pages']+1;
+					$user_id = 0;
 					
 				}
 				
 			} else {
 				
 				//
-				// The session did not start yet, so this must be a guest
+				// Remain guest
 				//
-				if ( empty($user_id) )
-					$user_id = 0;
-				$pages = 1;
+				$user_id = 0;
 				
 			}
 			
-			if ( $user_id > LEVEL_GUEST && !$user_info_set ) {
-				
-				//
-				// We don't already have the user info
-				// manual login (no autologin cookie) probably
-				//
-				$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
-				$user_info = $db->fetch_result($result);
-				
-				if ( $user_info['id'] ) {
-					
-					//
-					// If the user is active and not banned and
-					// [ the board is not closed or the user is an admin ]
-					//
-					if ( !$user_info['active'] || $user_info['banned'] || ( $functions->get_config('board_closed') && $user_info['level'] != LEVEL_ADMIN ) ) {
-						
-						$user_id = 0;
-						
-					} else {
-						
-						if ( $_SESSION['previous_visit'] == 0 )
-							$_SESSION['previous_visit'] = $user_info['last_pageview'];
-						
-					}
-					
-				} else {
-					
-					//
-					// No such user ID exists
-					//
-					$user_id = 0;
-					
-				}
-				
-			}
+		} else {
 			
 			//
-			// Now we either insert or update the session info
+			// Check current user data
 			//
-			$update_query = ( $current_sess_info['started'] ) ? "UPDATE ".TABLE_PREFIX."sessions SET user_id = ".$user_id.", ip_addr = '".$ip_addr."', updated = ".$current_time.", location = '".$location."', pages = ".$pages." WHERE sess_id = '".session_id()."'" : "INSERT INTO ".TABLE_PREFIX."sessions VALUES ( '".session_id()."', ".$user_id.", '".$ip_addr."', ".$current_time.", ".$current_time.", '".$location."', ".$pages." )";
-			$db->query($update_query);
-			
-			//
-			// Update the last login and last pageview timestamp of the user
-			//
-			if ( $user_id ) {
-				
-				$add_to_update_query = ( $current_sess_info['user_id'] != $user_id ) ? ', last_login = '.$current_time : '';
-				$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$user_id);
-				
-			}
-			
-			//
-			// Now save the session information
-			//
-			$this->sess_info = array(
-				'sess_id' => session_id(),
-				'user_id' => $user_id,
-				'ip_addr' => $ip_addr,
-				'started' => ( valid_int($current_sess_info['started']) ) ? $current_sess_info['started'] : $current_time,
-				'updated' => $current_time,
-				'location' => $location,
-				'pages' => $pages,
-				'ip_banned' => false,
-				'user_info' => ( $user_id ) ? $user_info : array()
-			);
+			$user_id = ( $this->check_user($user_data) ) ? $current_sess_info['user_id'] : 0;
 			
 		}
+		
+		//
+		// Set new session data
+		//
+		$new_sess_info = array(
+			'user_id' => $user_id,
+			'started' => ( $session_started ) ? $current_sess_info['started'] : $current_time,
+			'updated' => $current_time,
+			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
+			'ip_addr' => $ip_addr
+		);
+		
+		if ( $location !== NULL ) {
+			
+			$new_sess_info['location'] = $location;
+			
+		} else {
+			
+			$new_sess_info['location'] = ( $session_started ) ? $current_sess_info['location'] : '';
+			
+		}
+		
+		//
+		// Save data in DB
+		//
+		if ( $session_started ) {
+			
+			//
+			// Session already exists in DB
+			//
+			$update_query = "UPDATE ".TABLE_PREFIX."sessions SET
+				user_id = ".$new_sess_info['user_id'].",
+				updated = ".$new_sess_info['updated'].",
+				location = '".$new_sess_info['location']."',
+				pages = ".$new_sess_info['pages'].",
+				ip_addr = '".$new_sess_info['ip_addr']."'
+			WHERE sess_id = '".session_id()."'";
+			
+		} else {
+			
+			//
+			// Session does not already exist in DB
+			//
+			$update_query = "INSERT INTO ".TABLE_PREFIX."sessions VALUES (
+				'".session_id()."',
+				".$new_sess_info['user_id'].",
+				'".$new_sess_info['ip_addr']."',
+				".$new_sess_info['started'].",
+				".$new_sess_info['updated'].",
+				'".$new_sess_info['location']."',
+				".$new_sess_info['pages']."
+			)";
+			
+		}
+		$db->query($update_query);
+		
+		//
+		// Eventually update member data
+		//
+		if ( $new_sess_info['user_id'] ) {
+			
+			$add_to_update_query = ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] ) ? ', last_login = '.$current_time : '';
+			$db->query("UPDATE ".TABLE_PREFIX."members SET last_pageview = ".$current_time.$add_to_update_query." WHERE id = ".$new_sess_info['user_id']);
+			
+		}
+		
+		//
+		// Now save the session information locally
+		//
+		$this->sess_info = array_merge($new_sess_info, array(
+			'sess_id' => session_id(),
+			'ip_banned' => false,
+			'user_info' => ( $new_sess_info['user_id'] ) ? $user_data : array()
+		));
+		
+		//
+		// Set previous visit timestamp for markers
+		//
+		$_SESSION['previous_visit'] = ( $new_sess_info['user_id'] && ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] ) ) ? $user_data['last_pageview'] : $_SESSION['previous_visit'];
+		
+	}
+	
+	/**
+	 * Get user data
+	 *
+	 * @param int $user_id User ID
+	 * @returns array User data array from query
+	 */
+	function get_user_data($user_id) {
+		
+		global $db;
+		
+		$result = $db->query("SELECT * FROM ".TABLE_PREFIX."members WHERE id = ".$user_id);
+		return $db->fetch_result($result);
+		
+	}
+	
+	/**
+	 * Check a user data to see if he/she may log in
+	 *
+	 * @param array $user_data User data array from query
+	 * @returns bool May login
+	 */
+	function check_user($user_data) {
+		
+		global $functions;
+		
+		return ( $user_data['active'] && !$user_data['banned'] && ( !$functions->get_config('board_closed') || $user_data['level'] == LEVEL_ADMIN ) );
 		
 	}
 	

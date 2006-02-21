@@ -8,6 +8,7 @@ UseBB 1.0 Changelog
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
 - Fixed bug #971: Undefined index: id upon creating forum.
+- New session management, saving up to 3 queries per request.
 - config.php must no longer be writable by PHP.
 - Now serving application/xhtml+xml (text/html on IE et al).
 - Added error upon lost saltcode when registering.

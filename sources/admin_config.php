@@ -254,7 +254,7 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		)
 	);
 	
-	$content .= '<ul id="adminconfigcontent">';
+	$content .= '<ul id="adminfunctionsmenu">';
 	
 	foreach ( $sections as $section_name => $null )
 		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';

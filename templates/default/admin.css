@@ -72,7 +72,7 @@ h1#admintitle {
 }
 #admincontent {
 	background-color: #EFEFEF;
-	padding: 10px 10px 0px 10px;
+	padding: 10px 10px 10px 10px;
 	margin: 0px 0px 20px 195px;
 	text-align: left;
 	border: 1px solid silver;
@@ -98,26 +98,13 @@ h1#admintitle {
 #admincontent #resultset {
 	font-size: 8pt;
 }
-#adminconfigcontent {
-	list-style: none;
-	margin-left: 0px !important;
-	text-align: center;
-	padding: 4px;
-	border: 1px solid silver;
-	background-color: #E8E8E8;
-}
-#adminconfigcontent li {
-	display: inline;
-	border-right: 2px solid silver;
-	padding-right: 4px;
-}
 #adminconfigtable, #adminregulartable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
-	margin: 0px 0px 10px 0px;
-	width: 100%;
+	margin: 0px auto 10px auto;
+	width: 99%;
 	clear: right;
 }
 #adminconfigtable th, #adminconfigtable td, #adminregulartable th, #adminregulartable td {

@@ -54,7 +54,15 @@ $session->update('stats');
 //
 require(ROOT_PATH.'sources/page_head.php');
  
-if ( $functions->get_config('enable_stats') ) {
+if ( !$functions->get_config('enable_stats') ) {
+	
+	$functions->redirect('index.php');
+	
+} elseif ( $functions->get_user_level() < $functions->get_config('view_stats_min_level') ) {
+	
+	$functions->redir_to_login();
+	
+} else {
 		
 	$template->set_page_title($lang['Statistics']);
 	
@@ -209,10 +217,6 @@ if ( $functions->get_config('enable_stats') ) {
 	}
 	
 	$template->parse('most_viewed_topics_footer', 'stats');
-	
-} else {
-	
-	$functions->redirect('index.php');
 	
 }
  

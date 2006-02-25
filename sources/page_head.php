@@ -49,21 +49,47 @@ if ( !defined('INCLUDED') )
 $lang = $functions->fetch_language();
 
 $link_bar = array();
+
+//
+// ACP
+//
 if ( $functions->get_user_level() == LEVEL_ADMIN )
 	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
 	
-if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
+//
+// Don't show these is they cannot be accessed after all
+//
+if ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed') && ( $functions->get_config('guests_can_access_board') || $functions->get_user_level() != LEVEL_GUEST ) ) {
 	
-if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
+	//
+	// Member list
+	//
+	if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
+		$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
+		
+	//
+	// Staff list
+	//
+	if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
+		$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
 	
-if ( $functions->get_config('enable_rss') )
-	$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+	//
+	// RSS feed
+	//	
+	if ( $functions->get_config('enable_rss') )
+		$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+		
+	//
+	// Statistics
+	//
+	if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
+		$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 	
-if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
-	$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
+}
 	
+//
+// Contact admin
+//
 if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') )
 	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
 
@@ -114,6 +140,16 @@ $template->add_global_vars(array(
 // Page header
 //
 $template->parse('normal_header', 'global');
+
+//
+// Make a Forbidden header when the RSS feed cannot be requested
+//
+if ( $session->sess_info['location'] == 'rss' && ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') || ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST ) ) ) {
+	
+	header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+	exit();
+	
+}
 
 //
 // Banned IP addresses catch this message
@@ -170,7 +206,7 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 //
 // Guests must log in
 //
-if ( !$functions->get_config('guests_can_access_board') && $session->sess_info['user_id'] == LEVEL_GUEST && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
+if ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST && !in_array($session->sess_info['location'], array('login', 'register', 'activate', 'sendpwd')) ) {
 	
 	$functions->redir_to_login();
 	

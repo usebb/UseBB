@@ -50,7 +50,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('type', 'server', 'username', 'dbname', 'admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('activation_mode', 'active_topics_count', 'avatars_force_width', 'avatars_force_height', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 foreach ( $necessary_settings['strings'] as $key ) {
 	
@@ -80,7 +80,37 @@ $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_secure', 'disable_registrations', 'dst', 'enable_acp_modules', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_forum_stats_box', 'enable_memberlist', 'enable_quickreply', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('passwd', 'prefix', 'board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path');
 
-if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 2)) && preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && in_array(intval($_POST['conf-debug']), array(0, 1, 2)) && in_array($_POST['conf-email_view_level'], array(0, 1, 2, 3)) && in_array($_POST['conf-language'], $functions->get_language_packs()) && in_array(intval($_POST['conf-output_compression']), array(0, 1, 2, 3)) && in_array($_POST['conf-template'], $functions->get_template_sets()) && isset($_POST['conf-timezone']) && $functions->timezone_handler('check_existance', $_POST['conf-timezone']) && in_array(intval($_POST['conf-view_detailed_online_list_min_level']), $user_levels) && in_array(intval($_POST['conf-view_forum_stats_box_min_level']), $user_levels) && in_array(intval($_POST['conf-view_hidden_email_addresses_min_level']), $user_levels) && in_array(intval($_POST['conf-view_memberlist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stafflist_min_level']), $user_levels) && in_array(intval($_POST['conf-view_stats_min_level']), $user_levels) && in_array(intval($_POST['conf-view_contactadmin_min_level']), $user_levels) ) {
+if (
+	$filled_in && // checks necessary strings and integers
+	
+	in_array($_POST['conf-activation_mode'], array(0, 1, 2)) &&
+	in_array($_POST['conf-debug'], array(0, 1, 2)) &&
+	
+	//
+	// Only the following are checked (because they are entered, not selected)
+	//
+	preg_match(EMAIL_PREG, $_POST['conf-admin_email']) &&
+	preg_match('#^[A-Za-z0-9]+$#', $_POST['conf-session_name']) &&
+	!preg_match('#^[0-9]+$#', $_POST['conf-session_name']) &&
+	
+	in_array($_POST['conf-language'], $functions->get_language_packs()) &&
+	in_array($_POST['conf-template'], $functions->get_template_sets()) &&
+	
+	isset($_POST['conf-timezone']) && 
+	$functions->timezone_handler('check_existance', $_POST['conf-timezone']) &&
+	
+	in_array($_POST['conf-email_view_level'], $user_levels) &&
+	in_array($_POST['conf-output_compression'], $user_levels) &&
+	in_array($_POST['conf-view_active_topics_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_detailed_online_list_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_forum_stats_box_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_hidden_email_addresses_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_memberlist_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_search_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_stafflist_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_stats_min_level'], $user_levels) &&
+	in_array($_POST['conf-view_contactadmin_min_level'], $user_levels)
+) {
 	
 	$new_settings = array();
 	
@@ -117,6 +147,20 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	$new_settings['timezone'] = (float)$_POST['conf-timezone'];
 	
 	//
+	// Avatar dimensions
+	//
+	if ( !empty($_POST['conf-avatars_force_width']) && !empty($_POST['conf-avatars_force_height']) && valid_int($_POST['conf-avatars_force_width']) && valid_int($_POST['conf-avatars_force_height']) ) {
+		
+		$new_settings['avatars_force_width'] = (int)$_POST['conf-avatars_force_width'];
+		$new_settings['avatars_force_height'] = (int)$_POST['conf-avatars_force_height'];
+		
+	} else {
+		
+		$new_settings['avatars_force_width'] = $new_settings['avatars_force_height'] = 0;
+		
+	}
+	
+	//
 	// Now set the board settings
 	//
 	if ( !is_writable(ROOT_PATH.'config.php') ) {
@@ -134,7 +178,12 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	
 } else {
 	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	if ( !empty($_POST['conf-admin_email']) && !preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && !in_array('admin_email', $missing) )
+		$missing[] = 'admin_email';
+	if ( !empty($_POST['conf-session_name']) && ( !preg_match('#^[A-Za-z0-9]+$#', $_POST['conf-session_name']) || preg_match('#^[0-9]+$#', $_POST['conf-session_name']) ) && !in_array('session_name', $missing) )
+		$missing[] = 'session_name';
+	
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && count($missing) ) {
 		
 		$content = '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
 		foreach ( $missing as $key )
@@ -200,10 +249,14 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 			'activation_mode',
 			'disable_registrations',
 			'disable_registrations_reason',
+		),
+		'min_levels' => array(
+			'view_active_topics_min_level',
 			'view_contactadmin_min_level',
 			'view_detailed_online_list_min_level',
 			'view_forum_stats_box_min_level',
 			'view_memberlist_min_level',
+			'view_search_min_level',
 			'view_stafflist_min_level',
 			'view_stats_min_level',
 		),
@@ -290,7 +343,8 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		if ( in_array($key, array('type', 'server', 'username', 'dbname', 'language', 'template')) )
 			continue;
 		
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -302,7 +356,8 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		if ( in_array($key, array('activation_mode', 'debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
 			continue;
 		
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -312,8 +367,8 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	foreach ( $onoff_settings as $key ) {
 		
 		$enabled = ( !empty($_POST['conf-'.$key]) ) ? ' checked="checked"' : '';
-		$extrainfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<br />'.$lang['ConfigBoard-'.$key.'-info'] : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><label><input type="checkbox" name="conf-'.$key.'" value="1"'.$enabled.' /> '.$lang['Yes'].'</label>'.$extrainfo.'</td></tr>';
+		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><label><input type="checkbox" name="conf-'.$key.'" value="1"'.$enabled.' /> '.$lang['Yes'].'</label>'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -325,7 +380,8 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 		if ( in_array($key, array('passwd', 'prefix')) )
 			continue;
 		
-		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="5" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea></td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
+		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="5" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -449,7 +505,7 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	//
 	// Several *_min_level settings
 	//
-	foreach ( array('view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level') as $key ) {
+	foreach ( array('view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level') as $key ) {
 		
 		$level_input = '<select name="conf-'.$key.'">';
 		foreach ( $user_levels as $level_mode ) {
@@ -464,11 +520,24 @@ if ( $filled_in && in_array(intval($_POST['conf-activation_mode']), array(0, 1, 
 	}
 	
 	//
+	// Avatar dimensions
+	//
+	foreach ( array('avatars_force_width', 'avatars_force_height') as $key ) {
+		
+		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		
+	}
+	
+	//
 	// Implement sections
 	//
 	foreach ( $sections as $section_name => $parts ) {
 		
 		$content .= '<tr><th colspan="2"><a name="'.$section_name.'"></a>'.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
+		
+		if ( !empty($lang['ConfigBoardSection-'.$section_name.'-info']) )
+			$content .= '<tr><td colspan="2">'.$lang['ConfigBoardSection-'.$section_name.'-info'].'</td></tr>';
 		
 		foreach ( $parts as $part ) {
 			

@@ -593,6 +593,7 @@ p#linkbar {
 }
 .moreinfo {
 	padding-top: 3px;
+	color: #333;
 }
 .results-posts-post-date {
 	float: right;

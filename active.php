@@ -51,7 +51,11 @@ $session->update('activetopics');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-if ( !$functions->get_stats('topics') ) {
+if ( $functions->get_user_level() < $functions->get_config('view_active_topics_min_level') ) {
+	
+	$functions->redir_to_login();
+	
+} elseif ( !$functions->get_stats('topics') ) {
 	
 	//
 	// No active topics

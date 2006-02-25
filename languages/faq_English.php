@@ -67,7 +67,7 @@ $faq[] = array('My post count does not increase when posting!', 'In certain foru
 $faq[] = array('Why do I have to wait a certain amount of time between posting?', 'Flood protection is used to ommit spamming or flooding the server with posting requests. Please wait for a moment and resubmit the post.');
 
 $faq[] = array('--', 'Various');
-$faq[] = array('I don\'t receive any e-mails from this board!', 'The board administrator may have disabled informational e-mails or the e-mail address set up in your profile doesn\'t work anymore.');
+$faq[] = array('I don\'t receive any e-mails from this board!', 'Make sure the e-mails are not blocked by anti spam software. If not, the e-mail address set up in your profile may not work anymore.');
 $faq[] = array('What\'s the RSS feed?', 'RSS feeds are used to fetch recent information from a website or a forum to view in a news/RSS reader or some browsers.');
 $faq[] = array('Where in my profile can I place my Google Talk account?', 'Google Talk is an IM network using the Jabber/XMPP protocol. You can place your account name (completely, including the domain name) in the Jabber/XMPP profile field.');
 

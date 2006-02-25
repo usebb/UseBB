@@ -45,6 +45,13 @@ if ( !defined('INCLUDED') )
 
 $content = '<p>'.$lang['IndexWelcome'].'</p>';
 
+if ( !is_writable(ROOT_PATH.'config.php') ) {
+	
+	$content .= '<h2>'.$lang['IndexWarning'].'</h2>';
+	$content .= '<p>'.sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>').'</p>';
+	
+}
+
 $content .= '<h2><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members')).'">'.$lang['IndexUnactiveMembers'].'</a></h2>';
 $result = $db->query("SELECT COUNT(id) as count FROM ".TABLE_PREFIX."members WHERE active = 0 AND active_key = ''");
 $out = $db->fetch_result($result);

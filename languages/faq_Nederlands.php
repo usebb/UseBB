@@ -67,7 +67,7 @@ $faq[] = array('Mijn berichtenteller verhoogt niet bij het plaatsen van berichte
 $faq[] = array('Waarom hoef ik te wachten tussen het plaatsen van twee berichten?', 'Flood-protectie wordt gebruikt om het spammen tegen te gaan of te voorkomen dat de server wordt overspoeld met aanvragen. Gelieve enkele ogenblikken te wachten en het bericht opnieuw te verzenden.');
 
 $faq[] = array('--', 'Diversen');
-$faq[] = array('Ik ontvang geen enkele e-mail van dit forum!', 'Een administrator kan het forum zo ingesteld hebben dat er geen e-mails meer worden verzonden, of het e-mailadres waarmee je registreerde werkt niet meer.');
+$faq[] = array('Ik ontvang geen enkele e-mail van dit forum!', 'Controleer of de e-mails niet worden geblokkeerd door antispam-software, of het e-mailadres in je profiel werkt niet meer.');
 $faq[] = array('Wat is de RSS feed?', 'RSS feeds worden gebruikt om recente informatie van een website of forum weer te geven in een nieuws- of RSS-lezer of bepaalde browsers.');
 $faq[] = array('Waar in mijn profiel kan ik mijn Google Talk-account plaatsen?', 'Google Talk is een IM-netwerk dat gebruik maakt van het Jabber/XMPP-protocol. Je kan je gebruikersnaam (volledig, inclusief de domeinnaam) opgeven in je profiel bij het Jabber/XMPP-veld.');
 

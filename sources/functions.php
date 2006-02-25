@@ -359,7 +359,7 @@ class functions {
 			//
 			if ( is_array($this->board_config) && !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
 				
-				if ( !in_array($setting, array('board_url', 'cookie_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
+				if ( !in_array($setting, array('board_url', 'cookie_path', 'session_save_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
 					
 					//
 					// Trigger error when a config value wasn't found and
@@ -401,6 +401,10 @@ class functions {
 				} elseif ( $setting == 'activation_mode' ) {
 					
 					$set_to = $this->get_config('users_must_activate');
+					
+				} elseif ( $setting == 'view_search_min_level' || $setting == 'view_active_topics_min_level' ) {
+					
+					$set_to = LEVEL_GUEST;
 					
 				} else {
 					

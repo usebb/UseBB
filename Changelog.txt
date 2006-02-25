@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0 Changelog
 ------------------------------
 
+- Added minimum access levels for search and active topics.
 - Added searching and detailed sorting on member list.
 - Added forum pruning by locking topics.
 - Added sorting options on search form.
@@ -11,6 +12,8 @@ UseBB 1.0 Changelog
 - Fixed bug #971: Undefined index: id upon creating forum.
 - Fixed unwanted smiley parsing on HTML entities.
 - New session management, saving up to 3 queries per request.
+- Changed ACP config to contain many additional info.
+- ACP config now also checks for valid session name.
 - config.php must no longer be writable by PHP.
 - Now serving application/xhtml+xml (text/html on IE et al).
 - Added error upon lost saltcode when registering.

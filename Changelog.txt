@@ -8,6 +8,7 @@ UseBB 1.0 Changelog
 - Added forum pruning by locking topics.
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
+- Fixed bug #988: default timezone for members not set.
 - Fixed bug #964: white space in IE before tables in ACP.
 - Fixed bug #971: Undefined index: id upon creating forum.
 - Fixed unwanted smiley parsing on HTML entities.

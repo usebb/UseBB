@@ -82,15 +82,17 @@ $conf['cookie_domain'] = '';
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
-$conf['debug'] = 1;
+$conf['debug'] = 2;
 $conf['disable_registrations'] = 0;
 $conf['disable_registrations_reason'] = 'No new users allowed at this time.';
 $conf['dst'] = 0;
 $conf['email_view_level'] = 1;
-$conf['enable_acp_modules'] = 1;
+$conf['enable_acp_modules'] = 0;
+$conf['enable_badwords_filter'] = 0;
 $conf['enable_contactadmin'] = 1;
 $conf['enable_detailed_online_list'] = 1;
 $conf['enable_forum_stats_box'] = 1;
+$conf['enable_ip_bans'] = 0;
 $conf['enable_memberlist'] = 1;
 $conf['enable_quickreply'] = 1;
 $conf['enable_rss'] = 1;
@@ -141,5 +143,7 @@ $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 0;
 $conf['view_contactadmin_min_level'] = 0;
 $conf['installer_run'] = 1;
+$conf['view_active_topics_min_level'] = 0;
+$conf['view_search_min_level'] = 0;
 
 ?>

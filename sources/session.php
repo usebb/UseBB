@@ -131,16 +131,20 @@ class session {
 		//
 		// Get banned IP addresses
 		//
-		$result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''");
 		$ip_banned = false;
-		$banned_ips_sql = array();
-		while ( $out = $db->fetch_result($result) ) {
+		if ( $functions->get_config('enable_ip_bans') ) {
 			
-			if ( !$ip_banned && preg_match('#^'.preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), preg_quote($out['ip_addr'], '#')).'$#', $ip_addr) )
-				$ip_banned = true;
-			
-			if ( $run_cleanup )
-				$banned_ips_sql[] = "ip_addr LIKE '".preg_replace(array('#\*#', '#\?#'), array('%', '_'), $out['ip_addr'])."'";
+			$result = $db->query("SELECT ip_addr FROM ".TABLE_PREFIX."bans WHERE ip_addr <> ''");
+			$banned_ips_sql = array();
+			while ( $out = $db->fetch_result($result) ) {
+				
+				if ( !$ip_banned && preg_match('#^'.preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), preg_quote($out['ip_addr'], '#')).'$#', $ip_addr) )
+					$ip_banned = true;
+				
+				if ( $run_cleanup )
+					$banned_ips_sql[] = "ip_addr LIKE '".preg_replace(array('#\*#', '#\?#'), array('%', '_'), $out['ip_addr'])."'";
+				
+			}
 			
 		}
 		
@@ -168,7 +172,7 @@ class session {
 			//
 			// Remove sessions with banned IP addresses
 			//
-			if ( count($banned_ips_sql) )
+			if ( $functions->get_config('enable_ip_bans') && count($banned_ips_sql) )
 				$add_to_remove_query[] = join(' OR ', $banned_ips_sql);
 			
 			//

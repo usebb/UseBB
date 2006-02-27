@@ -394,7 +394,7 @@ class functions {
 					
 					$set_to = 3;
 					
-				} elseif ( $setting == 'allow_duplicate_emails' ) {
+				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' ) {
 					
 					$set_to = true;
 					
@@ -1524,17 +1524,24 @@ class functions {
 		
 		global $db;
 		
-		if ( !isset($this->badwords) ) {
+		if ( $this->get_config('enable_badwords_filter') ) {
 			
-			$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
-			$this->badwords = array();
-			while ( $data = $db->fetch_result($result) )
-				$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+			//
+			// Algorithm borrowed from phpBB
+			//
+			if ( !isset($this->badwords) ) {
+				
+				$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
+				$this->badwords = array();
+				while ( $data = $db->fetch_result($result) )
+					$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+				
+			}
+			
+			foreach ( $this->badwords as $badword => $replacement )
+				$string = preg_replace($badword, $replacement, $string);
 			
 		}
-		
-		foreach ( $this->badwords as $badword => $replacement )
-			$string = preg_replace($badword, $replacement, $string);
 		
 		return $string;
 		

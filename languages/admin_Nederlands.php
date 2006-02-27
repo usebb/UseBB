@@ -204,6 +204,8 @@ $lang['ConfigBoard-disable_registrations'] = 'Gebruikersregistratie uitschakelen
 $lang['ConfigBoard-disable_registrations-info'] = 'Gebruikers kunnen nog steeds via het ACP worden geregistreerd.';
 $lang['ConfigBoard-disable_registrations_reason'] = 'Reden van uitschakeling';
 $lang['ConfigBoard-allow_duplicate_emails'] = 'Gedupliceerde e-mailadressen toestaan';
+$lang['ConfigBoard-enable_badwords_filter'] = 'Woordcensuur-filter inschakelen';
+$lang['ConfigBoard-enable_ip_bans'] = 'IP-adresbans inschakelen';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

@@ -51,6 +51,8 @@ $lang['Item-delete_members'] = 'Delete Members';
 $lang['Item-register_members'] = 'Register Members';
 $lang['Item-activate_members'] = 'Activate Members';
 $lang['Item-prune_forums'] = 'Prune Forums';
+$lang['Item-prune_members'] = 'Prune Members';
+$lang['Category-pruning'] = 'Pruning';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -351,5 +353,17 @@ $lang['PruneForumsConfirmText'] = 'I understand this action is irreversible.';
 $lang['PruneForumsNotConfirmed'] = 'You need to confirm this action first.';
 $lang['PruneForumsDone'] = 'Pruning has completed. %d topics were pruned.';
 $lang['PruneForumsExcludeStickies'] = 'Exclude sticky topics';
+
+$lang['PruneMembersExplain'] = 'By pruning members you can clean up the forum\'s user base by removing unactivated or inactive user accounts.';
+$lang['PruneMembersTypeNeverActivated'] = 'Never activated members';
+$lang['PruneMembersRegisteredDaysAgo'] = 'Registered at least %s days ago.';
+$lang['PruneMembersTypeNeverPosted'] = 'Members that never posted';
+$lang['PruneMembersTypeInactive'] = 'Inactive members';
+$lang['PruneMembersLastLoggedIn'] = 'Logged in the last time at least %s days ago.';
+$lang['PruneMembersExclude'] = 'Exclude';
+$lang['PruneMembersConfirmText'] = 'I understand this action is irreversible.';
+$lang['PruneMembersStart'] = 'Start Pruning';
+$lang['PruneMembersNotConfirmed'] = 'You need to confirm this action first.';
+$lang['PruneMembersDone'] = 'Pruning has completed. %d members were pruned.';
 
 ?>

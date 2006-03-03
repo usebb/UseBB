@@ -76,13 +76,16 @@ class admin_functions {
 		'forums' => array(
 			'categories',
 			'forums',
-			'prune_forums',
 		),
 		'members' => array(
 			'members',
-			'register_members',
 			'activate_members',
+			'register_members',
 			'delete_members',
+		),
+		'pruning' => array(
+			'prune_forums',
+			'prune_members',
 		),
 		'various' => array(
 			'iplookup',

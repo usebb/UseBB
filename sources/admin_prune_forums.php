@@ -92,35 +92,39 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		
 	}
 	
-	if ( $_POST['action'] == 'move' ) {
+	if ( $total['topics'] ) {
 		
-		//
-		// Move topics
-		//
-		$db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['move_to']." WHERE id IN (".join(', ', $topics).")");
-		foreach ( $forums as $id => $val )
-			$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
-		$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics + ".$total['topics'].", posts = posts + ".$total['posts']." WHERE id = ".$_POST['move_to']);
-		
-	} elseif ( $_POST['action'] == 'delete' ) {
-		
-		//
-		// Delete topics
-		//
-		$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN (".join(', ', $topics).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id IN (".join(', ', $topics).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN (".join(', ', $topics).")");
-		foreach ( $forums as $id => $val )
-			$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
-		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['topics']." WHERE name = 'topics'");
-		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['posts']." WHERE name = 'posts'");
-		
-	} else {
-		
-		//
-		// Lock topics
-		//
-		$db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id IN (".join(', ', $topics).")");
+		if ( $_POST['action'] == 'move' ) {
+			
+			//
+			// Move topics
+			//
+			$db->query("UPDATE ".TABLE_PREFIX."topics SET forum_id = ".$_POST['move_to']." WHERE id IN (".join(', ', $topics).")");
+			foreach ( $forums as $id => $val )
+				$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
+			$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics + ".$total['topics'].", posts = posts + ".$total['posts']." WHERE id = ".$_POST['move_to']);
+			
+		} elseif ( $_POST['action'] == 'delete' ) {
+			
+			//
+			// Delete topics
+			//
+			$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN (".join(', ', $topics).")");
+			$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id IN (".join(', ', $topics).")");
+			$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN (".join(', ', $topics).")");
+			foreach ( $forums as $id => $val )
+				$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
+			$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['topics']." WHERE name = 'topics'");
+			$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['posts']." WHERE name = 'posts'");
+			
+		} else {
+			
+			//
+			// Lock topics
+			//
+			$db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id IN (".join(', ', $topics).")");
+			
+		}
 		
 	}
 	
@@ -158,7 +162,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		$move_checked = ( !empty($_POST['action']) && $_POST['action'] == 'move' ) ? ' checked="checked"' : '';
 		$lock_checked = ( !empty($_POST['action']) && $_POST['action'] == 'lock' ) ? ' checked="checked"' : '';
 		$exclude_stickies_checked = ( !empty($_POST['exclude_stickies']) ) ? ' checked="checked"' : '';
-		$_POST['latest_post'] = ( valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 ) ? $_POST['latest_post'] : '';
+		$_POST['latest_post'] = ( !empty($_POST['latest_post']) && valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 ) ? $_POST['latest_post'] : '';
 		
 		//
 		// Not confirmed

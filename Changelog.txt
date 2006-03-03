@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0 Changelog
 ------------------------------
 
+- Added to ACP: member pruning.
 - Added minimum access levels for search and active topics.
 - Added searching and detailed sorting on member list.
 - Added forum pruning by locking topics.

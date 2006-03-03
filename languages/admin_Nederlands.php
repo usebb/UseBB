@@ -50,7 +50,9 @@ $lang['Item-members'] = 'Leden Bewerken';
 $lang['Item-delete_members'] = 'Leden Verwijderen';
 $lang['Item-register_members'] = 'Leden Registreren';
 $lang['Item-activate_members'] = 'Leden Activeren';
-$lang['Item-prune_forums'] = 'Forum-pruning';
+$lang['Item-prune_forums'] = 'Forums Prunen';
+$lang['Item-prune_members'] = 'Leden Prunen';
+$lang['Category-pruning'] = 'Pruning';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -351,5 +353,17 @@ $lang['PruneForumsConfirmText'] = 'Ik begrijp dat deze actie onherroepelijk is.'
 $lang['PruneForumsNotConfirmed'] = 'Je moet deze actie eerst bevestigen.';
 $lang['PruneForumsDone'] = 'Het prunen is voltooid. %d onderwerpen werden gepruned.';
 $lang['PruneForumsExcludeStickies'] = 'Sticky onderwerpen uitsluiten';
+
+$lang['PruneMembersExplain'] = 'Door leden te prunen wordt het gebruikersbestand opgeschoond door niet-geactiveerde of inactieve accounts te verwijderen.';
+$lang['PruneMembersTypeNeverActivated'] = 'Nooit geactiveerde leden';
+$lang['PruneMembersRegisteredDaysAgo'] = 'Geregistreerd ten minste %s dagen geleden.';
+$lang['PruneMembersTypeNeverPosted'] = 'Leden die nooit berichten plaatsten';
+$lang['PruneMembersTypeInactive'] = 'Inactieve leden';
+$lang['PruneMembersLastLoggedIn'] = 'De laatste maal ingelogd ten minste %s dagen geleden.';
+$lang['PruneMembersExclude'] = 'Uitsluiten';
+$lang['PruneMembersConfirmText'] = 'Ik begrijp dat deze actie onherroepelijk is.';
+$lang['PruneMembersStart'] = 'Start prunen';
+$lang['PruneMembersNotConfirmed'] = 'Je moet deze actie eerst bevestigen.';
+$lang['PruneMembersDone'] = 'Het prunen is voltooid. %d leden werden gepruned.';
 
 ?>

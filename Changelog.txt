@@ -10,10 +10,11 @@ UseBB 1.0 Changelog
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
 - Added settings to enable/disable IP bans and badwords filter.
+- Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.
 - Fixed bug #988: default timezone for members not set.
-- Fixed bug #964: white space in IE before tables in ACP.
 - Fixed bug #971: Undefined index: id upon creating forum.
+- Fixed bug #964: white space in IE before tables in ACP.
 - Fixed unwanted smiley parsing on HTML entities.
 - New session management, saving up to 3 queries per request.
 - Changed ACP config to contain many additional info.

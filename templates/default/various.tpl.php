@@ -184,7 +184,7 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_Registered}</td><td colspan="2">{regdate_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v} ({postsperday_v} {l_PostsPerDay}) - {searchposts}</td>
+			<td class="fieldtitle">{l_Posts}</td><td colspan="2">{posts_v} ({postsperday_v} {l_PostsPerDay}) &middot; {searchposts}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_LastLogin}</td><td colspan="2">{lastlogin_v}</td>

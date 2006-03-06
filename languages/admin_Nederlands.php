@@ -158,6 +158,7 @@ $lang['ConfigBoard-enable_stats'] = 'Statistiekenpagina inschakelen';
 $lang['ConfigBoard-friendly_urls'] = 'Vriendelijke URL\'s inschakelen';
 $lang['ConfigBoard-friendly_urls-info'] = 'Vereist Apache en mod_rewrite. Schakelt sessie-ID\'s in URL uit.';
 $lang['ConfigBoard-guests_can_access_board'] = 'Gasten kunnen het forum bekijken';
+$lang['ConfigBoard-guests_can_see_contact_info'] = 'Gasten kunnen contactinformatie in profielen bekijken';
 $lang['ConfigBoard-guests_can_view_profiles'] = 'Gasten kunnen profielen bekijken';
 $lang['ConfigBoard-hide_avatars'] = 'Verberg alle avatars';
 $lang['ConfigBoard-hide_signatures'] = 'Verberg alle handtekeningen';

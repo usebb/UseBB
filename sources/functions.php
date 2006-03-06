@@ -394,7 +394,7 @@ class functions {
 					
 					$set_to = 3;
 					
-				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' ) {
+				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' ) {
 					
 					$set_to = true;
 					

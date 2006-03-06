@@ -158,6 +158,7 @@ $lang['ConfigBoard-enable_stats'] = 'Enable statistics page';
 $lang['ConfigBoard-friendly_urls'] = 'Enable friendly URL\'s';
 $lang['ConfigBoard-friendly_urls-info'] = 'Requires Apache and mod_rewrite. Will disable URL session ID\'s.';
 $lang['ConfigBoard-guests_can_access_board'] = 'Guests can access the board';
+$lang['ConfigBoard-guests_can_see_contact_info'] = 'Guests can see contact information in profiles';
 $lang['ConfigBoard-guests_can_view_profiles'] = 'Guests can view member profiles';
 $lang['ConfigBoard-hide_avatars'] = 'Hide all avatars';
 $lang['ConfigBoard-hide_signatures'] = 'Hide all signatures';

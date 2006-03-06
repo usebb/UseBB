@@ -167,6 +167,27 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
 			
+			if ( $functions->get_user_level() == LEVEL_GUEST && !$functions->get_config('guests_can_see_contact_info') ) {
+				
+				//
+				// Hide contact info for guests
+				//
+				$email_v = $lang['Hidden']; 
+				$msnm_v = $yahoom_v = $aim_v = $icq_v = $icq_status = $jabber_v = $skype_v = '';
+				
+			} else {
+				
+				$email_v = $functions->show_email($profiledata);
+				$msnm_v = ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm']));
+				$yahoom_v = ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.unhtml(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['yahoom'])).'</a>' : '';
+				$aim_v = ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.unhtml(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.unhtml(stripslashes($profiledata['aim'])).'</a>' : '';
+				$icq_v = ( valid_int($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : unhtml(stripslashes($profiledata['icq']));
+				$icq_status = ( valid_int($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '';
+				$jabber_v = ( preg_match(EMAIL_PREG, $profiledata['jabber']) ) ? '<a href="jabber:'.$profiledata['jabber'].'"'.$target_blank.'>'.$profiledata['jabber'].'</a>' : unhtml(stripslashes($profiledata['jabber']));
+				$skype_v = unhtml(stripslashes($profiledata['skype']));
+				
+			}
+			
 			$template->parse('profile', 'various', array(
 				'title'         => sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))),
 				'username_v'    => $username,
@@ -186,14 +207,14 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'occupation_v'  => unhtml(stripslashes($profiledata['occupation'])),
 				'interests_v'   => unhtml(stripslashes($profiledata['interests'])),
 				'signature_v'   => $functions->markup($functions->replace_badwords(stripslashes($profiledata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
-				'email_v'       => $functions->show_email($profiledata),
-				'msnm_v'        => ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm'])),
-				'yahoom_v'      => ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.unhtml(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['yahoom'])).'</a>' : '',
-				'aim_v'         => ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.unhtml(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.unhtml(stripslashes($profiledata['aim'])).'</a>' : '',
-				'icq_v'         => ( valid_int($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : unhtml(stripslashes($profiledata['icq'])),
-				'icq_status'    => ( valid_int($profiledata['icq']) ) ? '<img src="http://web.icq.com/whitepages/online?icq='.intval($profiledata['icq']).'&amp;img=25" alt="'.intval($profiledata['icq']).'" />' : '',
-				'jabber_v'      => ( preg_match(EMAIL_PREG, $profiledata['jabber']) ) ? '<a href="jabber:'.$profiledata['jabber'].'"'.$target_blank.'>'.$profiledata['jabber'].'</a>' : unhtml(stripslashes($profiledata['jabber'])),
-				'skype_v'       => unhtml(stripslashes($profiledata['skype']))
+				'email_v'       => $email_v,
+				'msnm_v'        => $msnm_v,
+				'yahoom_v'      => $yahoom_v,
+				'aim_v'         => $aim_v,
+				'icq_v'         => $icq_v,
+				'icq_status'    => $icq_status,
+				'jabber_v'      => $jabber_v,
+				'skype_v'       => $skype_v
 			));
 			
 		} else {

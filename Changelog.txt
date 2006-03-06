@@ -10,6 +10,7 @@ UseBB 1.0 Changelog
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
 - Added settings to enable/disable IP bans and badwords filter.
+- Added setting to hide contact info in profiles for guests.
 - Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.
 - Fixed bug #988: default timezone for members not set.

@@ -45,7 +45,7 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+	$result = $db->query("SELECT id, name, name FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {
@@ -54,7 +54,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			if ( !empty($_POST['delete']) ) {
 					
-				$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['displayed_name']."' WHERE poster_id = ".$_GET['id']);
+				$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$_GET['id']);
 				$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by = ".$_GET['id']);
 				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$_GET['id']);
 				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$_GET['id']);

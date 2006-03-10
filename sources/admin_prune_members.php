@@ -66,7 +66,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 	if ( !empty($_POST['exclude_mods']) )
 		$query_where_part .= " AND level <> ".LEVEL_MOD;
 	
-	$result = $db->query("SELECT id, displayed_name, posts FROM ".TABLE_PREFIX."members WHERE ".$query_where_part);
+	$result = $db->query("SELECT id, name, posts FROM ".TABLE_PREFIX."members WHERE ".$query_where_part);
 	$prune_members = array();
 	
 	while ( $memberdata = $db->fetch_result($result) ) {
@@ -74,7 +74,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 		$prune_members[] = $memberdata['id'];
 		
 		if ( $memberdata['posts'] )
-			$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['displayed_name']."' WHERE poster_id = ".$memberdata['id']);
+			$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$memberdata['id']);
 		
 	}
 	

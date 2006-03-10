@@ -60,6 +60,7 @@ body {
 	background-color: #FFF;
 	background-image: url(./bg_reverse.png);
 	background-repeat: repeat-x;
+	padding: 25px 0px 25px 0px;
 }
 a:link, a:active, a:visited {
 	color: #336699;
@@ -75,7 +76,6 @@ select option {
 #wrapper {
 	width: 650px;
 	border: 1px solid silver;
-	margin: 25px 0px 25px 0px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #EFEFEF;
@@ -130,7 +130,7 @@ select option {
 	width: 135px;
 }
 #copyright {
-	margin: 0px 0px 25px 0px;
+	margin: 25px 0px 0px 0px;
 	text-align: center;
 	font-size: 8pt;
 	color: #666;

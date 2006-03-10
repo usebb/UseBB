@@ -490,5 +490,7 @@ $lang['ShowMode-topics'] = 'Topics';
 $lang['ShowMode-posts'] = 'Posts';
 $lang['Mode-and'] = 'All keywords (AND)';
 $lang['Mode-or'] = 'Any keywords (OR)';
+$lang['ExactMatch'] = 'Exact match';
+$lang['IncludeGuests'] = 'Include guests';
 
 ?>

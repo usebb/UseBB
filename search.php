@@ -169,6 +169,16 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		
 	}
 	
+	//
+	// Use exact matching and no guests when searching for author name over GET
+	//
+	if ( $_SERVER['REQUEST_METHOD'] == 'GET' && empty($_REQUEST['keywords']) && !empty($_REQUEST['author']) ) {
+		
+		$_REQUEST['exact_match'] = true;
+		$_REQUEST['include_guests'] = false;
+		
+	}
+	
 	if ( !count($forum_ids) ) {
 		
 		$template->parse('msgbox', 'global', array(
@@ -199,8 +209,19 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		
 		if ( !empty($_REQUEST['author']) ) {
 			
-			$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_REQUEST['author']);
-			$query_where_parts[] = "( m.displayed_name LIKE '%".$author."%' OR p.poster_guest LIKE '%".$author."%' )";
+			if ( !empty($_REQUEST['exact_match']) ) {
+				
+				$author = preg_replace('#\s+#', ' ', $_REQUEST['author']);
+				$guest_search = ( !empty($_REQUEST['include_guests']) ) ? " OR p.poster_guest = '".$author."'" : '';
+				$query_where_parts[] = "( m.displayed_name = '".$author."'".$guest_search." )";
+				
+			} else {
+				
+				$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_REQUEST['author']);
+				$guest_search = ( !empty($_REQUEST['include_guests']) ) ? " OR p.poster_guest LIKE '%".$author."%'" : '';
+				$query_where_parts[] = "( m.displayed_name LIKE '%".$author."%'".$guest_search." )";
+				
+			}
 			
 		}
 		
@@ -398,9 +419,15 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 					
 				}
 				
+				$exact_match_checked = ( !empty($_REQUEST['exact_match']) ) ? ' checked="checked"' : '';
+				$include_guests_checked = ( !empty($_REQUEST['include_guests']) ) ? ' checked="checked"' : '';
+				
 			} else {
 				
 				$forums_all_selected = ' selected="selected"';
+				
+				$exact_match_checked = '';
+				$include_guests_checked = ' checked="checked"';
 				
 			}
 			
@@ -467,7 +494,9 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$_REQUEST['keywords'].'" />',
 				'keywords_explain' => sprintf($lang['KeywordsExplain'], $functions->get_config('search_nonindex_words_min_length')),
 				'mode_input' => $mode_input,
-				'author_input' => '<input type="text" name="author" size="35" value="'.$_REQUEST['author'].'" />',
+				'author_input' => '<input type="text" name="author" size="20" value="'.$_REQUEST['author'].'" />',
+				'exact_match_input' => '<label><input type="checkbox" name="exact_match" value="1"'.$exact_match_checked.' /> '.$lang['ExactMatch'].'</label>',
+				'include_guests_input' => '<label><input type="checkbox" name="include_guests" value="1"'.$include_guests_checked.' /> '.$lang['IncludeGuests'].'</label>',
 				'forums_input' => $forums_input,
 				'sort_input' => $sort_input,
 				'show_mode_input' => $show_mode_input,

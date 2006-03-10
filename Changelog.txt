@@ -9,6 +9,7 @@ UseBB 1.0 Changelog
 - Added forum pruning by locking topics.
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
+- Added possibility to use exact author name match and guests filter.
 - Added settings to enable/disable IP bans and badwords filter.
 - Added setting to hide contact info in profiles for guests.
 - Added possibility for admins to use hidden/disabled template sets.

@@ -46,7 +46,7 @@ $templates['search_form'] = '
 			<td class="fieldtitle">{l_SearchMode}</td><td>{mode_input}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_SearchAuthor}</td><td>{author_input}</td>
+			<td class="fieldtitle">{l_SearchAuthor}</td><td>{author_input} {exact_match_input} {include_guests_input}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_SearchForums}</td><td>{forums_input}</td>

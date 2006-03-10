@@ -71,8 +71,8 @@ if ( empty($_GET['act']) ) {
 		$sort_items = array('displayed_name', 'real_name', 'level', 'rank', 'regdate', 'posts');
 		$sort_orders = array('asc', 'desc');
 		$_GET['search'] = ( !empty($_GET['search']) ) ? unhtml(stripslashes($_GET['search'])) : '';
-		$_GET['sort_by'] = ( !empty($_GET['sort_by']) && in_array($_GET['sort_by'], $sort_items) ) ? $_GET['sort_by'] : $sort_items[0];
-		$_GET['order'] = ( !empty($_GET['order']) && in_array($_GET['order'], $sort_orders) ) ? $_GET['order'] : $sort_orders[0];
+		$_GET['sort_by'] = ( !empty($_GET['sort_by']) && in_array($_GET['sort_by'], $sort_items) ) ? $_GET['sort_by'] : 'regdate';
+		$_GET['order'] = ( !empty($_GET['order']) && in_array($_GET['order'], $sort_orders) ) ? $_GET['order'] : 'asc';
 		
 		//
 		// Construct sort form

@@ -2036,7 +2036,7 @@ class functions {
 			$handle = opendir(ROOT_PATH.'templates');
 			while ( false !== ( $template_name = readdir($handle) ) ) {
 				
-				if ( preg_match('#^[^\.]#', $template_name) && file_exists('./templates/'.$template_name.'/global.tpl.php') )
+				if ( is_dir(ROOT_PATH.'templates/'.$template_name) && is_readable(ROOT_PATH.'templates/'.$template_name) && ( $this->get_user_level() == LEVEL_ADMIN || preg_match('#^[^\.]#', $template_name) ) && file_exists(ROOT_PATH.'templates/'.$template_name.'/global.tpl.php') )
 					$this->available['templates'][] = $template_name;
 				
 			}

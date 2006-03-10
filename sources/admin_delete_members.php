@@ -45,7 +45,7 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT id, name, name FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+	$result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {

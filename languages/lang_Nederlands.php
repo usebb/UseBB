@@ -492,6 +492,8 @@ $lang['ShowMode-topics'] = 'Onderwerpen';
 $lang['ShowMode-posts'] = 'Berichten';
 $lang['Mode-and'] = 'Alle zoekwoorden';
 $lang['Mode-or'] = 'E&eacute;n of meerdere zoekwoorden';
+$lang['ExactMatch'] = 'Exacte overeenkomst';
+$lang['IncludeGuests'] = 'Inclusief gasten';
 
 //
 // Date translations

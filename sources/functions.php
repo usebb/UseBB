@@ -252,7 +252,7 @@ class functions {
 				if ( $this->get_config('debug') >= 2 ) {
 					
 					$html_msg .= '
-			<p>SQL query causing the error (<strong>sensitive information</strong>):<br /><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
+			<p>SQL query causing the error (<strong>sensitive information</strong>):</p><p><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
 					
 					if ( preg_match("#^Table '.+' doesn't exist#", $error) )
 						$html_msg .= '

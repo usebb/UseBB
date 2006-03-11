@@ -397,7 +397,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsStatus'].'</td><td><label><input type="checkbox" name="status" value="1"'.$status_checked.' /> '.$lang['ForumsStatusOpen'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsAutoLock'].'</td><td><input type="text" size="11" name="auto_lock" maxlength="11" value="'.$_POST['auto_lock'].'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsIncreasePostCount'].'</td><td><label><input type="checkbox" name="increase_post_count" value="1"'.$increase_post_count_checked.' /> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsModerators'].'</td><td><input type="text" size="30" name="moderators" value="'.$forum_moderators.'" /><br />'.$lang['ForumsModeratorsExplain'].'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsModerators'].'</td><td><input type="text" size="30" name="moderators" value="'.$forum_moderators.'" /><div class="moreinfo">'.$lang['ForumsModeratorsExplain'].'</div></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsHideModsList'].'</td><td><label><input type="checkbox" name="hide_mods_list" value="1"'.$hide_mods_list_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 				
 				$content .= '<tr><th colspan="2">'.$lang['ForumsAuth'].'</th></tr><tr><td colspan="2"><strong>'.$lang['ForumsAuthNote'].'</strong></td></tr>';

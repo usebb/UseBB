@@ -161,7 +161,7 @@ if ( !isset($_GET['act']) ) {
 					$options_input[] = '<label><input type="checkbox" name="enable_sig" value="1"'.$enable_sig_checked.' /> '.$lang['EnableSig'].'</label>';
 				if ( $functions->auth($postdata['auth'], 'html', $postdata['forum_id']) )
 					$options_input[] = '<label><input type="checkbox" name="enable_html" value="1"'.$enable_html_checked.' /> '.$lang['EnableHTML'].'</label>';
-				$options_input = join('<br />', $options_input);
+				$options_input = '<div>'.join('</div><div>', $options_input).'</div>';
 				
 				$template->parse('post_form', 'various', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'])).'" method="post">',

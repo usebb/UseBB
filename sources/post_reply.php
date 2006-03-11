@@ -261,7 +261,7 @@ if ( !$topicdata['id'] ) {
 				$options_input[] = '<label><input type="checkbox" name="lock_topic" value="1"'.$lock_topic_checked.' /> '.$lang['LockTopicAfterPost'].'</label>';
 			if ( $session->sess_info['user_id'] && !$subscribed )
 				$options_input[] = '<label><input type="checkbox" name="subscribe_topic" value="1"'.$subscribe_topic_checked.' /> '.$lang['SubscribeToThisTopic'].'</label>';
-			$options_input = join('<br />', $options_input);
+			$options_input = '<div>'.join('</div><div>', $options_input).'</div>';
 			
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',

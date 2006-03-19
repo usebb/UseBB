@@ -107,14 +107,14 @@ $templates['results_posts_header'] = '
 ';
 
 $templates['results_posts_post'] = '
-		<tr class="tr2 results-posts-post-info">
+		<tr class="results-posts-post-info">
 			<td>
 				<div class="results-posts-post-date">{post_date}</div>
 				<div><strong>{topic_title}</strong> ({forum})</div>
 			</td>
 		</tr>
-		<tr class="tr1">
-			<td class="results-posts-post-content">
+		<tr class="results-posts-post-content">
+			<td>
 				<div><strong>{poster_name}</strong>: <em>{post_content}</em></div>
 			</td>
 		</tr>

@@ -599,11 +599,15 @@ p#linkbar {
 	padding-top: 3px;
 	color: #333;
 }
+.results-posts-post-info td {
+	background-color: #E8E8E8 !important;
+}
 .results-posts-post-date {
 	float: right;
 }
-.results-posts-post-content {
-	border-bottom: 4px solid #D8D8D8;
+.results-posts-post-content td {
+	border-top: 0px !important;
+	border-bottom: 2px solid #c7c3c7;
 }
 .results-posts-post-content div {
 	line-height: 150%;

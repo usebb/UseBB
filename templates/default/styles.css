@@ -1,6 +1,6 @@
 * {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 html, body {
 	min-height: 100%;
@@ -16,7 +16,7 @@ html, body {
 	background-image: url(gfx/pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFFFFF;
-	margin: 0px auto 0px auto;
+	margin: 0 auto 0 auto;
 }
 #shadow-left {
 	background-image: url(gfx/pageshadow_left.png);
@@ -30,7 +30,7 @@ html, body {
 	background-position: right;
 }
 a img {
-	border: 0px;
+	border: 0;
 }
 a:link, a:active, a:visited {
 	color: #336699;
@@ -55,14 +55,14 @@ select * {
 	font-family: verdana, sans-serif !important;
 }
 select option {
-	padding: 0px 5px 0px 0px;
+	padding: 0 5px 0 0;
 }
 textarea {
 	width: 99%;
 	font-size: 9pt !important;
 }
 input[type="submit"], input[type="reset"], input[type="button"] {
-	padding: 0px 10px 0px 10px;
+	padding: 0 10px 0 10px;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -70,11 +70,11 @@ label, input[type="radio"], input[type="checkbox"], select {
 	cursor: pointer;
 }
 optgroup option {
-	padding: 0px 10px 0px 10px;
+	padding: 0 10px 0 10px;
 }
 pre.code {
 	display: block;
-	margin: 0px 25px 0px 25px;
+	margin: 0 25px 0 25px;
 	padding: 5px;
 	font-family: monospace;
 	color: #7F0000;
@@ -84,7 +84,7 @@ pre.code {
 	font-size: 8pt;
 }
 blockquote.quote {
-	margin: 0px 25px 0px 25px;
+	margin: 0 25px 0 25px;
 	font-size: 8pt;
 }
 blockquote.quote .title {
@@ -121,7 +121,7 @@ h1#boardname {
 	line-height: 30px !important;
 }
 h1#boardname #line {
-	padding: 0px 0px 2px 0px;
+	padding: 0 0 2px 0;
 	border-bottom: 2px solid #EBD6AD;
 }
 h2#boarddescr {
@@ -143,8 +143,8 @@ h2#boarddescr {
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	border: 1px solid #336699;
-	padding: 3px 0px 3px 0px;
-	margin: 5px 0px 0px 0px;
+	padding: 3px 0 3px 0;
+	margin: 5px 0 0 0;
 }
 #topmenu ul {
 	list-style: none;
@@ -158,7 +158,7 @@ h2#boarddescr {
 	border-right: 1px solid #336699;
 }
 #topmenu ul li#logout a:link, #topmenu ul li#logout a:visited, #topmenu ul li#logout a:hover {
-	border-right: 0px;
+	border-right: 0;
 	border-left: 1px solid #336699;
 }
 #topmenu ul li a:link, #topmenu ul li a:visited {
@@ -178,7 +178,7 @@ h2#boarddescr {
 	background-color: #FFFFFF;
 	line-height: 100%;
 	overflow: hidden;
-	margin: 0px 0px 15px 0px;
+	margin: 0 0 15px 0;
 	width: 100%; /* Be nice to Safari */
 }
 p.locationbar {
@@ -186,7 +186,7 @@ p.locationbar {
 	text-align: left;
 	font-style: italic;
 	color: #333333;
-	margin: -10px 0px 10px 0px;
+	margin: -10px 0 10px 0;
 	padding: 3px;
 }
 p.locationbar a {
@@ -201,7 +201,7 @@ table.maintable, table.confirmform {
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
-	margin: 0px 0px 20px 0px;
+	margin: 0 0 20px 0;
 	width: 100%;
 }
 table.maintable th, table.confirmform th {
@@ -285,16 +285,16 @@ table.maintable .lastpostinfo {
 .msgbox p, .preview div.preview {
 	background-color: #EFEFEF;
 	padding: 18px 36px 18px 36px;
-	margin: 0px 0px 20px 0px;
+	margin: 0 0 20px 0;
 	text-align: left;
 	border: 1px solid silver;
-	border-top: 0px;
+	border-top: 0;
 	line-height: 150%;
 	font-size: 10pt;
 }
 .msgbox p p {
-	padding: 0px;
-	border: 0px;
+	padding: 0;
+	border: 0;
 }
 .preview div.preview {
 	line-height: 125%;
@@ -314,10 +314,10 @@ table.maintable td .forumname {
 	font-weight: bold;
 }
 table.maintable td .forumdescr {
-	margin: 3px 0px 0px 3px;
+	margin: 3px 0 0 3px;
 }
 table.maintable td .forummods {
-	margin: 3px 0px 0px 3px;
+	margin: 3px 0 0 3px;
 	color: #444444;
 }
 table.maintable td.online {
@@ -348,13 +348,13 @@ table.maintable td .detailed-list-link {
 #forummods {
 	text-align: left;
 	color: #444444;
-	margin: 0px 0px 6px 0px;
+	margin: 0 0 6px 0;
 }
 #toolbartop {
 	float: right;
 	line-height: 23px;
 	text-align: right;
-	margin: 0px 0px 6px 0px;
+	margin: 0 0 6px 0;
 }
 #toolbartop a, #toolbarbottom a {
 	background-image: url(gfx/button_normal.png);
@@ -362,7 +362,7 @@ table.maintable td .detailed-list-link {
 	background-color: #E8E8E8;
 	text-decoration: none !important;
 	padding: 3px 11px 3px 11px;
-	margin: 0px 0px 0px 4px;
+	margin: 0 0 0 4px;
 	border-top: 1px solid #99b2cc;
 	border-left: 1px solid #99b2cc;
 	border-bottom: 1px solid #336699;
@@ -381,7 +381,7 @@ table.maintable td .detailed-list-link {
 	float: left;
 	line-height: 23px;
 	font-weight: bold;
-	margin: 0px 0px 6px 0px;
+	margin: 0 0 6px 0;
 }
 .topicpagelinks {
 	display: block;
@@ -392,13 +392,13 @@ table.maintable td .detailed-list-link {
 	float: right;
 	line-height: 23px;
 	text-align: right;
-	margin: -14px 0px 0px 0px;
+	margin: -14px 0 0 0;
 }
 #pagelinksbottom {
 	float: left;
 	line-height: 23px;
 	font-weight: bold;
-	margin: -14px 0px 0px 0px;
+	margin: -14px 0 0 0;
 }
 #bottomfix {
 	clear: both;
@@ -466,9 +466,9 @@ table.maintable td.postcontent .signature {
 	font-size: 8pt;
 }
 table.maintable td.postcontent .editinfo {
-	margin: 5px 0px 0px 0px;
+	margin: 5px 0 0 0;
 	border-top: 1px solid silver;
-	padding: 5px 0px 0px 0px;
+	padding: 5px 0 0 0;
 	color: #444444;
 	font-size: 8pt;
 	font-style: italic;
@@ -477,7 +477,7 @@ table.maintable td.postcontent .poster-ip-addr {
 	color: #666666;
 	font-size: 7pt;
 	text-align: right;
-	padding: 5px 0px 0px 0px;
+	padding: 5px 0 0 0;
 }
 table.maintable td.postcontent .poster-ip-addr a {
 	text-decoration: none;
@@ -502,10 +502,10 @@ table.maintable td#faq-contents {
 table.maintable td#faq-contents h3 {
 	font-size: 10pt;
 	font-weight: bold;
-	margin: 0px 0px 10px 0px;
+	margin: 0 0 10px 0;
 }
 table.maintable td#faq-contents ul {
-	margin: 0px 0px 10px 30px;
+	margin: 0 0 10px 30px;
 }
 table.maintable td#question {
 	font-size: 10pt;
@@ -536,10 +536,10 @@ table.statslayout {
 table.statslayout td {
 	width: 50%;
 	vertical-align: top;
-	padding: 0px 20px 0px 0px;
+	padding: 0 20px 0 0;
 }
 table.statslayout td.last {
-	padding: 0px;
+	padding: 0;
 }
 
 /* */
@@ -557,12 +557,12 @@ table.maintable td.minimal {
 #pagelinksothertop {
 	text-align: left;
 	font-weight: bold;
-	margin: 0px 0px 10px 0px;
+	margin: 0 0 10px 0;
 }
 #pagelinksotherbottom {
 	text-align: left;
 	font-weight: bold;
-	margin: -10px 0px 20px 0px;
+	margin: -10px 0 20px 0;
 }
 #pagelinkstop strong, #pagelinksbottom strong, #pagelinksothertop strong, #pagelinksotherbottom strong {
 	padding: 1px 2px 1px 2px;
@@ -571,7 +571,7 @@ table.maintable td.minimal {
 }
 ul#panelmenu {
 	list-style: none;
-	margin: 0px 0px 10px 0px;
+	margin: 0 0 10px 0;
 	padding: 5px;
 	text-align: center;
 	background-color: #EFEFEF;
@@ -580,11 +580,11 @@ ul#panelmenu {
 }
 ul#panelmenu li {
 	display: inline;
-	padding: 0px 10px 0px 10px;
+	padding: 0 10px 0 10px;
 	border-left: 2px solid silver;
 }
 ul#panelmenu li#first {
-	border-left: 0px;
+	border-left: 0;
 }
 p#linkbar {
 	color: #323232;
@@ -606,7 +606,7 @@ p#linkbar {
 	float: right;
 }
 .results-posts-post-content td {
-	border-top: 0px !important;
+	border-top: 0 !important;
 	border-bottom: 2px solid #c7c3c7;
 }
 .results-posts-post-content div {
@@ -630,12 +630,12 @@ p#linkbar {
 	background-position: bottom;
 	background-repeat: repeat-x;
 	border: 1px solid #d7cbbe;
-	border-top: 0px;
-	margin: 0px 0px 3px 0px;
+	border-top: 0;
+	margin: 0 0 3px 0;
 }
 #bbcode-controls li a {
 	padding: 2px 6px 2px 6px;
-	margin: 0px 2px 0px 0px;
+	margin: 0 2px 0 0;
 	text-decoration: none;
 	color: #333333 !important;
 	cursor: default !important;
@@ -646,14 +646,14 @@ p#linkbar {
 	border: 1px solid #2058b9;
 }
 #smiley-controls {
-	margin: 3px 0px 0px 0px;
+	margin: 3px 0 0 0;
 }
 #smiley-controls li {
-	margin: 0px 2px 0px 0px;
+	margin: 0 2px 0 0;
 }
 
 #post-options input, #post-options label {
-	margin: 5px 0px 0px 0px;
+	margin: 5px 0 0 0;
 }
 #bottom {
 	clear: both;
@@ -686,7 +686,7 @@ p#linkbar {
 }
 
 #debug-info-small {
-	margin: 0px auto 20px auto;
+	margin: 0 auto 20px auto;
 	padding: 3px;
 	text-align: center;
 	background-color: #E8E8E8;
@@ -695,7 +695,7 @@ p#linkbar {
 	font-size: 7pt;
 }
 #debug-info-large {
-	margin: 0px auto 20px auto;
+	margin: 0 auto 20px auto;
 	font-size: 7pt;
 	text-align: center;
 	color: #333333;
@@ -709,7 +709,7 @@ p#linkbar {
 	color: #333333;
 	font-size: 7pt !important;
 	font-family: monospace !important;
-	margin: 3px 0px 0px 0px;
+	margin: 3px 0 0 0;
 	border: 1px solid silver;
 	padding: 3px;
 }

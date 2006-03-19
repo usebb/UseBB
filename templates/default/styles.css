@@ -49,6 +49,11 @@ a.moderator:link, a.moderator:active, a.moderator:visited {
 input, select, textarea {
 	font-size: 8pt !important;
 	font-family: verdana, sans-serif !important;
+	background-color: #FFF;
+}
+input, textarea {
+	padding: 2px;
+	border: 1px solid silver;
 }
 select * {
 	font-size: 8pt !important;
@@ -61,10 +66,19 @@ textarea {
 	width: 99%;
 	font-size: 9pt !important;
 }
+textarea#tags-txtarea {
+	/*
+		fixes a strange bug in Firefox 1.0 making
+		the box wider when hovering BBCode tags
+	*/
+	width: 98%;
+}
 input[type="submit"], input[type="reset"], input[type="button"] {
 	padding: 0 10px 0 10px;
 	cursor: pointer;
 	font-weight: bold;
+	color: #444;
+	border-bottom: 2px solid silver;
 }
 label, input[type="radio"], input[type="checkbox"], select {
 	cursor: pointer;
@@ -248,6 +262,7 @@ td.formcontrols a {
 td.formcontrols .postformshortcut {
 	margin-top: 5px;
 	color: #666;
+	font-size: 7pt;
 }
 table.maintable th.icon {
 	width: 25px;

@@ -41,10 +41,10 @@ a:hover {
 	text-decoration: none;
 }
 a.administrator:link, a.administrator:active, a.administrator:visited {
-	color: #BF0000 !important;
+	color: #B20000 !important;
 }
 a.moderator:link, a.moderator:active, a.moderator:visited {
-	color: #0000BF !important;
+	color: #0000B2 !important;
 }
 input, select, textarea {
 	font-size: 8pt !important;

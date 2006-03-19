@@ -394,7 +394,7 @@ class functions {
 					
 					$set_to = 3;
 					
-				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' ) {
+				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' || $setting == 'show_raw_entities_in_code' ) {
 					
 					$set_to = true;
 					
@@ -1324,6 +1324,22 @@ class functions {
 			//
 			if ( preg_match('#\[code\](.*?)\[/code\]#is', $string) ) {
 				
+				//
+				// Convert between code tags
+				//
+				if ( $this->get_config('show_raw_entities_in_code') ) {
+					
+					// convert entities to HTML
+					$converts1 = array('#&\##', '#\[#', '#\]#');
+					$converts2 = array('&amp;#', '&#91;', '&#93;');
+					
+				} else {
+					
+					$converts1 = array('#\[#', '#\]#');
+					$converts2 = array('&#91;', '&#93;');
+					
+				}
+				
 				$string_parts = preg_split('#(\[code\])#is', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 				$new_string_parts = array();
 				foreach ( $string_parts as $string_part ) {
@@ -1340,7 +1356,7 @@ class functions {
 								
 								if ( $i < $end_tags_count ) {
 									
-									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace($converts1, $converts2, $string_part2));
 									
 								} else {
 									
@@ -1353,7 +1369,7 @@ class functions {
 								
 								if ( $i === $end_tags_count ) {
 									
-									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace(array('#\[#', '#\]#'), array('&#91;', '&#93;'), $string_part2));
+									$string_part .= preg_replace('#<img src="[^"]+" alt="([^"]+)" />#', '\\1', preg_replace($converts1, $converts2, $string_part2));
 									
 								} else {
 									

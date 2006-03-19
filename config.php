@@ -127,6 +127,7 @@ $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';
 $conf['session_save_path'] = '';
 $conf['show_edited_message_timeout'] = 60;
+$conf['show_raw_entities_in_code'] = 1;
 $conf['sig_allow_bbcode'] = 1;
 $conf['sig_allow_smilies'] = 1;
 $conf['sig_max_length'] = 500;

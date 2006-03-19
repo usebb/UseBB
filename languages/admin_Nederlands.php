@@ -209,6 +209,8 @@ $lang['ConfigBoard-disable_registrations_reason'] = 'Reden van uitschakeling';
 $lang['ConfigBoard-allow_duplicate_emails'] = 'Gedupliceerde e-mailadressen toestaan';
 $lang['ConfigBoard-enable_badwords_filter'] = 'Woordcensuur-filter inschakelen';
 $lang['ConfigBoard-enable_ip_bans'] = 'IP-adresbans inschakelen';
+$lang['ConfigBoard-show_raw_entities_in_code'] = 'Toon ruwe entiteiten in [code]-tags.';
+$lang['ConfigBoard-show_raw_entities_in_code-info'] = 'Toon de ruwe entiteitcode i.p.v. zijn HTML-representatie.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

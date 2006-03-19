@@ -8,14 +8,14 @@ html, body {
 	font-family: verdana, sans-serif;
 	text-align: center;
 	background-image: url(gfx/body_bg.png);
-	background-color: #CCCCCC;
+	background-color: #CCC;
 	cursor: default;
 }
 #pagebox-bg {
 	width: 785px;
 	background-image: url(gfx/pagebox_bg.png);
 	background-repeat: repeat-x;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	margin: 0 auto 0 auto;
 }
 #shadow-left {
@@ -33,7 +33,7 @@ a img {
 	border: 0;
 }
 a:link, a:active, a:visited {
-	color: #336699;
+	color: #369;
 	text-decoration: underline;
 }
 a:hover {
@@ -78,7 +78,7 @@ pre.code {
 	padding: 5px;
 	font-family: monospace;
 	color: #7F0000;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
 	font-size: 8pt;
@@ -93,11 +93,11 @@ blockquote.quote .title {
 }
 blockquote.quote .content {
 	padding: 10px;
-	color: #333333;
+	color: #333;
 	background-image: url(gfx/quote_bg.png);
 	background-repeat: no-repeat;
 	background-position: top right;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
 }
@@ -117,7 +117,7 @@ h1#boardname {
 	text-align: right;
 	font-size: 13pt;
 	font-weight: bold;
-	color: #336699;
+	color: #369;
 	line-height: 30px !important;
 }
 h1#boardname #line {
@@ -142,7 +142,7 @@ h2#boarddescr {
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
-	border: 1px solid #336699;
+	border: 1px solid #369;
 	padding: 3px 0 3px 0;
 	margin: 5px 0 0 0;
 }
@@ -155,27 +155,27 @@ h2#boarddescr {
 #topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover {
 	text-decoration: none;
 	padding: 3px 7px 3px 7px;
-	border-right: 1px solid #336699;
+	border-right: 1px solid #369;
 }
 #topmenu ul li#logout a:link, #topmenu ul li#logout a:visited, #topmenu ul li#logout a:hover {
 	border-right: 0;
-	border-left: 1px solid #336699;
+	border-left: 1px solid #369;
 }
 #topmenu ul li a:link, #topmenu ul li a:visited {
-	color: #336699;
+	color: #369;
 }
 #topmenu ul li a:active, #topmenu ul li a:hover {
 	color: #7F0000;
 	background-image: url(gfx/topmenu_bg_reverse.png);
 	background-repeat: repeat-x;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 }
 #topmenu-shadow {
 	clear: both;
 	height: 5px;
 	background-image: url(gfx/topmenu_shadow.png);
 	background-repeat: repeat-x;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	line-height: 100%;
 	overflow: hidden;
 	margin: 0 0 15px 0;
@@ -185,7 +185,7 @@ p.locationbar {
 	clear: both;
 	text-align: left;
 	font-style: italic;
-	color: #333333;
+	color: #333;
 	margin: -10px 0 10px 0;
 	padding: 3px;
 }
@@ -207,7 +207,7 @@ table.maintable, table.confirmform {
 table.maintable th, table.confirmform th {
 	color: #EBD6AD;
 	font-weight: bold;
-	background-color: #336699;
+	background-color: #369;
 	background-image: url(gfx/tableheadbg.gif);
 	background-position: top;
 	background-repeat: repeat-x;
@@ -226,7 +226,7 @@ table.maintable td, table.confirmform td, td.msg {
 	vertical-align: middle;
 }
 table.maintable td a:visited {
-	color: #555555;
+	color: #555;
 }
 td.fieldtitle {
 	background-color: #E8E8E8 !important;
@@ -243,11 +243,11 @@ td.formcontrols input {
 	font-weight: bold;
 }
 td.formcontrols a {
-	color: #336699 !important;
+	color: #369 !important;
 }
 td.formcontrols .postformshortcut {
 	margin-top: 5px;
-	color: #666666;
+	color: #666;
 }
 table.maintable th.icon {
 	width: 25px;
@@ -265,7 +265,7 @@ table.maintable td.count {
 	width: 1%;
 	text-align: center;
 	font-weight: bold;
-	color: #333333;
+	color: #333;
 }
 table.maintable .lastpostinfo {
 	width: 200px;
@@ -274,7 +274,7 @@ table.maintable .lastpostinfo {
 	color: #EBD6AD;
 	font-weight: bold;
 	font-size: 8pt;
-	background-color: #336699;
+	background-color: #369;
 	background-image: url(gfx/tableheadbg.gif);
 	background-position: top;
 	background-repeat: repeat-x;
@@ -308,7 +308,7 @@ table.maintable td.forumcat {
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
-	color: #333333;
+	color: #333;
 }
 table.maintable td .forumname {
 	font-weight: bold;
@@ -318,14 +318,14 @@ table.maintable td .forumdescr {
 }
 table.maintable td .forummods {
 	margin: 3px 0 0 3px;
-	color: #444444;
+	color: #444;
 }
 table.maintable td.online {
 	font-weight: bold;
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
-	color: #333333;
+	color: #333;
 }
 table.maintable td.stats-cell {
 	line-height: 150%;
@@ -347,7 +347,7 @@ table.maintable td .detailed-list-link {
 }
 #forummods {
 	text-align: left;
-	color: #444444;
+	color: #444;
 	margin: 0 0 6px 0;
 }
 #toolbartop {
@@ -365,15 +365,15 @@ table.maintable td .detailed-list-link {
 	margin: 0 0 0 4px;
 	border-top: 1px solid #99b2cc;
 	border-left: 1px solid #99b2cc;
-	border-bottom: 1px solid #336699;
-	border-right: 1px solid #336699;
+	border-bottom: 1px solid #369;
+	border-right: 1px solid #369;
 	font-weight: bold;
 }
 #toolbartop a:hover, #toolbarbottom a:hover {
 	background-image: url(gfx/button_reverse.png);
-	background-color: #FFFFFF;
-	border-top: 1px solid #336699;
-	border-left: 1px solid #336699;
+	background-color: #FFF;
+	border-top: 1px solid #369;
+	border-left: 1px solid #369;
 	border-bottom: 1px solid #99b2cc;
 	border-right: 1px solid #99b2cc;
 }
@@ -386,7 +386,7 @@ table.maintable td .detailed-list-link {
 .topicpagelinks {
 	display: block;
 	text-align: right;
-	color: #444444;
+	color: #444;
 }
 #toolbarbottom {
 	float: right;
@@ -433,12 +433,12 @@ table.maintable td.postinfo {
 	vertical-align: middle;
 }
 table.maintable td.postinfo .postdate {
-	color: #444444;
+	color: #444;
 }
 table.maintable td.postinfo .postlinks {
 	float: right;
 	font-weight: bold;
-	color: #999999;
+	color: #999;
 }
 table.maintable td.posterinfo {
 	vertical-align: top;
@@ -452,7 +452,7 @@ table.maintable td.posterinfo .avatar img {
 	margin-bottom: 10px;
 }
 table.maintable td.posterinfo .field {
-	color: #444444;
+	color: #444;
 }
 table.maintable td.postcontent {
 	vertical-align: top;
@@ -462,19 +462,19 @@ table.maintable td.postcontent .post {
 	font-size: 10pt;
 }
 table.maintable td.postcontent .signature {
-	color: #444444;
+	color: #444;
 	font-size: 8pt;
 }
 table.maintable td.postcontent .editinfo {
 	margin: 5px 0 0 0;
 	border-top: 1px solid silver;
 	padding: 5px 0 0 0;
-	color: #444444;
+	color: #444;
 	font-size: 8pt;
 	font-style: italic;
 }
 table.maintable td.postcontent .poster-ip-addr {
-	color: #666666;
+	color: #666;
 	font-size: 7pt;
 	text-align: right;
 	padding: 5px 0 0 0;
@@ -576,7 +576,7 @@ ul#panelmenu {
 	text-align: center;
 	background-color: #EFEFEF;
 	border: 1px solid silver;
-	color: #333333;
+	color: #333;
 }
 ul#panelmenu li {
 	display: inline;
@@ -625,7 +625,7 @@ p#linkbar {
 
 #bbcode-controls {
 	padding: 4px 3px 4px 3px;
-	background-color: #ffffff;
+	background-color: #FFF;
 	background-image: url(gfx/bbcode_bg.png);
 	background-position: bottom;
 	background-repeat: repeat-x;
@@ -637,7 +637,7 @@ p#linkbar {
 	padding: 2px 6px 2px 6px;
 	margin: 0 2px 0 0;
 	text-decoration: none;
-	color: #333333 !important;
+	color: #333 !important;
 	cursor: default !important;
 }
 #bbcode-controls li a:hover {
@@ -663,10 +663,10 @@ p#linkbar {
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
-	border: 1px solid #336699;
+	border: 1px solid #369;
 	font-style: normal;
 	text-align: right;
-	color: #333333;
+	color: #333;
 }
 #bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
 	text-decoration: none;
@@ -676,7 +676,7 @@ p#linkbar {
 	height: 5px;
 	background-image: url(gfx/topmenu_shadow.png);
 	background-repeat: repeat-x;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	line-height: 100%;
 	overflow: hidden;
 	width: 100%; /* Be nice to Safari */
@@ -691,14 +691,14 @@ p#linkbar {
 	text-align: center;
 	background-color: #E8E8E8;
 	border: 1px solid silver;
-	color: #333333;
+	color: #333;
 	font-size: 7pt;
 }
 #debug-info-large {
 	margin: 0 auto 20px auto;
 	font-size: 7pt;
 	text-align: center;
-	color: #333333;
+	color: #333;
 	width: 85%;
 }
 #debug-info-large div {
@@ -706,7 +706,7 @@ p#linkbar {
 	padding: 3px;
 }
 #debug-info-large textarea {
-	color: #333333;
+	color: #333;
 	font-size: 7pt !important;
 	font-family: monospace !important;
 	margin: 3px 0 0 0;

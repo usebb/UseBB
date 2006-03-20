@@ -138,11 +138,13 @@ class session {
 			$banned_ips_sql = array();
 			while ( $out = $db->fetch_result($result) ) {
 				
-				if ( !$ip_banned && preg_match('#^'.preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('[0-9]*', '[0-9]'), preg_quote($out['ip_addr'], '#')).'$#', $ip_addr) )
+				$out['ip_addr'] = stripslashes($out['ip_addr']);
+				
+				if ( !$ip_banned && preg_match('#^'.str_replace(array('*', '?'), array('[0-9]*', '[0-9]'), $out['ip_addr']).'$#', $ip_addr) )
 					$ip_banned = true;
 				
 				if ( $run_cleanup )
-					$banned_ips_sql[] = "ip_addr LIKE '".preg_replace(array('#\*#', '#\?#'), array('%', '_'), $out['ip_addr'])."'";
+					$banned_ips_sql[] = "ip_addr LIKE '".str_replace(array('*', '?'), array('%', '_'), $out['ip_addr'])."'";
 				
 			}
 			

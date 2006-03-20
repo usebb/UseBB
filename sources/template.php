@@ -289,7 +289,7 @@ class template {
 		//
 		// Debug features
 		//
-		if ( $functions->get_config('debug') ) {
+		if ( $functions->get_config('debug') && !$session->sess_info['ip_banned'] ) {
 			
 			//
 			// Timer for checking parsetime

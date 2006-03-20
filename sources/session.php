@@ -197,7 +197,8 @@ class session {
 				'user_id' => 0,
 				'ip_addr' => $ip_addr,
 				'updated' => $current_time,
-				'ip_banned' => true
+				'ip_banned' => true,
+				'location' => ( $location !== NULL ) ? $location : ''
 			);
 			
 			return;

@@ -96,9 +96,11 @@ class session {
 		//
 		// Several session info we maintain
 		//
-		$_SESSION['previous_visit'] = ( isset($_SESSION['previous_visit']) && valid_int($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
+		$_SESSION['previous_visit'] = ( !empty($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
 		$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
-		$_SESSION['latest_post'] = ( isset($_SESSION['latest_post']) && valid_int($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
+		$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
+		$_SESSION['proxy_checked'] = ( !empty($_SESSION['proxy_checked']) ) ? $_SESSION['proxy_checked'] : 0;
+		$_SESSION['proxy_whitelisted'] = ( isset($_SESSION['proxy_whitelisted']) && $_SESSION['proxy_whitelisted'] ) ? true : false;
 		
 	}
 	
@@ -260,6 +262,110 @@ class session {
 			// as PHP starts the session anyway when getting a session ID, and we are only
 			// working in top of it. Also we do not want to destroy the session itself.
 			//
+			
+		}
+		
+		//
+		// Open proxy banning
+		//
+		if ( $functions->get_config('enable_open_proxy_ban') && function_exists('checkdnsrr') && !$_SESSION['proxy_whitelisted'] && ( !$_SESSION['proxy_checked'] || ( $functions->get_config('open_proxy_ban_recheck_minutes') && $_SESSION['proxy_checked'] <= ( time() - $functions->get_config('open_proxy_ban_recheck_minutes') * 60 ) ) ) ) {
+			
+			$whitelist = $functions->get_config('open_proxy_ban_whitelist');			
+			
+			if ( count($whitelist) ) {
+				
+				foreach ( $whitelist as $ip_host ) {
+					
+					if ( preg_match('#[a-z]#i', $ip_host) ) {
+						
+						//
+						// This is a hostname
+						//
+						if ( preg_match('#^'.str_replace(array('*', '?'), array('[a-z0-9\-\.]*', '[a-z0-9\-\.]'), $ip_host).'$#i', gethostbyaddr($ip_addr)) ) {
+							
+							$_SESSION['proxy_whitelisted'] = true;
+							break;
+							
+						}
+						
+					} else {
+						
+						//
+						// This is an IP address
+						//
+						if ( preg_match('#^'.str_replace(array('*', '?'), array('[0-9]*', '[0-9]'), $ip_host).'$#', $ip_addr) ) {
+							
+							$_SESSION['proxy_whitelisted'] = true;
+							break;
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+			if ( !$_SESSION['proxy_whitelisted'] ) {
+				
+				$dnsbl_servers = array(
+					'dsbl_list'			=> 'list.dsbl.org',
+					'dsbl_unconfirmed'	=> 'unconfirmed.dsbl.org',
+					'sorbs_all'			=> 'dnsbl.sorbs.net',
+					'sorbs_http'		=> 'http.dnsbl.sorbs.net',
+					'sorbs_socks'		=> 'socks.dnsbl.sorbs.net',
+					'socks_misc'		=> 'misc.dnsbl.sorbs.net',
+					'blitzed'			=> 'opm.blitzed.org',
+					'spamcop'			=> 'bl.spamcop.net',
+					'spamhaus_sbl'		=> 'sbl.spamhaus.org',
+					'spamhaus_xbl'		=> 'xbl.spamhaus.org',
+					'spamhaus_sbl_xbl'	=> 'sbl-xbl.spamhaus.org',
+					'cbl'				=> 'cbl.abuseat.org',
+					'njabl_combined'	=> 'combined.njabl.org',
+					'tornevall'			=> 'opm.tornevall.org',
+					'ahbl'				=> 'dnsbl.ahbl.org',
+				);
+				
+				$dnsbl = join('.', array_reverse(explode('.', $ip_addr)));
+				
+				$hits_found = 0;
+				foreach ( $dnsbl_servers as $dnsbl_name => $dnsbl_server ) {
+					
+					if ( $functions->get_config('enable_open_proxy_ban_'.$dnsbl_name) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
+						$hits_found++;
+					
+				}
+				
+				if ( $hits_found >= $functions->get_config('open_proxy_ban_min_hits') ) {
+					
+					$ip_to_add = $ip_addr;
+					if ( $functions->get_config('enable_open_proxy_ban_wildcard') )
+						$ip_to_add = preg_replace('#^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$#', '\\1.\\2.\\3.*', $ip_to_add);
+					
+					$db->query("INSERT INTO ".TABLE_PREFIX."bans(ip_addr) VALUES('".$ip_to_add."')");
+					
+					$this->sess_info = array(
+						'sess_id' => session_id(),
+						'user_id' => 0,
+						'ip_addr' => $ip_addr,
+						'updated' => $current_time,
+						'ip_banned' => true,
+						'location' => ( $location !== NULL ) ? $location : ''
+					);
+					
+					return;
+					
+				} else {
+					
+					$_SESSION['proxy_checked'] = time();
+					
+				}
+				
+			}
+			
+		} else {
+			
+			$_SESSION['proxy_checked'] = time();
 			
 		}
 		

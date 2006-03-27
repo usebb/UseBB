@@ -89,6 +89,7 @@ class admin_functions {
 		),
 		'various' => array(
 			'iplookup',
+			'proxy',
 			'sqltoolbox',
 			'modules',
 		),

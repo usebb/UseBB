@@ -88,6 +88,12 @@ h1#admintitle {
 	color: #333333;
 	border-bottom: 1px solid silver;
 }
+#admincontent h3 {
+	font-size: 8pt;
+	font-weight: bold;
+	color: #333333;
+	margin: 0px 0px 5px 0px;
+}
 #admincontent ul {
 	margin-left: 25px;
 }
@@ -195,4 +201,13 @@ ul#adminsqlbuttons li a {
 	padding: 2px;
 	border: 1px solid silver;
 	text-decoration: none;
+}
+
+ul#optionslist {
+	list-style: none;
+	margin-left: 15px;
+}
+
+ul#optionslist li {
+	margin: 0 0 3px 0;
 }

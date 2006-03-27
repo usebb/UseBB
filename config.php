@@ -146,5 +146,25 @@ $conf['view_memberlist_min_level'] = 1;
 $conf['view_search_min_level'] = 0;
 $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 1;
+$conf['enable_open_proxy_ban'] = 1;
+$conf['open_proxy_ban_min_hits'] = 2;
+$conf['enable_open_proxy_ban_wildcard'] = 0;
+$conf['enable_open_proxy_ban_ahbl'] = 1;
+$conf['enable_open_proxy_ban_blitzed'] = 0;
+$conf['enable_open_proxy_ban_cbl'] = 0;
+$conf['enable_open_proxy_ban_dsbl_list'] = 1;
+$conf['enable_open_proxy_ban_dsbl_unconfirmed'] = 0;
+$conf['enable_open_proxy_ban_njabl_combined'] = 0;
+$conf['enable_open_proxy_ban_sorbs_all'] = 0;
+$conf['enable_open_proxy_ban_sorbs_http'] = 1;
+$conf['enable_open_proxy_ban_sorbs_socks'] = 1;
+$conf['enable_open_proxy_ban_socks_misc'] = 1;
+$conf['enable_open_proxy_ban_spamcop'] = 1;
+$conf['enable_open_proxy_ban_spamhaus_sbl'] = 0;
+$conf['enable_open_proxy_ban_spamhaus_sbl_xbl'] = 1;
+$conf['enable_open_proxy_ban_spamhaus_xbl'] = 0;
+$conf['enable_open_proxy_ban_tornevall'] = 1;
+$conf['open_proxy_ban_recheck_minutes'] = 30;
+$conf['open_proxy_ban_whitelist'] = array (  0 => '127.0.0.1',  1 => '*.googlebot.com',);
 
 ?>

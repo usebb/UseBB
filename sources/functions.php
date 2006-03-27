@@ -406,6 +406,10 @@ class functions {
 					
 					$set_to = LEVEL_GUEST;
 					
+				} elseif ( $setting == 'open_proxy_ban_whitelist' ) {
+					
+					$set_to = array();
+					
 				} else {
 					
 					//

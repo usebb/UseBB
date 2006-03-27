@@ -53,6 +53,7 @@ $lang['Item-activate_members'] = 'Activate Members';
 $lang['Item-prune_forums'] = 'Prune Forums';
 $lang['Item-prune_members'] = 'Prune Members';
 $lang['Category-pruning'] = 'Pruning';
+$lang['Item-proxy'] = 'Proxy Banning';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -368,5 +369,23 @@ $lang['PruneMembersConfirmText'] = 'I understand this action is irreversible.';
 $lang['PruneMembersStart'] = 'Start Pruning';
 $lang['PruneMembersNotConfirmed'] = 'You need to confirm this action first.';
 $lang['PruneMembersDone'] = 'Pruning has completed. %d members were pruned.';
+
+$lang['ProxyIPBansDisabled'] = 'IP address banning disabled';
+$lang['ProxyIPBansDisabledInfo'] = 'For proxy banning to work, IP address banning must be enabled.';
+$lang['ProxyNotAvailable'] = 'Proxy banning unavailable';
+$lang['ProxyNotAvailableInfo'] = 'Proxy banning is not possible on this server due to the absense of %s. This is normal if you are on Windows. Consider migrating to GNU/Linux.';
+$lang['ProxyGeneralInfo'] = 'Open proxies are often used to post spam or abusive messages. Using UseBB\'s protection system, most of these proxies can be detected and banned automatically. Herefore blacklists are queried for information about the visitor\'s IP address.';
+$lang['ProxyEnableOpenProxyBan'] = 'Enable open proxy banning';
+$lang['ProxyServers'] = 'DNS BlackList (DNSBL) servers';
+$lang['ProxyMinPositiveHits'] = 'At least %s positive hits are required to ban an IP address.';
+$lang['ProxyRecheckMinutes'] = 'Recheck allowed IP addresses every %s minutes (0 to disable).';
+$lang['ProxyEnableOpenProxyBanWildcard'] = 'Enable wildcard banning %s (not recommended)';
+$lang['ProxyUnwantedBansInfo'] = 'Some blacklists are quite aggressive and may block safe IP addresses (SORBS aggregate also blocks some dynamic IP ranges).';
+$lang['ProxySlownessInfo'] = 'Note using many of these blacklists together may cause slowness upon creating a new session on your forum.';
+$lang['ProxyAggregatesInfo'] = 'Some of these servers are aggregates that query multiple blacklists at once. Please check whether you don\'t include a blacklist twice. Indirectly querying a blacklist twice causes useless requests and may be considered an abuse.';
+$lang['ProxyHighTrafficInfo'] = 'If you have a high traffic forum, consider contacting the blacklists\' administration for help first, before using them over here.';
+$lang['ProxySettingsSaved'] = 'Proxy banning settings saved.';
+$lang['ProxyWhitelist'] = 'Whitelist';
+$lang['ProxyWhitelistInfo'] = 'One IP address or hostname per line (* and ? can be used as wildcards).';
 
 ?>

@@ -142,7 +142,7 @@ class session {
 				
 				$out['ip_addr'] = stripslashes($out['ip_addr']);
 				
-				if ( !$ip_banned && preg_match('#^'.str_replace(array('*', '?'), array('[0-9]*', '[0-9]'), $out['ip_addr']).'$#', $ip_addr) )
+				if ( !$ip_banned && preg_match('#^'.str_replace(array('\*', '\?'), array('[0-9]*', '[0-9]'), preg_quote($out['ip_addr'])).'$#', $ip_addr) )
 					$ip_banned = true;
 				
 				if ( $run_cleanup )
@@ -281,7 +281,7 @@ class session {
 						//
 						// This is a hostname
 						//
-						if ( preg_match('#^'.str_replace(array('*', '?'), array('[a-z0-9\-\.]*', '[a-z0-9\-\.]'), $ip_host).'$#i', gethostbyaddr($ip_addr)) ) {
+						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[a-z0-9\-\.]*', '[a-z0-9\-\.]'), preg_quote($ip_host)).'$#i', gethostbyaddr($ip_addr)) ) {
 							
 							$_SESSION['proxy_whitelisted'] = true;
 							break;
@@ -293,7 +293,7 @@ class session {
 						//
 						// This is an IP address
 						//
-						if ( preg_match('#^'.str_replace(array('*', '?'), array('[0-9]*', '[0-9]'), $ip_host).'$#', $ip_addr) ) {
+						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[0-9]*', '[0-9]'), preg_quote($ip_host)).'$#', $ip_addr) ) {
 							
 							$_SESSION['proxy_whitelisted'] = true;
 							break;

@@ -394,7 +394,7 @@ class functions {
 					
 					$set_to = 3;
 					
-				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' || $setting == 'show_raw_entities_in_code' ) {
+				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' || $setting == 'show_raw_entities_in_code' || $setting == 'show_never_activated_members' ) {
 					
 					$set_to = true;
 					
@@ -502,7 +502,8 @@ class functions {
 			//
 			if ( !array_key_exists($stat, $this->statistics) ) {
 				
-				$result = $db->query("SELECT id, displayed_name, regdate FROM ".TABLE_PREFIX."members ORDER BY id DESC LIMIT 1");
+				$never_activated_sql = ( $this->get_config('show_never_activated_members') ) ? "" : " WHERE ( active <> 0 OR last_login <> 0 )";
+				$result = $db->query("SELECT id, displayed_name, regdate FROM ".TABLE_PREFIX."members".$never_activated_sql." ORDER BY id DESC LIMIT 1");
 				$this->statistics[$stat] = $db->fetch_result($result);
 				
 			}

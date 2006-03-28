@@ -215,6 +215,8 @@ $lang['ConfigBoard-show_raw_entities_in_code'] = 'Show raw entities in [code] ta
 $lang['ConfigBoard-show_raw_entities_in_code-info'] = 'Show the raw entity code instead of its HTML representation.';
 $lang['ConfigBoard-username_min_length'] = 'Username minimum length';
 $lang['ConfigBoard-username_max_length'] = 'Username maximum length';
+$lang['ConfigBoard-show_never_activated_members'] = 'Show never activated members';
+$lang['ConfigBoard-show_never_activated_members-info'] = 'Show these on the stats box and member list.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

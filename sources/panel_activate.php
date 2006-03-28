@@ -80,6 +80,8 @@ if ( $userdata['id'] ) {
 		
 		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
 		
+		$session->update('activate', $_GET['id']);
+		
 		//
 		// Activation was succesful!
 		//

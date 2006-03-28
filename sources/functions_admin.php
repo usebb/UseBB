@@ -372,7 +372,13 @@ class admin_functions {
 		
 		if ( !is_writable(ROOT_PATH.'config.php') ) {
 			
-			return $config_content;
+			//
+			// Make config.php downloadable
+			//
+			ob_end_clean(); // get rid of gzip output buffers
+			header('Content-Type: application/x-httpd-php');
+			header('Content-disposition: attachment; filename="config.php"');
+			die($config_content);
 			
 		} else {
 			

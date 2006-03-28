@@ -173,6 +173,7 @@ $lang['ConfigBoard-sig_max_length'] = 'Max signature length';
 $lang['ConfigBoard-single_forum_mode'] = 'Single forum mode';
 $lang['ConfigBoard-single_forum_mode-info'] = 'Displays only visible forum as forum index.';
 $lang['ConfigBoard-target_blank'] = 'BBCode links open new window';
+$lang['ConfigBoard-target_blank-info'] = 'Might break XHTML validation!';
 $lang['ConfigBoard-activation_mode'] = 'Activation mode';
 $lang['ConfigBoard-activation_mode0'] = 'No activation';
 $lang['ConfigBoard-activation_mode1'] = 'E-mail activation';

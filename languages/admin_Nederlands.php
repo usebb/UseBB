@@ -53,6 +53,7 @@ $lang['Item-activate_members'] = 'Leden Activeren';
 $lang['Item-prune_forums'] = 'Forums Prunen';
 $lang['Item-prune_members'] = 'Leden Prunen';
 $lang['Category-pruning'] = 'Pruning';
+$lang['Item-proxy'] = 'Proxy-banning';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -172,6 +173,7 @@ $lang['ConfigBoard-sig_max_length'] = 'Maximale lengte handtekening';
 $lang['ConfigBoard-single_forum_mode'] = 'Enkel forum-modus';
 $lang['ConfigBoard-single_forum_mode-info'] = 'Geef het enige zichtbare forum weer als forum-index.';
 $lang['ConfigBoard-target_blank'] = 'BBCode-links openen een nieuw venster';
+$lang['ConfigBoard-target_blank-info'] = 'Kan XHTML-validatie teniet doen!';
 $lang['ConfigBoard-activation_mode'] = 'Activatiemodus';
 $lang['ConfigBoard-activation_mode0'] = 'Geen activatie';
 $lang['ConfigBoard-activation_mode1'] = 'E-mailactivatie';
@@ -368,5 +370,23 @@ $lang['PruneMembersConfirmText'] = 'Ik begrijp dat deze actie onherroepelijk is.
 $lang['PruneMembersStart'] = 'Start prunen';
 $lang['PruneMembersNotConfirmed'] = 'Je moet deze actie eerst bevestigen.';
 $lang['PruneMembersDone'] = 'Het prunen is voltooid. %d leden werden gepruned.';
+
+$lang['ProxyIPBansDisabled'] = 'IP-adresbans uitgeschakeld';
+$lang['ProxyIPBansDisabledInfo'] = 'Om proxy-banning te laten werken, moeten IP-adresbans ingeschakeld zijn.';
+$lang['ProxyNotAvailable'] = 'Proxy-banning onbeschikbaar';
+$lang['ProxyNotAvailableInfo'] = 'Door de afwezigheid van %s is proxy-banning op deze server niet mogelijk. Dit is normaal op Windows. Overweeg een migratie naar GNU/Linux.';
+$lang['ProxyGeneralInfo'] = 'Open proxies worden vaak gebruikt om spam of misbruikende berichten te plaatsen. Door het beschermingssysteem van UseBB kunnen veel van deze proxies opgespoord en geband worden. Hiervoor worden zogenaamde blacklists geraadpleegd voor informatie over het IP-adres van de gebruiker.';
+$lang['ProxyEnableOpenProxyBan'] = 'Proxy-banning inschakelen';
+$lang['ProxyServers'] = 'DNS BlackList (DNSBL)-servers';
+$lang['ProxyMinPositiveHits'] = 'Ten minste %s positieve hits zijn benodigd om een IP-adres te bannen.';
+$lang['ProxyRecheckMinutes'] = 'Hercontroleer toegestane IP-adressen elke %s minuten (0 om uit te schakelen).';
+$lang['ProxyEnableOpenProxyBanWildcard'] = 'Activeer wildcard-banning %s (niet aanbevolen)';
+$lang['ProxyWhitelist'] = 'Whitelist';
+$lang['ProxyWhitelistInfo'] = 'Een IP-adres of hostnaam per regel (* en ? kunnen als wildcards worden gebruikt).';
+$lang['ProxyUnwantedBansInfo'] = 'Sommige blacklists zijn agressief en kunnen veilige IP-adressen bannen (SORBS aggregate bant ook sommige dynamische IP-ranges).';
+$lang['ProxySlownessInfo'] = 'Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken bij het starten van een nieuwe sessie.';
+$lang['ProxyAggregatesInfo'] = 'Sommige van deze servers zijn agreggaten die meerdere servers combineren. Gelieve te controleren of een blacklist niet meerdere keren geraadpleegd wordt. Het indirect meermaals raadplegen van een server veroorzaakt nutteloze aanvragen en kan als misbruik aanzien worden.';
+$lang['ProxyHighTrafficInfo'] = 'Indien je een forum met veel trafiek hebt, overweeg de administratie van de blacklist-server te raadplegen alvorens deze hier te gebruiken.';
+$lang['ProxySettingsSaved'] = 'Proxy banning settings saved.';
 
 ?>

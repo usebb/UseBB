@@ -26,6 +26,7 @@ UseBB 1.0 Changelog
 - Fixed bug where a user cannot set his displayed name equal to his
 	username that matches a ban mask.
 - Fixed unwanted smiley parsing on HTML entities.
+- Fixed not unhtml'ed query in ACP SQL toolbox textarea.
 - New session management, saving up to 3 queries per request.
 - Automatically login after activation.
 - Changed ACP config to contain many additional info.

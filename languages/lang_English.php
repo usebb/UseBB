@@ -117,7 +117,7 @@ If you forget your password, you can request a new one via the link on the login
 $lang['NoForums'] = 'This is an empty board. The administrator has not yet created any forums.';
 $lang['AlreadyActivated'] = 'Account with ID %d has already been activated.';
 $lang['Activate'] = 'Activate';
-$lang['Activated'] = 'Your account %s has now been (re)activated. You are now able to log in with your username and password.';
+$lang['Activated'] = 'Your account %s has now been (re)activated. You will be logged in automatically.';
 $lang['WrongActivationKey'] = 'We were unable to activate your account with ID %d. The activation key is incorrect. Are you sure you didn\'t request a new password in the mean time?';
 $lang['RegisterIt'] = 'You can create it via the \'Register\' link.';
 $lang['BoardClosed'] = 'Board Closed';

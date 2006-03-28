@@ -117,7 +117,7 @@ Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het i
 $lang['NoForums'] = 'Dit is een leeg discussieforum. De administrator heeft nog geen forums aangemaakt.';
 $lang['AlreadyActivated'] = 'De account met ID %d werd reeds geactiveerd.';
 $lang['Activate'] = 'Activeren';
-$lang['Activated'] = 'Je account %s werd nu ge(re)activeerd. Je kan nu inloggen met je gebruikersnaam en wachtwoord.';
+$lang['Activated'] = 'Je account %s werd nu ge(re)activeerd. Je wordt automatisch ingelogd.';
 $lang['WrongActivationKey'] = 'Je account met ID %d kon niet geactiveerd worden. De activatiesleutel is foutief. Ben je zeker dat je ondertussen geen nieuw wachtwoord aangevraagd hebt?';
 $lang['RegisterIt'] = 'Je kan het aanmaken via de \'Registreer\'-link.';
 $lang['BoardClosed'] = 'Discussieforum Gesloten';

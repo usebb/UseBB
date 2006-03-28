@@ -78,6 +78,13 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 		
 		foreach ( $banned['displayed_names'] as $banned_displayed_name ) {
 			
+			//
+			// Allow the user to set his own displayed name equal to username,
+			// even if it is banned
+			//
+			if ( strtolower($session->sess_info['user_info']['name']) == strtolower($_POST['displayed_name']) )
+				continue;
+			
 			$banned_displayed_name = preg_quote($banned_displayed_name, '#');
 			$banned_displayed_name = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_displayed_name);
 			if ( preg_match('#^'.$banned_displayed_name.'$#i', $_POST['displayed_name']) )

@@ -23,6 +23,8 @@ UseBB 1.0 Changelog
 - Fixed bug #971: Undefined index: id upon creating forum.
 - Fixed bug #964: white space in IE before tables in ACP.
 - Fixed unwanted smiley parsing on HTML entities.
+- Fixed bug where a user cannot set his displayed name equal to his
+	username that matches a ban mask.
 - New session management, saving up to 3 queries per request.
 - Changed ACP config to contain many additional info.
 - ACP config now also checks for valid session name.

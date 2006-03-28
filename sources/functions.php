@@ -390,7 +390,7 @@ class functions {
 					
 					$set_to = 1000;
 					
-				} elseif ( $setting == 'search_nonindex_words_min_length' ) {
+				} elseif ( $setting == 'search_nonindex_words_min_length' || $setting == 'username_min_length' ) {
 					
 					$set_to = 3;
 					
@@ -409,6 +409,10 @@ class functions {
 				} elseif ( $setting == 'open_proxy_ban_whitelist' ) {
 					
 					$set_to = array();
+					
+				} elseif ( $setting == 'username_max_length' ) {
+					
+					$set_to = 30;
 					
 				} else {
 					

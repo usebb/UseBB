@@ -166,5 +166,7 @@ $conf['enable_open_proxy_ban_spamhaus_xbl'] = 0;
 $conf['enable_open_proxy_ban_tornevall'] = 1;
 $conf['open_proxy_ban_recheck_minutes'] = 30;
 $conf['open_proxy_ban_whitelist'] = array (  0 => '127.0.0.1',  1 => '*.googlebot.com',);
+$conf['username_min_length'] = 3;
+$conf['username_max_length'] = 30;
 
 ?>

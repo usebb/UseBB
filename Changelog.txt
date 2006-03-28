@@ -5,6 +5,7 @@ UseBB 1.0 Changelog
 
 - Added to ACP: member pruning.
 - Added to ACP: open proxy detection controls.
+- Added minimum and maximum length for usernames.
 - Added minimum access levels for search and active topics.
 - Added searching and detailed sorting on member list.
 - Added forum pruning by locking topics.

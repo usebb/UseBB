@@ -213,6 +213,8 @@ $lang['ConfigBoard-enable_badwords_filter'] = 'Enable badwords filter';
 $lang['ConfigBoard-enable_ip_bans'] = 'Enable IP address banning';
 $lang['ConfigBoard-show_raw_entities_in_code'] = 'Show raw entities in [code] tags.';
 $lang['ConfigBoard-show_raw_entities_in_code-info'] = 'Show the raw entity code instead of its HTML representation.';
+$lang['ConfigBoard-username_min_length'] = 'Username minimum length';
+$lang['ConfigBoard-username_max_length'] = 'Username maximum length';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

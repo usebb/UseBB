@@ -149,7 +149,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 				$avatar_force_width = ( $functions->get_config('avatars_force_width') ) ? ' width="'.intval($functions->get_config('avatars_force_width')).'"' : '';
 				$avatar_force_height = ( $functions->get_config('avatars_force_height') ) ? ' height="'.intval($functions->get_config('avatars_force_height')).'"' : '';
-				$avatar = '<img src="'.$profiledata['avatar_remote'].'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
+				$avatar = '<img src="'.unhtml($profiledata['avatar_remote']).'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
 				
 			}
 			

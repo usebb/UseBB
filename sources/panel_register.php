@@ -98,9 +98,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 			foreach ( $banned['usernames'] as $banned_username ) {
 				
-				$banned_username = preg_quote($banned_username, '#');
-				$banned_username = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_username);
-				if ( preg_match('#^'.$banned_username.'$#i', $_POST['user']) )
+				if ( preg_match('#^'.str_replace(array('\*', '\?'), array('.*', '.'), preg_quote(stripslashes($banned_username), '#')).'$#i', $_POST['user']) )
 					$username_banned = true;
 				
 			}
@@ -123,9 +121,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 			foreach ( $banned['emails'] as $banned_email ) {
 				
-				$banned_email = preg_quote($banned_email, '#');
-				$banned_email = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_email);
-				if ( preg_match('#^'.$banned_email.'$#i', $_POST['email']) )
+				if ( preg_match('#^'.str_replace(array('\*', '\?'), array('.*', '.'), preg_quote($banned_email, '#')).'$#i', $_POST['email']) )
 					$email_banned = true;
 				
 			}

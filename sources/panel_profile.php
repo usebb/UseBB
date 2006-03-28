@@ -85,9 +85,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 			if ( strtolower($session->sess_info['user_info']['name']) == strtolower($_POST['displayed_name']) )
 				continue;
 			
-			$banned_displayed_name = preg_quote($banned_displayed_name, '#');
-			$banned_displayed_name = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_displayed_name);
-			if ( preg_match('#^'.$banned_displayed_name.'$#i', $_POST['displayed_name']) )
+			if ( preg_match('#^'.str_replace(array('\*', '\?'), array('.*', '.'), preg_quote(stripslashes($banned_displayed_name), '#')).'$#i', $_POST['displayed_name']) )
 				$displayed_name_banned = true;
 			
 		}
@@ -110,9 +108,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 		
 		foreach ( $banned['emails'] as $banned_email ) {
 			
-			$banned_email = preg_quote($banned_email, '#');
-			$banned_email = preg_replace(array('#\\\\\*#', '#\\\\\?#'), array('.*', '.'), $banned_email);
-			if ( preg_match('#^'.$banned_email.'$#i', $_POST['email']) )
+			if ( preg_match('#^'.str_replace(array('\*', '\?'), array('.*', '.'), preg_quote($banned_email, '#')).'$#i', $_POST['email']) )
 				$email_banned = true;
 			
 		}

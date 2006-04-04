@@ -135,6 +135,40 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 		
+		//
+		// Registration log file
+		//
+		if ( $functions->get_config('enable_registration_log') ) {
+			
+			$log_file = $functions->get_config('registration_log_file');
+			if ( preg_match('#^[^/\.]#', $log_file) )
+				$log_file = ROOT_PATH.$log_file;
+			
+			if ( file_exists($log_file) && is_writable($log_file) ) {
+				
+				$log_entry = $functions->make_date(time(), 'D, d M Y H:i:s', true, false)." @ ".$functions->get_config('board_name')."\n";
+				
+				$entry_data = array(
+					'Username'			=> $_POST['user'],
+					'Email address'		=> $_POST['email'],
+					'IP address'		=> $session->sess_info['ip_addr'],
+					'Host name'			=> gethostbyaddr($session->sess_info['ip_addr']),
+					'Browser'			=> $_SERVER['HTTP_USER_AGENT'],
+					'Session started'	=> $functions->make_date($session->sess_info['started'], 'D, d M Y H:i:s', true, false),
+					'Pages'				=> $session->sess_info['pages']
+				);
+				
+				foreach ( $entry_data as $key => $val )
+					$log_entry .= "\t".$key.":\t".$val."\n";
+				
+				$fh = @fopen($log_file, 'a');
+				@fwrite($fh, $log_entry);
+				@fclose($fh);
+				
+			}
+			
+		}
+		
 		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
 		$out = $db->fetch_result($result);
 		if ( !$out['count'] )

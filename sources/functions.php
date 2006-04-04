@@ -380,11 +380,7 @@ class functions {
 					
 				} elseif ( $setting == 'cookie_path' ) {
 					
-					//
-					// Automatically find the board path
-					//
-					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-					$set_to = $path_parts['dirname'];
+					$set_to = '/';
 					
 				} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
 					
@@ -1284,6 +1280,169 @@ class functions {
 	}
 	
 	/**
+	 * Cleans up BBCode for parsing
+	 *
+	 * Automatically called from within ::markup.
+	 *
+	 * @param string $string Text string to preparse
+	 * @returns string Corrected BBCoded text
+	 */
+	function bbcode_prepare($string) {
+		
+		$string = trim($string);
+		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
+		
+		$parts = array_reverse(preg_split('#(\[/?[^\]]+\])#', $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY));
+		
+		$open_tags = $open_parameters = array();
+		$new_string = '';
+		
+		while ( count($parts) ) {
+			
+			$part = array_pop($parts);
+			$matches = array();
+			
+			//
+			// Add open tag
+			//
+			if ( preg_match('#^\[([a-z]+)([^\]]+)?\]$#', $part, $matches) ) {
+				
+				//
+				// Transform tags
+				//
+				if ( end($open_tags) == 'code' ) {
+					
+					$new_string .= str_replace(array('[', ']'), array('&#91;', '&#93;'), $part);
+					continue;
+					
+				}
+				
+				//
+				// Is already open
+				//
+				if ( $matches[1] != 'quote' && in_array($matches[1], $open_tags) )
+					continue;
+				
+				//
+				// Only add this if it exists
+				//
+				if ( in_array($matches[1], $existing_tags) ) {
+					
+					array_push($open_tags, $matches[1]);
+					array_push($open_parameters, ( isset($matches[2]) ) ? $matches[2] : '');
+					
+				}
+				
+				$new_string .= $part;
+				continue;
+				
+			}
+			
+			//
+			// Add close tag
+			//
+			if ( preg_match('#^\[/([a-z]+)\]$#', $part, $matches) ) {
+				
+				//
+				// Transform tags
+				//
+				if ( end($open_tags) == 'code' && $matches[1] != 'code' ) {
+					
+					$new_string .= str_replace(array('[', ']'), array('&#91;', '&#93;'), $part);
+					continue;
+					
+				}
+				
+				//
+				// Unexisting tag
+				//
+				if ( !in_array($matches[1], $existing_tags) ) {
+					
+					$new_string .= $part;
+					continue;
+					
+				}
+				
+				//
+				// Is current open tag
+				//
+				if ( end($open_tags) == $matches[1] ) {
+					
+					array_pop($open_tags);
+					array_pop($open_parameters);
+					
+					$new_string .= $part;
+					continue;
+					
+				}
+				
+				//
+				// Is other open tag
+				//
+				if ( in_array($matches[1], $open_tags) ) {
+					
+					$to_reopen_tags = $to_reopen_parameters = array();
+					
+					while ( $open_tag = array_pop($open_tags) ) {
+						
+						$open_parameter = array_pop($open_parameters);
+						$new_string .= '[/'.$open_tag.']';
+						
+						if ( $open_tag == $matches[1] )
+							break;
+						
+						array_push($to_reopen_tags, $open_tag);
+						array_push($to_reopen_parameters, $open_parameter);
+						
+					}
+					
+					$to_reopen_tags = array_reverse($to_reopen_tags);
+					$to_reopen_parameters = array_reverse($to_reopen_parameters);
+					
+					while ( $open_tag = array_pop($to_reopen_tags) ) {
+						
+						$open_parameter = array_pop($to_reopen_parameters);
+						
+						$new_string .= '['.$open_tag.$open_parameter.']';
+						array_push($open_tags, $open_tag);
+						array_push($open_parameters, $open_parameter);
+						
+					}
+					
+				}
+				
+			} else {
+				
+				//
+				// Plain text
+				//
+				$new_string .= ( end($open_tags) == 'code' && $this->get_config('show_raw_entities_in_code') ) ? str_replace('&#', '&amp;#', $part) : $part;
+				
+			}
+			
+		}
+		
+		//
+		// Close opened tags
+		//
+		while ( $open_tag = array_pop($open_tags) ) {
+			
+			$open_parameter = array_pop($open_parameters);
+			$new_string .= '[/'.$open_tag.$open_parameter.']';
+			
+		}
+		
+		//
+		// Remove empties
+		//
+		foreach ( $existing_tags as $existing_tag )
+			$new_string = preg_replace('#\[('.$existing_tag.')([^\]]+)?\]\[/(\1)\]#', '', $new_string);
+		
+		return $new_string;
+		
+	}
+	
+	/**
 	 * Apply BBCode and smilies to a string
 	 *
 	 * @param string $string String to markup
@@ -1325,13 +1484,15 @@ class functions {
 		
 		if ( $bbcode ) {
 			
+			$string = ' '.$this->bbcode_prepare($string).' ';
+			
 			$target_blank = ( $this->get_config('target_blank') ) ? ' target="_blank"' : '';
 			$rel_nofollow = ( $this->get_config('rel_nofollow') ) ? ' rel="nofollow"' : '';
 			
 			//
 			// Difficult parsing of code tags
 			//
-			if ( preg_match('#\[code\](.*?)\[/code\]#is', $string) ) {
+			/*if ( preg_match('#\[code\](.*?)\[/code\]#is', $string) ) {
 				
 				//
 				// Convert between code tags
@@ -1404,7 +1565,7 @@ class functions {
 				}
 				$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 				
-			}
+			}*/
 			
 			//
 			// Parse URL's and e-mail addresses
@@ -1470,6 +1631,18 @@ class functions {
 				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
 				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+			
+			//
+			// Parse code tags
+			//
+			preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
+			foreach ( $matches[1] as $oldpart ) {
+				
+				$newpart = preg_replace(array('#<img src="[^"]+" alt="([^"]+)" />#', "#\n#", "#\r#"), array('\\1', '<br />', ''), $oldpart);
+				$string = str_replace('[code]'.$oldpart.'[/code]', '[code]'.$newpart.'[/code]', $string);
+				
+			}
+			$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			
 		}
 		
@@ -1870,7 +2043,7 @@ class functions {
 		
 		global $db, $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && !is_array($this->updated_forums) ) {
+		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && !is_array($this->updated_forums) ) {
 			
 			$result = $db->query("SELECT t.id, t.forum_id, p.post_time FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE p.id = t.last_post_id AND p.post_time > ".$_SESSION['previous_visit']);
 			$this->updated_forums = array();
@@ -1883,7 +2056,7 @@ class functions {
 			
 		}
 		
-		if ( $session->sess_info['user_id'] && in_array($id, $this->updated_forums) ) {
+		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && in_array($id, $this->updated_forums) ) {
 			
 			if ( $open ) {
 				
@@ -1929,7 +2102,7 @@ class functions {
 		
 		global $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
+		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
 			
 			if ( !$locked ) {
 				

@@ -508,7 +508,7 @@ class session {
 		//
 		// Set previous visit timestamp for markers
 		//
-		$_SESSION['previous_visit'] = ( $new_sess_info['user_id'] && ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] ) ) ? $user_data['last_pageview'] : $_SESSION['previous_visit'];
+		$_SESSION['previous_visit'] = ( $new_sess_info['user_id'] && ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] || empty($_SESSION['previous_visit']) ) ) ? $user_data['last_pageview'] : $_SESSION['previous_visit'];
 		
 	}
 	

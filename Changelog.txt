@@ -5,6 +5,7 @@ UseBB 1.0 Changelog
 
 - Added to ACP: member pruning.
 - Added automatic DNSBL powered IP banning.
+- Added registration logging.
 - Added setting to hide never activated members from member list.
 - Added minimum and maximum length for usernames.
 - Added minimum access levels for search and active topics.
@@ -27,15 +28,19 @@ UseBB 1.0 Changelog
 	username that matches a ban mask.
 - Fixed unwanted smiley parsing on HTML entities.
 - Fixed not unhtml'ed query in ACP SQL toolbox textarea.
+- Fixed unused quick_reply_textarea_cols.
+- Fixed BBCode parsing to create well-formed XHTML.
 - New session management, saving up to 3 queries per request.
 - Automatically login after activation.
 - Changed ACP config to contain many additional info.
 - ACP config now also checks for valid session name.
 - config.php must no longer be writable by PHP.
 - Now serving application/xhtml+xml (text/html on IE et al).
+- Made Skype info in profile callto: link.
 - Added error upon lost saltcode when registering.
 - Make trigger_error() errors E_USER_ERROR.
 - Hide debug info and page links for banned IP's.
+- Cookie path is now always auto-detected as "/".
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

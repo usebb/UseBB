@@ -402,7 +402,7 @@ class functions {
 					
 					$set_to = LEVEL_GUEST;
 					
-				} elseif ( $setting == 'open_proxy_ban_whitelist' ) {
+				} elseif ( $setting == 'dnsbl_powered_banning_whitelist' ) {
 					
 					$set_to = array();
 					

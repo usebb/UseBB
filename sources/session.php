@@ -99,8 +99,8 @@ class session {
 		$_SESSION['previous_visit'] = ( !empty($_SESSION['previous_visit']) ) ? $_SESSION['previous_visit'] : 0;
 		$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
 		$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
-		$_SESSION['proxy_checked'] = ( !empty($_SESSION['proxy_checked']) ) ? $_SESSION['proxy_checked'] : 0;
-		$_SESSION['proxy_whitelisted'] = ( isset($_SESSION['proxy_whitelisted']) && $_SESSION['proxy_whitelisted'] ) ? true : false;
+		$_SESSION['dnsbl_checked'] = ( !empty($_SESSION['dnsbl_checked']) ) ? $_SESSION['dnsbl_checked'] : 0;
+		$_SESSION['dnsbl_whitelisted'] = ( isset($_SESSION['dnsbl_whitelisted']) && $_SESSION['dnsbl_whitelisted'] ) ? true : false;
 		
 	}
 	
@@ -266,11 +266,11 @@ class session {
 		}
 		
 		//
-		// Open proxy banning
+		// DNSBL powered banning
 		//
-		if ( $functions->get_config('enable_open_proxy_ban') && function_exists('checkdnsrr') && !$_SESSION['proxy_whitelisted'] && ( !$_SESSION['proxy_checked'] || ( $functions->get_config('open_proxy_ban_recheck_minutes') && $_SESSION['proxy_checked'] <= ( time() - $functions->get_config('open_proxy_ban_recheck_minutes') * 60 ) ) ) ) {
+		if ( $functions->get_config('enable_dnsbl_powered_banning') && function_exists('checkdnsrr') && !$_SESSION['dnsbl_whitelisted'] && ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
 			
-			$whitelist = $functions->get_config('open_proxy_ban_whitelist');			
+			$whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');			
 			
 			if ( count($whitelist) ) {
 				
@@ -283,7 +283,7 @@ class session {
 						//
 						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[a-z0-9\-\.]*', '[a-z0-9\-\.]'), preg_quote($ip_host)).'$#i', gethostbyaddr($ip_addr)) ) {
 							
-							$_SESSION['proxy_whitelisted'] = true;
+							$_SESSION['dnsbl_whitelisted'] = true;
 							break;
 							
 						}
@@ -295,7 +295,7 @@ class session {
 						//
 						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[0-9]*', '[0-9]'), preg_quote($ip_host)).'$#', $ip_addr) ) {
 							
-							$_SESSION['proxy_whitelisted'] = true;
+							$_SESSION['dnsbl_whitelisted'] = true;
 							break;
 							
 						}
@@ -306,7 +306,7 @@ class session {
 				
 			}
 			
-			if ( !$_SESSION['proxy_whitelisted'] ) {
+			if ( !$_SESSION['dnsbl_whitelisted'] ) {
 				
 				$dnsbl_servers = array(
 					'dsbl_list'			=> 'list.dsbl.org',
@@ -331,15 +331,15 @@ class session {
 				$hits_found = 0;
 				foreach ( $dnsbl_servers as $dnsbl_name => $dnsbl_server ) {
 					
-					if ( $functions->get_config('enable_open_proxy_ban_'.$dnsbl_name) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
+					if ( $functions->get_config('enable_dnsbl_server_'.$dnsbl_name) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
 						$hits_found++;
 					
 				}
 				
-				if ( $hits_found >= $functions->get_config('open_proxy_ban_min_hits') ) {
+				if ( $hits_found >= $functions->get_config('dnsbl_powered_banning_min_hits') ) {
 					
 					$ip_to_add = $ip_addr;
-					if ( $functions->get_config('enable_open_proxy_ban_wildcard') )
+					if ( $functions->get_config('enable_dnsbl_powered_banning_wildcard') )
 						$ip_to_add = preg_replace('#^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$#', '\\1.\\2.\\3.*', $ip_to_add);
 					
 					$db->query("INSERT INTO ".TABLE_PREFIX."bans(ip_addr) VALUES('".$ip_to_add."')");
@@ -357,7 +357,7 @@ class session {
 					
 				} else {
 					
-					$_SESSION['proxy_checked'] = time();
+					$_SESSION['dnsbl_checked'] = time();
 					
 				}
 				
@@ -365,7 +365,7 @@ class session {
 			
 		} else {
 			
-			$_SESSION['proxy_checked'] = time();
+			$_SESSION['dnsbl_checked'] = time();
 			
 		}
 		

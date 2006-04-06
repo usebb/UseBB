@@ -53,7 +53,7 @@ $lang['Item-activate_members'] = 'Leden Activeren';
 $lang['Item-prune_forums'] = 'Forums Prunen';
 $lang['Item-prune_members'] = 'Leden Prunen';
 $lang['Category-pruning'] = 'Pruning';
-$lang['Item-DNSBL'] = 'DNSBL-aangedreven banning';
+$lang['Item-dnsbl'] = 'DNSBL-bans';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';

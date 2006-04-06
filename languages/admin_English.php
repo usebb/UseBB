@@ -53,7 +53,7 @@ $lang['Item-activate_members'] = 'Activate Members';
 $lang['Item-prune_forums'] = 'Prune Forums';
 $lang['Item-prune_members'] = 'Prune Members';
 $lang['Category-pruning'] = 'Pruning';
-$lang['Item-DNSBL'] = 'DNSBL Powered Banning';
+$lang['Item-dnsbl'] = 'DNSBL Bans';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';

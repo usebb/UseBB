@@ -387,15 +387,12 @@ $lang['DNSBLNotAvailableInfo'] = 'Door de afwezigheid van %s is DNSBL-aangedreve
 $lang['DNSBLGeneralInfo'] = 'Open proxies worden vaak gebruikt om spam of misbruikende berichten te plaatsen. Door het beschermingssysteem van UseBB kunnen veel van deze proxies opgespoord en geband worden. Hiervoor worden zogenaamde blacklists geraadpleegd voor informatie over het IP-adres van de gebruiker.';
 $lang['DNSBLEnableOpenDNSBLBan'] = 'DNSBL-banning inschakelen';
 $lang['DNSBLServers'] = 'DNS BlackList (DNSBL)-servers';
+$lang['DNSBLServersInfo'] = 'Een DNSBL-hostnaam per regel. Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken bij het starten van een nieuwe sessie.';
 $lang['DNSBLMinPositiveHits'] = 'Ten minste %s positieve hits zijn benodigd om een IP-adres te bannen.';
 $lang['DNSBLRecheckMinutes'] = 'Hercontroleer toegestane IP-adressen elke %s minuten (0 om uit te schakelen).';
 $lang['DNSBLEnableOpenDNSBLBanWildcard'] = 'Activeer wildcard-banning %s (niet aanbevolen)';
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'Een IP-adres of hostnaam per regel (* en ? kunnen als wildcards worden gebruikt).';
-$lang['DNSBLUnwantedBansInfo'] = 'Sommige blacklists zijn agressief en kunnen veilige IP-adressen bannen (SORBS aggregate bant ook sommige dynamische IP-ranges).';
-$lang['DNSBLSlownessInfo'] = 'Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken bij het starten van een nieuwe sessie.';
-$lang['DNSBLAggregatesInfo'] = 'Sommige van deze servers zijn agreggaten die meerdere servers combineren. Gelieve te controleren of een blacklist niet meerdere keren geraadpleegd wordt. Het indirect meermaals raadplegen van een server veroorzaakt nutteloze aanvragen en kan als misbruik aanzien worden.';
-$lang['DNSBLHighTrafficInfo'] = 'Indien je een forum met veel trafiek hebt, overweeg de administratie van de blacklist-server te raadplegen alvorens deze hier te gebruiken.';
-$lang['DNSBLSettingsSaved'] = 'DNSBL banning settings saved.';
+$lang['DNSBLSettingsSaved'] = 'DNSBL-aangedreven banning instellingen werden opgeslaan.';
 
 ?>

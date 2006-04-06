@@ -55,25 +55,6 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 	
 } else {
 	
-	$dnsbl_servers = array(
-		'dsbl_list'			=> array('DSBL list', 'http://dsbl.org/'),
-		'dsbl_unconfirmed'	=> array('DSBL unconfirmed', 'http://dsbl.org/'),
-		'sorbs_all'			=> array('SORBS aggregate zone', 'http://www.sorbs.net/'),
-		'sorbs_http'		=> array('SORBS open HTTP proxies', 'http://www.sorbs.net/'),
-		'sorbs_socks'		=> array('SORBS open SOCKS proxies', 'http://www.sorbs.net/'),
-		'socks_misc'		=> array('SORBS open misc. proxies', 'http://www.sorbs.net/'),
-		'spamcop'			=> array('SpamCop Blocking List', 'http://www.spamcop.net/'),
-		'cbl'				=> array('Composite Blocking List (CBL)', 'http://cbl.abuseat.org/'),
-		'blitzed'			=> array('Blitzed OPML (BOPM)', 'http://opm.blitzed.org/'),
-		'njabl_combined'	=> array('NJABL combined', 'http://www.njabl.org/'),
-		'tornevall'			=> array('TornevallNET OPM', 'http://opm.tornevall.org/'),
-		'spamhaus_sbl'		=> array('Spamhaus SBL', 'http://www.spamhaus.org/sbl/index.lasso'),
-		'spamhaus_xbl'		=> array('Spamhaus XBL (CBL+BOPM+NJABL)', 'http://www.spamhaus.org/xbl/index.lasso'),
-		'spamhaus_sbl_xbl'	=> array('Spamhaus SBL+XBL', 'http://www.spamhaus.org/xbl/index.lasso'),
-		'ahbl'				=> array('Abusive Hosts Blocking List (AHBL)', 'http://www.ahbl.org/'),
-	);
-	asort($dnsbl_servers);
-	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 		$new_settings = array(
@@ -81,11 +62,12 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 			'dnsbl_powered_banning_min_hits' => ( !empty($_POST['dnsbl_powered_banning_min_hits']) && valid_int($_POST['dnsbl_powered_banning_min_hits']) && intval($_POST['dnsbl_powered_banning_min_hits']) >= 1 ) ? intval($_POST['dnsbl_powered_banning_min_hits']) : 1,
 			'dnsbl_powered_banning_recheck_minutes' => ( !empty($_POST['dnsbl_powered_banning_recheck_minutes']) && valid_int($_POST['dnsbl_powered_banning_recheck_minutes']) ) ? intval($_POST['dnsbl_powered_banning_recheck_minutes']) : 0,
 			'enable_dnsbl_powered_banning_wildcard' => ( !empty($_POST['enable_dnsbl_powered_banning_wildcard']) ) ? 1 : 0,
+			'dnsbl_powered_banning_servers' => ( !empty($_POST['dnsbl_powered_banning_servers']) ) ? preg_split("#[\r\n]+#", $_POST['dnsbl_powered_banning_servers']) : array(),
 			'dnsbl_powered_banning_whitelist' => ( !empty($_POST['dnsbl_powered_banning_whitelist']) ) ? preg_split("#[\r\n]+#", $_POST['dnsbl_powered_banning_whitelist']) : array(),
 		);
 		
-		foreach ( $dnsbl_servers as $key => $val )
-			$new_settings['enable_dnsbl_server_'.$key] = ( !empty($_POST['enable_dnsbl_server_'.$key]) ) ? 1 : 0;
+		/*foreach ( $dnsbl_servers as $key => $val )
+			$new_settings['enable_dnsbl_server_'.$key] = ( !empty($_POST['enable_dnsbl_server_'.$key]) ) ? 1 : 0;*/
 		
 		$admin_functions->set_config($new_settings);
 		
@@ -97,32 +79,22 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 		$enable_dnsbl_powered_banning_wildcard_checked = ( $functions->get_config('enable_dnsbl_powered_banning_wildcard') ) ? ' checked="checked"' : '';
 		$dnsbl_powered_banning_min_hits = intval($functions->get_config('dnsbl_powered_banning_min_hits'));
 		$dnsbl_powered_banning_recheck_minutes = intval($functions->get_config('dnsbl_powered_banning_recheck_minutes'));
+		$dnsbl_powered_banning_servers = $functions->get_config('dnsbl_powered_banning_servers');
+		$dnsbl_powered_banning_servers = unhtml(join("\n", $dnsbl_powered_banning_servers));
 		$dnsbl_powered_banning_whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');
 		$dnsbl_powered_banning_whitelist = unhtml(join("\n", $dnsbl_powered_banning_whitelist));
 		
 		$content = '<p>'.$lang['DNSBLGeneralInfo'].'</p>';
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'dnsbl')).'" method="post">';
 		$content .= '<fieldset><legend><label><input type="checkbox" name="enable_dnsbl_powered_banning" value="1"'.$enable_dnsbl_powered_banning_checked.' /> '.$lang['DNSBLEnableOpenDNSBLBan'].'</label></legend>';
-			$content .= '<h3>'.$lang['DNSBLServers'].'</h3><ul id="optionslist">';
-			foreach ( $dnsbl_servers as $key => $val ) {
-				
-				$checked = ( $functions->get_config('enable_dnsbl_server_'.$key) ) ? ' checked="checked"' : '';
-				$content .= '<li><label><input type="checkbox" name="enable_dnsbl_server_'.$key.'" value="1"'.$checked.' /> '.$val[0].'</label> <a href="'.$val[1].'">(?)</a></li>';
-				
-			}
-			$content .= '</ul>';
+			$content .= '<h3>'.$lang['DNSBLServers'].'</h3><p>'.$lang['DNSBLServersInfo'].'</p>';
+			$content .= '<p><textarea name="dnsbl_powered_banning_servers" rows="5" cols="50">'.$dnsbl_powered_banning_servers.'</textarea></p>';
 			$content .= '<p><label>'.sprintf($lang['DNSBLMinPositiveHits'], '<input type="text" name="dnsbl_powered_banning_min_hits" size="2" maxlength="2" value="'.$dnsbl_powered_banning_min_hits.'" />').'</label></p>';
 			$content .= '<p><label>'.sprintf($lang['DNSBLRecheckMinutes'], '<input type="text" name="dnsbl_powered_banning_recheck_minutes" size="2" maxlength="2" value="'.$dnsbl_powered_banning_recheck_minutes.'" />').'</label></p>';
 			$content .= '<p><label><input type="checkbox" name="enable_dnsbl_powered_banning_wildcard" value="1"'.$enable_dnsbl_powered_banning_wildcard_checked.' /> '.sprintf($lang['DNSBLEnableOpenDNSBLBanWildcard'], '<code>1.2.3.*</code>').'</label></p>';
 			$content .= '<h3>'.$lang['DNSBLWhitelist'].'</h3><p>'.$lang['DNSBLWhitelistInfo'].'</p>';
-			$content .= '<div><textarea name="dnsbl_powered_banning_whitelist" rows="5" cols="50">'.$dnsbl_powered_banning_whitelist.'</textarea></div>';
+			$content .= '<p><textarea name="dnsbl_powered_banning_whitelist" rows="5" cols="50">'.$dnsbl_powered_banning_whitelist.'</textarea></p>';
 		$content .= '</fieldset>';
-		$content .= '<ul>';
-			$content .= '<li>'.$lang['DNSBLUnwantedBansInfo'].'</li>';
-			$content .= '<li>'.$lang['DNSBLSlownessInfo'].'</li>';
-			$content .= '<li>'.$lang['DNSBLAggregatesInfo'].'</li>';
-			$content .= '<li>'.$lang['DNSBLHighTrafficInfo'].'</li>';
-		$content .= '</ul>';
 		$content .= '<p class="submit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p>';
 		$content .= '</form>';
 		

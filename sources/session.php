@@ -308,30 +308,13 @@ class session {
 			
 			if ( !$_SESSION['dnsbl_whitelisted'] ) {
 				
-				$dnsbl_servers = array(
-					'dsbl_list'			=> 'list.dsbl.org',
-					'dsbl_unconfirmed'	=> 'unconfirmed.dsbl.org',
-					'sorbs_all'			=> 'dnsbl.sorbs.net',
-					'sorbs_http'		=> 'http.dnsbl.sorbs.net',
-					'sorbs_socks'		=> 'socks.dnsbl.sorbs.net',
-					'socks_misc'		=> 'misc.dnsbl.sorbs.net',
-					'blitzed'			=> 'opm.blitzed.org',
-					'spamcop'			=> 'bl.spamcop.net',
-					'spamhaus_sbl'		=> 'sbl.spamhaus.org',
-					'spamhaus_xbl'		=> 'xbl.spamhaus.org',
-					'spamhaus_sbl_xbl'	=> 'sbl-xbl.spamhaus.org',
-					'cbl'				=> 'cbl.abuseat.org',
-					'njabl_combined'	=> 'combined.njabl.org',
-					'tornevall'			=> 'opm.tornevall.org',
-					'ahbl'				=> 'dnsbl.ahbl.org',
-				);
-				
+				$dnsbl_servers = $functions->get_config('dnsbl_powered_banning_servers');
 				$dnsbl = join('.', array_reverse(explode('.', $ip_addr)));
 				
 				$hits_found = 0;
-				foreach ( $dnsbl_servers as $dnsbl_name => $dnsbl_server ) {
+				foreach ( $dnsbl_servers as $dnsbl_server ) {
 					
-					if ( $functions->get_config('enable_dnsbl_server_'.$dnsbl_name) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
+					if ( preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $dnsbl_server) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
 						$hits_found++;
 					
 				}

@@ -402,7 +402,7 @@ class functions {
 					
 					$set_to = LEVEL_GUEST;
 					
-				} elseif ( $setting == 'dnsbl_powered_banning_whitelist' ) {
+				} elseif ( $setting == 'dnsbl_powered_banning_whitelist' || $setting == 'dnsbl_powered_banning_servers' ) {
 					
 					$set_to = array();
 					

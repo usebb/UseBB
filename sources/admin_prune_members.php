@@ -143,13 +143,13 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'prune_members')).'" method="post">';
 		$content .= '<fieldset><legend><label><input type="radio" name="type" value="never_activated"'.$never_activated_checked.' /> '.$lang['PruneMembersTypeNeverActivated'].'</label></legend>';
-			$content .= sprintf($lang['PruneMembersRegisteredDaysAgo'], '<input type="text" name="na_registered_days_ago" size="4" maxlength="255" value="'.$_POST['na_registered_days_ago'].'" />');
+			$content .= '<label>'.sprintf($lang['PruneMembersRegisteredDaysAgo'], '<input type="text" name="na_registered_days_ago" size="4" maxlength="255" value="'.$_POST['na_registered_days_ago'].'" />').'</label>';
 		$content .= '</fieldset>';
 		$content .= '<fieldset><legend><label><input type="radio" name="type" value="never_posted"'.$never_posted_checked.' /> '.$lang['PruneMembersTypeNeverPosted'].'</label></legend>';
-			$content .= sprintf($lang['PruneMembersRegisteredDaysAgo'], '<input type="text" name="np_registered_days_ago" size="4" maxlength="255" value="'.$_POST['np_registered_days_ago'].'" />');
+			$content .= '<label>'.sprintf($lang['PruneMembersRegisteredDaysAgo'], '<input type="text" name="np_registered_days_ago" size="4" maxlength="255" value="'.$_POST['np_registered_days_ago'].'" />').'</label>';
 		$content .= '</fieldset>';
 		$content .= '<fieldset><legend><label><input type="radio" name="type" value="not_logged_in"'.$not_logged_in_checked.' /> '.$lang['PruneMembersTypeInactive'].'</label></legend>';
-			$content .= sprintf($lang['PruneMembersLastLoggedIn'], '<input type="text" name="last_logged_in" size="4" maxlength="255" value="'.$_POST['last_logged_in'].'" />');
+			$content .= '<label>'.sprintf($lang['PruneMembersLastLoggedIn'], '<input type="text" name="last_logged_in" size="4" maxlength="255" value="'.$_POST['last_logged_in'].'" />').'</label>';
 		$content .= '</fieldset>';
 		
 		$content .= '<fieldset><legend>'.$lang['PruneMembersExclude'].'</legend>';

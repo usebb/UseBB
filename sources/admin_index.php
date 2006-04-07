@@ -79,12 +79,11 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 
 <h2>'.$lang['IndexLinks'].'</h2>
 <ul>
-	<li><a href="http://www.usebb.net/">UseBB Homepage</a></li>
-	<li><a href="http://www.usebb.net/support/">UseBB Support</a></li>
-	<li><a href="http://www.usebb.net/community/">UseBB Community</a></li>
+	<li><a href="http://www.usebb.net/">UseBB.net</a></li>
+	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
 	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
 </ul>
-<p>Copyright &copy; 2003-2006 UseBB Team</p>';
+<p class="copyright">Copyright &copy; 2003-2006 UseBB Team - All rights reserved.</p>';
 
 $admin_functions->create_body('index', $content);
 

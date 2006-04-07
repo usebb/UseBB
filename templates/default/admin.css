@@ -211,3 +211,8 @@ ul#optionslist {
 ul#optionslist li {
 	margin: 0 0 3px 0;
 }
+
+.copyright {
+	color: #666;
+	font-size: 7pt;
+}

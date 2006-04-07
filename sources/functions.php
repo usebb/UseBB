@@ -317,7 +317,7 @@ class functions {
 			if ( array_key_exists($setting, $this->board_config_original) )
 				return $this->board_config_original[$setting];
 			else
-				return '';
+				return false;
 			
 		} else {
 			
@@ -359,63 +359,62 @@ class functions {
 			//
 			if ( is_array($this->board_config) && !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
 				
-				if ( !in_array($setting, array('board_url', 'cookie_path', 'session_save_path', 'hide_undefined_config_setting_warnings')) && isset($this->board_config['hide_undefined_config_setting_warnings']) && !$this->board_config['hide_undefined_config_setting_warnings'] ) {
+				switch ( $setting ) {
 					
-					//
-					// Trigger error when a config value wasn't found and
-					// hide_undefined_config_setting_warnings is explicitly false.
-					//
-					trigger_error('Unable to get config setting "'.$setting.'"!'."\n\n".'To disable these warnings on a non-development board, set the config setting "hide_undefined_config_setting_warnings" to 1.');
+					case 'board_url':
+						$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+						if ( !preg_match('#/$#', $path_parts['dirname']) )
+							$path_parts['dirname'] .= '/';
+						$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
+						$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
+						break;
 					
-				} elseif ( $setting == 'board_url' ) {
+					case 'cookie_domain':
+						$set_to = $_SERVER['HTTP_HOST'];
+						break;
 					
-					//
-					// Automatically find the board URL
-					//
-					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-					if ( !preg_match('#/$#', $path_parts['dirname']) )
-						$path_parts['dirname'] .= '/';
-					$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
-					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
+					case 'cookie_path':
+						$set_to = '/';
+						break;
 					
-				} elseif ( $setting == 'cookie_path' ) {
+					case 'search_limit_results':
+					case 'sig_max_length':
+						$set_to = 1000;
+						break;
 					
-					$set_to = '/';
+					case 'search_nonindex_words_min_length':
+					case 'username_min_length':
+						$set_to = 3;
+						break;
 					
-				} elseif ( $setting == 'search_limit_results' || $setting == 'sig_max_length' ) {
+					case 'enable_ip_bans':
+					case 'enable_badwords_filter':
+					case 'guests_can_see_contact_info':
+					case 'show_raw_entities_in_code':
+					case 'show_never_activated_members':
+						$set_to = true;
+						break;
 					
-					$set_to = 1000;
+					case 'activation_mode':
+						$set_to = $this->get_config('users_must_activate');
+						break;
 					
-				} elseif ( $setting == 'search_nonindex_words_min_length' || $setting == 'username_min_length' ) {
+					case 'view_search_min_level':
+					case 'view_active_topics_min_level':
+						$set_to = LEVEL_GUEST;
+						break;
 					
-					$set_to = 3;
+					case 'dnsbl_powered_banning_whitelist':
+					case 'dnsbl_powered_banning_servers':
+						$set_to = array();
+						break;
 					
-				} elseif ( $setting == 'allow_duplicate_emails' || $setting == 'enable_ip_bans' || $setting == 'enable_badwords_filter' || $setting == 'guests_can_see_contact_info' || $setting == 'show_raw_entities_in_code' || $setting == 'show_never_activated_members' ) {
+					case 'username_max_length':
+						$set_to = 30;
+						break;
 					
-					$set_to = true;
-					
-				} elseif ( $setting == 'activation_mode' ) {
-					
-					$set_to = $this->get_config('users_must_activate');
-					
-				} elseif ( $setting == 'view_search_min_level' || $setting == 'view_active_topics_min_level' ) {
-					
-					$set_to = LEVEL_GUEST;
-					
-				} elseif ( $setting == 'dnsbl_powered_banning_whitelist' || $setting == 'dnsbl_powered_banning_servers' ) {
-					
-					$set_to = array();
-					
-				} elseif ( $setting == 'username_max_length' ) {
-					
-					$set_to = 30;
-					
-				} else {
-					
-					//
-					// Set all other missing settings to false
-					//
-					$set_to = false;
+					default:
+						$set_to = false;
 					
 				}
 				

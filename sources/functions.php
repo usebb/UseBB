@@ -370,7 +370,7 @@ class functions {
 						break;
 					
 					case 'cookie_domain':
-						$set_to = $_SERVER['HTTP_HOST'];
+						$set_to = ( preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['HTTP_HOST']) ) ? $_SERVER['HTTP_HOST'] : '';
 						break;
 					
 					case 'cookie_path':

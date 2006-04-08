@@ -72,8 +72,9 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 	// - total number of posts
 	//
 	
+	$lock_topics_part = ( $_POST['action'] == 'lock' ) ? " AND t.status_locked = 0" : "";
 	$exclude_stickies_part = ( !empty($_POST['exclude_stickies']) ) ? " AND t.status_sticky = 0" : "";	
-	$result = $db->query("SELECT t.id as topic_id, f.id as forum_id, t.count_replies FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p WHERE t.forum_id = f.id AND p.id = t.last_post_id AND f.id IN (".join(', ', $_POST['forums']).") AND p.post_time < ".( time() - $_POST['latest_post'] * 86400 ).$exclude_stickies_part);
+	$result = $db->query("SELECT t.id as topic_id, f.id as forum_id, t.count_replies FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p WHERE t.forum_id = f.id AND p.id = t.last_post_id AND f.id IN (".join(', ', $_POST['forums']).") AND p.post_time < ".( time() - $_POST['latest_post'] * 86400 ).$exclude_stickies_part.$lock_topics_part);
 	
 	$forums = $topics = array();
 	$total = array('topics' => 0, 'posts' => 0);

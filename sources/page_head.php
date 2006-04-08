@@ -140,7 +140,7 @@ $template->add_global_vars(array(
 // Page header
 //
 $template->parse('normal_header', 'global');
-$template->add_raw_content($functions->get_config('cookie_domain'));
+
 //
 // Make a Forbidden header when the RSS feed cannot be requested
 //

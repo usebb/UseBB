@@ -67,7 +67,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 	
 	$username_taken = $username_banned = $email_taken = $email_banned = false;
-	if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ) {
+	if ( ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) || ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) ) {
 		
 		//
 		// Get banned usernames and e-mail addresses
@@ -105,7 +105,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 		}
 		
-		if ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+		if ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) {
 			
 			//
 			// Check if this email already exists
@@ -133,7 +133,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	// If all necessary information has been posted and the user accepted the terms
 	//
-	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
 		
 		//
 		// Registration log file
@@ -319,7 +319,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			$errors = array();
 			if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
+			if ( empty($_POST['email']) || !$functions->validate_email($_POST['email']) )
 				$errors[] = $lang['Email'];
 			if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
 				$errors[] = $lang['Password'];
@@ -369,7 +369,7 @@ if ( $functions->get_config('disable_registrations') ) {
 		// Show the registration form
 		//
 		$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-		$_POST['email'] = ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ? $_POST['email'] : '';
+		$_POST['email'] = ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) ? $_POST['email'] : '';
 		$template->parse('register_form', 'various', array(
 			'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 			'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',

@@ -47,7 +47,7 @@ if ( !empty($_POST['displayed_name']) )
 	$_POST['displayed_name'] = preg_replace('#\s+#', ' ', $_POST['displayed_name']);
 
 $displayed_name_taken = $displayed_name_banned = $email_taken = $email_banned = false;
-if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) ) {
+if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) ) {
 	
 	//
 	// Get banned displayed_names and e-mail addresses
@@ -92,7 +92,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 		
 	}
 	
-	if ( !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) ) {
+	if ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) {
 		
 		//
 		// Check if this email already exists
@@ -117,7 +117,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && preg_match
 	
 }
 
-if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && preg_match(EMAIL_PREG, $_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
 	if ( !empty($_POST['avatar']) ) {
 			
@@ -262,7 +262,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 			$errors[] = $lang['DisplayedName'];
 		if ( !( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) )
 			$errors[] = $lang['Birthday'];
-		if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
+		if ( empty($_POST['email']) || !$functions->validate_email($_POST['email']) )
 			$errors[] = $lang['Email'];
 		if ( !empty($_POST['avatar']) && !preg_match(IMG_PREG, $_POST['avatar']) )
 			$errors[] = $lang['AvatarURL'];

@@ -18,6 +18,7 @@ UseBB 1.0 Changelog
 - Added setting to hide contact info in profiles for guests.
 - Added possibility for admins to use hidden/disabled template sets.
 - Added setting to show raw entities between [code].
+- Added email address DNS (MX records) checking.
 - Fixed possible XSS issue with not unhtml'ed avatar URL.
 - Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.

@@ -222,6 +222,8 @@ $lang['ConfigBoard-enable_registration_log'] = 'Enable registration log';
 $lang['ConfigBoard-enable_registration_log-info'] = 'Writes a registration log in a text file.';
 $lang['ConfigBoard-registration_log_file'] = 'Registration log file';
 $lang['ConfigBoard-registration_log_file-info'] = 'Relative to the forum\'s directory, or absolute path.';
+$lang['ConfigBoard-enable_email_dns_check'] = 'Enable email address DNS checking';
+$lang['ConfigBoard-enable_email_dns_check-info'] = 'Validates by looking for MX records. This may not work on all valid domains! (Does not work on Windows servers.)';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

@@ -2250,6 +2250,25 @@ class functions {
 		
 	}
 	
+	/**
+	 * Validate an email address
+	 *
+	 * @param string $email_address Email address
+	 * @returns bool Valid
+	 */
+	function validate_email($email_address) {
+		
+		if ( !preg_match(EMAIL_PREG, $email_address) )
+			return false;
+		
+		$parts = explode('@', $email_address);
+		if ( $this->get_config('enable_email_dns_check') && function_exists('checkdnsrr') && !checkdnsrr($parts[1], 'MX') )
+			return false;
+		
+		return true;
+		
+	}
+	
 }
 
 ?>

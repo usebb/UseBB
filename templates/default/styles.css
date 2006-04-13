@@ -471,6 +471,7 @@ table.maintable td.postcontent {
 table.maintable td.postcontent .post {
 	overflow: auto;
 	font-size: 10pt;
+	cursor: auto;
 }
 table.maintable td.postcontent .signature {
 	color: #444;

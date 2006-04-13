@@ -117,12 +117,12 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && $functions
 	
 }
 
-if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar']) || preg_match(IMG_PREG, $_POST['avatar']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar_remote']) || preg_match(IMG_PREG, $_POST['avatar_remote']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
 	
-	if ( !empty($_POST['avatar']) ) {
+	if ( !empty($_POST['avatar_remote']) ) {
 			
 		$avatar_type = 1;
-		$avatar_remote = $_POST['avatar'];
+		$avatar_remote = $_POST['avatar_remote'];
 		
 	} else {
 		
@@ -264,7 +264,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 			$errors[] = $lang['Birthday'];
 		if ( empty($_POST['email']) || !$functions->validate_email($_POST['email']) )
 			$errors[] = $lang['Email'];
-		if ( !empty($_POST['avatar']) && !preg_match(IMG_PREG, $_POST['avatar']) )
+		if ( !empty($_POST['avatar_remote']) && !preg_match(IMG_PREG, $_POST['avatar_remote']) )
 			$errors[] = $lang['AvatarURL'];
 		if ( !empty($_POST['website']) && !preg_match(WEB_PREG, $_POST['website']) )
 			$errors[] = $lang['Website'];
@@ -319,15 +319,15 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
 		'username'         => $user_info['name'],
-		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.$user_info['email'].'" />',
-		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar" value="'.$user_info['avatar_remote'].'" />',
+		'email_input'      => '<input type="text" size="50" maxlength="255" name="email" value="'.unhtml(stripslashes($user_info['email'])).'" />',
+		'avatar_input'     => '<input type="text" size="50" maxlength="255" name="avatar_remote" value="'.unhtml(stripslashes($user_info['avatar_remote'])).'" />',
 		'displayed_name_input'  => '<input type="text" size="50" maxlength="'.$functions->get_config('username_max_length').'" name="displayed_name" value="'.unhtml(stripslashes($user_info['displayed_name'])).'" />',
 		'real_name_input'  => '<input type="text" size="50" maxlength="255" name="real_name" value="'.unhtml(stripslashes($user_info['real_name'])).'" />',
 		'location_input'   => '<input type="text" size="50" maxlength="255" name="location" value="'.unhtml(stripslashes($user_info['location'])).'" />',
 		'birthday_year_input' => $birthday_year_input,
 		'birthday_month_input' => $birthday_month_input,
 		'birthday_day_input' => $birthday_day_input,
-		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.$user_info['website'].'" />',
+		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.unhtml(stripslashes($user_info['website'])).'" />',
 		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($user_info['occupation'])).'" />',
 		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($user_info['interests'])).'" />',
 		'signature_input'  => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="signature" id="tags-txtarea">'.unhtml(stripslashes($user_info['signature'])).'</textarea>',

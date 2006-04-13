@@ -162,7 +162,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'email_show_input'      => '<label><input type="checkbox" name="email_show" value="1"'.$email_show_checked.' /> '.$lang['Yes'].'</label>',
 		'last_login_show_input' => '<label><input type="checkbox" name="last_login_show" value="1"'.$last_login_show_checked.' /> '.$lang['Yes'].'</label>',
 		'hide_from_online_list_input' => '<label><input type="checkbox" name="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /> '.$lang['Yes'].'</label>',
-		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.$functions->get_config('date_format').'" />',
+		'date_format_input'     => '<input type="text" name="date_format" size="25" maxlength="255" value="'.unhtml(stripslashes($functions->get_config('date_format'))).'" />',
 		'date_format_help'		=> sprintf($lang['DateFormatHelp'], '<a href="http://www.php.net/date"'.$target_blank.'>date()</a>'),
 		'timezone_input'	    => $timezone_input,
 		'dst_input'	         	=> '<label><input type="checkbox" name="dst" value="1"'.$dst_checked.' /> '.$lang['Enabled'].'</label>',

@@ -3,7 +3,6 @@
 	padding: 0;
 }
 html, body {
-	min-height: 100%;
 	font-size: 8pt;
 	font-family: verdana, sans-serif;
 	text-align: center;
@@ -114,9 +113,6 @@ blockquote.quote .content {
 	background-color: #FFF;
 	border: 1px solid #BFBFBF;
 	overflow: auto;
-}
-strong {
-	font-weight: bold;
 }
 hr {
 	border: 0;

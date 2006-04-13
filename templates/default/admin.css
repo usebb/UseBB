@@ -202,17 +202,7 @@ ul#adminsqlbuttons li a {
 	border: 1px solid silver;
 	text-decoration: none;
 }
-
-ul#optionslist {
-	list-style: none;
-	margin-left: 15px;
-}
-
-ul#optionslist li {
-	margin: 0 0 3px 0;
-}
-
-.copyright {
+#admincopyright {
 	color: #666;
 	font-size: 7pt;
 }

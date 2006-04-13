@@ -494,6 +494,8 @@ $lang['Mode-and'] = 'Alle zoekwoorden';
 $lang['Mode-or'] = 'E&eacute;n of meerdere zoekwoorden';
 $lang['ExactMatch'] = 'Exacte overeenkomst';
 $lang['IncludeGuests'] = 'Inclusief gasten';
+$lang['Top'] = 'Boven';
+$lang['Bottom'] = 'Beneden';
 
 //
 // Date translations

@@ -111,7 +111,7 @@ h1#admintitle {
 #admincontent #resultset {
 	font-size: 8pt;
 }
-#adminconfigtable, #adminregulartable {
+.adminconfigtable, #adminregulartable {
 	border-collapse: collapse;
 	border-left: 1px solid silver;
 	border-right: 1px solid silver;
@@ -120,11 +120,11 @@ h1#admintitle {
 	width: 99%;
 	clear: right;
 }
-#adminconfigtable th, #adminconfigtable td, #adminregulartable th, #adminregulartable td {
+.adminconfigtable th, .adminconfigtable td, #adminregulartable th, #adminregulartable td {
 	border-left: 1px solid silver;
 	border-top: 1px solid silver;
 }
-#adminconfigtable th, #adminregulartable th {
+.adminconfigtable th, #adminregulartable th {
 	font-weight: bold;
 	padding: 4px 6px 4px 6px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -133,20 +133,29 @@ h1#admintitle {
 	color: #333333;
 	text-align: left;
 }
-#adminconfigtable th {
+.adminconfigtable th {
 	border-left: 5px solid silver;
 }
-#adminconfigtable td, #adminregulartable td {
+.adminconfigtable th .adminconfignavlinks {
+	float: right;
+	font-weight: normal;
+	color: #666;
+	font-size: 7pt;
+}
+.adminconfigtable th .adminconfignavlinks a {
+	text-decoration: none;
+}
+.adminconfigtable td, #adminregulartable td {
 	padding: 6px;
 	text-align: left;
 }
-#adminconfigtable td.fieldtitle, #adminregulartable td.fieldtitle {
+.adminconfigtable td.fieldtitle, #adminregulartable td.fieldtitle {
 	font-weight: normal;
 	text-align: left;
 	width: 30%;
 	background-color: #E8E8E8;
 }
-#adminconfigtable td.fieldtitle {
+.adminconfigtable td.fieldtitle {
 	width: 40%;
 }
 #adminregulartable th.action, #adminregulartable td.action {
@@ -157,7 +166,7 @@ h1#admintitle {
 	background-color: #E8E8E8;
 	text-align: center;
 }
-#adminconfigtable td.submit, #adminregulartable td.submit {
+.adminconfigtable td.submit, #adminregulartable td.submit {
 	font-weight: bold;
 	text-align: center;
 	background-color: #E8E8E8;

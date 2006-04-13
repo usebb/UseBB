@@ -43,6 +43,7 @@ UseBB 1.0 Changelog
 - Make trigger_error() errors E_USER_ERROR.
 - Hide debug info and page links for banned IP's.
 - Cookie path is now always auto-detected as "/".
+- Easier navigation in ACP general configuration.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

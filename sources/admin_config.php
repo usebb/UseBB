@@ -175,7 +175,7 @@ if (
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && count($missing) ) {
 		
-		$content = '<p><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
+		$content = '<p id="adminconfigtop"><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
 		foreach ( $missing as $key )
 			$content .= '<li>'.$lang['ConfigBoard-'.$key].'</li>';
 		
@@ -183,7 +183,7 @@ if (
 		
 	} else {
 		
-		$content = '<p>'.$lang['ConfigInfo'].'</p>';
+		$content = '<p id="adminconfigtop">'.$lang['ConfigInfo'].'</p>';
 		
 	}
 	
@@ -308,16 +308,6 @@ if (
 			'prefix'
 		)
 	);
-	
-	$content .= '<ul id="adminfunctionsmenu">';
-	
-	foreach ( $sections as $section_name => $null )
-		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
-	
-	$content .= '</ul>';
-	
-	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">';
-	$content .= '<table id="adminconfigtable">';
 	
 	//
 	// These are all the current config settings
@@ -532,11 +522,22 @@ if (
 	}
 	
 	//
+	// Now create the navigation and form
+	//
+	$content .= '<ul id="adminfunctionsmenu">';
+	foreach ( $sections as $section_name => $null )
+		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
+	$content .= '</ul>';
+	
+	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">';
+	
+	//
 	// Implement sections
 	//
 	foreach ( $sections as $section_name => $parts ) {
 		
-		$content .= '<tr><th colspan="2"><a name="'.$section_name.'"></a>'.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
+		$content .= '<table class="adminconfigtable" id="'.$section_name.'">';
+		$content .= '<tr><th colspan="2"><div class="adminconfignavlinks"><a href="#adminconfigtop">'.$lang['Top'].'</a> &middot; <a href="#adminconfigsubmit">'.$lang['Bottom'].'</a></div> '.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
 		
 		if ( !empty($lang['ConfigBoardSection-'.$section_name.'-info']) )
 			$content .= '<tr><td colspan="2">'.$lang['ConfigBoardSection-'.$section_name.'-info'].'</td></tr>';
@@ -548,9 +549,11 @@ if (
 			
 		}
 		
+		$content .= '</table>';
+		
 	}
 	
-	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+	$content .= '<p class="submit" id="adminconfigsubmit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
 }
 

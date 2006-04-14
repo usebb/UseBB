@@ -62,6 +62,7 @@ $lang['IndexPHPVersion'] = 'PHP-versie';
 $lang['IndexSQLServer'] = 'SQL-server driver';
 $lang['IndexHTTPServer'] = 'HTTP-server';
 $lang['IndexOS'] = 'Besturingssysteem';
+$lang['IndexServerLoad'] = 'Serverbelastingswaardes';
 $lang['IndexLinks'] = 'Links';
 $lang['IndexUnactiveMembers'] = 'Niet-geactiveerde Leden';
 $lang['IndexNoUnactiveMembers'] = 'Er zijn geen leden die wachten op admin-activatie.';

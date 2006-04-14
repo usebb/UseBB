@@ -142,6 +142,7 @@ class functions {
 	var $updated_forums;
 	var $available = array('templates' => array(), 'languages' => array());
 	var $db_tables = array();
+	var $server_load;
 	/**#@-*/
 	
 	/**
@@ -1885,44 +1886,39 @@ class functions {
 	/**
 	 * Get the server's load avarage value
 	 *
+	 * @param integer $which What load variable to call ('all' for an array of all)
 	 * @returns float Server load average
 	 */
-	function get_server_load() {
+	function get_server_load($which=1) {
 		
-		$found_load = false;
-		
-		if ( strstr(PHP_OS, 'WIN') !== false ) {
-			
-			//
-			// Afaik we can't get this on Windows
-			//
+		if ( strstr(PHP_OS, 'WIN') !== false )
 			return false;
+		
+		if ( is_null($this->server_load) ) {
 			
-		} else {
-			
-			if ( 0 && file_exists('/proc/loadavg') && is_readable('/proc/loadavg') ) {
+			$found_load = false;
+			$file = '/proc/loadavg';
+			if ( file_exists($file) && is_readable($file) ) {
 				
-				//
-				// We use the Linux method of getting the 3 average load
-				// values of the server. This only works on Linux afaik...
-				//
-				$fh = fopen('/proc/loadavg', 'r');
-				$out = fread($fh, 14);
+				$fh = fopen($file, 'r');
+				$out = fread($fh, 1024);
 				fclose($fh);
-				if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) )
-					return (float)$match[1]; // we use the load average value of the past 1 minute
-				else
-					$found_load = false;
+				
+				if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) ) {
+					
+					$this->server_load = array(
+						(float)$match[1],
+						(float)$match[2],
+						(float)$match[3]
+					);
+					$found_load = true;
+					
+				}
 				
 			}
 			
 			if ( !$found_load ) {
 				
-				//
-				// Another way is running the uptime command and using its
-				// output. This should also work on FreeBSD. The var $tmp
-				// is unnecessary at this moment.
-				//
 				$tmp = array();
 				$retval = 1;
 				$out = @exec('uptime', $tmp, $retval);
@@ -1930,27 +1926,34 @@ class functions {
 				
 				if ( !$retval ) {
 					
-					//
-					// $retval contains the exit code 0 when ran successfully...
-					//
-					if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) )
-						return (float)$match[1]; // we use the load average value of the past 1 minute
-					else
-						return false;
+					if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) ) {
+						
+						$this->server_load = array(
+							(float)$match[1],
+							(float)$match[2],
+							(float)$match[3]
+						);
+						
+					} else {
+						
+						$this->server_load = false;
+						
+					}
 					
 				} else {
 					
-					//
-					// We can't determine the server load... The server can't access
-					// /proc/loadavg, can't run uptime or is running an unsupported OS
-					//
-					return false;
+					$this->server_load = false;
 					
 				}
 				
 			}
 			
 		}
+		
+		if ( $which == 'all' )
+			return $this->server_load;
+		elseif ( is_int($which) )
+			return $this->server_load[$which-1];
 		
 	}
 	

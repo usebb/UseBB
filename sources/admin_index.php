@@ -75,6 +75,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
 	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
 	<li>'.$lang['IndexOS'].': '.( ( array_key_exists('OS', $_ENV) ) ? $_ENV['OS'] : PHP_OS ).'</li>
+	'.( ( $functions->get_server_load() ) ? '<li>'.$lang['IndexServerLoad'].': '.join(', ', $functions->get_server_load('all')).'</li>' : '' ).'
 </ul>
 
 <h2>'.$lang['IndexLinks'].'</h2>

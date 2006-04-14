@@ -537,7 +537,7 @@ if (
 	foreach ( $sections as $section_name => $parts ) {
 		
 		$content .= '<table class="adminconfigtable" id="'.$section_name.'">';
-		$content .= '<tr><th colspan="2"><div class="adminconfignavlinks"><a href="#adminconfigtop">'.$lang['Top'].'</a> &middot; <a href="#adminconfigsubmit">'.$lang['Bottom'].'</a></div> '.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
+		$content .= '<tr><th colspan="2"><div class="adminconfignavlinks"><a href="#adminconfigtop">'.$lang['Top'].'</a>'.$template->get_config('item_delimiter').'<a href="#adminconfigsubmit">'.$lang['Bottom'].'</a></div> '.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
 		
 		if ( !empty($lang['ConfigBoardSection-'.$section_name.'-info']) )
 			$content .= '<tr><td colspan="2">'.$lang['ConfigBoardSection-'.$section_name.'-info'].'</td></tr>';

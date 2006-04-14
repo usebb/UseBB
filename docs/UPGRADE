@@ -1,12 +1,9 @@
 UseBB Development Version Upgrading
 -----------------------------------
 
-Current version: 0.8a
+Current version: 1.0 RC1
 
-* Upgrading from 0.8:
-	Reupload sources/panel_profile.php.
-
-* Upgrading from 0.7, 0.7 beta, 0.6, 0.5.x:
+* Upgrading from 0.8, 0.7, 0.7 beta, 0.6, 0.5.x:
 	Reupload all (newer) files. No database changes.
 
 * Upgrading from 0.4.x:

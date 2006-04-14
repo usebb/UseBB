@@ -46,6 +46,7 @@ UseBB 1.0 Changelog
 - Cookie path is now always auto-detected as "/".
 - Easier navigation in ACP general configuration.
 - Rewritten method for finding server load values.
+- Cleaner ACP IP lookup.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

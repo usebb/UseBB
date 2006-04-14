@@ -287,11 +287,10 @@ $lang['Forums-auth9'] = 'Post as HTML (dangerous)';
 
 $lang['IPLookupSearchHostname'] = 'Search hostname';
 $lang['IPLookupSearchUsernames'] = 'Search username(s)';
-$lang['IPLookupResult'] = 'The hostname corresponding to the IP address %s is %s.';
-$lang['IPLookupNotFound'] = 'No corresponding hostname for %s could be found.';
-$lang['IPLookupUsernamesSingular'] = 'The username %s was used by %s to post messages.';
-$lang['IPLookupUsernamesPlural'] = 'The %d usernames %s were used by %s to post messages.';
-$lang['IPLookupUsernamesNotFound'] = 'No usernames for %s could be found.';
+$lang['IPLookupHostname'] = 'Hostname';
+$lang['IPLookupHostnameNotFound'] = 'No corresponding hostname found.';
+$lang['IPLookupUsernames'] = 'Usernames';
+$lang['IPLookupUsernamesNotFound'] = 'No corresponding usernames found.';
 
 $lang['SQLToolboxWarningTitle'] = 'Important Warning!';
 $lang['SQLToolboxWarningContent'] = 'Be very careful using the raw query tool. Executing ALTER, DELETE, TRUNCATE or other types of queries may irreversibly damage your forum! Only use this when you know what you are doing.';

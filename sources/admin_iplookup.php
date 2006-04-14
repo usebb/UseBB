@@ -70,33 +70,30 @@ $content .= '</form>';
 
 if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
-	$content .= '<hr />';
-	
 	if ( !empty($_POST['search_hostname']) ) {
 		
+		$content .= '<fieldset><legend>'.$lang['IPLookupHostname'].'</legend>';
 		$hostname = @gethostbyaddr($ip_addr);
-		
 		if ( !empty($hostname) && $ip_addr != $hostname )
-			$content .= '<p>'.sprintf($lang['IPLookupResult'], '<em>'.$ip_addr.'</em>', '<em>'.$hostname.'</em>').'</p>';
+			$content .= '<p><em>'.$hostname.'</em></p>';
 		else
-			$content .= '<p>'.sprintf($lang['IPLookupNotFound'], '<em>'.$ip_addr.'</em>').'</p>';
+			$content .= '<p>'.$lang['IPLookupHostnameNotFound'].'</p>';
+		$content .= '</fieldset>';
 		
 	}
 	
 	if ( !empty($_POST['search_usernames']) ) {
 		
+		$content .= '<fieldset><legend>'.$lang['IPLookupUsernames'].'</legend>';
 		$result = $db->query("SELECT DISTINCT(u.name) as name FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
-		
 		$usernames = array();
 		while ( $user = $db->fetch_result($result) )
 			$usernames[] = unhtml(stripslashes($user['name']));
-		
-		if ( count($usernames) === 1 )
-			$content .= '<p>'.sprintf($lang['IPLookupUsernamesSingular'], '<em>'.$usernames[0].'</em>', '<em>'.$ip_addr.'</em>').'</p>';
-		elseif ( count($usernames) > 1 )
-			$content .= '<p>'.sprintf($lang['IPLookupUsernamesPlural'], count($usernames), '<em>'.join(', ', $usernames).'</em>', '<em>'.$ip_addr.'</em>').'</p>';
+		if ( count($usernames) )
+			$content .= '<p><em>'.join(', ', $usernames).'</em></p>';
 		else
-			$content .= '<p>'.sprintf($lang['IPLookupUsernamesNotFound'], '<em>'.$ip_addr.'</em>').'</p>';
+			$content .= '<p>'.$lang['IPLookupUsernamesNotFound'].'</p>';
+		$content .= '</fieldset>';
 		
 	}
 	

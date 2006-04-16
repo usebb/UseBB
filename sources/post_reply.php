@@ -97,7 +97,7 @@ if ( !$topicdata['id'] ) {
 			
 		}
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ) && !empty($_POST['content']) && empty($_POST['preview']) && ( time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') || $functions->get_user_level() > LEVEL_MEMBER ) ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) && ( time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') || $functions->get_user_level() > LEVEL_MEMBER ) ) {
 			
 			//
 			// Save the guest's username in the session
@@ -189,7 +189,7 @@ if ( !$topicdata['id'] ) {
 				$subscribe_topic_checked = ( !empty($_POST['subscribe_topic']) ) ? ' checked="checked"' : '';
 				
 				$errors = array();
-				if ( !$session->sess_info['user_id'] && ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) ) )
+				if ( !$session->sess_info['user_id'] && empty($_POST['user']) )
 					$errors[] = $lang['Username'];
 				if ( empty($_POST['content']) )
 					$errors[] = $lang['Content'];
@@ -201,7 +201,27 @@ if ( !$topicdata['id'] ) {
 						'content' => sprintf($lang['MissingFields'], join(', ', $errors))
 					));
 					
-				} elseif ( !empty($_POST['preview']) ) {
+				}
+				
+				if ( !$session->sess_info['user_id'] && !empty($_POST['user']) && entities_strlen($_POST['user']) < $functions->get_config('username_min_length') ) {
+					
+					$template->parse('msgbox', 'global', array(
+						'box_title' => $lang['Error'],
+						'content' => sprintf($lang['StringTooShort'], $lang['Username'], $functions->get_config('username_min_length'))
+					));
+					
+				}
+				
+				if ( !$session->sess_info['user_id'] && !empty($_POST['user']) && entities_strlen($_POST['user']) > $functions->get_config('username_max_length') ) {
+					
+					$template->parse('msgbox', 'global', array(
+						'box_title' => $lang['Error'],
+						'content' => sprintf($lang['StringTooLong'], $lang['Username'], $functions->get_config('username_max_length'))
+					));
+					
+				}
+				
+				if ( !empty($_POST['preview']) ) {
 					
 					$template->parse('preview', 'various', array(
 						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
@@ -247,8 +267,9 @@ if ( !$topicdata['id'] ) {
 				
 			}
 			
-			$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
-			$_POST['content'] = ( !empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
+			$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
+			$_POST['subject'] = ( !empty($_POST['subject']) ) ? $_POST['subject'] : '';
+			$_POST['content'] = ( !empty($_POST['content']) ) ? $_POST['content'] : '';
 			
 			$options_input = array();
 			$options_input[] = '<label><input type="checkbox" name="enable_bbcode" value="1"'.$enable_bbcode_checked.' /> '.$lang['EnableBBCode'].'</label>';
@@ -266,9 +287,9 @@ if ( !$topicdata['id'] ) {
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
-				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="255" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
+				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>',
-				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="2">'.$_POST['content'].'</textarea>',
+				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="2">'.unhtml(stripslashes($_POST['content'])).'</textarea>',
 				'bbcode_controls' => $functions->get_bbcode_controls(),
 				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,

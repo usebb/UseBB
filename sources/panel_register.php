@@ -377,7 +377,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 			'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
 			'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
-			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.$_POST['saltcode'].'" />',
+			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.unhtml($_POST['saltcode']).'" />',
 			'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'form_end'            => '</form>'
 		));

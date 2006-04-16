@@ -47,6 +47,7 @@ UseBB 1.0 Changelog
 - Easier navigation in ACP general configuration.
 - Rewritten method for finding server load values.
 - Cleaner ACP IP lookup.
+- Guest usernames can again contain all characters and entities.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

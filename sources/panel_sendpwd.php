@@ -147,6 +147,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 	//
 	$_POST['user'] = ( !empty($_POST['user']) && preg_match(USER_PREG, $_POST['user']) ) ? $_POST['user'] : '';
 	$_POST['email'] = ( !empty($_POST['email']) && $functions->validate_email($_POST['email']) ) ? $_POST['email'] : '';
+	
 	$template->parse('sendpwd_form', 'various', array(
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
 		'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="255" value="'.$_POST['user'].'" />',

@@ -338,7 +338,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				}
 				
 				
-				$post_topic_title = ( ( $i ) ? $lang['Re'].' ' : '' ) . $topic_title;
+				$post_topic_title = ( ( $i > 1 ) ? $lang['Re'].' ' : '' ) . $topic_title;
 				
 				//
 				// Links used to control posts: quote, edit, delete...

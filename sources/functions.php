@@ -100,6 +100,47 @@ function entities_strlen($string) {
 }
 
 /**
+ * Right trim a string to $length characters, keeping entities as one character.
+ *
+ * @param string $string String to trim
+ * @param int $length Length of new string
+ * @returns string Trimmed string
+ */
+function entities_rtrim($string, $length) {
+	
+	$new_string = '';
+	$new_length = $pos = 0;
+	$entity_open = false;
+	
+	while ( $pos < strlen($string) && ( $new_length < $length || $entity_open ) ) {
+		
+		$char = $string[$pos];
+		
+		if ( $char == '&' ) {
+			
+			$entity_open = true;
+			
+		} elseif ( $char == ';' && $entity_open ) {
+			
+			$entity_open = false;
+			$new_length++;
+			
+		} elseif ( !$entity_open ) {
+			
+			$new_length++;
+			
+		}
+		
+		$new_string .= $char;
+		$pos++;
+		
+	}
+	
+	return $new_string;
+	
+}
+
+/**
  * Check if a variable contains a valid integer
  *
  * @param string $string String to check

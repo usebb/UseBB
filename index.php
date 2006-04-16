@@ -180,7 +180,7 @@ if ( !$functions->get_stats('forums') ) {
 				// this forum is in has been chosen
 				//
 				
-				if ( $forumdata['topics'] == 0 ) {
+				if ( !$forumdata['topics'] ) {
 					
 					$latest_post = $lang['NoPosts'];
 					$author_date = '-';
@@ -189,8 +189,13 @@ if ( !$functions->get_stats('forums') ) {
 					
 				} else {
 					
-					$last_topic_title = ( $forumdata['count_replies'] ) ? $lang['Re'].' ' : '';
-					$last_topic_title .= unhtml($functions->replace_badwords(stripslashes($forumdata['topic_title'])));
+					$last_topic_title = unhtml($functions->replace_badwords(stripslashes($forumdata['topic_title'])));
+					$rtrim_topic = $template->get_config('forumlist_topic_rtrim_length');
+					if ( is_int($rtrim_topic) && entities_strlen($last_topic_title) >= $rtrim_topic )
+						$last_topic_title = entities_rtrim($last_topic_title, $rtrim_topic).'...';
+					if ( $forumdata['count_replies'] )
+						$last_topic_title = $lang['Re'].' '.$last_topic_title;
+					
 					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : unhtml(stripslashes($forumdata['poster_guest']));
 					
 					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';

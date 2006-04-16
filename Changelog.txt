@@ -48,6 +48,7 @@ UseBB 1.0 Changelog
 - Rewritten method for finding server load values.
 - Cleaner ACP IP lookup.
 - Guest usernames can again contain all characters and entities.
+- Reintroduced forumlist_topic_rtrim_length for forum index.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

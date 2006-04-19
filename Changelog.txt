@@ -4,10 +4,12 @@ UseBB 1.0 Changelog
 ------------------------------
 
 - Added to ACP: member pruning.
-- Added automatic DNSBL powered IP banning.
-- Added registration logging.
-- Added setting to hide never activated members from member list.
-- Added minimum and maximum length for usernames.
+- Added rProtect security features:
+	- Automatic DNSBL powered IP banning.
+	- Registration logging.
+	- Setting to hide never activated members from member list.
+	- Minimum and maximum length for usernames.
+	- Email address DNS (MX records) checking.
 - Added minimum access levels for search and active topics.
 - Added searching and detailed sorting on member list.
 - Added forum pruning by locking topics.
@@ -18,7 +20,6 @@ UseBB 1.0 Changelog
 - Added setting to hide contact info in profiles for guests.
 - Added possibility for admins to use hidden/disabled template sets.
 - Added setting to show raw entities between [code].
-- Added email address DNS (MX records) checking.
 - Added load average values to ACP index when possible.
 - Fixed possible XSS issue with not unhtml'ed avatar URL.
 - Fixed bug #1001: Edit this member link visible in own profile.

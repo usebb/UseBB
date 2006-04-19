@@ -50,6 +50,7 @@ UseBB 1.0 Changelog
 - Cleaner ACP IP lookup.
 - Guest usernames can again contain all characters and entities.
 - Reintroduced forumlist_topic_rtrim_length for forum index.
+- Various fixes to the install wizard.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

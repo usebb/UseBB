@@ -155,12 +155,13 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	foreach ( array('db_type', 'db_server', 'db_username', 'db_passwd', 'db_dbname', 'db_prefix', 'admin_username', 'admin_email', 'admin_passwd1', 'admin_passwd2') as $key )
 		$_POST[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : '';
 	
-	if ( !empty($_SESSION['manually_saved']) ) {
+	$db_servers = ( version_compare(phpversion(), '5.0.0', '<') ) ? array('mysql' => 'MySQL') : array('mysql' => 'MySQL 3.x/4.0', 'mysqli' => 'MySQL 4.1/5.x');
+	
+	if ( !empty($_POST['start']) ) {
 		
-		unset($_SESSION['manually_saved']);
 		$functions->redirect('index.php', array('step' => 2));
 		
-	} elseif ( !empty($_POST['db_type']) && in_array($_POST['db_type'], array('mysql', 'mysqli')) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && preg_match(PWD_PREG, $_POST['admin_passwd1']) && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
+	} elseif ( !empty($_POST['db_type']) && array_key_exists($_POST['db_type'], $db_servers) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && preg_match(PWD_PREG, $_POST['admin_passwd1']) && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
 		
 		$_SESSION['installer_running'] = 1;
 		
@@ -168,37 +169,18 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		$_SESSION['admin_email'] = $_POST['admin_email'];
 		$_SESSION['admin_passwd'] = md5($_POST['admin_passwd1']);
 		
-		if ( !is_writable(ROOT_PATH.'config.php') ) {
-			
-			$_SESSION['manually_saved'] = 1;
-			
-			$out .= '		<p>Because <code>config.php</code> is not writable, you will need to edit it yourself. Copy the following and overwrite the values in <code>config.php</code>:</p>
-		<pre>//
-// Define database configuration
-//
-$dbs[\'type\'] = \''.$_POST['db_type'].'\';
-$dbs[\'server\'] = \''.$_POST['db_server'].'\';
-$dbs[\'username\'] = \''.$_POST['db_username'].'\';
-$dbs[\'passwd\'] = \''.$_POST['db_passwd'].'\';
-$dbs[\'dbname\'] = \''.$_POST['db_dbname'].'\';
-$dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
-		<p>Only continue when you have saved (and uploaded) <code>config.php</code>.</p>
-		<p id="submit"><input type="submit" value="Continue" /></p>';
-			
-		} else {
-			
-			$admin_functions->set_config(array(
-				'type' => $_POST['db_type'],
-				'server' => $_POST['db_server'],
-				'username' => $_POST['db_username'],
-				'passwd' => $_POST['db_passwd'],
-				'dbname' => $_POST['db_dbname'],
-				'prefix' => $_POST['db_prefix']
-			));
-			
+		$admin_functions->set_config(array(
+			'type' => $_POST['db_type'],
+			'server' => $_POST['db_server'],
+			'username' => $_POST['db_username'],
+			'passwd' => $_POST['db_passwd'],
+			'dbname' => $_POST['db_dbname'],
+			'prefix' => $_POST['db_prefix'],
+			'installer_run' => 1
+		));
+		
+		if ( is_writable(ROOT_PATH.'config.php') )
 			$functions->redirect('index.php', array('step' => 2));
-			
-		}
 		
 	} else {
 		
@@ -225,15 +207,34 @@ $dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
 		$_POST['db_server'] = ( $_SERVER['REQUEST_METHOD'] == 'GET' ) ? 'localhost' : $_POST['db_server'];
 		$_POST['db_prefix'] = ( $_SERVER['REQUEST_METHOD'] == 'GET' ) ? 'usebb_' : $_POST['db_prefix'];
 		
-		$db_server_text = array('mysql' => 'MySQL (3.x, 4.0)', 'mysqli' => 'MySQLi (4.1, 5.0)');
-		$db_server = '<select name="db_type">';
-		foreach ( array('mysql', 'mysqli') as $type ) {
+		if ( count($db_servers) > 1 ) {
 			
-			$selected = ( $_POST['db_type'] == $type ) ? ' selected="selected"' : '';
-			$db_server .= '<option value="'.$type.'"'.$selected.'>'.$db_server_text[$type].'</option>';
+			$db_server = '<select name="db_type">';
+			foreach ( $db_servers as $key => $val ) {
+				
+				$selected = ( $_POST['db_type'] == $key ) ? ' selected="selected"' : '';
+				$db_server .= '<option value="'.$key.'"'.$selected.'>'.$val.'</option>';
+				
+			}
+			$db_server .= '</select>';
+			
+		} else {
+			
+			$db_server = current($db_servers).' <input type="hidden" name="db_type" value="'.key($db_servers).'" />';
 			
 		}
-		$db_server .= '</select>';
+		
+		if ( is_writable(ROOT_PATH.'config.php') ) {
+			
+			$submit = '<p>Start the installation when you are sure everything is filled in correctly.</p>
+		<p id="submit"><input type="submit" value="Start installation" /></p>';
+			
+		} else {
+			
+			$submit = '<p>When you are sure everything is filled in correctly, click the button <em>Download Config</em> to save the configuration file and upload it to your web space. When this is done, click <em>Start Installation</em>.</p>
+		<p id="submit"><input type="submit" value="Download Config" /> <input type="submit" name="start" value="Start installation" /></p>';
+			
+		}
 		
 		$out .= '		
 		<table>
@@ -250,11 +251,11 @@ $dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
 			</tr>
 			<tr>
 				<td class="title">Username <small>*</small></td>
-				<td><input type="text" size="35" name="db_username" /></td>
+				<td><input type="text" size="35" name="db_username" value="'.unhtml($_POST['db_username']).'" /></td>
 			</tr>
 			<tr>
 				<td class="title">Password</td>
-				<td><input type="password" size="35" name="db_passwd" value="'.unhtml($_POST['db_passwd']).'" /></td>
+				<td><input type="password" size="35" name="db_passwd" /></td>
 			</tr>
 			<tr>
 				<td class="title">DB name <small>*</small></td>
@@ -290,8 +291,8 @@ $dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
 			</tr>
 		</table>
 		
-		<p>Start the installation when you are sure everything is filled in correctly. If you encounter a <em>General Error</em>, the configuration values may be wrong. Check them and restart the installation.</p>
-		<p id="submit"><input type="submit" value="Start installation" /></p>
+		'.$submit.'
+		<p>If you encounter a <em>General Error</em>, the configuration values may be wrong. Check them and restart the installation.</p>
 ';
 		
 	}
@@ -332,17 +333,9 @@ $dbs[\'prefix\'] = \''.$_POST['db_prefix'].'\';</pre>
 	foreach ( $queries as $query )
 		$db->query($query);
 	
-	if ( is_writable(ROOT_PATH.'config.php') ) {
-		
-		$admin_functions->set_config(array(
-			'installer_run' => 1
-		));
-		
-	}
-	
 	unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
 	
-	$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/support/">support pages</a> at UseBB.net.</p>
+	$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/community/">community forums</a> at UseBB.net.</p>
 		<p class="important"><strong>Warning:</strong> please remove the <code>install/</code> directory to keep your forum safe.</p>
 		<p>Thanks for choosing UseBB!</p>
 ';

@@ -385,8 +385,6 @@ $lang['PruneMembersDone'] = 'Het prunen is voltooid. %d leden werden gepruned.';
 
 $lang['DNSBLIPBansDisabled'] = 'IP-adresbans uitgeschakeld';
 $lang['DNSBLIPBansDisabledInfo'] = 'Om DNSBL-aangedreven banning te laten werken, moeten IP-adresbans ingeschakeld zijn.';
-$lang['DNSBLNotAvailable'] = 'DNSBL-banning onbeschikbaar';
-$lang['DNSBLNotAvailableInfo'] = 'Door de afwezigheid van %s is DNSBL-aangedreven banning op deze server niet mogelijk. Dit is normaal op Windows. Overweeg een migratie naar GNU/Linux.';
 $lang['DNSBLGeneralInfo'] = 'Open proxies worden vaak gebruikt om spam of misbruikende berichten te plaatsen. Door het beschermingssysteem van UseBB kunnen veel van deze proxies opgespoord en geband worden. Hiervoor worden zogenaamde blacklists geraadpleegd voor informatie over het IP-adres van de gebruiker.';
 $lang['DNSBLEnableOpenDNSBLBan'] = 'DNSBL-banning inschakelen';
 $lang['DNSBLServers'] = 'DNS BlackList (DNSBL)-servers';

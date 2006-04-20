@@ -268,7 +268,24 @@ class session {
 		//
 		// DNSBL powered banning
 		//
-		if ( $functions->get_config('enable_dnsbl_powered_banning') && function_exists('checkdnsrr') && !$_SESSION['dnsbl_whitelisted'] && ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
+		$on_windows = ( strstr(PHP_OS, 'WIN') !== false );
+		if ( function_exists('checkdnsrr') && !$on_windows ) {
+			
+			$dnsrr_available = true;
+			$dnsrr_function = 'checkdnsrr';
+			
+		} elseif ( $on_windows ) {
+			
+			$dnsrr_available = true;
+			$dnsrr_function = 'checkdnsrr_win'
+			
+		} else {
+			
+			$dnsrr_available = false;
+			
+		}
+		
+		if ( $functions->get_config('enable_dnsbl_powered_banning') && $dnsrr_available && !$_SESSION['dnsbl_whitelisted'] && ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
 			
 			$whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');			
 			
@@ -314,7 +331,7 @@ class session {
 				$hits_found = 0;
 				foreach ( $dnsbl_servers as $dnsbl_server ) {
 					
-					if ( preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $dnsbl_server) && checkdnsrr($dnsbl.'.'.$dnsbl_server, 'A') )
+					if ( preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $dnsbl_server) && call_user_func($dnsrr_function, $dnsbl.'.'.$dnsbl_server, 'A') )
 						$hits_found++;
 					
 				}

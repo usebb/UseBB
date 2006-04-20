@@ -385,8 +385,6 @@ $lang['PruneMembersDone'] = 'Pruning has completed. %d members were pruned.';
 
 $lang['DNSBLIPBansDisabled'] = 'IP address banning disabled';
 $lang['DNSBLIPBansDisabledInfo'] = 'For DNSBL powered banning to work, IP address banning must be enabled.';
-$lang['DNSBLNotAvailable'] = 'DNSBL banning unavailable';
-$lang['DNSBLNotAvailableInfo'] = 'DNSBL banning is not possible on this server due to the absense of %s. This is normal if you are on Windows. Consider migrating to GNU/Linux.';
 $lang['DNSBLGeneralInfo'] = 'Open proxies are often used to post spam or abusive messages. Using UseBB\'s protection system, most of these proxies can be detected and banned automatically. Herefore blacklists are queried for information about the visitor\'s IP address.';
 $lang['DNSBLEnableOpenDNSBLBan'] = 'Enable DNSBL powered banning';
 $lang['DNSBLServers'] = 'DNS BlackList (DNSBL) servers';

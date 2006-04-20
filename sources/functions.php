@@ -156,6 +156,46 @@ function valid_int($string) {
 }
 
 /**
+ * checkdnsrr replacement for Windows
+ *
+ * @author Zend.com
+ * @link http://www.zend.com/codex.php?id=370&single=1
+ * @param string $host host
+ * @param string $type type
+ * @returns bool Contains valid integer
+ */
+function checkdnsrr_win($host, $type='') {
+	
+	$types = array(
+		'A',
+		'MX',
+		'NS',
+		'SOA',
+		'PTR',
+		'CNAME',
+		'AAAA',
+		'A6',
+		'SRV',
+		'NAPTR',
+		'ANY'
+	);
+	$type = ( !empty($type) && in_array($type, $types) ) ? $type : 'MX';
+	
+	$output = array();
+	@exec('nslookup -type='.$type.' '.$host, $output);
+	
+	foreach ( $output as $line ) {
+		
+		if ( preg_match('#^'.$host.'#', $line) )
+			return true;
+		
+	}
+	
+	return false;
+	
+} 
+
+/**
  * Functions
  *
  * All kinds of functions used everywhere.
@@ -2305,9 +2345,22 @@ class functions {
 		if ( !preg_match(EMAIL_PREG, $email_address) )
 			return false;
 		
-		$parts = explode('@', $email_address);
-		if ( $this->get_config('enable_email_dns_check') && function_exists('checkdnsrr') && !checkdnsrr($parts[1], 'MX') )
-			return false;
+		if ( $this->get_config('enable_email_dns_check') ) {
+			
+			$parts = explode('@', $email_address);
+			$on_windows = ( strstr(PHP_OS, 'WIN') !== false );
+			
+			if ( function_exists('checkdnsrr') && !$on_windows ) {
+				
+				return checkdnsrr($parts[1], 'MX');
+				
+			} elseif ( $on_windows ) {
+				
+				return checkdnsrr_win($parts[1], 'MX');
+				
+			}
+			
+		}
 		
 		return true;
 		

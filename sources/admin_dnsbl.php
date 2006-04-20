@@ -48,11 +48,6 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 	$content = '<h2>'.$lang['DNSBLIPBansDisabled'].'</h2>';
 	$content .= '<p>'.$lang['DNSBLIPBansDisabledInfo'].'</p>';
 	
-} elseif ( !function_exists('checkdnsrr') ) {
-	
-	$content = '<h2>'.$lang['DNSBLNotAvailable'].'</h2>';
-	$content .= '<p>'.sprintf($lang['DNSBLNotAvailableInfo'], '<code>checkdnsrr()</code>').'</p>';
-	
 } else {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {

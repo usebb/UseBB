@@ -221,7 +221,7 @@ if ( !$topicdata['id'] ) {
 					
 				}
 				
-				if ( !empty($_POST['preview']) ) {
+				if ( !empty($_POST['preview']) && !empty($_POST['content']) ) {
 					
 					$template->parse('preview', 'various', array(
 						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)

@@ -157,7 +157,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	
 	$db_servers = ( version_compare(phpversion(), '5.0.0', '<') ) ? array('mysql' => 'MySQL') : array('mysql' => 'MySQL 3.x/4.0', 'mysqli' => 'MySQL 4.1/5.x');
 	
-	if ( !empty($_POST['start']) && !is_writable(ROOT_PATH.'config.php') ) {
+	if ( !empty($_POST['start']) && !is_writable(ROOT_PATH.'config.php') && !empty($_SESSION['installer_running']) ) {
 		
 		$functions->redirect('index.php', array('step' => 2));
 		

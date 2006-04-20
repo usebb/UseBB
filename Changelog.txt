@@ -1,6 +1,6 @@
 $Header$
 
-UseBB 1.0 Changelog
+UseBB 1.0 RC1 Changelog
 ------------------------------
 
 - Added to ACP: member pruning.

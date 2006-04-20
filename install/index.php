@@ -157,7 +157,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	
 	$db_servers = ( version_compare(phpversion(), '5.0.0', '<') ) ? array('mysql' => 'MySQL') : array('mysql' => 'MySQL 3.x/4.0', 'mysqli' => 'MySQL 4.1/5.x');
 	
-	if ( !empty($_POST['start']) ) {
+	if ( !empty($_POST['start']) && !is_writable(ROOT_PATH.'config.php') ) {
 		
 		$functions->redirect('index.php', array('step' => 2));
 		
@@ -193,11 +193,15 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			
 		} else {
 			
+			$config_warning = ( !is_writable(ROOT_PATH.'config.php') ) ? '<p class="important"><strong>Important:</strong> <code>config.php</code> is at this moment not writable by the webserver. Therefore, you will be asked to download the file after filling in this wizard. If you would like UseBB to edit the file automatically, make <code>config.php</code> writable (<em>chmod</em> it to 0777).</p>' : '';
+			
 			$out .= '		<p>Hello and welcome to the UseBB installation script. First, thanks for choosing UseBB for your forum needs!</p>
 		
 		<p>This wizard will install a basic UseBB forum at your website. Therefore, we need some information from you. Please fill in all the required fields below (marked with <small>*</small>). If you don\'t know what a field means or you don\'t know what to fill in, please ask your web hosting company for the right values.</p>
 		
 		<p class="important"><strong>Important:</strong> this wizard does <strong>not</strong> upgrade an existing installation. Please see the <a href="../docs/UPGRADE"><code>UPGRADE</code></a> document for upgrading instructions.</p>
+		
+		'.$config_warning.'
 		
 		<p>You can also manually install UseBB. The instructions can be found in <a href="../docs/INSTALL"><code>INSTALL</code></a>. Also, check the system requirements found in that file.</p>
 ';
@@ -231,8 +235,8 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			
 		} else {
 			
-			$submit = '<p>When you are sure everything is filled in correctly, click the button <em>Download Config</em> to save the configuration file and upload it to your web space. When this is done, click <em>Start Installation</em>.</p>
-		<p id="submit"><input type="submit" value="Download Config" /> <input type="submit" name="start" value="Start installation" /></p>';
+			$submit = '<p>When you are sure everything is filled in correctly, click the button <em>Download config.php</em> to save the configuration file and upload it to your web space. When this is done, click <em>Start Installation</em>.</p>
+		<p id="submit"><input type="submit" value="Download config.php" /> <input type="submit" name="start" value="Start installation" /></p>';
 			
 		}
 		

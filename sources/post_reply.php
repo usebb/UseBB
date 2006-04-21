@@ -97,7 +97,9 @@ if ( !$topicdata['id'] ) {
 			
 		}
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) && ( time() > $_SESSION['latest_post'] + $functions->get_config('flood_interval') || $functions->get_user_level() > LEVEL_MEMBER ) ) {
+		$flood_protect_wait_sec = ( $functions->get_user_level() <= LEVEL_MEMBER ) ? ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ) : 0;
+		
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) && $flood_protect_wait_sec <= 0 ) {
 			
 			//
 			// Save the guest's username in the session
@@ -227,11 +229,11 @@ if ( !$topicdata['id'] ) {
 						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
 					));
 					
-				} elseif ( time() <= $_SESSION['latest_post'] + $functions->get_config('flood_interval') ) {
+				} elseif ( $flood_protect_wait_sec > 0 ) {
 					
 					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Note'],
-						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'), ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ))
+						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'), $flood_protect_wait_sec)
 					));
 					
 				}

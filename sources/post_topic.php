@@ -199,7 +199,7 @@ if ( !$forumdata['id'] ) {
 					
 					$template->parse('msgbox', 'global', array(
 						'box_title' => $lang['Note'],
-						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'))
+						'content' => sprintf($lang['FloodIntervalWarning'], $functions->get_config('flood_interval'), ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ))
 					));
 					
 				}

@@ -277,7 +277,7 @@ class session {
 		} elseif ( $on_windows ) {
 			
 			$dnsrr_available = true;
-			$dnsrr_function = 'checkdnsrr_win'
+			$dnsrr_function = 'checkdnsrr_win';
 			
 		} else {
 			

@@ -34,6 +34,7 @@ UseBB 1.0 RC1 Changelog
 - Fixed unused quick_reply_textarea_cols.
 - Fixed BBCode parsing to create well-formed XHTML.
 - Fixed broken entity displaying at end of 255 chars string.
+- Fixed missing info on move topic form with two visible forums.
 - Removed obsolete hide_undefined_config_setting_warnings setting.
 - New session management, saving up to 3 queries per request.
 - Automatically login after activation.

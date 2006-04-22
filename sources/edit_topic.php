@@ -326,13 +326,13 @@ if ( $_GET['act'] == 'delete' ) {
 						$forums[] = $forumdata;
 					
 				}
-				
 				if ( !count($forums) ) {
 					
 					$functions->redirect('topic.php', array('id' => $_GET['topic']));
 					
 				} elseif ( count($forums) === 1 ) {
 					
+					$forumdata = $forums[0];
 					$new_forum_input = '<a href="'.$functions->make_url('forum.php', array('id' => $forumdata['id'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a><input type="hidden" name="new_forum_id" value="'.$forumdata['id'].'" />';
 					
 				} else {

@@ -89,7 +89,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
-			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'">'.$lang['PostNewTopic'].'</a>' : '';
+			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
 			
 			//
 			// Get page number

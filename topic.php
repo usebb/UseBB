@@ -201,9 +201,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$forum_moderators = $functions->get_mods_list($topicdata['forum_id']);
 			
-			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'">'.$lang['PostNewTopic'].'</a>' : '';
+			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
 			
-			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'">'.$lang['PostReply'].'</a>' : '';
+			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" rel="nofollow">'.$lang['PostReply'].'</a>' : '';
 			
 			//
 			// Get page number

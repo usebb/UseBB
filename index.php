@@ -198,7 +198,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : unhtml(stripslashes($forumdata['poster_guest']));
 					
-					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'">'.$last_topic_title.'</a>';
+					$latest_post = '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'" rel="nofollow">'.$last_topic_title.'</a>';
 					$author_date = sprintf($lang['AuthorDate'], $author, $functions->make_date($forumdata['post_time']));
 					$by_author = sprintf($lang['ByAuthor'], $author);
 					$on_date = sprintf($lang['OnDate'], $functions->make_date($forumdata['post_time']));

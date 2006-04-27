@@ -17,13 +17,3 @@ Current version: 1.0 RC1
 
 * Upgrading from 0.2.2 or earlier:
 	First upgrade to 0.2.3a, then run all install/upgrade-*.php in the correct order.
-
-
-Note to users of MySQL 4.1/5.x and strict mode enabled
-------------------------------------------------------
-
-If you upgrade to MySQL 4.1 or 5.x and strict mode is enabled, you will need to
-execute the SQL file install/mysql-strict-changes.sql on your database. Eventually
-change the table prefixes in the file first.
-
-This fix is applied to new installs by default.

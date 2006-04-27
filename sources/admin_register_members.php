@@ -106,9 +106,9 @@ if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !e
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'register_members')).'" method="post">';
 	$content .= '<table id="adminregulartable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
+		$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Password'].' <small>*</small></td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].' <small>*</small></td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';
-		$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';	
 	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Register'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 	$template->set_js_onload("set_focus('name')");

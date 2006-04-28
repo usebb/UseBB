@@ -222,7 +222,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			$template->parse('header', 'topic', array(
 				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.$topic_title.'</a>',
-				'forum_moderators' => ( !$topicdata['hide_mods_list'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
+				'forum_moderators' => ( !$topicdata['hide_mods_list'] && $forum_moderators != $lang['Nobody'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
 				'page_links' => $page_links
@@ -445,10 +445,11 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$action_links = join($template->get_config('item_delimiter'), $action_links);
 			
 			$template->parse('footer', 'topic', array(
+				'topic_name' => '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic)).'">'.$topic_title.'</a>',
+				'forum_moderators' => ( !$topicdata['hide_mods_list'] && $forum_moderators != $lang['Nobody'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
-				'page_links' => $page_links,
-				'action_links' => $action_links
+				'page_links' => $page_links
 			));
 			
 			//

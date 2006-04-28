@@ -319,13 +319,13 @@ table.maintable td.forumcat {
 	background-color: #E8E8E8;
 	color: #333;
 }
-table.maintable td .forumname {
+.forumname {
 	font-weight: bold;
 }
-table.maintable td .forumdescr {
+.forumdescr {
 	margin: 3px 0 0 3px;
 }
-table.maintable td .forummods {
+.forummods {
 	margin: 3px 0 0 3px;
 	color: #444;
 }
@@ -413,7 +413,7 @@ table.maintable td.stats-cell {
 	clear: both;
 	height: 20px;
 }
-table.maintable .author {
+.author {
 	text-align: center;
 	width: 1%;
 	white-space: nowrap;

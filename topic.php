@@ -449,7 +449,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				'forum_moderators' => ( !$topicdata['hide_mods_list'] && $forum_moderators != $lang['Nobody'] ) ? sprintf($lang['ModeratorList'], $forum_moderators) : '',
 				'new_topic_link' => $new_topic_link,
 				'reply_link' => $reply_link,
-				'page_links' => $page_links
+				'page_links' => $page_links,
+				'action_links' => $action_links
 			));
 			
 			//

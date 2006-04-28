@@ -321,13 +321,10 @@ table.maintable td.forumcat {
 }
 .forumname {
 	font-weight: bold;
+	font-size: 9pt;
 }
 .forumdescr {
 	margin: 3px 0 0 3px;
-}
-.forummods {
-	margin: 3px 0 0 3px;
-	color: #444;
 }
 table.maintable td.online {
 	font-weight: bold;
@@ -392,6 +389,10 @@ table.maintable td.stats-cell {
 	font-weight: bold;
 	margin: 0 0 6px 0;
 }
+.topicname {
+	font-size: 9pt;
+	float: left;
+}
 .topicpagelinks {
 	display: block;
 	text-align: right;
@@ -413,12 +414,14 @@ table.maintable td.stats-cell {
 	clear: both;
 	height: 20px;
 }
-table.maintable th.author, table.maintable td.author {
-	width: 1%;
-	white-space: nowrap;
+.author {
+	clear: left;
+	padding: 2px 0 0 3px;
+	color: #444;
 }
-table.maintable td.author {
-	text-align: center;
+.author a {
+	text-decoration: none;
+	color: #444;
 }
 
 /* Topic styles */

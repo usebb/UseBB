@@ -53,7 +53,7 @@ $templates['cat_header'] = '
 $templates['forum'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{forum_icon}" alt="{forum_status}" /></td>
-			<td><div class="forumname">{forum_name}</div><div class="forumdescr">{forum_descr}</div><div class="forummods">{forum_mods}</div></td>
+			<td><div class="forumname">{forum_name}</div><div class="forumdescr">{forum_descr}</div></td>
 			<td class="count">{total_topics}</td>
 			<td class="count">{total_posts}</td>
 			<td class="lastpostinfo">{latest_post}<div>{by_author}</div><div>{on_date}</div></td>

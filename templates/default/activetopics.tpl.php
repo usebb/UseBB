@@ -39,7 +39,6 @@ $templates['header'] = '
 			<th class="icon"></th>
 			<th>{l_Forum}</th>
 			<th>{l_Topic}</th>
-			<th class="author">{l_Author}</th>
 			<th class="count">{l_Replies}</th>
 			<th class="count">{l_Views}</th>
 			<th class="lastpostinfo">{l_LatestPost}</th>
@@ -50,8 +49,7 @@ $templates['topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
 			<td class="atforum">{forum}</td>
-			<td class="attopic">{topic_name}<div class="topicpagelinks">{topic_page_links}</div></td>
-			<td class="author">{author}</td>
+			<td><div class="topicname">{topic_name}</div><div class="topicpagelinks">{topic_page_links}</div><div class="author">&mdash; {author}</div></td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>
 			<td class="lastpostinfo">{by_author} <a href="{last_post_url}">&gt;&gt;</a><div>{on_date}</div></td>

@@ -267,18 +267,16 @@ table.maintable td.icon {
 	background-color: #E8E8E8;
 	width: 25px;
 }
-table.maintable th.count {
+table.maintable th.count, table.maintable td.count {
 	width: 1%;
 	text-align: center;
 }
 table.maintable td.count {
 	background-color: #E8E8E8;
-	width: 1%;
-	text-align: center;
 	font-weight: bold;
 	color: #333;
 }
-table.maintable .lastpostinfo {
+table.maintable th.lastpostinfo, table.maintable td.lastpostinfo {
 	width: 200px;
 }
 .msgbox h3, .preview h3 {
@@ -341,7 +339,7 @@ table.maintable td.online {
 table.maintable td.stats-cell {
 	line-height: 150%;
 }
-table.maintable td .detailed-list-link {
+.detailed-list-link {
 	float: right;
 	font-weight: bold;
 }

@@ -413,10 +413,12 @@ table.maintable td.stats-cell {
 	clear: both;
 	height: 20px;
 }
-.author {
-	text-align: center;
+table.maintable th.author, table.maintable td.author {
 	width: 1%;
 	white-space: nowrap;
+}
+table.maintable td.author {
+	text-align: center;
 }
 
 /* Topic styles */

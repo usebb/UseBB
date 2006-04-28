@@ -36,13 +36,13 @@ if ( !defined('INCLUDED') )
 $templates['header'] = '
 	<table class="maintable">
 		<tr>
-			<th></th>
+			<th class="icon"></th>
 			<th>{l_Forum}</th>
 			<th>{l_Topic}</th>
-			<th>{l_Author}</th>
-			<th>{l_Replies}</th>
-			<th>{l_Views}</th>
-			<th>{l_LatestPost}</th>
+			<th class="author">{l_Author}</th>
+			<th class="count">{l_Replies}</th>
+			<th class="count">{l_Views}</th>
+			<th class="lastpostinfo">{l_LatestPost}</th>
 		</tr>
 ';
 

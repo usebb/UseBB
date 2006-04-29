@@ -22,6 +22,8 @@ UseBB 1.0 RC1 Changelog
 - Added setting to show raw entities between [code].
 - Added load average values to ACP index when possible.
 - Added username and password info on registration form in ACP.
+- Added some more rel="nofollow" attributes at various places.
+- Added error upon lost saltcode when registering.
 - Fixed possible XSS issue with not unhtml'ed avatar URL.
 - Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.
@@ -47,7 +49,6 @@ UseBB 1.0 RC1 Changelog
 - config.php must no longer be writable by PHP.
 - Now serving application/xhtml+xml (text/html on IE et al).
 - Made Skype info in profile callto: link.
-- Added error upon lost saltcode when registering.
 - Make trigger_error() errors E_USER_ERROR.
 - Hide debug info and page links for banned IP's.
 - Cookie path is now always auto-detected as "/".
@@ -58,7 +59,6 @@ UseBB 1.0 RC1 Changelog
 - Reintroduced forumlist_topic_rtrim_length for forum index.
 - Various fixes to the install wizard.
 - Flood protection message contains remaining seconds.
-- Added some more rel="nofollow" attributes at various places.
 - Hide "Moderators: Nobody".
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.

@@ -21,6 +21,7 @@ UseBB 1.0 RC1 Changelog
 - Added possibility for admins to use hidden/disabled template sets.
 - Added setting to show raw entities between [code].
 - Added load average values to ACP index when possible.
+- Added username and password info on registration form in ACP.
 - Fixed possible XSS issue with not unhtml'ed avatar URL.
 - Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.

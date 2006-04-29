@@ -109,6 +109,7 @@ if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !e
 		$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Password'].' <small>*</small></td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].' <small>*</small></td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';
+	$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
 	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Register'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 	$template->set_js_onload("set_focus('name')");

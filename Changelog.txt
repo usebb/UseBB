@@ -37,6 +37,7 @@ UseBB 1.0 RC1 Changelog
 - Fixed missing info on move topic form with two visible forums.
 - Fixed undefined index error in installation on Windows.
 - Fixed 'Field x doesn't have a default value' error on strict MySQL.
+- Fixed bug that used admin's settings for new users registered in ACP.
 - Removed obsolete hide_undefined_config_setting_warnings setting.
 - New session management, saving up to 3 queries per request.
 - Automatically login after activation.

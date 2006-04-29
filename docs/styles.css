@@ -1,0 +1,107 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+body {
+	font-family: verdana, sans-serif;
+	font-size: 10pt;
+	background-color: #FFF;
+	background-image: url(gfx/bg_reverse.png);
+	background-repeat: repeat-x;
+	padding: 25px 0px 25px 0px;
+}
+a:link, a:active, a:visited {
+	color: #336699;
+	text-decoration: underline;
+}
+a:hover {
+	color: #7F0000 !important;
+	text-decoration: none;
+}
+select option {
+	padding-right: 3px;
+}
+#wrapper {
+	width: 650px;
+	border: 1px solid silver;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #EFEFEF;
+	background-image: url(gfx/bg.png);
+	background-repeat: repeat-x;
+}
+#wrapper h1 {
+	height: 90px;
+	line-height: 90px;
+	background-image: url(gfx/logo.png);
+	background-repeat: no-repeat;
+	background-position: top right;
+	padding: 0px 25px 0px 25px;
+	font-weight: normal;
+	font-size: 24pt;
+	letter-spacing: -2px;
+	word-spacing: 5px;
+	color: #336699;
+}
+#content {
+	padding: 0px 25px 10px 25px;
+}
+p, table, pre, h2, h3, ul, ol, dl {
+	margin: 0px 0px 15px 0px;
+}
+p.important {
+	background-color: #EFDFBF;
+	padding: 10px;
+	font-size: 8pt;
+}
+p#submit, p#submit input {
+	text-align: center;
+	font-weight: bold;
+}
+p#submit input {
+	padding: 5px;
+}
+h2 {
+	color: #336699;
+	font-weight: normal;
+	font-size: 14pt;
+	border-bottom: 1px solid silver;
+}
+h3 {
+	color: #333;
+	font-weight: bold;
+	font-size: 10pt;
+}
+ul, ol {
+	margin-left: 35px;
+}
+dl dt {
+	font-weight: bold;
+	color: #333;
+}
+dl dd {
+	margin-left: 35px;
+	margin-bottom: 5px;
+}
+table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+}
+table th, table td {
+	padding: 5px;
+	border-bottom: 1px solid silver;
+}
+table th {
+	text-align: left;
+	color: #336699;
+}
+table td.title {
+	width: 135px;
+}
+#copyright {
+	margin: 25px 0px 0px 0px;
+	text-align: center;
+	font-size: 8pt;
+	color: #666;
+}

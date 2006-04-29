@@ -49,93 +49,7 @@ $out = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.
 <head>
 <title>UseBB Installation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-<style type="text/css">
-* {
-	padding: 0;
-	margin: 0;
-}
-body {
-	font-family: verdana, sans-serif;
-	font-size: 10pt;
-	background-color: #FFF;
-	background-image: url(./bg_reverse.png);
-	background-repeat: repeat-x;
-	padding: 25px 0px 25px 0px;
-}
-a:link, a:active, a:visited {
-	color: #336699;
-	text-decoration: underline;
-}
-a:hover {
-	color: #7F0000 !important;
-	text-decoration: none;
-}
-select option {
-	padding-right: 3px;
-}
-#wrapper {
-	width: 650px;
-	border: 1px solid silver;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #EFEFEF;
-	background-image: url(./bg.png);
-	background-repeat: repeat-x;
-}
-#wrapper h1 {
-	height: 90px;
-	line-height: 90px;
-	background-image: url(./logo.png);
-	background-repeat: no-repeat;
-	background-position: top right;
-	padding: 0px 25px 0px 25px;
-	font-weight: normal;
-	font-size: 24pt;
-	letter-spacing: -2px;
-	word-spacing: 5px;
-	color: #336699;
-}
-#wrapper #content {
-	padding: 0px 25px 10px 25px;
-}
-#wrapper #content p, #wrapper #content table, #wrapper #content pre {
-	margin: 0px 0px 15px 0px;
-}
-#wrapper #content p.important {
-	background-color: #EFDFBF;
-	padding: 10px;
-	font-size: 8pt;
-}
-#wrapper #content p#submit, #wrapper #content p#submit input {
-	text-align: center;
-	font-weight: bold;
-}
-#wrapper #content p#submit input {
-	padding: 5px;
-}
-#wrapper #content table {
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
-}
-#wrapper #content table th, #wrapper #content table td {
-	padding: 5px;
-	border-bottom: 1px solid silver;
-}
-#wrapper #content table th {
-	text-align: left;
-	color: #336699;
-}
-#wrapper #content table td.title {
-	width: 135px;
-}
-#copyright {
-	margin: 25px 0px 0px 0px;
-	text-align: center;
-	font-size: 8pt;
-	color: #666;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="../docs/styles.css" />
 </head>
 <body>
 
@@ -199,11 +113,11 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		
 		<p>This wizard will install a basic UseBB forum at your website. Therefore, we need some information from you. Please fill in all the required fields below (marked with <small>*</small>). If you don\'t know what a field means or you don\'t know what to fill in, please ask your web hosting company for the right values.</p>
 		
-		<p class="important"><strong>Important:</strong> this wizard does <strong>not</strong> upgrade an existing installation. Please see the <a href="../docs/UPGRADE"><code>UPGRADE</code></a> document for upgrading instructions.</p>
+		<p class="important"><strong>Important:</strong> this wizard does <strong>not</strong> upgrade an existing installation. Please see the <a href="../docs/index.html"><em>Readme</em> document</a> for upgrading instructions.</p>
 		
 		'.$config_warning.'
 		
-		<p>You can also manually install UseBB. The instructions can be found in <a href="../docs/INSTALL"><code>INSTALL</code></a>. Also, check the system requirements found in that file.</p>
+		<p>You can also manually install UseBB. The instructions can be found in the <a href="../docs/index.html"><em>Readme</em> document</a>. Also, check the system requirements found in that file.</p>
 ';
 			
 		}

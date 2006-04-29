@@ -60,6 +60,7 @@ UseBB 1.0 RC1 Changelog
 - Various fixes to the install wizard.
 - Flood protection message contains remaining seconds.
 - Hide "Moderators: Nobody".
+- Updated docs files and added HTML readme file.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

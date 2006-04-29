@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>UseBB Installation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+<div id="wrapper">
+
+	<h1>UseBB <em>Readme</em></h1>
+	<div id="content">
+		<p>Welcome to the UseBB introduction document. This file gives some general information regarding UseBB, how to install/upgrade, etc.</p>
+		<ul>
+			<li><a href="#whats-usebb">What's UseBB?</a></li>
+			<li><a href="#install-usebb">Install UseBB</a></li>
+			<li><a href="#upgrade-usebb">Upgrade an existing UseBB</a></li>
+			<li><a href="#more-info">More information</a></li>
+		</ul>
+		
+		<h2 id="whats-usebb">What's UseBB?</h2>
+		<p>UseBB is an <strong>Open Source</strong> forum package developed in <acronym title="PHP: Hypertext Preprocessor">PHP</acronym> and using the popular <acronym title="An Open Source database management system">MySQL</acronym> database back-end to store data. Unlike other popular forum systems, UseBB does not strive to have as many features as possible, but to be the <strong>easiest and most usable</strong> forum package, limiting the basic feature set to only the essential. UseBB is <strong><em>pure</em> forum software</strong>.</p>
+		<p>UseBB is an ideal solution for small to medium-sized websites which require an easy to use forum package without the <acronym title="Unnecessary features"><em>bloat</em></acronym>, that produces <strong>standards compliant</strong> output, is secure and easily configurable.</p>
+		<p>For a list of features, see the <a href="http://www.usebb.net/features/">feature list at UseBB.net</a>.</p>
+		
+		<h2 id="install-usebb">Install UseBB</h2>
+		<p>Before you install UseBB, you have to make sure your host accords to the following system requirements.</p>
+		<h3>Minimum requirements</h3>
+		<ul>
+			<li>HTTP server supporting PHP</li>
+			<li>PHP version 4.1.0, including <code>session</code>, <code>PCRE</code> and <code>mysql</code> modules</li>
+			<li>MySQL version 3.23</li>
+		</ul>
+		
+		<h3>Recommended set-up</h3>
+		<p>It is recommended to use UseBB on the following set-ups.</p>
+		<ul>
+			<li>GNU/Linux operating system</li>
+			<li>Recent Apache HTTPD version, including <code>mod_rewrite</code></li>
+			<li>Recent PHP version, including <code>session</code>, <code>PCRE</code> and <code>mysql(i)</code> modules</li>
+			<li>Recent MySQL version</li>
+		</ul>
+		<p>UseBB works as well on Microsoft Windows and on PHP 5.x setups with MySQL 4.1 or 5.0.</p>
+		<p>To install UseBB, you have two options.</p>
+		<p class="important"><strong>Important:</strong> You must choose <strong>one</strong> of the following installation methods. You don't have to follow both lists of steps. If you don't know what to choose, perform the automatic installation.</p>
+		
+		<h3>Automatic installation</h3>
+		<p>The automatic installer is mostly the best and easiest method to install UseBB.</p>
+		<ol>
+			<li>Rename <code>config.php-dist</code> to <code>config.php</code>;</li>
+			<li>Upload/move all the files to their final destination online;</li>
+			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>);</li>
+			<li>Open the <a href="../install/index.php">installation wizard</a> in your web browser (located at <code>install/</code>).</li>
+		</ol>
+		
+		<h3>Manual installation</h3>
+		<p>Alternatively, you can install UseBB manually.</p>
+		<ol>
+			<li>Execute <code>install/schemas/mysql.sql</code> and <code>install/usebb.sql</code> on your database (using a database management tool such as <a href="http://www.phpmyadmin.net/">phpMyAdmin</a>);</li>
+			<li>Rename <code>config.php-dist</code> to <code>config.php</code>;</li>
+			<li>Edit <code>config.php</code> and adjust the database settings;</li>
+			<li>Upload/move all the files to their final destination online;</li>
+			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>);</li>
+			<li>Register a first user, it will automatically be an administrator.</li>
+		</ol>
+		<p>When this is done, you can log in and start configuring your forum.</p>
+		
+		<h2 id="upgrade-usebb">Upgrade an existing UseBB</h2>
+		<p>If you run a forum powered by a previous UseBB version, you can upgrade as following:</p>
+		<dl>
+			<dt>UseBB 0.8, 0.7 (beta), 0.6, 0.5.x</dt>
+				<dd>Reupload all (newer) files. No database changes.</dd>
+			<dt>UseBB 0.4.x</dt>
+				<dd>Run <a href="../install/upgrade-0-4.php">install/upgrade-0-4.php</a> in your web browser.</dd>
+			<dt>UseBB 0.3.x</dt>
+				<dd>Run <a href="../install/upgrade-0-3.php">install/upgrade-0-3.php</a> and <a href="../install/upgrade-0-4.php">install/upgrade-0-4.php</a> in your web browser.</dd>
+			<dt>UseBB 0.2.3</dt>
+				<dd>Run all install/upgrade-*.php in your web browser in the correct order.</dd>
+			<dt>UseBB 0.2.2 or earlier</dt>
+				<dd>First upgrade to 0.2.3a, then run all install/upgrade-*.php in the correct order.</dd>		
+		</dl>
+		
+		<h2 id="more-info">More information</h2>
+		<p>If you would like more information about UseBB, check out the following locations.</p>
+		<ul>
+			<li><a href="http://www.usebb.net">UseBB.net</a> for general information, news, downloads, etc.</li>
+			<li>The <a href="http://www.usebb.net/community/">community forums</a> for help, (development) discussion, etc.</li>
+			<li>Recent developer information can be found at the <a href="http://usebb.sourceforge.net/">dev center</a>.</li>
+		</ul>
+	</div>
+
+</div>
+
+<p id="copyright">Copyright &copy; 2003-2006 <a href="http://www.usebb.net">UseBB Team</a></p>
+</body>
+</html>

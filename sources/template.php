@@ -113,7 +113,7 @@ class template {
 			
 			$templates_file = ROOT_PATH.'templates/'.$functions->get_config('template').'/'.$section.'.tpl.php';
 			if ( !file_exists($templates_file) || !is_readable($templates_file) )
-				trigger_error('Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!');
+				trigger_error('Unable to load '.$section.' templates file for set "'.$functions->get_config('template').'"!', E_USER_ERROR);
 			else
 				require($templates_file);
 			
@@ -140,7 +140,7 @@ class template {
 		if ( array_key_exists($setting, $this->templates['global']['config']) )
 			return $this->templates['global']['config'][$setting];
 		elseif ( !$functions->get_config('hide_undefined_template_setting_warnings') )
-			trigger_error('The template configuration variable "'.$setting.'" does not exist!');
+			trigger_error('The template configuration variable "'.$setting.'" does not exist!', E_USER_ERROR);
 		else
 			return '';
 		
@@ -169,7 +169,7 @@ class template {
 		if ( !array_key_exists($name, $this->templates[$section]) ) {
 			
 			if ( !$functions->get_config('hide_undefined_template_warnings') )			
-				trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!');
+				trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', E_USER_ERROR);
 			else
 				$this->templates[$section][$name] = '';
 			
@@ -403,7 +403,7 @@ class template {
 		
 		$unwanted_output = ob_get_contents();
 		if ( !empty($unwanted_output) )
-			trigger_error('Unwanted output was triggered. Please do not use echo(), print(), or any other statements that produce direct output, but use $template->add_raw_content() instead.');
+			trigger_error('Unwanted output was triggered. Please do not use echo(), print(), or any other statements that produce direct output, but use $template->add_raw_content() instead.', E_USER_ERROR);
 		ob_end_clean();
 		
 		echo trim($this->body);

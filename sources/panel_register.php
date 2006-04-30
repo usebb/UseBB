@@ -279,7 +279,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			// Because this often happens with bad config values...
 			//
 			if ( empty($_SESSION['saltcode']) )
-				trigger_error("Missing saltcode in session data!\n\nThis is most likely due to malfunctioning sessions. Please check UseBB's cookie/session configuration values.");
+				trigger_error("Missing saltcode in session data!\n\nThis is most likely due to malfunctioning sessions. Please check UseBB's cookie/session configuration values.", E_USER_ERROR);
 			
 			if ( $username_taken ) {
 				

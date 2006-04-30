@@ -49,7 +49,7 @@ UseBB 1.0 RC1 Changelog
 - config.php must no longer be writable by PHP.
 - Now serving application/xhtml+xml (text/html on IE et al).
 - Made Skype info in profile callto: link.
-- Make trigger_error() errors E_USER_ERROR.
+- All trigger_error() errors are now E_USER_ERROR.
 - Hide debug info and page links for banned IP's.
 - Cookie path is now always auto-detected as "/".
 - Easier navigation in ACP general configuration.

@@ -139,7 +139,7 @@ $config_file = ROOT_PATH.'config.php';
 if ( file_exists($config_file) )
 	require($config_file);
 else
-	trigger_error('config.php does not exist! Please rename config.php-dist to config.php.');
+	trigger_error('config.php does not exist! Please rename config.php-dist to config.php.', E_USER_ERROR);
 
 //
 // Define some constants
@@ -208,7 +208,7 @@ $session = new session;
 //
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
-	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!');
+	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!', E_USER_ERROR);
 require($db_class_file);
 $db = new db;
 

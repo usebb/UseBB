@@ -44,7 +44,7 @@ if ( !defined('INCLUDED') )
 	exit();
 
 if ( !extension_loaded('mysql') && !defined('NO_DB') )
-	trigger_error('Unable to load module for database server "mysql": PHP mysql extension not available!');
+	trigger_error('Unable to load module for database server "mysql": PHP mysql extension not available!', E_USER_ERROR);
 
 @ini_set('mysql.trace_mode', '0');
 
@@ -83,12 +83,12 @@ class db {
 		//
 		// Connect to server
 		//
-		$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysql_error($this->connection));
+		$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysql_error($this->connection), E_USER_ERROR);
 		
 		//
 		// Select database
 		//
-		@mysql_select_db($config['dbname'], $this->connection) or trigger_error('SQL: '.mysql_error($this->connection));
+		@mysql_select_db($config['dbname'], $this->connection) or trigger_error('SQL: '.mysql_error($this->connection), E_USER_ERROR);
 		
 	}
 	
@@ -110,7 +110,7 @@ class db {
 			if ( $return_error ) 
 				return $error;
 			else
-				trigger_error('SQL: '.$error);
+				trigger_error('SQL: '.$error, E_USER_ERROR);
 			
 		}
 		return $result;

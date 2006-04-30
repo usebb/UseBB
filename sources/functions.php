@@ -272,11 +272,6 @@ class functions {
 			1024 => 'E_USER_NOTICE'
 		);
 		
-		//
-		// Make trigger_error() calls E_USER_ERROR
-		//
-		$errno = ( $errno == E_USER_NOTICE ) ? E_USER_ERROR : $errno;
-		
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
 		if ( $errtype == 'SQL_ERROR' )
@@ -600,7 +595,7 @@ class functions {
 			if ( array_key_exists($stat, $this->statistics) )
 				return $this->statistics[$stat];
 			else
-				trigger_error('The statistic variable "'.$stat.'" does not exist!');
+				trigger_error('The statistic variable "'.$stat.'" does not exist!', E_USER_ERROR);
 			
 		}
 		
@@ -728,7 +723,7 @@ class functions {
 					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 						require(ROOT_PATH.'languages/'.$section.'_English.php');
 					else
-						trigger_error('Section "'.$section.'" for language pack "'.$language.'" could not be found. No English fallback was available. Please use an updated language pack or also upload the English one.');
+						trigger_error('Section "'.$section.'" for language pack "'.$language.'" could not be found. No English fallback was available. Please use an updated language pack or also upload the English one.', E_USER_ERROR);
 					
 				} else {
 					
@@ -1005,7 +1000,7 @@ class functions {
 		if ( function_exists('mb_send_mail') ) {
 			
 			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers)) )
-				trigger_error('Unable to send e-mail!');
+				trigger_error('Unable to send e-mail!', E_USER_ERROR);
 			
 		} else {
 			
@@ -1013,7 +1008,7 @@ class functions {
 				$headers[] = 'Content-Transfer-Encoding: 8bit';
 			
 			if ( !mail($to, $subject, $body, join($cr, $headers)) )
-				trigger_error('Unable to send e-mail!');
+				trigger_error('Unable to send e-mail!', E_USER_ERROR);
 			
 		}
 		
@@ -1111,7 +1106,7 @@ class functions {
 		global $session;
 		
 		if ( !isset($session->sess_info['user_id']) )
-			trigger_error('You first need to call $session->update() before you can get any session info.');
+			trigger_error('You first need to call $session->update() before you can get any session info.', E_USER_ERROR);
 		
 		if ( $session->sess_info['user_id'] )
 			return $session->sess_info['user_info']['level'];

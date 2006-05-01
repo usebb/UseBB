@@ -270,6 +270,7 @@ table.maintable td.icon {
 table.maintable th.count, table.maintable td.count {
 	width: 1%;
 	text-align: center;
+	white-space: nowrap;
 }
 table.maintable td.count {
 	background-color: #E8E8E8;

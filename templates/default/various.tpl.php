@@ -169,7 +169,7 @@ $templates['profile'] = '
 			<th colspan="3">{title}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="4" class="minimal">{avatar_v}</td>
+			<td class="fieldtitle">{l_Username}</td><td>{username_v}</td><td rowspan="4" class="avatar-field">{avatar_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_RealName}</td><td>{real_name_v}</td>

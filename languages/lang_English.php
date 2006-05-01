@@ -391,6 +391,7 @@ $lang['Month'] = 'Month';
 $lang['Day'] = 'Day';
 $lang['Year'] = 'Year';
 $lang['PoweredBy'] = '%s is powered by %s';
+$lang['ForumSoftware'] = 'Forum Software';
 $lang['GeneralStats'] = 'General statistics';
 $lang['Members'] = 'Members';
 $lang['TopicsPerDay'] = 'Topics per day';

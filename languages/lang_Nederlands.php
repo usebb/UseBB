@@ -393,6 +393,7 @@ $lang['Month'] = 'Maand';
 $lang['Day'] = 'Dag';
 $lang['Year'] = 'Jaar';
 $lang['PoweredBy'] = '%s wordt aangedreven door %s';
+$lang['ForumSoftware'] = 'Forumsoftware';
 $lang['GeneralStats'] = 'Algemene statistieken';
 $lang['Members'] = 'Leden';
 $lang['TopicsPerDay'] = 'Onderwerpen per dag';

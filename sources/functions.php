@@ -994,7 +994,7 @@ class functions {
 		if ( !empty($bcc_email) )
 			$headers[] = 'Bcc: '.$bcc_email;
 		$headers[] = 'Date: '.date('r');
-		$headers[] = 'X-Mailer: UseBB/'.USEBB_VERSION;
+		$headers[] = 'X-Mailer: UseBB';
 		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
 		
 		if ( function_exists('mb_send_mail') ) {

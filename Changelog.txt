@@ -16,6 +16,7 @@ UseBB 1.0 RC1 Changelog
 - Added sorting options on search form.
 - Added possibility to show search results as posts.
 - Added possibility to use exact author name match and guests filter.
+- Added message editing timeout for users.
 - Added settings to enable/disable IP bans and badwords filter.
 - Added setting to hide contact info in profiles for guests.
 - Added possibility for admins to use hidden/disabled template sets.

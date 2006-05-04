@@ -50,7 +50,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('type', 'server', 'username', 'dbname', 'admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 foreach ( $necessary_settings['strings'] as $key ) {
 	
@@ -294,6 +294,7 @@ if (
 			'online_min_updated',
 			'search_limit_results',
 			'search_nonindex_words_min_length',
+			'edit_post_timeout',
 			'show_edited_message_timeout',
 			'username_min_length',
 			'username_max_length',

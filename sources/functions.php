@@ -490,6 +490,10 @@ class functions {
 						$set_to = 30;
 						break;
 					
+					case 'edit_post_timeout':
+						$set_to = 300;
+						break;
+					
 					default:
 						$set_to = false;
 					

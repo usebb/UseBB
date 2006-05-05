@@ -1576,9 +1576,11 @@ class functions {
 			$ignore_chars_url_end = "^a-z0-9/"; # to include trailing /
 			$string = preg_replace(array(
 				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars_url_end."]*?[\s])#is",
+				"#([\s][".$ignore_chars."]*?)(www\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars_url_end."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
 				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+				'\\1<a href="http://\\2">\\2</a>\\3',
 				'\\1<a href="mailto:\\2">\\2</a>\\4'
 			), $string);
 			

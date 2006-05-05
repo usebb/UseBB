@@ -610,6 +610,16 @@ p#linkbar {
 	text-align: center;
 	margin-bottom: 20px;
 }
+p#linkbar a {
+	margin: 0 2px 0 2px;
+}
+p#linkbar #rss-feed-icon {
+	margin: 0;
+}
+p#linkbar #rss-feed-icon img {
+	padding-right: 2px;
+	vertical-align: middle;
+}
 .jump-in-data {
 	color: #666;
 	margin-left: 10px;

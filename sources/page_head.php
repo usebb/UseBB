@@ -76,8 +76,16 @@ if ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed'
 	//
 	// RSS feed
 	//	
-	if ( $functions->get_config('enable_rss') )
-		$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+	if ( $functions->get_config('enable_rss') ) {
+		
+		$rss_feed_icon = $template->get_config('rss_feed_icon');
+		
+		if ( !empty($rss_feed_icon) )
+			$link_bar[] = '<a href="'.$functions->make_url('rss.php').'" id="rss-feed-icon"><img src="templates/'.$functions->get_config('template').'/gfx/'.$rss_feed_icon.'" alt="'.$lang['RSSFeed'].'" /></a><a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a> ';
+		else
+			$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+		
+	}
 		
 	//
 	// Statistics

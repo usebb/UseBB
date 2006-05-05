@@ -25,6 +25,7 @@ UseBB 1.0 RC1 Changelog
 - Added username and password info on registration form in ACP.
 - Added some more rel="nofollow" attributes at various places.
 - Added error upon lost saltcode when registering.
+- Added RSS feed icon support.
 - Fixed possible XSS issue with not unhtml'ed avatar URL.
 - Fixed bug #1001: Edit this member link visible in own profile.
 - Fixed bug #992: RSS feed redirects on restricted board.

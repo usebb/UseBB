@@ -245,14 +245,14 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				//
 				
 				//
-				// Used for switching colors in template
-				//
-				$colornum = ( $i % 2 ) ? 1 : 2;
-				
-				//
 				// Post count
 				//
 				$i++;
+				
+				//
+				// Used for switching colors in template
+				//
+				$colornum = ( $i % 2 ) ? 1 : 2;
 				
 				if ( $session->sess_info['user_id'] ) {
 					

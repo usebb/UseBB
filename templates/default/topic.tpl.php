@@ -61,7 +61,7 @@ $templates['post'] = '
 				<div class="avatar">{poster_avatar}</div>
 				<div class="field">{registered}</div>
 				<div class="field">{posts}</div>
-				<div class="field">{location}</div>{colornum}
+				<div class="field">{location}</div>
 			</td>
 			<td class="postcontent">
 				<div class="post">{post_content}{poster_sig}{post_editinfo}</div>{poster_ip_addr}

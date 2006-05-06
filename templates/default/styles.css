@@ -614,10 +614,9 @@ p#linkbar a {
 	margin: 0 2px 0 2px;
 }
 p#linkbar #rss-feed-icon {
-	margin: 0;
+	margin: 0 1px 0 3px;
 }
 p#linkbar #rss-feed-icon img {
-	padding-right: 2px;
 	vertical-align: middle;
 }
 .jump-in-data {

@@ -66,12 +66,18 @@ if ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed'
 	//
 	if ( $functions->get_config('enable_memberlist') && $functions->get_user_level() >= $functions->get_config('view_memberlist_min_level') )
 		$link_bar[] = '<a href="'.$functions->make_url('members.php').'">'.$lang['MemberList'].'</a>';
-		
+	
 	//
 	// Staff list
 	//
 	if ( $functions->get_config('enable_stafflist') && $functions->get_user_level() >= $functions->get_config('view_stafflist_min_level') )
 		$link_bar[] = '<a href="'.$functions->make_url('members.php', array('act' => 'staff')).'">'.$lang['StaffList'].'</a>';
+	
+	//
+	// Statistics
+	//
+	if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
+		$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 	
 	//
 	// RSS feed
@@ -86,12 +92,6 @@ if ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed'
 			$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
 		
 	}
-		
-	//
-	// Statistics
-	//
-	if ( $functions->get_config('enable_stats') && $functions->get_user_level() >= $functions->get_config('view_stats_min_level') )
-		$link_bar[] = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 	
 }
 	

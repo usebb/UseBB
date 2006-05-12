@@ -3,7 +3,9 @@ $Header$
 UseBB 1.0 RC1 Changelog
 ------------------------------
 
-- Added to ACP: member pruning.
+- Added to ACP:
+	- Member pruning.
+	- Badword filter controls.
 - Added rProtect security features:
 	- Automatic DNSBL powered IP banning.
 	- Registration logging.

@@ -88,6 +88,7 @@ class admin_functions {
 			'prune_members',
 		),
 		'various' => array(
+			'badwords',
 			'iplookup',
 			'dnsbl',
 			'sqltoolbox',

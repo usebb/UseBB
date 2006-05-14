@@ -45,39 +45,17 @@ if ( !defined('INCLUDED') )
 
 if ( $functions->get_config('enable_badwords_filter') ) {
 	
-	if ( !empty($_GET['do']) && $_GET['do'] == 'add' ) {
+	if ( !empty($_POST['word']) ) {
 		
-		$content = '<h2>'.$lang['BadwordsAddBadword'].'</h2>'; 
+		$db->query("DELETE FROM ".TABLE_PREFIX."badwords WHERE word = '".$_POST['word']."'");
 		
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-			
-			if ( !empty($_POST['word']) ) {
-				
-				$db->query("DELETE FROM ".TABLE_PREFIX."badwords WHERE word = '".$_POST['word']."'");
-				
-				if ( !empty($_POST['replacement']) )
-					$db->query("INSERT INTO ".TABLE_PREFIX."badwords VALUES('".$_POST['word']."', '".$_POST['replacement']."')");
-				else
-					$db->query("INSERT INTO ".TABLE_PREFIX."badwords VALUES('".$_POST['word']."', '')");
-				
-				$functions->redirect('admin.php', array('act' => 'badwords'));
-				
-			} else {
-				
-				$content .= '<p><strong>'.$lang['BadwordsWordMissing'].'</strong></p>';
-				
-			}
-			
-		}
+		if ( !empty($_POST['replacement']) )
+			$db->query("INSERT INTO ".TABLE_PREFIX."badwords VALUES('".$_POST['word']."', '".$_POST['replacement']."')");
+		else
+			$db->query("INSERT INTO ".TABLE_PREFIX."badwords VALUES('".$_POST['word']."', '')");
 		
-		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'badwords', 'do' => 'add')).'" method="post">';
-		$content .= '<table id="adminregulartable">';
-			$content .= '<tr><td class="fieldtitle">'.$lang['BadwordsAddBadwordWord'].'</td><td><input type="text" name="word" id="word" size="20" maxlength="255" /><div class="moreinfo">'.$lang['BadwordsAddBadwordWordInfo'].'</div></td></tr>';
-			$content .= '<tr><td class="fieldtitle">'.$lang['BadwordsAddBadwordReplacement'].'</td><td><input type="text" name="replacement" size="20" maxlength="255" /><div class="moreinfo">'.$lang['BadwordsAddBadwordReplacementInfo'].'</div></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Add'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
-		
-		$template->set_js_onload("set_focus('word')");
-		
+		$functions->redirect('admin.php', array('act' => 'badwords'));
+				
 	} elseif ( !empty($_GET['do']) && $_GET['do'] == 'delete' && !empty($_GET['word']) ) {
 		
 		$db->query("DELETE FROM ".TABLE_PREFIX."badwords WHERE word = '".$_GET['word']."'");
@@ -86,26 +64,29 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 	} else {
 		
 		$content = '<p>'.$lang['BadwordsInfo'].'</p>';
-		$content .= '<ul id="adminfunctionsmenu"><li><a href="'.$functions->make_url('admin.php', array('act' => 'badwords', 'do' => 'add')).'">'.$lang['BadwordsAddBadword'].'</a></li></ul>';
 		
 		$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
 		$badwords = array();
 		while ( $badword = $db->fetch_result($result) )
 			$badwords[] = $badword;
 		
+		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'badwords')).'" method="post">';
+		$content .= '<table id="adminregulartable">';
+		$content .= '<tr><th>'.$lang['BadwordsAddBadwordWord'].'</th><th>'.$lang['BadwordsAddBadwordReplacement'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
+		
 		if ( !count($badwords) ) {
 			
-			$content .= '<p>'.$lang['BadwordsNoBadwordsExist'].'</p>';
+			$content .= '<tr><td colspan="3">'.$lang['BadwordsNoBadwordsExist'].'</td></tr>';
 			
 		} else {
 			
-			$content .= '<table id="adminregulartable">';
-			$content .= '<tr><th>'.$lang['BadwordsAddBadwordWord'].'</th><th>'.$lang['BadwordsAddBadwordReplacement'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
 			foreach ( $badwords as $badword )
 				$content .= '<tr><td>'.unhtml(stripslashes($badword['word'])).'</td><td>'.unhtml(stripslashes($badword['replacement'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'badwords', 'do' => 'delete', 'word' => stripslashes($badword['word']))).'">'.$lang['Delete'].'</a></td></tr>';
-			$content .= '</table>';
 			
 		}
+		
+		$content .= '<tr><td><input type="text" name="word" id="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
+		$content .= '</table></form>';
 		
 	}
 	

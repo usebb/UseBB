@@ -495,5 +495,6 @@ $lang['ExactMatch'] = 'Exact match';
 $lang['IncludeGuests'] = 'Include guests';
 $lang['Top'] = 'Top';
 $lang['Bottom'] = 'Bottom';
+$lang['Action'] = 'Action';
 
 ?>

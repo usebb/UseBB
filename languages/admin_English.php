@@ -403,12 +403,8 @@ $lang['DNSBLWhitelistInfo'] = 'One IP address or hostname per line (* and ? can 
 $lang['BadwordsInfo'] = 'Badwords can be filtered or replaced, eventually using partial matching (using *).';
 $lang['BadwordsDisabled'] = 'Badwords filter has been disabled in the board configuration.';
 $lang['BadwordsNoBadwordsExist'] = 'No filters exist at this forum.';
-$lang['BadwordsAddBadword'] = 'Add a badword filter';
 $lang['BadwordsAddBadwordWord'] = 'Word';
-$lang['BadwordsAddBadwordWordInfo'] = 'Partial matching is possible using *.';
 $lang['BadwordsAddBadwordReplacement'] = 'Replacement';
-$lang['BadwordsAddBadwordReplacementInfo'] = '(Optional)';
-$lang['BadwordsWordMissing'] = 'A word needs to be filled in.';
 
 $lang['MassEmailInfo'] = 'Send mass email message to all your members or a level group.';
 $lang['MassEmailRecipients'] = 'Recipients';

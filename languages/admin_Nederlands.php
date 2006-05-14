@@ -35,25 +35,29 @@ $lang['AdminPasswordExplain'] = 'Om veiligheidsredenen dien je je account\'s wac
 $lang['RunningBadACPModule'] = 'UseBB kan deze module niet uitvoeren omdat een of meerdere aspecten ontbreken (geen $usebb_module object gevonden en/of ontbrekende run_module() objectmethode).';
 
 $lang['Category-main'] = 'Algemeen';
+$lang['Category-forums'] = 'Forums';
+$lang['Category-various'] = 'Diversen';
+$lang['Category-members'] = 'Leden';
+$lang['Category-pruning'] = 'Pruning';
+$lang['Category-security'] = 'Veiligheid';
 $lang['Item-index'] = 'ACP-index';
 $lang['Item-version'] = 'Versiecontrole';
 $lang['Item-config'] = 'Algemene configuratie';
-$lang['Category-forums'] = 'Forums';
 $lang['Item-categories'] = 'Categorie&euml;n Beheren';
 $lang['Item-forums'] = 'Forums Beheren';
-$lang['Category-various'] = 'Diversen';
 $lang['Item-iplookup'] = 'IP-adres opzoeken';
 $lang['Item-sqltoolbox'] = 'SQL-werkset';
 $lang['Item-modules'] = 'ACP-modules';
-$lang['Category-members'] = 'Leden';
 $lang['Item-members'] = 'Leden Bewerken';
 $lang['Item-delete_members'] = 'Leden Verwijderen';
 $lang['Item-register_members'] = 'Leden Registreren';
 $lang['Item-activate_members'] = 'Leden Activeren';
 $lang['Item-prune_forums'] = 'Forums Prunen';
 $lang['Item-prune_members'] = 'Leden Prunen';
-$lang['Category-pruning'] = 'Pruning';
 $lang['Item-dnsbl'] = 'DNSBL-bans';
+$lang['Item-badwords'] = 'Woordcensuur';
+$lang['Item-mass_email'] = 'Massa-email';
+$lang['Item-bans'] = 'Banbeheer';
 
 $lang['IndexWelcome'] = 'Welkom op het ACP van je UseBB-forum. Hier kan je alle aspecten van je forum beheren, zoals de instellingen wijzigen, forums beheren, leden, enz.';
 $lang['IndexSystemInfo'] = 'Systeeminfo';
@@ -397,5 +401,45 @@ $lang['DNSBLEnableOpenDNSBLBanWildcard'] = 'Activeer wildcard-banning %s (niet a
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'Een IP-adres of hostnaam per regel (* en ? kunnen als wildcards worden gebruikt).';
 $lang['DNSBLSettingsSaved'] = 'DNSBL-aangedreven banning instellingen werden opgeslaan.';
+
+$lang['BadwordsInfo'] = 'Woorden kunnen gecensureerd of vervangen worden, eventueel d.m.v. wildcards (met *).';
+$lang['BadwordsDisabled'] = 'Woordcensuur uitgeschakeld';
+$lang['BadwordsDisabledInfo'] = 'Woordcensuur is uitgeschakeld in de forumconfiguratie.';
+$lang['BadwordsNoBadwordsExist'] = 'Geen woordfilters bestaan reeds op dit forum.';
+$lang['BadwordsAddBadwordWord'] = 'Woord';
+$lang['BadwordsAddBadwordReplacement'] = 'Vervanging';
+
+$lang['MassEmailInfo'] = 'Stuur een massa e-mailbericht naar alle leden of een niveaugroep.';
+$lang['MassEmailRecipients'] = 'Bestemmelingen';
+$lang['MassEmailRecipients-admins'] = 'Administratoren';
+$lang['MassEmailRecipients-mods'] = 'Moderatoren';
+$lang['MassEmailRecipients-members'] = 'Normale leden';
+$lang['MassEmailSubject'] = 'Onderwerp';
+$lang['MassEmailBody'] = 'Inhoud';
+$lang['MassEmailTemplate'] = 'Hallo,
+
+Dit is de forumsoftware van [board_name]. De administrator heeft een massa e-mailbericht verzonden. De inhoud volgt.
+
+[board_name]
+[board_link]
+[admin_email]
+
+-----
+
+[body]';
+$lang['MassEmailSent'] = 'Het e-mailbericht werd naar %d leden verzonden.';
+$lang['MassEmailOptions'] = 'Opties';
+$lang['MassEmailPublicEmailsOnly'] = 'Verstuur enkel naar publieke e-mailadressen.';
+$lang['MassEmailExcludeBanned'] = 'Exclusief gebande leden.';
+
+$lang['BansInfo'] = 'Hier kan je bijna alle banaspecten van je forum controleren. Gedeeltelijke selectie is mogelijk (met *). Individuele accounts kunnen geband worden bij het bewerken van leden.';
+$lang['Bans-username'] = 'Gebruikersnamen';
+$lang['Bans-email'] = 'E-mailadressen';
+$lang['Bans-ip_addr'] = 'IP-adressen';
+$lang['BansUsername'] = 'Gebruikersnaam';
+$lang['BansEmail'] = 'E-mailadres';
+$lang['BansIp_addr'] = 'IP-adres';
+$lang['BansNoBansExist'] = 'Geen bans van dit type bestaan reeds op dit forum.';
+$lang['BansIPBansDisabledInfo'] = 'IP-adresbans zijn uitgeschakeld in de forumconfiguratie.';
 
 ?>

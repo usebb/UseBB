@@ -497,6 +497,7 @@ $lang['ExactMatch'] = 'Exacte overeenkomst';
 $lang['IncludeGuests'] = 'Inclusief gasten';
 $lang['Top'] = 'Boven';
 $lang['Bottom'] = 'Beneden';
+$lang['Action'] = 'Actie';
 
 //
 // Date translations

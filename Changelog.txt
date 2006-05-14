@@ -6,6 +6,7 @@ UseBB 1.0 RC1 Changelog
 - Added to ACP:
 	- Member pruning.
 	- Badword filter controls.
+	- Mass email feature.
 - Added rProtect security features:
 	- Automatic DNSBL powered IP banning.
 	- Registration logging.

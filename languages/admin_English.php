@@ -55,6 +55,7 @@ $lang['Item-prune_members'] = 'Prune Members';
 $lang['Category-pruning'] = 'Pruning';
 $lang['Item-dnsbl'] = 'DNSBL Bans';
 $lang['Item-badwords'] = 'Badwords Filter';
+$lang['Item-mass_email'] = 'Mass Email';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -408,5 +409,28 @@ $lang['BadwordsAddBadwordWordInfo'] = 'Partial matching is possible using *.';
 $lang['BadwordsAddBadwordReplacement'] = 'Replacement';
 $lang['BadwordsAddBadwordReplacementInfo'] = '(Optional)';
 $lang['BadwordsWordMissing'] = 'A word needs to be filled in.';
+
+$lang['MassEmailInfo'] = 'Send mass email message to all your members or a level group.';
+$lang['MassEmailRecipients'] = 'Recipients';
+$lang['MassEmailRecipients-admins'] = 'Administrators';
+$lang['MassEmailRecipients-mods'] = 'Moderators';
+$lang['MassEmailRecipients-members'] = 'Normal members';
+$lang['MassEmailSubject'] = 'Subject';
+$lang['MassEmailBody'] = 'Body';
+$lang['MassEmailTemplate'] = 'Hello,
+
+This is the forum software of [board_name] speaking. The administrator has sent this mass email message via our board. The message body follows.
+
+[board_name]
+[board_link]
+[admin_email]
+
+-----
+
+[body]';
+$lang['MassEmailSent'] = 'The mass email message has been sent to %d members.';
+$lang['MassEmailOptions'] = 'Options';
+$lang['MassEmailPublicEmailsOnly'] = 'Only send to public email addresses';
+$lang['MassEmailExcludeBanned'] = 'Exclude banned members';
 
 ?>

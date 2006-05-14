@@ -228,7 +228,7 @@ $lang['ConfigBoard-enable_registration_log-info'] = 'Writes a registration log i
 $lang['ConfigBoard-registration_log_file'] = 'Registration log file';
 $lang['ConfigBoard-registration_log_file-info'] = 'Relative to the forum\'s directory, or absolute path.';
 $lang['ConfigBoard-enable_email_dns_check'] = 'Enable email address DNS checking';
-$lang['ConfigBoard-enable_email_dns_check-info'] = 'Validates by looking for MX records. This may not work on all valid domains! (Does not work on Windows servers.)';
+$lang['ConfigBoard-enable_email_dns_check-info'] = 'Validates by looking for MX records. This may not work on all valid domains.';
 $lang['ConfigBoard-edit_post_timeout'] = 'Edit post timeout';
 $lang['ConfigBoard-edit_post_timeout-info'] = 'A user is only allowed to edit his posts within x seconds after posting.';
 

@@ -224,7 +224,7 @@ $lang['ConfigBoard-enable_registration_log-info'] = 'Schrijft een registratielog
 $lang['ConfigBoard-registration_log_file'] = 'Registratielogbestand';
 $lang['ConfigBoard-registration_log_file-info'] = 'Relatief t.o.v. de map van het forum, of een absoluut pad.';
 $lang['ConfigBoard-enable_email_dns_check'] = 'E-mailadres DNS-controle inschakelen';
-$lang['ConfigBoard-enable_email_dns_check-info'] = 'Valideert e-mailadressen door MX-records op te zoeken. Dit werkt mogelijk niet op alle domeinen! (Werkt niet op Windows-servers.)';
+$lang['ConfigBoard-enable_email_dns_check-info'] = 'Valideert e-mailadressen door MX-records op te zoeken. Dit werkt mogelijk niet op alle domeinen.';
 $lang['ConfigBoard-edit_post_timeout'] = 'Bericht bewerken-timeout';
 $lang['ConfigBoard-edit_post_timeout-info'] = 'Een gebruiker kan zijn berichten bewerken binnen x seconden na het posten.';
 

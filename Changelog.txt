@@ -7,6 +7,7 @@ UseBB 1.0 RC1 Changelog
 	- Member pruning.
 	- Badword filter controls.
 	- Mass email feature.
+	- Banning management.
 - Added rProtect security features:
 	- Automatic DNSBL powered IP banning.
 	- Registration logging.

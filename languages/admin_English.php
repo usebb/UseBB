@@ -35,27 +35,29 @@ $lang['AdminPasswordExplain'] = 'For security reasons, you must enter your accou
 $lang['RunningBadACPModule'] = 'UseBB can not run this module because one or more aspects are missing (no $usebb_module object found and/or missing run_module() object method).';
 
 $lang['Category-main'] = 'General';
+$lang['Category-forums'] = 'Forums';
+$lang['Category-various'] = 'Various';
+$lang['Category-members'] = 'Members';
+$lang['Category-pruning'] = 'Pruning';
+$lang['Category-security'] = 'Security';
 $lang['Item-index'] = 'ACP Index';
 $lang['Item-version'] = 'Version Check';
 $lang['Item-config'] = 'General Configuration';
-$lang['Category-forums'] = 'Forums';
 $lang['Item-categories'] = 'Manage Categories';
 $lang['Item-forums'] = 'Manage Forums';
-$lang['Category-various'] = 'Various';
 $lang['Item-iplookup'] = 'IP Address Lookup';
 $lang['Item-sqltoolbox'] = 'SQL Toolbox';
 $lang['Item-modules'] = 'ACP Modules';
-$lang['Category-members'] = 'Members';
 $lang['Item-members'] = 'Edit Members';
 $lang['Item-delete_members'] = 'Delete Members';
 $lang['Item-register_members'] = 'Register Members';
 $lang['Item-activate_members'] = 'Activate Members';
 $lang['Item-prune_forums'] = 'Prune Forums';
 $lang['Item-prune_members'] = 'Prune Members';
-$lang['Category-pruning'] = 'Pruning';
 $lang['Item-dnsbl'] = 'DNSBL Bans';
 $lang['Item-badwords'] = 'Badwords Filter';
 $lang['Item-mass_email'] = 'Mass Email';
+$lang['Item-bans'] = 'Banning Management';
 
 $lang['IndexWelcome'] = 'Welcome to the Admin Control Panel of your UseBB forum. From here you can control all aspects of your board, setting the configuration, control forums, members, etc.';
 $lang['IndexSystemInfo'] = 'System Info';
@@ -401,7 +403,8 @@ $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'One IP address or hostname per line (* and ? can be used as wildcards).';
 
 $lang['BadwordsInfo'] = 'Badwords can be filtered or replaced, eventually using partial matching (using *).';
-$lang['BadwordsDisabled'] = 'Badwords filter has been disabled in the board configuration.';
+$lang['BadwordsDisabled'] = 'Badwords filter disabled';
+$lang['BadwordsDisabledInfo'] = 'Badwords filter has been disabled in the board configuration.';
 $lang['BadwordsNoBadwordsExist'] = 'No filters exist at this forum.';
 $lang['BadwordsAddBadwordWord'] = 'Word';
 $lang['BadwordsAddBadwordReplacement'] = 'Replacement';
@@ -428,5 +431,15 @@ $lang['MassEmailSent'] = 'The mass email message has been sent to %d members.';
 $lang['MassEmailOptions'] = 'Options';
 $lang['MassEmailPublicEmailsOnly'] = 'Only send to public email addresses';
 $lang['MassEmailExcludeBanned'] = 'Exclude banned members';
+
+$lang['BansInfo'] = 'Here you can control almost all banning aspects of your forum. Partial matching (using *) is possible. Individual accounts can be banned via the edit member pane.';
+$lang['Bans-username'] = 'Usernames';
+$lang['Bans-email'] = 'E-mail addresses';
+$lang['Bans-ip_addr'] = 'IP addresses';
+$lang['BansUsername'] = 'Username';
+$lang['BansEmail'] = 'E-mail address';
+$lang['BansIp_addr'] = 'IP address';
+$lang['BansNoBansExist'] = 'No bans of this type exist at this forum.';
+$lang['BansIPBansDisabledInfo'] = 'IP address banning has been disabled in the board configuration.';
 
 ?>

@@ -85,14 +85,15 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 			
 		}
 		
-		$content .= '<tr><td><input type="text" name="word" id="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
+		$content .= '<tr><td><input type="text" name="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 		$content .= '</table></form>';
 		
 	}
 	
 } else {
 	
-	$content = '<p>'.$lang['BadwordsDisabled'].'</p>';
+	$content = '<h2>'.$lang['BadwordsDisabled'].'</h2>';
+	$content .= '<p>'.$lang['BadwordsDisabledInfo'].'</p>';
 	
 }
 

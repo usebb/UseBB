@@ -87,11 +87,14 @@ class admin_functions {
 			'prune_forums',
 			'prune_members',
 		),
+		'security' => array(
+			'bans',
+			'dnsbl',
+			'badwords',
+		),
 		'various' => array(
 			'mass_email',
-			'badwords',
 			'iplookup',
-			'dnsbl',
 			'sqltoolbox',
 			'modules',
 		),

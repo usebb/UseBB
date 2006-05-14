@@ -47,6 +47,7 @@ UseBB 1.0 RC1 Changelog
 - Fixed 'Field x doesn't have a default value' error on strict MySQL.
 - Fixed bug that used admin's settings for new users registered in ACP.
 - Removed obsolete hide_undefined_config_setting_warnings setting.
+- Removed warning on unwanted output.
 - New session management, saving up to 3 queries per request.
 - Automatically login after activation.
 - Changed ACP config to contain many additional info.

@@ -402,8 +402,7 @@ class template {
 			$this->body = $functions->compress_sourcecode($this->body);
 		
 		$unwanted_output = ob_get_contents();
-		if ( !empty($unwanted_output) )
-			trigger_error('Unwanted output was triggered. Please do not use echo(), print(), or any other statements that produce direct output, but use $template->add_raw_content() instead.', E_USER_ERROR);
+		unset($unwanted_output);
 		ob_end_clean();
 		
 		echo trim($this->body);

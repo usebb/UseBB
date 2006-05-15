@@ -73,7 +73,7 @@ $lang['IndexNoUnactiveMembers'] = 'There are no members awaiting admin activatio
 $lang['IndexOneUnactiveMember'] = 'There is one member awaiting admin activation.';
 $lang['IndexMoreUnactiveMembers'] = 'There are %d members awaiting admin activation.';
 $lang['IndexWarning'] = 'Warning!';
-$lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. This might break ACP modules or modifications. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation on it. Contact your host in case of problems.';
+$lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. This is not recommended. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation (0777) on it. Contact your host in case of problems.';
 
 $lang['VersionFailed'] = 'The forum could not determine the latest version (%s disabled). Please often check %s to make sure you have the latest one.';
 $lang['VersionLatestVersionTitle'] = 'This is the latest version';

@@ -275,9 +275,12 @@ class functions {
 		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
 		
 		if ( $errtype == 'SQL_ERROR' )
-			$error = ( $this->get_config('debug') >= 2 ) ? substr($error, 5) : 'Fatal SQL error!';
+			$error = substr($error, 5);
 		
 		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
+		
+		if ( preg_match('#^mysql#', $error) && $this->get_config('debug') < 2 )
+			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -290,7 +293,7 @@ class functions {
 				font-size: 10pt;
 			}
 			h1 {
-				color: #336699;
+				color: #369;
 			}
 			blockquote {
 				width: 55%;
@@ -329,11 +332,7 @@ class functions {
 				if ( $this->get_config('debug') >= 2 ) {
 					
 					$html_msg .= '
-			<p>SQL query causing the error (<strong>sensitive information</strong>):</p><p><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
-					
-					if ( preg_match("#^Table '.+' doesn't exist#", $error) )
-						$html_msg .= '
-			<p><strong>Note:</strong> It seems like there are missing tables. Did you already install UseBB properly? See the docs/INSTALL document. Also check the table prefix set in config.php.</p>';
+			<p>SQL query causing the error:</p><p><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
 					
 				} elseif ( is_array($this->board_config) ) {
 					
@@ -347,9 +346,28 @@ class functions {
 		}
 		
 		$html_msg .= '
-		</blockquote>
+		</blockquote>';
+		
+		//
+		// Installation note if
+		// - mysql*() error "Access denied for user"
+		// - sql error "Table 'x' doesn't exist" or "Access denied for user"
+		//
+		if ( ( preg_match('#^mysql#i', $error) && preg_match("#Access denied for user#i", $error) ) ||
+		( $errtype == 'SQL_ERROR' && preg_match("#(Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
+			
+			$html_msg .= '
+		<p>It seems UseBB is not installed yet. If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>';
+			
+		} else {
+			
+			$html_msg .= '
 		<p>This error should probably not have occured, so please report it to the webmaster. Thank you for your help.</p>
-		<p>If you are the webmaster of this board and you believe this is a bug, please send a bug report.</p>
+		<p>If you are the webmaster of this board and you believe this is a bug, please send a bug report.</p>';
+			
+		}
+		
+	$html_msg .= '
 	</body>
 </html>';
 		

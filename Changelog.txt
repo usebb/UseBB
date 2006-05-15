@@ -69,6 +69,7 @@ UseBB 1.0 RC1 Changelog
 - Hide "Moderators: Nobody".
 - Updated docs files and added HTML readme file.
 - Removed UseBB version in footer for security.
+- Changed SQL error notices to better indicate installation.
 - Various template improvements.
 - <label for="..."> replaced by nesting <label> tags.
 

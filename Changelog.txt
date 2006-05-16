@@ -3,7 +3,8 @@ $Header$
 UseBB 1.0 RC2 Changelog
 ------------------------------
 
-- Fixed XSS issue with member list search.
+- Fixed SQL injection issue with member list search.
+- Fixed minor XSS issue with user date format.
 
 UseBB 1.0 RC1 Changelog
 ------------------------------

@@ -826,7 +826,7 @@ class functions {
 		
 		global $lang;
 		
-		$format = ( !empty($format) ) ? $format : $this->get_config('date_format');
+		$format = ( !empty($format) ) ? $format : strip_tags($this->get_config('date_format'));
 		
 		if ( $keep_gmt )
 			$date = gmdate($format, $stamp);

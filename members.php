@@ -70,7 +70,6 @@ if ( empty($_GET['act']) ) {
 		//
 		$sort_items = array('displayed_name', 'real_name', 'level', 'rank', 'regdate', 'posts');
 		$sort_orders = array('asc', 'desc');
-		$_GET['search'] = ( !empty($_GET['search']) ) ? unhtml(stripslashes($_GET['search'])) : '';
 		$_GET['sort_by'] = ( !empty($_GET['sort_by']) && in_array($_GET['sort_by'], $sort_items) ) ? $_GET['sort_by'] : 'regdate';
 		$_GET['order'] = ( !empty($_GET['order']) && in_array($_GET['order'], $sort_orders) ) ? $_GET['order'] : 'asc';
 		
@@ -78,7 +77,7 @@ if ( empty($_GET['act']) ) {
 		// Construct sort form
 		//
 		$sort_by_links = '<form action="'.$functions->make_url('members.php', NULL, true, true, true).'" method="get">';
-			$sort_by_links .= $lang['Search'].': <input type="text" name="search" value="'.$_GET['search'].'" size="10" maxlength="255" /> ';
+			$sort_by_links .= $lang['Search'].': <input type="text" name="search" value="'.unhtml(stripslashes($_GET['search'])).'" size="10" maxlength="255" /> ';
 			$sort_by_links .= $lang['SortBy'].': <select name="sort_by">';
 			foreach ( $sort_items as $sort_item ) {
 				

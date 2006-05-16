@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0 RC2 Changelog
+------------------------------
+
+- Fixed XSS issue with member list search.
+
 UseBB 1.0 RC1 Changelog
 ------------------------------
 

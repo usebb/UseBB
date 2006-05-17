@@ -83,6 +83,8 @@ function slash_trim_global($global) {
  */
 function unhtml($string) {
 	
+	global $lang;
+	
 	//
 	// If the character encoding isn't UTF-8, only keep valid ASCII characters:
 	// all characters between 31 and 128, except tab, new line and carriage return

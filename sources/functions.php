@@ -244,6 +244,8 @@ class functions {
 			);
 			if ( in_array($error, $ignore_warnings) )
 				return;
+			if ( preg_match("#Implicit cloning object of class '.+' because of 'zend\.ze1_compatibility_mode'#", $error) )
+				return;
 			
 		}
 		

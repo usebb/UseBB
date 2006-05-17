@@ -5,6 +5,7 @@ UseBB 1.0 RC2 Changelog
 
 - Fixed SQL injection issue with member list search.
 - Fixed minor XSS issue with user date format.
+- Fixed bug Undefined index: post_time on deleting post.
 
 UseBB 1.0 RC1 Changelog
 ------------------------------

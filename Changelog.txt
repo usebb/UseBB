@@ -7,6 +7,7 @@ UseBB 1.0 RC2 Changelog
 - Fixed minor XSS issue with user date format.
 - Fixed bug Undefined index: post_time on deleting post.
 - Fixed Dutch translation errors.
+- Various template improvements.
 
 UseBB 1.0 RC1 Changelog
 ------------------------------

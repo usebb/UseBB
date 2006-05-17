@@ -42,7 +42,7 @@ $templates['header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
 		<language>{language_code}</language>
 		<pubDate>{pubDate}</pubDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
-		<generator>UseBB {usebb_version}</generator>
+		<generator>UseBB</generator>
 ';
 
 $templates['topic'] = '

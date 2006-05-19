@@ -530,7 +530,7 @@ if (
 		$content .= '<li><a href="#'.$section_name.'" onclick="acp_config_toggle(\''.$section_name.'\');return false;">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
 	$content .= '</ul>';
 	
-	$template->set_js_onload('acp_config_toggle()');
+	$template->set_js_onload("acp_config_toggle('general')");
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">';
 	

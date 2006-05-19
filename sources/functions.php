@@ -1643,9 +1643,9 @@ class functions {
 				"#([\s][".$ignore_chars."]*?)(www\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([".$ignore_chars_url_end."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
-				'\\1<a href="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
-				'\\1<a href="http://\\2">\\2</a>\\3',
-				'\\1<a href="mailto:\\2">\\2</a>\\4'
+				'\\1<a href="\\2" title="\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+				'\\1<a href="http://\\2" title="http://\\2">\\2</a>\\3',
+				'\\1<a href="mailto:\\2" title="\\2">\\2</a>\\4'
 			), $string);
 			
 			//
@@ -1663,17 +1663,17 @@ class functions {
 				// [img]image[/img]
 					"#\[img\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/img\]#is" => '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />',
 				// www.usebb.net
-					"#([\s])(www\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="http://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+					"#([\s])(www\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="http://\\2" title="http://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				// ftp.usebb.net
-					"#([\s])(ftp\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="ftp://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
+					"#([\s])(ftp\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)([\s])#is" => '\\1<a href="ftp://\\2" title="ftp://\\2"'.$target_blank.$rel_nofollow.'>\\2</a>\\3',
 				// [url]http://www.usebb.net[/url]
-					"#\[url\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
+					"#\[url\]([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$target_blank.$rel_nofollow.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]
-					"#\[url=([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\](.*?)\[/url\]#is" => '<a href="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
+					"#\[url=([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\](.*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$target_blank.$rel_nofollow.'>\\2</a>',
 				// [mailto]somebody@nonexistent.com[/mailto]
-					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1">\\1</a>',
+					"#\[mailto\]([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1" title="\\1">\\1</a>',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]
-					"#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1">\\3</a>',
+					"#\[mailto=([a-z0-9&\-_.]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1" title="\\1">\\3</a>',
 				// [color=red]text[/color]
 					"#\[color=([\#a-z0-9]+)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
 				// [size=999]too big text[/size]

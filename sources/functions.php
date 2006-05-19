@@ -85,25 +85,22 @@ function unhtml($string) {
 	
 	global $lang;
 	
+	$string = preg_replace(array('#&#', '#&amp;\#([0-9]+)#', '#&\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207)#', '#<#', '#>#', '#"#', '#&\#?[a-z0-9]+$#'), array('&amp;', '&#\\1', '&amp;#\\1', '&lt;', '&gt;', '&quot;', ''), $string);
+	
 	//
 	// If the character encoding isn't UTF-8, only keep valid ASCII characters:
 	// all characters between 31 and 128, except tab, new line and carriage return
 	//
-	if ( strtolower($lang['character_encoding']) != 'utf-8' ) {
-		
-		$new_string = '';
-		for ( $i = 0; $i < strlen($string); $i++ ) {
-			
-			$ascii_value = ord($string[$i]);
-			if ( ( $ascii_value > 31 && $ascii_value < 128 ) || in_array($ascii_value, array(9, 10, 13)) )
-				$new_string .= $string[$i];
-			
-		}
-		$string = $new_string;
-		
-	}
+	if ( strtolower($lang['character_encoding']) == 'utf-8' )
+		return $string;
 	
-	return preg_replace(array('#&#', '#&amp;\#([0-9]+)#', '#&\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207)#', '#<#', '#>#', '#"#', '#&\#?[a-z0-9]+$#'), array('&amp;', '&#\\1', '&amp;#\\1', '&lt;', '&gt;', '&quot;', ''), $string);
+	$ascii = range(0, 31);
+	unset($ascii[9], $ascii[10], $ascii[13]);
+	$ascii_replace = array();
+	foreach ( $ascii as $val )
+		$ascii_replace[chr($val)] = '';
+	
+	return strtr($string, $ascii_replace);
 	
 }
 

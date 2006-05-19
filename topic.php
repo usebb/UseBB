@@ -389,7 +389,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'poster_rank' => $poster_rank,
 					'poster_avatar' => $avatar,
 					'posts' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Posts'].': '.$postsdata['posts'] : '',
-					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M y') : '',
+					'registered' => ( !empty($postsdata['poster_id']) && !$functions->get_config('hide_userinfo') ) ? $lang['Registered'].': '.$functions->make_date($postsdata['regdate'], 'M Y') : '',
 					'location' => ( !empty($postsdata['poster_id']) && !empty($postsdata['location']) && !$functions->get_config('hide_userinfo') ) ? $lang['Location'].': '.unhtml(stripslashes($postsdata['location'])) : '',
 					'topic_title' => $post_topic_title,
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'" rel="nofollow">#'.$i.'</a>'.$new_post_anchor,

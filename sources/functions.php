@@ -1607,7 +1607,34 @@ class functions {
 			$rel_nofollow = ( $this->get_config('rel_nofollow') ) ? ' rel="nofollow"' : '';
 			
 			//
-			// Parse URL's and e-mail addresses
+			// Parse quote tags
+			//
+			
+			// whitespace cleanup
+			while ( preg_match("#\[quote(=.*?)?\](\s+.*?)\[/quote\]#is", $string, $matches) )
+				$string = str_replace($matches[2], trim($matches[2]), $string);
+			while ( preg_match("#\[quote(=.*?)?\](.*?\s+)\[/quote\]#is", $string, $matches) )
+				$string = str_replace($matches[2], trim($matches[2]), $string);
+			
+			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
+				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
+			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
+				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+			
+			//
+			// Parse code tags
+			//
+			preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
+			foreach ( $matches[1] as $oldpart ) {
+				
+				$newpart = preg_replace(array('#<img src="[^"]+" alt="([^"]+)" />#', "#\n#", "#\r#"), array('\\1', '<br />', ''), $oldpart); // replace smiley image tags
+				$string = str_replace('[code]'.$oldpart.'[/code]', '[code]'.$newpart.'[/code]', $string);
+				
+			}
+			$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
+			
+			//
+			// Parse URL's and e-mail addresses enclosed in special characters
 			//
 			$ignore_chars = "^a-z0-9"; # warning, rawly included in regex!
 			$ignore_chars_url_end = "^a-z0-9/"; # to include trailing /
@@ -1662,30 +1689,6 @@ class functions {
 			//
 			foreach ( $regexps as $find => $replace )
 				$string = preg_replace($find, $replace, $string);
-			
-			//
-			// Now parse quote tags
-			//
-			while ( preg_match("#\[quote(=.*?)?\](\s+.*?)\[/quote\]#is", $string, $matches) )
-				$string = str_replace($matches[2], trim($matches[2]), $string);
-			while ( preg_match("#\[quote(=.*?)?\](.*?\s+)\[/quote\]#is", $string, $matches) )
-				$string = str_replace($matches[2], trim($matches[2]), $string);
-			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
-				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
-			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
-				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
-			
-			//
-			// Parse code tags
-			//
-			preg_match_all("#\[code\](.*?)\[/code\]#is", $string, $matches);				
-			foreach ( $matches[1] as $oldpart ) {
-				
-				$newpart = preg_replace(array('#<img src="[^"]+" alt="([^"]+)" />#', "#\n#", "#\r#"), array('\\1', '<br />', ''), $oldpart);
-				$string = str_replace('[code]'.$oldpart.'[/code]', '[code]'.$newpart.'[/code]', $string);
-				
-			}
-			$string = preg_replace("#\[code\](.*?)\[/code\]#is", sprintf($template->get_config('code_format'), '\\1'), $string);
 			
 		}
 		

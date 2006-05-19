@@ -153,3 +153,22 @@ function insert_table(name) {
 	insert_tags(name, '');
 	
 }
+
+//
+// Toggle ACP general configuration panels
+//
+function acp_config_toggle(panel) {
+	
+	var panels = document.getElementsByTagName('div');
+	
+	for ( var i = 0; i < panels.length; i++ ) {
+		
+		if ( panels[i].className == 'adminconfigtablecell' )
+			panels[i].style.display = 'none';
+		
+	}
+	
+	if ( panel != null )
+		document.getElementById(panel).style.display = 'block';
+	
+}

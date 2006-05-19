@@ -527,8 +527,10 @@ if (
 	//
 	$content .= '<ul id="adminfunctionsmenu">';
 	foreach ( $sections as $section_name => $null )
-		$content .= '<li><a href="#'.$section_name.'">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
+		$content .= '<li><a href="#'.$section_name.'" onclick="acp_config_toggle(\''.$section_name.'\');return false;">'.$lang['ConfigBoardSection-'.$section_name].'</a></li> ';
 	$content .= '</ul>';
+	
+	$template->set_js_onload('acp_config_toggle()');
 	
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'config')).'" method="post">';
 	
@@ -537,8 +539,8 @@ if (
 	//
 	foreach ( $sections as $section_name => $parts ) {
 		
-		$content .= '<table class="adminconfigtable" id="'.$section_name.'">';
-		$content .= '<tr><th colspan="2"><div class="adminconfignavlinks"><a href="#adminconfigtop">'.$lang['Top'].'</a>'.$template->get_config('item_delimiter').'<a href="#adminconfigsubmit">'.$lang['Bottom'].'</a></div> '.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
+		$content .= '<div class="adminconfigtablecell" id="'.$section_name.'"><table class="adminconfigtable">';
+		$content .= '<tr><th colspan="2">'.$lang['ConfigBoardSection-'.$section_name].'</th></tr>';
 		
 		if ( !empty($lang['ConfigBoardSection-'.$section_name.'-info']) )
 			$content .= '<tr><td colspan="2">'.$lang['ConfigBoardSection-'.$section_name.'-info'].'</td></tr>';
@@ -550,7 +552,7 @@ if (
 			
 		}
 		
-		$content .= '</table>';
+		$content .= '</table></div>';
 		
 	}
 	

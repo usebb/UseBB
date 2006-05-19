@@ -78,6 +78,7 @@ class template {
 	var $requests = array();
 	var $global_vars = array();
 	var $raw_contents = array();
+	var $js_onload = array();
 	var $body = '';
 	/**#@-*/
 	
@@ -240,9 +241,7 @@ class template {
 	 */
 	function set_js_onload($statement) {
 		
-		$this->add_global_vars(array(
-			'js_onload' => ' onload="javascript:'.$statement.'"'
-		), true);
+		$this->js_onload[] = $statement;
 		
 	}
 	
@@ -345,7 +344,7 @@ class template {
 			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
 			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
 			'acp_css_head_link' => ( !defined('IS_INSTALLER') && $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
-			'js_onload' => ''
+			'js_onload' => ( count($this->js_onload) ) ? ' onload="javascript:'.join(';', $this->js_onload).'"' : ''
 		));
 		
 		//

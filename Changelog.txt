@@ -11,6 +11,7 @@ UseBB 1.0 RC2 Changelog
 - Fixed notice Implicit cloning (zend.ze1_compatibility_mode).
 - Fixed Dutch translation errors.
 - BBCode URLs now contain title attributes.
+- ACP general configuration Javascript navigable.
 - Various template improvements.
 
 UseBB 1.0 RC1 Changelog

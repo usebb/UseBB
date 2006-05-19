@@ -139,15 +139,6 @@ h1#admintitle {
 .adminconfigtable th {
 	border-left: 5px solid silver;
 }
-.adminconfigtable th .adminconfignavlinks {
-	float: right;
-	font-weight: normal;
-	color: #666;
-	font-size: 7pt;
-}
-.adminconfigtable th .adminconfignavlinks a {
-	text-decoration: none;
-}
 .adminconfigtable td, #adminregulartable td {
 	padding: 6px;
 	text-align: left;

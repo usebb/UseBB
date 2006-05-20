@@ -10,7 +10,7 @@ DirectoryIndex index.php
 	RewriteRule ^panel-(login|logout|register|sendpwd|editprofile|editoptions|editpwd|subscriptions)\.html?[\.,;\-]?$ panel.php?act=$1
 	RewriteRule ^panel-al(0|1)\.html?[\.,;\-]?$ panel.php?al=$1
 	RewriteRule ^panel-activate-([0-9]+)-([0-9a-zA-Z]+)\.html?[\.,;\-]?$ panel.php?act=activate&id=$1&key=$2
-	RewriteRule ^panel-markallasread\.html? panel.php?do=markallasread
+	RewriteRule ^panel-markallasread\.html?[\.,;\-]?$ panel.php?do=markallasread
 	RewriteRule ^(forum|topic|profile|mail)-([0-9]+)\.html?[\.,;\-]?$ $1.php?id=$2
 	RewriteRule ^(forum|topic)-([0-9]+)-([0-9]+)\.html?[\.,;\-]?$ $1.php?id=$2&page=$3
 	RewriteRule ^topic-([0-9]+)-((un)?subscribe)\.html?[\.,;\-]?$ topic.php?id=$1&act=$2

@@ -92,7 +92,7 @@ $conf['dnsbl_powered_banning_whitelist'] = array (  0 => '127.0.0.1',  1 => '*.g
 $conf['dst'] = 0;
 $conf['edit_post_timeout'] = 300;
 $conf['email_view_level'] = 1;
-$conf['enable_acp_modules'] = 1;
+$conf['enable_acp_modules'] = 0;
 $conf['enable_badwords_filter'] = 0;
 $conf['enable_contactadmin'] = 1;
 $conf['enable_detailed_online_list'] = 1;

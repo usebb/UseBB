@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0 RC3 Changelog
+------------------------------
+
+- Fixed bug in BBCode parsing removing whitespace in quote.
+
 UseBB 1.0 RC2 Changelog
 ------------------------------
 

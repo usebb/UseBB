@@ -1609,17 +1609,12 @@ class functions {
 			//
 			// Parse quote tags
 			//
-			
-			// whitespace cleanup
-			while ( preg_match("#\[quote(=.*?)?\](\s+.*?)\[/quote\]#is", $string, $matches) )
-				$string = str_replace($matches[2], trim($matches[2]), $string);
-			while ( preg_match("#\[quote(=.*?)?\](.*?\s+)\[/quote\]#is", $string, $matches) )
-				$string = str_replace($matches[2], trim($matches[2]), $string);
-			
-			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string) )
-				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], '\\1'), $string);
-			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string) )
-				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], '\\1'), '\\2'), $string);
+			$matches = array();
+			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string, $matches) )
+				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], trim($matches[1])), $string);
+			$matches = array();
+			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string, $matches) )
+				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), trim($matches[2])), $string);
 			
 			//
 			// Parse code tags

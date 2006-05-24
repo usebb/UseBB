@@ -59,7 +59,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN )
 //
 // Don't show these is they cannot be accessed after all
 //
-if ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed') && ( $functions->get_config('guests_can_access_board') || $functions->get_user_level() != LEVEL_GUEST ) ) {
+if ( ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed') && ( $functions->get_config('guests_can_access_board') || $functions->get_user_level() != LEVEL_GUEST ) ) || $functions->get_user_level() == LEVEL_ADMIN  ) {
 	
 	//
 	// Member list

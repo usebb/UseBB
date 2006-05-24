@@ -99,11 +99,12 @@ class db {
 	 * @param bool $return_error Return error instead of giving general error
 	 * @returns mixed SQL result resource or SQL error (only when $return_error is true)
 	 */
-	function query($query, $return_error=false) {
+	function query($query, $return_error=false, $log=true) {
 		
 		global $functions;
 		
-		$this->queries[] = preg_replace('#\s+#', ' ', $query);
+		if ( $log )
+			$this->queries[] = preg_replace('#\s+#', ' ', $query);
 		$result = @mysql_query($query, $this->connection) or $error = mysql_error($this->connection);
 		if ( isset($error) ) {
 			
@@ -123,7 +124,7 @@ class db {
 	 * @param resource $result SQL query resource
 	 * @returns array Array containing one result
 	 */
-	function fetch_result($result) {
+	function fetch_result(&$result) {
 		
 		return mysql_fetch_array($result, MYSQL_ASSOC);
 		
@@ -135,7 +136,7 @@ class db {
 	 * @param resource $result SQL query resource
 	 * @returns int Number of result rows
 	 */
-	function num_rows($result) {
+	function num_rows(&$result) {
 		
 		return mysql_num_rows($result);
 		

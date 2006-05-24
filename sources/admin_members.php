@@ -319,7 +319,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['PublicEmail'].'</td><td><label><input type="checkbox" name="email_show" value="1"'.$email_show_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['PublicLastLogin'].'</td><td><label><input type="checkbox" name="last_login_show" value="1"'.$last_login_show_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['HideFromOnlineList'].'</td><td><label><input type="checkbox" name="hide_from_online_list" value="1"'.$hide_from_online_list_checked.' /> '.$lang['Yes'].'</label></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['DateFormat'].'</td><td><input type="text" name="date_format" size="25" maxlength="255" value="'.$_POST['date_format'].'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['DateFormat'].'</td><td><input type="text" name="date_format" size="25" maxlength="255" value="'.unhtml(stripslashes($_POST['date_format'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Timezone'].'</td><td>'.$timezone_input.'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['DST'].'</td><td><label><input type="checkbox" name="dst" value="1"'.$dst_checked.' /> '.$lang['Enabled'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['QuickReply'].'</td><td><label><input type="checkbox" name="quickreply" value="1"'.$quickreply_checked.' /> '.$lang['Enabled'].'</label></td></tr>';

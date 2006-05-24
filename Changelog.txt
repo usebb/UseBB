@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0 RC3 Changelog
 ------------------------------
 
+- Fixed minor XSS issue in ACP's edit member feature.
 - Fixed bug in BBCode parsing removing whitespace in quote.
 - Minor changes in db_* to disable query log for convertors.
 

@@ -6,6 +6,7 @@ UseBB 1.0 RC3 Changelog
 - Fixed minor XSS issue in ACP's edit member feature.
 - Fixed bug in BBCode parsing removing whitespace in quote.
 - Fixed bug where feature links were hidden for admins when closed.
+- Fixed bug where board name was not unhtml'ed in footer.
 - Minor changes in db_* to disable query log for convertors.
 
 UseBB 1.0 RC2 Changelog

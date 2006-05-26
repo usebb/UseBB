@@ -2015,7 +2015,8 @@ class functions {
 			
 			$found_load = false;
 			$file = '/proc/loadavg';
-			if ( file_exists($file) && is_readable($file) ) {
+			$open_basedir = ini_get('open_basedir');
+			if ( ( empty($open_basedir) || strpos($open_basedir, '/proc') !== false ) && file_exists($file) && is_readable($file) ) {
 				
 				$fh = fopen($file, 'r');
 				$out = fread($fh, 1024);

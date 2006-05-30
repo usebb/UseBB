@@ -255,6 +255,7 @@ $lang['ForumsNoForumsExist'] = 'This board does not contain any forums yet.';
 $lang['ForumsForumName'] = 'Forum name';
 $lang['ForumsCatName'] = 'Parent category';
 $lang['ForumsDescription'] = 'Description';
+$lang['ForumsDescriptionExplain'] = 'This is a HTML enabled field. If you want to use special characters, make sure to use their respective HTML entities (for example &amp;amp; instead of &amp;).';
 $lang['ForumsStatus'] = 'Status';
 $lang['ForumsStatusOpen'] = 'Open';
 $lang['ForumsAutoLock'] = 'Auto lock';

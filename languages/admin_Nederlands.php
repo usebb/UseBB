@@ -255,6 +255,7 @@ $lang['ForumsNoForumsExist'] = 'Dit forum bevat nog geen fora.';
 $lang['ForumsForumName'] = 'Forumnaam';
 $lang['ForumsCatName'] = 'Bovenliggende categorie';
 $lang['ForumsDescription'] = 'Omschrijving';
+$lang['ForumsDescriptionExplain'] = 'Dit is een HTML-veld. Indien je speciale karakters wenst te gebruiken, vervang deze dan door de juiste HTML-entiteiten (bvb. &amp;amp; i.p.v. &amp;).';
 $lang['ForumsStatus'] = 'Status';
 $lang['ForumsStatusOpen'] = 'Open';
 $lang['ForumsAutoLock'] = 'Automatisch sluiten';

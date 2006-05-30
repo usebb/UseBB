@@ -9,6 +9,7 @@ UseBB 1.0 RC3 Changelog
 - Fixed bug where feature links were hidden for admins when closed.
 - Fixed bug where board name was not unhtml'ed in footer.
 - Minor changes in db_* to disable query log for convertors.
+- Added HTML enabled field notice for forum description.
 
 UseBB 1.0 RC2 Changelog
 ------------------------------

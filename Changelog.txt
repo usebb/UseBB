@@ -10,6 +10,7 @@ UseBB 1.0 RC3 Changelog
 - Fixed bug where board name was not unhtml'ed in footer.
 - Minor changes in db_* to disable query log for convertors.
 - Added HTML enabled field notice for forum description.
+- Added disable XHTML content-type config setting.
 
 UseBB 1.0 RC2 Changelog
 ------------------------------

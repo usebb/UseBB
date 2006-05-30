@@ -85,6 +85,7 @@ $conf['date_format'] = 'D M d, Y g:i a';
 $conf['debug'] = 0;
 $conf['disable_registrations'] = 0;
 $conf['disable_registrations_reason'] = 'No new users allowed at this time.';
+$conf['disable_xhtml_header'] = 1;
 $conf['dnsbl_powered_banning_min_hits'] = 2;
 $conf['dnsbl_powered_banning_recheck_minutes'] = 0;
 $conf['dnsbl_powered_banning_servers'] = array ();

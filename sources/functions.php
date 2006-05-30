@@ -506,6 +506,7 @@ class functions {
 					case 'guests_can_see_contact_info':
 					case 'show_raw_entities_in_code':
 					case 'show_never_activated_members':
+					case 'disable_xhtml_header':
 						$set_to = true;
 						break;
 					

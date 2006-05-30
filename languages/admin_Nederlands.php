@@ -231,6 +231,8 @@ $lang['ConfigBoard-enable_email_dns_check'] = 'E-mailadres DNS-controle inschake
 $lang['ConfigBoard-enable_email_dns_check-info'] = 'Valideert e-mailadressen door MX-records op te zoeken. Dit werkt mogelijk niet op alle domeinen.';
 $lang['ConfigBoard-edit_post_timeout'] = 'Bericht bewerken-timeout';
 $lang['ConfigBoard-edit_post_timeout-info'] = 'Een gebruiker kan zijn berichten bewerken binnen x seconden na het posten.';
+$lang['ConfigBoard-disable_xhtml_header'] = 'XHTML-header voor XHTML-templates uitschakelen';
+$lang['ConfigBoard-disable_xhtml_header-info'] = 'Een XHTML Content-Type kan alleen gebruikt worden wanneer de inhoud 100% welgevormd is. Dit is altijd uitgeschakeld voor niet-XHTML browsers.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

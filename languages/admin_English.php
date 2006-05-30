@@ -231,6 +231,8 @@ $lang['ConfigBoard-enable_email_dns_check'] = 'Enable email address DNS checking
 $lang['ConfigBoard-enable_email_dns_check-info'] = 'Validates by looking for MX records. This may not work on all valid domains.';
 $lang['ConfigBoard-edit_post_timeout'] = 'Edit post timeout';
 $lang['ConfigBoard-edit_post_timeout-info'] = 'A user is only allowed to edit his posts within x seconds after posting.';
+$lang['ConfigBoard-disable_xhtml_header'] = 'Disable XHTML header for XHTML templates.';
+$lang['ConfigBoard-disable_xhtml_header-info'] = 'An XHTML Content-Type can only be used when the content is 100% well-formed. This is always disabled for non-XHTML browsers.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

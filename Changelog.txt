@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0 Changelog
+------------------------------
+
+- Removed \n with each <br />.
+
 UseBB 1.0 RC3 Changelog
 ------------------------------
 

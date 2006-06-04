@@ -1690,7 +1690,7 @@ class functions {
 		
 		if ( !$html ) {
 			
-			$string = str_replace("\n", "<br />\n", $string);
+			$string = str_replace("\n", "<br />", $string);
 			$string = str_replace("\r", "", $string);
 			
 		}

@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0 Changelog
 ------------------------------
 
+- Reworked notice/error ignore code (fixes bug #1161).
 - Removed \n with each <br />.
 
 UseBB 1.0 RC3 Changelog

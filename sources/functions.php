@@ -251,31 +251,31 @@ class functions {
 		global $db, $dbs, $template;
 		
 		//
-		// Don't show various errors on PHP5
-		//
-		if ( intval(substr(phpversion(), 0, 1)) > 4 ) {
-			
-			$ignore_warnings = array(
-				'var: Deprecated. Please use the public/private/protected modifiers',
-				'Trying to get property of non-object'
-			);
-			if ( in_array($error, $ignore_warnings) )
-				return;
-			if ( preg_match("#Implicit cloning object of class '.+' because of 'zend\.ze1_compatibility_mode'#", $error) )
-				return;
-			
-		}
-		
-		//
-		// Ignore these warnings
+		// Ignore various warnings:
+		//  - ini_set() and ini_get() disabled
+		//  - exec() disabled
+		//  - var: Deprecated (PHP 5)
+		//  - property of non-object (bug(?) in some old PHP 5 version)
+		//  - zend.ze1_compatibility_mode notice
+		//  - errors regarding /proc/loadavg
 		//
 		$ignore_warnings = array(
 			'ini_set() has been disabled for security reasons',
 			'ini_get() has been disabled for security reasons',
 			'exec() has been disabled for security reasons'
 		);
-		if ( in_array($error, $ignore_warnings) )
+		if ( version_compare(phpversion(), '5.0.0', '>=') ) {
+			
+			$ignore_warnings[] = 'var: Deprecated. Please use the public/private/protected modifiers';
+			$ignore_warnings[] = 'Trying to get property of non-object';
+			
+		}
+		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg)#', $error) )
 			return;
+		
+		//
+		// Error processing...
+		//
 		
 		$errtypes = array(
 			1 => 'E_ERROR',
@@ -2016,8 +2016,7 @@ class functions {
 			
 			$found_load = false;
 			$file = '/proc/loadavg';
-			$open_basedir = ini_get('open_basedir');
-			if ( ( empty($open_basedir) || strpos($open_basedir, '/proc') !== false ) && file_exists($file) && is_readable($file) ) {
+			if ( file_exists($file) && is_readable($file) ) {
 				
 				$fh = fopen($file, 'r');
 				$out = fread($fh, 1024);

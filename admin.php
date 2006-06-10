@@ -70,7 +70,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	} elseif ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] ) {
 		
 		require(ROOT_PATH.'sources/functions_admin.php');
-		$admin_functions = &new admin_functions;
+		$admin_functions = new admin_functions;
 		
 		//
 		// Include page

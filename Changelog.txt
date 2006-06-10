@@ -5,7 +5,8 @@ UseBB 1.0 Changelog
 
 - Fixed bug #1169: include single quote in IMG and URL BBCode.
 - Reworked notice/error ignore code (fixes bug #1161).
-- Removed \n with each <br />.
+- Removed \n with each <br /> for BBCode.
+- Removed &new in admin.php, fixing various strange server errors.
 
 UseBB 1.0 RC3 Changelog
 ------------------------------

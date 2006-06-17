@@ -7,6 +7,7 @@ UseBB 1.0 Changelog
 - Reworked notice/error ignore code (fixes bug #1161).
 - Removed \n with each <br /> for BBCode.
 - Removed &new in admin.php, fixing various strange server errors.
+- Small template improvements.
 
 UseBB 1.0 RC3 Changelog
 ------------------------------

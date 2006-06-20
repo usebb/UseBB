@@ -403,6 +403,12 @@ class session {
 					$user_data = $this->get_user_data($cookie_data[0]);
 					$user_id = ( $cookie_data[1] === $user_data['passwd'] && $this->check_user($user_data) ) ? $cookie_data[0] : 0;
 					
+					//
+					// Unset cookie when credentials are invalid
+					//
+					if ( !$user_id )
+						$functions->unset_al();
+					
 				} else {
 					
 					//

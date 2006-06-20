@@ -149,6 +149,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 						'author_date' => sprintf($lang['AuthorDate'], $last_post_author, $functions->make_date($topicdata['last_post_time'])),
 						'by_author' => sprintf($lang['ByAuthor'], $last_post_author),
 						'on_date' => sprintf($lang['OnDate'], $functions->make_date($topicdata['last_post_time'])),
+						'lp_author' => $last_post_author,
+						'lp_date' => $functions->make_date($topicdata['last_post_time']),
 						'last_post_url' => $functions->make_url('topic.php', array('post' => $topicdata['last_post_id'])).'#post'.$topicdata['last_post_id']
 					));
 					

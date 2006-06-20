@@ -267,7 +267,7 @@ class template {
 		// application/xhtml+xml check
 		// Sends as text/html when browser does not support XHTML or XHTML header is disabled
 		//
-		$this->content_type = ( $this->content_type == 'application/xhtml+xml' && ( empty($_SERVER['HTTP_ACCEPT']) || strstr($_SERVER['HTTP_ACCEPT'], $this->content_type) === false ) || $functions->get_config('disable_xhtml_header') ) ? 'text/html' : $this->content_type;
+		$this->content_type = ( preg_match('#^application/(xhtml\+)?xml$#i', $this->content_type) && ( empty($_SERVER['HTTP_ACCEPT']) || strstr($_SERVER['HTTP_ACCEPT'], $this->content_type) === false ) || $functions->get_config('disable_xhtml_header') ) ? 'text/html' : $this->content_type;
 		
 		//
 		// Set content type and charset

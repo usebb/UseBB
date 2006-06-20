@@ -9,6 +9,7 @@ UseBB 1.0 Changelog
 - Removed \n with each <br /> for BBCode.
 - Removed &new in admin.php, fixing various strange server errors.
 - Unset auto login cookie when data is invalid.
+- Also recognize application/xml as XHTML templates.
 - Small template improvements.
 
 UseBB 1.0 RC3 Changelog

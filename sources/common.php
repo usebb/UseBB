@@ -83,8 +83,17 @@ $_SERVER['PHP_SELF'] = str_replace(array('<', '>'), array('%3C', '%3E'), $_SERVE
 if ( empty($_SERVER['REQUEST_URI']) ) {
 	
 	$_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'];
-	if ( !empty($_SERVER['QUERY_STRING']) )
-		$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+	$_SERVER['REQUEST_URI'] .= ( !empty($_SERVER['QUERY_STRING']) ) ? '?'.$_SERVER['QUERY_STRING'] : '';
+	
+}
+
+//
+// Fix unavailable $_SERVER['HTTP_HOST']
+//
+if ( empty($_SERVER['HTTP_HOST']) ) {
+	
+	$_SERVER['HTTP_HOST'] = ( !empty($_SERVER['SERVER_NAME']) ) ? $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_ADDR'];
+	$_SERVER['HTTP_HOST'] .= ( !empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 ) ? $_SERVER['SERVER_PORT'] : '';
 	
 }
 

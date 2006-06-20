@@ -59,7 +59,11 @@ $templates['notopics'] = '
 $templates['topic'] = '
 		<tr>
 			<td class="icon"><img src="{img_dir}{topic_icon}" alt="{topic_status}" /></td>
-			<td><div class="topicname">{topic_name}</div><div class="topicpagelinks">{topic_page_links}</div><div class="author">&mdash; {author}</div></td>
+			<td>
+				<div class="topicpagelinks">{topic_page_links}</div>
+				<div class="topicname">{topic_name}</div>
+				<div class="author">&mdash; {author}</div>
+			</td>
 			<td class="count">{replies}</td>
 			<td class="count">{views}</td>
 			<td class="lastpostinfo">{by_author} <a href="{last_post_url}" rel="nofollow">&gt;&gt;</a><div>{on_date}</div></td>

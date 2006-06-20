@@ -159,5 +159,6 @@ $conf['view_memberlist_min_level'] = 1;
 $conf['view_search_min_level'] = 0;
 $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 1;
+$conf['installer_run'] = 1;
 
 ?>

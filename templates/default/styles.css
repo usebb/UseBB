@@ -395,12 +395,13 @@ table.maintable td.stats-cell {
 }
 .topicname {
 	font-size: 9pt;
-	float: left;
 }
 .topicpagelinks {
-	display: block;
+	float: right;
 	text-align: right;
 	color: #444;
+	white-space: pre;
+	padding: 0 0 0 10px;
 }
 #toolbarbottom {
 	float: right;

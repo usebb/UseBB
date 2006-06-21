@@ -484,7 +484,7 @@ class functions {
 						break;
 					
 					case 'cookie_domain':
-						$set_to = ( !empty($_SERVER['SERVER_NAME']) ) ? $_SERVER['SERVER_NAME'] : '';
+						$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
 						break;
 					
 					case 'cookie_path':

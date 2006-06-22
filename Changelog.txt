@@ -12,6 +12,7 @@ UseBB 1.0 Changelog
 - Unset auto login cookie when data is invalid.
 - Also recognize application/xml as XHTML templates.
 - Added {lp_author} and {lp_date} for listing templates.
+- Fix some wrong config settings in config.php.
 - Small template improvements.
 
 UseBB 1.0 RC3 Changelog

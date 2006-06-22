@@ -555,6 +555,17 @@ class functions {
 				//
 				$this->board_config[$setting] = $set_to;
 				
+			} elseif ( is_array($this->board_config) && array_key_exists($setting, $this->board_config) ) {
+				
+				//
+				// Fix crappy settings
+				//
+				if ( $setting == 'board_url' && !preg_match('#/$#', $this->board_config[$setting]) )
+					$this->board_config[$setting] .= '/';
+				if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $this->board_config[$setting]) || preg_match('#^[0-9]+$#', $this->board_config[$setting]) ) )
+					$this->board_config[$setting] = 'usebb';
+					
+				
 			}
 			
 			//

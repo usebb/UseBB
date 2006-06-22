@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0 Changelog
 ------------------------------
 
+- Fixed bug #1190: wrong mbstring usage (patch by Tadashi Jokagi).
 - Fixed bug #1169: include single quote in IMG and URL BBCode.
 - Fixed bug with undefined $_SERVER['HTTP_HOST'].
 - Reworked notice/error ignore code (fixes bug #1161).

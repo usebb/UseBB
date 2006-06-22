@@ -129,9 +129,21 @@ function entities_rtrim($string, $length) {
 	$new_length = $pos = 0;
 	$entity_open = false;
 	
-	while ( $pos < strlen($string) && ( $new_length < $length || $entity_open ) ) {
+    if ( function_exists('mb_language') && mb_language() != 'neutral') {
+    	
+        $strlen = 'mb_strlen';
+        $substr = 'mb_substr';
+        
+    } else {
+    	
+        $strlen = 'strlen';
+        $substr = 'substr';
+        
+    }
+    
+	while ( $pos < $strlen($string) && ( $new_length < $length || $entity_open ) ) {
 		
-		$char = $string[$pos];
+		$char = $substr($string, $pos, 1);
 		
 		if ( $char == '&' ) {
 			
@@ -241,6 +253,7 @@ class functions {
 	var $available = array('templates' => array(), 'languages' => array());
 	var $db_tables = array();
 	var $server_load;
+	var $is_mbstring;
 	/**#@-*/
 	
 	/**
@@ -788,11 +801,32 @@ class functions {
 				
 				if ( function_exists('mb_internal_encoding') ) {
 					
+					//  setting mbstring.
 					if ( $lang['character_encoding'] == 'iso-8859-8-i' )
-						mb_internal_encoding('iso-8859-8');
+						$mb_internal_encoding = 'iso-8859-8';
 					else
-						mb_internal_encoding($lang['character_encoding']);
+						$mb_internal_encoding = $lang['character_encoding'];
+
+					$is_mb_language = @mb_language($language);
+					$is_mb_internal_encoding = @mb_internal_encoding($lang['character_encoding']);
 					
+					if ( $is_mb_language !== FALSE || $is_mb_internal_encoding !== FALSE) {
+						
+						$this->is_mbstring = TRUE;
+						
+					} else {
+						 
+						//  mbstring can not be used, it resets then.
+						mb_language('neutral');
+						mb_internal_encoding('ISO-8859-1');
+						
+					}
+
+					//  reset other parameters.
+					ini_set('mbstring.http_input', 'pass');
+					ini_set('mbstring.http_output', 'pass');
+					ini_set('mbstring.func_overload', 0);
+					ini_set('mbstring.substitute_character', 'none');
 				}
 				
 			}
@@ -987,6 +1021,8 @@ class functions {
 		
 		$bodyvars = ( is_array($bodyvars) ) ? $bodyvars : array();
 		
+		$is_enable_mbstring = function_exists('mb_language') && mb_language() != 'neutral';
+
 		//
 		// Eventually use the right language and character encoding which may be passed
 		// in the parameters when another language is used (e.g. subscription notices)
@@ -995,16 +1031,16 @@ class functions {
 		$charset = ( !empty($charset) ) ? $charset : $lang['character_encoding'];
 		
 		//
-		// Set the correct mb_language when neccessary (only for Japanese, English or UTF-8)
+		// Set the correct mb_language when neccessary (when mbstring enabled)
 		//
-		if ( function_exists('mb_language') ) {
+		$is_mbstring = FALSE;
+		if ( $this->is_mbstring ) {
 			
-			if ( in_array($language, array('Japanese', 'ja', 'English', 'en')) )
-				mb_language($language);
-			elseif ( strtolower($charset) == 'utf-8' )
-				mb_language('uni');
-			else
-				mb_language('en');
+			$backup_mb_language = mb_language();
+			$backup_mb_internal_encoding = mb_internal_encoding();
+			
+			if ( @mb_language($language) !== FALSE && @mb_internal_encoding($charset) !== FALSE )
+				$is_mbstring = TRUE;
 			
 		}
 		
@@ -1025,52 +1061,42 @@ class functions {
 		
 		$headers = array();
 		
-		if ( function_exists('mb_encode_mimeheader') ) {
+		if ( $is_mbstring && function_exists('mb_encode_mimeheader') ) {
 			
 			$from_name = mb_encode_mimeheader($from_name);
-			$subject = mb_encode_mimeheader($subject);
 			
 		}
 		
-		$headers[] = 'MIME-Version: 1.0';
 		if ( !empty($bcc_email) )
 			$headers[] = 'Bcc: '.$bcc_email;
 		$headers[] = 'Date: '.date('r');
+		$headers[] = 'Message-Id: '.sprintf("<%s.%s>", substr(md5(time()), 4, 10), $from_email);
 		$headers[] = 'X-Mailer: UseBB';
 		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
 		
-		if ( function_exists('mb_send_mail') ) {
+		if ( $is_mbstring && function_exists('mb_send_mail')) {
 			
 			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers)) )
 				trigger_error('Unable to send e-mail!', E_USER_ERROR);
 			
 		} else {
 			
+			$headers[] = 'MIME-Version: 1.0';
 			if ( strtolower($charset) == 'utf-8' )
 				$headers[] = 'Content-Transfer-Encoding: 8bit';
-			
+				
 			if ( !mail($to, $subject, $body, join($cr, $headers)) )
 				trigger_error('Unable to send e-mail!', E_USER_ERROR);
 			
 		}
 		
 		//
-		// Reset to board's default language
+		// Restored language and character encoding.
 		//
-		$board_default_lang = $this->get_config('language');
-		if ( $language != $board_default_lang && function_exists('mb_language') ) {
+		if ( $this->is_mbstring ) {
 			
-			if ( in_array($board_default_lang, array('Japanese', 'ja', 'English', 'en')) )
-				mb_language($board_default_lang);
-			elseif ( strtolower($board_default_lang) == 'utf-8' )
-				mb_language('uni');
-			else
-				mb_language('en');
-			
-			if ( $lang['character_encoding'] == 'iso-8859-8-i' )
-				mb_internal_encoding('iso-8859-8');
-			else
-				mb_internal_encoding($lang['character_encoding']);
+			mb_language($backup_mb_language);
+			mb_internal_encoding($backup_mb_internal_encoding);
 			
 		}
 		

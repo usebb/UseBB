@@ -99,7 +99,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	}
 	$content .= '</ul>';
 	
-	$result = $db->query("SELECT id, name, regdate, active_key, last_login FROM ".TABLE_PREFIX."members WHERE ".$query_where_part);
+	$result = $db->query("SELECT id, name, regdate, active_key, last_login FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY regdate ASC");
 	$unactivated = array();
 	while ( $userinfo = $db->fetch_result($result) )
 		$unactivated[] = $userinfo;

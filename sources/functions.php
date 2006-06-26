@@ -271,6 +271,7 @@ class functions {
 		//  - property of non-object (bug(?) in some old PHP 5 version)
 		//  - zend.ze1_compatibility_mode notice
 		//  - errors regarding /proc/loadavg
+		//  - errors regarding unknown languages for mb_language()
 		//
 		$ignore_warnings = array(
 			'ini_set() has been disabled for security reasons',
@@ -283,7 +284,7 @@ class functions {
 			$ignore_warnings[] = 'Trying to get property of non-object';
 			
 		}
-		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg)#', $error) )
+		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg|mb_language)#', $error) )
 			return;
 		
 		//
@@ -813,13 +814,10 @@ class functions {
 				if ( function_exists('mb_internal_encoding') ) {
 					
 					//  setting mbstring.
-					if ( $lang['character_encoding'] == 'iso-8859-8-i' )
-						$mb_internal_encoding = 'iso-8859-8';
-					else
-						$mb_internal_encoding = $lang['character_encoding'];
+					$mb_internal_encoding = ( $lang['character_encoding'] == 'iso-8859-8-i' ) ? 'iso-8859-8' : $lang['character_encoding'];
 
 					$is_mb_language = @mb_language($language);
-					$is_mb_internal_encoding = @mb_internal_encoding($lang['character_encoding']);
+					$is_mb_internal_encoding = @mb_internal_encoding($mb_internal_encoding);
 					
 					if ( $is_mb_language !== FALSE || $is_mb_internal_encoding !== FALSE) {
 						
@@ -1032,7 +1030,7 @@ class functions {
 		
 		$bodyvars = ( is_array($bodyvars) ) ? $bodyvars : array();
 		
-		$is_enable_mbstring = function_exists('mb_language') && mb_language() != 'neutral';
+		$is_enable_mbstring = ( function_exists('mb_language') && mb_language() != 'neutral' );
 
 		//
 		// Eventually use the right language and character encoding which may be passed

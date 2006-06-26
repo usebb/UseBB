@@ -14,6 +14,7 @@ UseBB 1.0 Changelog
 - Added {lp_author} and {lp_date} for listing templates.
 - Fix some wrong config settings in config.php.
 - Order usernames by registration date in Activate Members.
+- Disable BCC to own address on own mail form.
 - Small template improvements.
 
 UseBB 1.0 RC3 Changelog

@@ -71,6 +71,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 			// This user wants to send an email to himself, so we don't need a new query
 			//
 			$own_mailpage = true;
+			$user_to_mail = $session->sess_info['user_info'];
 			
 		} else {
 			
@@ -85,9 +86,6 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 		}
 		
 		if ( $own_mailpage || $user_to_mail['id'] ) {
-			
-			if ( $own_mailpage )
-				$user_to_mail = $session->sess_info['user_info'];
 			
 			if ( !$user_to_mail['email_show'] && $functions->get_user_level() < $functions->get_config('view_hidden_email_addresses_min_level') && !$own_mailpage ) {
 				
@@ -112,7 +110,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					// All information is passed, now send the mail
 					//
-					$bcc_email = ( !empty($_POST['bcc']) ) ? $session->sess_info['user_info']['email'] : '';
+					$bcc_email = ( !empty($_POST['bcc']) && !$own_mailpage ) ? $session->sess_info['user_info']['email'] : '';
 					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
 						'username' => stripslashes($session->sess_info['user_info']['displayed_name']),
 						'body' => $_POST['body']
@@ -148,8 +146,6 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 							
 						}
 						
-						
-						
 					}
 					
 					//
@@ -157,7 +153,8 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					$_POST['subject'] = ( !empty($_POST['subject']) ) ? unhtml($_POST['subject']) : '';
 					$_POST['body'] = ( !empty($_POST['body']) ) ? unhtml($_POST['body']) : '';
-					$bcc_checked = ( !empty($_POST['bcc']) ) ? ' checked="checked"' : '';
+					$bcc_checked = ( !empty($_POST['bcc']) && !$own_mailpage ) ? ' checked="checked"' : '';
+					$bcc_disabled = ( $own_mailpage ) ? ' disabled="disabled"' : '';
 					
 					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
@@ -166,7 +163,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>',
 						'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
-						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.' /> '.$lang['BCCMyself'].'</label>',
+						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.$bcc_disabled.' /> '.$lang['BCCMyself'].'</label>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 						'form_end' => '</form>'

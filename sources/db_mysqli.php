@@ -77,6 +77,8 @@ class db {
 	 */
 	function connect($config) {
 		
+		global $functions;
+		
 		if ( defined('NO_DB') )
 			return;
 		
@@ -89,6 +91,12 @@ class db {
 		// Select database
 		//
 		@mysqli_select_db($this->connection, $config['dbname']) or trigger_error('SQL: '.mysqli_error($this->connection), E_USER_ERROR);
+		
+		//
+		// Set transaction to latin1
+		//
+		if ( $functions->get_config('force_latin1_db', true) )
+			$this->query("SET NAMES latin1", true, false);
 		
 	}
 	

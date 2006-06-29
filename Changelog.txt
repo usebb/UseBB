@@ -15,6 +15,7 @@ UseBB 1.0 Changelog
 - Fix some wrong config settings in config.php.
 - Order usernames by registration date in Activate Members.
 - Disable BCC to own address on own mail form.
+- Database configuration is now hidden in ACP by default.
 - Small template improvements.
 
 UseBB 1.0 RC3 Changelog

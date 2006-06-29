@@ -49,9 +49,13 @@ if ( !defined('INCLUDED') )
 $filled_in = true;
 $missing = array();
 $necessary_settings = array(
-	'strings' => array('type', 'server', 'username', 'dbname', 'admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
+	'strings' => array('admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
 	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
+
+if ( !$functions->get_config('hide_db_config_acp') )
+	$necessary_settings = array_merge($necessary_settings, array('type', 'server', 'username', 'dbname'));
+
 foreach ( $necessary_settings['strings'] as $key ) {
 	
 	if ( empty($_POST['conf-'.$key]) ) {
@@ -78,7 +82,10 @@ foreach ( $necessary_settings['integers'] as $key ) {
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_email_dns_check', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'show_never_activated_members', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
-$optional_strings = array('passwd', 'prefix', 'board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file');
+$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file');
+
+if ( !$functions->get_config('hide_db_config_acp') )
+	$optional_strings = array_merge($optional_strings, array('passwd', 'prefix'));
 
 if (
 	$filled_in && // checks necessary strings and integers
@@ -300,16 +307,11 @@ if (
 			'username_min_length',
 			'username_max_length',
 			'passwd_min_length',
-		),
-		'database' => array(
-			'type',
-			'server',
-			'username',
-			'passwd',
-			'dbname',
-			'prefix'
 		)
 	);
+	
+	if ( !$functions->get_config('hide_db_config_acp') )
+		$sections['database'] = array('type', 'server', 'username', 'passwd', 'dbname', 'prefix');
 	
 	//
 	// These are all the current config settings
@@ -382,11 +384,15 @@ if (
 	//
 	// Database config
 	//
-	foreach ( $dbs as $key => $val ) {
+	if ( !$functions->get_config('hide_db_config_acp') ) {
 		
-		$_POST['conf-'.$key] = ( !empty($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
-		$required = ( in_array($key, $necessary_settings['strings']) ) ? ' <small>*</small>' : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].$required.'</td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+		foreach ( $dbs as $key => $val ) {
+			
+			$_POST['conf-'.$key] = ( !empty($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
+			$required = ( in_array($key, $necessary_settings['strings']) ) ? ' <small>*</small>' : '';
+			$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].$required.'</td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+			
+		}
 		
 	}
 	

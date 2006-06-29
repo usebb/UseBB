@@ -521,6 +521,7 @@ class functions {
 					case 'show_raw_entities_in_code':
 					case 'show_never_activated_members':
 					case 'disable_xhtml_header':
+					case 'hide_db_config_acp':
 						$set_to = true;
 						break;
 					

@@ -398,7 +398,7 @@ class session {
 				//
 				$cookie_data = $functions->get_al();
 				
-				if ( !empty($cookie_data[0]) && valid_int($cookie_data[0]) && !empty($cookie_data[1]) && strlen($cookie_data[1]) == 32 ) {
+				if ( is_array($cookie_data) && !empty($cookie_data[0]) && valid_int($cookie_data[0]) && !empty($cookie_data[1]) && strlen($cookie_data[1]) == 32 ) {
 					
 					$user_data = $this->get_user_data($cookie_data[0]);
 					$user_id = ( $cookie_data[1] === $user_data['passwd'] && $this->check_user($user_data) ) ? $cookie_data[0] : 0;

@@ -272,6 +272,7 @@ class functions {
 		//  - zend.ze1_compatibility_mode notice
 		//  - errors regarding /proc/loadavg
 		//  - errors regarding unknown languages for mb_language()
+		//  - errors regarding unserialize()
 		//
 		$ignore_warnings = array(
 			'ini_set() has been disabled for security reasons',
@@ -284,7 +285,7 @@ class functions {
 			$ignore_warnings[] = 'Trying to get property of non-object';
 			
 		}
-		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg|mb_language)#', $error) )
+		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
 			return;
 		
 		//
@@ -1133,7 +1134,10 @@ class functions {
 	 */
 	function unset_al() {
 		
-		setcookie($this->get_config('session_name').'_al', '', time()-31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		//
+		// We don't specify domain, path and secure so we can delete other auto login cookies too
+		//
+		setcookie($this->get_config('session_name').'_al', '', time()-1);
 		
 	}
 	

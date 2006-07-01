@@ -18,6 +18,7 @@ UseBB 1.0 Changelog
 - Disable BCC to own address on own mail form.
 - Database configuration is now hidden in ACP by default.
 - Added possibility to perform SET NAMES latin1 on connect for mysqli.
+- Take care of bad serialized auto login data in cookie.
 - Small template improvements.
 
 UseBB 1.0 RC3 Changelog

@@ -101,7 +101,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		$out = $db->fetch_result($result);
 		
 		if ( $out['post_in_topic'] )
-			$post_in_topic = $out['post_in_topic'];
+			$post_in_topic = $out['post_in_topic']+1;
 		
 		$requested_topic = $_GET['id'];
 		

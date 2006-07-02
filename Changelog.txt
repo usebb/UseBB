@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.1 Changelog
+------------------------------
+
+- Fixed bug making logging out with auto login present impossible.
+
 UseBB 1.0 Changelog
 ------------------------------
 

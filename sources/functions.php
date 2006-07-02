@@ -1134,10 +1134,7 @@ class functions {
 	 */
 	function unset_al() {
 		
-		//
-		// We don't specify domain, path and secure so we can delete other auto login cookies too
-		//
-		setcookie($this->get_config('session_name').'_al', '', time()-1);
+		setcookie($this->get_config('session_name').'_al', '', time()-1, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
 		
 	}
 	

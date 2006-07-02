@@ -4,6 +4,7 @@ UseBB 1.0.1 Changelog
 ------------------------------
 
 - Fixed bug making logging out with auto login present impossible.
+- Fixed bug not stripping slashes in mass email message.
 
 UseBB 1.0 Changelog
 ------------------------------

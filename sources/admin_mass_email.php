@@ -60,7 +60,7 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 	while ( $user_data = $db->fetch_result($result) )
 		$bcc_email[] = $user_data['email'];
 	
-	$functions->usebb_mail($_POST['subject'], $lang['MassEmailTemplate'], array('body' => $_POST['body']), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_email));
+	$functions->usebb_mail(stripslashes($_POST['subject']), $lang['MassEmailTemplate'], array('body' => stripslashes($_POST['body'])), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_email));
 	
 	$content = '<p>'.sprintf($lang['MassEmailSent'], count($bcc_email)).'</p>';
 	

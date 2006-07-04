@@ -379,7 +379,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 							'post_date' => $functions->make_date($postdata['post_time']),
 							'topic_title' => $topic_title,
 							'forum' => '<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($forum_names[$postdata['forum_id']])).'</a>',
-							'post_content' => unhtml(stripslashes($postdata['content'])),
+							'post_content' => unhtml($functions->bbcode_clear(stripslashes($postdata['content']))),
 						));
 						
 					}

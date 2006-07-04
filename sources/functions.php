@@ -1435,6 +1435,19 @@ class functions {
 	}
 	
 	/**
+	 * Removes BBCode
+	 *
+	 * @param string $string Text string to clean
+	 * @returns string Cleaned text
+	 */
+	function bbcode_clear($string) {
+		
+		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
+		return preg_replace('#\[/?('.join($existing_tags, '|').')[^\]]*\]#i', '', $string);
+		
+	}
+	
+	/**
 	 * Cleans up BBCode for parsing
 	 *
 	 * Automatically called from within ::markup.

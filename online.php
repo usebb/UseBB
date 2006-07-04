@@ -237,7 +237,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = $lang['LogIn'];
 				break;
 			case 'logout':
-				$location = $lang['LogOut'];
+				$location = sprintf($lang['LogOut'], '');
 				break;
 			case 'register':
 				$location = $lang['Register'];

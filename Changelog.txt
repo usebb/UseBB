@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.1 Changelog
 ------------------------------
 
+- Fixed bug #1208: unreplaced %s with Log Out on detailed online list.
 - Fixed bug making logging out with auto login present impossible.
 - Fixed bug not stripping slashes in mass email message.
 

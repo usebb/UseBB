@@ -172,3 +172,22 @@ function acp_config_toggle(panel) {
 		document.getElementById(panel).style.display = 'block';
 	
 }
+
+//
+// Standards compliant external windows
+//
+function init_external() {
+	
+	if ( !document.getElementsByTagName )
+		return;
+	
+	var anchors = document.getElementsByTagName('a');
+	for ( var i = 0; i < anchors.length; i++ ) {
+		
+		var anchor = anchors[i];
+		if ( anchor.getAttribute('href') && anchor.getAttribute('rel') && anchor.getAttribute('rel').match('external') )
+			anchor.target = '_blank';
+		
+	}
+	
+}

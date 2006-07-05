@@ -149,13 +149,13 @@ if ( empty($_POST['step']) ) {
 	
 	if ( !function_exists('version_compare') ) {
 		
-		echo '<p>We\'re sorry. UseBB does not work on the PHP version running on this server (PHP '.phpversion().'). You need at least <strong>4.1.0</strong>. Get a recent version from <a href="http://www.php.net/downloads.php" target="_blank">PHP.net</a>.</p>';
+		echo '<p>We\'re sorry. UseBB does not work on the PHP version running on this server (PHP '.phpversion().'). You need at least <strong>4.1.0</strong>. Get a recent version from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>';
 		
 	} else {
 		
 		echo '<p>First, upload UseBB 0.3 to the same location as 0.2.3, overwriting the old files. Then edit the database configuration values in <code>config.php</code>. Make sure the database settings match with those for your host. If in doubt, please contact your web host for information regarding accessing databases.</p>';
 		echo '<p><strong>Tip:</strong> if you already use MySQL 4.1, it might be interesting to set <code>$dbs[\'type\']</code> to <code>\'mysqli\'</code>. If you don\'t know which version you are running, leave the default value.</p>';
-		echo '<p><strong>Another tip:</strong> you might want to check <a href="http://usebb.sourceforge.net/docs/doku.php?id=configuration:config.php_guide" target="_blank">this document</a> out to change config.php.</p>';
+		echo '<p><strong>Another tip:</strong> you might want to check <a href="http://usebb.sourceforge.net/docs/doku.php?id=configuration:config.php_guide">this document</a> out to change config.php.</p>';
 		echo to_step(2);
 		
 	}
@@ -209,7 +209,7 @@ if ( empty($_POST['step']) ) {
 	} else {
 		
 		echo '<p>All SQL queries have been executed. Your board has now been updated to version 0.3. If the latest release is newer, you might need to run other wizards too. See the UPGRADE document. Otherwise, please delete the directory <code>install/</code> for security reasons. You can now go to <a href="../">your UseBB board</a> and continue using it.</p>';
-		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=configuration:administration_without_acp" target="_blank">this manual</a> to further set up your forum.</p>';
+		echo '<p><strong>Tip:</strong> you might want to use <a href="http://usebb.sourceforge.net/docs/doku.php?id=configuration:administration_without_acp">this manual</a> to further set up your forum.</p>';
 		echo '<p>Thanks for choosing UseBB! We wish you a lot of fun with your board!</p>';
 		
 	}

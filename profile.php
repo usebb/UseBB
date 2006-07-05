@@ -165,7 +165,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			else
 				$age = '';
 			
-			$target_blank = ( $functions->get_config('target_blank') ) ? ' target="_blank"' : '';
+			$target_blank = ( $functions->get_config('target_blank') ) ? ' rel="external"' : '';
 			
 			if ( $functions->get_user_level() == LEVEL_GUEST && !$functions->get_config('guests_can_see_contact_info') ) {
 				

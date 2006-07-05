@@ -48,6 +48,12 @@ if ( !defined('INCLUDED') )
 //
 $lang = $functions->fetch_language();
 
+//
+// Init external window Javascript
+//
+if ( $functions->get_config('target_blank') )
+	$template->set_js_onload('init_external()');
+
 $link_bar = array();
 
 //

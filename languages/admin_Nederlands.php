@@ -179,7 +179,6 @@ $lang['ConfigBoard-sig_max_length'] = 'Maximale lengte handtekening';
 $lang['ConfigBoard-single_forum_mode'] = 'Enkel forum-modus';
 $lang['ConfigBoard-single_forum_mode-info'] = 'Geef het enige zichtbare forum weer als forum-index.';
 $lang['ConfigBoard-target_blank'] = 'BBCode-links openen een nieuw venster';
-$lang['ConfigBoard-target_blank-info'] = 'Kan XHTML-validatie teniet doen!';
 $lang['ConfigBoard-activation_mode'] = 'Activatiemodus';
 $lang['ConfigBoard-activation_mode0'] = 'Geen activatie';
 $lang['ConfigBoard-activation_mode1'] = 'E-mailactivatie';

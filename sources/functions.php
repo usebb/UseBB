@@ -1284,7 +1284,7 @@ class functions {
 	}
 	
 	/**
-	 * Return a list of moderators, clickable and seperated with commas
+	 * Return a list of moderators, clickable and separated with commas
 	 *
 	 * @param int $forum Forum ID
 	 * @param array $listarray Array with all moderators (automatically requested when missing)

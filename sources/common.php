@@ -178,11 +178,11 @@ define('PWD_PREG', '#^[a-z0-9]+$#i');
 /**
  * Regular expression for matching URL's.
  */
-define('WEB_PREG', '#^[\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\']*?$#i');
+define('WEB_PREG', '#^[\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!]*?$#i');
 /**
  * Regular expression for matching image URL's.
  */
-define('IMG_PREG', '#^[\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\']*?$#i');
+define('IMG_PREG', '#^[\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!]*?$#i');
 /**
  * Level for admins.
  */

@@ -6,7 +6,7 @@ UseBB 1.0.1 Changelog
 - Fixed bug #1208: unreplaced %s with Log Out on detailed online list.
 - Fixed bug making logging out with auto login present impossible.
 - Fixed bug not stripping slashes in mass email message.
-- Fixed bug: include exclamation mark in IMG and URL BBCode.
+- Fixed bug: include exclamation mark and brackets in IMG and URL BBCode.
 - Fixed bug setting content type of RSS feed to text/html.
 - Strip BBCode from post preview on search results instead of showing them raw.
 - "Target blank" now works with JS instead of deprecated target attribute.

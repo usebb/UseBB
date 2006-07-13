@@ -435,7 +435,7 @@ if (
 		
 	}
 	$language_input .= '</select>';
-	$input['language'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'</td></tr>';
+	$input['language'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-language'].'</td><td>'.$language_input.'<div class="moreinfo">'.$lang['ConfigBoard-language-info'].'</div></td></tr>';
 	
 	//
 	// Template
@@ -448,7 +448,7 @@ if (
 		
 	}
 	$template_input .= '</select>';
-	$input['template'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'</td></tr>';
+	$input['template'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-template'].'</td><td>'.$template_input.'<div class="moreinfo">'.$lang['ConfigBoard-template-info'].'</div></td></tr>';
 	
 	//
 	// Debug

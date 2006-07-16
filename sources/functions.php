@@ -1664,12 +1664,13 @@ class functions {
 			//
 			// Parse quote tags
 			//
+			// Might seem a bit difficultly done, but trimming doesn't work the usual way
+			//
 			$matches = array();
 			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string, $matches) )
-				$string = preg_replace("#\[quote\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], trim($matches[1])), $string);
-			$matches = array();
+				$string = preg_replace("#\[quote\]".preg_quote($matches[1], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], trim($matches[1])), $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string, $matches) )
-				$string = preg_replace("#\[quote=(.*?)\](.*?)\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), trim($matches[2])), $string);
+				$string = preg_replace("#\[quote=".preg_quote($matches[1], '#')."\]".preg_quote($matches[2], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), trim($matches[2])), $string);
 			
 			//
 			// Parse code tags

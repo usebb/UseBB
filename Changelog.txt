@@ -12,6 +12,7 @@ UseBB 1.0.1 Changelog
 - Strip BBCode from post preview on search results instead of showing them raw.
 - "Target blank" now works with JS instead of deprecated target attribute.
 - Added info about default language and template in ACP general config.
+- Sample ACP modules are removed from the distribution.
 
 UseBB 1.0 Changelog
 ------------------------------

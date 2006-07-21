@@ -2064,27 +2064,42 @@ class functions {
 	 */
 	function get_server_load($which=1) {
 		
+		//
+		// Afaik, this does not exist at Windows
+		//
 		if ( strstr(PHP_OS, 'WIN') !== false )
 			return false;
 		
+		//
+		// Load has not been requested yet
+		//
 		if ( is_null($this->server_load) ) {
 			
 			$found_load = false;
+			
+			//
+			// First attempt: reading /proc/loadavg
+			//
 			$file = '/proc/loadavg';
 			if ( file_exists($file) && is_readable($file) ) {
 				
 				$fh = fopen($file, 'r');
-				$out = fread($fh, 1024);
-				fclose($fh);
 				
-				if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) ) {
+				if ( is_resource($fh) ) {
 					
-					$this->server_load = array(
-						(float)$match[1],
-						(float)$match[2],
-						(float)$match[3]
-					);
-					$found_load = true;
+					$out = fread($fh, 1024);
+					fclose($fh);
+					
+					if ( preg_match('#([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2}) ([0-9]+\.[0-9]{2})#', $out, $match) ) {
+						
+						$this->server_load = array(
+							(float)$match[1],
+							(float)$match[2],
+							(float)$match[3]
+						);
+						$found_load = true;
+						
+					}
 					
 				}
 				
@@ -2092,6 +2107,9 @@ class functions {
 			
 			if ( !$found_load ) {
 				
+				//
+				// Second attempt: executing uptime
+				//
 				$tmp = array();
 				$retval = 1;
 				$out = @exec('uptime', $tmp, $retval);

@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.2 Changelog
+------------------------------
+
+- Fixed bug with fread() error for server load on some servers.
+
 UseBB 1.0.1 Changelog
 ------------------------------
 

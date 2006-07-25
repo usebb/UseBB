@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.2 Changelog
 ------------------------------
 
+- Added possibility to use Reply-To header for user emails.
 - Fixed bug with fread() error for server load on some servers.
 
 UseBB 1.0.1 Changelog

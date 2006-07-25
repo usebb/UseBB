@@ -234,6 +234,8 @@ $lang['ConfigBoard-edit_post_timeout'] = 'Bericht bewerken-timeout';
 $lang['ConfigBoard-edit_post_timeout-info'] = 'Een gebruiker kan zijn berichten bewerken binnen x seconden na het posten.';
 $lang['ConfigBoard-disable_xhtml_header'] = 'XHTML-header voor XHTML-templates uitschakelen';
 $lang['ConfigBoard-disable_xhtml_header-info'] = 'Een XHTML Content-Type kan alleen gebruikt worden wanneer de inhoud 100% welgevormd is. Dit is altijd uitgeschakeld voor niet-XHTML browsers.';
+$lang['ConfigBoard-email_reply-to_header'] = 'Gebruik Reply-To-header';
+$lang['ConfigBoard-email_reply-to_header-info'] = 'Gebruik Reply-To in plaats van From voor gebruiker\'s e-mailadres (vereist op sommige hosts).';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

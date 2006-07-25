@@ -1083,7 +1083,21 @@ class functions {
 		$headers[] = 'Date: '.date('r');
 		$headers[] = 'Message-Id: '.sprintf("<%s.%s>", substr(md5(time()), 4, 10), $from_email);
 		$headers[] = 'X-Mailer: UseBB';
-		$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+		
+		//
+		// Fix for hosts that require From to be a domain name hosted on the same host
+		// So, instead we can use a Reply-To header to contain the sender email
+		//
+		if ( $from_email != $this->get_config('admin_email') && $this->get_config('email_reply-to_header') ) {
+			
+			$headers[] = 'From: '.$from_name.' <'.$this->get_config('admin_email').'>';
+			$headers[] = 'Reply-To: '.$from_email;
+			
+		} else {
+			
+			$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+			
+		}
 		
 		if ( $is_mbstring && function_exists('mb_send_mail')) {
 			

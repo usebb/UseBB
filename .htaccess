@@ -1,10 +1,19 @@
 # $Header$
 
+#
+# If you receive 500 Internal Server Errors, comment out the following lines.
+#
 Options -Indexes
 DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
+	
+	#
+	# Some hosts require this to be set to the root of your forum, uncomment it when needed.
+	#
+	#RewriteBase /UseBB/
+	
 	RewriteRule ^(index|panel|faq|search|active|online|members|rss|stats)\.html?[\.,;\-]?$ $1.php
 	RewriteRule ^index-([0-9]+)\.html?[\.,;\-]?$ index.php?cat=$1
 	RewriteRule ^panel-(login|logout|register|sendpwd|editprofile|editoptions|editpwd|subscriptions)\.html?[\.,;\-]?$ panel.php?act=$1

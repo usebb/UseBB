@@ -68,6 +68,11 @@ switch ( $out['count'] ) {
 	
 }
 
+if ( ( $server_load = $functions->get_server_load('all') ) == true )
+	$server_load = sprintf('%.2f, %.2f, %.2f', $server_load[0], $server_load[1], $server_load[2]);
+else	
+	$server_load = $lang['Unknown'];
+
 $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <ul>
 	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' (<a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a>)</li>
@@ -75,7 +80,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
 	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
 	<li>'.$lang['IndexOS'].': '.( ( array_key_exists('OS', $_ENV) ) ? $_ENV['OS'] : PHP_OS ).'</li>
-	'.( ( $functions->get_server_load() ) ? '<li>'.$lang['IndexServerLoad'].': '.join(', ', $functions->get_server_load('all')).'</li>' : '' ).'
+	<li>'.$lang['IndexServerLoad'].': '.$server_load.'</li>
 </ul>
 
 <h2>'.$lang['IndexLinks'].'</h2>

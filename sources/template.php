@@ -299,8 +299,8 @@ class template {
 			
 			$debug_info = array();
 			$debug_info[] = $lang['ParseTime'].': '.$parsetime.' s';
-			if ( $serverload = $functions->get_server_load() )
-				$debug_info[] = $lang['ServerLoad'].': '.$serverload;
+			if ( ( $server_load = $functions->get_server_load() ) == true )
+				$debug_info[] = $lang['ServerLoad'].': '.sprintf('%.2f', $server_load);
 			$debug_info[] = $lang['TemplateSections'].': '.count($this->loaded_sections);
 			$debug_info[] = $lang['SQLQueries'].': '.count($db->get_used_queries());
 			

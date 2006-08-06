@@ -2155,7 +2155,9 @@ class functions {
 			
 		}
 		
-		if ( $which == 'all' )
+		if ( !$this->server_load )
+			return false;
+		elseif ( $which == 'all' )
 			return $this->server_load;
 		elseif ( is_int($which) )
 			return $this->server_load[$which-1];

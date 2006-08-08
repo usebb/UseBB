@@ -2278,6 +2278,7 @@ class functions {
 	function birthday_input_fields($input) {
 		
 		global $lang;
+		$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
@@ -2297,7 +2298,8 @@ class functions {
 		for ( $i = 1; $i <= 12; $i++ ) {
 			
 			$selected = ( $birthday_month == $i ) ? ' selected="selected"' : '';
-			$birthday_month_input .= '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
+			$month_name = ( array_key_exists('date_translations', $lang) && is_array($lang['date_translations']) ) ? $lang['date_translations'][$months[$i-1]] : $months[$i-1];
+			$birthday_month_input .= '<option value="'.$i.'"'.$selected.'>'.$month_name.'</option>';
 			
 		}
 		$birthday_month_input .= '</select>';

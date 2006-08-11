@@ -167,7 +167,7 @@ if ( !$topicdata['id'] ) {
 			//
 			// This topic should be viewed
 			//
-			$_SESSION['viewed_topics'][$_GET['topic']] = time();
+			$_SESSION['viewed_topics']['t'.$_GET['topic']] = time();
 			$_SESSION['latest_post'] = time();
 			
 			if ( $functions->get_config('return_to_topic_after_posting') )

@@ -95,7 +95,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		
 	} elseif ( !empty($_GET['act']) && $_GET['act'] == 'getnewpost' ) {
 		
-		$previous_view = ( array_key_exists($_GET['id'], $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$_GET['id']] : $_SESSION['previous_visit'];
+		$previous_view = ( array_key_exists('t'.$_GET['id'], $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics']['t'.$_GET['id']] : $_SESSION['previous_visit'];
 		
 		$result = $db->query("SELECT COUNT(p.id) AS post_in_topic FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE t.id = ".$_GET['id']." AND t.id = p.topic_id AND p.post_time <= ".$previous_view." GROUP BY p.topic_id");
 		$out = $db->fetch_result($result);
@@ -256,7 +256,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 				if ( $session->sess_info['user_id'] ) {
 					
-					$previous_view = ( array_key_exists($requested_topic, $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'][$requested_topic] : $_SESSION['previous_visit'];
+					$previous_view = ( array_key_exists('t'.$requested_topic, $_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics']['t'.$requested_topic] : $_SESSION['previous_visit'];
 					
 					if ( !$new_post_anchor_set && $previous_view < $postsdata['post_time'] ) {
 						
@@ -478,7 +478,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 			}
 			
-			$_SESSION['viewed_topics'][$requested_topic] = time();
+			$_SESSION['viewed_topics']['t'.$requested_topic] = time();
 			
 		} else {
 			

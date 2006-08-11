@@ -260,7 +260,7 @@ class session {
 			// Developer note:
 			// This is a dirty way of getting rid of the session ID, but it is the only one,
 			// as PHP starts the session anyway when getting a session ID, and we are only
-			// working in top of it. Also we do not want to destroy the session itself.
+			// working on top of it. Also we do not want to destroy the session itself.
 			//
 			
 		}

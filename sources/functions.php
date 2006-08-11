@@ -2182,7 +2182,7 @@ class functions {
 			$this->updated_forums = array();
 			while ( $topicsdata = $db->fetch_result($result) ) {
 				
-				if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists($topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$topicsdata['id']] < $topicsdata['post_time'] ) )
+				if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists('t'.$topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics']['t'.$topicsdata['id']] < $topicsdata['post_time'] ) )
 					$this->updated_forums[] = $topicsdata['forum_id'];
 				
 			}
@@ -2235,7 +2235,7 @@ class functions {
 		
 		global $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists($id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics'][$id] < $post_time ) ) {
+		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists('t'.$id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics']['t'.$id] < $post_time ) ) {
 			
 			if ( !$locked ) {
 				

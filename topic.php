@@ -237,6 +237,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page'));
 			$new_post_anchor_set = false;
+			$post_editors = array();
 			
 			while ( $postsdata = $db->fetch_result($result) ) {
 				
@@ -361,14 +362,39 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				
 				if ( $postsdata['post_edit_time'] && ( $postsdata['post_edit_time'] > ( $postsdata['post_time'] + intval($functions->get_config('show_edited_message_timeout')) ) ) ) {
 					
+					//
+					// Show the post editor
+					//
 					if ( $postsdata['post_edit_by'] === $postsdata['poster_id'] ) {
 						
+						//
+						// Current poster
+						//
 						$editer_info = $postsdata;
+						
+					} elseif ( $postsdata['post_edit_by'] === $session->sess_info['user_id'] ) {
+						
+						//
+						// Yourself
+						//
+						$editer_info = array(
+							'poster_name' => $session->sess_info['user_info']['displayed_name'],
+							'poster_level' => $session->sess_info['user_info']['level']
+						);
 						
 					} else {
 						
-						$result2 = $db->query("SELECT displayed_name AS poster_name, level AS poster_level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by']);
-						$editer_info = $db->fetch_result($result2);
+						if ( !array_key_exists($postsdata['post_edit_by'], $post_editors) ) {
+							
+							//
+							// Store editors in an array
+							//
+							$result2 = $db->query("SELECT displayed_name AS poster_name, level AS poster_level FROM ".TABLE_PREFIX."members WHERE id = ".$postsdata['post_edit_by']);
+							$post_editors[$postsdata['post_edit_by']] = $db->fetch_result($result2);
+							
+						}
+						
+						$editer_info = $post_editors[$postsdata['post_edit_by']];
 						
 					}
 					

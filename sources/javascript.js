@@ -185,7 +185,7 @@ function init_external() {
 	for ( var i = 0; i < anchors.length; i++ ) {
 		
 		var anchor = anchors[i];
-		if ( anchor.getAttribute('href') && anchor.getAttribute('rel') && anchor.getAttribute('rel').match('external') )
+		if ( anchor.href && anchor.rel && (' '+anchor.rel+' ').indexOf(' external ') != -1 )
 			anchor.target = '_blank';
 		
 	}

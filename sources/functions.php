@@ -1474,7 +1474,7 @@ class functions {
 		$string = trim($string);
 		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
 		
-		$parts = array_reverse(preg_split('#(\[/?[^\]]+\])#', $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY));
+		$parts = array_reverse(preg_split('#(\[/?[^\] ]+\])#', $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY));
 		
 		$open_tags = $open_parameters = array();
 		$new_string = '';

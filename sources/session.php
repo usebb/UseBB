@@ -310,7 +310,7 @@ class session {
 						//
 						// This is an IP address
 						//
-						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[0-9]*', '[0-9]'), preg_quote($ip_host)).'$#', $ip_addr) ) {
+						if ( preg_match('#^'.str_replace(array('\*', '\?'), array('[0-9\.]*', '[0-9]'), preg_quote($ip_host)).'$#', $ip_addr) ) {
 							
 							$_SESSION['dnsbl_whitelisted'] = true;
 							break;

@@ -138,9 +138,9 @@ if ( $functions->get_config('disable_registrations') ) {
 		//
 		// Registration log file
 		//
-		if ( $functions->get_config('enable_registration_log') ) {
+		$log_file = $functions->get_config('registration_log_file');
+		if ( $functions->get_config('enable_registration_log') && !empty($log_file) ) {
 			
-			$log_file = $functions->get_config('registration_log_file');
 			if ( preg_match('#^[^/\.]#', $log_file) )
 				$log_file = ROOT_PATH.$log_file;
 			

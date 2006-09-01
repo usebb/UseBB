@@ -8,6 +8,7 @@ UseBB 1.0.2 Changelog
 - Fixed bug with fread() error for server load on some servers.
 - Fixed bug with partial IP address matching for DNSBL whitelist.
 - Performance improvements with less queries for post edit info.
+- Disable registration log when log file setting is empty.
 - Improvement/fix to external link JS, properly detect rel attribute value.
 - Display server load values always as float with 2 decimals.
 - Show month names in month selection box for the birthday profile field.

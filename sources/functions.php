@@ -95,7 +95,14 @@ function unhtml($string) {
 		return $string;
 	
 	$ascii = range(0, 31);
+	
+	//
+	// We perform this twice to protect unpatched PHP versions
+	// against the Zend_Hash_Del_Key_Or_Index vulnerability.
+	//
 	unset($ascii[9], $ascii[10], $ascii[13]);
+	unset($ascii[9], $ascii[10], $ascii[13]);
+	
 	$ascii_replace = array();
 	foreach ( $ascii as $val )
 		$ascii_replace[chr($val)] = '';

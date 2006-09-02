@@ -67,8 +67,16 @@ set_magic_quotes_runtime(1);
 
 if ( @ini_get('register_globals') ) {
 	
-	foreach ( $_REQUEST as $var_name => $null )
+	foreach ( $_REQUEST as $var_name => $null ) {
+		
+		//
+		// We perform this twice to protect unpatched PHP versions
+		// against the Zend_Hash_Del_Key_Or_Index vulnerability.
+		//
 		unset($$var_name);
+		unset($$var_name);
+		
+	}
 	
 }
 

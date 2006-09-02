@@ -4,6 +4,7 @@ UseBB 1.0.2 Changelog
 ------------------------------
 
 - Added possibility to use Reply-To header for user emails.
+- Added security fix for the PHP Zend_Hash_Del_Key_Or_Index vulnerability.
 - Fixed bug #1279: BBCode parsing bug within [ ... ].
 - Fixed bug with fread() error for server load on some servers.
 - Fixed bug with partial IP address matching for DNSBL whitelist.

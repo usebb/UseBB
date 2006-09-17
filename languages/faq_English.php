@@ -72,7 +72,7 @@ $faq[] = array('What\'s the RSS feed?', 'RSS feeds are used to fetch recent info
 $faq[] = array('Where in my profile can I place my Google Talk account?', 'Google Talk is an IM network using the Jabber/XMPP protocol. You can place your account name (completely, including the domain name) in the Jabber/XMPP profile field.');
 
 $faq[] = array('--', 'UseBB Issues');
-$faq[] = array('Who made this forum? What is UseBB?', 'This bulletin board, called <em>UseBB</em>, is developed by the UseBB Team. UseBB is Open Source software released under the GPL license. You can download UseBB for free from <a href="http://www.usebb.net">www.usebb.net</a>. Note the administrator(s) of this forum/website may have added additional functionality.');
+$faq[] = array('Who made this forum? What is UseBB?', 'This bulletin board, called <em>UseBB</em>, is developed by the UseBB Team. UseBB is Open Source software released under the GPL. You can download UseBB for free from <a href="http://www.usebb.net">www.usebb.net</a>. Note the administrator(s) of this forum/website may have added additional functionality.');
 $faq[] = array('Are the creators of UseBB responsible for this forum?', 'No, this board is maintained by the website\'s webmaster(s). The UseBB Team can not be held responsible for this forum in any way.');
 $faq[] = array('I have a complaint about this forum. To whom should I direct?', 'If you have a complaint about the forum software itself, not the content, you are welcome to <a href="http://www.usebb.net">tell the UseBB Team</a>. For any other inquiries, please contact the administrator(s) of this forum/website.');
 

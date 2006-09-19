@@ -1083,6 +1083,15 @@ class functions {
 			
 			$from_name = mb_encode_mimeheader($from_name);
 			
+		} else {
+			
+			if ( strtolower($charset) == 'utf-8' ) {
+
+				$subject = '=?'.$charset.'?B?'.base64_encode($subject).'?=';
+				$from_name = '=?'.$charset.'?B?'.base64_encode($from_name).'?=';
+
+			}
+			
 		}
 		
 		if ( !empty($bcc_email) )
@@ -1106,21 +1115,31 @@ class functions {
 			
 		}
 		
-		if ( $is_mbstring && function_exists('mb_send_mail')) {
-			
-			if ( !mb_send_mail($to, $subject, $body, join($cr, $headers)) )
-				trigger_error('Unable to send e-mail!', E_USER_ERROR);
-			
+		$is_safe_mode = in_array(strtolower(ini_get('safe_mode')), array('1', 'on'));
+
+		if ( $is_mbstring && function_exists('mb_send_mail') ) {
+
+			$mail_func = 'mb_send_mail';
+
 		} else {
 			
+			$mail_func = 'mail';
 			$headers[] = 'MIME-Version: 1.0';
-			if ( strtolower($charset) == 'utf-8' )
+			$headers[] = 'Content-Type: text/plain; charset='.$charset;
+			if ( preg_match('/^(iso-8859-|iso-2022-)/i', $charset))
+				$headers[] = 'Content-Transfer-Encoding: 7bit';
+			else
 				$headers[] = 'Content-Transfer-Encoding: 8bit';
-				
-			if ( !mail($to, $subject, $body, join($cr, $headers)) )
-				trigger_error('Unable to send e-mail!', E_USER_ERROR);
 			
 		}
+
+		if ( $is_safe_mode )
+			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers));
+		else
+			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers), '-f'.$from_email);
+
+		if ( !$mail_result )
+			trigger_error('Unable to send e-mail!', E_USER_ERROR);
 		
 		//
 		// Restored language and character encoding.

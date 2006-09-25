@@ -79,8 +79,13 @@ class session {
 		
 		//
 		// Set some PHP session cookie configuration options
+		// Use httpOnly flag as of PHP 5.2.0RC2
 		//
-		session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
+		$secure = ( $functions->get_config('cookie_secure') ) ? 1 : 0;
+		if ( version_compare(phpversion(), '5.2.0RC2', '>=') )
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure, true);
+		else
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure);
 		
 		//
 		// Set the session name
@@ -253,7 +258,7 @@ class session {
 			// in the URL (if present) and unsetting the cookie
 			//
 			$SID = SID;
-			setcookie($functions->get_config('session_name').'_sid', '', time()-31536000, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $functions->get_config('cookie_secure'));
+			$functions->setcookie($functions->get_config('session_name').'_sid', '');
 			$functions->raw_redirect(str_replace($SID, '', $_SERVER['REQUEST_URI']));
 			
 			//

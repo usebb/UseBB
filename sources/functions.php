@@ -1165,7 +1165,7 @@ class functions {
 			intval($user_id),
 			$passwd_hash
 		);
-		setcookie($this->get_config('session_name').'_al', serialize($content), time()+31536000, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		$this->setcookie($this->get_config('session_name').'_al', serialize($content), time()+31536000);
 		
 	}
 	
@@ -1174,7 +1174,7 @@ class functions {
 	 */
 	function unset_al() {
 		
-		setcookie($this->get_config('session_name').'_al', '', time()-1, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $this->get_config('cookie_secure'));
+		$this->setcookie($this->get_config('session_name').'_al', '');
 		
 	}
 	
@@ -2517,6 +2517,31 @@ class functions {
 		}
 		
 		return true;
+		
+	}
+	
+	/**
+	 * Set a cookie
+	 *
+	 * This function takes care of past expire values for empty cookies, and
+	 * uses the httpOnly flag as of PHP 5.2.0RC2.
+	 *
+	 * @param string $name Name
+	 * @param string $value Value
+	 * @param int $expires Expire timestamp (when necessary)
+	 */
+	function setcookie($name, $value, $expires=null) {
+		
+		$expires = ( is_null($expires) && empty($value) ) ? time()-31536000 : $expires;
+		$secure = ( $this->get_config('cookie_secure') ) ? 1 : 0;
+		
+		//
+		// Use httpOnly flag as of PHP 5.2.0RC2
+		//
+		if ( version_compare(phpversion(), '5.2.0RC2', '>=') )
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure, true);
+		else
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure);
 		
 	}
 	

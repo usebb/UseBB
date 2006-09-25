@@ -211,6 +211,10 @@ define('LEVEL_GUEST', 0);
  * SQL table prefix
  */
 define('TABLE_PREFIX', $dbs['prefix']);
+/**
+ * On Windows
+ */
+define('ON_WINDOWS', ( strstr(PHP_OS, 'WIN') !== false ));
 
 //
 // Include all other necessary files

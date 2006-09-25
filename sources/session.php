@@ -273,13 +273,12 @@ class session {
 		//
 		// DNSBL powered banning
 		//
-		$on_windows = ( strstr(PHP_OS, 'WIN') !== false );
-		if ( function_exists('checkdnsrr') && !$on_windows ) {
+		if ( function_exists('checkdnsrr') && !ON_WINDOWS ) {
 			
 			$dnsrr_available = true;
 			$dnsrr_function = 'checkdnsrr';
 			
-		} elseif ( $on_windows ) {
+		} elseif ( ON_WINDOWS ) {
 			
 			$dnsrr_available = true;
 			$dnsrr_function = 'checkdnsrr_win';

@@ -1067,7 +1067,7 @@ class functions {
 		//
 		// Windows: \r\n; other: \n
 		//
-		$cr = ( strstr(PHP_OS, 'WIN') !== false ) ? "\r\n" : "\n";
+		$cr = ( ON_WINDOWS ) ? "\r\n" : "\n";
 		$body = str_replace("\n", $cr, $rawbody);
 		
 		$bodyvars['board_name'] = $this->get_config('board_name');
@@ -2107,7 +2107,7 @@ class functions {
 		//
 		// Afaik, this does not exist at Windows
 		//
-		if ( strstr(PHP_OS, 'WIN') !== false )
+		if ( ON_WINDOWS )
 			return false;
 		
 		//
@@ -2502,13 +2502,12 @@ class functions {
 		if ( $this->get_config('enable_email_dns_check') ) {
 			
 			$parts = explode('@', $email_address);
-			$on_windows = ( strstr(PHP_OS, 'WIN') !== false );
 			
-			if ( function_exists('checkdnsrr') && !$on_windows ) {
+			if ( function_exists('checkdnsrr') && !ON_WINDOWS ) {
 				
 				return checkdnsrr($parts[1], 'MX');
 				
-			} elseif ( $on_windows ) {
+			} elseif ( ON_WINDOWS ) {
 				
 				return checkdnsrr_win($parts[1], 'MX');
 				

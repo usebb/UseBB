@@ -1482,8 +1482,7 @@ class functions {
 	 */
 	function bbcode_clear($string) {
 		
-		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
-		return preg_replace('#\[/?('.join($existing_tags, '|').')[^\]]*\]#i', '', $string);
+		return preg_replace('#\[/?[a-z][^\[\]]*\]#i', '', $string);
 		
 	}
 	
@@ -1500,7 +1499,10 @@ class functions {
 		$string = trim($string);
 		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
 		
-		$parts = array_reverse(preg_split('#(\[/?[^\]\s]+\])#', $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY));
+		//
+		// BBCode tags start with an alphabetic character, eventually followed by non [ and ] characters.
+		//
+		$parts = array_reverse(preg_split('#(\[/?[a-z][^\[\]]*\])#i', $string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY));
 		
 		$open_tags = $open_parameters = array();
 		$new_string = '';

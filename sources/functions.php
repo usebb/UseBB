@@ -1482,7 +1482,8 @@ class functions {
 	 */
 	function bbcode_clear($string) {
 		
-		return preg_replace('#\[/?[a-z][^\[\]]*\]#i', '', $string);
+		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
+		return preg_replace('#(\[/?('.join('|', $existing_tags).')[^\[\]]*\])#i', '', $string);
 		
 	}
 	

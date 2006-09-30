@@ -1484,7 +1484,7 @@ class functions {
 	function bbcode_clear($string) {
 		
 		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
-		return preg_replace('#(\[/?('.join('|', $existing_tags).')[^\[\]]*\])#i', '', $string);
+		return preg_replace('#\[/?('.join('|', $existing_tags).')(=[^\]]*)?\]#i', '', $string);
 		
 	}
 	
@@ -1517,7 +1517,7 @@ class functions {
 			//
 			// Add open tag
 			//
-			if ( preg_match('#^\[([a-z]+)([^\]]+)?\]$#', $part, $matches) ) {
+			if ( preg_match('#^\[([a-z]+)(=[^\]]*)?\]$#', $part, $matches) ) {
 				
 				//
 				// Transform tags

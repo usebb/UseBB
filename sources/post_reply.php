@@ -99,7 +99,7 @@ if ( !$topicdata['id'] ) {
 		
 		$flood_protect_wait_sec = ( $functions->get_user_level() <= LEVEL_MEMBER ) ? ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ) : 0;
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !empty($_POST['content']) && empty($_POST['preview']) && $flood_protect_wait_sec <= 0 ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !$functions->post_empty($_POST['content']) && empty($_POST['preview']) && $flood_protect_wait_sec <= 0 ) {
 			
 			//
 			// Save the guest's username in the session
@@ -193,7 +193,7 @@ if ( !$topicdata['id'] ) {
 				$errors = array();
 				if ( !$session->sess_info['user_id'] && empty($_POST['user']) )
 					$errors[] = $lang['Username'];
-				if ( empty($_POST['content']) )
+				if ( $functions->post_empty($_POST['content']) )
 					$errors[] = $lang['Content'];
 				
 				if ( count($errors) ) {
@@ -223,7 +223,7 @@ if ( !$topicdata['id'] ) {
 					
 				}
 				
-				if ( !empty($_POST['preview']) && !empty($_POST['content']) ) {
+				if ( !empty($_POST['preview']) && !$functions->post_empty($_POST['content']) ) {
 					
 					$template->parse('preview', 'various', array(
 						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
@@ -271,7 +271,7 @@ if ( !$topicdata['id'] ) {
 			
 			$_POST['user'] = ( !empty($_POST['user']) ) ? $_POST['user'] : '';
 			$_POST['subject'] = ( !empty($_POST['subject']) ) ? $_POST['subject'] : '';
-			$_POST['content'] = ( !empty($_POST['content']) ) ? $_POST['content'] : '';
+			$_POST['content'] = ( !$functions->post_empty($_POST['content']) ) ? $_POST['content'] : '';
 			
 			$options_input = array();
 			$options_input[] = '<label><input type="checkbox" name="enable_bbcode" value="1"'.$enable_bbcode_checked.' /> '.$lang['EnableBBCode'].'</label>';

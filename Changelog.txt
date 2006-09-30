@@ -8,6 +8,7 @@ UseBB 1.0.3 Changelog
 - Fixed db_mysql to use new_link parameter while connecting.
 - Will now set cookies with the httpOnly flag, when enabled (by default).
 - Custom setcookie function always sets right past expiry value when needed.
+- Don't allow posts only containing BBCode tags to be posted.
 
 UseBB 1.0.2 Changelog
 ------------------------------

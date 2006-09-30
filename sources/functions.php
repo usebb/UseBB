@@ -1489,6 +1489,29 @@ class functions {
 	}
 	
 	/**
+	 * Check if a post is empty
+	 *
+	 * Checks if the post is empty, with and without BBCode
+	 *
+	 * @param string $string Text
+	 * @returns bool Is empty
+	 */
+	function post_empty(&$string) {
+		
+		if ( empty($string) )
+			return true;
+		
+		$copy = $string;
+		$copy = $this->bbcode_clear($copy);
+		
+		if ( empty($copy) )
+			return true;
+		
+		return false;
+		
+	}
+	
+	/**
 	 * Cleans up BBCode for parsing
 	 *
 	 * Automatically called from within ::markup.

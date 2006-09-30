@@ -80,7 +80,7 @@ if ( !isset($_GET['act']) ) {
 		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postdata['post_time'] ) || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			$_POST['poster_guest'] = ( !empty($_POST['poster_guest']) ) ? preg_replace('#\s+#', ' ', $_POST['poster_guest']) : '';
-			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !empty($_POST['content']) && empty($_POST['preview']) ) {
+			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !$functions->post_empty($_POST['content']) && empty($_POST['preview']) ) {
 				
 				$update_poster_guest = ( !$postdata['poster_id'] ) ? ", poster_guest = '".$_POST['poster_guest']."'" : '';
 				$enable_bbcode = ( !empty($_POST['enable_bbcode']) ) ? 1 : 0;
@@ -106,7 +106,7 @@ if ( !isset($_GET['act']) ) {
 					
 					$poster_guest = ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ? $_POST['poster_guest'] : '';
 					$topic_title = ( !empty($_POST['topic_title']) ) ? unhtml(stripslashes($_POST['topic_title'])) : '';
-					$content = ( !empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
+					$content = ( !$functions->post_empty($_POST['content']) ) ? unhtml(stripslashes($_POST['content'])) : '';
 					$enable_bbcode_checked = ( !empty($_POST['enable_bbcode']) ) ? ' checked="checked"' : '';
 					$enable_smilies_checked = ( !empty($_POST['enable_smilies']) ) ? ' checked="checked"' : '';
 					$enable_sig_checked = ( !empty($_POST['enable_sig']) ) ? ' checked="checked"' : '';
@@ -117,7 +117,7 @@ if ( !isset($_GET['act']) ) {
 						$errors[] = $lang['Username'];
 					if ( $postdata['first_post_id'] == $_GET['post'] && empty($_POST['topic_title']) )
 						$errors[] = $lang['Subject'];
-					if ( empty($_POST['content']) )
+					if ( $functions->post_empty($_POST['content']) )
 						$errors[] = $lang['Content'];
 					
 					if ( count($errors) ) {

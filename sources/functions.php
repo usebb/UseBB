@@ -2530,7 +2530,7 @@ class functions {
 	 * uses the httpOnly flag when enabled.
 	 *
 	 * The httpOnly hack for < PHP 5.2 taken from
-	 * http://blog.mattmecham.com/archives/2006/09/http_only_cookies_without_php.html
+	 * @link http://blog.mattmecham.com/archives/2006/09/http_only_cookies_without_php.html
 	 *
 	 * @param string $name Name
 	 * @param string $value Value

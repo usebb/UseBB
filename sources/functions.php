@@ -530,6 +530,7 @@ class functions {
 					case 'show_never_activated_members':
 					case 'disable_xhtml_header':
 					case 'hide_db_config_acp':
+					case 'cookie_httponly':
 						$set_to = true;
 						break;
 					
@@ -2526,7 +2527,10 @@ class functions {
 	 * Set a cookie
 	 *
 	 * This function takes care of past expire values for empty cookies, and
-	 * uses the httpOnly flag as of PHP 5.2.0RC2.
+	 * uses the httpOnly flag when enabled.
+	 *
+	 * The httpOnly hack for < PHP 5.2 taken from
+	 * http://blog.mattmecham.com/archives/2006/09/http_only_cookies_without_php.html
 	 *
 	 * @param string $name Name
 	 * @param string $value Value
@@ -2540,10 +2544,12 @@ class functions {
 		//
 		// Use httpOnly flag as of PHP 5.2.0RC2
 		//
-		if ( version_compare(phpversion(), '5.2.0RC2', '>=') )
+		if ( !$this->get_config('cookie_httponly') )
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure);
+		elseif ( version_compare(phpversion(), '5.2.0RC2', '>=') )
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure, true);
 		else
-			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure);
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain').'; httpOnly', $secure);
 		
 	}
 	

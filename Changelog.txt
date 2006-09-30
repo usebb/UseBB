@@ -6,7 +6,7 @@ UseBB 1.0.3 Changelog
 - Fixed bug #1322: BBCode parsing bug with spaces in quote tags.
 - Fixed bug #1296: use MTA -f argument when necessary (patch by Tadashi Jokagi).
 - Fixed db_mysql to use new_link parameter while connecting.
-- Will now set cookies with the httpOnly flag as of PHP 5.2.0RC2.
+- Will now set cookies with the httpOnly flag, when enabled (by default).
 - Custom setcookie function always sets right past expiry value when needed.
 
 UseBB 1.0.2 Changelog

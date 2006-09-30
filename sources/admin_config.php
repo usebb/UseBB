@@ -81,7 +81,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 // Some extra arrays used
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
-$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_email_dns_check', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'show_never_activated_members', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
+$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_email_dns_check', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'show_never_activated_members', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file');
 
 if ( !$functions->get_config('hide_db_config_acp') )
@@ -212,6 +212,7 @@ if (
 			'cookie_domain',
 			'cookie_path',
 			'cookie_secure',
+			'cookie_httponly',
 		),
 		'sessions' => array(
 			'session_name',

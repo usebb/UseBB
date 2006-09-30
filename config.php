@@ -79,6 +79,7 @@ $conf['board_keywords'] = 'forum,board,community,usebb';
 $conf['board_name'] = 'My Community';
 $conf['board_url'] = '';
 $conf['cookie_domain'] = '';
+$conf['cookie_httponly'] = 1;
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';

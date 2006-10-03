@@ -1258,6 +1258,9 @@ class functions {
 		//
 		if ( $user_info['id'] ) {
 			
+			//
+			// Logged in user
+			//
 			if ( $user_info['level'] == LEVEL_MOD ) {
 				
 				if ( !is_array($this->mod_auth) ) {
@@ -1269,10 +1272,7 @@ class functions {
 					
 				}
 				
-				if ( in_array($forum_id, $this->mod_auth) )
-					$userlevel = LEVEL_MOD;
-				else
-					$userlevel = LEVEL_MEMBER;
+				$userlevel = ( in_array($forum_id, $this->mod_auth) ) ? LEVEL_MOD : LEVEL_MEMBER;
 				
 			} else {
 				
@@ -1282,6 +1282,9 @@ class functions {
 			
 		} else {
 			
+			//
+			// Guest
+			//
 			if ( !$this->get_config('guests_can_access_board') )
 				return false;
 			else

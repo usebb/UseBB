@@ -346,10 +346,10 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				//
 				$post_links = array();
 				
-				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postsdata['post_time'] ) || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
+				if ( ( ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postsdata['post_time'] ) || $functions->auth($topicdata['auth'], 'edit', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'])).'">'.$lang['Edit'].'</a>';
 				
-				if ( $session->sess_info['user_id'] && ( ( $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postsdata['post_time'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
+				if ( ( ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postsdata['post_time'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'">'.$lang['Delete'].'</a>';
 				
 				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )

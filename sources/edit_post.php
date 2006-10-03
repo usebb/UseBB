@@ -77,7 +77,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		// Only if the user can edit posts
 		//
-		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postdata['post_time'] ) || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
+		if ( ( ( $session->sess_info['user_id'] && $postdata['poster_id'] == $session->sess_info['user_id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postdata['post_time'] ) || $functions->auth($postdata['auth'], 'edit', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			$_POST['poster_guest'] = ( !empty($_POST['poster_guest']) ) ? preg_replace('#\s+#', ' ', $_POST['poster_guest']) : '';
 			if ( ( $postdata['poster_id'] || ( !empty($_POST['poster_guest']) && preg_match(USER_PREG, $_POST['poster_guest']) ) ) && ( $postdata['first_post_id'] != $_GET['post'] || !empty($_POST['topic_title']) ) && !$functions->post_empty($_POST['content']) && empty($_POST['preview']) ) {
@@ -225,7 +225,7 @@ if ( !isset($_GET['act']) ) {
 		//
 		// Only if the user can delete posts
 		//
-		if ( $session->sess_info['user_id'] && ( ( $postdata['poster_id'] == $session->sess_info['user_id'] && $postdata['last_post_id'] == $_GET['post'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postdata['post_time'] ) || $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
+		if ( ( ( $session->sess_info['user_id'] && $postdata['poster_id'] == $session->sess_info['user_id'] && $postdata['last_post_id'] == $_GET['post'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postdata['post_time'] ) || $functions->auth($postdata['auth'], 'delete', $postdata['forum_id']) ) && $postdata['poster_level'] <= $session->sess_info['user_info']['level'] ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

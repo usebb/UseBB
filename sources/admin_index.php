@@ -89,7 +89,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
 	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
 </ul>
-<p id="admincopyright">Copyright &copy; 2003-2006 UseBB Team - All rights reserved.</p>';
+<p id="admincopyright">Copyright &copy; 2003-2006 UseBB Team - Released under the GNU General Public License.</p>';
 
 $admin_functions->create_body('index', $content);
 

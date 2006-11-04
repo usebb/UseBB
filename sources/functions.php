@@ -1997,7 +1997,7 @@ class functions {
 	 * @param int $level Level
 	 * @returns string HTML
 	 */
-	function make_profile_link($user_id, $username, $level) {
+	function make_profile_link($user_id, $username, $level, $title=null) {
 		
 		switch ( $level ) {
 			
@@ -2013,7 +2013,9 @@ class functions {
 			
 		}
 		
-		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.'>'.unhtml(stripslashes($username)).'</a>';
+		$title = ( !empty($title) ) ? ' title="'.unhtml($title).'"' : '';
+		
+		return '<a href="'.$this->make_url('profile.php', array('id' => $user_id)).'"'.$levelclass.$title.'>'.unhtml(stripslashes($username)).'</a>';
 		
 	}
 	
@@ -2034,7 +2036,7 @@ class functions {
 			//
 			// Get the session and user information
 			//
-			$result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC");
+			$result = $db->query("SELECT u.displayed_name, u.level, u.hide_from_online_list, s.user_id AS id, s.ip_addr, s.updated FROM ( ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON s.user_id = u.id ) WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC");
 			
 			//
 			// Arrays for holding a list of online guests and members.
@@ -2072,14 +2074,16 @@ class functions {
 					//
 					if ( !in_array($onlinedata['id'], $list['members']) ) {
 						
+						$title = $this->make_date($onlinedata['updated'], 'h:i:s a');
+						
 						if ( !$onlinedata['hide_from_online_list'] ) {
 							
-							$memberlist[] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']);
+							$memberlist[] = $this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level'], $title);
 							
 						} else {
 							
 							if ( $this->get_user_level() == LEVEL_ADMIN )
-								$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level']).'</em>';
+								$memberlist[] = '<em>'.$this->make_profile_link($onlinedata['id'], $onlinedata['displayed_name'], $onlinedata['level'], $title).'</em>';
 							
 							$count['hidden_members']++;
 							

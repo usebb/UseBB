@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.4 Changelog
+------------------------------
+
+- Fixed bug #1358: Undefined index: PATH_TRANSLATED on module upload.
+
 UseBB 1.0.3 Changelog
 ------------------------------
 

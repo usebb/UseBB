@@ -3,7 +3,7 @@ Developers (CVS access)
 	* Dietrich Moerman (pc_freak)
 		Founder, project manager and developer
 
-3rd party contributions (no CVS access)
+3rd party contributors (no CVS access)
 
 	* Tadashi "ELF" Jokagi
 		Multibyte support and email handling patches
@@ -25,7 +25,7 @@ Developers (CVS access)
 	* aiwebs.co.nz
 		Smiley graphics (GNU GPL v2)
 
-	Any changes to these code can be tracked at
+	Any changes to 3rd party code can be tracked at
 	http://usebb.cvs.sourceforge.net/usebb/UseBB/.
 
 Should anyone be missing from this list, please email to contact@usebb.net.

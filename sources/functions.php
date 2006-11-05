@@ -1995,6 +1995,7 @@ class functions {
 	 * @param int $user_id User ID
 	 * @param string $username Username
 	 * @param int $level Level
+	 * @param string $title Title attribute
 	 * @returns string HTML
 	 */
 	function make_profile_link($user_id, $username, $level, $title=null) {

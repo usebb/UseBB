@@ -1,27 +1,31 @@
-Since 2003, UseBB is developed by Dietrich Moerman; with the help of various
-people providing patches and bug fixes, and of course the UseBB Community for
-giving feature requests and bug reports.
+Developers (CVS access)
 
----
+	* Dietrich Moerman (pc_freak)
+		Founder, project manager and developer
 
-3rd Party Code Credits
+3rd party contributions (no CVS access)
 
-Smilies are copyrighted by aiwebs.co.nz and distributed under the terms of the
-GNU General Public License.
+	* Tadashi "ELF" Jokagi
+		Multibyte support and email handling patches
 
-Javascript insert_tags() function copyrighted by the DokuWiki development team
-and distributed under the terms of the GNU General Public License.
+	* Jack "wehnerj" Wehner
+		Forum/topic icons
 
-Several regexes for URL and e-mail address matching copyrighted by the phpBB
-Group and distributed under the terms of the GNU General Public License.
+3rd party portions
 
-Other small portions of code may be borrowed from other GPL licensed projects.
-These portions are commented with the location of the original source.
+	* DokuWiki development team
+		Javascript insert_tags() function (GNU GPL v2)
 
----
+	* phpBB Group
+		URL and e-mail regular expressions (GNU GPL v2)
 
-Last but not least, thanks to SourceForge.net for hosting file releases and CVS
-and making UseBB's development possible.
+	* twilop at Zend.com article
+		checkdnsrr() replacement for Windows (public domain)
 
--- UseBB Team
-http://www.usebb.net
+	* aiwebs.co.nz
+		Smiley graphics (GNU GPL v2)
+
+	Any changes to these code can be tracked at
+	http://usebb.cvs.sourceforge.net/usebb/UseBB/.
+
+Should anyone be missing from this list, please email to contact@usebb.net.

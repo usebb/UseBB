@@ -1759,7 +1759,7 @@ class functions {
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
 				'\\1<a href="\\2" title="\\2"'.$rel.'>\\2</a>\\3',
-				'\\1<a href="http://\\2" title="http://\\2">\\2</a>\\3',
+				'\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3',
 				'\\1<a href="mailto:\\2" title="\\2">\\2</a>\\4'
 			), $string);
 			

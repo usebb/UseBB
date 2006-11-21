@@ -344,11 +344,7 @@ class session {
 				
 				if ( $hits_found >= $functions->get_config('dnsbl_powered_banning_min_hits') ) {
 					
-					$ip_to_add = $ip_addr;
-					if ( $functions->get_config('enable_dnsbl_powered_banning_wildcard') )
-						$ip_to_add = preg_replace('#^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$#', '\\1.\\2.\\3.*', $ip_to_add);
-					
-					$db->query("INSERT INTO ".TABLE_PREFIX."bans(ip_addr) VALUES('".$ip_to_add."')");
+					$db->query("INSERT INTO ".TABLE_PREFIX."bans(ip_addr) VALUES('".$ip_addr."')");
 					
 					$this->sess_info = array(
 						'sess_id' => session_id(),

@@ -406,7 +406,6 @@ $lang['DNSBLServers'] = 'DNS BlackList (DNSBL)-servers';
 $lang['DNSBLServersInfo'] = 'Een DNSBL-hostnaam per regel. Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken bij het starten van een nieuwe sessie.';
 $lang['DNSBLMinPositiveHits'] = 'Ten minste %s positieve hits zijn benodigd om een IP-adres te bannen.';
 $lang['DNSBLRecheckMinutes'] = 'Hercontroleer toegestane IP-adressen elke %s minuten (0 om uit te schakelen).';
-$lang['DNSBLEnableOpenDNSBLBanWildcard'] = 'Activeer wildcard-banning %s (niet aanbevolen)';
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'Een IP-adres of hostnaam per regel (* en ? kunnen als wildcards worden gebruikt).';
 $lang['DNSBLSettingsSaved'] = 'DNSBL-aangedreven banning instellingen werden opgeslaan.';

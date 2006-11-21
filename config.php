@@ -100,7 +100,6 @@ $conf['enable_badwords_filter'] = 0;
 $conf['enable_contactadmin'] = 1;
 $conf['enable_detailed_online_list'] = 1;
 $conf['enable_dnsbl_powered_banning'] = 0;
-$conf['enable_dnsbl_powered_banning_wildcard'] = 0;
 $conf['enable_email_dns_check'] = 0;
 $conf['enable_forum_stats_box'] = 1;
 $conf['enable_ip_bans'] = 0;

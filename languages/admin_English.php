@@ -406,7 +406,6 @@ $lang['DNSBLServers'] = 'DNS BlackList (DNSBL) servers';
 $lang['DNSBLServersInfo'] = 'One DNSBL server per line. Note using many of these blacklists together may cause slowness upon creating a new session on your forum.';
 $lang['DNSBLMinPositiveHits'] = 'At least %s positive hits are required to ban an IP address.';
 $lang['DNSBLRecheckMinutes'] = 'Recheck allowed IP addresses every %s minutes (0 to disable).';
-$lang['DNSBLEnableOpenDNSBLBanWildcard'] = 'Enable wildcard banning %s (not recommended)';
 $lang['DNSBLSettingsSaved'] = 'DNSBL banning settings saved.';
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'One IP address or hostname per line (* and ? can be used as wildcards).';

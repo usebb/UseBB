@@ -1843,7 +1843,7 @@ class functions {
 		$out = array();
 		foreach ( $controls as $data ) {
 			
-			$out[] = '<a href="javascript:insert_tags(\''.$data[0].'\', \''.$data[1].'\')" style="'.$data[3].'">'.$data[2].'</a>';
+			$out[] = '<a href="javascript:void()" onclick="insert_tags(\''.$data[0].'\', \''.$data[1].'\')" style="'.$data[3].'">'.$data[2].'</a>';
 			
 		}
 		
@@ -1865,7 +1865,7 @@ class functions {
 		$out = array();
 		foreach ( $smilies as $pattern => $img ) {
 			
-			$out[] = '<a href="javascript:insert_smiley(\''.addslashes(unhtml($pattern)).'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
+			$out[] = '<a href="javascript:void()" onclick="insert_smiley(\''.addslashes(unhtml($pattern)).'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 			
 		}
 		

@@ -4,6 +4,7 @@ UseBB 1.0.4 Changelog
 ------------------------------
 
 - Fixed bug #1358: Undefined index: PATH_TRANSLATED on module upload.
+- Fixed bug #1377: Make the BBCode controls valid.
 - Fixed bug: missing rel attribute on www. URL's.
 - Members on stats box now have a last update time tooltip.
 - Removed DNSBL wildcard IP address banning (useless).

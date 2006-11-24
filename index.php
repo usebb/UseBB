@@ -184,7 +184,7 @@ if ( !$functions->get_stats('forums') ) {
 					
 					$last_topic_title = unhtml($functions->replace_badwords(stripslashes($forumdata['topic_title'])));
 					$rtrim_topic = $template->get_config('forumlist_topic_rtrim_length');
-					if ( is_int($rtrim_topic) && entities_strlen($last_topic_title) >= $rtrim_topic )
+					if ( is_int($rtrim_topic) && entities_strlen($last_topic_title) > $rtrim_topic )
 						$last_topic_title = entities_rtrim($last_topic_title, $rtrim_topic).'...';
 					if ( $forumdata['count_replies'] )
 						$last_topic_title = $lang['Re'].' '.$last_topic_title;

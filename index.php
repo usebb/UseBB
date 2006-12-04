@@ -182,14 +182,25 @@ if ( !$functions->get_stats('forums') ) {
 				
 				if ( $forumdata['topics'] ) {
 					
+					$last_topic_title_full = '';
 					$last_topic_title = unhtml($functions->replace_badwords(stripslashes($forumdata['topic_title'])));
+					
 					$rtrim_topic = $template->get_config('forumlist_topic_rtrim_length');
-					if ( is_int($rtrim_topic) && entities_strlen($last_topic_title) > $rtrim_topic )
+					if ( is_int($rtrim_topic) && entities_strlen($last_topic_title) > $rtrim_topic ) {
+						
+						$last_topic_title_full = $last_topic_title;
 						$last_topic_title = entities_rtrim($last_topic_title, $rtrim_topic).'...';
-					if ( $forumdata['count_replies'] )
+						
+					}
+					if ( $forumdata['count_replies'] ) {
+						
+						$last_topic_title_full = ( !empty($last_topic_title_full) ) ? $lang['Re'].' '.$last_topic_title_full : '';
 						$last_topic_title = $lang['Re'].' '.$last_topic_title;
+						
+					}
 					
 					$author = ( $forumdata['poster_id'] ) ? $functions->make_profile_link($forumdata['poster_id'], $forumdata['poster_name'], $forumdata['poster_level']) : unhtml(stripslashes($forumdata['poster_guest']));
+					$last_topic_title_full = ( !empty($last_topic_title_full) ) ? ' title="'.$last_topic_title_full.'"' : '';
 					
 				}
 				
@@ -208,7 +219,7 @@ if ( !$functions->get_stats('forums') ) {
 					'on_date' => ( $forumdata['topics'] ) ? sprintf($lang['OnDate'], $functions->make_date($forumdata['post_time'])) : '-',
 					'lp_author' => ( $forumdata['topics'] ) ? $author : '-',
 					'lp_date' => ( $forumdata['topics'] ) ? $functions->make_date($forumdata['post_time']) : '-',
-					'latest_post' => ( $forumdata['topics'] ) ? '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'" rel="nofollow">'.$last_topic_title.'</a>' : $lang['NoPosts']
+					'latest_post' => ( $forumdata['topics'] ) ? '<a href="'.$functions->make_url('topic.php', array('post' => $forumdata['last_post_id'])).'#post'.$forumdata['last_post_id'].'"'.$last_topic_title_full.' rel="nofollow">'.$last_topic_title.'</a>' : $lang['NoPosts']
 				));
 				
 			}

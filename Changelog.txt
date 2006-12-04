@@ -8,6 +8,7 @@ UseBB 1.0.4 Changelog
 - Fixed bug with missing rel attribute on www. URL's.
 - Fixed bug with topic title rtrim on forum index.
 - Members on stats box now have a last update time tooltip.
+- Shortened topic titles on forum index now have full title tooltip.
 - Removed DNSBL wildcard IP address banning (useless).
 
 UseBB 1.0.3 Changelog

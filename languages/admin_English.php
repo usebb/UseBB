@@ -75,7 +75,7 @@ $lang['IndexMoreUnactiveMembers'] = 'There are %d members awaiting admin activat
 $lang['IndexWarning'] = 'Warning!';
 $lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. This is not recommended. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation (0777) on it. Contact your host in case of problems.';
 
-$lang['VersionFailed'] = 'The forum could not determine the latest version (%s disabled). Please often check %s to make sure you have the latest one.';
+$lang['VersionFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
 $lang['VersionLatestVersionTitle'] = 'This is the latest version';
 $lang['VersionLatestVersion'] = 'This forum is powered by UseBB %s which is the latest stable version.';
 $lang['VersionNeedUpdateTitle'] = 'New version available!';

@@ -43,19 +43,44 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( !@ini_get('allow_url_fopen') ) {
+$url = 'http://usebb.sourceforge.net/latest_version';
+$success = false;
+
+if ( !empty($_SESSION['latest_version']) ) {
 	
-	$content = '<p>'.sprintf($lang['VersionFailed'], '<code>allow_url_fopen</code>', '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
+	$success = true;
+	
+} elseif ( function_exists('curl_init') ) {
+	
+	//
+	// Check using cURL
+	//
+	$curl = curl_init($url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	$_SESSION['latest_version'] = trim(curl_exec($curl));
+	curl_close($curl);
+	
+	$success = ( !empty($_SESSION['latest_version']) );
+	
+} elseif ( ini_get('allow_url_fopen') ) {
+	
+	//
+	// Check using fopen()
+	//
+	$fp = fopen($url, 'r');
+	$_SESSION['latest_version'] = trim(fread($fp, 16));
+	fclose($fp);
+	
+	$success = ( !empty($_SESSION['latest_version']) );
+	
+}
+
+if ( !$success ) {
+	
+	$content = '<p>'.sprintf($lang['VersionFailed'], '<a href="http://www.usebb.net/">www.usebb.net</a>').'</p>';
 	
 } else {
-	
-	if ( !isset($_SESSION['latest_version']) ) {
-		
-		$fp = fopen('http://usebb.sourceforge.net/latest_version', 'r');
-		$_SESSION['latest_version'] = trim(@fread($fp, 16));
-		@fclose($fp);
-		
-	}
 	
 	switch ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) ) {
 		

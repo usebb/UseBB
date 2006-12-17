@@ -9,6 +9,7 @@ UseBB 1.0.4 Changelog
 - Fixed bug with topic title rtrim on forum index.
 - Members on stats box now have a last update time tooltip.
 - Shortened topic titles on forum index now have full title tooltip.
+- Version check is now also possible through cURL.
 - Removed DNSBL wildcard IP address banning (useless).
 
 UseBB 1.0.3 Changelog

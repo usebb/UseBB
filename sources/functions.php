@@ -550,6 +550,10 @@ class functions {
 						$set_to = 300;
 						break;
 					
+					case 'mass_email_msg_recipients':
+						$set_to = 100;
+						break;
+					
 					default:
 						$set_to = false;
 					

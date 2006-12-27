@@ -239,6 +239,8 @@ $lang['ConfigBoard-disable_xhtml_header'] = 'XHTML-header voor XHTML-templates u
 $lang['ConfigBoard-disable_xhtml_header-info'] = 'Een XHTML Content-Type kan alleen gebruikt worden wanneer de inhoud 100% welgevormd is. Dit is altijd uitgeschakeld voor niet-XHTML browsers.';
 $lang['ConfigBoard-email_reply-to_header'] = 'Gebruik Reply-To-header';
 $lang['ConfigBoard-email_reply-to_header-info'] = 'Gebruik Reply-To in plaats van From voor gebruiker\'s e-mailadres (vereist op sommige hosts).';
+$lang['ConfigBoard-mass_email_msg_recipients'] = 'Aantal ontvangers per massa e-mailbericht';
+$lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Meerdere berichten zullen verzonden worden tot wanneer alle ontvangers gemaild zijn.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';
@@ -435,7 +437,7 @@ Dit is de forumsoftware van [board_name]. De administrator heeft een massa e-mai
 -----
 
 [body]';
-$lang['MassEmailSent'] = 'Het e-mailbericht werd naar %d leden verzonden.';
+$lang['MassEmailSent'] = 'Het e-mailbericht werd naar %d leden verzonden met behulp van %d bericht(en).';
 $lang['MassEmailOptions'] = 'Opties';
 $lang['MassEmailPublicEmailsOnly'] = 'Verstuur enkel naar publieke e-mailadressen.';
 $lang['MassEmailExcludeBanned'] = 'Exclusief gebande leden.';

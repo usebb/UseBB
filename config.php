@@ -125,6 +125,7 @@ $conf['hide_undefined_template_setting_warnings'] = 0;
 $conf['hide_undefined_template_warnings'] = 0;
 $conf['hide_userinfo'] = 0;
 $conf['language'] = 'English';
+$conf['mass_email_msg_recipients'] = 100;
 $conf['members_per_page'] = 25;
 $conf['online_min_updated'] = 30;
 $conf['output_compression'] = 2;

@@ -56,13 +56,19 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 	$public_only = ( !empty($_POST['public_emails_only']) ) ? " AND email_show = 1" : '';
 	$exclude_banned = ( !empty($_POST['exclude_banned']) ) ? " AND banned = 0" : '';
 	$result = $db->query("SELECT email FROM ".TABLE_PREFIX."members WHERE level IN(".join(', ', $levels).") AND id <> ".$session->sess_info['user_id'].$public_only.$exclude_banned);
+	
 	$bcc_email = array();
 	while ( $user_data = $db->fetch_result($result) )
 		$bcc_email[] = $user_data['email'];
+	$rec_num = count($bcc_email);
 	
-	$functions->usebb_mail(stripslashes($_POST['subject']), $lang['MassEmailTemplate'], array('body' => stripslashes($_POST['body'])), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_email));
+	$bcc_email = array_chunk($bcc_email, $functions->get_config('mass_email_msg_recipients'));
+	$msg_num = count($bcc_email);
 	
-	$content = '<p>'.sprintf($lang['MassEmailSent'], count($bcc_email)).'</p>';
+	foreach ( $bcc_email as $bcc_chunk )
+		$functions->usebb_mail(stripslashes($_POST['subject']), $lang['MassEmailTemplate'], array('body' => stripslashes($_POST['body'])), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_chunk));
+	
+	$content = '<p>'.sprintf($lang['MassEmailSent'], $rec_num, $msg_num).'</p>';
 	
 } else {
 	

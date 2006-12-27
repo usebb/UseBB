@@ -239,6 +239,8 @@ $lang['ConfigBoard-disable_xhtml_header'] = 'Disable XHTML header for XHTML temp
 $lang['ConfigBoard-disable_xhtml_header-info'] = 'An XHTML Content-Type can only be used when the content is 100% well-formed. This is always disabled for non-XHTML browsers.';
 $lang['ConfigBoard-email_reply-to_header'] = 'Use Reply-To header';
 $lang['ConfigBoard-email_reply-to_header-info'] = 'Use Reply-To instead of From for user\'s email address (required on some hosts).';
+$lang['ConfigBoard-mass_email_msg_recipients'] = 'Mass email message recipient count';
+$lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Multiple messages will be sent until all recipients have been mailed.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';
@@ -435,7 +437,7 @@ This is the forum software of [board_name] speaking. The administrator has sent 
 -----
 
 [body]';
-$lang['MassEmailSent'] = 'The mass email message has been sent to %d members.';
+$lang['MassEmailSent'] = 'The mass email message has been sent to %d members using %d message(s).';
 $lang['MassEmailOptions'] = 'Options';
 $lang['MassEmailPublicEmailsOnly'] = 'Only send to public email addresses';
 $lang['MassEmailExcludeBanned'] = 'Exclude banned members';

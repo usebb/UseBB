@@ -83,7 +83,7 @@ class db {
 		//
 		// Connect to server
 		//
-		if ( version_compare(phpversion(), '4.2.0', '>=') )
+		if ( version_compare(PHP_VERSION, '4.2.0', '>=') )
 			$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'], true) or trigger_error('SQL: '.mysql_error($this->connection), E_USER_ERROR);
 		else
 			$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysql_error($this->connection), E_USER_ERROR);

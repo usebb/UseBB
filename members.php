@@ -102,7 +102,7 @@ if ( empty($_GET['act']) ) {
 		//
 		// Get page number
 		//
-		$result = $db->query("SELECT COUNT(*) as count FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order']));
+		$result = $db->query("SELECT COUNT(*) as count FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order']));
 		$out = $db->fetch_result($result);
 		$num_members = $out['count'];
 		
@@ -130,7 +130,7 @@ if ( empty($_GET['act']) ) {
 			// Get members information
 			//
 			
-			$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order'])." LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order'])." LIMIT ".$limit_start.", ".$limit_end);
 			
 			while ( $userdata = $db->fetch_result($result) ) {
 				

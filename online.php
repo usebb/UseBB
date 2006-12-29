@@ -117,17 +117,17 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 		$element = '';
 		
-		if ( preg_match('#^(forum|posttopic):([0-9]+)$#', $sessiondata['location'], $matches) )
+		if ( preg_match('#^(?:forum|posttopic):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'forums';
-		elseif ( preg_match('#^(topic|reply|movetopic|deletetopic):([0-9]+)$#', $sessiondata['location'], $matches) )
+		elseif ( preg_match('#^(?:topic|reply|movetopic|deletetopic):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'topics';
-		elseif ( preg_match('#^(editpost|deletepost):([0-9]+)$#', $sessiondata['location'], $matches) )
+		elseif ( preg_match('#^(?:editpost|deletepost):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'posts';
-		elseif ( preg_match('#^(profile|sendemail):([0-9]+)$#', $sessiondata['location'], $matches) )
+		elseif ( preg_match('#^(?:profile|sendemail):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'users';
 		
 		if ( !empty($element) )
-			$ids[$element][] = $matches[2];
+			$ids[$element][] = $matches[1];
 		
 	}
 	

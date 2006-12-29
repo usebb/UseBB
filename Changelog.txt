@@ -7,6 +7,7 @@ UseBB 1.0.4 Changelog
 - Fixed bug #1377: Make the BBCode controls valid.
 - Fixed bug with missing rel attribute on www. URL's.
 - Fixed bug with topic title rtrim on forum index.
+- Major performance improvements throughout the board and template parser.
 - Mass email messages are now sent in chunks of 100 recipients (by default).
 - Members on stats box now have a last update time tooltip.
 - Shortened topic titles on forum index now have full title tooltip.

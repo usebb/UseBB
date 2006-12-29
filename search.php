@@ -202,7 +202,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 			
 			$keywords = split(' ', $_REQUEST['keywords']);
 			foreach ( $keywords as $key => $val )
-				$keywords[$key] = "( p.content LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%' OR t.topic_title LIKE '%".preg_replace(array('#%#', '#_#'), array('\%', '\_'), $val)."%' )";
+				$keywords[$key] = "( p.content LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $val)."%' OR t.topic_title LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $val)."%' )";
 			$query_where_parts[] = ' ( '.join(' '.strtoupper($_REQUEST['mode']).' ', $keywords).' ) ';
 			
 		}

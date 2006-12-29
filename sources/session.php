@@ -84,7 +84,7 @@ class session {
 		$secure = ( $functions->get_config('cookie_secure') ) ? 1 : 0;
 		if ( !$functions->get_config('cookie_httponly') )
 			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure);
-		elseif ( version_compare(phpversion(), '5.2.0RC2', '>=') )
+		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
 			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure, true);
 		else
 			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain').'; httpOnly', $secure);
@@ -337,7 +337,7 @@ class session {
 				$hits_found = 0;
 				foreach ( $dnsbl_servers as $dnsbl_server ) {
 					
-					if ( preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $dnsbl_server) && call_user_func($dnsrr_function, $dnsbl.'.'.$dnsbl_server, 'A') )
+					if ( preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $dnsbl_server) && call_user_func($dnsrr_function, $dnsbl.'.'.$dnsbl_server, 'A') )
 						$hits_found++;
 					
 				}

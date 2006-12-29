@@ -75,7 +75,7 @@ if ( !$session->sess_info['user_id'] ) {
 		
 	} else {
 	
-		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($functions->get_config('board_url'), '#').'#', $_SERVER['HTTP_REFERER']) && !preg_match('#(login|logout|register|activate|sendpwd|install)#', $_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
+		$_SERVER['HTTP_REFERER'] = ( !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $functions->get_config('board_url')) === 0 && !preg_match('#(?:login|logout|register|activate|sendpwd|install)#', $_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
 		$_SESSION['refere_to'] = ( !empty($_SESSION['referer']) ) ? $_SESSION['referer'] : $_SERVER['HTTP_REFERER'];
 		unset($_SESSION['referer']);
 		

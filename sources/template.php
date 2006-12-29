@@ -79,7 +79,6 @@ class template {
 	var $global_vars = array();
 	var $raw_contents = array();
 	var $js_onload = array();
-	var $body = '';
 	/**#@-*/
 	
 	/**
@@ -254,6 +253,8 @@ class template {
 		
 		global $db, $functions, $timer, $lang, $session;
 		
+		$body = '';
+		
 		//
 		// Eventually set the content type and charset
 		//
@@ -354,57 +355,73 @@ class template {
 			
 			if ( isset($request['raw']) ) {
 				
-				$this->body .= "\n".$this->raw_contents[$request['num']]."\n";
+				$body .= "\n".$this->raw_contents[$request['num']]."\n";
 				continue;
 				
 			}
 			
-			$current_template = $this->templates[$request['section']][$request['template_name']];
-			$finds = $replaces = array();
-			
-			if ( preg_match('#\{l_[a-zA-Z0-9]+\}#', $current_template) ) {
-				
-				foreach ( $lang as $key => $val ) {
-					
-					if ( !is_array($val) ) {
-						
-						$finds[] = '#\{l_'.preg_quote($key, '#').'\}#';
-						$replaces[] = $val;
-						
-					}
-					
-				}
-				
-			}
-			
-			$request['variables'] = array_merge($this->global_vars, $request['variables']);
-			
+			$finds = $replaces = array();			
 			foreach ( $request['variables'] as $key => $val ) {
 				
-				$finds[] = '#\{'.preg_quote($key, '#').'\}#';
-				$replaces[] = $val;
+				$finds[] = '{'.$key.'}';
+				$replaces[] = str_replace(array('{', '}', '$'), array('&#123', '&#125;', '&#36;'), $val);
 				
 			}
-			
-			foreach ( $replaces as $key => $val )
-				$replaces[$key] = preg_replace(array('#\{([a-zA-Z0-9_]+)\}#', '#\$#'), array('&#123;\\1&#125;', '&#36;'), $val);
-			
-			$current_template = preg_replace($finds, $replaces, $current_template);
-			$this->body .= $current_template;
+			$current_template = $this->templates[$request['section']][$request['template_name']];
+			$body .= str_replace($finds, $replaces, $current_template);
 			
 		}
+		unset($current_template);
+		
+		//
+		// Parse global and language variables
+		//
+		$finds = $replaces = array();
+		foreach ( $this->global_vars as $key => $val ) {
+			
+			$finds[] = '{'.$key.'}';
+			$replaces[] = str_replace(array('{', '}', '$'), array('&#123', '&#125;', '&#36;'), $val);
+			
+		}
+		foreach ( $lang as $key => $val ) {
+			
+			if ( !is_string($val) || strpos($body, '{l_'.$key.'}') === false )
+				continue;
+			
+			$finds[] = '{l_'.$key.'}';
+			$replaces[] = $val;
+			
+		}
+		$body = str_replace($finds, $replaces, $body);
+		unset($finds, $replaces);
 		
 		//
 		// Compression and output
 		//
 		if ( $functions->get_config('output_compression') === 1 || $functions->get_config('output_compression') === 3 )
-			$this->body = $functions->compress_sourcecode($this->body);
+			$body = $functions->compress_sourcecode($body);
+		
+		//
+		// Clean bad ASCII characters
+		//
+		if ( strtolower($this->character_encoding) != 'utf-8' ) {
+			
+			$ascii = range(0, 31);
+			unset($ascii[9], $ascii[10], $ascii[13]); // tab, newline and carriage return
+			
+			$ascii_replace = array();
+			foreach ( $ascii as $val )
+				$ascii_replace[chr($val)] = '';
+			
+			$body = strtr($body, $ascii_replace);
+			
+		}
 		
 		$unwanted_output = ob_get_contents();
 		unset($unwanted_output);
 		ob_end_clean();
 		
-		echo trim($this->body);
+		echo trim($body);
 		
 	}
 	

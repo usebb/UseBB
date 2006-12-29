@@ -76,7 +76,7 @@ else
 $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <ul>
 	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' (<a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a>)</li>
-	<li>'.$lang['IndexPHPVersion'].': '.phpversion().'</li>
+	<li>'.$lang['IndexPHPVersion'].': '.PHP_VERSION.'</li>
 	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
 	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
 	<li>'.$lang['IndexOS'].': '.( ( array_key_exists('OS', $_ENV) ) ? $_ENV['OS'] : PHP_OS ).'</li>

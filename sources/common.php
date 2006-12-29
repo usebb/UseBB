@@ -55,7 +55,7 @@ $timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
 // (available since PHP 4.1.0)
 //
 if ( !function_exists('version_compare') )
-	die('<h1>Warning!</h1><p>UseBB does not work on PHP '.phpversion().'. You need at least <strong>4.1.0</strong>. Get a recent PHP 4 or 5 release from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>');
+	die('<h1>Warning!</h1><p>UseBB does not work on PHP '.PHP_VERSION.'. You need at least <strong>4.1.0</strong>. Get a recent PHP 4 or 5 release from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>');
 
 //
 // Security measures
@@ -214,7 +214,7 @@ define('TABLE_PREFIX', $dbs['prefix']);
 /**
  * On Windows
  */
-define('ON_WINDOWS', ( strstr(PHP_OS, 'WIN') !== false ));
+define('ON_WINDOWS', ( DIRECTORY_SEPARATOR == '\\' ));
 
 //
 // Include all other necessary files

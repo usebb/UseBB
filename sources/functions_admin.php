@@ -174,7 +174,7 @@ class admin_functions {
 	 */
 	function check_module($module_name, $actual_module_name='') {
 		
-		if ( preg_match('#\.php$#', $module_name) ) {
+		if ( subtr($module_name, -4) == '.php' ) {
 			
 			$module_name = ( !empty($actual_module_name) ) ? $actual_module_name : ROOT_PATH.'sources/modules/'.$module_name;
 			
@@ -309,11 +309,7 @@ class admin_functions {
 		if ( function_exists('var_export') )
 			return str_replace("\n", '', var_export($variable, true));
 		
-		if ( is_int($variable) || is_bool($variable) || is_float($variable) ) {
-		
-			$variable = $variable;
-			
-		} elseif ( is_string($variable) ) {
+		if ( is_string($variable) ) {
 			
 			$variable = "'".str_replace("'", "\'", $variable)."'";
 			

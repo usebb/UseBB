@@ -83,25 +83,7 @@ function slash_trim_global($global) {
  */
 function unhtml($string) {
 	
-	global $lang;
-	
-	$string = preg_replace(array('#&#', '#&amp;\#([0-9]+)#', '#&\#(160|173|8192|8193|8194|8195|8196|8197|8198|8199|8120|8201|8202|8203|8204|8205|8206|8207)#', '#<#', '#>#', '#"#', '#&\#?[a-z0-9]+$#'), array('&amp;', '&#\\1', '&amp;#\\1', '&lt;', '&gt;', '&quot;', ''), $string);
-	
-	//
-	// If the character encoding isn't UTF-8, only keep valid ASCII characters:
-	// all characters between 31 and 128, except tab, new line and carriage return
-	//
-	if ( strtolower($lang['character_encoding']) == 'utf-8' )
-		return $string;
-	
-	$ascii = range(0, 31);
-	unset($ascii[9], $ascii[10], $ascii[13]);
-	
-	$ascii_replace = array();
-	foreach ( $ascii as $val )
-		$ascii_replace[chr($val)] = '';
-	
-	return strtr($string, $ascii_replace);
+	return preg_replace(array('#&amp;\#([0-9]+)#', '#&\#?[a-z0-9]+$#'), array('&#\\1', ''), htmlspecialchars($string));
 	
 }
 
@@ -216,7 +198,7 @@ function checkdnsrr_win($host, $type='') {
 	
 	foreach ( $output as $line ) {
 		
-		if ( preg_match('#^'.$host.'#', $line) )
+		if ( strpos($line, $host) === 0 )
 			return true;
 		
 	}
@@ -280,13 +262,13 @@ class functions {
 			'ini_get() has been disabled for security reasons',
 			'exec() has been disabled for security reasons'
 		);
-		if ( version_compare(phpversion(), '5.0.0', '>=') ) {
+		if ( version_compare(PHP_VERSION, '5.0.0', '>=') ) {
 			
 			$ignore_warnings[] = 'var: Deprecated. Please use the public/private/protected modifiers';
 			$ignore_warnings[] = 'Trying to get property of non-object';
 			
 		}
-		if ( in_array($error, $ignore_warnings) || preg_match('#(zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
+		if ( in_array($error, $ignore_warnings) || preg_match('#(?:zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
 			return;
 		
 		//
@@ -307,14 +289,16 @@ class functions {
 			1024 => 'E_USER_NOTICE'
 		);
 		
-		$errtype = ( preg_match('#^SQL: #', $error) ) ? 'SQL_ERROR' : $errtypes[$errno];
-		
-		if ( $errtype == 'SQL_ERROR' )
+		if ( strpos($error, 'SQL:') === 0 ) {
+			
+			$errtype = 'SQL_ERROR';
 			$error = substr($error, 5);
+			
+		}
 		
-		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
+		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
-		if ( preg_match('#^mysql#', $error) && $this->get_config('debug') < 2 )
+		if ( strpos($error, 'mysql') === 0 && $this->get_config('debug') < 2 )
 			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -388,11 +372,12 @@ class functions {
 		// - mysql*() error "Access denied for user"
 		// - sql error "Table 'x' doesn't exist" or "Access denied for user"
 		//
-		if ( ( preg_match('#^mysql#i', $error) && preg_match("#Access denied for user#i", $error) ) ||
-		( $errtype == 'SQL_ERROR' && preg_match("#(Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
+		if ( ( strpos($error, 'mysql') === 0 && strpos($error, 'Access denied for user') !== false ) ||
+		( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
-		<p>It seems UseBB is not installed yet. If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>';
+		<p>It seems UseBB is not installed yet. If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
+		<p>If UseBB is installed, please check your database connection.</p>';
 			
 		} else {
 			
@@ -500,7 +485,7 @@ class functions {
 						break;
 					
 					case 'cookie_domain':
-						$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^([a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
+						$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
 						break;
 					
 					case 'cookie_path':
@@ -695,7 +680,7 @@ class functions {
 			//
 			// Friendly URL's
 			//
-			$url = preg_replace('#\.php$#', '', $filename);
+			$url = substr($filename, 0, -4);
 			foreach ( $vars as $key => $val ) {
 				
 				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )
@@ -723,7 +708,13 @@ class functions {
 				
 			}
 			
-			if ( $enable_sid && !empty($SID) && !preg_match('#Googlebot#i', $_SERVER['HTTP_USER_AGENT']) && ( !$html || ( $html && !@ini_get('session.use_trans_sid') ) ) )
+			//
+			// Add the session ID when:
+			// - is enabled and available
+			// - the user agent isn't Googlebot
+			// - HTML is disabled or session.use_trans_sid is disabled
+			//
+			if ( $enable_sid && !empty($SID) && strpos($_SERVER['HTTP_USER_AGENT'], 'Googlebot') === false && ( !$html || !ini_get('session.use_trans_sid') ) )
 				$vars[$SID_parts[0]] = $SID_parts[1];
 			
 			if ( count($vars) ) {
@@ -1485,7 +1476,7 @@ class functions {
 	function bbcode_clear($string) {
 		
 		$existing_tags = array('code', 'b', 'i', 'u', 's', 'img', 'url', 'mailto', 'color', 'size', 'google', 'quote');
-		return preg_replace('#\[/?('.join('|', $existing_tags).')(=[^\]]*)?\]#i', '', $string);
+		return preg_replace('#\[/?(?:'.join('|', $existing_tags).')(?:=[^\]]*)?\]#i', '', $string);
 		
 	}
 	
@@ -1897,7 +1888,7 @@ class functions {
 				$result = $db->query("SELECT word, replacement FROM ".TABLE_PREFIX."badwords ORDER BY word ASC");
 				$this->badwords = array();
 				while ( $data = $db->fetch_result($result) )
-					$this->badwords['#\b(' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
+					$this->badwords['#\b(?:' . str_replace('\*', '\w*?', preg_quote(stripslashes($data['word']), '#')) . ')\b#i'] = stripslashes($data['replacement']);
 				
 			}
 			
@@ -2515,7 +2506,7 @@ class functions {
 		//
 		// Don't use Location on IIS
 		//
-		if ( !preg_match('#Microsoft\-IIS#', $_SERVER['SERVER_SOFTWARE']) )
+		if ( strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') === false )
 			@header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		
@@ -2575,7 +2566,7 @@ class functions {
 		//
 		if ( !$this->get_config('cookie_httponly') )
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure);
-		elseif ( version_compare(phpversion(), '5.2.0RC2', '>=') )
+		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure, true);
 		else
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain').'; httpOnly', $secure);

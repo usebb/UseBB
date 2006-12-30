@@ -359,6 +359,7 @@ class template {
 			'debug_info_small' => $debug_info_small,
 			'debug_info_large' => $debug_info_large
 		));
+		unset($debug_info, $debug_info_small, $debug_info_large);
 		
 		//
 		// Add some global template variables such as content type and charset

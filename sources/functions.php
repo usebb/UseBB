@@ -196,9 +196,10 @@ function checkdnsrr_win($host, $type='') {
 	$output = array();
 	exec('nslookup -type='.$type.' '.$host, $output);
 	
+	$host_len = strlen($host);
 	foreach ( $output as $line ) {
 		
-		if ( strpos($line, $host) === 0 )
+		if ( !strncasecmp($line, $host, $host_len) )
 			return true;
 		
 	}
@@ -289,7 +290,7 @@ class functions {
 			1024 => 'E_USER_NOTICE'
 		);
 		
-		if ( strpos($error, 'SQL:') === 0 ) {
+		if ( !strncmp($error, 'SQL:', 4) ) {
 			
 			$errtype = 'SQL_ERROR';
 			$error = substr($error, 5);
@@ -298,7 +299,7 @@ class functions {
 		
 		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
-		if ( strpos($error, 'mysql') === 0 && $this->get_config('debug') < 2 )
+		if ( !strncmp($error, 'mysql', 5) && $this->get_config('debug') < 2 )
 			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -372,8 +373,7 @@ class functions {
 		// - mysql*() error "Access denied for user"
 		// - sql error "Table 'x' doesn't exist" or "Access denied for user"
 		//
-		if ( ( strpos($error, 'mysql') === 0 && strpos($error, 'Access denied for user') !== false ) ||
-		( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
+		if ( ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false ) || ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
 		<p>It seems UseBB is not installed yet. If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>

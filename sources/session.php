@@ -97,7 +97,7 @@ class session {
 		//
 		// Start the session
 		//
-		if ( !@ini_get('session.auto_start') )
+		if ( !ini_get('session.auto_start') )
 			session_start();
 		
 		//

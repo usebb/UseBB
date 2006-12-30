@@ -85,13 +85,13 @@ class template {
 	 * Constructor for template class
 	 *
 	 * Activates gzip compression if needed, before doing a session_start(). 
-	 * Also activates a second output buffer to trigger unwanted output from mods and produce an error later.
+	 * Also activates a second output buffer to trigger unwanted output from mods.
 	 */
 	function template() {
 		
 		global $functions;
 		
-		if ( !defined('NO_GZIP') && ( $functions->get_config('output_compression') === 2 || $functions->get_config('output_compression') === 3 ) && !@ini_get('zlib.output_compression') )
+		if ( !defined('NO_GZIP') && (int)$functions->get_config('output_compression') >= 2 && !ini_get('zlib.output_compression') )
 			ob_start('ob_gzhandler');
 		
 		ob_start();
@@ -245,6 +245,32 @@ class template {
 	}
 	
 	/**
+	 * Replace all whitespace by a space except in <textarea /> and <pre />
+	 *
+	 * @param string $string Source code to compress
+	 * @returns string Compressed source code
+	 */
+	function compress_sourcecode($string) {
+		
+		$matches = array();
+		preg_match_all("#<textarea.*?>(.*?)</textarea>#is", $string, $matches[0]);
+		preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches[1]);
+		preg_match_all("#<script.*?>(.*?)</script>#is", $string, $matches[2]);
+		$matches = array_merge($matches[0][0], $matches[1][0], $matches[2][0]);
+		foreach ( $matches as $oldpart ) {
+			
+			$newpart = str_replace("\n", "\0", $oldpart);
+			$string = str_replace($oldpart, $newpart, $string);
+			
+		}
+		$string = str_replace("\r", "", $string);
+		$string = preg_replace("#\s+#", ' ', $string);
+		$string = str_replace("\0", "\n", $string);
+		return $string;
+		
+	}
+	
+	/**
 	 * Output the page body
 	 *
 	 * This method parses all the template data and takes care of unwanted output by triggering an error.
@@ -380,7 +406,7 @@ class template {
 		foreach ( $this->global_vars as $key => $val ) {
 			
 			$finds[] = '{'.$key.'}';
-			$replaces[] = str_replace(array('{', '}', '$'), array('&#123', '&#125;', '&#36;'), $val);
+			$replaces[] = str_replace(array('{', '}', '$'), array('&#123;', '&#125;', '&#36;'), $val);
 			
 		}
 		foreach ( $lang as $key => $val ) {
@@ -398,8 +424,8 @@ class template {
 		//
 		// Compression and output
 		//
-		if ( $functions->get_config('output_compression') === 1 || $functions->get_config('output_compression') === 3 )
-			$body = $functions->compress_sourcecode($body);
+		if ( (int)$functions->get_config('output_compression') % 2 == 1 )
+			$body = $this->compress_sourcecode($body);
 		
 		//
 		// Clean bad ASCII characters
@@ -409,18 +435,18 @@ class template {
 			$ascii = range(0, 31);
 			unset($ascii[9], $ascii[10], $ascii[13]); // tab, newline and carriage return
 			
-			$ascii_replace = array();
-			foreach ( $ascii as $val )
-				$ascii_replace[chr($val)] = '';
-			
-			$body = strtr($body, $ascii_replace);
+			$finds = $replaces = '';
+			foreach ( $ascii as $val ) {
+				
+				$finds .= chr($val);
+				$replaces .= '.';
+				
+			}
+			$body = strtr($body, $finds, $replaces);
 			
 		}
 		
-		$unwanted_output = ob_get_contents();
-		unset($unwanted_output);
 		ob_end_clean();
-		
 		echo trim($body);
 		
 	}

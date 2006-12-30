@@ -46,7 +46,7 @@ if ( !defined('INCLUDED') )
 if ( !extension_loaded('mysql') && !defined('NO_DB') )
 	trigger_error('Unable to load module for database server "mysql": PHP mysql extension not available!', E_USER_ERROR);
 
-@ini_set('mysql.trace_mode', '0');
+ini_set('mysql.trace_mode', '0');
 
 /**
  * MySQL database driver

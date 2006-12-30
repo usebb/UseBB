@@ -149,21 +149,21 @@ if ( $functions->get_config('disable_registrations') ) {
 				$log_entry = $functions->make_date(time(), 'D, d M Y H:i:s', true, false)." @ ".$functions->get_config('board_name')."\n";
 				
 				$entry_data = array(
-					'Username'			=> $_POST['user'],
-					'Email address'		=> $_POST['email'],
+					'Username'		=> $_POST['user'],
+					'Email address'	=> $_POST['email'],
 					'IP address'		=> $session->sess_info['ip_addr'],
-					'Host name'			=> gethostbyaddr($session->sess_info['ip_addr']),
+					'Host name'		=> gethostbyaddr($session->sess_info['ip_addr']),
 					'Browser'			=> $_SERVER['HTTP_USER_AGENT'],
 					'Session started'	=> $functions->make_date($session->sess_info['started'], 'D, d M Y H:i:s', true, false),
-					'Pages'				=> $session->sess_info['pages']
+					'Pages'			=> $session->sess_info['pages']
 				);
 				
 				foreach ( $entry_data as $key => $val )
 					$log_entry .= "\t".$key.":\t".$val."\n";
 				
-				$fh = @fopen($log_file, 'a');
-				@fwrite($fh, $log_entry);
-				@fclose($fh);
+				$fh = fopen($log_file, 'a');
+				fwrite($fh, $log_entry);
+				fclose($fh);
 				
 			}
 			

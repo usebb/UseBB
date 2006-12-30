@@ -62,10 +62,10 @@ if ( !function_exists('version_compare') )
 //
 error_reporting(E_ALL);
 set_magic_quotes_runtime(1);
-@ini_set('display_errors', '1');
-@ini_set('session.use_trans_sid', '0');
+ini_set('display_errors', '1');
+ini_set('session.use_trans_sid', '0');
 
-if ( @ini_get('register_globals') ) {
+if ( ini_get('register_globals') ) {
 	
 	foreach ( $_REQUEST as $var_name => $null ) {
 		

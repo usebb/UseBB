@@ -194,7 +194,7 @@ function checkdnsrr_win($host, $type='') {
 	$type = ( !empty($type) && in_array($type, $types) ) ? $type : 'MX';
 	
 	$output = array();
-	@exec('nslookup -type='.$type.' '.$host, $output);
+	exec('nslookup -type='.$type.' '.$host, $output);
 	
 	foreach ( $output as $line ) {
 		
@@ -1902,32 +1902,6 @@ class functions {
 	}
 	
 	/**
-	 * Replace all whitespace by a space except in <textarea /> and <pre />
-	 *
-	 * @param string $string Source code to compress
-	 * @returns string Compressed source code
-	 */
-	function compress_sourcecode($string) {
-		
-		$matches = array();
-		preg_match_all("#<textarea.*?>(.*?)</textarea>#is", $string, $matches[0]);
-		preg_match_all("#<pre.*?>(.*?)</pre>#is", $string, $matches[1]);
-		preg_match_all("#<script.*?>(.*?)</script>#is", $string, $matches[2]);
-		$matches = array_merge($matches[0][0], $matches[1][0], $matches[2][0]);
-		foreach ( $matches as $oldpart ) {
-			
-			$newpart = str_replace("\n", "\0", $oldpart);
-			$string = str_replace($oldpart, $newpart, $string);
-			
-		}
-		$string = str_replace("\r", "", $string);
-		$string = preg_replace("#\s+#", ' ', $string);
-		$string = str_replace("\0", "\n", $string);
-		return $string;
-		
-	}
-	
-	/**
 	 * Timezone handling
 	 *
 	 * @param string $action 'get_zones' or 'check_existance'
@@ -2176,7 +2150,7 @@ class functions {
 				//
 				$tmp = array();
 				$retval = 1;
-				$out = @exec('uptime', $tmp, $retval);
+				$out = exec('uptime', $tmp, $retval);
 				unset($tmp);
 				
 				if ( !$retval ) {
@@ -2507,7 +2481,7 @@ class functions {
 		// Don't use Location on IIS
 		//
 		if ( strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') === false )
-			@header('Location: '.$url);
+			header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		
 	}

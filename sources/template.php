@@ -390,7 +390,7 @@ class template {
 			foreach ( $request['variables'] as $key => $val ) {
 				
 				$finds[] = '{'.$key.'}';
-				$replaces[] = str_replace(array('{', '}', '$'), array('&#123', '&#125;', '&#36;'), $val);
+				$replaces[] = str_replace(array('{', '}', '$'), array('&#123;', '&#125;', '&#36;'), $val);
 				
 			}
 			$current_template = $this->templates[$request['section']][$request['template_name']];

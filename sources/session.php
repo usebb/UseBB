@@ -81,13 +81,16 @@ class session {
 		// Set some PHP session cookie configuration options
 		// Use httpOnly flag when enabled
 		//
+		// Also see the comments with setcookie() in functions.php.
+		//
+		$domain = $functions->get_config('cookie_domain');
 		$secure = ( $functions->get_config('cookie_secure') ) ? 1 : 0;
-		if ( !$functions->get_config('cookie_httponly') )
-			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure);
+		if ( empty($domain) || !$functions->get_config('cookie_httponly') )
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain, $secure);
 		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
-			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain'), $secure, true);
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain, $secure, true);
 		else
-			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $functions->get_config('cookie_domain').'; httpOnly', $secure);
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain.'; httpOnly', $secure);
 		
 		//
 		// Set the session name

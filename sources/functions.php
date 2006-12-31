@@ -2526,6 +2526,10 @@ class functions {
 	 * The httpOnly hack for < PHP 5.2 taken from
 	 * @link http://blog.mattmecham.com/archives/2006/09/http_only_cookies_without_php.html
 	 *
+	 * Note: httpOnly is disabled when working on a non domain (localhost, IP address)
+	 * since when cookie_domain is empty and httpOnly is used, IE 6 and 7 fail to set
+	 * the cookie, even though the Set-Cookie header is well-formed and valid.
+	 *
 	 * @param string $name Name
 	 * @param string $value Value
 	 * @param int $expires Expire timestamp (when necessary)
@@ -2533,17 +2537,15 @@ class functions {
 	function setcookie($name, $value, $expires=null) {
 		
 		$expires = ( is_null($expires) && empty($value) ) ? time()-31536000 : $expires;
+		$domain = $this->get_config('cookie_domain');
 		$secure = ( $this->get_config('cookie_secure') ) ? 1 : 0;
 		
-		//
-		// Use httpOnly flag as of PHP 5.2.0RC2
-		//
-		if ( !$this->get_config('cookie_httponly') )
-			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure);
+		if ( empty($domain) || !$this->get_config('cookie_httponly') )
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain, $secure);
 		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
-			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain'), $secure, true);
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain, $secure, true);
 		else
-			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $this->get_config('cookie_domain').'; httpOnly', $secure);
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain.'; httpOnly', $secure);
 		
 	}
 	

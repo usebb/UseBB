@@ -299,7 +299,7 @@ class functions {
 		
 		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
-		if ( !strncmp($error, 'mysql', 5) && $this->get_config('debug') < 2 )
+		if ( ( !strncmp($error, 'mysql', 5) || $errtype == 'SQL_ERROR' ) && $this->get_config('debug') < 2 )
 			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

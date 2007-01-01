@@ -115,6 +115,8 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		
 		<p class="important"><strong>Important:</strong> this wizard does <strong>not</strong> upgrade an existing installation. Please see the <a href="../docs/index.html"><em>Readme</em> document</a> for upgrading instructions.</p>
 		
+		<p class="important"><strong>Important:</strong> If you use <strong>MySQL 4.1 or higher</strong>, it is highly recommended to use a <strong><code>latin1</code> collation</strong> instead of a Unicode one. Should your host use Unicode as default database collation, please change this for your database using phpMyAdmin or a similar administration tool or contact your host <em>before</em> installing UseBB. In most cases though, no action will be necessary.</p>
+		
 		'.$config_warning.'
 		
 		<p>You can also manually install UseBB. The instructions can be found in the <a href="../docs/index.html"><em>Readme</em> document</a>. Also, check the system requirements found in that file.</p>

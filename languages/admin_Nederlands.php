@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2006 UseBB Team
+	Copyright (C) 2003-2007 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -20,7 +20,7 @@
 	
 	You should have received a copy of the GNU General Public License
 	along with UseBB; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 //
@@ -200,8 +200,8 @@ $lang['ConfigBoard-exclude_forums_rss'] = 'Forums uit RSS-feed filteren';
 $lang['ConfigBoard-exclude_forums_stats'] = 'Forums uit statistiekenpagina filteren';
 $lang['ConfigBoard-timezone'] = 'Tijdzone';
 $lang['ConfigBoard-debug0'] = 'Uitgeschakeld';
-$lang['ConfigBoard-debug1'] = 'Eenvoudige debuginformatie';
-$lang['ConfigBoard-debug2'] = 'Uitgebreide debuginformatie';
+$lang['ConfigBoard-debug1'] = 'Eenvoudig (rendertijd + aantallen)';
+$lang['ConfigBoard-debug2'] = 'Uitgebreid (eenvoudig + SQL-queries)';
 $lang['ConfigBoard-email_view_level0'] = 'Verberg alle e-mailadressen';
 $lang['ConfigBoard-email_view_level1'] = 'E-mailformulier inschakelen';
 $lang['ConfigBoard-email_view_level2'] = 'Tonen met spambeveiliging';

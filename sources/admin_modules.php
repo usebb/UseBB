@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2006 UseBB Team
+	Copyright (C) 2003-2007 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -20,7 +20,7 @@
 	
 	You should have received a copy of the GNU General Public License
 	along with UseBB; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /**
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2006 UseBB Team
+ * @copyright	Copyright (C) 2003-2007 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -57,12 +57,12 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 		if ( count($admin_functions->acp_modules) ) {
 			
-			$content .= '<table id="adminregulartable"><tr><th>'.$lang['ModulesLongName'].' - '.$lang['ModulesCategory'].'</th><th>'.$lang['ModulesShortName'].' - '.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
+			$content .= '<table id="adminregulartable"><tr><th>'.$lang['ModulesCategory'].' - '.$lang['ModulesLongName'].'</th><th>'.$lang['ModulesShortName'].' - '.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
 			foreach ( $admin_functions->acp_modules as $module ) {
 				
 				$delete_link = ( is_writable($modules_dir.$module['filename']) ) ? '<a href="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $module['short_name'])).'">'.$lang['Delete'].'</a>' : $lang['ModulesDeleteNotPermitted'];
 				
-				$content .= '<tr><td><a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'">'.$module['long_name'].'</a><br /><em>'.$lang['Category-'.$module['acp_category']].'</em></td><td><code>(mod_)'.$module['short_name'].'<br />'.$module['filename'].'</code></td><td class="action">'.$delete_link.'</td></tr>';
+				$content .= '<tr><td>'.$lang['Category-'.$module['acp_category']].'<br />&middot; <a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'">'.$module['long_name'].'</a></td><td><code>'.$module['short_name'].'<br />'.$module['filename'].'</code></td><td class="action">'.$delete_link.'</td></tr>';
 				
 			}
 			$content .= '</table>';
@@ -128,7 +128,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		} else {
 			
 			$content = '<h2>'.$lang['ModulesConfirmModuleDelete'].'</h2>';
-			$content .= '<p>'.sprintf($lang['ModulesConfirmModuleDeleteInfo'], '<em>'.$acp_module['long_name'].'</em>', '<code>(mod_)'.$acp_module['short_name'].'</code>').'</p>';
+			$content .= '<p>'.sprintf($lang['ModulesConfirmModuleDeleteInfo'], '<em>'.$acp_module['long_name'].'</em>', '<code>'.$acp_module['short_name'].'</code>').'</p>';
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $_GET['name'])).'" method="post">';
 			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';

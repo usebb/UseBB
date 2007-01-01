@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2006 UseBB Team
+	Copyright (C) 2003-2007 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -20,7 +20,7 @@
 	
 	You should have received a copy of the GNU General Public License
 	along with UseBB; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /**
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2006 UseBB Team
+ * @copyright	Copyright (C) 2003-2007 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -58,7 +58,7 @@ if ( !defined('IS_INSTALLER') && $functions->get_user_level() < LEVEL_ADMIN )
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2006 UseBB Team
+ * @copyright	Copyright (C) 2003-2007 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -174,7 +174,7 @@ class admin_functions {
 	 */
 	function check_module($module_name, $actual_module_name='') {
 		
-		if ( subtr($module_name, -4) == '.php' ) {
+		if ( substr($module_name, -4) == '.php' ) {
 			
 			$module_name = ( !empty($actual_module_name) ) ? $actual_module_name : ROOT_PATH.'sources/modules/'.$module_name;
 			

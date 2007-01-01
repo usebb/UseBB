@@ -14,6 +14,8 @@ UseBB 1.0.4 Changelog
 - Members on stats box now have a last update time tooltip.
 - Shortened topic titles on forum index now have full title tooltip.
 - Version check is now also possible through cURL.
+- Some minor usability improvements throughout the board.
+- Updated copyright (2007) and FSF's address.
 - Removed DNSBL wildcard IP address banning (useless).
 
 UseBB 1.0.3 Changelog

@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2006 UseBB Team
+	Copyright (C) 2003-2007 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -20,7 +20,7 @@
 	
 	You should have received a copy of the GNU General Public License
 	along with UseBB; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /**
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2006 UseBB Team
+ * @copyright	Copyright (C) 2003-2007 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -286,6 +286,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<table id="adminregulartable">';
 			
 			$content .= '<tr><th colspan="2">'.$lang['EditProfile'].'</th></tr>';
+			$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['DisplayedName'].' <small>*</small></td><td><input type="text" size="30" name="displayed_name" maxlength="255" value="'.unhtml(stripslashes($_POST['displayed_name'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Password'].'</td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
@@ -302,7 +303,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['Rank'].'</td><td><input type="text" size="30" name="rank" maxlength="255" value="'.unhtml(stripslashes($_POST['rank'])).'" /></td></tr>';
 				$content .= $banned_input;
 				$content .= '<tr><td class="fieldtitle">'.$lang['Posts'].' <small>*</small></td><td><input type="text" size="11" name="posts" maxlength="11" value="'.unhtml(stripslashes($_POST['posts'])).'" /></td></tr>';
-			$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Delete'].'</td><td><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'">'.$lang['DeleteMembersConfirmMemberDelete'].'</a></td></tr>';
 			
 			$content .= '<tr><th colspan="2">'.$lang['ContactInfo'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';

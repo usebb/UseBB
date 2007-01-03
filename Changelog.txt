@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.5 Changelog
+------------------------------
+
+- Display error upon impossible (> 3) level value of member.
+
 UseBB 1.0.4 Changelog
 ------------------------------
 

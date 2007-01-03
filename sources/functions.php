@@ -295,6 +295,10 @@ class functions {
 			$errtype = 'SQL_ERROR';
 			$error = substr($error, 5);
 			
+		} else {
+			
+			$errtype = $errtypes[$errno];
+			
 		}
 		
 		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
@@ -1980,6 +1984,8 @@ class functions {
 			case 1:
 				$levelclass = '';
 				break;
+			default:
+				trigger_error('User ID '.$user_id.' has a level of '.$level.' which is not possible within UseBB.', E_USER_ERROR);
 			
 		}
 		

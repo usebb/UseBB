@@ -123,7 +123,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 			//
 			// Lock topics
 			//
-			$db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE status_locked = 0 AND id IN (".join(', ', $topics).")");
+			$db->query("UPDATE ".TABLE_PREFIX."topics SET status_locked = 1 WHERE id IN (".join(', ', $topics).")");
 			
 		}
 		

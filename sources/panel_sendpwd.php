@@ -90,7 +90,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 		
 		if ( $_POST['email'] == $userdata['email'] ) {
 			
-			$new_password = $functions->random_key();
+			$new_password = $functions->random_key(true);
 			
 			//
 			// Update the row in the user table

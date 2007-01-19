@@ -988,25 +988,33 @@ class functions {
 	/**
 	 * Generate a random key
 	 *
+	 * @param bool $is_password Is the random key used as a password?
 	 * @returns string Random key
 	 */
-	function random_key() {
+	function random_key($is_password=false) {
 		
-		$characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-		$length = ( $this->get_config('passwd_min_length') > 10 ) ? $this->get_config('passwd_min_length') : 10;
-		$key = '';
+		$chars = array_merge(
+			range(48, 57), # 0-9
+			range(65, 90), # A-Z
+			range(97, 122) # a-z
+		);
 		
-		for ( $i=0; $i<$length; $i++ ) {
+		$passwd_min_length = $this->get_config('passwd_min_length');
+		$length = ( $is_password && $passwd_min_length >= 10 ) ? $passwd_min_length : 10;
+		
+		if ( version_compare(PHP_VERSION, '4.2.0', '<') ) {
 			
 			//
-			// Make a seed for the random key generator
-			// This is needed on PHP < 4.2.0
+			// Seed for PHP < 4.2.0
 			//
 			$seed = explode(' ', microtime());
 			mt_srand($seed[0] * $seed[1]);
-			$key .= $characters[mt_rand(0, strlen($characters)-1)];
 			
 		}
+		
+		$key = '';
+		for ( $i = 0; $i < $length; $i++ )
+			$key .= chr($chars[mt_rand(0, count($chars)-1)]);
 		
 		return $key;
 		

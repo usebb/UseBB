@@ -191,3 +191,28 @@ function init_external() {
 	}
 	
 }
+
+//
+// Avatars resize function
+//
+function resize_avatars(allowed_width, allowed_height) {
+	
+	var avatars = document.getElementsByTagName('img');
+	
+	for ( var i = 0; i < avatars.length; i++ ) {
+		
+		if ( avatars[i].className == 'usebb-avatar' ) {
+			
+			var avatar = avatars[i];
+			
+			if ( allowed_width > 0 && avatar.width > allowed_width )
+				avatar.width = allowed_width;
+			
+			if ( allowed_height > 0 && avatar.height > allowed_height )
+				avatar.height = allowed_height;
+			
+		}
+		
+	}
+	
+}

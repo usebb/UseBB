@@ -218,6 +218,14 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$page_links = $functions->make_page_links($numpages, $page, $topicdata['count_replies']+1, $functions->get_config('posts_per_page'), 'topic.php', $requested_topic);
 			
 			//
+			// Avatar helper variables
+			//
+			$hide_avatars = (bool)$functions->get_config('hide_avatars');
+			$avatars_force_width = (int)$functions->get_config('avatars_force_width');
+			$avatars_force_height = (int)$functions->get_config('avatars_force_height');
+			$avatars_found = false;
+			
+			//
 			// Output the posts
 			//
 			$template->parse('header', 'topic', array(
@@ -228,7 +236,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				'page_links' => $page_links
 			));
 			
-			$avatars_query_part = ( !$functions->get_config('hide_avatars') ) ? ', u.avatar_type, u.avatar_remote' : '';
+			$avatars_query_part = ( !$hide_avatars ) ? ', u.avatar_type, u.avatar_remote' : '';
 			$userinfo_query_part = ( !$functions->get_config('hide_userinfo') ) ? ', u.posts, u.regdate, u.location' : '';
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
@@ -315,15 +323,14 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					//
 					// User's avatar
 					//
-					if ( $functions->get_config('hide_avatars') || !$postsdata['avatar_type'] ) {
+					if ( $hide_avatars || empty($postsdata['avatar_type']) || !$postsdata['avatar_type'] ) {
 						
 						$avatar = '';
 						
-					} elseif ( intval($postsdata['avatar_type']) === 1 ) {
+					} else {
 						
-						$avatar_force_width = ( $functions->get_config('avatars_force_width') ) ? ' width="'.intval($functions->get_config('avatars_force_width')).'"' : '';
-						$avatar_force_height = ( $functions->get_config('avatars_force_height') ) ? ' height="'.intval($functions->get_config('avatars_force_height')).'"' : '';
-						$avatar = '<img src="'.unhtml(stripslashes($postsdata['avatar_remote'])).'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
+						$avatar = '<img src="'.unhtml(stripslashes($postsdata['avatar_remote'])).'" class="usebb-avatar" alt="" />';
+						$avatars_found = true;
 						
 					}
 					
@@ -503,6 +510,12 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				));
 				
 			}
+			
+			//
+			// Avatar helper Javascript function
+			//
+			if ( $avatars_found && ( $avatars_force_width > 0 || $avatars_force_height > 0 ) )
+				$template->set_js_onload('resize_avatars('.$avatars_force_width.','.$avatars_force_height.')');
 			
 			$_SESSION['viewed_topics']['t'.$requested_topic] = time();
 			

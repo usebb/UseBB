@@ -4,6 +4,7 @@ UseBB 1.0.5 Changelog
 ------------------------------
 
 - Display error upon impossible (> 3) level value of member.
+- Avatars are now resized only when needed (using JavaScript).
 
 UseBB 1.0.4 Changelog
 ------------------------------

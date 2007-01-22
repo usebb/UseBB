@@ -145,11 +145,14 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 				$avatar = '';
 				
-			} elseif ( intval($profiledata['avatar_type']) === 1 ) {
+			} else {
 				
-				$avatar_force_width = ( $functions->get_config('avatars_force_width') ) ? ' width="'.intval($functions->get_config('avatars_force_width')).'"' : '';
-				$avatar_force_height = ( $functions->get_config('avatars_force_height') ) ? ' height="'.intval($functions->get_config('avatars_force_height')).'"' : '';
-				$avatar = '<img src="'.unhtml(stripslashes($profiledata['avatar_remote'])).'" alt=""'.$avatar_force_width.$avatar_force_height.' />';
+				$avatar = '<img src="'.unhtml(stripslashes($profiledata['avatar_remote'])).'" class="usebb-avatar" alt="" />';
+				
+				$avatars_force_width = (int)$functions->get_config('avatars_force_width');
+				$avatars_force_height = (int)$functions->get_config('avatars_force_height');
+				if ( $avatars_force_width > 0 || $avatars_force_height > 0 )
+					$template->set_js_onload('resize_avatars('.$avatars_force_width.','.$avatars_force_height.')');
 				
 			}
 			

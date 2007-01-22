@@ -1013,8 +1013,9 @@ class functions {
 		}
 		
 		$key = '';
+		$count = count($chars)-1;
 		for ( $i = 0; $i < $length; $i++ )
-			$key .= chr($chars[mt_rand(0, count($chars)-1)]);
+			$key .= chr($chars[mt_rand(0, $count)]);
 		
 		return $key;
 		

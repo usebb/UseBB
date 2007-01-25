@@ -234,13 +234,16 @@ class template {
 	}
 	
 	/**
-	 * Set the JavaScript onload statement
+	 * Add a JavaScript onload statement
 	 *
 	 * @param string $statement JavaScript statement
 	 */
 	function set_js_onload($statement) {
 		
-		$this->js_onload[] = $statement;
+		if ( empty($statement) )
+			return;
+		
+		$this->js_onload[] = ( substr($statement, -1) == ';' ) ? substr_replace($statement, '', -1) : $statement;
 		
 	}
 	

@@ -159,6 +159,9 @@ function insert_table(name) {
 //
 function acp_config_toggle(panel) {
 	
+	if ( !document.getElementsByTagName )
+		return;
+	
 	var panels = document.getElementsByTagName('div');
 	
 	for ( var i = 0; i < panels.length; i++ ) {
@@ -182,6 +185,7 @@ function init_external() {
 		return;
 	
 	var anchors = document.getElementsByTagName('a');
+	
 	for ( var i = 0; i < anchors.length; i++ ) {
 		
 		var anchor = anchors[i];
@@ -196,6 +200,9 @@ function init_external() {
 // Avatars resize function
 //
 function resize_avatars(allowed_width, allowed_height) {
+	
+	if ( !document.getElementsByTagName )
+		return;
 	
 	var avatars = document.getElementsByTagName('img');
 	

@@ -948,40 +948,80 @@ class functions {
 	}
 	
 	/**
-	 * Generate an e-mail link
+	 * Generate an e-mail link/text
 	 *
-	 * @param array $user User information
+	 * @param array $user User information containing id, email and email_show
 	 * @returns string HTML
 	 */
 	function show_email($user) {
 		
 		global $session, $lang;
 		
-		if ( $this->get_user_level() >= intval($this->get_config('view_hidden_email_addresses_min_level')) ) {
+		//
+		// Possible email_view_level values:
+		// - 0: Hide all
+		// - 1: Use mail form
+		// - 2: Show spam proof
+		// - 3: Show raw
+		//
+		
+		$email_view_level = $this->get_config('email_view_level');
+		
+		if ( $this->get_user_level() >= $this->get_config('view_hidden_email_addresses_min_level') ) {
 			
 			//
-			// The viewing user is an administrator
+			// This user may view hidden e-mail addresses
 			//
-			if ( $this->get_config('email_view_level') == 1 )
-				return '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
-			elseif ( !$this->get_config('email_view_level') || $this->get_config('email_view_level') == 2 || $this->get_config('email_view_level') == 3 )
-				return '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
+			$return = ( $email_view_level == 1 ) ? '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>' : '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
 			
 		} else {
 			
-			//
-			// The viewing user is not an administrator
-			//
-			if ( !$this->get_config('email_view_level') || !$user['email_show'] && $user['id'] != $session->sess_info['user_id'] )
-				return $lang['Hidden'];
-			elseif ( $this->get_config('email_view_level') == 1 )
-				return '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
-			elseif ( $this->get_config('email_view_level') == 2 )
-				return str_replace('@', ' at ', $user['email']);
-			elseif ( $this->get_config('email_view_level') == 3 )
-				return '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
+			if ( $email_view_level == 0 || ( !$user['email_show'] && $user['id'] != $session->sess_info['user_id'] ) ) {
+				
+				//
+				// E-mail addresses are hidden or the user has chosen to keep it hidden
+				//
+				$return = $lang['Hidden'];
+				
+			} else {
+				
+				switch ( $email_view_level ) {
+					
+					case 1:
+						$return = '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>';
+						break;
+					case 2:
+						$user['email'] = $this->string_to_entities($user['email']);
+						// No break here, since we just want to convert $user['email']
+					default:
+						$return = '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
+					
+				}
+				
+			}
 			
 		}
+		
+		return $return;
+		
+	}
+	
+	/**
+	 * Translate an ASCII string to HTML entities
+	 *
+	 * This function only works for ASCII characters, nothing else.
+	 *
+	 * @param string $string String to convert
+	 * @returns string Converted string
+	 */
+	function string_to_entities($string) {
+		
+		$length = strlen($string);
+		$new_string = '';
+		for ( $i = 0; $i < $length; $i++ )
+			$new_string .= '&#'.ord(substr($string, $i, $i+1)).';';
+		
+		return $new_string;
 		
 	}
 	

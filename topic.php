@@ -151,7 +151,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			// Update views count
 			//
-			$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic);
+			if ( !$session->sess_info['user_id'] || !array_key_exists('t'.$requested_topic, $_SESSION['viewed_topics']) )
+				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic);
 			
 			//
 			// Eventually (un)subscribe user to topic

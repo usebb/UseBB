@@ -7,7 +7,7 @@ UseBB 1.0.5 Changelog
 - Avatars are now resized only when needed (using JavaScript).
 - Random passwords by "forgot password" now respect the password minimum length.
 - Changed method to show e-mail addresses "spam proof", now using HTML entities.
-- Now count topic views as unique view per logged in user per session.
+- Now count topic views as unique view per user per session.
 
 UseBB 1.0.4 Changelog
 ------------------------------

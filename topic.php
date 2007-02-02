@@ -149,9 +149,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$topic_title);
 			
 			//
-			// Update views count
+			// Update views count (once per session)
 			//
-			if ( !$session->sess_info['user_id'] || !array_key_exists('t'.$requested_topic, $_SESSION['viewed_topics']) )
+			if ( !array_key_exists('t'.$requested_topic, $_SESSION['viewed_topics']) )
 				$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET count_views = count_views+1 WHERE id = ".$requested_topic);
 			
 			//

@@ -47,7 +47,7 @@ CREATE TABLE usebb_forums (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
   cat_id int(11) NOT NULL default '0',
-  descr text NOT NULL default '',
+  descr text NOT NULL,
   status int(1) NOT NULL default '1',
   topics int(11) NOT NULL default '0',
   posts int(11) NOT NULL default '0',
@@ -78,7 +78,7 @@ CREATE TABLE usebb_members (
   active int(1) NOT NULL default '0',
   active_key varchar(32) NOT NULL default '',
   banned int(1) NOT NULL default '0',
-  banned_reason text NOT NULL default '',
+  banned_reason text NOT NULL,
   last_login int(10) NOT NULL default '0',
   last_login_show int(1) NOT NULL default '0',
   last_pageview int(10) NOT NULL default '0',
@@ -101,7 +101,7 @@ CREATE TABLE usebb_members (
   avatar_remote varchar(255) NOT NULL default '',
   displayed_name varchar(255) NOT NULL default '',
   real_name varchar(255) NOT NULL default '',
-  signature text NOT NULL default '',
+  signature text NOT NULL,
   birthday int(8) NOT NULL default '0',
   location varchar(255) NOT NULL default '',
   website varchar(255) NOT NULL default '',
@@ -139,7 +139,7 @@ CREATE TABLE usebb_posts (
   poster_id int(11) NOT NULL default '0',
   poster_guest varchar(255) NOT NULL default '',
   poster_ip_addr varchar(23) NOT NULL default '',
-  content text NOT NULL default '',
+  content text NOT NULL,
   post_time int(10) NOT NULL default '0',
   post_edit_time int(10) NOT NULL default '0',
   post_edit_by int(11) NOT NULL default '0',
@@ -159,7 +159,7 @@ CREATE TABLE usebb_posts (
 CREATE TABLE usebb_searches (
   sess_id varchar(32) NOT NULL default '',
   time int(10) NOT NULL default '0',
-  results text NOT NULL default '',
+  results text NOT NULL,
   PRIMARY KEY  (sess_id)
 ) TYPE=MyISAM;
 
@@ -188,7 +188,7 @@ CREATE TABLE usebb_sessions (
 
 CREATE TABLE usebb_stats (
   name varchar(255) NOT NULL default '',
-  content text NOT NULL default '',
+  content text NOT NULL,
   PRIMARY KEY  (name)
 ) TYPE=MyISAM;
 

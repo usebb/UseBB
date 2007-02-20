@@ -1802,8 +1802,8 @@ class functions {
 			$ignore_chars = "^a-z0-9"; # warning, rawly included in regex!
 			$ignore_chars_url_end = "^a-z0-9/"; # to include trailing /
 			$string = preg_replace(array(
-				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)([".$ignore_chars_url_end."]*?[\s])#is",
-				"#([\s][".$ignore_chars."]*?)(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)([".$ignore_chars_url_end."]*?[\s])#is",
+				"#([\s][".$ignore_chars."]*?)([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)([".$ignore_chars_url_end."]*?[\s])#is",
+				"#([\s][".$ignore_chars."]*?)(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)([".$ignore_chars_url_end."]*?[\s])#is",
 				"#([\s][".$ignore_chars."]*?)([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)([".$ignore_chars."]*?[\s])#is"
 			), array(
 				'\\1<a href="\\2" title="\\2"'.$rel.'>\\2</a>\\3',
@@ -1824,15 +1824,15 @@ class functions {
 				// [s]text[/s]
 					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
-					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)\[/img\]#is" => '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />',
+					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/img\]#is" => '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />',
 				// www.usebb.net
-					"#([\s])(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)#is" => '\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3',
+					"#([\s])(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)#is" => '\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3',
 				// ftp.usebb.net
-					"#([\s])(ftp\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)([\s])#is" => '\\1<a href="ftp://\\2" title="ftp://\\2"'.$rel.'>\\2</a>\\3',
+					"#([\s])(ftp\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)([\s])#is" => '\\1<a href="ftp://\\2" title="ftp://\\2"'.$rel.'>\\2</a>\\3',
 				// [url]http://www.usebb.net[/url]
-					"#\[url\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\1</a>',
+					"#\[url\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\1</a>',
 				// [url=http://www.usebb.net]UseBB[/url]
-					"#\[url=([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)]*?)\](.*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\2</a>',
+					"#\[url=([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\](.*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\2</a>',
 				// [mailto]somebody@nonexistent.com[/mailto]
 					"#\[mailto\]([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1" title="\\1">\\1</a>',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]

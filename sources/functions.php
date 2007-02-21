@@ -482,7 +482,7 @@ class functions {
 					
 					case 'board_url':
 						$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-						if ( !preg_match('#/$#', $path_parts['dirname']) )
+						if ( substr($path_parts['dirname'], -1) != '/' )
 							$path_parts['dirname'] .= '/';
 						$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
 						$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
@@ -558,7 +558,7 @@ class functions {
 				//
 				// Fix crappy settings
 				//
-				if ( $setting == 'board_url' && !preg_match('#/$#', $this->board_config[$setting]) )
+				if ( $setting == 'board_url' && substr($this->board_config[$setting], -1) != '/' )
 					$this->board_config[$setting] .= '/';
 				if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $this->board_config[$setting]) || preg_match('#^[0-9]+$#', $this->board_config[$setting]) ) )
 					$this->board_config[$setting] = 'usebb';

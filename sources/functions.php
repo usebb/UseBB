@@ -484,7 +484,7 @@ class functions {
 						$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
 						if ( !preg_match('#/$#', $path_parts['dirname']) )
 							$path_parts['dirname'] .= '/';
-						$protocol = ( isset($_SERVER['HTTPS']) ) ? 'https' : 'http';
+						$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
 						$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
 						break;
 					
@@ -2533,9 +2533,9 @@ class functions {
 	function raw_redirect($url) {
 		
 		//
-		// Don't use Location on IIS
+		// Don't use Location on IIS or Abyss
 		//
-		if ( strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') === false )
+		if ( strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') === false && strpos($_SERVER['SERVER_SOFTWARE'], 'Abyss') === false )
 			header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
 		

@@ -151,6 +151,9 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					// Show the mail form
 					//
+					$to_v = '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.unhtml(stripslashes($user_to_mail['displayed_name'])).'</a>';
+					if ( $functions->get_user_level() >= $functions->get_config('view_hidden_email_addresses_min_level') )
+						$to_v .= ' &lt;<a href="mailto:'.$user_to_mail['email'].'">'.$user_to_mail['email'].'</a>&gt;';
 					$_POST['subject'] = ( !empty($_POST['subject']) ) ? unhtml($_POST['subject']) : '';
 					$_POST['body'] = ( !empty($_POST['body']) ) ? unhtml($_POST['body']) : '';
 					$bcc_checked = ( !empty($_POST['bcc']) && !$own_mailpage ) ? ' checked="checked"' : '';
@@ -159,8 +162,8 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					$template->parse('mail_form', 'various', array(
 						'form_begin' => '<form action="'.$functions->make_url('mail.php', array('id' => $_GET['id'])).'" method="post">',
 						'sendemail' => sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))),
-						'to_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $_GET['id'])).'">'.unhtml(stripslashes($user_to_mail['displayed_name'])).'</a>',
-						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>',
+						'to_v' => $to_v,
+						'from_v' => '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a> &lt;<a href="mailto:'.$session->sess_info['user_info']['email'].'">'.$session->sess_info['user_info']['email'].'</a>&gt;',
 						'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.$_POST['subject'].'" />',
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
 						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.$bcc_disabled.' /> '.$lang['BCCMyself'].'</label>',

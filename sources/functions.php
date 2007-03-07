@@ -972,7 +972,9 @@ class functions {
 			//
 			// This user may view hidden e-mail addresses
 			//
-			$return = ( $email_view_level == 1 ) ? '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a>' : '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
+			$return = '<a href="mailto:'.$user['email'].'">'.$user['email'].'</a>';
+			if ( $email_view_level == 1 )
+				$return = '<a href="'.$this->make_url('mail.php', array('id' => $user['id'])).'">'.$lang['SendMessage'].'</a> ('.$return.')';
 			
 		} else {
 			

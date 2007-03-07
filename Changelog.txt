@@ -7,6 +7,7 @@ UseBB 1.0.5 Changelog
 - Fixed bug with BBCode URL parsing and asterisks.
 - Fixed bug with uppercase BBCode tags and incorrect nesting.
 - Fixed bugs with the Abyss Web Server (wrong HTTPS detection and redirection).
+- Fixed bug with undefined variable errtype.
 - Display error upon impossible (> 3) level value of member.
 - Avatars are now resized only when needed (using JavaScript).
 - Random passwords by "forgot password" now respect the password minimum length.

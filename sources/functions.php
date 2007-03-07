@@ -1585,7 +1585,9 @@ class functions {
 			//
 			// Add open tag
 			//
-			if ( preg_match('#^\[([a-z]+)(=[^\]]*)?\]$#', $part, $matches) ) {
+			if ( preg_match('#^\[([a-z]+)(=[^\]]*)?\]$#i', $part, $matches) ) {
+				
+				$matches[1] = strtolower($matches[1]);
 				
 				//
 				// Transform tags
@@ -1621,7 +1623,9 @@ class functions {
 			//
 			// Add close tag
 			//
-			if ( preg_match('#^\[/([a-z]+)\]$#', $part, $matches) ) {
+			if ( preg_match('#^\[/([a-z]+)\]$#i', $part, $matches) ) {
+				
+				$matches[1] = strtolower($matches[1]);
 				
 				//
 				// Transform tags
@@ -1716,7 +1720,7 @@ class functions {
 		// Remove empties
 		//
 		foreach ( $existing_tags as $existing_tag )
-			$new_string = preg_replace('#\[('.$existing_tag.')([^\]]+)?\]\[/(\1)\]#', '', $new_string);
+			$new_string = preg_replace('#\[('.$existing_tag.')([^\]]+)?\]\[/(\1)\]#i', '', $new_string);
 		
 		return $new_string;
 		

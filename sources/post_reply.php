@@ -247,11 +247,16 @@ if ( !$topicdata['id'] ) {
 				
 				if ( !empty($_GET['quotepost']) && valid_int($_GET['quotepost']) ) {
 					
-					$result = $db->query("SELECT p.content, p.poster_guest, u.displayed_name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic']);
+					$result = $db->query("SELECT p.id, p.content, p.poster_guest, u.displayed_name FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.id = ".$_GET['quotepost']." AND p.topic_id = ".$_GET['topic']);
 					$quoteddata = $db->fetch_result($result);
-					$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
-					$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
-					$_POST['content'] = '[quote='.$quoteduser.']'."\n".$quotedpost."\n".'[/quote]';
+					
+					if ( !empty($quoteddata['id']) ) {
+						
+						$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
+						$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
+						$_POST['content'] = '[quote='.str_replace(array('[', ']'), '', $quoteduser).']'."\n".$quotedpost."\n".'[/quote]';
+						
+					}
 					
 				}
 				

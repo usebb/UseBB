@@ -14,6 +14,7 @@ UseBB 1.0.5 Changelog
 - Changed method to show e-mail addresses "spam proof", now using HTML entities.
 - Now count topic views as unique view per user per session.
 - Always show raw e-mail address too when user may view hidden ones.
+- Remove square brackets from username in quote tag when quoting post.
 
 UseBB 1.0.4 Changelog
 ------------------------------

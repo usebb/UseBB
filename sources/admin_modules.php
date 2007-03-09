@@ -89,7 +89,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 					
 				} elseif ( $admin_functions->check_module($acp_module['name'], $acp_module['tmp_name']) ) {
 					
-					if ( copy($acp_module['tmp_name'], dirname($_SERVER['SCRIPT_FILENAME']).'/sources/modules/'.$acp_module['name']) )
+					if ( copy($acp_module['tmp_name'], join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'modules', $acp_module['name']))) )
 						$functions->redirect('admin.php', array('act' => 'modules'));
 					else
 						$content .= '<p><strong>'.sprintf($lang['ModulesUploadFailed'], '<code>'.$acp_module['name'].'</code>').'</strong></p>';

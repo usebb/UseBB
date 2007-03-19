@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.6 Changelog
 ------------------------------
 
+- Fixed bug #1505: User timezone not always saved correctly.
 - Another (hopefully always working) fix for Undefined index: PATH_TRANSLATED.
 
 UseBB 1.0.5 Changelog

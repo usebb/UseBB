@@ -60,7 +60,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 		
 		$result = $db->query(stripslashes($_POST['query']), true);
 		
-		if ( is_resource($result) ) {
+		if ( is_resource($result) || is_object($result) ) {
 			
 			$results = array();
 			while ( $out = $db->fetch_result($result) )

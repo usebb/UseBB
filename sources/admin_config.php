@@ -103,7 +103,7 @@ if (
 	in_array($_POST['conf-language'], $functions->get_language_packs()) &&
 	in_array($_POST['conf-template'], $functions->get_template_sets()) &&
 	
-	!empty($_POST['conf-timezone']) && 
+	isset($_POST['conf-timezone']) && 
 	$functions->timezone_handler('check_existance', $_POST['conf-timezone']) &&
 	
 	in_array($_POST['conf-email_view_level'], $user_levels) &&

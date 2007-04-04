@@ -6,6 +6,7 @@ UseBB 1.0.6 Changelog
 - Fixed bug #1505: User timezone not always saved correctly.
 - Fixed bug in SQL toolbox with mysqli extension.
 - Another (hopefully always working) fix for Undefined index: PATH_TRANSLATED.
+- Automatically set admin e-mail address when installing.
 
 UseBB 1.0.5 Changelog
 ------------------------------

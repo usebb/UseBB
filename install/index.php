@@ -90,6 +90,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			'passwd' => $_POST['db_passwd'],
 			'dbname' => $_POST['db_dbname'],
 			'prefix' => $_POST['db_prefix'],
+			'admin_email' => $_POST['admin_email'],
 			'installer_run' => 1
 		));
 		

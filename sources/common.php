@@ -69,14 +69,14 @@ if ( ini_get('register_globals') ) {
 	
 	foreach ( $_REQUEST as $var_name => $null ) {
 		
-		//
-		// We perform this twice to protect unpatched PHP versions
-		// against the Zend_Hash_Del_Key_Or_Index vulnerability.
-		//
-		unset($$var_name);
+		if ( preg_match('#^_[A-Z]+$#', $var_name) )
+			die('Request variable '.$var_name.' found with register_globals enabled. Exited.');
+		
 		unset($$var_name);
 		
 	}
+	
+	unset($null);
 	
 }
 
@@ -170,7 +170,7 @@ else
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '1.0.5');
+define('USEBB_VERSION', '1.0.6');
 /**
  * Regular expression for matching usernames.
  */

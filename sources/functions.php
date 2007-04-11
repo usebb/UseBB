@@ -303,6 +303,20 @@ class functions {
 		
 		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
+		//
+		// Filter some sensitive data
+		//
+		
+		//
+		// Full script path
+		//
+		$full_path = substr(dirname(__FILE__), 0, -7);
+		$file = str_replace($full_path, '', $file);
+		$error = str_replace($full_path, '', $error);
+		
+		//
+		// MySQL username and host
+		//
 		if ( ( !strncmp($error, 'mysql', 5) || $errtype == 'SQL_ERROR' ) && $this->get_config('debug') < 2 )
 			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
@@ -340,7 +354,7 @@ class functions {
 		<h1>UseBB General Error</h1>
 		<p>An error was encountered. We apologize for any inconvenience.</p>
 		<blockquote>
-			<p>In file <strong>'.substr(str_replace(dirname($file), '', $file), 1).'</strong> on line <strong>'.$line.'</strong>:</p>
+			<p>In file <strong>'.$file.'</strong> on line <strong>'.$line.'</strong>:</p>
 			<p id="error"><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
 				
 		if ( $errtype == 'SQL_ERROR' ) {

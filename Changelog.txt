@@ -3,10 +3,12 @@ $Header$
 UseBB 1.0.6 Changelog
 ------------------------------
 
+- Fixed full path disclosure vulnerability (reported by Jesper Jurcenoks, netVigilance, Inc.)
 - Fixed bug #1505: User timezone not always saved correctly.
 - Fixed bug in SQL toolbox with mysqli extension.
 - Another (hopefully always working) fix for Undefined index: PATH_TRANSLATED.
 - Automatically set admin e-mail address when installing.
+- Stop when request variables of the form _XYZ are found and register_globals is enabled.
 
 UseBB 1.0.5 Changelog
 ------------------------------

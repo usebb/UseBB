@@ -1192,7 +1192,7 @@ class functions {
 			
 		}
 
-		if ( $is_safe_mode || !$functions->get_config('sendmail_sender_parameter') )
+		if ( $is_safe_mode || !$this->get_config('sendmail_sender_parameter') )
 			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers));
 		else
 			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers), '-f'.$from_email);

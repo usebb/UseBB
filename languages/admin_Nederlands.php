@@ -158,7 +158,7 @@ $lang['ConfigBoard-board_closed-info'] = 'Admins kunnen nog steeds inloggen.';
 $lang['ConfigBoard-cookie_secure'] = 'Beveiligde cookies';
 $lang['ConfigBoard-cookie_secure-info'] = 'Versleutelde cookies (enkel HTTPS)';
 $lang['ConfigBoard-cookie_httponly'] = 'Gebruik HTTP-only cookies';
-$lang['ConfigBoard-cookie_httponly-info'] = 'Voegt een httpOnly-vlag toe aan de cookies, welke deze veiliger maakt tegen XSS.';
+$lang['ConfigBoard-cookie_httponly-info'] = 'Voegt een HttpOnly-vlag toe aan de cookies, welke deze veiliger maakt tegen XSS.';
 $lang['ConfigBoard-dst'] = 'Zomertijd';
 $lang['ConfigBoard-enable_contactadmin'] = '\'Admin contacteren\'-link inschakelen';
 $lang['ConfigBoard-enable_detailed_online_list'] = 'Gedetailleerde onlinelijst inschakelen';
@@ -242,6 +242,8 @@ $lang['ConfigBoard-email_reply-to_header'] = 'Gebruik Reply-To-header';
 $lang['ConfigBoard-email_reply-to_header-info'] = 'Gebruik Reply-To in plaats van From voor gebruiker\'s e-mailadres (vereist op sommige hosts).';
 $lang['ConfigBoard-mass_email_msg_recipients'] = 'Aantal ontvangers per massa e-mailbericht';
 $lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Meerdere berichten zullen verzonden worden tot wanneer alle ontvangers gemaild zijn.';
+$lang['ConfigBoard-sendmail_sender_parameter'] = 'Sendmail -f parameter inschakelen.';
+$lang['ConfigBoard-sendmail_sender_parameter-info'] = 'Dit kan problemen met e-mails veroorzaken op sommige hosts.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

@@ -1192,7 +1192,7 @@ class functions {
 			
 		}
 
-		if ( $is_safe_mode )
+		if ( $is_safe_mode || !$functions->get_config('sendmail_sender_parameter') )
 			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers));
 		else
 			$mail_result = $mail_func($to, $subject, $body, join($cr, $headers), '-f'.$from_email);
@@ -2596,13 +2596,13 @@ class functions {
 	 * Set a cookie
 	 *
 	 * This function takes care of past expire values for empty cookies, and
-	 * uses the httpOnly flag when enabled.
+	 * uses the HttpOnly flag when enabled.
 	 *
-	 * The httpOnly hack for < PHP 5.2 taken from
+	 * The HttpOnly hack for < PHP 5.2 taken from
 	 * @link http://blog.mattmecham.com/archives/2006/09/http_only_cookies_without_php.html
 	 *
-	 * Note: httpOnly is disabled when working on a non domain (localhost, IP address)
-	 * since when cookie_domain is empty and httpOnly is used, IE 6 and 7 fail to set
+	 * Note: HttpOnly is disabled when working on a non domain (localhost, IP address)
+	 * since when cookie_domain is empty and HttpOnly is used, IE 6 and 7 fail to set
 	 * the cookie, even though the Set-Cookie header is well-formed and valid.
 	 *
 	 * @param string $name Name
@@ -2620,7 +2620,7 @@ class functions {
 		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain, $secure, true);
 		else
-			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain.'; httpOnly', $secure);
+			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain.'; HttpOnly', $secure);
 		
 	}
 	

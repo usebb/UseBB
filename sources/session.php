@@ -79,7 +79,7 @@ class session {
 		
 		//
 		// Set some PHP session cookie configuration options
-		// Use httpOnly flag when enabled
+		// Use HttpOnly flag when enabled
 		//
 		// Also see the comments with setcookie() in functions.php.
 		//
@@ -90,7 +90,7 @@ class session {
 		elseif ( version_compare(PHP_VERSION, '5.2.0RC2', '>=') )
 			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain, $secure, true);
 		else
-			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain.'; httpOnly', $secure);
+			session_set_cookie_params($functions->get_config('session_max_lifetime')*60, $functions->get_config('cookie_path'), $domain.'; HttpOnly', $secure);
 		
 		//
 		// Set the session name

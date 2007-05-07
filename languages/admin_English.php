@@ -158,7 +158,7 @@ $lang['ConfigBoard-board_closed-info'] = 'Admins will still be able to log in.';
 $lang['ConfigBoard-cookie_secure'] = 'Secure cookies';
 $lang['ConfigBoard-cookie_secure-info'] = 'Encrypted cookies (HTTPS only)';
 $lang['ConfigBoard-cookie_httponly'] = 'Enable HTTP only cookies';
-$lang['ConfigBoard-cookie_httponly-info'] = 'Adds a httpOnly flag to the cookies, making them more secured against XSS.';
+$lang['ConfigBoard-cookie_httponly-info'] = 'Adds a HttpOnly flag to the cookies, making them more secured against XSS.';
 $lang['ConfigBoard-dst'] = 'Daylight saving times';
 $lang['ConfigBoard-enable_contactadmin'] = 'Enable contact admin link';
 $lang['ConfigBoard-enable_detailed_online_list'] = 'Enable detailed online list';
@@ -242,6 +242,8 @@ $lang['ConfigBoard-email_reply-to_header'] = 'Use Reply-To header';
 $lang['ConfigBoard-email_reply-to_header-info'] = 'Use Reply-To instead of From for user\'s email address (required on some hosts).';
 $lang['ConfigBoard-mass_email_msg_recipients'] = 'Mass email message recipient count';
 $lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Multiple messages will be sent until all recipients have been mailed.';
+$lang['ConfigBoard-sendmail_sender_parameter'] = 'Enable sendmail -f parameter.';
+$lang['ConfigBoard-sendmail_sender_parameter-info'] = 'This might break the email functionality on some hosts.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

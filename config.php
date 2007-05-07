@@ -137,6 +137,7 @@ $conf['return_to_topic_after_posting'] = 1;
 $conf['rss_items_count'] = 25;
 $conf['search_limit_results'] = 500;
 $conf['search_nonindex_words_min_length'] = 3;
+$conf['sendmail_sender_parameter'] = 0;
 $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';
 $conf['session_save_path'] = '';

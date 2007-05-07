@@ -1,5 +1,11 @@
 $Header$
 
+UseBB 1.0.7 Changelog
+------------------------------
+
+- Made the sendmail -f parameter an on/off setting.
+- Renamed httpOnly cookie parameter to HttpOnly (correct case).
+
 UseBB 1.0.6 Changelog
 ------------------------------
 

@@ -110,7 +110,8 @@ class session {
 		$_SESSION['viewed_topics'] = ( isset($_SESSION['viewed_topics']) && is_array($_SESSION['viewed_topics']) ) ? $_SESSION['viewed_topics'] : array();
 		$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
 		$_SESSION['dnsbl_checked'] = ( !empty($_SESSION['dnsbl_checked']) ) ? $_SESSION['dnsbl_checked'] : 0;
-		$_SESSION['dnsbl_whitelisted'] = ( isset($_SESSION['dnsbl_whitelisted']) && $_SESSION['dnsbl_whitelisted'] ) ? true : false;
+		$_SESSION['dnsbl_whitelisted'] = ( isset($_SESSION['dnsbl_whitelisted']) && $_SESSION['dnsbl_whitelisted'] );
+		$_SESSION['spam_check_performed'] = ( isset($_SESSION['spam_check_performed']) && $_SESSION['spam_check_performed'] );
 		
 	}
 	
@@ -136,8 +137,7 @@ class session {
 		// Check if we will run cleanup
 		// Cleanup is ran about 1 time per 10 requests
 		//
-		$seed = explode(' ', microtime());
-		mt_srand($seed[0] * $seed[1]);
+		random_seed();
 		$run_cleanup = ( mt_rand(0, 9) === 0 ) ? true : false;
 		
 		//
@@ -450,7 +450,8 @@ class session {
 			'started' => ( $session_started ) ? $current_sess_info['started'] : $current_time,
 			'updated' => $current_time,
 			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
-			'ip_addr' => $ip_addr
+			'ip_addr' => $ip_addr,
+			'perform_spam_check' => ( $functions->get_config('enable_spam_check') && !$user_id && !$_SESSION['spam_check_performed'] && preg_match('#^(register|reply:|posttopic:)#', $location) )
 		);
 		
 		if ( $location !== NULL ) {

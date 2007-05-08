@@ -209,6 +209,21 @@ function checkdnsrr_win($host, $type='') {
 } 
 
 /**
+ * Seed the random generator
+ *
+ * Only used for PHP < 4.2.0.
+ */
+function random_seed() {
+	
+	if ( version_compare(PHP_VERSION, '4.2.0', '>=') )
+		return;
+	
+	$seed = explode(' ', microtime());
+	mt_srand($seed[0] * $seed[1]);
+	
+}
+
+/**
  * Functions
  *
  * All kinds of functions used everywhere.
@@ -693,6 +708,8 @@ class functions {
 		
 		global $session;
 		
+		$filename = basename($filename);
+		
 		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
 			
 			//
@@ -1058,15 +1075,7 @@ class functions {
 		$passwd_min_length = $this->get_config('passwd_min_length');
 		$length = ( $is_password && $passwd_min_length >= 10 ) ? $passwd_min_length : 10;
 		
-		if ( version_compare(PHP_VERSION, '4.2.0', '<') ) {
-			
-			//
-			// Seed for PHP < 4.2.0
-			//
-			$seed = explode(' ', microtime());
-			mt_srand($seed[0] * $seed[1]);
-			
-		}
+		random_seed();
 		
 		$key = '';
 		$count = count($chars)-1;

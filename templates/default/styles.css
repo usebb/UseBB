@@ -687,6 +687,13 @@ p#linkbar #rss-feed-icon img {
 #post-options input, #post-options label {
 	margin: 5px 0 0 0;
 }
+
+table#spamquestion {
+	clear: both;
+	margin: 0px auto 20px auto;
+	width: 67%;
+}
+
 #bottom {
 	clear: both;
 	float: left;

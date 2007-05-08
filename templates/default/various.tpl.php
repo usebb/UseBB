@@ -284,4 +284,26 @@ $templates['sendpwd_form'] = '
 	{form_end}
 ';
 
+$templates['anti_spam_question'] = '
+	{form_begin}
+	<table class="maintable" id="spamquestion">
+		<tr>
+			<th colspan="2">{l_AntiSpamQuestion}</th>
+		</tr>
+		<tr>
+			<td colspan="2">{l_AntiSpamQuestionInfo}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Question}</td><td>{question}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Answer}</td><td>{answer_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+		</tr>
+	</table>
+	{form_end}
+';
+
 ?>

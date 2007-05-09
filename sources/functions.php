@@ -708,14 +708,13 @@ class functions {
 		
 		global $session;
 		
-		$filename = basename($filename);
+		$filename = basename($filename, '.php');
 		
-		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin.php' ) {
+		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin' ) {
 			
 			//
 			// Friendly URL's
 			//
-			$url = substr($filename, 0, -4);
 			foreach ( $vars as $key => $val ) {
 				
 				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )
@@ -724,11 +723,11 @@ class functions {
 					$url .= '-'.urlencode($val);
 				
 			}
-			$url .= ( $filename == 'rss.php' ) ? '.xml' : '.html';
+			$url .= ( $filename == 'rss' ) ? '.xml' : '.html';
 			
 		} else {
 			
-			$url = $filename;
+			$url = $filename.'.php';
 			$vars = ( is_array($vars) ) ? $vars : array();
 			if ( isset($vars[$this->get_config('session_name').'_sid']) )
 				unset($vars[$this->get_config('session_name').'_sid']);

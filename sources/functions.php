@@ -715,6 +715,7 @@ class functions {
 			//
 			// Friendly URL's
 			//
+			$url = $filename;
 			foreach ( $vars as $key => $val ) {
 				
 				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )

@@ -3,8 +3,10 @@ $Header$
 UseBB 1.0.7 Changelog
 ------------------------------
 
+- Added an (random math based or custom) anti-spam question feature against spam bots.
 - Made the sendmail -f parameter an on/off setting.
 - Renamed httpOnly cookie parameter to HttpOnly (correct case).
+- Added random_seed() function to seed the random generator on old PHP versions.
 
 UseBB 1.0.6 Changelog
 ------------------------------

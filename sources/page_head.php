@@ -235,13 +235,13 @@ if ( !$functions->get_config('guests_can_access_board') && $functions->get_user_
 //
 // Anti-spam question
 //
-if ( $session->sess_info['perform_spam_check'] ) {
+if ( $session->sess_info['pose_antispam_question'] ) {
 	
 	$template->set_page_title($lang['AntiSpamQuestion']);
 	
-	$mode = (int)$functions->get_config('spam_check_mode');
+	$mode = (int)$functions->get_config('antispam_question_mode');
 	
-	if ( empty($_SESSION['spam_check_question']) ) {
+	if ( empty($_SESSION['antispam_question_question']) ) {
 		
 		//
 		// The question and answer has not been generated yet
@@ -258,15 +258,15 @@ if ( $session->sess_info['perform_spam_check'] ) {
 					
 					$num1 = mt_rand(1, 9);
 					$num2 = mt_rand(1, 9);
-					$_SESSION['spam_check_question'] = sprintf($lang['AntiSpamQuestionMathPlus'], $num1, $num2);
-					$_SESSION['spam_check_answer'] = $num1 + $num2;
+					$_SESSION['antispam_question_question'] = sprintf($lang['AntiSpamQuestionMathPlus'], $num1, $num2);
+					$_SESSION['antispam_question_answer'] = $num1 + $num2;
 
 				} else {
 					
 					$num1 = mt_rand(1, 9);
 					$num2 = mt_rand(1, $num1);
-					$_SESSION['spam_check_question'] = sprintf($lang['AntiSpamQuestionMathMinus'], $num1, $num2);
-					$_SESSION['spam_check_answer'] = $num1 - $num2;
+					$_SESSION['antispam_question_question'] = sprintf($lang['AntiSpamQuestionMathMinus'], $num1, $num2);
+					$_SESSION['antispam_question_answer'] = $num1 - $num2;
 					
 				}
 				break;
@@ -275,7 +275,7 @@ if ( $session->sess_info['perform_spam_check'] ) {
 				//
 				// Custom admin-defined question
 				//
-				$questionPairs = $functions->get_config('spam_check_questions');
+				$questionPairs = $functions->get_config('antispam_question_questions');
 				if ( !is_array($questionPairs) || !count($questionPairs) )
 					trigger_error('No custom anti-spam questions found.', E_USER_ERROR);
 				$questions = array_keys($questionPairs);
@@ -293,8 +293,8 @@ if ( $session->sess_info['perform_spam_check'] ) {
 					
 				}
 				
-				$_SESSION['spam_check_question'] = $questions[$questionId];
-				$_SESSION['spam_check_answer'] = $answers[$questionId];
+				$_SESSION['antispam_question_question'] = $questions[$questionId];
+				$_SESSION['antispam_question_answer'] = $answers[$questionId];
 				break;
 			
 			default:
@@ -304,13 +304,13 @@ if ( $session->sess_info['perform_spam_check'] ) {
 		
 	}
 	
-	if ( !empty($_POST['answer']) && !strcasecmp(strval($_POST['answer']), strval($_SESSION['spam_check_answer'])) ) {
+	if ( !empty($_POST['answer']) && !strcasecmp(strval($_POST['answer']), strval($_SESSION['antispam_question_answer'])) ) {
 		
 		//
 		// Question passed, continuing...
 		//
-		$_SESSION['spam_check_performed'] = true;
-		unset($_SESSION['spam_check_question'], $_SESSION['spam_check_answer']);
+		$_SESSION['antispam_question_posed'] = true;
+		unset($_SESSION['antispam_question_question'], $_SESSION['antispam_question_answer']);
 		$functions->redirect($_SERVER['PHP_SELF'], $_GET);
 		
 	} else {
@@ -327,7 +327,7 @@ if ( $session->sess_info['perform_spam_check'] ) {
 		$size = ( $mode === ANTI_SPAM_MATH ) ? 'size="2" maxlength="2"' : 'size="35"';
 		$template->parse('anti_spam_question', 'various', array(
 			'form_begin' => '<form action="'.$functions->make_url($_SERVER['PHP_SELF'], $_GET).'" method="post">',
-			'question' => $_SESSION['spam_check_question'],
+			'question' => $_SESSION['antispam_question_question'],
 			'answer_input' => '<input type="text" name="answer" id="answer" '.$size.' />',
 			'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',

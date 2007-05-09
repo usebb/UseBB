@@ -244,6 +244,13 @@ $lang['ConfigBoard-mass_email_msg_recipients'] = 'Aantal ontvangers per massa e-
 $lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Meerdere berichten zullen verzonden worden tot wanneer alle ontvangers gemaild zijn.';
 $lang['ConfigBoard-sendmail_sender_parameter'] = 'Sendmail -f parameter inschakelen.';
 $lang['ConfigBoard-sendmail_sender_parameter-info'] = 'Dit kan problemen met e-mails veroorzaken op sommige hosts.';
+$lang['ConfigBoard-antispam_question_mode'] = 'Anti-spamvraagmodus';
+$lang['ConfigBoard-antispam_question_mode-info'] = 'Stelt gasten een vraag alvorens ze toegang te geven tot het registratie-, nieuw onderwerp- en antwoordformulier.';
+$lang['ConfigBoard-antispam_question_mode0'] = 'Uitgeschakeld';
+$lang['ConfigBoard-antispam_question_mode1'] = 'Willekeurige wiskundige vraag';
+$lang['ConfigBoard-antispam_question_mode2'] = 'Willekeurig gekozen aangepaste vraag';
+$lang['ConfigBoard-antispam_question_questions'] = 'Aangepaste anti-spamvragen';
+$lang['ConfigBoard-antispam_question_questions-info'] = 'Vragen in de vorm van &quot;vraag|antwoord&quot; (zonder aanhalingstekens), gescheiden door nieuwe regels. Het antwoord is hoofdletterongevoelig.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

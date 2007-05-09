@@ -216,6 +216,10 @@ define('TABLE_PREFIX', $dbs['prefix']);
  */
 define('ON_WINDOWS', ( DIRECTORY_SEPARATOR == '\\' ));
 /**
+ * Disable anti-spam
+ */
+define('ANTI_SPAM_DISABLE', 0);
+/**
  * Anti-spam math question mode
  */
 define('ANTI_SPAM_MATH', 1);

@@ -498,6 +498,13 @@ $lang['IncludeGuests'] = 'Inclusief gasten';
 $lang['Top'] = 'Boven';
 $lang['Bottom'] = 'Beneden';
 $lang['Action'] = 'Actie';
+$lang['AntiSpamQuestion'] = 'Anti-spamvraag';
+$lang['AntiSpamQuestionInfo'] = 'Als een anti-spammaatregel moet het correcte antwoord op deze vraag worden gegeven alvorens dit component van het forum kan worden geopend. Per sessie wordt slechts &eacute;&eacute;n vraag gesteld, terwijl registreren dit volledig uitschakelt. Dank voor uw begrip.';
+$lang['Question'] = 'Vraag';
+$lang['Answer'] = 'Antwoord';
+$lang['AntiSpamQuestionMathPlus'] = 'Hoeveel is %d plus %d?';
+$lang['AntiSpamQuestionMathMinus'] = 'Hoeveel is %d min %d?';
+$lang['AntiSpamWrongAnswer'] = 'Het verzonden antwoord is fout. Gelieve het juiste antwoord in te geven om dit component van het forum te openen.';
 
 //
 // Date translations

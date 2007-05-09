@@ -244,6 +244,13 @@ $lang['ConfigBoard-mass_email_msg_recipients'] = 'Mass email message recipient c
 $lang['ConfigBoard-mass_email_msg_recipients-info'] = 'Multiple messages will be sent until all recipients have been mailed.';
 $lang['ConfigBoard-sendmail_sender_parameter'] = 'Enable sendmail -f parameter.';
 $lang['ConfigBoard-sendmail_sender_parameter-info'] = 'This might break the email functionality on some hosts.';
+$lang['ConfigBoard-antispam_question_mode'] = 'Anti-spam question mode';
+$lang['ConfigBoard-antispam_question_mode-info'] = 'Poses guests a question before they are given access to the registration, new topic and reply forms.';
+$lang['ConfigBoard-antispam_question_mode0'] = 'Disabled';
+$lang['ConfigBoard-antispam_question_mode1'] = 'Random math question';
+$lang['ConfigBoard-antispam_question_mode2'] = 'Randomly chosen custom question';
+$lang['ConfigBoard-antispam_question_questions'] = 'Custom anti-spam questions';
+$lang['ConfigBoard-antispam_question_questions-info'] = 'Questions in the form of &quot;question|answer&quot; (without quotes), separated by newlines. The answer is case-insensitive.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

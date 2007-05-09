@@ -50,7 +50,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('activation_mode', 'active_topics_count', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'antispam_question_mode', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 
 if ( !$functions->get_config('hide_db_config_acp') )
@@ -82,16 +82,52 @@ foreach ( $necessary_settings['integers'] as $key ) {
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_email_dns_check', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_stafflist', 'enable_stats', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'show_never_activated_members', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
-$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file');
+$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'antispam_question_questions');
 
 if ( !$functions->get_config('hide_db_config_acp') )
 	$optional_strings = array_merge($optional_strings, array('passwd', 'prefix'));
+
+//
+// First convert antispam_question_questions to an array
+//
+$antispam_question_questions_valid = false;
+if ( !empty($_POST['conf-antispam_question_questions']) ) {
+	
+	$tmp_questions = preg_split("#[\r\n]+#", $_POST['conf-antispam_question_questions']);
+	
+	if ( count($tmp_questions) ) {
+		
+		$antispam_question_questions = array();
+		foreach ( $tmp_questions as $question ) {
+			
+			if ( strpos($question, '|') === false )
+				continue;
+			
+			$question = explode('|', $question);			
+			$antispam_question_questions[trim($question[0])] = trim($question[1]);
+			
+		}
+		
+		if ( count($antispam_question_questions) )
+			$antispam_question_questions_valid = true;
+		
+	}
+	
+	unset($tmp_questions);
+	
+}
 
 if (
 	$filled_in && // checks necessary strings and integers
 	
 	in_array($_POST['conf-activation_mode'], array(0, 1, 2)) &&
 	in_array($_POST['conf-debug'], array(0, 1, 2)) &&
+	in_array($_POST['conf-antispam_question_mode'], array(ANTI_SPAM_DISABLE, ANTI_SPAM_MATH, ANTI_SPAM_CUSTOM)) &&
+	
+	//
+	// Check if custom questions are set
+	//
+	( $_POST['conf-antispam_question_mode'] != ANTI_SPAM_CUSTOM || $antispam_question_questions_valid ) &&
 	
 	//
 	// Only the following are checked (because they are entered, not selected)
@@ -142,8 +178,14 @@ if (
 	//
 	// Strings which can be empty
 	//
-	foreach ( $optional_strings as $setting )
+	foreach ( $optional_strings as $setting ) {
+		
+		if ( $setting == 'antispam_question_questions' )
+			continue;
+		
 		$new_settings[$setting] = ( !empty($_POST['conf-'.$setting]) ) ? stripslashes($_POST['conf-'.$setting]) : '';
+		
+	}
 	
 	//
 	// Other settings
@@ -152,6 +194,7 @@ if (
 	$new_settings['exclude_forums_rss'] = ( isset($_POST['conf-exclude_forums_rss']) && is_array($_POST['conf-exclude_forums_rss']) ) ? $_POST['conf-exclude_forums_rss'] : array();
 	$new_settings['exclude_forums_stats'] = ( isset($_POST['conf-exclude_forums_stats']) && is_array($_POST['conf-exclude_forums_stats']) ) ? $_POST['conf-exclude_forums_stats'] : array();
 	$new_settings['timezone'] = (float)$_POST['conf-timezone'];
+	$new_settings['antispam_question_questions'] = ( $antispam_question_questions_valid ) ? $antispam_question_questions : array();
 	
 	//
 	// Avatar dimensions
@@ -179,6 +222,8 @@ if (
 		$missing[] = 'admin_email';
 	if ( !empty($_POST['conf-session_name']) && ( !preg_match('#^[A-Za-z0-9]+$#', $_POST['conf-session_name']) || preg_match('#^[0-9]+$#', $_POST['conf-session_name']) ) && !in_array('session_name', $missing) )
 		$missing[] = 'session_name';
+	if ( isset($_POST['conf-antispam_question_mode']) && $_POST['conf-antispam_question_mode'] == ANTI_SPAM_CUSTOM && !$antispam_question_questions_valid )
+		$missing[] = 'antispam_question_questions';
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && count($missing) ) {
 		
@@ -290,6 +335,8 @@ if (
 			'registration_log_file',
 			'show_never_activated_members',
 			'enable_email_dns_check',
+			'antispam_question_mode',
+			'antispam_question_questions',
 		),
 		'advanced' => array(
 			'friendly_urls',
@@ -329,6 +376,15 @@ if (
 			else
 				$_POST['conf-'.$key] = $functions->get_config($key, true);
 			
+			if ( is_array($_POST['conf-'.$key]) ) {
+				
+				$new_value = '';
+				foreach ( $_POST['conf-'.$key] as $arkey => $arval )
+					$new_value .= ( ( !is_numeric($arkey) ) ? $arkey.'|'.$arval : $arval )."\n";
+				$_POST['conf-'.$key] = trim($new_value);
+				
+			}
+			
 		}
 		
 	}
@@ -353,7 +409,7 @@ if (
 	//
 	foreach ( $necessary_settings['integers'] as $key ) {
 		
-		if ( in_array($key, array('activation_mode', 'debug', 'email_view_level', 'output_compression', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
+		if ( in_array($key, array('activation_mode', 'debug', 'email_view_level', 'output_compression', 'antispam_question_mode', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')) )
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
@@ -381,7 +437,7 @@ if (
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="5" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="5" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -532,6 +588,19 @@ if (
 		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
+	
+	//
+	// Anti-spam question mode
+	//
+	$antispam_question_mode_input = '<select name="conf-antispam_question_mode">';
+	foreach ( array(ANTI_SPAM_DISABLE, ANTI_SPAM_MATH, ANTI_SPAM_CUSTOM) as $antispam_question_mode_mode ) {
+		
+		$selected = ( $_POST['conf-antispam_question_mode'] == $antispam_question_mode_mode ) ? ' selected="selected"' : '';
+		$antispam_question_mode_input .= '<option value="'.$antispam_question_mode_mode.'"'.$selected.'>'.$lang['ConfigBoard-antispam_question_mode'.$antispam_question_mode_mode].'</option>';
+		
+	}
+	$antispam_question_mode_input .= '</select>';
+	$input['antispam_question_mode'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-antispam_question_mode'].'</td><td>'.$antispam_question_mode_input.'<div class="moreinfo">'.$lang['ConfigBoard-antispam_question_mode-info'].'</div></td></tr>';
 	
 	//
 	// Now create the navigation and form

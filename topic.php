@@ -492,7 +492,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			// Only shown if enabled, if user can reply and if user can post in locked forum..
 			// If the spam check must be performed first, don't enable the quick reply form.
 			//
-			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) && ( !$functions->get_config('enable_spam_check') || $session->sess_info['user_id'] || $_SESSION['spam_check_performed'] ) ) {
+			if ( $functions->get_config('enable_quickreply') && ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) && ( !$functions->get_config('antispam_question_mode') || $session->sess_info['user_id'] || $_SESSION['antispam_question_performed'] ) ) {
 				
 				//
 				// Get session saved guest's username if there is one

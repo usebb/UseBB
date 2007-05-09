@@ -111,7 +111,7 @@ class session {
 		$_SESSION['latest_post'] = ( !empty($_SESSION['latest_post']) ) ? $_SESSION['latest_post'] : 0;
 		$_SESSION['dnsbl_checked'] = ( !empty($_SESSION['dnsbl_checked']) ) ? $_SESSION['dnsbl_checked'] : 0;
 		$_SESSION['dnsbl_whitelisted'] = ( isset($_SESSION['dnsbl_whitelisted']) && $_SESSION['dnsbl_whitelisted'] );
-		$_SESSION['spam_check_performed'] = ( isset($_SESSION['spam_check_performed']) && $_SESSION['spam_check_performed'] );
+		$_SESSION['antispam_question_posed'] = ( isset($_SESSION['antispam_question_posed']) && $_SESSION['antispam_question_posed'] );
 		
 	}
 	
@@ -451,7 +451,7 @@ class session {
 			'updated' => $current_time,
 			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
 			'ip_addr' => $ip_addr,
-			'perform_spam_check' => ( $functions->get_config('enable_spam_check') && !$user_id && !$_SESSION['spam_check_performed'] && preg_match('#^(register|reply:|posttopic:)#', $location) )
+			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') && !$user_id && !$_SESSION['antispam_question_posed'] && preg_match('#^(register|reply:|posttopic:)#', $location) )
 		);
 		
 		if ( $location !== NULL ) {

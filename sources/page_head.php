@@ -327,7 +327,7 @@ if ( $session->sess_info['pose_antispam_question'] ) {
 		$size = ( $mode === ANTI_SPAM_MATH ) ? 'size="2" maxlength="2"' : 'size="35"';
 		$template->parse('anti_spam_question', 'various', array(
 			'form_begin' => '<form action="'.$functions->make_url($_SERVER['PHP_SELF'], $_GET).'" method="post">',
-			'question' => $_SESSION['antispam_question_question'],
+			'question' => unhtml($_SESSION['antispam_question_question']),
 			'answer_input' => '<input type="text" name="answer" id="answer" '.$size.' />',
 			'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',

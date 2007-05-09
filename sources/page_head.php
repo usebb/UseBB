@@ -255,9 +255,10 @@ if ( $session->sess_info['perform_spam_check'] ) {
 				random_seed();
 				$num1 = mt_rand(1, 9);
 				$num2 = mt_rand(1, 9);
-				
-				$_SESSION['spam_check_question'] = sprintf($lang['AntiSpamQuestionMath'], $num1, $num2);
-				$_SESSION['spam_check_answer'] = $num1 + $num2;
+				$operator = mt_rand(1, 2);
+
+				$_SESSION['spam_check_question'] = ( $operator == 1 ) ? sprintf($lang['AntiSpamQuestionMathPlus'], $num1, $num2) : sprintf($lang['AntiSpamQuestionMathMinus'], $num1 + $num2, $num2);
+				$_SESSION['spam_check_answer'] = ( $operator == 1 ) ? $num1 + $num2 : $num1;
 				break;
 			
 			case ANTI_SPAM_CUSTOM:

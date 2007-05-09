@@ -500,7 +500,8 @@ $lang['AntiSpamQuestion'] = 'Anti-spam question';
 $lang['AntiSpamQuestionInfo'] = 'As an anti-spam measure, you need to answer this question correctly in order to access this component of the forum. Only one question per session will be asked, registering will disable it completely. Thank you for your understanding.';
 $lang['Question'] = 'Question';
 $lang['Answer'] = 'Answer';
-$lang['AntiSpamQuestionMath'] = 'How much is %d plus %d?';
+$lang['AntiSpamQuestionMathPlus'] = 'How much is %d plus %d?';
+$lang['AntiSpamQuestionMathMinus'] = 'How much is %d minus %d?';
 $lang['AntiSpamWrongAnswer'] = 'The submitted answer is wrong. Please fill in the correct answer to access this component.';
 
 ?>

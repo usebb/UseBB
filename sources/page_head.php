@@ -271,8 +271,16 @@ if ( $session->sess_info['perform_spam_check'] ) {
 				$answers = array_values($questionPairs);
 				unset($questionPairs);
 				
-				random_seed();
-				$questionId = mt_rand(0, count($questions)-1);
+				if ( count($questions) == 1 ) {
+					
+					$questionId = 0;
+					
+				} else {
+					
+					random_seed();
+					$questionId = mt_rand(0, count($questions)-1);
+					
+				}
 				
 				$_SESSION['spam_check_question'] = $questions[$questionId];
 				$_SESSION['spam_check_answer'] = $answers[$questionId];

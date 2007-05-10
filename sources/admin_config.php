@@ -376,11 +376,11 @@ if (
 			else
 				$_POST['conf-'.$key] = $functions->get_config($key, true);
 			
-			if ( is_array($_POST['conf-'.$key]) ) {
+			if ( $key == 'antispam_question_questions' ) {
 				
 				$new_value = '';
 				foreach ( $_POST['conf-'.$key] as $arkey => $arval )
-					$new_value .= ( ( !is_numeric($arkey) ) ? $arkey.'|'.$arval : $arval )."\n";
+					$new_value .= $arkey.'|'.$arval."\n";
 				$_POST['conf-'.$key] = trim($new_value);
 				
 			}

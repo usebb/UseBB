@@ -240,10 +240,13 @@ class template {
 	 */
 	function set_js_onload($statement) {
 		
-		if ( empty($statement) )
+		if ( substr($statement, -1) == ';' )
+			substr_replace($statement, '', -1);
+		
+		if ( empty($statement) || in_array($statement, $this->js_onload) )
 			return;
 		
-		$this->js_onload[] = ( substr($statement, -1) == ';' ) ? substr_replace($statement, '', -1) : $statement;
+		$this->js_onload[] = $statement;
 		
 	}
 	

@@ -99,6 +99,13 @@ pre.code {
 	overflow: auto;
 	font-size: 8pt;
 }
+table.maintable pre.code {
+	width: 502px;
+	padding: 5px 5px 20px 5px;
+}
+html>body table.maintable pre.code {
+	padding: 5px;
+}
 blockquote.quote {
 	margin: 0 25px 0 25px;
 	font-size: 8pt;

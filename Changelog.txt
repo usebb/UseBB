@@ -5,6 +5,7 @@ UseBB 1.0.7 Changelog
 
 - Added an (random math based or custom) anti-spam question feature against spam bots.
 - Made the sendmail -f parameter an on/off setting.
+- Fixed CSS for code blocks in IE and Safari.
 - Renamed httpOnly cookie parameter to HttpOnly (correct case).
 - Added random_seed() function to seed the random generator on old PHP versions.
 

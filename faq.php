@@ -82,6 +82,8 @@ if ( !empty($_GET['q']) ) {
 		if ( substr(md5($question[0]), 0, 5) != $_GET['q'] )
 			continue;
 		
+		$template->set_page_title('<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>'.$template->get_config('locationbar_item_delimiter').$question[0]);
+		
 		$template->parse('question', 'faq', array(
 			'question_title' => $question[0],
 			'question_answer' => $question[1]
@@ -93,24 +95,22 @@ if ( !empty($_GET['q']) ) {
 
 $template->parse('contents_header', 'faq');
 
-$hi = $qi = 0;
+$first = true;
 
 foreach ( $faq as $item ) {
 	
 	if ( $item[0] == '--' ) {
 		
-		if ( $hi )
+		if ( !$first )
 			$template->parse('contents_cat_footer', 'faq');
-		
-		$hi++;
+		else
+			$first = false;
 		
 		$template->parse('contents_cat_header', 'faq', array(
 			'cat_name' => $item[1]
 		));
 		
 	} else {
-		
-		$qi++;
 		
 		$template->parse('contents_question', 'faq', array(
 			'question_link' => $functions->make_url('faq.php', array('q' => substr(md5($item[0]), 0, 5))),
@@ -121,7 +121,9 @@ foreach ( $faq as $item ) {
 	
 }
 
-$template->parse('contents_cat_footer', 'faq');
+if ( count($faq) )
+	$template->parse('contents_cat_footer', 'faq');
+
 $template->parse('contents_footer', 'faq');
 
 //

@@ -137,7 +137,6 @@ class session {
 		// Check if we will run cleanup
 		// Cleanup is ran about 1 time per 10 requests
 		//
-		random_seed();
 		$run_cleanup = ( mt_rand(0, 9) === 0 ) ? true : false;
 		
 		//
@@ -465,6 +464,36 @@ class session {
 		}
 		
 		//
+		// If the user logged in, use a new session ID (security measure)
+		//
+		if ( ( !$session_started && $new_sess_info['user_id'] ) || ( $session_started && $new_sess_info['user_id'] > $current_sess_info['user_id'] ) ) {
+			
+			//
+			// Try to find a new session ID that does not yet exist
+			//
+			do {
+				
+				$new_sid = md5(uniqid(mt_rand(), true));
+				$return = $db->query("SELECT COUNT(*) AS exist FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".$new_sid."'");
+				$exists = $db->fetch_result($return);
+				$exists = (bool)$exists['exist'];
+				
+			} while ( $exists );
+			
+			//
+			// Set the new session ID and update the cookie (not done automatically)
+			//
+			$old_sid = session_id($new_sid);
+			$functions->setcookie($functions->get_config('session_name').'_sid', $new_sid);
+			
+			//
+			// Update the searches
+			//
+			$db->query("UPDATE ".TABLE_PREFIX."searches SET sess_id = '".$new_sid."' WHERE sess_id = '".$old_sid."'");
+			
+		}
+		
+		//
 		// Save data in DB
 		//
 		if ( $session_started ) {
@@ -472,13 +501,34 @@ class session {
 			//
 			// Session already exists in DB
 			//
-			$update_query = "UPDATE ".TABLE_PREFIX."sessions SET
-				user_id = ".$new_sess_info['user_id'].",
-				updated = ".$new_sess_info['updated'].",
-				location = '".$new_sess_info['location']."',
-				pages = ".$new_sess_info['pages'].",
-				ip_addr = '".$new_sess_info['ip_addr']."'
-			WHERE sess_id = '".session_id()."'";
+			if ( isset($old_sid) ) {
+				
+				//
+				// Logged in, change session ID
+				//
+				$update_query = "UPDATE ".TABLE_PREFIX."sessions SET
+					user_id = ".$new_sess_info['user_id'].",
+					updated = ".$new_sess_info['updated'].",
+					location = '".$new_sess_info['location']."',
+					pages = ".$new_sess_info['pages'].",
+					ip_addr = '".$new_sess_info['ip_addr']."',
+					sess_id = '".$new_sid."'
+				WHERE sess_id = '".$old_sid."'";
+				
+			} else {
+				
+				//
+				// Just update the data, keep session ID
+				//
+				$update_query = "UPDATE ".TABLE_PREFIX."sessions SET
+					user_id = ".$new_sess_info['user_id'].",
+					updated = ".$new_sess_info['updated'].",
+					location = '".$new_sess_info['location']."',
+					pages = ".$new_sess_info['pages'].",
+					ip_addr = '".$new_sess_info['ip_addr']."'
+				WHERE sess_id = '".session_id()."'";
+				
+			}
 			
 		} else {
 			
@@ -565,6 +615,7 @@ class session {
 		$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
 		$_SESSION = array();
 		session_destroy();
+		$functions->setcookie($functions->get_config('session_name').'_sid', '');
 		
 	}
 	

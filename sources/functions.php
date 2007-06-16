@@ -206,21 +206,6 @@ function checkdnsrr_win($host, $type='') {
 	
 	return false;
 	
-} 
-
-/**
- * Seed the random generator
- *
- * Only used for PHP < 4.2.0.
- */
-function random_seed() {
-	
-	if ( version_compare(PHP_VERSION, '4.2.0', '>=') )
-		return;
-	
-	$seed = explode(' ', microtime());
-	mt_srand($seed[0] * $seed[1]);
-	
 }
 
 /**
@@ -1074,8 +1059,6 @@ class functions {
 		
 		$passwd_min_length = $this->get_config('passwd_min_length');
 		$length = ( $is_password && $passwd_min_length >= 10 ) ? $passwd_min_length : 10;
-		
-		random_seed();
 		
 		$key = '';
 		$count = count($chars)-1;

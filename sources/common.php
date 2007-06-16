@@ -65,16 +65,20 @@ set_magic_quotes_runtime(1);
 ini_set('display_errors', '1');
 ini_set('session.use_trans_sid', '0');
 
+//
+// Disallow requests that contain some _XYZ global variables
+//
+$request_keys = array_keys($_REQUEST);
+if ( in_array('_GET', $request_keys) || in_array('_POST', $request_keys) || in_array('_COOKIE', $request_keys) || in_array('_FILES', $request_keys) || in_array('_SERVER', $request_keys) || in_array('_ENV', $request_keys) )
+	die('Disallowed request variable found. Exited.');
+
+//
+// Unset global variables
+//
 if ( ini_get('register_globals') ) {
 	
-	foreach ( $_REQUEST as $var_name => $null ) {
-		
-		if ( preg_match('#^_[A-Z]+$#', $var_name) )
-			die('Request variable '.$var_name.' found with register_globals enabled. Exited.');
-		
+	foreach ( $_REQUEST as $var_name => $null )
 		unset($$var_name);
-		
-	}
 	
 	unset($null);
 	
@@ -101,7 +105,7 @@ if ( empty($_SERVER['REQUEST_URI']) ) {
 if ( empty($_SERVER['HTTP_HOST']) ) {
 	
 	$_SERVER['HTTP_HOST'] = ( !empty($_SERVER['SERVER_NAME']) ) ? $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_ADDR'];
-	$_SERVER['HTTP_HOST'] .= ( !empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 ) ? $_SERVER['SERVER_PORT'] : '';
+	$_SERVER['HTTP_HOST'] .= ( !empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 ) ? ':'.$_SERVER['SERVER_PORT'] : '';
 	
 }
 
@@ -117,6 +121,16 @@ foreach ( array('HTTP_USER_AGENT', 'SERVER_SOFTWARE') as $key )
 //
 if ( function_exists('date_default_timezone_set') )
 	date_default_timezone_set('UTC');
+
+//
+// Seed random generator on PHP < 4.2.0
+//
+if ( version_compare(PHP_VERSION, '4.2.0', '<') ) {
+	
+	$seed = explode(' ', microtime());
+	mt_srand($seed[0] * $seed[1]);
+	
+}
 
 //
 // Include functions.php

@@ -252,7 +252,6 @@ if ( $session->sess_info['pose_antispam_question'] ) {
 				//
 				// Random math question
 				//
-				random_seed();
 				$operator = mt_rand(1, 2);
 				if ( $operator == 1 ) {
 					
@@ -282,16 +281,10 @@ if ( $session->sess_info['pose_antispam_question'] ) {
 				$answers = array_values($questionPairs);
 				unset($questionPairs);
 				
-				if ( count($questions) == 1 ) {
-					
+				if ( count($questions) == 1 )
 					$questionId = 0;
-					
-				} else {
-					
-					random_seed();
+				else
 					$questionId = mt_rand(0, count($questions)-1);
-					
-				}
 				
 				$_SESSION['antispam_question_question'] = $questions[$questionId];
 				$_SESSION['antispam_question_answer'] = $answers[$questionId];

@@ -281,10 +281,7 @@ if ( $session->sess_info['pose_antispam_question'] ) {
 				$answers = array_values($questionPairs);
 				unset($questionPairs);
 				
-				if ( count($questions) == 1 )
-					$questionId = 0;
-				else
-					$questionId = mt_rand(0, count($questions)-1);
+				$questionId = ( count($questions) == 1 ) ? 0 : mt_rand(0, count($questions)-1);
 				
 				$_SESSION['antispam_question_question'] = $questions[$questionId];
 				$_SESSION['antispam_question_answer'] = $answers[$questionId];

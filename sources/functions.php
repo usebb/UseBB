@@ -1770,7 +1770,7 @@ class functions {
 			//
 			// Entity + smiley fix
 			//
-			$string = preg_replace('#(&[\#a-z0-9]+)<img src="[^"]+" alt="([^"]+)" />#', '\\1\\2', $string);
+			$string = preg_replace('#(&\#?[a-zA-Z0-9]+)<img src="[^"]+" alt="([^"]+)" />#', '\\1\\2', $string);
 			
 		}
 		

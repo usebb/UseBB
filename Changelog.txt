@@ -7,6 +7,7 @@ UseBB 1.0.7 Changelog
 - Added a security measure which generates a new session ID when logging in/out.
 - Fixed CSS for BBCode [code] blocks in IE and Safari.
 - Fixed faulty HTTP_HOST reassembling when running on port other than 80.
+- Fixed hexadecimal entities + smilies parsing problem.
 - Made the sendmail -f parameter for emails an on/off setting.
 - Now always stop when superglobals are (tried to be) defined via GET/POST/COOKIE.
 

@@ -131,18 +131,15 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		
 	}
 	
+	$activation_necessary = ( $functions->get_config('activation_mode') > 0 && $_POST['email'] != $session->sess_info['user_info']['email'] && $functions->get_user_level() < LEVEL_ADMIN );
+	
 	//
 	// If the e-mail address changed
 	//
-	if ( $_POST['email'] != $session->sess_info['user_info']['email'] ) {
+	if ( $activation_necessary ) {
 		
 		switch ( intval($functions->get_config('activation_mode')) ) {
 			
-			case 0:
-				$active = 1;
-				$active_key_md5 = '';
-				$msgbox_content = $lang['ProfileEdited'];
-				break;
 			case 1:
 				$active = 0;
 				$active_key = $functions->random_key(); # used in the email url
@@ -197,20 +194,20 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 	//
 	// Send correct e-mails
 	//
-	if ( $_POST['email'] != $session->sess_info['user_info']['email'] ) {
+	if ( $activation_necessary ) {
 		
-		if ( intval($functions->get_config('activation_mode')) === 1 ) {
+		switch ( intval($functions->get_config('activation_mode')) ) {
 			
-			$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
-				'account_name' => stripslashes($session->sess_info['user_info']['name']),
-				'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false)
-			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-			
-		} elseif ( intval($functions->get_config('activation_mode')) === 2 ) {
-			
-			$functions->usebb_mail($lang['NewEmailAdminActivationEmailSubject'], $lang['NewEmailAdminActivationEmailBody'], array(
-				'account_name' => stripslashes($session->sess_info['user_info']['name'])
-			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+			case 1:
+				$functions->usebb_mail($lang['NewEmailActivationEmailSubject'], $lang['NewEmailActivationEmailBody'], array(
+					'account_name' => stripslashes($session->sess_info['user_info']['name']),
+					'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $session->sess_info['user_info']['id'], 'key' => $active_key), false)
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+				break;
+			case 2:
+				$functions->usebb_mail($lang['NewEmailAdminActivationEmailSubject'], $lang['NewEmailAdminActivationEmailBody'], array(
+					'account_name' => stripslashes($session->sess_info['user_info']['name'])
+				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 			
 		}
 		

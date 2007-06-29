@@ -9,6 +9,7 @@ html, body {
 	background-image: url(gfx/body_bg.png);
 	background-color: #CCC;
 	cursor: default;
+	color: #000;
 }
 #pagebox-bg {
 	width: 785px;

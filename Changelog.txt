@@ -6,10 +6,10 @@ UseBB 1.0.7 Changelog
 - Added an (random math based or custom) anti-spam question feature against spam bots.
 - Added a security measure which generates a new session ID when logging in/out.
 - Fixed bug #1641: Global text color missing.
-- Fixed CSS for BBCode [code] blocks in IE and Safari.
+- Fixed bug #1591: CSS for BBCode [code] blocks in IE and Safari.
 - Fixed faulty HTTP_HOST reassembling when running on port other than 80.
 - Fixed hexadecimal entities + smilies parsing problem.
-- Admin accounts are no longer deactivated when e-mail address is changed.
+- Admin accounts are no longer deactivated when e-mail address has changed.
 - Made the sendmail -f parameter for emails an on/off setting.
 - Now always stop when superglobals are (tried to be) defined via GET/POST/COOKIE.
 

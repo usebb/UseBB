@@ -104,7 +104,10 @@ function unhtml($string) {
  */
 function entities_strlen($string) {
 	
-	return strlen(preg_replace('#&\#?[a-z0-9]+;#', '.', $string));
+	if ( strpos($string, '&') !== false )
+		$string = preg_replace('#&\#?[^;]+;#', '.', $string);
+	
+	return strlen($string);
 	
 }
 
@@ -117,22 +120,25 @@ function entities_strlen($string) {
  */
 function entities_rtrim($string, $length) {
 	
+	if ( function_exists('mb_language') && mb_language() != 'neutral') {
+		
+		$strlen = 'mb_strlen';
+		$substr = 'mb_substr';
+		
+	} else {
+		
+		$strlen = 'strlen';
+		$substr = 'substr';
+		
+	}
+	
+	if ( strpos($string, '&') === false )
+		return $substr($string, 0, $length);
+	
 	$new_string = '';
 	$new_length = $pos = 0;
 	$entity_open = false;
 	
-    if ( function_exists('mb_language') && mb_language() != 'neutral') {
-    	
-        $strlen = 'mb_strlen';
-        $substr = 'mb_substr';
-        
-    } else {
-    	
-        $strlen = 'strlen';
-        $substr = 'substr';
-        
-    }
-    
 	while ( $pos < $strlen($string) && ( $new_length < $length || $entity_open ) ) {
 		
 		$char = $substr($string, $pos, 1);

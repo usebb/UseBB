@@ -9,6 +9,7 @@ UseBB 1.0.7 Changelog
 - Fixed bug #1591: CSS for BBCode [code] blocks in IE and Safari.
 - Fixed faulty HTTP_HOST reassembling when running on port other than 80.
 - Fixed hexadecimal entities + smilies parsing problem.
+- Fixed fatal error for phpBB convertor using mysqli.
 - Admin accounts are no longer deactivated when e-mail address has changed.
 - Made the sendmail -f parameter for emails an on/off setting.
 - Now always stop when superglobals are (tried to be) defined via GET/POST/COOKIE.

@@ -104,11 +104,11 @@ class db {
 	 */
 	function query($query, $return_error=false, $log=true) {
 		
-		global $functions;
-		
 		if ( $log )
 			$this->queries[] = preg_replace('#\s+#', ' ', $query);
+		
 		$result = @mysql_query($query, $this->connection) or $error = mysql_error($this->connection);
+		
 		if ( isset($error) ) {
 			
 			if ( $return_error ) 
@@ -117,6 +117,7 @@ class db {
 				trigger_error('SQL: '.$error, E_USER_ERROR);
 			
 		}
+		
 		return $result;
 		
 	}

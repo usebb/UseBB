@@ -95,7 +95,7 @@ class db {
 		//
 		// Set transaction to latin1
 		//
-		if ( $functions->get_config('force_latin1_db', true) )
+		if ( is_object($functions) && $functions->get_config('force_latin1_db', true) )
 			$this->query("SET NAMES latin1", true, false);
 		
 	}
@@ -109,11 +109,11 @@ class db {
 	 */
 	function query($query, $return_error=false, $log=true) {
 		
-		global $functions;
-		
 		if ( $log )
 			$this->queries[] = preg_replace('#\s+#', ' ', $query);
+		
 		$result = @mysqli_query($this->connection, $query) or $error = mysqli_error($this->connection);
+		
 		if ( isset($error) ) {
 			
 			if ( $return_error ) 
@@ -122,6 +122,7 @@ class db {
 				trigger_error('SQL: '.$error, E_USER_ERROR);
 			
 		}
+		
 		return $result;
 		
 	}

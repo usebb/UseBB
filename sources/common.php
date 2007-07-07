@@ -184,7 +184,7 @@ else
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '1.0.6');
+define('USEBB_VERSION', '1.0.7');
 /**
  * Regular expression for matching usernames.
  */

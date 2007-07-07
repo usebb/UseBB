@@ -83,7 +83,16 @@ function slash_trim_global($global) {
  */
 function unhtml($string) {
 	
-	return preg_replace(array('#&amp;\#([0-9]+)#', '#&\#?[a-z0-9]+$#'), array('&#\\1', ''), htmlspecialchars($string));
+	$string = htmlspecialchars($string);
+	
+	//
+	// Code which is necessary to not break numeric entities (quirky support for strange encodings on a page).
+	// Broken entities (without trailing ;) at string end are stripped since they break XML well-formedness.
+	//
+	if ( strpos($string, '&') !== false )
+		$string = preg_replace(array('#&amp;\#([0-9]+)#', '#&\#?[a-z0-9]+$#'), array('&#\\1', ''), $string);
+	
+	return $string;
 	
 }
 

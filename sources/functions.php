@@ -603,83 +603,55 @@ class functions {
 		
 		global $db;
 		
-		if ( $stat == 'categories' ) {
+		//
+		// Already requested, return
+		//
+		if ( array_key_exists($stat, $this->statistics) )
+			return $this->statistics[$stat];
+		
+		//
+		// Get requested value
+		//
+		switch ( $stat ) {
 			
-			//
-			// Get the category count
-			//
-			if ( !array_key_exists($stat, $this->statistics) ) {
-				
+			case 'categories':
 				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."cats");
 				$out = $db->fetch_result($result);
 				$this->statistics[$stat] = $out['count'];
-				
-			}
+				break;
 			
-			return $this->statistics[$stat];
-			
-		} elseif ( $stat == 'forums' || $stat == 'viewable_forums' ) {
-			
-			//
-			// Get the forums
-			//
-			if ( !array_key_exists($stat, $this->statistics) ) {
-				
+			case 'forums':
+			case 'viewable_forums':
 				$result = $db->query("SELECT id, auth FROM ".TABLE_PREFIX."forums");
 				$this->statistics['forums'] = 0;
 				$this->statistics['viewable_forums'] = 0;
 				
 				while ( $forumdata = $db->fetch_result($result) ) {
 					
-					//
-					// We also set the other statistic: (viewable_)forums
-					// This might save a query
-					//
-					
-					// forums
 					$this->statistics['forums']++;
-					
-					// viewable_forums
 					if ( $this->auth($forumdata['auth'], 'view', $forumdata['id']) )
 						$this->statistics['viewable_forums']++;
 					
 				}
-				
-			}
+				break;
 			
-			return $this->statistics[$stat];
-			
-		} elseif ( $stat == 'latest_member' ) {
-			
-			//
-			// Get the latest member
-			//
-			if ( !array_key_exists($stat, $this->statistics) ) {
-				
+			case 'latest_member':
 				$never_activated_sql = ( $this->get_config('show_never_activated_members') ) ? "" : " WHERE ( active <> 0 OR last_login <> 0 )";
 				$result = $db->query("SELECT id, displayed_name, regdate FROM ".TABLE_PREFIX."members".$never_activated_sql." ORDER BY id DESC LIMIT 1");
 				$this->statistics[$stat] = $db->fetch_result($result);
-				
-			}
+				break;
 			
-			return $this->statistics[$stat];
-			
-		} else {
-			
-			if ( !array_key_exists($stat, $this->statistics) ) {
-				
+			default:
 				$result = $db->query("SELECT name, content FROM ".TABLE_PREFIX."stats");
 				while ( $out = $db->fetch_result($result) )
 					$this->statistics[$out['name']] = $out['content'];
-				
-			}
-			
-			if ( array_key_exists($stat, $this->statistics) )
-				return $this->statistics[$stat];
-			else
-				trigger_error('The statistic variable "'.$stat.'" does not exist!', E_USER_ERROR);
 			
 		}
+		
+		if ( array_key_exists($stat, $this->statistics) )
+			return $this->statistics[$stat];
+		else
+			trigger_error('The statistic variable "'.$stat.'" does not exist!', E_USER_ERROR);
 		
 	}
 	

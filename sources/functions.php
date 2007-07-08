@@ -241,8 +241,8 @@ class functions {
 	/**#@+
 	 * @access private
 	 */
-	var $board_config;
-	var $board_config_original;
+	var $board_config = array();
+	var $board_config_original = array();
 	var $statistics = array();
 	var $languages = array();
 	var $language_sections = array();
@@ -433,6 +433,8 @@ class functions {
 	/**
 	 * Get configuration variables
 	 *
+	 * Rewritten to speed things up and use a cache array at July 8th, 2007.
+	 *
 	 * @param string $setting Setting to retrieve
 	 * @param bool $original Use original config.php configuration
 	 * @returns mixed Value of setting
@@ -442,165 +444,152 @@ class functions {
 		global $session;
 		
 		//
-		// Load settings
+		// Load settings into array
 		//
-		if ( !isset($this->board_config) && isset($GLOBALS['conf']) ) {
-			
-			$this->board_config = $this->board_config_original = $GLOBALS['conf'];
-			unset($GLOBALS['conf']);
-			
-		}
+		if ( !count($this->board_config_original) )
+			$this->board_config_original = $GLOBALS['conf'];
 		
-		if ( defined('IS_INSTALLER') || $original ) {
+		//
+		// users_must_activate was renamed to activation_mode
+		//
+		if ( $setting == 'activation_mode' && !array_key_exists($setting, $this->board_config_original) )
+			$setting = 'users_must_activate';
+		
+		//
+		// Get original settings
+		//
+		if ( defined('IS_INSTALLER') || $original )
+			return ( array_key_exists($setting, $this->board_config_original) ) ? $this->board_config_original[$setting] : false;
+		
+		//
+		// If this settings was requested already, return
+		//
+		if ( array_key_exists($setting, $this->board_config) )
+			return $this->board_config[$setting];
+		
+		//
+		// User-based settings
+		//
+		if ( is_object($session) && !empty($session->sess_info['user_id']) && array_key_exists($setting, $session->sess_info['user_info']) ) {
 			
-			//
-			// Fix config name change
-			//
-			if ( $setting == 'activation_mode' && !array_key_exists($setting, $this->board_config_original) )
-				return $this->get_config('users_must_activate');
-			
-			//
-			// Return unedited config
-			//
-			if ( array_key_exists($setting, $this->board_config_original) )
-				return $this->board_config_original[$setting];
-			else
-				return false;
-			
-		} else {
-			
-			//
-			// Member preferences
-			//
-			if ( isset($session) && isset($session->sess_info) && !empty($session->sess_info['user_id']) && array_key_exists($setting, $session->sess_info['user_info']) ) {
+			switch ( $setting ) {
 				
-				$keep_default = false;
-				
-				if ( $setting == 'language' ) {
-					
-					//
-					// Keep default when missing language pack
-					//
-					if ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) )
-						$keep_default = true;
-					
-				} elseif ( $setting == 'template' ) {
-					
-					//
-					// Keep default when missing template set
-					//
-					if ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) )
-						$keep_default = true;
-					
-				}
-				
-				//
-				// Overwrite board setting with user setting
-				//
-				if ( !$keep_default )
-					$this->board_config[$setting] = stripslashes($session->sess_info['user_info'][$setting]);
+				case 'language':
+					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) );
+					break;
+				case 'template':
+					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) );
+					break;
+				default:
+					$keep_default = false;
 				
 			}
 			
-			//
-			// Fill in missing settings
-			//
-			if ( is_array($this->board_config) && !array_key_exists($setting, $this->board_config) || ( is_string($this->board_config[$setting]) && trim($this->board_config[$setting]) === '' ) ) {
-				
-				switch ( $setting ) {
-					
-					case 'board_url':
-						$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-						if ( substr($path_parts['dirname'], -1) != '/' )
-							$path_parts['dirname'] .= '/';
-						$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
-						$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
-						break;
-					
-					case 'cookie_domain':
-						$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
-						break;
-					
-					case 'cookie_path':
-						$set_to = '/';
-						break;
-					
-					case 'search_limit_results':
-					case 'sig_max_length':
-						$set_to = 1000;
-						break;
-					
-					case 'search_nonindex_words_min_length':
-					case 'username_min_length':
-						$set_to = 3;
-						break;
-					
-					case 'enable_ip_bans':
-					case 'enable_badwords_filter':
-					case 'guests_can_see_contact_info':
-					case 'show_raw_entities_in_code':
-					case 'show_never_activated_members':
-					case 'disable_xhtml_header':
-					case 'hide_db_config_acp':
-					case 'cookie_httponly':
-						$set_to = true;
-						break;
-					
-					case 'activation_mode':
-						$set_to = $this->get_config('users_must_activate');
-						break;
-					
-					case 'view_search_min_level':
-					case 'view_active_topics_min_level':
-						$set_to = LEVEL_GUEST;
-						break;
-					
-					case 'dnsbl_powered_banning_whitelist':
-					case 'dnsbl_powered_banning_servers':
-						$set_to = array();
-						break;
-					
-					case 'username_max_length':
-						$set_to = 30;
-						break;
-					
-					case 'edit_post_timeout':
-						$set_to = 300;
-						break;
-					
-					case 'mass_email_msg_recipients':
-						$set_to = 100;
-						break;
-					
-					default:
-						$set_to = false;
-					
-				}
-				
-				//
-				// Set the new value
-				//
-				$this->board_config[$setting] = $set_to;
-				
-			} elseif ( is_array($this->board_config) && array_key_exists($setting, $this->board_config) ) {
-				
-				//
-				// Fix crappy settings
-				//
-				if ( $setting == 'board_url' && substr($this->board_config[$setting], -1) != '/' )
-					$this->board_config[$setting] .= '/';
-				if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $this->board_config[$setting]) || preg_match('#^[0-9]+$#', $this->board_config[$setting]) ) )
-					$this->board_config[$setting] = 'usebb';
-					
-				
-			}
-			
-			//
-			// Return setting
-			//
+			$this->board_config[$setting] = ( $keep_default ) ? $this->board_config_original[$setting] : $session->sess_info['user_info'][$setting];
 			return $this->board_config[$setting];
 			
 		}
+		
+		//
+		// Auto-detected settings
+		//
+		if ( in_array($setting, array('board_url', 'cookie_domain', 'cookie_path')) && empty($this->board_config_original[$setting]) ) {
+			
+			switch ( $setting ) {
+				
+				case 'board_url':
+					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					if ( substr($path_parts['dirname'], -1) != '/' )
+						$path_parts['dirname'] .= '/';
+					$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
+					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
+					break;
+				case 'cookie_domain':
+					$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
+					break;
+				case 'cookie_path':
+					$set_to = '/';
+				
+			}
+			
+			$this->board_config[$setting] = $set_to;
+			return $this->board_config[$setting];
+			
+		}
+		
+		//
+		// Missing settings
+		//
+		if ( !array_key_exists($setting, $this->board_config_original) ) {
+			
+			switch ( $setting ) {
+				
+				case 'search_limit_results':
+				case 'sig_max_length':
+					$set_to = 1000;
+					break;
+				case 'search_nonindex_words_min_length':
+				case 'username_min_length':
+					$set_to = 3;
+					break;
+				case 'enable_ip_bans':
+				case 'enable_badwords_filter':
+				case 'guests_can_see_contact_info':
+				case 'show_raw_entities_in_code':
+				case 'show_never_activated_members':
+				case 'disable_xhtml_header':
+				case 'hide_db_config_acp':
+				case 'cookie_httponly':
+					$set_to = true;
+					break;
+				case 'view_search_min_level':
+				case 'view_active_topics_min_level':
+					$set_to = LEVEL_GUEST;
+					break;
+				case 'dnsbl_powered_banning_whitelist':
+				case 'dnsbl_powered_banning_servers':
+					$set_to = array();
+					break;
+				case 'username_max_length':
+					$set_to = 30;
+					break;
+				case 'edit_post_timeout':
+					$set_to = 300;
+					break;
+				case 'mass_email_msg_recipients':
+					$set_to = 100;
+					break;
+				default:
+					$set_to = false;
+				
+			}
+			
+			$this->board_config[$setting] = $set_to;
+			return $this->board_config[$setting];
+			
+		} elseif ( in_array($setting, array('board_url', 'session_name')) ) {
+			
+			//
+			// Not missing, but need validity checking
+			//
+			
+			$set_to = $this->board_config_original[$setting];
+			
+			if ( $setting == 'board_url' && substr($set_to, -1) != '/' )
+				$set_to .= '/';
+			if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $set_to) || preg_match('#^[0-9]+$#', $set_to) ) )
+				$set_to = 'usebb';
+			
+			$this->board_config[$setting] = $set_to;
+			return $this->board_config[$setting];
+			
+		}
+		
+		//
+		// All other settings taken from the original array
+		//
+		$this->board_config[$setting] = $this->board_config_original[$setting];
+		return $this->board_config[$setting];
 		
 	}
 	

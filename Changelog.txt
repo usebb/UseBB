@@ -13,6 +13,7 @@ UseBB 1.0.7 Changelog
 - Admin accounts are no longer deactivated when e-mail address has changed.
 - Made the sendmail -f parameter for emails an on/off setting.
 - Now always stop when superglobals are (tried to be) defined via GET/POST/COOKIE.
+- Faster processing times due to rewritten configuration get function.
 
 UseBB 1.0.6 Changelog
 ------------------------------

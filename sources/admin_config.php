@@ -376,7 +376,7 @@ if (
 			else
 				$_POST['conf-'.$key] = $functions->get_config($key, true);
 			
-			if ( $key == 'antispam_question_questions' ) {
+			if ( $key == 'antispam_question_questions' && is_array($_POST['conf-'.$key]) ) {
 				
 				$new_value = '';
 				foreach ( $_POST['conf-'.$key] as $arkey => $arval )

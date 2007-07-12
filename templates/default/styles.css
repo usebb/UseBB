@@ -89,6 +89,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 optgroup option {
 	padding: 0 10px 0 10px;
 }
+
 pre.code {
 	display: block;
 	margin: 0 25px 0 25px;
@@ -107,6 +108,10 @@ table.maintable pre.code {
 html>body table.maintable pre.code {
 	padding: 5px;
 }
+table.maintable blockquote.quote pre.code {
+	width: 430px;
+}
+
 blockquote.quote {
 	margin: 0 25px 0 25px;
 	font-size: 8pt;

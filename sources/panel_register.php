@@ -169,17 +169,12 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 		}
 		
-		$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."members");
-		$out = $db->fetch_result($result);
-		if ( !$out['count'] )
-			$level = 3;
-		else
-			$level = 1;
+		$level = ( $functions->get_stats('members') ) ? LEVEL_MEMBER : LEVEL_ADMIN;
 		
 		//
 		// Generate the activation key if necessary
 		//
-		if ( $level == 3 ) {
+		if ( $level == LEVEL_ADMIN ) {
 			
 			//
 			// The first user does not need activation
@@ -217,7 +212,7 @@ if ( $functions->get_config('disable_registrations') ) {
 		//
 		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".$active_key_md5."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('timezone').", ".$functions->get_config('dst').", ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."', '', '' )");
 		
-		if ( intval($functions->get_config('activation_mode')) === 1 && $level != 3 ) {
+		if ( intval($functions->get_config('activation_mode')) === 1 && $level < LEVEL_ADMIN ) {
 			
 			//
 			// Send the activation e-mail if necessary
@@ -230,7 +225,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 		} else {
 			
-			if ( intval($functions->get_config('activation_mode')) === 2 && $level != 3 ) {
+			if ( intval($functions->get_config('activation_mode')) === 2 && $level < LEVEL_ADMIN ) {
 				
 				$functions->usebb_mail($lang['AdminActivationEmailSubject'], $lang['AdminActivationEmailBody'], array(
 					'account_name' => stripslashes($_POST['user']),

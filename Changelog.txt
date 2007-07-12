@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.8 Changelog
+------------------------------
+
+- Allow terms of use text to contain HTML markup.
+
 UseBB 1.0.7 Changelog
 ------------------------------
 

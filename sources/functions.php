@@ -1133,12 +1133,12 @@ class functions {
 		//
 		if ( $from_email != $this->get_config('admin_email') && $this->get_config('email_reply-to_header') ) {
 			
-			$headers[] = 'From: '.$from_name.' <'.$this->get_config('admin_email').'>';
+			$headers[] = 'From: "'.$from_name.'" <'.$this->get_config('admin_email').'>';
 			$headers[] = 'Reply-To: '.$from_email;
 			
 		} else {
 			
-			$headers[] = 'From: '.$from_name.' <'.$from_email.'>';
+			$headers[] = 'From: "'.$from_name.'" <'.$from_email.'>';
 			
 		}
 		

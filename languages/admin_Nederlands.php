@@ -362,6 +362,7 @@ $lang['MembersEditingMemberBannedReason'] = 'Reden voor ban';
 $lang['MembersEditingMemberCantChangeOwnLevel'] = 'Je kan je eigen niveau niet aanpassen.';
 $lang['MembersEditingMemberCantBanSelf'] = 'Je kan jezelf niet bannen.';
 $lang['MembersEditingComplete'] = 'Account van lid %s werd succesvol bewerkt.';
+$lang['MembersEditingLevelModInfo'] = 'Om iemand moderator te maken, bewerk een forum en voeg de gebruikersnaam toe aan het moderator-invoerveld..';
 
 $lang['DeleteMembersSearchMember'] = 'Lid zoeken';
 $lang['DeleteMembersSearchMemberInfo'] = 'Voer een (deel van een) gebruikersnaam of weergegeven naam in om te verwijderen.';

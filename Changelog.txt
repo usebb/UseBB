@@ -5,6 +5,7 @@ UseBB 1.0.8 Changelog
 
 - Fixed bug #1700: From in e-mail messages gets split.
 - Allow terms of use text to contain HTML markup.
+- Added moderator info to member edit pane in ACP.
 
 UseBB 1.0.7 Changelog
 ------------------------------

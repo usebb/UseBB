@@ -362,6 +362,7 @@ $lang['MembersEditingMemberBannedReason'] = 'Reason for ban';
 $lang['MembersEditingMemberCantChangeOwnLevel'] = 'You can\'t change your own level.';
 $lang['MembersEditingMemberCantBanSelf'] = 'You can\'t ban yourself.';
 $lang['MembersEditingComplete'] = 'The profile of the member %s was edited successfully.';
+$lang['MembersEditingLevelModInfo'] = 'To make someone moderator, edit a forum and add the member\'s username to the moderator input field.';
 
 $lang['DeleteMembersSearchMember'] = 'Search member';
 $lang['DeleteMembersSearchMemberInfo'] = 'Enter a (part of a) username or displayed name to delete.';

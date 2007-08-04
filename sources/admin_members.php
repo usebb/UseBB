@@ -233,6 +233,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$selected = ( $_POST['level'] != 3 ) ? ' selected="selected"' : '';
 				$level_input .= '<option value="1"'.$selected.'>'.$lang['Member'].'/'.$lang['Moderator'].'</option>';
 				$level_input .= '</select>';
+				$level_input .= '<div class="moreinfo">'.$lang['MembersEditingLevelModInfo'].'</div>';
 				
 				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><label><input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';

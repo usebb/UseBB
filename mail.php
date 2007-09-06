@@ -182,7 +182,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 			//
 			// This user does not exist, show an error
 			//
-			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+			header(HEADER_404);
 			$template->set_page_title($lang['Error']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],

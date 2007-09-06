@@ -7,6 +7,7 @@ UseBB 1.0.8 Changelog
 - Allow terms of use text to contain HTML markup.
 - Added moderator info to member edit pane in ACP.
 - Give visual notice when accessing 403 Forbidden RSS feed.
+- Moved 403 and 404 headers to constants HEADER_40x.
 
 UseBB 1.0.7 Changelog
 ------------------------------

@@ -241,6 +241,14 @@ define('ANTI_SPAM_MATH', 1);
  * Anti-spam custom question mode
  */
 define('ANTI_SPAM_CUSTOM', 2);
+/**
+ * 403 header
+ */
+define('HEADER_403', $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+/**
+ * 404 header
+ */
+define('HEADER_404', $_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
 
 //
 // Include all other necessary files

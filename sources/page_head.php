@@ -160,7 +160,7 @@ $template->parse('normal_header', 'global');
 if ( $session->sess_info['location'] == 'rss' && ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') || ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST ) ) ) {
 	
 	header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-	exit();
+	die('<h1>403 Forbidden</h1><p>You are not allowed to access the RSS feed.</p>');
 	
 }
 

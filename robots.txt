@@ -1,4 +1,0 @@
-# $Header$
-
-User-agent: *
-Disallow: sources

@@ -8,6 +8,7 @@ UseBB 1.0.8 Changelog
 - Added moderator info to member edit pane in ACP.
 - Give visual notice when accessing 403 Forbidden RSS feed.
 - Moved 403 and 404 headers to constants HEADER_40x.
+- Renamed MSN to Windows Live Messenger and changed profile URLs (spaces.live.com).
 
 UseBB 1.0.7 Changelog
 ------------------------------

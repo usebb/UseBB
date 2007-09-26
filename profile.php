@@ -181,7 +181,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			} else {
 				
 				$email_v = $functions->show_email($profiledata);
-				$msnm_v = ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://members.msn.com/'.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm']));
+				$msnm_v = ( preg_match(EMAIL_PREG, $profiledata['msnm']) ) ? '<a href="http://spaces.live.com/profile.aspx?mem='.$profiledata['msnm'].'"'.$target_blank.'>'.$profiledata['msnm'].'</a>' : unhtml(stripslashes($profiledata['msnm']));
 				$yahoom_v = ( !empty($profiledata['yahoom']) ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.urlencode(stripslashes($profiledata['yahoom'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['yahoom'])).'</a>' : '';
 				$aim_v = ( !empty($profiledata['aim']) ) ? '<a href="aim:goim?screenname='.urlencode(stripslashes($profiledata['aim'])).'&amp;message=Hi.+Are+you+there?">'.unhtml(stripslashes($profiledata['aim'])).'</a>' : '';
 				$icq_v = ( valid_int($profiledata['icq']) ) ? '<a href="http://www.icq.com/whitepages/about_me.php?Uin='.intval($profiledata['icq']).'"'.$target_blank.'>'.intval($profiledata['icq']).'</a>' : unhtml(stripslashes($profiledata['icq']));

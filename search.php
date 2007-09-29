@@ -281,7 +281,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				//
 				$per_page = $functions->get_config($search_results['show_mode'].'_per_page');
 				$numpages = ceil(intval(count($search_results['results'])) / $per_page);
-				$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+				$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) > 0 && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 				$limit_start = ( $page - 1 ) * $per_page;
 				$limit_end = $per_page;
 				$page_links = $functions->make_page_links($numpages, $page, count($search_results['results']), $per_page, 'search.php', NULL, true, array('act' => 'results'));

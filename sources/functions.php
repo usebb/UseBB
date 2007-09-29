@@ -1527,7 +1527,7 @@ class functions {
 	 */
 	function post_empty(&$string) {
 		
-		if ( empty($string) )
+		if ( empty($string) || is_array($string) )
 			return true;
 		
 		$copy = $string;

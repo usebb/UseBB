@@ -46,9 +46,8 @@ if ( !defined('INCLUDED') )
 //
 // Timer for checking parsetime
 //
-$timer = array();
-$timer['begin'] = explode(' ', microtime());
-$timer['begin'] = (float)$timer['begin'][1] + (float)$timer['begin'][0];
+$timer_begin = explode(' ', microtime());
+define('TIMER_BEGIN', (float)$timer_begin[1] + (float)$timer_begin[0]);
 
 //
 // Check PHP version by checking the presence of version_compare()
@@ -69,7 +68,7 @@ ini_set('session.use_trans_sid', '0');
 // Disallow requests that contain some _XYZ global variables
 //
 $request_keys = array_keys($_REQUEST);
-if ( in_array('_GET', $request_keys) || in_array('_POST', $request_keys) || in_array('_COOKIE', $request_keys) || in_array('_FILES', $request_keys) || in_array('_SERVER', $request_keys) || in_array('_ENV', $request_keys) )
+if ( in_array('_GET', $request_keys) || in_array('_POST', $request_keys) || in_array('_COOKIE', $request_keys) || in_array('_FILES', $request_keys) || in_array('_SERVER', $request_keys) || in_array('_ENV', $request_keys) || in_array('_REQUEST', $request_keys) )
 	die('Disallowed request variable found. Exited.');
 
 //

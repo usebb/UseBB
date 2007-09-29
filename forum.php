@@ -95,7 +95,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			// Get page number
 			//
 			$numpages = ceil(intval($forumdata['topics']) / $functions->get_config('topics_per_page'));
-			$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+			$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) > 0 && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 			$limit_start = ( $page - 1 ) * $functions->get_config('topics_per_page');
 			$limit_end = $functions->get_config('topics_per_page');
 			$page_links = $functions->make_page_links($numpages, $page, $forumdata['topics'], $functions->get_config('topics_per_page'), 'forum.php', $_GET['id']);

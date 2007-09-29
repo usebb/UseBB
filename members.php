@@ -107,7 +107,7 @@ if ( empty($_GET['act']) ) {
 		$num_members = $out['count'];
 		
 		$numpages = ceil($num_members / $functions->get_config('members_per_page'));
-		$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
+		$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) > 0 && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 		$limit_start = ( $page - 1 ) * $functions->get_config('members_per_page');
 		$limit_end = $functions->get_config('members_per_page');
 		$page_links = $functions->make_page_links($numpages, $page, $num_members, $functions->get_config('members_per_page'), 'members.php', NULL, true, $_GET, true);

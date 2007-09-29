@@ -3,7 +3,10 @@ $Header$
 UseBB 1.0.8 Changelog
 ------------------------------
 
-- Fixed bug #1700: From in e-mail messages gets split.
+- Fixed a few full path disclosure vulnerabilities (reported by Ilia Alshanetsky).
+- Fixed bug #1700: "From" in e-mail messages gets split.
+- Fixed an SQL error when passing negative "page" GET variable.
+- Fixed a few potential "Array to string conversion" notices.
 - Allow terms of use text to contain HTML markup.
 - Added moderator info to member edit pane in ACP.
 - Give visual notice when accessing 403 Forbidden RSS feed.

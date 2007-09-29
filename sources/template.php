@@ -283,7 +283,7 @@ class template {
 	 */
 	function body() {
 		
-		global $db, $functions, $timer, $lang, $session;
+		global $db, $functions, $lang, $session;
 		
 		$body = '';
 		
@@ -326,9 +326,9 @@ class template {
 			//
 			// Timer for checking parsetime
 			//
-			$timer['end'] = explode(' ', microtime());
-			$timer['end'] = (float)$timer['end'][1] + (float)$timer['end'][0];
-			$parsetime = round($timer['end'] - $timer['begin'], 4);
+			$timer_end = explode(' ', microtime());
+			$timer_end = (float)$timer_end[1] + (float)$timer_end[0];
+			$parsetime = round($timer_end - TIMER_BEGIN, 4);
 			
 			$debug_info = array();
 			$debug_info[] = $lang['ParseTime'].': '.$parsetime.' s';

@@ -294,7 +294,7 @@ if ( $session->sess_info['pose_antispam_question'] ) {
 		
 	}
 	
-	if ( isset($_POST['answer']) && !strcasecmp(strval($_POST['answer']), strval($_SESSION['antispam_question_answer'])) ) {
+	if ( isset($_POST['answer']) && !is_array($_POST['answer']) && !strcasecmp(strval($_POST['answer']), strval($_SESSION['antispam_question_answer'])) ) {
 		
 		//
 		// Question passed, continuing...

@@ -109,7 +109,7 @@ if ( $userdata['id'] ) {
 	
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Error'],
-		'content' => sprintf($lang['NoSuchUser'], 'ID '.$_GET['id'])
+		'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])
 	));
 	
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<language code="nl" direction="ltr" version="1.99">
+	<name>
+		<english>Dutch</english>
+		<native>Nederlands</native>
+	</name>
+	<translators>
+		<translator>
+			<name>Dietrich Moerman</name>
+			<email>dietrich@usebb.net</email>
+		</translator>
+	</translators>
+	<separators decimals="," thousands="."/>
+	<messages>
+		<message>
+			<original>Hello @browser.</original>
+			<translation>Hallo @browser.</translation>
+		</message>
+		<message>
+			<original>There is 1 GET variable.</original>
+			<translation form="1">Er is 1 GET-variabele.</translation>
+			<translation form="2">Er zijn @count GET-variabelen.</translation>
+		</message>
+		<message>
+			<original>There are @num posts per day.</original>
+			<translation>Er zijn @num berichten per dag.</translation>
+		</message>
+		<message>
+			<original>This is the letter ç.</original>
+			<translation>Dit is de letter ç.</translation>
+		</message>
+	</messages>
+</language>

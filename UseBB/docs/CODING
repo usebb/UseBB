@@ -1,0 +1,204 @@
+UseBB 2 coding guidelines
+-------------------------
+
+1. UNIX file format
+-------------------
+
+All files need to be in the UNIX format, i.e. using line feeds (\n) line
+ends. Thus, no carriage returns (\r) are allowed.
+
+2. License
+----------
+
+All code and resources must be under the GNU General Public License, version
+3 or a compatible license.
+
+3. Minimal PHP version
+----------------------
+
+The PHP version used is PHP 5.2.x. PHP 5.3.x+ functionality is not allowed.
+
+Please make note of the use of PHP 5 and use new PHP 5 functionality available
+by default when possible. For example: SimpleXML, SPL, etc.
+
+Unless there is a reasonable fallback, functionality not available by default
+may not be used.
+
+4. Error reporting level
+------------------------
+
+The error reporting level is E_ALL | E_STRICT. This may not be changed.
+
+5. Object orientation
+---------------------
+
+UseBB 2 is written in object-oriented PHP. All functionality should be packed
+into classes, not global procedural code or functions.
+
+Classes that never need to be instantiated should contain an empty private
+constructor:
+
+<code>
+private function __construct() {}
+</code>
+
+The methods of these classes must be defined as static methods.
+
+6. Global scope
+---------------
+
+All identifiers in the global scope need to be unique and prefixed:
+ * classes: UseBB_
+ * constants: USEBB_
+ * variables: usebb
+
+7. Identifier naming
+--------------------
+
+All identifiers use camel case naming: someIdentifier. Classes begin with
+a capital: SomeClass. As an exception, constants are all-caps and use
+underscores: SOME_CONSTANT.
+
+TRUE, FALSE and NULL are all-caps as well.
+
+Make note of the use of prefixes in the global scope.
+
+8. Docblocks
+------------
+
+Docblocks are mandatory for:
+ * files that don't contain a class;
+ * classes;
+ * class constants;
+ * all class methods.
+
+For more information on phpDocumentor, see
+http://manual.phpdoc.org/HTMLframesConverter/default/.
+
+9. Comments
+-----------
+
+Next to the docblocks, regular comments can be used prefixed by two slashes
+and a space. Example:
+
+<code>
+// This is a comment.
+</code>
+
+10. Beginning a new file
+-----------------------
+
+Each file begins with the full PHP start tag (<?php), but has no end tag
+(?>). The start tag is followed by the GNU GPL 3 declaration:
+
+<code>
+/*
+	This file is part of UseBB.
+
+	UseBB is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	UseBB is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with UseBB.  If not, see <http://www.gnu.org/licenses/>.
+*/
+</code>
+
+Following is the file/class level Docblock:
+
+<code>
+/**
+ * File/class description
+ *
+ * @package UseBB
+ * @subpackage subpackage, when present
+ * @copyright Copyright (C) 2003-2008 Contributors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ * @version $Rev$
+ *
+ * @author author name <author address>
+ */
+</code>
+
+Except for @subpackage, all tags need to be present. @package and @version
+may not be altered.
+
+11. Indentation and whitespace
+------------------------------
+
+The style can roughly be compared with the Allman style
+(http://en.wikipedia.org/wiki/Indent_style#Allman_style). Though, there are
+a few differences.
+
+Contents inside braces needs to be between two spaces. Example:
+
+<code>
+if ( $smt )
+{
+	self::doStuff();
+}
+</code>
+
+Function/method parameters are not put between spaces, but a space is required
+after each comma. Example:
+
+<code>
+$smt = str_replace('a', 'b', $smt);
+</code>
+
+When casting, the type and variable need to have a space in between. Example:
+
+<code>
+$smt = (string) $smt;
+</code>
+
+Indentation and brace placement also applies to array initalization. Example:
+
+<code>
+$bar = array
+(
+	'bar' => 'foo',
+	'foo' => 'bar',
+);
+</code>
+
+Note only tabs are used for indentation, no spaces are allowed.
+
+12. Type hinting
+----------------
+
+Type hinting for class names and arrays is mandatory. Example:
+
+<code>
+public static function foo(UseBB_Topic $topic, array $options)
+</code>
+
+13. Comparing values and NULL
+-----------------------------
+
+Variables may only be compared as booleans when they only contain boolean
+values. Example:
+
+<code>
+if ( $boolean ) {} // Good
+if ( $string ) {} // Bad
+if ( !empty($string) ) {} // Good
+</code>
+
+When a value can be a boolean (thus, isn't always a boolean) or NULL, ===
+or !== needs to be used. Example:
+
+<code>
+if ( $this->xml !== FALSE ) {}
+if ( $obj === NULL ) {}
+</code>
+
+-------------------------
+Revision: $Rev$
+Author: Dietrich Moerman <dietrich@usebb.net>

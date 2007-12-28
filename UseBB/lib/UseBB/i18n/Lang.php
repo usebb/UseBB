@@ -42,6 +42,8 @@ final class UseBB_Lang
 	 * Available languages are languages which have an .xml file in the
 	 * languages directory.
 	 *
+	 * This will return the short language codes only (not the full names).
+	 *
 	 * @returns array Available languages
 	 */
 	public static function getAvailableLanguages()
@@ -220,6 +222,9 @@ final class UseBB_Lang
 	/**
 	 * Translate a string
 	 *
+	 * This uses the currently used language (auto-detected or user-set),
+	 * unless the language code is passed as a parameter.
+	 *
 	 * Variables can be in the format
 	 *  - @foo: regular escaped
 	 *  - %foo: escaped + highlighted
@@ -233,7 +238,9 @@ final class UseBB_Lang
 	 * Example usage:
 	 * <code>
 	 * UseBB_Lang::t('Hello @browser.', array('@browser' => $_SERVER['HTTP_USER_AGENT']));
+	 * // Hello Mozilla/5.0.
 	 * UseBB_Lang::t('There are @num posts per day.', array('@num' => 5345.7894));
+	 * // There are 5,345.79 posts per day.
 	 * </code>
 	 * 
 	 * The idea for these variable types was borrowed from
@@ -264,14 +271,23 @@ final class UseBB_Lang
 	/**
 	 * Translate either the singular or plural string
 	 *
+	 * For non-English languages, the plural string is not used but retrieved
+	 * from the translation file. Some languages may use different rules and
+	 * more than two forms. For more information, see the translation guide.
+	 *
 	 * Formatted variables %count and @count are added automatically.
+	 *
+	 * This uses the currently used language (auto-detected or user-set),
+	 * unless the language code is passed as a parameter.
 	 *
 	 * Example usage:
 	 * <code>
 	 * UseBB_Lang::plural(count($_GET), 'There is 1 variable.', 'There are @count variables.');
+	 * // There are 0 variables.
 	 * </code>
 	 *
 	 * @see t()
+	 * @todo Provide link to translation guide.
 	 *
 	 * @param int $count Count
 	 * @param string $singular Singular string
@@ -288,7 +304,7 @@ final class UseBB_Lang
 			$languageCode = self::getLanguageCode();
 		}
 		
-		// Add count both as highlighted and raw variable
+		// Add count both as highlighted and regular variable
 		$variables['%count'] = $variables['@count'] = $count;
 		
 		// If not English and translation found, use it

@@ -30,6 +30,9 @@
  */
 final class UseBB_Connection
 {
+	/**
+	 * Default connection name
+	 */
 	const DEFAULT_NAME = 'default';
 	
 	private static $objects = array();
@@ -64,12 +67,22 @@ final class UseBB_Connection
 	/**
 	 * Open a new named database connection
 	 *
+	 * The DSN accepted is a regular PDO DSN. Additional PDO driver options
+	 * can be passed in an array.
+	 *
+	 * Example usage:
+	 * <code>
+	 * $mydb = UseBB_Connection::open('mydb', 'mysql:host=localhost;dbname=mydb', 'me');
+	 * </code>
+	 *
+	 * @link http://www.php.net/manual/en/ref.pdo.php#pdo.drivers
+	 *
 	 * @param string $name Connection name
 	 * @param string $dsn Data Source Name (DSN)
 	 * @param string $userName Username
 	 * @param string $password Password
 	 * @param string $tablePrefix Table prefix
-	 * @param array $options PDO options array
+	 * @param array $options PDO driver options array
 	 * @returns UseBB_Connection Database connection
 	 */
 	public static function open($name, $dsn, $userName, $password = NULL, $tablePrefix = NULL, array $options = array())
@@ -86,6 +99,11 @@ final class UseBB_Connection
 	
 	/**
 	 * Get the instance of a named connection
+	 *
+	 * Example usage:
+	 * <code>
+	 * $mydb = UseBB_Connection::getInstance('mydb');
+	 * </code>
 	 *
 	 * @param string $name Connection name (when empty, default will be used)
 	 * @returns UseBB_Connection Database connection

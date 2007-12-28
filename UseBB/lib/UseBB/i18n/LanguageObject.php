@@ -192,6 +192,9 @@ final class UseBB_LanguageObject
 	/**
 	 * Get the translation of a string
 	 *
+	 * This method should not be used for translation purposes, use
+	 * {@link UseBB_Lang::t()} instead.
+	 *
 	 * @link http://doc.trolltech.com/qq/qq19-plurals.html
 	 * @link http://www.loc.gov/standards/iso639-2/php/code_list.php
 	 *

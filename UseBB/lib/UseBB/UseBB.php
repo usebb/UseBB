@@ -29,6 +29,11 @@
  */
 final class UseBB
 {
+	/**
+	 * UseBB version
+	 */
+	const VERSION = '2.0-alpha';
+	
 	private static $files = array
 	(
 		'Config' => '/util/Config.php',
@@ -60,6 +65,10 @@ final class UseBB
 	
 	/**
 	 * Autoload function for spl_autoload_register()
+	 *
+	 * Should <b>never</b> be called directly.
+	 *
+	 * @link http://www.php.net/manual/en/function.spl-autoload-register.php
 	 *
 	 * @param string $className Class name
 	 */

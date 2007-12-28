@@ -86,7 +86,7 @@ and a space. Example:
 </code>
 
 10. Beginning a new file
------------------------
+------------------------
 
 Each file begins with the full PHP start tag (<?php), but has no end tag
 (?>). The start tag is followed by the GNU GPL 3 declaration:
@@ -128,6 +128,10 @@ Following is the file/class level Docblock:
 
 Except for @subpackage, all tags need to be present. @package and @version
 may not be altered.
+
+Note each file may only contain one class. The filename should be equal to
+the class name (minus prefix). When defining a subpackage, the file must be
+placed in lib/UseBB/@subpackage/.
 
 11. Indentation and whitespace
 ------------------------------

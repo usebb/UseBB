@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.9 Changelog
+------------------------------
+
+- Made smiley image tags refer to the path using ROOT_PATH.
+
 UseBB 1.0.8 Changelog
 ------------------------------
 

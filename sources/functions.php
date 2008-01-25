@@ -1738,7 +1738,7 @@ class functions {
 			
 			$all_smilies = $template->get_config('smilies');
 			krsort($all_smilies);
-			$full_path = ( $full_path_smilies ) ? $this->get_config('board_url') : '';
+			$full_path = ( $full_path_smilies ) ? $this->get_config('board_url') : ROOT_PATH;
 			
 			foreach ( $all_smilies as $pattern => $img )
 				$string = preg_replace('#([^"])('.preg_quote(unhtml($pattern), '#').')([^"])#', '\\1<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\3', $string);

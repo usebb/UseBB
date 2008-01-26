@@ -499,6 +499,8 @@ class functions {
 				
 				case 'board_url':
 					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					if ( ON_WINDOWS )
+						$path_parts['dirname'] = str_replace('\\', '/', $path_parts['dirname']);
 					if ( substr($path_parts['dirname'], -1) != '/' )
 						$path_parts['dirname'] .= '/';
 					$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';

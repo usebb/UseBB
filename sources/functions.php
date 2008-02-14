@@ -79,11 +79,28 @@ function slash_trim_global($global) {
  * Disable HTML in a string without disabling entities
  *
  * @param string $string String to un-HTML
+ * @param bool $rssmode Do hexadecimal escaping of &, < and > ONLY
  * @returns string Parsed $string
  */
-function unhtml($string) {
+function unhtml($string, $rssmode=false) {
 	
-	$string = htmlspecialchars($string);
+	if ( $rssmode ) {
+		
+		$table = array(
+			
+			'&' => '&#x26;',
+			'<' => '&#x3C;',
+			'>' => '&#x3E;',
+			
+		);
+		
+		$string = strtr($string, $table);
+		
+	} else {
+		
+		$string = htmlspecialchars($string);
+		
+	}
 	
 	//
 	// Code which is necessary to not break numeric entities (quirky support for strange encodings on a page).

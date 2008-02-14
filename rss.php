@@ -52,7 +52,7 @@ require(ROOT_PATH.'sources/common.php');
 //
 // Set the xml content type and only parse the xml templates
 //
-$template->content_type = 'text/xml';
+$template->content_type = 'application/rss+xml';
 $template->parse_special_templates_only = true;
 
 //
@@ -68,7 +68,14 @@ require(ROOT_PATH.'sources/page_head.php');
 //
 // RSS feed pubDate in GMT
 //
-$header_vars = array('pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT');
+$header_vars = array(
+	
+	'board_name' => unhtml($functions->get_config('board_name'), true),
+	'board_descr' => unhtml($functions->get_config('board_descr'), true),
+	'pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT',
+	'link_rss' => $functions->get_config('board_url').$functions->make_url('rss.php', null, true, false),
+	
+);
 
 $template->parse('header', 'rss', $header_vars, true);
 
@@ -120,22 +127,27 @@ if ( $functions->get_config('enable_rss') && $functions->get_stats('topics') ) {
 			else
 				$reply_counts[$topicdata['topic_id']]--;
 			
-			$title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
+			$title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true);
 			if ( $reply_counts[$topicdata['topic_id']] )
 				$title = $lang['Re'].' '.$title;
+			
+			$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id'];
 			
 			//
 			// Parse the topic template
 			//
 			$template->parse('topic', 'rss', array(
 				'title' => $title,
-				'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true),
-				'author' => ( !empty($topicdata['poster_id']) ) ? unhtml(stripslashes($topicdata['last_poster_name'])) : $topicdata['last_poster_guest'],
-				'link' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id'],
+				'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true)),
+				// <author> was renamed to <dc:creator> in the default template to keep validity.
+				'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest']), true),
+				'link' => $link,
+				// <comments> was removed from the default template because it was used incorrectly (not for posting comments).
 				'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['topic_id'], 'quotepost' => $topicdata['post_id']), true, false),
-				'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']])),
+				'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']]), true),
+				'category_domain' => $functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id']), true, false),
 				'pubDate' => $functions->make_date($topicdata['post_time'], 'D, d M Y H:i:s', true, false).' GMT',
-				'guid' => $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id']
+				'guid' => $link
 			), true);
 			
 		}

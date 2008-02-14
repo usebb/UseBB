@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.9 Changelog
 ------------------------------
 
+- Fixed bug #1962: RSS feed fails to validate.
 - Fixed bug #1935: Redirect URLs containing backslashes on some platforms (Windows).
 - Made smiley image tags refer to the path using ROOT_PATH.
 

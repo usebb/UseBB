@@ -34,25 +34,25 @@ if ( !defined('INCLUDED') )
 //
 
 $templates['header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
-<rss version="2.0" xml:lang="{language_code}">
+<rss version="2.0" xml:lang="{language_code}" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
 		<title>{board_name}</title>
 		<link>{board_url}</link>
 		<description>{board_descr}</description>
 		<language>{language_code}</language>
 		<pubDate>{pubDate}</pubDate>
-		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+		<docs>http://www.rssboard.org/rss-specification</docs>
 		<generator>UseBB</generator>
+		<atom:link href="{link_rss}" rel="self" type="application/rss+xml" />
 ';
 
 $templates['topic'] = '
 		<item>
-			<title><![CDATA[{title}]]></title>
-			<description><![CDATA[{description}]]></description>
-			<author><![CDATA[{author}]]></author>
+			<title>{title}</title>
+			<description>{description}</description>
+			<dc:creator>{author}</dc:creator>
 			<link>{link}</link>
-			<comments>{comments}</comments>
-			<category><![CDATA[{category}]]></category>
+			<category domain="{category_domain}">{category}</category>
 			<pubDate>{pubDate}</pubDate>
 			<guid isPermaLink="true">{guid}</guid>
 		</item>

@@ -35,7 +35,7 @@ The error reporting level is E_ALL | E_STRICT. This may not be changed.
 UseBB 2 is written in object-oriented PHP. All functionality should be packed
 into classes, not global procedural code or functions.
 
-Classes that never need to be instantiated should contain an empty private
+"Static" classes (never instantiated) should contain an empty private
 constructor:
 
 <code>
@@ -78,17 +78,19 @@ http://manual.phpdoc.org/HTMLframesConverter/default/.
 9. Comments
 -----------
 
-Next to the docblocks, regular comments can be used prefixed by two slashes
-and a space. Example:
+Next to the Docblocks, regular comments can be used prefixed by two slashes
+and a space. The comment should be placed at the line prior to the one it
+explains. Example:
 
 <code>
-// This is a comment.
+// This clears the cache.
+$cache->clear();
 </code>
 
 10. Beginning a new file
 ------------------------
 
-Each file begins with the full PHP start tag (<?php), but has no end tag
+Each file begins with the full PHP start tag (<?php), but has NO end tag
 (?>). The start tag is followed by the GNU GPL 3 declaration:
 
 <code>
@@ -127,7 +129,7 @@ Following is the file/class level Docblock:
 </code>
 
 Except for @subpackage, all tags need to be present. @package and @version
-may not be altered.
+may not be altered. Please do not change @copyright, except for the year.
 
 Note each file may only contain one class. The filename should be equal to
 the class name (minus prefix). When defining a subpackage, the file must be

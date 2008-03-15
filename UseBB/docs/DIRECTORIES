@@ -1,0 +1,33 @@
+UseBB 2 directory structure
+---------------------------
+
+ * docs                 documentation (plain text)
+ * js                   JavaScript source files
+ * lib                  libraries (source PHP files)
+    * UseBB             UseBB libraries (mostly classes)
+       * db             database
+       * exceptions     exceptions
+       * i18n           internationalization
+          * languages   language translation files (XML)
+       * tests          unit tests and runners
+       * util           utilities
+    * simpletest        SimpleTest library
+    * utf8              phputf8 library
+
+FAQ
+---
+
+ * What needs to be publicly available?
+    * /index.php
+    * /js/
+
+ * Why is UseBB treated as a library itself?
+   So it can be moved to a central location on the server, per library or as a
+   whole. This eases updating and using the source for multiple forums. The
+   paths can be set in index.php, and this file does not need updating on new
+   versions.
+
+-------------------------
+Revision: $Rev$
+Author: Dietrich Moerman <dietrich@usebb.net>
+

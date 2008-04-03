@@ -1477,7 +1477,7 @@ class functions {
 				
 			}
 			
-			$page_links = join(' ',$page_links);
+			$page_links = join(' ', $page_links);
 			
 			if ( $back_forward_links ) {
 				
@@ -1760,7 +1760,7 @@ class functions {
 			$full_path = ( $full_path_smilies ) ? $this->get_config('board_url') : ROOT_PATH;
 			
 			foreach ( $all_smilies as $pattern => $img )
-				$string = preg_replace('#([^"])('.preg_quote(unhtml($pattern), '#').')([^"])#', '\\1<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />\\3', $string);
+				$string = preg_replace('#([^"])('.preg_quote(unhtml($pattern), '#').')#', '\\1<img src="'.$full_path.'templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" />', $string);
 			
 			//
 			// Entity + smiley fix
@@ -1778,7 +1778,7 @@ class functions {
 				$rel[] = 'external';
 			if ( $this->get_config('rel_nofollow') )
 				$rel[] = 'nofollow';
-			$rel = ( count($rel) ) ? ' rel="'.join($rel, ' ').'"' : '';
+			$rel = ( count($rel) ) ? ' rel="'.join(' ', $rel).'"' : '';
 			
 			//
 			// Parse quote tags
@@ -1860,6 +1860,18 @@ class functions {
 			foreach ( $regexps as $find => $replace )
 				$string = preg_replace($find, $replace, $string);
 			
+			//
+			// Remove tags from attributes
+			//
+			if ( strpos($string, '<') !== false ) {
+	
+				preg_match_all('#[a-z]+="[^"]*<[^>]*>[^"]*"#', $string, $matches);
+	
+				foreach ( $matches[0] as $match )
+					$string = str_replace($match, strip_tags($match), $string);
+	
+			}
+			
 		}
 		
 		if ( !$html ) {
@@ -1896,11 +1908,8 @@ class functions {
 		);
 		
 		$out = array();
-		foreach ( $controls as $data ) {
-			
-			$out[] = '<a href="javascript:void()" onclick="insert_tags(\''.$data[0].'\', \''.$data[1].'\')" style="'.$data[3].'">'.$data[2].'</a>';
-			
-		}
+		foreach ( $controls as $data )
+			$out[] = '<a href="javascript:void(0);" onclick="insert_tags(\''.$data[0].'\', \''.$data[1].'\')" style="'.$data[3].'">'.$data[2].'</a>';
 		
 		return join($template->get_config('post_form_bbcode_seperator'), $out);
 		
@@ -1918,11 +1927,8 @@ class functions {
 		$smilies = $template->get_config('smilies');
 		$smilies = array_unique($smilies);
 		$out = array();
-		foreach ( $smilies as $pattern => $img ) {
-			
-			$out[] = '<a href="javascript:void()" onclick="insert_smiley(\''.addslashes(unhtml($pattern)).'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
-			
-		}
+		foreach ( $smilies as $pattern => $img )
+			$out[] = '<a href="javascript:void(0)" onclick="insert_smiley(\''.addslashes(unhtml($pattern)).'\')"><img src="templates/'.$this->get_config('template').'/smilies/'.$img.'" alt="'.unhtml($pattern).'" /></a>';
 		
 		return join($template->get_config('post_form_smiley_seperator'), $out);
 		

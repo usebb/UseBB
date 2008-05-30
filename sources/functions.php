@@ -689,6 +689,7 @@ class functions {
 		global $session;
 		
 		$filename = basename($filename, '.php');
+		$vars = ( is_array($vars) ) ? $vars : array();
 		
 		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin' ) {
 			
@@ -709,7 +710,7 @@ class functions {
 		} else {
 			
 			$url = $filename.'.php';
-			$vars = ( is_array($vars) ) ? $vars : array();
+			
 			if ( isset($vars[$this->get_config('session_name').'_sid']) )
 				unset($vars[$this->get_config('session_name').'_sid']);
 			

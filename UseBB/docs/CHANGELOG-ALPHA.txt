@@ -5,3 +5,5 @@ UseBB 2 Alpha Changelog
 ----------
 
   * Minor cleanups in documentation; added changelog.
+  * Removed ancient free.php in tests.
+  * Updated jQuery to 1.2.6.

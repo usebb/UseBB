@@ -1,0 +1,7 @@
+UseBB 2 Alpha Changelog
+-----------------------
+
+2008-06-02
+----------
+
+  * Minor cleanups in documentation; added changelog.

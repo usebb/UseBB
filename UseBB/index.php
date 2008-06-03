@@ -28,16 +28,16 @@
  * @author Dietrich Moerman <dietrich@usebb.net>
  */
 
-// Define paths to libraries
+// Define paths to libraries.
 define('USEBB_LIB_ROOT', realpath('.') . '/lib');
 define('USEBB_LIB_USEBB', USEBB_LIB_ROOT . '/UseBB');
 define('USEBB_LIB_PHPUTF8', USEBB_LIB_ROOT . '/utf8');
 
-// Define database connection info
+// Define database connection info.
 define('USEBB_DB_DSN', 'mysql:host=localhost;dbname=usebb');
 define('USEBB_DB_USERNAME', 'usebb');
 define('USEBB_DB_PASSWORD', 'usebb');
 define('USEBB_DB_TABLE_PREFIX', 'usebb2_');
 
-// Call the init script
+// Call the init script.
 require USEBB_LIB_USEBB . '/init.php';

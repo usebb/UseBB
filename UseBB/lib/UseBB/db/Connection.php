@@ -18,7 +18,7 @@
 */
 
 /**
- * Manages and represents database connections.
+ * Represents a database connection.
  *
  * @package UseBB
  * @subpackage db
@@ -30,152 +30,97 @@
  */
 final class UseBB_Connection
 {
-	/**
-	 * Default connection name
-	 */
-	const DEFAULT_NAME = 'default';
-	
-	private static $objects = array();
-	
-	private $name;
-	private $type;
-	private $host;
+	private $dsn;
+	private $userName;
 	private $tablePrefix;
-	private $connection;
+	private $options;
+	private $driver;
+	private $host;
+	private $PDO;
 	
 	/**
-	 * Construct a new connection object
+	 * Construct a new connection object.
 	 *
-	 * @param string $name Connection name
+	 * $libPath is passed with the default instance only.
+	 *
 	 * @param string $dsn Data Source Name (DSN)
 	 * @param string $userName Username
 	 * @param string $password Password
 	 * @param string $tablePrefix Table prefix
-	 * @param array $options PDO options array
+	 * @param string $libPath Root UseBB library path
 	 */
-	private function __construct($name, $dsn, $userName, $password, $tablePrefix, array $options)
+	public function __construct($dsn, $userName, $password, $tablePrefix, $libPath = NULL)
 	{
+		// Find the driver used.
+		$driver = strtolower(substr_replace($dsn, '', strpos($dsn, ':')));
+		
+		// Unsupported driver.
+		if ( !in_array($driver, self::getAvailableDrivers()) )
+		{
+			throw new UseBB_Exception('Database driver ' . $driver . ' not available.');
+		}
+		
+		// Find the hostname in the DSN.
 		preg_match('#(?:host(?:name)?|datasource)=([^; ]+)#i', $dsn, $host);
 		
-		$this->name = $name;
-		$this->type = strtolower(substr_replace($dsn, '', strpos($dsn, ':')));
-		$this->host = $host[1];
+		$this->dsn = $dsn;
+		$this->userName = $userName;
 		$this->tablePrefix = $tablePrefix;
-		$this->connection = new PDO($dsn, $userName, $password, $options);
-	}
-	
-	/**
-	 * Open a new named database connection
-	 *
-	 * The DSN accepted is a regular PDO DSN. Additional PDO driver options
-	 * can be passed in an array.
-	 *
-	 * Example usage:
-	 * <code>
-	 * $mydb = UseBB_Connection::open('mydb', 'mysql:host=localhost;dbname=mydb', 'me');
-	 * </code>
-	 *
-	 * @link http://www.php.net/manual/en/ref.pdo.php#pdo.drivers
-	 *
-	 * @param string $name Connection name
-	 * @param string $dsn Data Source Name (DSN)
-	 * @param string $userName Username
-	 * @param string $password Password
-	 * @param string $tablePrefix Table prefix
-	 * @param array $options PDO driver options array
-	 * @returns UseBB_Connection Database connection
-	 */
-	public static function open($name, $dsn, $userName, $password = NULL, $tablePrefix = NULL, array $options = array())
-	{
-		if ( array_key_exists($name, self::$objects) )
+		$this->driver = $driver;
+		$this->host = $host[1];
+		
+		// UseBB_Statement does not get loaded automatically using autoload...
+		// So, load it once with the default connection.
+		if ( $libPath !== NULL )
 		{
-			throw new UseBB_Exception('A database object "' . $name . '" is already registered.');
+			require_once $libPath . '/db/Statement.php';
 		}
 		
-		self::$objects[$name] = $object = new UseBB_Connection($name, $dsn, $userName, $password, $tablePrefix, $options);
-		
-		return $object;
-	}
-	
-	/**
-	 * Get the instance of a named connection
-	 *
-	 * Example usage:
-	 * <code>
-	 * $mydb = UseBB_Connection::getInstance('mydb');
-	 * </code>
-	 *
-	 * @param string $name Connection name (when empty, default will be used)
-	 * @returns UseBB_Connection Database connection
-	 */
-	public static function getInstance($name = NULL)
-	{
-		if ( $name === NULL )
-		{
-			$name = self::DEFAULT_NAME;
-		}
-		
-		if ( !array_key_exists($name, self::$objects) )
-		{
-			throw new UseBB_Exception('There is no database object "' . $name . '" registered.');
-		}
-		
-		return self::$objects[$name];
-	}
-	
-	/**
-	 * Close a named database connection
-	 *
-	 * Note: when you have a reference to the connection object, you'll need
-	 * to unset it for the connection to actually close.
-	 *
-	 * @param string $name Connection name (when empty, default will be used)
-	 */
-	public static function close($name = NULL)
-	{
-		if ( $name === NULL )
-		{
-			$name = self::DEFAULT_NAME;
-		}
-		
-		if ( !array_key_exists($name, self::$objects) )
-		{
-			throw new UseBB_Exception('There is no database object "' . $name . '" registered.');
-		}
-		
-		unset(self::$objects[$name]);
-	}
-	
-	/**
-	 * Close all open database connections
-	 *
-	 * Note: when you have a reference to a connection object, you'll need
-	 * to unset it for the connection to actually close.
-	 */
-	public static function closeAll()
-	{
-		self::$objects = array();
-	}
-	
-	public function __toString()
-	{
-		$host = ( !empty($this->host) ) ? $this->host : 'unknown host';
-		
-		$types = array
+		// Create the PDO instance, setting default attributes.
+		$this->PDO = new PDO($dsn, $userName, $password, array
 		(
-			'mssql' => 'Microsoft SQL Server',
-			'sybase' => 'Sybase',
-			'dblib' => 'DBLIB',
-			'firebird' => 'Firebird',
-			'ibm' => 'IBM',
-			'informix' => 'Informix',
-			'mysql' => 'MySQL',
-			'oci' => 'Oracle',
-			'odbc' => 'ODBC',
-			'pgsql' => 'PostgreSQL',
-			'sqlite' => 'SQLite',
-		);
+			PDO::ATTR_CASE => PDO::CASE_LOWER,
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING,
+			PDO::ATTR_STATEMENT_CLASS => array('UseBB_Statement'),
+		));
+	}
+	
+	/**
+	 * Get available database drivers.
+	 *
+	 * @returns array Drivers
+	 */
+	public static function getAvailableDrivers()
+	{
+		return PDO::getAvailableDrivers();
+	}
+	
+	/**
+	 * Execute a database query.
+	 *
+	 * Tables surrounded with curly braces automatically get the table prefix.
+	 * Parameters are equal to PDO's named parameters.
+	 *
+	 * @param string $query Query
+	 * @param array $parameters Query parameters
+	 * @returns UseBB_Statement Statement object
+	 */
+	public function query($query, array $parameters = array())
+	{
+		// Apply table prefix
+		$query = preg_replace('#\{([a-z_]+)\}#', $this->tablePrefix . '$1', $query);
 		
-		return 'Database connection "' . $this->name . '" at ' . $this->host . ' (' . $types[$this->type] . ')';
+		$statement = $this->PDO->prepare($query);
+		
+		foreach ( $parameters as $key => $value )
+		{
+			$statement->bindValue($key, $value);
+		}
+		
+		$statement->setFetchMode(PDO::FETCH_ASSOC);
+		$statement->execute();
+		
+		return $statement;
 	}
 }

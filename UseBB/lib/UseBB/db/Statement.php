@@ -18,30 +18,17 @@
 */
 
 /**
- * UseBB initialization procedure.
+ * Database statement class
  *
  * @package UseBB
+ * @subpackage db
  * @copyright Copyright (C) 2003-2008 Contributors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
- * @version $Rev$
+ * @version $Rev: 3 $
  *
  * @author Dietrich Moerman <dietrich@usebb.net>
  */
-
-// Exit when called directly in browser.
-if ( !defined('USEBB_LIB_USEBB') )
+final class UseBB_Statement extends PDOStatement
 {
-	exit();
+	
 }
-
-error_reporting(E_ALL | E_STRICT);
-
-// Require the UseBB class.
-require USEBB_LIB_USEBB . '/UseBB.php';
-
-// Register UseBB::autoload() as an autoload function.
-UseBB::registerAutoload(USEBB_LIB_USEBB);
-
-// Create new UseBB instance and process the request.
-$usebb = new UseBB(USEBB_DB_DSN, USEBB_DB_USERNAME, USEBB_DB_PASSWORD, USEBB_DB_TABLE_PREFIX);
-$usebb->processRequest();

@@ -34,33 +34,66 @@ final class UseBB
 	 */
 	const VERSION = '2.0-alpha';
 	
-	private static $files = array
+	private static $libPath;
+	private static $classes = array
 	(
-		'Config' => '/util/Config.php',
-		'Lang' => '/i18n/Lang.php',
-		'LanguageObject' => '/i18n/LanguageObject.php',
-		'Exception' => '/exceptions/Exception.php',
-		'Connection' => '/db/Connection.php',
+		'files' => array
+		(
+			'Connection' => '/db/Connection.php',
+			'Input' => '/util/Input.php',
+			'Config' => '/util/Config.php',
+			'Lang' => '/i18n/Lang.php',
+			'LanguageObject' => '/i18n/LanguageObject.php',
+			'Exception' => '/exceptions/Exception.php',
+		),
+		'directories' => array
+		(
+		
+		),
 	);
-	private static $directories = array
-	(
-		// TODO
-	);
+	
+	private $db;
 	
 	/**
 	 * Construct a new UseBB object
 	 *
 	 * This actually starts processing the request.
 	 */
-	public function __construct()
+	public function __construct($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix)
 	{
-		header('Content-type: text/html; charset=utf-8');
-		
 		// Open the default database connection
-		UseBB_Connection::open(UseBB_Connection::DEFAULT_NAME, USEBB_DB_DSN, USEBB_DB_USERNAME, USEBB_DB_PASSWORD, USEBB_DB_TABLE_PREFIX);
+		$this->db = new UseBB_Connection($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix, self::$libPath);
+	}
+	
+	public function processRequest()
+	{
+		$context = !empty($_GET['context']) ? $_GET['context'] : 'web';
 		
-		// free test
-		require USEBB_LIB_USEBB . '/tests/free.php';
+		switch ( $context )
+		{
+			case 'web':
+				//
+				break;
+			case 'json':
+				//
+				break;
+			case 'cron':
+				//
+				break;
+			default:
+				throw new UseBB_Exception('No context ' . $context . ' exists.');
+		}
+		
+		var_dump
+		(
+			$this->db->query('SELECT * FROM {test}')
+		);
+	}
+	
+	public static function registerAutoload($libPath)
+	{
+		self::$libPath = $libPath;
+		spl_autoload_register(array('UseBB', 'autoload'));
 	}
 	
 	/**
@@ -78,17 +111,17 @@ final class UseBB
 		$className = substr($className, 6);
 		
 		// First, check if the class is in the $files array
-		if ( array_key_exists($className, self::$files) )
+		if ( array_key_exists($className, self::$classes['files']) )
 		{
-			require_once USEBB_LIB_USEBB . self::$files[$className];
+			require_once self::$libPath . self::$classes['files'][$className];
 			
 			return;
 		}
 		
 		// Next, search additional directories
-		foreach ( self::$directories as $directory )
+		foreach ( self::$classes['directories'] as $directory )
 		{
-			$fileName = USEBB_LIB_USEBB . $directory . '/' . $className . '.php';
+			$fileName = self::$libPath . $directory . '/' . $className . '.php';
 			
 			if ( file_exists($fileName) && is_readable($fileName) )
 			{
@@ -97,5 +130,22 @@ final class UseBB
 				return;
 			}
 		}
+	}
+	
+	public static function addClassFile($className, $path)
+	{
+		// Remove 'UseBB_' prefix from name
+		if ( strncmp($className, 'UseBB_', 6) === 0 )
+		{
+			$className = substr($className, 6);
+		}
+		
+		// Add leading slash
+		if ( strncmp($path, '/', 1) !== 0 )
+		{
+			$path = '/' . $path;
+		}
+		
+		self::$classes['files'][$className] = $path;
 	}
 }

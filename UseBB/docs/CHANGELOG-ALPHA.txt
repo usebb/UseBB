@@ -1,6 +1,15 @@
 UseBB 2 Alpha Changelog
 -----------------------
 
+2008-06-03
+----------
+
+  * First part of refactoring of the existing 2007 code:
+      - stop referring to singletons/static methods, use dependency injection instead;
+      - database connections are now simple UseBB_Connection instances;
+      - "contexts" will be used to handle different HTTP requests (web, JSON and cron);
+      - more to come soon.
+
 2008-06-02
 ----------
 

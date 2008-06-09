@@ -1,6 +1,13 @@
 UseBB 2 Alpha Changelog
 -----------------------
 
+2008-06-09
+----------
+
+  * Built the base of the database system:
+      - Connection, Statement, MySQLConnection, MySQLStatement, ConnectionFactory.
+  * More small changes in class UseBB.
+
 2008-06-03
 ----------
 

@@ -39,32 +39,38 @@ final class UseBB
 	(
 		'files' => array
 		(
-			'Connection' => '/db/Connection.php',
-			'Input' => '/util/Input.php',
-			'Config' => '/util/Config.php',
-			'Lang' => '/i18n/Lang.php',
-			'LanguageObject' => '/i18n/LanguageObject.php',
-			'Exception' => '/exceptions/Exception.php',
-		),
-		'directories' => array
-		(
-		
+			'ConnectionFactory' => 'db',
+			'Connection' => 'db',
+			'Statement' => 'db',
+			'MySQLConnection' => 'db',
+			'MySQLStatement' => 'db',
+			'Input' => 'util',
+			'Config' => 'util',
+			'Lang' => 'i18n',
+			'LanguageObject' => 'i18n',
+			'Exception' => 'exceptions',
 		),
 	);
 	
 	private $db;
 	
 	/**
-	 * Construct a new UseBB object
+	 * Class constructor.
 	 *
-	 * This actually starts processing the request.
+	 * @param string $dbDsn DSN (data source name)
+	 * @param string $dbUserName Username
+	 * @param string $dbPassword Password
+	 * @param string $dbTablePrefix Table prefix
 	 */
-	public function __construct($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix)
+	public function __construct($dbDsn, $dbUserName, $dbPassword, $dbTablePrefix)
 	{
 		// Open the default database connection
-		$this->db = new UseBB_Connection($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix, self::$libPath);
+		$this->db = UseBB_ConnectionFactory::newConnection($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix);
 	}
 	
+	/**
+	 * Start processing a HTTP request
+	 */
 	public function processRequest()
 	{
 		$context = !empty($_GET['context']) ? $_GET['context'] : 'web';
@@ -81,15 +87,32 @@ final class UseBB
 				//
 				break;
 			default:
-				throw new UseBB_Exception('No context ' . $context . ' exists.');
+				throw new UseBB_Exception('Context ' . $context . ' not available.');
 		}
 		
-		var_dump
+		// test!
+		
+		$query = $this->db->query('SELECT * FROM {test}');
+		var_dump($query);
+		
+		foreach ( $query as $key => $row )
+		{
+			var_dump($key);
+			var_dump($row);
+		}
+		
+		var_dump($this->db->query('UPDATE {test} SET test_baz = :to WHERE test_id = :id', array
 		(
-			$this->db->query('SELECT * FROM {test}')
-		);
+			'to' => 100,
+			'id' => 5,
+		)));
 	}
 	
+	/**
+	 * Register UseBB autoload function with SPL.
+	 *
+	 * @param string $libPath Path to UseBB library.
+	 */
 	public static function registerAutoload($libPath)
 	{
 		self::$libPath = $libPath;
@@ -107,45 +130,60 @@ final class UseBB
 	 */
 	public static function autoload($className)
 	{
-		// Remove 'UseBB_' prefix from name
+		// Remove 'UseBB_' prefix from name.
 		$className = substr($className, 6);
 		
-		// First, check if the class is in the $files array
-		if ( array_key_exists($className, self::$classes['files']) )
+		// Class is a controller.
+		if ( substr($className, -10) === 'Controller' )
 		{
-			require_once self::$libPath . self::$classes['files'][$className];
+			self::loadClass('controllers', $className);
 			
 			return;
 		}
 		
-		// Next, search additional directories
-		foreach ( self::$classes['directories'] as $directory )
+		// Check if the class is in the $files array.
+		if ( array_key_exists($className, self::$classes['files']) )
 		{
-			$fileName = self::$libPath . $directory . '/' . $className . '.php';
+			self::loadClass(self::$classes['files'][$className], $className);
 			
-			if ( file_exists($fileName) && is_readable($fileName) )
-			{
-				require_once $fileName;
-				
-				return;
-			}
+			return;
+		}
+		
+		// Check if it exists as a model.
+		$file = self::loadClass('models', $className, TRUE);
+		if ( file_exists($file) )
+		{
+			require_once $file;
 		}
 	}
 	
+	/**
+	 * Load a class.
+	 *
+	 * @param string $path Path
+	 * @param string $className Class name
+	 * @param bool $return Return full path and do not load.
+	 */
+	private static function loadClass($path, $className, $return = FALSE)
+	{
+		$file = self::$libPath . '/' . $path . '/' . $className . '.php';
+		
+		if ( $return )
+		{
+			return $file;
+		}
+		
+		require_once $file;
+	}
+	
+	/**
+	 * Add a path for a class file.
+	 *
+	 * @param string $className Class name
+	 * @param string $path Path
+	 */
 	public static function addClassFile($className, $path)
 	{
-		// Remove 'UseBB_' prefix from name
-		if ( strncmp($className, 'UseBB_', 6) === 0 )
-		{
-			$className = substr($className, 6);
-		}
-		
-		// Add leading slash
-		if ( strncmp($path, '/', 1) !== 0 )
-		{
-			$path = '/' . $path;
-		}
-		
 		self::$classes['files'][$className] = $path;
 	}
 }

@@ -18,7 +18,7 @@
 */
 
 /**
- * Represents a database connection.
+ * Database connection.
  *
  * @package UseBB
  * @subpackage db
@@ -28,97 +28,93 @@
  *
  * @author Dietrich Moerman <dietrich@usebb.net>
  */
-final class UseBB_Connection
+abstract class UseBB_Connection
 {
-	private $dsn;
-	private $userName;
-	private $tablePrefix;
-	private $options;
-	private $driver;
-	private $host;
-	private $PDO;
+	protected $dsn;
+	protected $userName;
+	protected $tablePrefix;
+	protected $host;
+	protected $PDO;
 	
 	/**
-	 * Construct a new connection object.
+	 * Class constructor.
 	 *
-	 * $libPath is passed with the default instance only.
-	 *
-	 * @param string $dsn Data Source Name (DSN)
+	 * @param string $dsn DSN (data source name)
 	 * @param string $userName Username
 	 * @param string $password Password
 	 * @param string $tablePrefix Table prefix
-	 * @param string $libPath Root UseBB library path
+	 * @param array $options PDO options
 	 */
-	public function __construct($dsn, $userName, $password, $tablePrefix, $libPath = NULL)
+	public function __construct($dsn, $userName, $password, $tablePrefix, array $options)
 	{
-		// Find the driver used.
-		$driver = strtolower(substr_replace($dsn, '', strpos($dsn, ':')));
-		
-		// Unsupported driver.
-		if ( !in_array($driver, self::getAvailableDrivers()) )
-		{
-			throw new UseBB_Exception('Database driver ' . $driver . ' not available.');
-		}
-		
 		// Find the hostname in the DSN.
 		preg_match('#(?:host(?:name)?|datasource)=([^; ]+)#i', $dsn, $host);
 		
 		$this->dsn = $dsn;
 		$this->userName = $userName;
 		$this->tablePrefix = $tablePrefix;
-		$this->driver = $driver;
 		$this->host = $host[1];
 		
-		// UseBB_Statement does not get loaded automatically using autoload...
-		// So, load it once with the default connection.
-		if ( $libPath !== NULL )
+		// Standard options set by default.
+		$_options = array
+		(
+			// Column names are lower-case.
+			PDO::ATTR_CASE => PDO::CASE_LOWER,
+			// Raise exception on error.
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			// Translate empty strings to NULL.
+			PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING,
+		);
+		
+		// Add the passed per-driver necessary options.
+		// We can't use array_merge(), since this resets numeric keys.
+		foreach ( $options as $key => $val )
 		{
-			require_once $libPath . '/db/Statement.php';
+			$_options[$key] = $val;
 		}
 		
 		// Create the PDO instance, setting default attributes.
-		$this->PDO = new PDO($dsn, $userName, $password, array
-		(
-			PDO::ATTR_CASE => PDO::CASE_LOWER,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING,
-			PDO::ATTR_STATEMENT_CLASS => array('UseBB_Statement'),
-		));
+		$this->PDO = new PDO($dsn, $userName, $password, $_options);
 	}
 	
 	/**
-	 * Get available database drivers.
+	 * Query the database and create a new statement object.
 	 *
-	 * @returns array Drivers
-	 */
-	public static function getAvailableDrivers()
-	{
-		return PDO::getAvailableDrivers();
-	}
-	
-	/**
-	 * Execute a database query.
+	 * The query should be marked up in several ways:
+	 *  - UseBB table names without prefix enclosed in curly braces;
+	 *  - parameters as PDO alike named parameters (:param).
 	 *
-	 * Tables surrounded with curly braces automatically get the table prefix.
-	 * Parameters are equal to PDO's named parameters.
+	 * Parameters is an associative array of parameter names and values.
 	 *
-	 * @param string $query Query
-	 * @param array $parameters Query parameters
-	 * @returns UseBB_Statement Statement object
+	 * @param string $query Query string
+	 * @param array $parameters Parameters
+	 * @returns PDOStatement Statement
 	 */
 	public function query($query, array $parameters = array())
 	{
-		// Apply table prefix
-		$query = preg_replace('#\{([a-z_]+)\}#', $this->tablePrefix . '$1', $query);
-		
-		$statement = $this->PDO->prepare($query);
-		
-		foreach ( $parameters as $key => $value )
+		// Apply table prefix.
+		if ( strpos($query, '{') !== FALSE )
 		{
-			$statement->bindValue($key, $value);
+			$query = preg_replace('#\{([a-z_]+)\}#', $this->tablePrefix . '$1', $query);
 		}
 		
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
+		// Prepare this statement.
+		$statement = $this->PDO->prepare($query);
+		
+		// Bind all the parameters by value.
+		foreach ( $parameters as $key => $value )
+		{
+			if ( is_int($value) )
+			{
+				$statement->bindValue($key, $value, PDO::PARAM_INT);
+			}
+			else
+			{
+				$statement->bindValue($key, $value);
+			}
+		}
+		
+		// Execute.
 		$statement->execute();
 		
 		return $statement;

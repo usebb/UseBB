@@ -65,7 +65,7 @@ final class UseBB
 	public function __construct($dbDsn, $dbUserName, $dbPassword, $dbTablePrefix)
 	{
 		// Open the default database connection
-		$this->db = UseBB_ConnectionFactory::newConnection($dbDSN, $dbUsername, $dbPassword, $dbTablePrefix);
+		$this->db = UseBB_ConnectionFactory::newConnection($dbDsn, $dbUserName, $dbPassword, $dbTablePrefix);
 	}
 	
 	/**

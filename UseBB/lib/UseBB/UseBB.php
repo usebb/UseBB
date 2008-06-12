@@ -39,20 +39,29 @@ final class UseBB
 	(
 		'files' => array
 		(
+			// Database
 			'ConnectionFactory' => 'db',
 			'Connection' => 'db',
 			'Statement' => 'db',
 			'MySQLConnection' => 'db',
 			'MySQLStatement' => 'db',
+			
+			// Internationalization
+			'Language' => 'i18n',
+			'LanguageSource' => 'i18n',
+			'LanguageEmbeddedSource' => 'i18n',
+			'LanguageXMLSource' => 'i18n',
+			'LanguageFactory' => 'i18n',
+			'LanguageManagement' => 'i18n',
+			
 			'Input' => 'util',
 			'Config' => 'util',
-			'Lang' => 'i18n',
-			'LanguageObject' => 'i18n',
 			'Exception' => 'exceptions',
 		),
 	);
 	
 	private $db;
+	private $lang; // will be moved to contexts...
 	
 	/**
 	 * Class constructor.
@@ -66,10 +75,13 @@ final class UseBB
 	{
 		// Open the default database connection
 		$this->db = UseBB_ConnectionFactory::newConnection($dbDsn, $dbUserName, $dbPassword, $dbTablePrefix);
+		
+		// Open the default language
+		$this->lang = UseBB_LanguageFactory::newDefaultLanguage();
 	}
 	
 	/**
-	 * Start processing a HTTP request
+	 * Start processing a HTTP request.
 	 */
 	public function processRequest()
 	{
@@ -103,8 +115,20 @@ final class UseBB
 		
 		var_dump($this->db->query('UPDATE {test} SET test_baz = :to WHERE test_id = :id', array
 		(
-			'to' => 100,
-			'id' => 5,
+			':to' => 100,
+			':id' => 5,
+		)));
+		
+		var_dump($this->lang->t('Hello @browser.', array
+		(
+			'@browser' => $_SERVER['HTTP_USER_AGENT']
+		)));
+		
+		var_dump($this->lang->plural(count($_GET), 'There is 1 GET variable.', 'There are @count GET variables.'));
+		
+		var_dump($this->lang->t('There are @num posts per day.', array
+		(
+			'@num' => 51794.5464
 		)));
 	}
 	
@@ -120,7 +144,7 @@ final class UseBB
 	}
 	
 	/**
-	 * Autoload function for spl_autoload_register()
+	 * Autoload function for spl_autoload_register().
 	 *
 	 * Should <b>never</b> be called directly.
 	 *
@@ -185,5 +209,15 @@ final class UseBB
 	public static function addClassFile($className, $path)
 	{
 		self::$classes['files'][$className] = $path;
+	}
+	
+	/**
+	 * Get the UseBB library path.
+	 *
+	 * @return string Library path
+	 */
+	public static function getLibPath()
+	{
+		return self::$libPath;
 	}
 }

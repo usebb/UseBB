@@ -1,6 +1,12 @@
 UseBB 2 Alpha Changelog
 -----------------------
 
+2008-06-12
+----------
+
+  * Replaced i18n with refactored classes:
+      - Language, LanguageSource, LanguageEmbeddedSource, LanguageXMLSource, LanguageManagement, LanguageFactory.
+
 2008-06-09
 ----------
 

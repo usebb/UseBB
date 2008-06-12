@@ -61,7 +61,7 @@ class UseBB_MySQLConnection extends UseBB_Connection
 	 *
 	 * @param string $query Query string
 	 * @param array $parameters Parameters
-	 * @returns UseBB_MySQLStatement Statement
+	 * @return UseBB_MySQLStatement Statement
 	 */
 	public function query($query, array $parameters = array())
 	{

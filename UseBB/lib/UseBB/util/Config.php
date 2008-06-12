@@ -42,7 +42,7 @@ final class UseBB_Config
 	 * Get a config variable
 	 *
 	 * @param string $key Key
-	 * @returns mixed Value
+	 * @return mixed Value
 	 */
 	public static function get($key)
 	{

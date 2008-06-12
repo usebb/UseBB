@@ -88,7 +88,7 @@ abstract class UseBB_Connection
 	 *
 	 * @param string $query Query string
 	 * @param array $parameters Parameters
-	 * @returns PDOStatement Statement
+	 * @return PDOStatement Statement
 	 */
 	public function query($query, array $parameters = array())
 	{

@@ -37,7 +37,7 @@ class UseBB_ConnectionFactory
 	 * @param string $userName Username
 	 * @param string $password Password
 	 * @param string $tablePrefix Table prefix
-	 * @returns UseBB_Connection Database connection instance
+	 * @return UseBB_Connection Database connection instance
 	 */
 	public static function newConnection($dsn, $userName, $password, $tablePrefix)
 	{

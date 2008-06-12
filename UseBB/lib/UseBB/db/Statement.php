@@ -55,7 +55,7 @@ abstract class UseBB_Statement implements Iterator
 	/**
 	 * Implementation of Iterator::current().
 	 *
-	 * @returns mixed Current row
+	 * @return mixed Current row
 	 */
 	public function current()
 	{
@@ -74,7 +74,7 @@ abstract class UseBB_Statement implements Iterator
 	/**
 	 * Implementation of Iterator::key().
 	 *
-	 * @returns int Key
+	 * @return int Key
 	 */
 	public function key()
 	{
@@ -84,7 +84,7 @@ abstract class UseBB_Statement implements Iterator
 	/**
 	 * Implementation of Iterator::valid().
 	 *
-	 * @returns bool Is valid
+	 * @return bool Is valid
 	 */
 	public function valid()
 	{

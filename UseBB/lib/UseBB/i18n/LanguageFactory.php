@@ -42,31 +42,58 @@ class UseBB_LanguageFactory
 	 */
 	public static function newDefaultLanguage()
 	{
-		// Available languages (codes).
-		$availableLanguages = array_keys(UseBB_LanguageManagement::getAvailableLanguages());
+		// Available languages.
+		$availableLanguages = UseBB_LanguageManagement::getAvailableLanguages();
 		
 		// When enabled, loop through the accepted languages, picking the first available one.
 		if ( TRUE )
 		{
 			foreach ( self::getAcceptedLanguages() as $languageCode )
 			{
-				if ( in_array($languageCode, $availableLanguages) )
+				if ( array_key_exists($languageCode, $availableLanguages) )
 				{
-					return self::newLanguage($languageCode);
+					return self::loadLanguage($languageCode, $availableLanguages[$languageCode]);
 				}
 			}
 		}
 		
-		return self::newLanguage('en');
+		return self::loadLanguage('en');
 	}
 	
 	/**
 	 * Create a new language object for the supplied code.
 	 *
+	 * @todo Needs integration with config system.
+	 *
 	 * @param string $languageCode Language code
 	 * @return UseBB_Language Language object
 	 */
 	public static function newLanguage($languageCode)
+	{
+		if ( $languageCode === 'en' )
+		{
+			return self::loadLanguage('en');
+		}
+		
+		// Available languages.
+		$availableLanguages = UseBB_LanguageManagement::getAvailableLanguages();
+		
+		if ( !array_key_exists($languageCode, $availableLanguages) )
+		{
+			return self::loadLanguage('en');
+		}
+		
+		return self::loadLanguage($languageCode, $availableLanguages[$languageCode]);
+	}
+	
+	/**
+	 * Load a language.
+	 *
+	 * @param string $languageCode Language code
+	 * @param string $fileName XML file name (full path)
+	 * @return UseBB_Language Language object
+	 */
+	private static function loadLanguage($languageCode, $fileName = NULL)
 	{
 		if ( $languageCode === 'en' )
 		{
@@ -76,8 +103,7 @@ class UseBB_LanguageFactory
 		else
 		{
 			// Create the XML source object for other languages.
-			$availableLanguages = UseBB_LanguageManagement::getAvailableLanguages();
-			$source = new UseBB_LanguageXMLSource($availableLanguages[$languageCode]);
+			$source = new UseBB_LanguageXMLSource($fileName);
 		}
 		
 		return new UseBB_Language($source);

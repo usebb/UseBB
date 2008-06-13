@@ -29,9 +29,9 @@
  */
 
 // Define paths to libraries.
-define('USEBB_LIB_ROOT', realpath('.') . '/lib');
-define('USEBB_LIB_USEBB', USEBB_LIB_ROOT . '/UseBB');
-define('USEBB_LIB_PHPUTF8', USEBB_LIB_ROOT . '/utf8');
+define('USEBB_LIB_ROOT', realpath('.'));
+define('USEBB_LIB_USEBB', USEBB_LIB_ROOT);
+define('USEBB_LIB_PHPUTF8', USEBB_LIB_ROOT . '/lib/utf8');
 
 // Define database connection info.
 define('USEBB_DB_DSN', 'mysql:host=localhost;dbname=usebb');

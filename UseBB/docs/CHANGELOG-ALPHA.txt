@@ -5,6 +5,7 @@ UseBB 2 Alpha Changelog
 ----------
 
   * Added internal cache to LanguageXMLSource and LanguageFactory.
+  * Got rid of the mostly unnecessary lib/UseBB directory structure, moved to root.
 
 2008-06-12
 ----------

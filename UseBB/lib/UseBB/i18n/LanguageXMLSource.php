@@ -38,6 +38,7 @@ class UseBB_LanguageXMLSource implements UseBB_LanguageSource
 	private $name;
 	private $translators;
 	private $separators;
+	private $cache = array();
 	
 	/**
 	 * Class constructor.
@@ -171,13 +172,26 @@ class UseBB_LanguageXMLSource implements UseBB_LanguageSource
 	 */
 	public function getTranslation($string, $n = NULL)
 	{
+		// Calculate hash.
+		$hash = md5((int) $n . $string);
+		
+		// Lookup in cache.
+		if ( array_key_exists($hash, $this->cache) )
+		{
+			return $this->cache[$hash];
+		}
+		
 		// Get the form for the given count and use it in an XPath expression.
 		$form = $n !== NULL ? '[@form=' . $this->getForm($n) . ']' : '';
 		
 		// Find the translation in the XML file.
 		$found = $this->xml->xpath('/language/messages/message[original="' . $string . '"]/translation' . $form);
+		$found = $found !== FALSE ? (string) $found[0] : FALSE;
 		
-		return $found !== FALSE ? (string) $found[0] : FALSE;
+		// Save in cache.
+		$this->cache[$hash] = $found;
+		
+		return $found;
 	}
 	
 	/**

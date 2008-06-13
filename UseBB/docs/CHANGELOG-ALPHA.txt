@@ -1,6 +1,11 @@
 UseBB 2 Alpha Changelog
 -----------------------
 
+2008-06-13
+----------
+
+  * Added internal cache to LanguageXMLSource.
+
 2008-06-12
 ----------
 

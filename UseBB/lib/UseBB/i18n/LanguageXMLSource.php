@@ -43,13 +43,11 @@ class UseBB_LanguageXMLSource implements UseBB_LanguageSource
 	/**
 	 * Class constructor.
 	 *
+	 * @param string $languageCode Language code
 	 * @param string $fileName XML file name (full path)
 	 */
-	public function __construct($fileName)
+	public function __construct($languageCode, $fileName)
 	{
-		// Get the language code from the file name.
-		$languageCode = basename($fileName, '.xml');
-		
 		// Exception when the file does not exist or is not readable.
 		if ( !file_exists($fileName) || !is_readable($fileName) )
 		{

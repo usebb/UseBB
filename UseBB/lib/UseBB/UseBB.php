@@ -130,6 +130,10 @@ final class UseBB
 		(
 			'@num' => 51794.5464
 		)));
+		
+		$en = UseBB_LanguageFactory::newLanguage('en');
+		var_dump($this->lang);
+		var_dump($en);
 	}
 	
 	/**

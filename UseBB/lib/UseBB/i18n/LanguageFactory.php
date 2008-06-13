@@ -30,6 +30,9 @@
  */
 class UseBB_LanguageFactory
 {
+	private static $default;
+	private static $instances = array();
+	
 	/**
 	 * Create a new language object for the default language.
 	 *
@@ -42,6 +45,12 @@ class UseBB_LanguageFactory
 	 */
 	public static function newDefaultLanguage()
 	{
+		// Default language has been found already.
+		if ( self::$default !== NULL )
+		{
+			return self::$instances[$default];
+		}
+		
 		// Available languages.
 		$availableLanguages = UseBB_LanguageManagement::getAvailableLanguages();
 		
@@ -52,10 +61,13 @@ class UseBB_LanguageFactory
 			{
 				if ( array_key_exists($languageCode, $availableLanguages) )
 				{
+					self::$default = $languageCode;
 					return self::loadLanguage($languageCode, $availableLanguages[$languageCode]);
 				}
 			}
 		}
+		
+		self::$default = 'en';
 		
 		return self::loadLanguage('en');
 	}
@@ -70,6 +82,11 @@ class UseBB_LanguageFactory
 	 */
 	public static function newLanguage($languageCode)
 	{
+		if ( array_key_exists($languageCode, self::$instances) )
+		{
+			return self::$instances[$languageCode];
+		}
+		
 		if ( $languageCode === 'en' )
 		{
 			return self::loadLanguage('en');
@@ -103,10 +120,12 @@ class UseBB_LanguageFactory
 		else
 		{
 			// Create the XML source object for other languages.
-			$source = new UseBB_LanguageXMLSource($fileName);
+			$source = new UseBB_LanguageXMLSource($languageCode, $fileName);
 		}
 		
-		return new UseBB_Language($source);
+		self::$instances[$languageCode] = $object = new UseBB_Language($source);
+		
+		return $object;
 	}
 	
 	/**

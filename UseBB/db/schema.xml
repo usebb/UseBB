@@ -18,5 +18,13 @@
 	$Rev$
 -->
 <schema>
-	
+	<table name="config">
+		<fields>
+			<field name="config_key" type="varchar" length="255" />
+			<field name="config_value" type="text" />
+		</fields>
+		<primary>
+			<field name="config_key" />
+		</primary>
+	</table>
 </schema>

@@ -43,6 +43,9 @@
 if ( !defined('INCLUDED') )
 	exit();
 
+$list_modes = array('admin', 'email', 'all');
+$_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $list_modes) ) ? $_GET['show'] : $list_modes[0];
+
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
 	$result = $db->query("SELECT id, name, language, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = 0");
@@ -60,14 +63,11 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		
 	}
 	
-	$functions->redirect('admin.php', array('act' => 'activate_members'));
+	$functions->redirect('admin.php', array('act' => 'activate_members', 'show' => $_GET['show']));
 	
 } else {
 	
 	$content = '<p>'.$lang['ActivateMembersExplain'].'</p>';
-	
-	$list_modes = array('admin', 'email', 'all');
-	$_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $list_modes) ) ? $_GET['show'] : $list_modes[0];
 	
 	$content .= '<ul id="adminfunctionsmenu">';
 	foreach ( $list_modes as $mode ) {
@@ -99,7 +99,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	}
 	$content .= '</ul>';
 	
-	$result = $db->query("SELECT id, name, regdate, active_key, last_login FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY regdate ASC");
+	$result = $db->query("SELECT id, name, regdate, active_key, last_login, email FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY regdate ASC");
 	$unactivated = array();
 	while ( $userinfo = $db->fetch_result($result) )
 		$unactivated[] = $userinfo;
@@ -110,7 +110,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		foreach ( $unactivated as $userinfo ) {
 			
 			$logged_in_previously = ( $userinfo['last_login'] ) ? ' <small>*</small>' : '';
-			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in_previously.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'id' => $userinfo['id'])).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'" title="'.$userinfo['email'].'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in_previously.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'show' => $_GET['show'], 'id' => $userinfo['id'])).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
 			
 		}
 		$content .= '</table>';

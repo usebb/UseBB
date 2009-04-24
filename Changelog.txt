@@ -6,6 +6,7 @@ UseBB 1.0.10 Changelog
 - Redirect to the previously selected pane on activating member in ACP.
 - Added email address tooltip on profile link in ACP activate members pane.
 - Fixed malfunctioning RSS Feed when friendly URLs are enabled.
+- Translate IP address ::1 in session to 127.0.0.1 for consistency.
 
 UseBB 1.0.9 Changelog
 ------------------------------

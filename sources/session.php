@@ -134,6 +134,13 @@ class session {
 		$ip_addr = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : getenv('REMOTE_ADDR');
 		
 		//
+		// On some systems (such as OS X) ::1 is used instead of 127.0.0.1 for localhost.
+		// UseBB 1 does not support IPv6, but ::1 can be translated quick and easy.
+		//
+		if ( $ip_addr == '::1' )
+			$ip_addr = '127.0.0.1';
+		
+		//
 		// Check if we will run cleanup
 		// Cleanup is ran about 1 time per 10 requests
 		//

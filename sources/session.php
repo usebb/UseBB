@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage	Core
  */
@@ -52,7 +52,7 @@ if ( !defined('INCLUDED') )
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage	Core
  */

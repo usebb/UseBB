@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -85,12 +85,12 @@ if ( !empty($ip_addr) && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	if ( !empty($_POST['search_usernames']) ) {
 		
 		$content .= '<fieldset><legend>'.$lang['IPLookupUsernames'].'</legend>';
-		$result = $db->query("SELECT DISTINCT(u.name) as name FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
-		$usernames = array();
+		$result = $db->query("SELECT DISTINCT u.id, u.name, u.level FROM ".TABLE_PREFIX."members u, ".TABLE_PREFIX."posts p WHERE u.id = p.poster_id AND p.poster_ip_addr = '".$ip_addr."' ORDER BY u.name ASC");
+		$users = array();
 		while ( $user = $db->fetch_result($result) )
-			$usernames[] = unhtml(stripslashes($user['name']));
-		if ( count($usernames) )
-			$content .= '<p><em>'.join(', ', $usernames).'</em></p>';
+			$users[] = $functions->make_profile_link($user['id'], $user['name'], $user['level']);
+		if ( count($users) )
+			$content .= '<p><em>'.join(', ', $users).'</em></p>';
 		else
 			$content .= '<p>'.$lang['IPLookupUsernamesNotFound'].'</p>';
 		$content .= '</fieldset>';

@@ -9,6 +9,7 @@ UseBB 1.0.10 Changelog
 - Translate IP address ::1 in session to 127.0.0.1 for consistency.
 - Made usernames in IP address lookup clickable.
 - Mass email in board default language and only to unique email addresses.
+- Personal emails now sent in correct (recipient's) language.
 
 UseBB 1.0.9 Changelog
 ------------------------------

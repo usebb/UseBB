@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  */
 
@@ -80,7 +80,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 			//
 			$own_mailpage = false;
 			
-			$result = $db->query("SELECT id, displayed_name, email, email_show FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+			$result = $db->query("SELECT id, displayed_name, email, email_show, language FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 			$user_to_mail = $db->fetch_result($result);
 			
 		}
@@ -110,8 +110,9 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 					//
 					// All information is passed, now send the mail
 					//
+					$lang_email = $functions->fetch_language($user_to_mail['language']);
 					$bcc_email = ( !empty($_POST['bcc']) && !$own_mailpage ) ? $session->sess_info['user_info']['email'] : '';
-					$functions->usebb_mail($_POST['subject'], $lang['UserEmailBody'], array(
+					$functions->usebb_mail($_POST['subject'], $lang_email['UserEmailBody'], array(
 						'username' => stripslashes($session->sess_info['user_info']['displayed_name']),
 						'body' => $_POST['body']
 					), stripslashes($session->sess_info['user_info']['displayed_name']), $session->sess_info['user_info']['email'], $user_to_mail['email'], $bcc_email);

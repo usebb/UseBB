@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -55,7 +55,7 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 	
 	$public_only = ( !empty($_POST['public_emails_only']) ) ? " AND email_show = 1" : '';
 	$exclude_banned = ( !empty($_POST['exclude_banned']) ) ? " AND banned = 0" : '';
-	$result = $db->query("SELECT email FROM ".TABLE_PREFIX."members WHERE level IN(".join(', ', $levels).") AND id <> ".$session->sess_info['user_id'].$public_only.$exclude_banned);
+	$result = $db->query("SELECT DISTINCT email FROM ".TABLE_PREFIX."members WHERE level IN(".join(', ', $levels).") AND id <> ".$session->sess_info['user_id'].$public_only.$exclude_banned);
 	
 	$bcc_email = array();
 	while ( $user_data = $db->fetch_result($result) )
@@ -65,8 +65,13 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 	$bcc_email = array_chunk($bcc_email, $functions->get_config('mass_email_msg_recipients'));
 	$msg_num = count($bcc_email);
 	
+	//
+	// Use the board's default language
+	//
+	$lang_email = $functions->fetch_language($functions->get_config('language', true));
+	
 	foreach ( $bcc_email as $bcc_chunk )
-		$functions->usebb_mail(stripslashes($_POST['subject']), $lang['MassEmailTemplate'], array('body' => stripslashes($_POST['body'])), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_chunk));
+		$functions->usebb_mail(stripslashes($_POST['subject']), $lang_email['MassEmailTemplate'], array('body' => stripslashes($_POST['body'])), $functions->get_config('board_name'), $functions->get_config('admin_email'), $functions->get_config('admin_email'), join(', ', $bcc_chunk));
 	
 	$content = '<p>'.sprintf($lang['MassEmailSent'], $rec_num, $msg_num).'</p>';
 	

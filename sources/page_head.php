@@ -54,6 +54,29 @@ $lang = $functions->fetch_language();
 if ( $functions->get_config('target_blank') )
 	$template->set_js_onload('init_external()');
 
+//
+// RSS feed
+//
+$rss_enabled = false;
+$rss_link = '';
+if ( $functions->get_config('enable_rss') ) {
+	
+	if ( in_array($session->sess_info['location'], array('index', 'activetopics')) ) {
+		
+		$rss_enabled = true;
+		$rss_link = $functions->make_url('rss.php');
+		
+	} elseif ( preg_match('#^(forum|topic):([0-9]+)$#', $session->sess_info['location'], $matches) ) {
+		
+		$rss_enabled = true;
+		$rss_link = $functions->make_url('rss.php', array($matches[1] => $matches[2]));
+		
+	}
+	
+}
+if ( empty($rss_link) )
+	$rss_link = $functions->make_url('rss.php');
+
 $link_bar = array();
 
 //
@@ -63,7 +86,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN )
 	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
 	
 //
-// Don't show these is they cannot be accessed after all
+// Don't show these if they cannot be accessed after all
 //
 if ( ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_closed') && ( $functions->get_config('guests_can_access_board') || $functions->get_user_level() != LEVEL_GUEST ) ) || $functions->get_user_level() == LEVEL_ADMIN  ) {
 	
@@ -88,14 +111,15 @@ if ( ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_close
 	//
 	// RSS feed
 	//	
-	if ( $functions->get_config('enable_rss') ) {
+	if ( $rss_enabled ) {
 		
+		$html_rss_link = '<a href="'.$rss_link.'">'.$lang['RSSFeed'].'</a>';
 		$rss_feed_icon = $template->get_config('rss_feed_icon');
 		
 		if ( !empty($rss_feed_icon) )
-			$link_bar[] = '<a href="'.$functions->make_url('rss.php').'" id="rss-feed-icon"><img src="templates/'.$functions->get_config('template').'/gfx/'.$rss_feed_icon.'" alt="'.$lang['RSSFeed'].'" /></a><a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a> ';
-		else
-			$link_bar[] = '<a href="'.$functions->make_url('rss.php').'">'.$lang['RSSFeed'].'</a>';
+			$html_rss_link = '<a href="'.$rss_link.'" id="rss-feed-icon"><img src="templates/'.$functions->get_config('template').'/gfx/'.$rss_feed_icon.'" alt="'.$lang['RSSFeed'].'" /></a>'.$html_rss_link;
+		
+		$link_bar[] = $html_rss_link;
 		
 	}
 	
@@ -141,10 +165,10 @@ $template->add_global_vars(array(
 	//
 	'link_memberlist' => $functions->make_url('members.php'),
 	'link_stafflist' => $functions->make_url('members.php', array('act' => 'staff')),
-	'link_rss' => $functions->make_url('rss.php'),
+	'link_rss' => $rss_link,
 	'link_stats' => $functions->make_url('stats.php'),
 	
-	'rss_head_link' => ( $functions->get_config('enable_rss') ) ? '<link rel="alternate" type="application/rss+xml" title="'.unhtml($functions->get_config('board_name')).' '.$lang['RSSFeed'].'" href="'.$functions->make_url('rss.php').'" />' : '',
+	'rss_head_link' => ( $rss_enabled ) ? '<link rel="alternate" type="application/rss+xml" title="'.$lang['RSSFeed'].'" href="'.$rss_link.'" />' : '',
 	'usebb_copyright' => sprintf($lang['PoweredBy'], unhtml($functions->get_config('board_name')), '<a href="http://www.usebb.net">UseBB 1 '.$lang['ForumSoftware'].'</a>')
 	
 ));

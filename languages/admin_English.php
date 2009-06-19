@@ -74,6 +74,7 @@ $lang['IndexOneUnactiveMember'] = 'There is one member awaiting admin activation
 $lang['IndexMoreUnactiveMembers'] = 'There are %d members awaiting admin activation.';
 $lang['IndexWarning'] = 'Warning!';
 $lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. This is not recommended. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation (0777) on it. Contact your host in case of problems.';
+$lang['IndexMultibyteUsage'] = 'Please note that you are currently using a translation written in a multibyte character set (%s). These translations and character sets are not officially supported on UseBB 1.';
 
 $lang['VersionFailed'] = 'The forum could not determine the latest version. Please often check %s to make sure you have the latest one.';
 $lang['VersionLatestVersionTitle'] = 'This is the latest version';

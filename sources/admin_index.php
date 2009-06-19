@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2008 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2008 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -45,12 +45,13 @@ if ( !defined('INCLUDED') )
 
 $content = '<p>'.$lang['IndexWelcome'].'</p>';
 
-if ( !is_writable(ROOT_PATH.'config.php') ) {
-	
-	$content .= '<h2>'.$lang['IndexWarning'].'</h2>';
-	$content .= '<p>'.sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>').'</p>';
-	
-}
+$warnings = array();
+if ( !empty($lang['character_encoding']) && strtolower($lang['character_encoding']) == 'utf-8' )
+	$warnings[] = sprintf($lang['IndexMultibyteUsage'], strtoupper($lang['character_encoding']));
+if ( !is_writable(ROOT_PATH.'config.php') )
+	$warnings[] = sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>');
+if ( count($warnings) )
+	$content .= '<h2>'.$lang['IndexWarning'].'</h2>' . '<ul><li>'.join('</li><li>', $warnings).'</li></ul>';
 
 $content .= '<h2><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members')).'">'.$lang['IndexUnactiveMembers'].'</a></h2>';
 $result = $db->query("SELECT COUNT(id) as count FROM ".TABLE_PREFIX."members WHERE active = 0 AND active_key = ''");
@@ -89,7 +90,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
 	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
 </ul>
-<p id="admincopyright">Copyright &copy; 2003-2008 UseBB Team - Released under the GNU General Public License.</p>';
+<p id="admincopyright">Copyright &copy; 2003-2009 UseBB Team - Released under the GNU General Public License.</p>';
 
 $admin_functions->create_body('index', $content);
 

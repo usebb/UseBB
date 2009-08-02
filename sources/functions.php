@@ -185,17 +185,25 @@ function entities_rtrim($string, $length) {
 }
 
 /**
- * Check if a variable contains a valid integer
+ * Check if a variable contains a valid integer.
+ * If so, correct it (intval).
  *
  * @param string $string String to check
  * @returns bool Contains valid integer
  */
-function valid_int($string) {
+function valid_int(&$string) {
 	
-	if ( $string == strval(intval($string)) )
+	if ( $string == strval(intval($string)) ) {
+		
+		$string = (int) $string;
+		
 		return true;
-	else
+		
+	} else {
+		
 		return false;
+		
+	}
 	
 }
 

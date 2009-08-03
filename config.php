@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  */
 
@@ -85,7 +85,7 @@ $conf['cookie_httponly'] = 1;
 $conf['cookie_path'] = '';
 $conf['cookie_secure'] = 0;
 $conf['date_format'] = 'D M d, Y g:i a';
-$conf['debug'] = 0;
+$conf['debug'] = 2;
 $conf['disable_registrations'] = 0;
 $conf['disable_registrations_reason'] = 'No new users allowed at this time.';
 $conf['disable_xhtml_header'] = 1;
@@ -109,6 +109,8 @@ $conf['enable_memberlist'] = 1;
 $conf['enable_quickreply'] = 1;
 $conf['enable_registration_log'] = 0;
 $conf['enable_rss'] = 1;
+$conf['enable_rss_per_forum'] = 1;
+$conf['enable_rss_per_topic'] = 1;
 $conf['enable_stafflist'] = 1;
 $conf['enable_stats'] = 1;
 $conf['exclude_forums_active_topics'] = array ();

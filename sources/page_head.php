@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2009 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -57,16 +57,21 @@ if ( $functions->get_config('target_blank') )
 //
 // RSS feed
 //
+// Note: the feed may not always be available, depending on the user's permissions.
+// This code does not incorporate forum permissions and may therefore
+// generate the link while the feed is actually inaccessible.
+//
 $rss_enabled = false;
 $rss_link = '';
-if ( $functions->get_config('enable_rss') ) {
+
+if ( in_array($session->sess_info['location'], array('index', 'activetopics')) && $functions->get_config('enable_rss') ) {
 	
-	if ( in_array($session->sess_info['location'], array('index', 'activetopics')) ) {
-		
-		$rss_enabled = true;
-		$rss_link = $functions->make_url('rss.php');
-		
-	} elseif ( preg_match('#^(forum|topic):([0-9]+)$#', $session->sess_info['location'], $matches) ) {
+	$rss_enabled = true;
+	$rss_link = $functions->make_url('rss.php');
+	
+} elseif ( preg_match('#^(forum|topic):([0-9]+)$#', $session->sess_info['location'], $matches) ) {
+	
+	if ( ( $matches[1] == 'forum' && $functions->get_config('enable_rss_per_forum') ) || ( $matches[1] == 'topic' && $functions->get_config('enable_rss_per_topic') ) ) {
 		
 		$rss_enabled = true;
 		$rss_link = $functions->make_url('rss.php', array($matches[1] => $matches[2]));
@@ -74,6 +79,7 @@ if ( $functions->get_config('enable_rss') ) {
 	}
 	
 }
+
 if ( empty($rss_link) )
 	$rss_link = $functions->make_url('rss.php');
 
@@ -177,16 +183,6 @@ $template->add_global_vars(array(
 // Page header
 //
 $template->parse('normal_header', 'global');
-
-//
-// Make a Forbidden header when the RSS feed cannot be requested
-//
-if ( $session->sess_info['location'] == 'rss' && ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') || ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST ) ) ) {
-	
-	header(HEADER_403);
-	die('<h1>403 Forbidden</h1><p>You are not allowed to access the RSS feed.</p>');
-	
-}
 
 //
 // Banned IP addresses catch this message

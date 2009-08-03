@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -166,7 +166,9 @@ $lang['ConfigBoard-enable_detailed_online_list'] = 'Enable detailed online list'
 $lang['ConfigBoard-enable_forum_stats_box'] = 'Enable forum statistics box';
 $lang['ConfigBoard-enable_memberlist'] = 'Enable member list';
 $lang['ConfigBoard-enable_quickreply'] = 'Enable quick reply';
-$lang['ConfigBoard-enable_rss'] = 'Enable RSS feed';
+$lang['ConfigBoard-enable_rss'] = 'Enable general (active topics) RSS feed';
+$lang['ConfigBoard-enable_rss_per_forum'] = 'Enable separate forum RSS feeds';
+$lang['ConfigBoard-enable_rss_per_topic'] = 'Enable separate topic RSS feeds';
 $lang['ConfigBoard-enable_stafflist'] = 'Enable staff list';
 $lang['ConfigBoard-enable_stats'] = 'Enable statistics page';
 $lang['ConfigBoard-friendly_urls'] = 'Enable friendly URL\'s';
@@ -198,7 +200,7 @@ $lang['ConfigBoard-cookie_path'] = 'Cookie path';
 $lang['ConfigBoard-session_save_path'] = 'Session save path';
 $lang['ConfigBoard-session_save_path-info'] = 'Custom session data save path; only absolute directory names.';
 $lang['ConfigBoard-exclude_forums_active_topics'] = 'Exclude forums from active topics';
-$lang['ConfigBoard-exclude_forums_rss'] = 'Exclude forums from RSS feed';
+$lang['ConfigBoard-exclude_forums_rss'] = 'Exclude forums from general RSS feed';
 $lang['ConfigBoard-exclude_forums_stats'] = 'Exclude forums from statistics page';
 $lang['ConfigBoard-timezone'] = 'Timezone';
 $lang['ConfigBoard-debug0'] = 'Disabled';

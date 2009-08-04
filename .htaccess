@@ -36,4 +36,5 @@ DirectoryIndex index.php
 	RewriteRule ^search-results\.html?[\.,;\-]?$ search.php?act=results
 	RewriteRule ^search-results-([0-9]+)\.html?[\.,;\-]?$ search.php?act=results&page=$1
 	RewriteRule ^rss\.xml[\.,;\-]?$ rss.php
+	RewriteRule ^rss-(forum|topic)([0-9]+)\.xml?[\.,;\-]?$ rss.php?$1=$2
 </IfModule>

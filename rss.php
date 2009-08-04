@@ -121,12 +121,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	if ( !$functions->auth($forumdata['auth'], 'view', $_GET['forum']) )
 		rss_error(403);
 	
-	$forum_name = unhtml($functions->get_config('board_name').': '.stripslashes($forumdata['name']), true);
+	$forum_name = unhtml(stripslashes($forumdata['name']), true);
 	$forum_link = $functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $_GET['forum']), true, false);
 	
 	$header_vars = array(
 		
-		'board_name' => $forum_name,
+		'board_name' => unhtml($functions->get_config('board_name').': '.stripslashes($forumdata['name']), true),
 		// Stripping tags, Firefox doesn't show the description when it has tags.
 		'board_descr' => strip_tags(stripslashes($forumdata['descr'])),
 		'board_url' => $forum_link,
@@ -192,12 +192,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	if ( !$functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )
 		rss_error(403);
 	
-	$topic_name = unhtml($functions->get_config('board_name').': '.stripslashes($topicdata['forum_name']).$template->get_config('locationbar_item_delimiter').stripslashes($topicdata['topic_title']), true);
+	$topic_name = unhtml(stripslashes($topicdata['topic_title']), true);
 	$topic_link = $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic']), true, false);
 	
 	$header_vars = array(
 		
-		'board_name' => $topic_name,
+		'board_name' => unhtml($functions->get_config('board_name').': '.stripslashes($topicdata['forum_name']).$template->get_config('locationbar_item_delimiter').stripslashes($topicdata['topic_title']), true),
 		'board_descr' => '',
 		'board_url' => $topic_link,
 		'pubDate' => $pubDate,

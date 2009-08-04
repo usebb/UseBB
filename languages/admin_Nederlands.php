@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2009 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -166,7 +166,9 @@ $lang['ConfigBoard-enable_detailed_online_list'] = 'Gedetailleerde onlinelijst i
 $lang['ConfigBoard-enable_forum_stats_box'] = 'Kleine statistieken inschakelen';
 $lang['ConfigBoard-enable_memberlist'] = 'Ledenlijst inschakelen';
 $lang['ConfigBoard-enable_quickreply'] = 'Snel antwoord inschakelen';
-$lang['ConfigBoard-enable_rss'] = 'RSS-feed inschakelen';
+$lang['ConfigBoard-enable_rss'] = 'Algemene (actieve onderwerpen) RSS-feed inschakelen';
+$lang['ConfigBoard-enable_rss_per_forum'] = 'RSS-feed per forum inschakelen';
+$lang['ConfigBoard-enable_rss_per_topic'] = 'RSS-feed per onderwerp inschakelen';
 $lang['ConfigBoard-enable_stafflist'] = 'Staflijst inschakelen';
 $lang['ConfigBoard-enable_stats'] = 'Statistiekenpagina inschakelen';
 $lang['ConfigBoard-friendly_urls'] = 'Vriendelijke URL\'s inschakelen';
@@ -198,7 +200,7 @@ $lang['ConfigBoard-cookie_path'] = 'Cookie-pad';
 $lang['ConfigBoard-session_save_path'] = 'Map voor opslaan sessiedata';
 $lang['ConfigBoard-session_save_path-info'] = 'Aangepaste locatie voor opslag sessiedata; alleen absolute mapnamen.';
 $lang['ConfigBoard-exclude_forums_active_topics'] = 'Forums uit actieve onderwerpen filteren';
-$lang['ConfigBoard-exclude_forums_rss'] = 'Forums uit RSS-feed filteren';
+$lang['ConfigBoard-exclude_forums_rss'] = 'Forums uit algemene RSS-feed filteren';
 $lang['ConfigBoard-exclude_forums_stats'] = 'Forums uit statistiekenpagina filteren';
 $lang['ConfigBoard-timezone'] = 'Tijdzone';
 $lang['ConfigBoard-debug0'] = 'Uitgeschakeld';

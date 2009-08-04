@@ -26,7 +26,7 @@
 /**
  * RSS feed
  *
- * Parses an RSS 2.0 feed for the entire forum.
+ * Parses RSS 2.0 feeds
  *
  * @author	UseBB Team
  * @link	http://www.usebb.net
@@ -109,22 +109,25 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	$result = $db->query("SELECT id, name, descr, auth FROM ".TABLE_PREFIX."forums WHERE id = ".$_GET['forum']);
 	$forumdata = $db->fetch_result($result);
 	
+	//
+	// Forum does not exist
+	//
 	if ( !$forumdata['id'] )
 		rss_error(404);
 	
+	//
+	// Forum is not accessible
+	//
 	if ( !$functions->auth($forumdata['auth'], 'view', $_GET['forum']) )
 		rss_error(403);
 	
-	//
-	// Generate the items
-	//
-	
-	$forum_name = unhtml(stripslashes($functions->get_config('board_name').': '.$forumdata['name']), true);
+	$forum_name = unhtml($functions->get_config('board_name').': '.stripslashes($forumdata['name']), true);
 	$forum_link = $functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $_GET['forum']), true, false);
 	
 	$header_vars = array(
 		
 		'board_name' => $forum_name,
+		// Stripping tags, Firefox doesn't show the description when it has tags.
 		'board_descr' => strip_tags(stripslashes($forumdata['descr'])),
 		'board_url' => $forum_link,
 		'pubDate' => $pubDate,
@@ -134,6 +137,10 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	$template->parse('header', 'rss', $header_vars, true);
 	
+	//
+	// Get the topics
+	//
+	
 	$result = $db->query("SELECT t.id, t.topic_title, p.poster_id, p.poster_guest, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_html, m.displayed_name FROM ".TABLE_PREFIX."topics t LEFT JOIN ".TABLE_PREFIX."posts p ON t.first_post_id = p.id LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE t.forum_id = ".$_GET['forum']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 	
 	while ( $topicdata = $db->fetch_result($result) ) {
@@ -141,13 +148,13 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id']), true, false);
 		
 		$template->parse('topic', 'rss', array(
-			'title' => $topicdata['topic_title'],
+			'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true),
 			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true)),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['displayed_name'] : $topicdata['poster_guest']), true),
 			'link' => $link,
 			// <comments> was removed from the default template because it was used incorrectly (not for posting comments).
-			'comments' => $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id']), true, false),
+			'comments' => $link,
 			'category' => $forum_name,
 			'category_domain' => $forum_link,
 			'pubDate' => $functions->make_date($topicdata['post_time'], 'D, d M Y H:i:s', true, false).' GMT',
@@ -167,6 +174,70 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	if ( !$functions->get_config('enable_rss_per_topic') )
 		rss_error(404);
 	
+	//
+	// Get information about the topic and forum
+	//
+	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.first_post_id, f.name AS forum_name, f.auth FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE f.id = t.forum_id AND t.id = ".$_GET['topic']);
+	$topicdata = $db->fetch_result($result);
+	
+	//
+	// Topic does not exist
+	//
+	if ( !$topicdata['id'] )
+		rss_error(404);
+	
+	//
+	// Topic is not accessible
+	//
+	if ( !$functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )
+		rss_error(403);
+	
+	$topic_name = unhtml($functions->get_config('board_name').': '.stripslashes($topicdata['forum_name']).$template->get_config('locationbar_item_delimiter').stripslashes($topicdata['topic_title']), true);
+	$topic_link = $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic']), true, false);
+	
+	$header_vars = array(
+		
+		'board_name' => $topic_name,
+		'board_descr' => '',
+		'board_url' => $topic_link,
+		'pubDate' => $pubDate,
+		'link_rss' => $functions->get_config('board_url').$functions->make_url('rss.php', array('topic' => $_GET['topic']), true, false),
+		
+	);
+	
+	$template->parse('header', 'rss', $header_vars, true);
+	
+	//
+	// Get the posts
+	//
+	
+	$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_html, m.displayed_name FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE p.topic_id = ".$_GET['topic']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	
+	while ( $postdata = $db->fetch_result($result) ) {
+		
+		$title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true);
+		$title = ( ( $postdata['id'] != $topicdata['first_post_id'] ) ? $lang['Re'].' ' : '' ) . $title;
+
+		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $postdata['id']), true, false).'#post'.$postdata['id'];
+		
+		$template->parse('topic', 'rss', array(
+			'title' => $title,
+			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($postdata['content'])), $postdata['enable_bbcode'], $postdata['enable_smilies'], $postdata['enable_html'], true)),
+			// <author> was renamed to <dc:creator> in the default template to keep validity.
+			'author' => unhtml(stripslashes( ( !empty($postdata['poster_id']) ) ? $postdata['displayed_name'] : $postdata['poster_guest']), true),
+			'link' => $link,
+			// <comments> was removed from the default template because it was used incorrectly (not for posting comments).
+			'comments' => $link,
+			'category' => $topic_name,
+			'category_domain' => $topic_link,
+			'pubDate' => $functions->make_date($postdata['post_time'], 'D, d M Y H:i:s', true, false).' GMT',
+			'guid' => $link
+		), true);
+
+	}
+	
+	$template->parse('footer', 'rss', $header_vars, true);
+	
 } else {
 	
 	//
@@ -175,6 +246,88 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	if ( !$functions->get_config('enable_rss') )
 		rss_error(404);
+	
+	//
+	// Excluded forums
+	//
+	$exclude_forums = $functions->get_config('exclude_forums_rss');
+	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " AND id NOT IN (".join(', ', $exclude_forums).")" : '';
+	
+	//
+	// Get a list of forums
+	//
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
+	
+	$forum_ids = $forum_names = array();
+	while ( $forumdata = $db->fetch_result($result) ) {
+		
+		//
+		// Place permitted forums into the arrays
+		//
+		if ( $functions->auth($forumdata['auth'], 'read', $forumdata['id']) ) {
+			
+			$forum_ids[] = $forumdata['id'];
+			$forum_names[$forumdata['id']] = $forumdata['name'];
+			
+		}
+		
+	}
+	
+	//
+	// No viewable forums
+	//
+	if ( !count($forum_ids) )
+		rss_error(403);
+	
+	$header_vars = array(
+		
+		'board_name' => unhtml($functions->get_config('board_name'), true),
+		'board_descr' => unhtml($functions->get_config('board_descr'), true),
+		'board_url' => $functions->get_config('board_url'),
+		'pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT',
+		'link_rss' => $functions->get_config('board_url').$functions->make_url('rss.php', null, true, false),
+		
+	);
+	
+	$template->parse('header', 'rss', $header_vars, true);
+	
+	$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+			
+	$reply_counts = array();
+	
+	while ( $topicdata = $db->fetch_result($result) ) {
+					
+		if ( !array_key_exists($topicdata['topic_id'], $reply_counts) )
+			$reply_counts[$topicdata['topic_id']] = $topicdata['count_replies'];
+		else
+			$reply_counts[$topicdata['topic_id']]--;
+		
+		$title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true);
+		if ( $reply_counts[$topicdata['topic_id']] )
+			$title = $lang['Re'].' '.$title;
+		
+		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id'];
+		
+		//
+		// Parse the topic template
+		//
+		$template->parse('topic', 'rss', array(
+			'title' => $title,
+			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true)),
+			// <author> was renamed to <dc:creator> in the default template to keep validity.
+			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest']), true),
+			'link' => $link,
+			// <comments> was removed from the default template because it was used incorrectly (not for posting comments).
+			'comments' => $functions->get_config('board_url').$functions->make_url('post.php', array('topic' => $topicdata['topic_id'], 'quotepost' => $topicdata['post_id']), true, false),
+			'category' => unhtml(stripslashes($forum_names[$topicdata['forum_id']]), true),
+			'category_domain' => $functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $topicdata['forum_id']), true, false),
+			'pubDate' => $functions->make_date($topicdata['post_time'], 'D, d M Y H:i:s', true, false).' GMT',
+			'guid' => $link
+		), true);
+		
+	}
+	
+	$template->parse('footer', 'rss', $header_vars, true);
 	
 }
 

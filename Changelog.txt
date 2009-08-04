@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.10 Changelog
 ------------------------------
 
+- Changed RSS feed code so per forum and topic feeds can be shown.
 - Redirect to the previously selected pane on activating member in ACP.
 - Added email address tooltip on profile link in ACP activate members pane.
 - Fixed malfunctioning RSS Feed when friendly URLs are enabled.

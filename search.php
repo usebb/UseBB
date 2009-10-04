@@ -213,13 +213,13 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				
 				$author = preg_replace('#\s+#', ' ', $_REQUEST['author']);
 				$guest_search = ( !empty($_REQUEST['include_guests']) ) ? " OR p.poster_guest = '".$author."'" : '';
-				$query_where_parts[] = "( m.displayed_name = '".$author."'".$guest_search." )";
+				$query_where_parts[] = "( u.displayed_name = '".$author."'".$guest_search." )";
 				
 			} else {
 				
 				$author = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_REQUEST['author']);
 				$guest_search = ( !empty($_REQUEST['include_guests']) ) ? " OR p.poster_guest LIKE '%".$author."%'" : '';
-				$query_where_parts[] = "( m.displayed_name LIKE '%".$author."%'".$guest_search." )";
+				$query_where_parts[] = "( u.displayed_name LIKE '%".$author."%'".$guest_search." )";
 				
 			}
 			
@@ -230,7 +230,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		else
 			$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 		
-		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." ORDER BY ".$sort_items[$_REQUEST['sort_by']]." ".$_REQUEST['order']." LIMIT ".$functions->get_config('search_limit_results'));
+		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." ORDER BY ".$sort_items[$_REQUEST['sort_by']]." ".$_REQUEST['order']." LIMIT ".$functions->get_config('search_limit_results'));
 		$result_ids = array();
 		while ( $searchdata = $db->fetch_result($result) )
 			$result_ids[] = $searchdata['id'];

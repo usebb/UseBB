@@ -149,7 +149,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		
 		$template->parse('topic', 'rss', array(
 			'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true),
-			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true)),
+			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true), true),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['displayed_name'] : $topicdata['poster_guest']), true),
 			'link' => $link,
@@ -222,7 +222,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		
 		$template->parse('topic', 'rss', array(
 			'title' => $title,
-			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($postdata['content'])), $postdata['enable_bbcode'], $postdata['enable_smilies'], $postdata['enable_html'], true)),
+			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($postdata['content'])), $postdata['enable_bbcode'], $postdata['enable_smilies'], $postdata['enable_html'], true), true),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($postdata['poster_id']) ) ? $postdata['displayed_name'] : $postdata['poster_guest']), true),
 			'link' => $link,
@@ -313,7 +313,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		//
 		$template->parse('topic', 'rss', array(
 			'title' => $title,
-			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true)),
+			'description' => unhtml($functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true), true),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest']), true),
 			'link' => $link,

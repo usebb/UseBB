@@ -95,6 +95,7 @@ function unhtml($string, $rssmode=false) {
 		);
 		
 		$string = strtr($string, $table);
+		$string = preg_replace('!&#x26;([^\s]+);!', '&$1;', $string);
 		
 	} else {
 		

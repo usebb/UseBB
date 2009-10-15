@@ -298,7 +298,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				
 				$_POST['auth'] = '';
 				foreach ( range(0, 9) as $authid )
-					$_POST['auth'] .= ( !empty($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $default_auth[$authid];
+					$_POST['auth'] .= ( isset($_POST['auth'.$authid]) && valid_int($_POST['auth'.$authid]) && in_array($_POST['auth'.$authid], $user_levels) ) ? $_POST['auth'.$authid] : $default_auth[$authid];
 				
 				$db->query("INSERT INTO ".TABLE_PREFIX."forums VALUES(NULL, '".$_POST['name']."', '".$_POST['cat_id']."', '".$_POST['descr']."', ".$_POST['status'].", 0, 0, 0, 0, '".$_POST['auth']."', ".$_POST['auto_lock'].", ".$_POST['increase_post_count'].", ".$_POST['hide_mods_list'].")");
 				

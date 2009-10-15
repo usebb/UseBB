@@ -4,6 +4,7 @@ UseBB 1.0.10 Changelog
 ------------------------------
 
 - Fixed bug #2367: SQL error on search sorted by author.
+- Fixed bug with remembering guest auth settings on adding new forum.
 - Changed RSS feed code so per forum and topic feeds can be shown.
 - Redirect to the previously selected pane on activating member in ACP.
 - Added email address tooltip on profile link in ACP activate members pane.

@@ -6,13 +6,13 @@ UseBB 1.0.10 Changelog
 - Fixed bug #2367: SQL error on search sorted by author.
 - Fixed bug with remembering guest auth settings on adding new forum.
 - Changed RSS feed code so per forum and topic feeds can be shown.
-- Redirect to the previously selected pane on activating member in ACP.
-- Added email address tooltip on profile link in ACP activate members pane.
 - Fixed malfunctioning RSS Feed when friendly URLs are enabled.
-- Translate IP address ::1 in session to 127.0.0.1 for consistency.
-- Made usernames in IP address lookup clickable.
 - Mass email in board default language and only to unique email addresses.
 - Personal emails now sent in correct (recipient's) language.
+- Redirect to the previously selected pane on activating member in ACP.
+- Added email address tooltip on profile link in ACP activate members pane.
+- Translate IP address ::1 in session to 127.0.0.1 for consistency.
+- Made usernames in IP address lookup clickable.
 - Show a warning (unsupported) on the ACP index with UTF-8 translations.
 
 UseBB 1.0.9 Changelog

@@ -2146,6 +2146,12 @@ class functions {
 			
 		}
 		
+		//
+		// XML (RSS/Atom) does not define elements such as a, pre, etc.
+		//
+		if ( $rss_mode )
+			$string = str_replace(array('<', '>'), array('&lt;', '&gt;'), $string);
+		
 		return trim($string);
 		
 	}

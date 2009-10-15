@@ -345,10 +345,10 @@ function named_entities_to_numeric($string) {
  * Disable HTML in a string without disabling entities
  *
  * @param string $string String to un-HTML
- * @param bool $rssmode Do hexadecimal escaping of &, < and > ONLY
+ * @param bool $rss_mode Do hexadecimal escaping of &, < and > ONLY
  * @returns string Parsed $string
  */
-function unhtml($string, $rssmode=false) {
+function unhtml($string, $rss_mode=false) {
 	
 	$string = htmlspecialchars($string);
 	
@@ -362,7 +362,7 @@ function unhtml($string, $rssmode=false) {
 	//
 	// RSS mode
 	//
-	if ( $rssmode )
+	if ( $rss_mode )
 		$string = named_entities_to_numeric($string);
 	
 	return $string;

@@ -197,7 +197,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	$header_vars = array(
 		
-		'board_name' => unhtml($functions->get_config('board_name').': '.stripslashes($topicdata['forum_name']).$template->get_config('locationbar_item_delimiter').stripslashes($topicdata['topic_title']), true),
+		'board_name' => unhtml($functions->get_config('board_name'), true).': '.unhtml(stripslashes($topicdata['forum_name']), true).named_entities_to_numeric($template->get_config('locationbar_item_delimiter')).unhtml(stripslashes($topicdata['topic_title']), true),
 		'board_descr' => '',
 		'board_url' => $topic_link,
 		'pubDate' => $pubDate,

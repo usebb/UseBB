@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.10 Changelog
 ------------------------------
 
+- Fixed an issue generating infinite loops with the BBCode parsing on some input.
 - Fixed bug #2367: SQL error on search sorted by author.
 - Fixed bug with remembering guest auth settings on adding new forum.
 - Changed RSS feed code so per forum and topic feeds can be shown.

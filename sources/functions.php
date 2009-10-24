@@ -2007,6 +2007,7 @@ class functions {
 	function markup($string, $bbcode=true, $smilies=true, $html=false, $rss_mode=false) {
 		
 		global $db, $template, $lang;
+		static $random;
 		
 		$string = preg_replace('#(script|about|applet|activex|chrome):#is', '\\1&#058;', $string);
 		
@@ -2046,6 +2047,17 @@ class functions {
 			$rel = ( count($rel) ) ? ' rel="'.join(' ', $rel).'"' : '';
 			
 			//
+ 			// Protect from infinite loops.
+ 			// The while loop to parse nested quote tags has the sad side-effect of entering an infinite loop
+ 			// when the parsed text contains $0 or \0.
+ 			// Admittedly, this is a quick and dirty fix. For a nice "fix" I refer to the stack based parser in 2.0.
+ 			//
+ 			if ( $random == NULL )
+ 				$random = $this->random_key();
+ 			
+ 			$string = str_replace(array('$', "\\"), array('&#36;'.$random, '&#92;'.$random), $string);
+			
+			//
 			// Parse quote tags
 			//
 			// Might seem a bit difficultly done, but trimming doesn't work the usual way
@@ -2055,6 +2067,11 @@ class functions {
 				$string = preg_replace("#\[quote\]".preg_quote($matches[1], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], trim($matches[1])), $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string, $matches) )
 				$string = preg_replace("#\[quote=".preg_quote($matches[1], '#')."\]".preg_quote($matches[2], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), trim($matches[2])), $string);
+			
+			//
+			// Undo the dirty fixing.
+ 			//
+ 			$string = str_replace(array('&#36;'.$random, '&#92;'.$random), array('$', "\\"), $string);
 			
 			//
 			// Parse code tags

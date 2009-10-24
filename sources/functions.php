@@ -2165,9 +2165,10 @@ class functions {
 		
 		//
 		// XML (RSS/Atom) does not define elements such as a, pre, etc.
+		// Though, make sure the already escaped < and > are still/double escaped.
 		//
 		if ( $rss_mode )
-			$string = str_replace(array('<', '>'), array('&lt;', '&gt;'), $string);
+			$string = str_replace(array('&lt;', '&gt;', '<', '>'), array('&amp;lt;', '&amp;gt;', '&lt;', '&gt;'), $string);
 		
 		return trim($string);
 		

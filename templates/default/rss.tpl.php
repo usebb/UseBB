@@ -39,6 +39,11 @@ $templates['header'] = '<?xml version="1.0" encoding="{character_encoding}"?>
 		<title>{board_name}</title>
 		<link>{board_url}</link>
 		<description>{board_descr}</description>
+		<image>
+			<url>{img_dir}usebb.png</url>
+			<title>{board_name}</title>
+			<link>{board_url}</link>
+		</image>
 		<language>{language_code}</language>
 		<pubDate>{pubDate}</pubDate>
 		<docs>http://www.rssboard.org/rss-specification</docs>

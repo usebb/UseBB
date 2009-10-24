@@ -92,6 +92,11 @@ if ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') 
 $pubDate = $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT';
 
 //
+// Absolute template gfx directory
+//
+$template->add_global_vars(array('img_dir' => $functions->get_config('board_url').str_replace('./', '', ROOT_PATH).'templates/'.$functions->get_config('template').'/gfx/'));
+
+//
 // Figure out what feed to show
 //
 if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
@@ -284,7 +289,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		'board_name' => unhtml($functions->get_config('board_name'), true),
 		'board_descr' => unhtml($functions->get_config('board_descr'), true),
 		'board_url' => $functions->get_config('board_url'),
-		'pubDate' => $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT',
+		'pubDate' => $pubDate,
 		'link_rss' => $functions->get_config('board_url').$functions->make_url('rss.php', null, true, false),
 		
 	);

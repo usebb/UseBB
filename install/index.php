@@ -271,7 +271,7 @@ $out .= '		</form>
 	</div>
 </div>
 
-<p id="copyright">Powered by UseBB &middot; Copyright &copy; 2003-2007 <a href="http://www.usebb.net">UseBB Team</a></p>
+<p id="copyright">Powered by UseBB &middot; Copyright &copy; 2003-2009 <a href="http://www.usebb.net">UseBB Team</a></p>
 
 </body>
 </html>';

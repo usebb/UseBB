@@ -8,6 +8,7 @@ UseBB 1.0.10 Changelog
 - Fixed bug with remembering guest auth settings on adding new forum.
 - Changed RSS feed code so per forum and topic feeds can be shown.
 - Fixed malfunctioning RSS Feed when friendly URLs are enabled.
+- Fixed quirky or wrong entity handling in RSS feeds.
 - Mass email in board default language and only to unique email addresses.
 - Personal emails now sent in correct (recipient's) language.
 - Redirect to the previously selected pane on activating member in ACP.

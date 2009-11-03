@@ -59,7 +59,12 @@ if ( !function_exists('version_compare') )
 //
 // Security measures
 //
-error_reporting(E_ALL);
+
+if ( defined('E_DEPRECATED') )
+	error_reporting(E_ALL ^ E_DEPRECATED);
+else
+	error_reporting(E_ALL);
+
 set_magic_quotes_runtime(1);
 ini_set('display_errors', '1');
 ini_set('session.use_trans_sid', '0');

@@ -1,5 +1,10 @@
 $Header$
 
+UseBB 1.0.11 Changelog
+------------------------------
+
+- Hide "deprecated" warnings from PHP 5.3.
+
 UseBB 1.0.10 Changelog
 ------------------------------
 

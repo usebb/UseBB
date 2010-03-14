@@ -223,7 +223,7 @@ $templates['profile'] = '
 			<td class="fieldtitle">{l_AIM}</td><td colspan="2">{aim_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_ICQ}</td><td colspan="2">{icq_v} {icq_status}</td>
+			<td class="fieldtitle">{l_ICQ}</td><td colspan="2">{icq_v}</td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Jabber}</td><td colspan="2">{jabber_v}</td>

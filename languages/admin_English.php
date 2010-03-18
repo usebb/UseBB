@@ -375,6 +375,7 @@ $lang['DeleteMembersSearchMemberList'] = 'The following members were found';
 $lang['DeleteMembersConfirmMemberDelete'] = 'Confirm member deletion';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Are you sure you want to delete the member %s? This is irreversible!';
 $lang['DeleteMembersComplete'] = 'Deletion of member %s complete.';
+$lang['DeleteMembersDeletePosts'] = 'Also permanently delete the user\'s posts (useful for spam).';
 
 $lang['RegisterMembersExplain'] = 'Here you can preregister member accounts. Just fill in the following information to create an account.';
 $lang['RegisterMembersComplete'] = 'Registration of user %s is complete. The user can log in right away.';

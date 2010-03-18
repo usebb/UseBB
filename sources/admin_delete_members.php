@@ -53,8 +53,110 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
 			if ( !empty($_POST['delete']) ) {
+				
+				//
+				// Delete the member
+				//
+
+				if ( !empty($_POST['deleteposts']) ) {
 					
-				$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$_GET['id']);
+					//
+					// Delete the posts
+					// This is a tiresome process since there is no ORM or API in 1.0.
+					// A small one could have been added, but since this code was added
+					// after the closing of 1.0 development it is faster this way.
+					// It is unlikely this code will have to be edited a lot. 
+					//
+					
+					$userid = $memberdata['id'];
+					$topic_replies = $forum_lasts = $topic_firsts = $topic_lasts = array();
+					
+					// 1. Delete post entries
+					while ( $result = $db->query("SELECT t.id, t.count_replies, t.first_post_id, t.last_post_id, p.id AS post_id, f.forum_id, f.last_topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.poster_id = ".$userid) ) {
+						
+						// Calculate the remanining replies in the end
+						if ( !array_key_exists($result['id'], $topic_replies) )
+							$topic_replies[$result['id']] = $result['count_replies']-1;
+						else
+							$topic_replies[$result['id']]--;
+						
+						// Collect topics with to reset first/last ID
+						if ( $result['first_post_id'] == $result['post_id'] )
+							$topic_firsts[] = $result['id'];
+						if ( $result['last_post_id'] == $result['post_id'] ) {
+							
+							$topic_lasts[] = $result['id'];
+							if ( $result['id'] == $result['last_topic_id'] )
+								$forum_lasts = $result['forum_id'];
+						}
+
+					}
+					$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE poster_id = ".$userid);
+					
+					// 2. Delete topic entries for no replies
+					$delete_topics = array();
+					foreach ( $topic_replies as $topic => $replies ) {
+						
+						// Collect empty topics
+						if ( $replies < 1 )
+							$delete_topics[] = $topic;
+						
+					}
+					if ( count($delete_topics) ) {
+						
+						$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN(".implode(',', $delete_topics).")");
+						$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN(".implode(',', $delete_topics).")");
+						
+					}
+
+					// 3. Adjust topic first and last post IDs
+					foreach ( $topic_firsts as $topic ) {
+						
+						if ( array_key_exists($topic, $delete_topics) )
+							continue;
+
+						$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id ASC LIMIT 1");
+						$db->query("UPDATE ".TABLE_PREFIX."topics SET first_post_id = ".$result['id']." WHERE id = ".$topic);	
+					}
+					foreach ( $topic_lasts as $topic ) {
+						
+						if ( array_key_exists($topic, $delete_topics) )
+							continue;
+
+						$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id DESC LIMIT 1");
+						$db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$result['id']." WHERE id = ".$topic);	
+					}
+					
+					// 4. Adjust topic reply counts
+					foreach ( $topic_replies as $topic => $replies ) {
+						
+						if ( array_key_exists($topic, $delete_topics) )
+							continue;
+
+						$db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = ".$replies." WHERE id = ".$topic);
+						
+					}
+					
+					// 5. Adjust forum latest updated topic
+					foreach ( $forum_lasts as $forum ) {
+						
+						
+						
+					}
+					
+					// 6. Adjust forum counters
+					
+					// 7. Adjust global stats
+					
+				} else {
+					
+					//
+					// Reassign the posts to guest
+					//
+					$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$_GET['id']);
+					
+				}
+				
 				$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by = ".$_GET['id']);
 				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$_GET['id']);
 				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$_GET['id']);
@@ -75,6 +177,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content = '<h2>'.$lang['DeleteMembersConfirmMemberDelete'].'</h2>';
 			$content .= '<p><strong>'.sprintf($lang['DeleteMembersConfirmMemberDeleteContent'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</strong></p>';
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'" method="post">';
+			$content .= '<p><label><input type="checkbox" name="deleteposts" value="1" />  '.$lang['DeleteMembersDeletePosts'].'</label></p>';
 			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';
 			

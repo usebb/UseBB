@@ -50,7 +50,7 @@ $dbs = array();
 //
 // Define database configuration
 //
-$dbs['type'] = 'mysql';
+$dbs['type'] = 'mysqli';
 $dbs['server'] = 'localhost';
 $dbs['username'] = 'usebb';
 $dbs['passwd'] = 'usebb';
@@ -67,7 +67,7 @@ $conf = array();
 //
 $conf['activation_mode'] = 1;
 $conf['active_topics_count'] = 25;
-$conf['admin_email'] = 'example@example.net';
+$conf['admin_email'] = 'dietrich.moerman@gmail.com';
 $conf['allow_multi_sess'] = 1;
 $conf['allow_duplicate_emails'] = 0;
 $conf['antispam_question_mode'] = 0;
@@ -168,5 +168,6 @@ $conf['view_memberlist_min_level'] = 1;
 $conf['view_search_min_level'] = 0;
 $conf['view_stafflist_min_level'] = 0;
 $conf['view_stats_min_level'] = 1;
+$conf['installer_run'] = 1;
 
 ?>

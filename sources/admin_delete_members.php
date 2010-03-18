@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -69,40 +69,37 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					//
 					
 					$userid = $memberdata['id'];
-					$topic_replies = $forum_lasts = $topic_firsts = $topic_lasts = array();
+					$topics = $posts = 0;
+					$topic_replies = $topic_firsts = $topic_lasts = $delete_topics = array();
 					
 					// 1. Delete post entries
-					while ( $result = $db->query("SELECT t.id, t.count_replies, t.first_post_id, t.last_post_id, p.id AS post_id, f.forum_id, f.last_topic_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = p.topic_id AND f.id = t.forum_id AND p.poster_id = ".$userid) ) {
+					$result = $db->query("SELECT t.id AS topic_id, t.count_replies, t.first_post_id, t.last_post_id, p.id AS post_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND p.poster_id = ".$userid);
+					while ( $data = $db->fetch_result($result) ) {
 						
 						// Calculate the remanining replies in the end
-						if ( !array_key_exists($result['id'], $topic_replies) )
-							$topic_replies[$result['id']] = $result['count_replies']-1;
+						if ( !array_key_exists($data['topic_id'], $topic_replies) )
+							$topic_replies[$data['topic_id']] = $data['count_replies']-1;
 						else
-							$topic_replies[$result['id']]--;
+							$topic_replies[$data['topic_id']]--;
 						
 						// Collect topics with to reset first/last ID
-						if ( $result['first_post_id'] == $result['post_id'] )
-							$topic_firsts[] = $result['id'];
-						if ( $result['last_post_id'] == $result['post_id'] ) {
-							
-							$topic_lasts[] = $result['id'];
-							if ( $result['id'] == $result['last_topic_id'] )
-								$forum_lasts = $result['forum_id'];
-						}
+						if ( $data['first_post_id'] == $data['post_id'] )
+							$topic_firsts[] = $data['topic_id'];
+						if ( $data['last_post_id']  == $data['post_id'] )
+							$topic_lasts[]  = $data['topic_id'];
 
 					}
 					$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE poster_id = ".$userid);
 					
-					// 2. Delete topic entries for no replies
-					$delete_topics = array();
+					// 2. Delete topic entries with no replies
 					foreach ( $topic_replies as $topic => $replies ) {
 						
 						// Collect empty topics
-						if ( $replies < 1 )
+						if ( $replies < 0 ) # Smaller than zero, because 0 = no replies but one post
 							$delete_topics[] = $topic;
 						
 					}
-					if ( count($delete_topics) ) {
+					if ( count($delete_topics) > 0 ) {
 						
 						$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN(".implode(',', $delete_topics).")");
 						$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN(".implode(',', $delete_topics).")");
@@ -110,43 +107,60 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					}
 
 					// 3. Adjust topic first and last post IDs
+					$topic_firsts = array_diff($topic_firsts, $delete_topics);
+					$topic_lasts  = array_diff($topic_lasts,  $delete_topics);
 					foreach ( $topic_firsts as $topic ) {
 						
-						if ( array_key_exists($topic, $delete_topics) )
-							continue;
-
+						// Get the first ASC
 						$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id ASC LIMIT 1");
-						$db->query("UPDATE ".TABLE_PREFIX."topics SET first_post_id = ".$result['id']." WHERE id = ".$topic);	
+						$data = $db->fetch_result($result);
+						$db->query("UPDATE ".TABLE_PREFIX."topics SET first_post_id = ".$data['id']." WHERE id = ".$topic);	
 					}
 					foreach ( $topic_lasts as $topic ) {
 						
-						if ( array_key_exists($topic, $delete_topics) )
-							continue;
-
+						// Get the first DESC
 						$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id DESC LIMIT 1");
-						$db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$result['id']." WHERE id = ".$topic);	
+						$data = $db->fetch_result($result);
+						$db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$data['id']." WHERE id = ".$topic);	
 					}
 					
 					// 4. Adjust topic reply counts
 					foreach ( $topic_replies as $topic => $replies ) {
 						
-						if ( array_key_exists($topic, $delete_topics) )
+						if ( in_array($topic, $delete_topics) )
 							continue;
 
 						$db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = ".$replies." WHERE id = ".$topic);
-						
+
 					}
 					
-					// 5. Adjust forum latest updated topic
-					foreach ( $forum_lasts as $forum ) {
+					// 5. Adjust forum latest updated topic and counters
+					// Simply do this for all forums, or it gets too complicated above
+					$result = $db->query("SELECT forum_id, COUNT(id) AS topics, SUM(count_replies) AS replies FROM ".TABLE_PREFIX."topics GROUP BY forum_id");
+					while ( $forum = $db->fetch_result($result) ) {
 						
-						
-						
+						$topics += $forum['topics'];
+						$posts += ($forum['topics'] + $forum['replies']); # Because replies does not include the first post
+
+						if ( $forum['topics'] > 0 ) {
+							
+							// Select last updated topic in forum
+							$topicresult = $db->query("SELECT id FROM ".TABLE_PREFIX."topics WHERE forum_id = ".$forum['forum_id']." ORDER BY last_post_id DESC LIMIT 1");
+							$topic = $db->fetch_result($topicresult);
+							$last_topic_id = $topic['id'];
+
+						} else {
+							
+							$last_topic_id = 0;
+
+						}
+						$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = ".$forum['topics'].", posts = ".($forum['topics'] + $forum['replies']).", last_topic_id = ".$last_topic_id." WHERE id = ".$forum['forum_id']);
+
 					}
 					
-					// 6. Adjust forum counters
-					
-					// 7. Adjust global stats
+					// 6. Adjust global stats
+					$db->query("UPDATE ".TABLE_PREFIX."stats SET content = ".$topics." WHERE name = 'topics'");
+					$db->query("UPDATE ".TABLE_PREFIX."stats SET content = ".$posts." WHERE name = 'posts'");
 					
 				} else {
 					

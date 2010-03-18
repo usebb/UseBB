@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2009 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -375,6 +375,7 @@ $lang['DeleteMembersSearchMemberList'] = 'De volgende leden werden gevonden';
 $lang['DeleteMembersConfirmMemberDelete'] = 'Bevestigen van verwijderen lid';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Ben je zeker dat je het lid %s wilt verwijderen? Dit is onomkeerbaar!';
 $lang['DeleteMembersComplete'] = 'Lid %s werd succesvol verwijderd.';
+$lang['DeleteMembersDeletePosts'] = 'Verwijder ook permanent de berichten van de gebruiker (handig voor spam).';
 
 $lang['RegisterMembersExplain'] = 'Hier kan je accounts voorregistreren. Vul de volgende informatie in om een account aan te maken.';
 $lang['RegisterMembersComplete'] = 'Registratie van gebruiker %s voltooid. De gebruiker kan meteen inloggen.';

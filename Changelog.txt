@@ -3,6 +3,7 @@ $Header$
 UseBB 1.0.11 Changelog
 ------------------------------
 
+- Added possibility to remove user's posts upon removing user in ACP.
 - Removed ICQ status icons from profile.
 - Hide "deprecated" warnings from PHP 5.3.
 

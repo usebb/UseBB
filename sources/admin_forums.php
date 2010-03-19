@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2009 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2009 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -182,10 +182,20 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 					$db->query("UPDATE ".TABLE_PREFIX."moderators SET forum_id = ".$_POST['move_contents']." WHERE forum_id = ".$_GET['id']);
 					
 				}
+
+				//
+				// Delete with unchanged stats
+				//
+				$admin_functions->delete_forums('id = '.$_GET['id'], false);
 				
+			} else {
+				
+				//
+				// Delete with changed stats
+				//
+				$admin_functions->delete_forums('id = '.$_GET['id'], true);
+
 			}
-				
-			$admin_functions->delete_forums('id = '.$_GET['id'], false);
 			
 		}
 		

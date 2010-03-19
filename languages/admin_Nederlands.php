@@ -376,6 +376,7 @@ $lang['DeleteMembersConfirmMemberDelete'] = 'Bevestigen van verwijderen lid';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Ben je zeker dat je het lid %s wilt verwijderen? Dit is onomkeerbaar!';
 $lang['DeleteMembersComplete'] = 'Lid %s werd succesvol verwijderd.';
 $lang['DeleteMembersDeletePosts'] = 'Verwijder ook permanent de berichten van de gebruiker (handig voor spam).';
+$lang['DeleteMembersBanEmail'] = 'Ban e-mailadres';
 
 $lang['RegisterMembersExplain'] = 'Hier kan je accounts voorregistreren. Vul de volgende informatie in om een account aan te maken.';
 $lang['RegisterMembersComplete'] = 'Registratie van gebruiker %s voltooid. De gebruiker kan meteen inloggen.';

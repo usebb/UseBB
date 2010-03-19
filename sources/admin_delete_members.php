@@ -45,10 +45,14 @@ if ( !defined('INCLUDED') )
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT id, name FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+	$result = $db->query("SELECT id, name, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] ) {
+		
+		$userid = $memberdata['id'];
+		$email = $memberdata['email'];
+		$email_wildcard = substr_replace($email, '*', 0, strpos($email, '@'));
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
@@ -68,7 +72,6 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					// It is unlikely this code will have to be edited a lot. 
 					//
 					
-					$userid = $memberdata['id'];
 					$topics = $posts = 0;
 					$topic_replies = $topic_firsts = $topic_lasts = $delete_topics = array();
 					
@@ -167,15 +170,43 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					//
 					// Reassign the posts to guest
 					//
-					$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$_GET['id']);
+					$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$userid);
 					
 				}
+
+				//
+				// Ban email address
+				//
+				if ( !empty($_POST['banemail']) ) {
+					
+					$toban = '';
+					switch ( $_POST['banemail'] ) {
+						
+						// example@example.net
+						case 'email':
+							$toban = $email;
+							break;
+						// *@example.net
+						case 'wildcard':
+							$toban = $email_wildcard;
+							break;
+
+					}
+
+					if ( !empty($toban) ) {
+						
+						$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE email = '".$toban."'");
+						$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '".$toban."', '')");
+						
+					}
+
+				}
 				
-				$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by = ".$_GET['id']);
-				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$_GET['id']);
-				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$_GET['id']);
-				$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
-				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = ".$_GET['id']);
+				$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by = ".$userid);
+				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id = ".$userid);
+				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$userid);
+				$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id = ".$userid);
+				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = ".$userid);
 				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'members'");
 				
 				$content = '<p>'.sprintf($lang['DeleteMembersComplete'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</p>';
@@ -192,6 +223,11 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<p><strong>'.sprintf($lang['DeleteMembersConfirmMemberDeleteContent'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</strong></p>';
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'" method="post">';
 			$content .= '<p><label><input type="checkbox" name="deleteposts" value="1" />  '.$lang['DeleteMembersDeletePosts'].'</label></p>';
+			$content .= '<fieldset><legend>'.$lang['DeleteMembersBanEmail'].'</legend>';
+				$content .= '<label><input type="radio" name="banemail" value="email" /> '.$email.'</label> &nbsp;';
+				$content .= '<label><input type="radio" name="banemail" value="wildcard" /> '.$email_wildcard.'</label> &nbsp;';
+				$content .= '<label><input type="radio" name="banemail" value="0" checked="checked" /> '.$lang['No'].'</label>';
+			$content .= '</fieldset>';
 			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';
 			

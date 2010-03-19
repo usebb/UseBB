@@ -119,8 +119,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$username = unhtml(stripslashes($profiledata['displayed_name']));
 			if ( $functions->get_user_level() == LEVEL_ADMIN || $own_profile )
 				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
-			if ( $functions->get_user_level() == LEVEL_ADMIN && !$own_profile )
+			if ( $functions->get_user_level() == LEVEL_ADMIN && !$own_profile ) {
+
 				$username .= $template->get_config('item_delimiter').'<a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $_GET['id'])).'">'.$lang['EditThisMember'].'</a>';
+				$username .= $template->get_config('item_delimiter').'<a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'">'.$lang['Delete'].'</a>';
+
+			}
 			
 			switch ( $profiledata['level'] ) {
 				

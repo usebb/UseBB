@@ -9,6 +9,7 @@ UseBB 1.0.11 Changelog
 - Added user delete link for admin on profiles.
 - Removed ICQ status icons from profile.
 - Hide "deprecated" warnings from PHP 5.3.
+- Forum select boxes are larger.
 
 UseBB 1.0.10 Changelog
 ------------------------------

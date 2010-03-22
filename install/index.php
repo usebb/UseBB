@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -271,7 +271,7 @@ $out .= '		</form>
 	</div>
 </div>
 
-<p id="copyright">Powered by UseBB &middot; Copyright &copy; 2003-2009 <a href="http://www.usebb.net">UseBB Team</a></p>
+<p id="copyright">&copy; <a href="http://www.usebb.net">UseBB Project</a></p>
 
 </body>
 </html>';

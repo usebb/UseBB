@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2009 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2009 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  */
 
@@ -447,8 +447,9 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				
 			} else {
 				
-				$forums_input = '<select name="forums[]" size="10" multiple="multiple"><option value="all"'.$forums_all_selected.'>'.$lang['AllForums'].'</option>';
+				$forums_input = '';
 				$seen_cats = array();
+				$items = 1;
 				$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id IN( ".join(', ', $forum_ids)." ) ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
 				while ( $forumdata = $db->fetch_result($result) ) {
 					
@@ -457,14 +458,17 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 						$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
 						$forums_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
 						$seen_cats[] = $forumdata['cat_id'];
+						$items++;
 						
 					}
 					
 					$selected = ( empty($forums_all_selected) && in_array($forumdata['id'], $_REQUEST['forums']) ) ? ' selected="selected"' : '';
 					$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forum_names[$forumdata['id']])).'</option>';
+					$items++;
 					
 				}
-				$forums_input .= '</optgroup></select>';
+				$input_size = min($items, max(15, ceil($items/2)));
+				$forums_input = '<select name="forums[]" size="'.$input_size.'" multiple="multiple"><option value="all"'.$forums_all_selected.'>'.$lang['AllForums'].'</option>'.$forums_input.'</optgroup></select>';
 				
 			}
 			

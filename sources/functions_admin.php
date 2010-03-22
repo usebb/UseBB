@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -416,8 +416,9 @@ class admin_functions {
 			
 		}
 		
-		$forums_input = ( $multiple ) ? '<select name="'.$input_name.'[]" size="5" multiple="multiple">' : '<select name="'.$input_name.'">';
+		$forums_input = '';
 		$seen_cats = array();
+		$items = 0;
 		
 		if ( !empty($_POST[$input_name]) ) {
 			
@@ -440,15 +441,21 @@ class admin_functions {
 				$forums_input .= ( !count($seen_cats) ) ? '' : '</optgroup>';
 				$forums_input .= '<optgroup label="'.unhtml(stripslashes($forumdata['cat_name'])).'">';
 				$seen_cats[] = $forumdata['cat_id'];
+				$items++;
 				
 			}
 			
 			$selected = ( in_array($forumdata['id'], $_POST[$input_name]) ) ? ' selected="selected"' : '';
 			$forums_input .= '<option value="'.$forumdata['id'].'"'.$selected.'>'.unhtml(stripslashes($forumdata['name'])).'</option>';
+			$items++;
 			
 		}
-		$forums_input .= '</optgroup>'.$add.'</select>';
-		return $forums_input;
+		$forums_input .= '</optgroup>'.$add;
+
+		if ( $multiple )
+			return '<select name="'.$input_name.'[]" size="'.$items.'" multiple="multiple">'.$forums_input.'</select>';
+		else
+			return '<select name="'.$input_name.'">'.$forums_input.'</select>';
 		
 	}
 	

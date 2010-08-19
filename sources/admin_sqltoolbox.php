@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage	ACP
  */
@@ -42,6 +42,15 @@
 //
 if ( !defined('INCLUDED') )
 	exit();
+
+//
+// Function used for array_map().
+//
+function sqltoolbox_resultval_clean($string) {
+
+	return unhtml(stripslashes(trim($string)));
+
+}
 
 if ( isset($_POST['warned']) )
 	$_SESSION['sqltoolbox_warned'] = true;
@@ -55,30 +64,44 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 } else {
 	
 	$content = '<h2>'.$lang['SQLToolboxExecuteQuery'].'</h2><p>'.$lang['SQLToolboxExecuteQueryInfo'].'</p>';
+	$result_content = '';
 	
 	if ( !empty($_POST['query']) ) {
 		
 		$result = $db->query(stripslashes($_POST['query']), true);
 		
 		if ( is_resource($result) || is_object($result) ) {
-			
-			$results = array();
-			while ( $out = $db->fetch_result($result) )
-				$results[] = $out;
-			ob_start();
-			print_r($results);
-			$results = ob_get_contents();
-			ob_end_clean();
-			$results = unhtml(stripslashes(trim($results)));
-			$content .= '<p><textarea rows="5" cols="50" readonly="readonly" id="resultset">'.$results.'</textarea></p>';
+
+			$result_content .= '<div id="resultset"><table id="adminregulartable">';
+			$columns_printed = false;
+			$num = 0;
+
+			while ( $out = $db->fetch_result($result) ) {
+
+				if ( !$columns_printed ) {
+					
+					$columns = array_map('sqltoolbox_resultval_clean', array_keys($out));
+					$result_content .= "\n".'<tr><th>#</th><th>'. implode('</th><th>', $columns) .'</th></tr>';
+					$columns_printed = true;
+
+				}
+
+				$num++;
+
+				$values = array_map('sqltoolbox_resultval_clean', $out);
+				$result_content .= "\n".'<tr><td>('.$num.')</td><td>'. implode('</td><td>', $values) .'</td></tr>';
+
+			}
+
+			$result_content .= '</table></div>';
 			
 		} elseif ( $result === true ) {
 			
-			$content .= '<p>'.$lang['SQLToolboxExecutedSuccessfully'].'</p>';
+			$result_content .= '<p>'.$lang['SQLToolboxExecutedSuccessfully'].'</p>';
 			
 		} else {
 			
-			$content .= '<p><strong>'.unhtml($result).'.</strong></p>';
+			$result_content .= '<p><strong>'.unhtml($result).'.</strong></p>';
 			
 		}
 		
@@ -95,6 +118,8 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	$content .= '</ul>';
 	$content .= '<p><textarea name="query" id="tags-txtarea" rows="5" cols="50">'.unhtml(stripslashes($_POST['query'])).'</textarea></p>';
 	$content .= '<p class="submit"><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
+
+	$content .= $result_content;
 	
 	$content .= '<h2>'.$lang['SQLToolboxMaintenance'].'</h2><p>'.$lang['SQLToolboxMaintenanceInfo'].'</p><ul id="adminfunctionsmenu">';
 	

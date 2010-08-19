@@ -112,7 +112,9 @@ h1#admintitle {
 	color: #000;
 }
 #admincontent #resultset {
-	font-size: 8pt;
+	overflow: scroll;
+	padding: 3px;
+	max-height: 500px;
 }
 .adminconfigtable, #adminregulartable {
 	border-collapse: collapse;
@@ -210,3 +212,4 @@ ul#adminsqlbuttons li a {
 	color: #666;
 	font-size: 7pt;
 }
+

@@ -9,9 +9,9 @@ UseBB 1.0.11 Changelog
 - Fixed bug that didn't update stats on full forum delete.
 - Fixed bug that didn't adjust posts from certain members upon member pruning.
 - Fixed bug #2492: never logged in users are always pruned with member pruning.
+- Fixed bug #2488: CSS overflow for post contents.
 - Added user delete link for admin on profiles.
 - SQL toolbox now prints usable HTML table for results instead of textbox.
-- Fixed CSS overflow for post contents.
 - Removed ICQ status icons from profile.
 - Hide "deprecated" warnings from PHP 5.3.
 - Forum select boxes are larger.

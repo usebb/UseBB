@@ -254,6 +254,8 @@ $lang['ConfigBoard-antispam_question_mode1'] = 'Random math question';
 $lang['ConfigBoard-antispam_question_mode2'] = 'Randomly chosen custom question';
 $lang['ConfigBoard-antispam_question_questions'] = 'Custom anti-spam questions';
 $lang['ConfigBoard-antispam_question_questions-info'] = 'Questions in the form of &quot;question|answer&quot; (without quotes), separated by newlines. The answer is case-insensitive.';
+$lang['ConfigBoard-enable_error_log'] = 'Enable error log';
+$lang['ConfigBoard-enable_error_log-info'] = 'Logs errors using PHP\'s logging mechanism. See PHP error_log configuration option.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

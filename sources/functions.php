@@ -513,7 +513,7 @@ function checkdnsrr_win($host, $type='') {
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2009 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -541,7 +541,7 @@ class functions {
 	 */
 	function usebb_die($errno, $error, $file, $line) {
 		
-		global $db, $dbs, $template;
+		global $db, $dbs, $template, $session;
 		
 		//
 		// Ignore various warnings:
@@ -597,7 +597,8 @@ class functions {
 			
 		}
 		
-		error_log('[UseBB Error] ['.date('D M d G:i:s Y').'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
+		if ( $this->get_config('enable_error_log') )
+			error_log('[UseBB Error] ['.date('Y-m-d H:i:s').'] ['.$session->sess_info['ip_addr'].'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
 		
 		//
 		// Filter some sensitive data
@@ -823,6 +824,7 @@ class functions {
 				case 'disable_xhtml_header':
 				case 'hide_db_config_acp':
 				case 'cookie_httponly':
+				case 'enable_error_log':
 					$set_to = true;
 					break;
 				case 'view_search_min_level':

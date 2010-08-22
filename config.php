@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2009 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2009 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  */
 
@@ -103,6 +103,7 @@ $conf['enable_contactadmin'] = 1;
 $conf['enable_detailed_online_list'] = 1;
 $conf['enable_dnsbl_powered_banning'] = 0;
 $conf['enable_email_dns_check'] = 0;
+$conf['enable_error_log'] = 1;
 $conf['enable_forum_stats_box'] = 1;
 $conf['enable_ip_bans'] = 0;
 $conf['enable_memberlist'] = 1;

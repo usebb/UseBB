@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2009 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2009 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */
@@ -2326,13 +2326,13 @@ class functions {
 		
 		switch ( $level ) {
 			
-			case 3:
+			case LEVEL_ADMIN:
 				$levelclass = ' class="administrator"';
 				break;
-			case 2:
+			case LEVEL_MOD:
 				$levelclass = ' class="moderator"';
 				break;
-			case 1:
+			case LEVEL_MEMBER:
 				$levelclass = '';
 				break;
 			default:

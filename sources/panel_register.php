@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage	Panel
  */
@@ -187,17 +187,22 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 			switch ( intval($functions->get_config('activation_mode')) ) {
 				
+				// No activation
 				case 0:
 					$active = 1;
 					$active_key_md5 = '';
 					$msgbox_content = sprintf($lang['RegisteredActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
 					break;
+				
+				// E-mail activation
 				case 1:
 					$active = 0;
 					$active_key = $functions->random_key(); # used in the email url
 					$active_key_md5 = md5($active_key);
 					$msgbox_content = sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
 					break;
+				
+				// Admin activation
 				case 2:
 					$active = 0;
 					$active_key_md5 = '';

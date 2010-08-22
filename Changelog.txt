@@ -18,6 +18,7 @@ UseBB 1.0.11 Changelog
 - Hide "deprecated" warnings from PHP 5.3.
 - Forum select boxes are larger.
 - "Remember me" now unchecked on login form.
+- Single error for unexisting user and wrong password on login form.
 
 UseBB 1.0.10 Changelog
 ------------------------------

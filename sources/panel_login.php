@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -32,7 +32,7 @@
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage	Panel
  */
@@ -79,7 +79,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>').' '.$lang['RegisterIt']
+			'content' => sprintf($lang['WrongUsernamePassword'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} elseif ( $userdata['banned'] ) {
@@ -146,7 +146,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => $lang['WrongPassword']
+			'content' => sprintf($lang['WrongUsernamePassword'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	}
@@ -167,7 +167,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			$errors = array();
 			if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( empty($_POST['passwd']) || !preg_match(PWD_PREG, $_POST['passwd']) || strlen($_POST['passwd']) < $functions->get_config('passwd_min_length') )
+			if ( empty($_POST['passwd']) || !preg_match(PWD_PREG, $_POST['passwd']) )
 				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {

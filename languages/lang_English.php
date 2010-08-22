@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2010 UseBB Team
 	http://www.usebb.net
 	
 	$Header$
@@ -503,5 +503,6 @@ $lang['Answer'] = 'Answer';
 $lang['AntiSpamQuestionMathPlus'] = 'How much is %d plus %d?';
 $lang['AntiSpamQuestionMathMinus'] = 'How much is %d minus %d?';
 $lang['AntiSpamWrongAnswer'] = 'The submitted answer is wrong. Please fill in the correct answer to access this component.';
+$lang['WrongUsernamePassword'] = 'The username (%s) and password combination is not correct. Please try again.';
 
 ?>

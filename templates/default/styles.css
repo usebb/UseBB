@@ -128,6 +128,7 @@ blockquote.quote .content {
 	background-position: top right;
 	background-color: #FFF;
 	border: 1px solid #BFBFBF;
+	width: 492px;
 	overflow: auto;
 }
 hr {
@@ -490,6 +491,7 @@ table.maintable td.postcontent {
 	vertical-align: top;
 }
 table.maintable td.postcontent .post {
+	width: 564px;
 	overflow: auto;
 	font-size: 10pt;
 	cursor: auto;

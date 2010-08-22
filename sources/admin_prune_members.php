@@ -68,7 +68,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 			$query_where_part = "posts = 0 AND regdate < ".( time() - $_POST['np_registered_days_ago'] * 86400 );
 			break;
 		case 'not_logged_in':
-			$query_where_part = "last_login < ".( time() - $_POST['last_logged_in'] * 86400 );
+			$query_where_part = "GREATEST(last_login, regdate) < ".( time() - $_POST['last_logged_in'] * 86400 );
 		
 	}
 	
@@ -78,7 +78,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 		$query_where_part .= " AND level <> ".LEVEL_MOD;
 	
 	$filled_in = true;
-	$result = $db->query("SELECT id, name, level, posts FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY name ASC");
+	$result = $db->query("SELECT id, name, level FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY name ASC");
 	
 }
 
@@ -93,9 +93,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
 	while ( $memberdata = $db->fetch_result($result) ) {
 		
 		$prune_members[] = $memberdata['id'];
-		
-		if ( $memberdata['posts'] )
-			$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$memberdata['id']);
+		$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$memberdata['id']);
 		
 	}
 	

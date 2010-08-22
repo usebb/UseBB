@@ -17,6 +17,7 @@ UseBB 1.0.11 Changelog
 - Removed ICQ status icons from profile.
 - Hide "deprecated" warnings from PHP 5.3.
 - Forum select boxes are larger.
+- "Remember me" now unchecked on login form.
 
 UseBB 1.0.10 Changelog
 ------------------------------

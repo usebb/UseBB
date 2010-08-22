@@ -6,10 +6,12 @@ UseBB 1.0.11 Changelog
 - Added possibility to remove user's posts upon removing user in ACP.
 - Added possibility to ban user's email address or domain upon removing user in ACP.
 - Added preview feature for member pruning in ACP.
+- Fixed security issue with forum/topic RSS feeds with "read" forum permission.
 - Fixed bug that didn't update stats on full forum delete.
 - Fixed bug that didn't adjust posts from certain members upon member pruning.
 - Fixed bug #2492: never logged in users are always pruned with member pruning.
 - Fixed bug #2488: CSS overflow for post contents.
+- Fixed bug #2451: 403 error for active topics feed when no topics available.
 - Added user delete link for admin on profiles.
 - SQL toolbox now prints usable HTML table for results instead of textbox.
 - Removed ICQ status icons from profile.

@@ -145,8 +145,22 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Get the topics
 	//
+
+	if ( $functions->auth($forumdata['auth'], 'read', $_GET['forum']) ) {
+		
+		$can_read = true;
+		$add_to_query = array("p.content", "p.enable_bbcode", "p.enable_smilies", "p.enable_html");
+		
+	} else {
+		
+		$can_read = false;
+		$add_to_query = array();
+		
+	}
+
+	$add_to_query = count($add_to_query) ? ', '.implode(', ', $add_to_query) : '';
 	
-	$result = $db->query("SELECT t.id, t.topic_title, p.poster_id, p.poster_guest, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_html, m.displayed_name FROM ".TABLE_PREFIX."topics t LEFT JOIN ".TABLE_PREFIX."posts p ON t.first_post_id = p.id LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE t.forum_id = ".$_GET['forum']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	$result = $db->query("SELECT t.id, t.topic_title, p.poster_id, p.poster_guest, p.post_time, m.displayed_name".$add_to_query." FROM ".TABLE_PREFIX."topics t LEFT JOIN ".TABLE_PREFIX."posts p ON t.first_post_id = p.id LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE t.forum_id = ".$_GET['forum']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 	
 	while ( $topicdata = $db->fetch_result($result) ) {
 		
@@ -154,7 +168,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		
 		$template->parse('topic', 'rss', array(
 			'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true),
-			'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true),
+			'description' => $can_read ? $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true) : '',
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['displayed_name'] : $topicdata['poster_guest']), true),
 			'link' => $link,
@@ -194,7 +208,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Topic is not accessible
 	//
-	if ( !$functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )
+	if ( !$functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) )
 		rss_error(403);
 	
 	$topic_name = unhtml(stripslashes($topicdata['topic_title']), true);
@@ -256,12 +270,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	// Excluded forums
 	//
 	$exclude_forums = $functions->get_config('exclude_forums_rss');
-	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " AND id NOT IN (".join(', ', $exclude_forums).")" : '';
+	$exclude_forums_query_part = ( is_array($exclude_forums) && count($exclude_forums) ) ? " WHERE id NOT IN (".join(', ', $exclude_forums).")" : '';
 	
 	//
 	// Get a list of forums
 	//
-	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE topics > 0".$exclude_forums_query_part);
+	$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums".$exclude_forums_query_part);
 	
 	$forum_ids = $forum_names = array();
 	while ( $forumdata = $db->fetch_result($result) ) {

@@ -597,8 +597,19 @@ class functions {
 			
 		}
 		
-		if ( $this->get_config('enable_error_log') )
-			error_log('[UseBB Error] ['.date('Y-m-d H:i:s').'] ['.$session->sess_info['ip_addr'].'] ['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] ['.$file.':'.$line.']');
+		//
+		// Log using PHP's mechanism
+		//
+		if ( $this->get_config('enable_error_log') ) {
+			
+			$ip_addr = ( is_object($session) && !empty($session->sess_info['ip_addr']) ) ? $session->sess_info['ip_addr'] : '?';
+			error_log('[UseBB Error] '
+				.'['.date('Y-m-d H:i:s').'] '
+				.'['.$ip_addr.'] '
+				.'['.$errtype.' - '.preg_replace('#(?:\s+|\s)#', ' ', $error).'] '
+				.'['.$file.':'.$line.']');
+
+		}
 		
 		//
 		// Filter some sensitive data
@@ -726,83 +737,19 @@ class functions {
 		global $session;
 		
 		//
-		// Load settings into array
+		// Load settings into array.
 		//
 		if ( !count($this->board_config_original) )
 			$this->board_config_original = $GLOBALS['conf'];
 		
 		//
-		// users_must_activate was renamed to activation_mode
+		// users_must_activate was renamed to activation_mode.
 		//
 		if ( $setting == 'activation_mode' && !array_key_exists($setting, $this->board_config_original) )
 			$setting = 'users_must_activate';
 		
 		//
-		// Get original settings
-		//
-		if ( defined('IS_INSTALLER') || $original )
-			return ( array_key_exists($setting, $this->board_config_original) ) ? $this->board_config_original[$setting] : false;
-		
-		//
-		// If this settings was requested already, return
-		//
-		if ( array_key_exists($setting, $this->board_config) )
-			return $this->board_config[$setting];
-		
-		//
-		// User-based settings
-		//
-		if ( is_object($session) && !empty($session->sess_info['user_id']) && array_key_exists($setting, $session->sess_info['user_info']) ) {
-			
-			switch ( $setting ) {
-				
-				case 'language':
-					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) );
-					break;
-				case 'template':
-					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) );
-					break;
-				default:
-					$keep_default = false;
-				
-			}
-			
-			$this->board_config[$setting] = ( $keep_default ) ? $this->board_config_original[$setting] : $session->sess_info['user_info'][$setting];
-			return $this->board_config[$setting];
-			
-		}
-		
-		//
-		// Auto-detected settings
-		//
-		if ( in_array($setting, array('board_url', 'cookie_domain', 'cookie_path')) && empty($this->board_config_original[$setting]) ) {
-			
-			switch ( $setting ) {
-				
-				case 'board_url':
-					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
-					if ( ON_WINDOWS )
-						$path_parts['dirname'] = str_replace('\\', '/', $path_parts['dirname']);
-					if ( substr($path_parts['dirname'], -1) != '/' )
-						$path_parts['dirname'] .= '/';
-					$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
-					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
-					break;
-				case 'cookie_domain':
-					$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
-					break;
-				case 'cookie_path':
-					$set_to = '/';
-				
-			}
-			
-			$this->board_config[$setting] = $set_to;
-			return $this->board_config[$setting];
-			
-		}
-		
-		//
-		// Missing settings
+		// Some missing (newer) settings have default values and are added to original config.
 		//
 		if ( !array_key_exists($setting, $this->board_config_original) ) {
 			
@@ -845,18 +792,91 @@ class functions {
 					$set_to = 100;
 					break;
 				default:
-					$set_to = false;
+					$set_to = null;
+				
+			}
+			
+			if ( $set_to !== null )
+				$this->board_config_original[$setting] = $set_to;
+			
+		}
+
+		//
+		// Get original settings when requested.
+		// Treat a missing one as "false".
+		//
+		if ( defined('IS_INSTALLER') || $original )
+			return ( array_key_exists($setting, $this->board_config_original) ) ? $this->board_config_original[$setting] : false;
+		
+		//
+		// As of here, settings are altered and no longer "original",
+		// e.g. can contain inherited settings from user accounts or be computed.
+		//
+		// ====================
+		//
+
+		//
+		// Settings cache for this request.
+		//
+		if ( array_key_exists($setting, $this->board_config) )
+			return $this->board_config[$setting];
+		
+		//
+		// User-based settings.
+		//
+		if ( is_object($session) && !empty($session->sess_info['user_id']) && array_key_exists($setting, $session->sess_info['user_info']) ) {
+			
+			switch ( $setting ) {
+				
+				case 'language':
+					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_language_packs()) );
+					break;
+				case 'template':
+					$keep_default = ( !in_array($session->sess_info['user_info'][$setting], $this->get_template_sets()) );
+					break;
+				default:
+					$keep_default = false;
+				
+			}
+			
+			$this->board_config[$setting] = ( $keep_default ) ? $this->board_config_original[$setting] : $session->sess_info['user_info'][$setting];
+			return $this->board_config[$setting];
+			
+		}
+		
+		//
+		// Auto-detected settings when empty.
+		//
+		if ( in_array($setting, array('board_url', 'cookie_domain', 'cookie_path')) && empty($this->board_config_original[$setting]) ) {
+			
+			switch ( $setting ) {
+				
+				case 'board_url':
+					$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+					if ( ON_WINDOWS )
+						$path_parts['dirname'] = str_replace('\\', '/', $path_parts['dirname']);
+					if ( substr($path_parts['dirname'], -1) != '/' )
+						$path_parts['dirname'] .= '/';
+					$protocol = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ) ? 'https' : 'http';
+					$set_to = $protocol.'://'.$_SERVER['HTTP_HOST'].$path_parts['dirname'];
+					break;
+				case 'cookie_domain':
+					$set_to = ( !empty($_SERVER['SERVER_NAME']) && preg_match('#^(?:[a-z0-9\-]+\.){1,}[a-z]{2,}$#i', $_SERVER['SERVER_NAME']) ) ? preg_replace('#^www\.#', '.', $_SERVER['SERVER_NAME']) : '';
+					break;
+				case 'cookie_path':
+					$set_to = '/';
 				
 			}
 			
 			$this->board_config[$setting] = $set_to;
 			return $this->board_config[$setting];
 			
-		} elseif ( in_array($setting, array('board_url', 'session_name')) ) {
-			
-			//
-			// Not missing, but need validity checking
-			//
+		}
+		
+		//
+		// Settings that need validity checking.
+		//
+		if ( in_array($setting, array('board_url', 'session_name')) ) {
 			
 			$set_to = $this->board_config_original[$setting];
 			
@@ -871,9 +891,11 @@ class functions {
 		}
 		
 		//
-		// All other settings taken from the original array
+		// All other settings taken from the original array.
+		// Use false when setting does not exist.
 		//
-		$this->board_config[$setting] = $this->board_config_original[$setting];
+		$this->board_config[$setting] = array_key_exists($setting, $this->board_config_original) ? $this->board_config_original[$setting] : false;
+
 		return $this->board_config[$setting];
 		
 	}

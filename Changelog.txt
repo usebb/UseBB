@@ -13,6 +13,7 @@ UseBB 1.0.11 Changelog
 - Fixed bug #2492: never logged in users are always pruned with member pruning.
 - Fixed bug #2488: CSS overflow for post contents.
 - Fixed bug #2451: 403 error for active topics feed when no topics available.
+- Fixed new/missing settings' wrong default values in ACP.
 - Added user delete link for admin on profiles.
 - SQL toolbox now prints usable HTML table for results instead of textbox.
 - Removed ICQ status icons from profile.

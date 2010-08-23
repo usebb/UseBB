@@ -58,7 +58,7 @@ if ( !defined('IS_INSTALLER') && $functions->get_user_level() < LEVEL_ADMIN )
  * @link	http://www.usebb.net
  * @license	GPL-2
  * @version	$Revision$
- * @copyright	Copyright (C) 2003-2007 UseBB Team
+ * @copyright	Copyright (C) 2003-2010 UseBB Team
  * @package	UseBB
  * @subpackage Core
  */

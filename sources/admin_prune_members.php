@@ -183,8 +183,6 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
 			$content .= '<label><input type="checkbox" name="exclude_mods" value="1"'.$exclude_mods_checked.' /> '.$lang['Moderators'].'</label>';
 		$content .= '</fieldset>';
 		
-		$content .= '<p class="submit"><input type="submit" value="'.$lang['PruneMembersPreview'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p>';
-
 		//
 		// Preview members
 		//
@@ -200,18 +198,35 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
 
 			}
 			
-			$content .= '<p>'. sprintf($lang['PruneMembersPreviewList'], $num, implode(', ', $prune_members)) .'</p>';
+			$result_text = sprintf($lang['PruneMembersPreviewList'], $num);
+			if ( $num > 0 )
+				$content .= '<fieldset><legend>'.$result_text.'</legend>'.implode(', ', $prune_members).'.</fieldset>';
+			else
+				$content .= '<p>'.$result_text.'</p>';
 
 		}
-
+		
+		//
+		// Preview and reset buttons
+		//
+		$content .= '<p class="submit"><input type="submit" value="'.$lang['PruneMembersPreview'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p>';
+		
+		//
+		// Current settings warning
+		//
+		if ( $filled_in )
+			$content .= '<p><strong>'.sprintf($lang['PruneMembersUsesCurrentSettings'], '&quot;'.$lang['PruneMembersStart'].'&quot;').'</strong></p>';
+		
 		//
 		// Notice when not confirmed on filled in and pruning
 		//
 		if ( $filled_in && !empty($_POST['dopruning']) )
 			$content .= '<p><strong>'.$lang['PruneMembersNotConfirmed'].'</strong></p>';
-
+		
+		//
+		// Confirmation and prune button
+		//
 		$content .= '<p><label><input type="checkbox" name="confirm" value="1" /> '.$lang['PruneMembersConfirmText'].'</label></p>';
-
 		$content .= '<p class="submit"><input type="submit" name="dopruning" value="'.$lang['PruneMembersStart'].'" /></p>';
 	$content .= '</form>';
 	

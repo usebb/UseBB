@@ -254,6 +254,8 @@ $lang['ConfigBoard-antispam_question_mode1'] = 'Willekeurige wiskundige vraag';
 $lang['ConfigBoard-antispam_question_mode2'] = 'Willekeurig gekozen aangepaste vraag';
 $lang['ConfigBoard-antispam_question_questions'] = 'Aangepaste anti-spamvragen';
 $lang['ConfigBoard-antispam_question_questions-info'] = 'Vragen in de vorm van &quot;vraag|antwoord&quot; (zonder aanhalingstekens), gescheiden door nieuwe regels. Het antwoord is hoofdletterongevoelig.';
+$lang['ConfigBoard-enable_error_log'] = 'Foutenlog inschakelen';
+$lang['ConfigBoard-enable_error_log-info'] = 'Log fouten met PHP\'s loggingmechanisme. Zie PHP error_log-configuratieoptie.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';
@@ -411,8 +413,11 @@ $lang['PruneMembersTypeNeverPosted'] = 'Leden die nooit berichten plaatsten';
 $lang['PruneMembersTypeInactive'] = 'Inactieve leden';
 $lang['PruneMembersLastLoggedIn'] = 'De laatste maal ingelogd ten minste %s dagen geleden.';
 $lang['PruneMembersExclude'] = 'Uitsluiten';
+$lang['PruneMembersPreview'] = 'Voorvertoning Gebruikers';
+$lang['PruneMembersPreviewList'] = 'Met de verzonden instellingen zullen %d leden worden gepruned.';
+$lang['PruneMembersUsesCurrentSettings'] = 'Waarschuwing! %s gebruikt de huidige opgegeven instellingen, niet de laatste voorvertoning van gebruikers.';
 $lang['PruneMembersConfirmText'] = 'Ik begrijp dat deze actie onherroepelijk is.';
-$lang['PruneMembersStart'] = 'Start prunen';
+$lang['PruneMembersStart'] = 'Start Prunen';
 $lang['PruneMembersNotConfirmed'] = 'Je moet deze actie eerst bevestigen.';
 $lang['PruneMembersDone'] = 'Het prunen is voltooid. %d leden werden gepruned.';
 

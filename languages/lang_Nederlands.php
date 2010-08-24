@@ -135,7 +135,6 @@ Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het i
 [admin_email]';
 $lang['SendpwdEmailSubject'] = 'Nieuw Wachtwoord';
 $lang['SendpwdActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s. Je kan nu met je nieuwe wachtwoord inloggen.';
-$lang['SendpwdNotActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s, tesamen met informatie over het heractiveren van je account.';
 $lang['ForumIndex'] = 'Forum-index';
 $lang['MissingFields'] = 'De volgende verplichte velden ontbreken of zijn foutief ingevuld: %s.';
 $lang['TermsOfUseContent'] = 'Je aanvaard dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
@@ -369,7 +368,6 @@ $lang['RealName'] = 'Echte naam';
 $lang['Skype'] = 'Skype';
 $lang['Administrators'] = 'Administrators';
 $lang['Moderators'] = 'Moderators';
-$lang['SortBy'] = 'Sorteren op: %s';
 $lang['TopicReview'] = 'Onderwerp herbekijken';
 $lang['ViewMorePosts'] = 'Meer berichten weergeven';
 $lang['DisplayedName'] = 'Weergegeven naam';
@@ -505,6 +503,7 @@ $lang['Answer'] = 'Antwoord';
 $lang['AntiSpamQuestionMathPlus'] = 'Hoeveel is %d plus %d?';
 $lang['AntiSpamQuestionMathMinus'] = 'Hoeveel is %d min %d?';
 $lang['AntiSpamWrongAnswer'] = 'Het verzonden antwoord is fout. Gelieve het juiste antwoord in te geven om dit component van het forum te openen.';
+$lang['WrongUsernamePassword'] = 'De combinatie van gebruikersnaam (%s) en wachtwoord is niet correct. Gelieve opnieuw te proberen.';
 
 //
 // Date translations

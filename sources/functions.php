@@ -702,7 +702,7 @@ class functions {
 		if ( ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false ) || ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
-		<p>It seems UseBB is not installed yet. If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
+		<p><strong>It seems UseBB is not installed yet.</strong> If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
 		<p>If UseBB is installed, please check your database connection.</p>';
 			
 		} else {

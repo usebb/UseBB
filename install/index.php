@@ -69,7 +69,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	foreach ( array('db_type', 'db_server', 'db_username', 'db_passwd', 'db_dbname', 'db_prefix', 'admin_username', 'admin_email', 'admin_passwd1', 'admin_passwd2') as $key )
 		$_POST[$key] = ( !empty($_POST[$key]) ) ? $_POST[$key] : '';
 	
-	$db_servers = ( version_compare(phpversion(), '5.0.0', '<') ) ? array('mysql' => 'MySQL') : array('mysqli' => 'MySQL 4.1/5.x', 'mysql' => 'MySQL 3.x/4.0');
+	$db_servers = ( version_compare(phpversion(), '5.0.0', '<') || !extension_loaded('mysqli') ) ? array('mysql' => 'MySQL') : array('mysqli' => 'MySQL 4.1/5.x &mdash; mysqli', 'mysql' => 'MySQL 3.x/4.0 &mdash; mysql');
 	
 	if ( !empty($_POST['start']) && !is_writable(ROOT_PATH.'config.php') && !empty($_SESSION['installer_running']) ) {
 		

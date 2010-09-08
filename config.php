@@ -50,7 +50,7 @@ $dbs = array();
 //
 // Define database configuration
 //
-$dbs['type'] = 'mysqli';
+$dbs['type'] = 'mysql';
 $dbs['server'] = 'localhost';
 $dbs['username'] = 'usebb';
 $dbs['passwd'] = 'usebb';

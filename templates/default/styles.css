@@ -739,6 +739,10 @@ table#spamquestion {
 	padding-bottom: 40px;
 }
 
+a#usebb_acp_link {
+	font-weight: bold;
+}
+
 #debug-info-small {
 	margin: 0 auto 20px auto;
 	padding: 3px;

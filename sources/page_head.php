@@ -89,7 +89,7 @@ $link_bar = array();
 // ACP
 //
 if ( $functions->get_user_level() == LEVEL_ADMIN )
-	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>';
+	$link_bar[] = '<a href="'.$functions->make_url('admin.php').'" id="usebb_acp_link">'.$lang['ACP'].'</a>';
 	
 //
 // Don't show these if they cannot be accessed after all

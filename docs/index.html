@@ -59,7 +59,7 @@
 		<ul>
 			<li>GNU/Linux operating system</li>
 			<li>Recent Apache HTTPD version, including <code>mod_rewrite</code></li>
-			<li>Recent PHP version, including <code>session</code>, <code>PCRE</code>, <code>mysql(i)</code> and <code>curl</code> extensions</li>
+			<li>Recent PHP version, including <code>session</code>, <code>PCRE</code>, <code>mysql(i)</code>, <code>zlib</code> and <code>curl</code> extensions</li>
 			<li>Recent MySQL version</li>
 		</ul>
 				
@@ -73,23 +73,25 @@
 		<ol>
 			<li>Rename <code>config.php-dist</code> to <code>config.php</code>;</li>
 			<li>Upload/move all the files to their final destination online;</li>
-			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>);</li>
+			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>), this will able both the installer and UseBB's ACP to change settings;</li>
 			<li>Open the <a href="../install/index.php">installation wizard</a> in your web browser (located at <code>install/</code>).</li>
 		</ol>
 		
 		<h3>Manual installation</h3>
 		<p>Alternatively, you can install UseBB 1 manually.</p>
 		<ol>
-			<li>Execute <code>install/schemas/mysql.sql</code> and <code>install/usebb.sql</code> on your database (using a database management tool such as <a href="http://www.phpmyadmin.net/">phpMyAdmin</a>);</li>
+			<li>Execute <code>install/schemas/mysql.sql</code> followed by <code>install/usebb.sql</code> on your database (using a database management tool such as <a href="http://www.phpmyadmin.net/">phpMyAdmin</a>);</li>
 			<li>Rename <code>config.php-dist</code> to <code>config.php</code>;</li>
 			<li>Edit <code>config.php</code> and adjust the database settings;</li>
 			<li>Upload/move all the files to their final destination online;</li>
-			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>);</li>
+			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>), this will able UseBB's ACP to change settings;</li>
 			<li>Register a first user, it will automatically be an administrator.</li>
 		</ol>
 
-		<p>When this is done, you can log in and start configuring your forum.</p>
-		<p><strong>Note:</strong> it is highly advised to set up an <em>anti-spam question</em> in order to protect your forum from spam bots.</p>
+		<h3>After installation</h3>
+
+		<p>When installation is done, you can log in and start configuring your forum. The link to the ACP (Admin Control Panel) is at the bottom of the page.</p>
+		<p>Note it is highly advised to set up multiple <em>custom anti-spam questions</em> in order to protect your forum from spam bots.</p>
 		
 		<h2 id="upgrade-usebb">Upgrade an existing UseBB</h2>
 		<p>If you run a forum powered by a previous UseBB 1.0 version, you can upgrade as following:</p>
@@ -98,7 +100,7 @@
 			<li><strong>OR</strong> apply the patch found in the separate download file <code>usebb-&lt;version&gt;.diff</code>. The patch can be applied using <a href="http://www.gnu.org/software/patch/">GNU patch</a> or using a compatible tool.</li>
 			<li>Alternatively, you can also reupload all files (except <code>config.php</code>).</li>
 		</ul>
-		<p>Separate download files can be found at <a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>.</p>
+		<p>Separate download files can be found at <a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>. Note upgrading from several 0.x versions is not possible without making database changes. Ask for help at <a href="http://www.usebb.net/community/">the forums</a>.</p>
 		
 		<h2 id="more-info">More information</h2>
 		

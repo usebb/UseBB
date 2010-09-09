@@ -112,7 +112,7 @@ h1#admintitle {
 	color: #000;
 }
 #admincontent #resultset {
-	overflow: scroll;
+	overflow: auto;
 	padding: 3px;
 	max-height: 500px;
 }

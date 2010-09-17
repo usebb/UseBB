@@ -1,4 +1,4 @@
--- $Header$
+-- $Id$
 
 INSERT INTO usebb_cats VALUES (1, 'Test Category', 0);
 

@@ -1,4 +1,4 @@
--- $Header$
+-- $Id$
 
 -- 
 -- Table structure for table `usebb_badwords`

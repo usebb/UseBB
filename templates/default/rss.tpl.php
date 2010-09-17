@@ -4,7 +4,7 @@
 	Copyright (C) 2003-2008 UseBB Team
 	http://www.usebb.net
 	
-	$Header$
+	$Id$
 	
 	This file is part of UseBB.
 	

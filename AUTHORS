@@ -1,9 +1,9 @@
-Developers (CVS access)
+Developers (with SF.net username)
 
 	* Dietrich Moerman (pc_freak)
-		Founder, project manager and developer
+		Project founder, developer
 
-3rd party contributors (no CVS access)
+3rd party contributors
 
 	* Tadashi "ELF" Jokagi
 		Multibyte support and email handling patches
@@ -29,6 +29,6 @@ Developers (CVS access)
 		HTML named entities to code table (GNU GPL v2)
 
 	Any changes to 3rd party code can be tracked at
-	http://usebb.cvs.sourceforge.net/usebb/UseBB/.
+	http://usebb.svn.sourceforge.net/viewvc/usebb/branches/UseBB-1.0/.
 
 Should anyone be missing from this list, please email to contact@usebb.net.

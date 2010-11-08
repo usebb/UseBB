@@ -1,5 +1,10 @@
 $Id$
 
+UseBB 1.0.12 Changelog
+------------------------------
+
+- Place HTML title after character encoding meta tag as it should be.
+
 UseBB 1.0.11 Changelog
 ------------------------------
 

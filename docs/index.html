@@ -41,13 +41,13 @@
 		</ul>
 		
 		<h2 id="whats-usebb">What's UseBB?</h2>
-		<p>UseBB 1 is an <strong>Open Source</strong> forum package developed in <acronym title="PHP: Hypertext Preprocessor">PHP</acronym> 4 and using the popular <acronym title="An Open Source database management system">MySQL</acronym> database back-end to store data. Unlike other popular forum systems, UseBB does not strive to have as many features as possible, but to be the <strong>easiest and most usable</strong> forum package, limiting the basic feature set to only the essential. UseBB is <strong><em>pure</em> forum software</strong>.</p>
-		<p>UseBB is an ideal solution for small to medium-sized websites which require an easy to use forum package without the <acronym title="Unnecessary features"><em>bloat</em></acronym>, that produces <strong>standards compliant</strong> output, is secure and easily configurable.</p>
+		<p>UseBB 1 is an <strong>Open Source</strong> forum package developed in PHP 4 and using the popular MySQL database back-end to store data. Unlike other popular forum systems, UseBB does not strive to have as many features as possible, but to be one of the <strong>easiest and most usable</strong> forum packages, limiting the basic feature set to only the essential. UseBB is <strong>pure forum software</strong>.</p>
+		<p>UseBB is an ideal solution for small to medium-sized websites which require an easy to use forum package without the bloat, that produces <strong>standards compliant</strong> output, is secure and easily configurable.</p>		
 		<p>For a list of features, see the <a href="http://www.usebb.net/features/">feature list at UseBB.net</a>.</p>
 		
 		<h2 id="install-usebb">Install UseBB 1</h2>
 		<p>Before you install UseBB 1, you have to make sure your host accords to the following system requirements.</p>
-		<h3>Minimum</h3>
+		<h3>Minimum requirements</h3>
 		<ul>
 			<li>HTTP server supporting PHP (or CGI)</li>
 			<li>PHP version 4, including <code>session</code>, <code>PCRE</code> and <code>mysql</code> extensions</li>
@@ -97,15 +97,17 @@
 		<p>If you run a forum powered by a previous UseBB 1.0 version, you can upgrade as following:</p>
 		<ul>
 			<li>Recommended: make a <strong>backup</strong> of the database before continuing.</li>
-			<li>Perform changes:
+			<li>
+				Perform changes (note this only works for updating the previous release):
 				<ul>
-			<li>Reupload all changed files. There is a separate package only containing new and changed files.</li>
-			<li><strong>Or</strong> apply the patch found in the separate download file <code>usebb-&lt;version&gt;.diff</code>. The patch can be applied using <a href="http://www.gnu.org/software/patch/">GNU patch</a> or using a compatible tool.</li>
+					<li>Reupload all changed files. There is a separate package only containing new and changed files.</li>
+					<li><strong>Or</strong> apply the patch found in the separate download file <code>usebb-&lt;version&gt;.diff</code>. The patch can be applied using <a href="http://savannah.gnu.org/projects/patch/">GNU patch</a> or a compatible tool.</li>
 				</ul>
 			</li>
 			<li>Alternatively, you can also reupload all files (except <code>config.php</code>).</li>
 		</ul>
-		<p>Separate download files can be found at <a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>. Note upgrading from several 0.x versions is not possible without making database changes. Ask for help at <a href="http://www.usebb.net/community/">the forums</a>.</p>
+		<p>Separate download files can be found at <a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>.</p>
+		<p>Upgrading from several (now really old) 0.x versions is not possible without making database changes. Ask for help at <a href="http://www.usebb.net/community/">the forums</a>.</p>
 		
 		<h2 id="more-info">More information</h2>
 		
@@ -120,7 +122,7 @@
 		<ul>
 			<li><a href="http://www.usebb.net">UseBB.net</a> for general information, news, downloads, etc.</li>
 			<li>The <a href="http://www.usebb.net/community/">community forums</a> for help, (development) discussion, etc.</li>
-			<li>Recent developer information can be found at the <a href="http://usebb.sourceforge.net/">dev center</a>.</li>
+			<li>Recent development information, feature requests, etc can be found at the <a href="http://usebb.sourceforge.net/">development pages</a>.</li>
 		</ul>
 	</div>
 

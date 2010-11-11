@@ -129,6 +129,7 @@ $lang['ConfigBoard-avatars_force_height-info'] = 'Zero for unlimited.';
 $lang['ConfigBoard-avatars_force_width'] = 'Max avatar width (px)';
 $lang['ConfigBoard-avatars_force_width-info'] = 'Zero for unlimited.';
 $lang['ConfigBoard-debug'] = 'Debug mode';
+$lang['ConfigBoard-debug-info'] = 'Extended only works when not in production environment (set in source code).';
 $lang['ConfigBoard-email_view_level'] = 'E-mail view level';
 $lang['ConfigBoard-flood_interval'] = 'Flood interval (seconds)';
 $lang['ConfigBoard-members_per_page'] = 'Members per page';

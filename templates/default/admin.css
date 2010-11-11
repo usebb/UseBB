@@ -129,6 +129,7 @@ h1#admintitle {
 	margin: 0px auto 10px auto;
 	width: 99%;
 	clear: right;
+	font-size: 8pt;
 }
 .adminconfigtable th, .adminconfigtable td, #adminregulartable th, #adminregulartable td {
 	border-left: 1px solid silver;

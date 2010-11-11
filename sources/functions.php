@@ -567,6 +567,8 @@ class functions {
 		}
 		if ( in_array($error, $ignore_warnings) || preg_match('#(?:zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
 			return;*/
+		if ( in_array($error, $ignore_warnings) || preg_match('#(?:/proc/loadavg|mb_language)#', $error) )
+			return;
 		
 		//
 		// Error processing...

@@ -129,6 +129,7 @@ $lang['ConfigBoard-avatars_force_height-info'] = 'Nul voor geen limiet.';
 $lang['ConfigBoard-avatars_force_width'] = 'Maximum avatarbreedte (px)';
 $lang['ConfigBoard-avatars_force_width-info'] = 'Nul voor geen limiet.';
 $lang['ConfigBoard-debug'] = 'Debug-modus';
+$lang['ConfigBoard-debug-info'] = 'Uitgebreid werkt enkel wanneer niet in productieomgeving (ingesteld in broncode).';
 $lang['ConfigBoard-email_view_level'] = 'E-mailadressen weergeven';
 $lang['ConfigBoard-flood_interval'] = 'Flood-interval (seconden)';
 $lang['ConfigBoard-members_per_page'] = 'Leden per pagina';

@@ -524,7 +524,7 @@ if (
 		
 	}
 	$debug_input .= '</select>';
-	$input['debug'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-debug'].'</td><td>'.$debug_input.'</td></tr>';
+	$input['debug'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-debug'].'</td><td>'.$debug_input.'<div class="moreinfo">'.$lang['ConfigBoard-debug-info'].'</div></td></tr>';
 	
 	//
 	// E-mail view level

@@ -234,6 +234,7 @@ table.maintable, table.confirmform {
 	border-bottom: 1px solid silver;
 	margin: 0 0 20px 0;
 	width: 100%;
+	font-size: 8pt;
 }
 table.maintable th, table.confirmform th {
 	color: #EBD6AD;

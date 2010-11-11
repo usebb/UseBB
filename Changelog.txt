@@ -3,6 +3,7 @@ $Id$
 UseBB 1.0.12 Changelog
 ------------------------------
 
+- Fixed errors when getting config values before having config file loaded.
 - Added production environment switch (constant).
 - Halt execution if install directory is not removed and is in production environment.
 - Removed some old code for PHP < 4.3.0. PHP 4.3 is now a minimum requirement.

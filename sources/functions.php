@@ -735,6 +735,12 @@ class functions {
 	function get_config($setting, $original=false) {
 		
 		global $session;
+
+		//
+		// Really early stage where config file is not loaded yet.
+		//
+		if ( !defined('USEBB_VERSION') )
+			return FALSE;
 		
 		//
 		// Load settings into array.

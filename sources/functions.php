@@ -554,7 +554,7 @@ class functions {
 		//  - errors regarding unknown languages for mb_language()
 		//  - errors regarding unserialize()
 		//
-		$ignore_warnings = array(
+		/*FIXME $ignore_warnings = array(
 			'ini_set() has been disabled for security reasons',
 			'ini_get() has been disabled for security reasons',
 			'exec() has been disabled for security reasons'
@@ -566,24 +566,28 @@ class functions {
 			
 		}
 		if ( in_array($error, $ignore_warnings) || preg_match('#(?:zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
-			return;
+			return;*/
 		
 		//
 		// Error processing...
 		//
 		
 		$errtypes = array(
-			1 => 'E_ERROR',
-			2 => 'E_WARNING',
-			4 => 'E_PARSE',
-			8 => 'E_NOTICE',
-			16 => 'E_CORE_ERROR',
-			32 => 'E_CORE_WARNING',
-			64 => 'E_COMPILE_ERROR',
-			128 => 'E_COMPILE_WARNING',
-			256 => 'E_USER_ERROR',
-			512 => 'E_USER_WARNING',
-			1024 => 'E_USER_NOTICE'
+			1     => 'E_ERROR',
+			2     => 'E_WARNING',
+			4     => 'E_PARSE',
+			8     => 'E_NOTICE',
+			16    => 'E_CORE_ERROR',
+			32    => 'E_CORE_WARNING',
+			64    => 'E_COMPILE_ERROR',
+			128   => 'E_COMPILE_WARNING',
+			256   => 'E_USER_ERROR',
+			512   => 'E_USER_WARNING',
+			1024  => 'E_USER_NOTICE',
+			2048  => 'E_STRICT',
+			4096  => 'E_RECOVERABLE_ERROR',
+			8192  => 'E_DEPRECATED',
+			16384 => 'E_USER_DEPRECATED',
 		);
 		
 		if ( !strncmp($error, 'SQL:', 4) ) {
@@ -698,14 +702,14 @@ class functions {
 		if ( ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false ) || ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
-		<p><strong>It seems UseBB is not installed yet.</strong> If you are the webmaster of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
+		<p><strong>It seems UseBB is not installed yet.</strong> If you are the owner of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
 		<p>If UseBB is installed, please check your database connection.</p>';
 			
 		} else {
 			
 			$html_msg .= '
-		<p>This error should probably not have occured, so please report it to the webmaster. Thank you for your help.</p>
-		<p>If you are the webmaster of this board and you believe this is a bug, please send a bug report.</p>';
+		<p>This error should probably not have occured, so please report it to the owner. Thank you for your help.</p>
+		<p>If you are the owner of this board and you believe this is a bug, please send a bug report.</p>';
 			
 		}
 		
@@ -878,7 +882,7 @@ class functions {
 		//
 		// Settings that need validity checking.
 		//
-		if ( in_array($setting, array('board_url', 'session_name')) ) {
+		if ( in_array($setting, array('board_url', 'session_name', 'debug')) ) {
 			
 			$set_to = $this->board_config_original[$setting];
 			
@@ -886,6 +890,9 @@ class functions {
 				$set_to .= '/';
 			if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $set_to) || preg_match('#^[0-9]+$#', $set_to) ) )
 				$set_to = 'usebb';
+			// Only allow debug level 2 when not in production environment.
+			if ( $setting == 'debug' && $set_to == 2 && USEBB_IS_PROD_ENV )
+				$set_to = 1;
 			
 			$this->board_config[$setting] = $set_to;
 			return $this->board_config[$setting];

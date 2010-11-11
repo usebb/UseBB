@@ -61,6 +61,9 @@ if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0'
 // When TRUE:
 //  * PHP notices are not shown to the user (TODO)
 //  * install/ directory must be removed to run
+//  * debug level 2 is reset to level 1
+//
+// This is deliberately not made a config setting.
 //
 define('USEBB_IS_PROD_ENV', FALSE);
 
@@ -68,10 +71,12 @@ define('USEBB_IS_PROD_ENV', FALSE);
 // Security measures
 //
 
+$error_level = E_ALL;
+if ( defined('E_STRICT') )
+	$error_level |= E_STRICT;
 if ( defined('E_DEPRECATED') )
-	error_reporting(E_ALL ^ E_DEPRECATED);
-else
-	error_reporting(E_ALL);
+	$error_level |= E_DEPRECATED;
+error_reporting($error_level);
 
 set_magic_quotes_runtime(1);
 ini_set('display_errors', '1');
@@ -156,7 +161,7 @@ set_error_handler(array(&$functions, 'usebb_die'));
 //
 // Check for install/ on production environment.
 //
-if ( USEBB_IS_PROD_ENV && file_exists(ROOT_PATH.'install') )
+if ( USEBB_IS_PROD_ENV && ( !defined('IS_INSTALLER') || !IS_INSTALLER ) && file_exists(ROOT_PATH.'install') )
 	trigger_error('The directory \'install\' must be removed after installation to access this forum.', E_USER_ERROR);
 
 //

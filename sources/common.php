@@ -56,6 +56,15 @@ if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0'
 	die('<h1>Unsupported PHP version</h1><p>UseBB 1 does not work on PHP '.PHP_VERSION.'. You need at least PHP <strong>4.3.0</strong>. Please install a recent PHP 4 or 5 release or contact your hosting provider.</p>');
 
 //
+// Production environment switch
+//
+// When TRUE:
+//  * PHP notices are not shown to the user (TODO)
+//  * install/ directory must be removed to run
+//
+define('USEBB_IS_PROD_ENV', FALSE);
+
+//
 // Security measures
 //
 
@@ -143,6 +152,12 @@ $_REQUEST = slash_trim_global($_REQUEST);
 // Set the error handler
 //
 set_error_handler(array(&$functions, 'usebb_die'));
+
+//
+// Check for install/ on production environment.
+//
+if ( USEBB_IS_PROD_ENV && file_exists(ROOT_PATH.'install') )
+	trigger_error('The directory \'install\' must be removed after installation to access this forum.', E_USER_ERROR);
 
 //
 // Include config.php

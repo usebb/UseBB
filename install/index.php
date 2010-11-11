@@ -256,9 +256,8 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	
 	unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
 	
-	$out .= '		<p>The installation is now complete. You can now log in into <a href="../">your UseBB forum</a>. If you need any help, feel free to visit the <a href="http://www.usebb.net/community/">community forums</a> at UseBB.net.</p>
-		<p class="important"><strong>Warning:</strong> please remove the <code>install/</code> directory to keep your forum safe.</p>
-		<p>Thanks for choosing UseBB!</p>
+	$out .= '		<p>The installation is complete. You must now <strong>remove the <code>install</code> directory</strong> from your forum\'s files. After this, you can log in into <a href="../">your UseBB forum</a>.</p>
+		<p>If you need any help, feel free to visit the <a href="http://www.usebb.net/community/">community forums</a> at UseBB.net. Thanks for choosing UseBB!</p>
 ';
 	
 } else {

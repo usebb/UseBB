@@ -667,10 +667,6 @@ class functions {
 				
 		if ( $errtype == 'SQL_ERROR' ) {
 			
-			//
-			// FIXME
-			// Needs to be done this way due to bug(?): http://bugs.php.net/bug.php?id=33643
-			//
 			$used_queries = $db->get_used_queries();
 			
 			if ( count($used_queries) ) {

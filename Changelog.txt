@@ -3,6 +3,7 @@ $Id$
 UseBB 1.0.12 Changelog
 ------------------------------
 
+- Removed some old code for PHP < 4.3.0. PHP 4.3 is now a minimum requirement.
 - Place HTML title after character encoding meta tag as it should be.
 
 UseBB 1.0.11 Changelog

@@ -297,43 +297,15 @@ class admin_functions {
 	}
 	
 	/**
-	 * Transform a variable into legal PHP code
-	 *
-	 * On PHP 4 >= 4.2.0, PHP 5 this calls var_export().
+	 * Transform a variable into legal PHP code using var_export().
 	 *
 	 * @param mixed $variable Variable to transform to PHP
 	 * @returns string PHP code
 	 */
 	function make_php_string($variable) {
 		
-		if ( function_exists('var_export') )
-			return str_replace("\n", '', var_export($variable, true));
-		
-		if ( is_string($variable) ) {
+		return str_replace("\n", '', var_export($variable, true));
 			
-			$variable = "'".str_replace("'", "\'", $variable)."'";
-			
-		} elseif ( is_array($variable) || is_object($variable) ) {
-			
-			if ( count($variable) ) {
-				
-				$new_variable = array();
-				
-				foreach ( $variable as $variable2 )
-					$new_variable[] = $this->make_php_string($variable2);
-				
-				$variable = 'array('.join(', ', $new_variable).')';
-				
-			} else {
-				
-				$variable = 'array()';
-				
-			}
-			
-		}
-		
-		return $variable;
-		
 	}
 	
 	/**

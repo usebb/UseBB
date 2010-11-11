@@ -50,11 +50,10 @@ $timer_begin = explode(' ', microtime());
 define('TIMER_BEGIN', (float)$timer_begin[1] + (float)$timer_begin[0]);
 
 //
-// Check PHP version by checking the presence of version_compare()
-// (available since PHP 4.1.0)
+// Check PHP version
 //
-if ( !function_exists('version_compare') )
-	die('<h1>Warning!</h1><p>UseBB does not work on PHP '.PHP_VERSION.'. You need at least <strong>4.1.0</strong>. Get a recent PHP 4 or 5 release from <a href="http://www.php.net/downloads.php">PHP.net</a>.</p>');
+if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0', '<') )
+	die('<h1>Unsupported PHP version</h1><p>UseBB 1 does not work on PHP '.PHP_VERSION.'. You need at least PHP <strong>4.3.0</strong>. Please install a recent PHP 4 or 5 release or contact your hosting provider.</p>');
 
 //
 // Security measures
@@ -127,16 +126,6 @@ if ( function_exists('date_default_timezone_set') )
 	date_default_timezone_set('UTC');
 
 //
-// Seed random generator on PHP < 4.2.0
-//
-if ( version_compare(PHP_VERSION, '4.2.0', '<') ) {
-	
-	$seed = explode(' ', microtime());
-	mt_srand($seed[0] * $seed[1]);
-	
-}
-
-//
 // Include functions.php
 //
 require(ROOT_PATH.'sources/functions.php');
@@ -150,22 +139,10 @@ $_POST = slash_trim_global($_POST);
 $_COOKIE = slash_trim_global($_COOKIE);
 $_REQUEST = slash_trim_global($_REQUEST);
 
-/**
- * @access private
- */
-function error_handler($errno, $error, $file, $line) {
-	
-	//
-	// We use this workaround to make the error handler work
-	// on < PHP 4.3.0. These older versions do not accept an 
-	// array containing a link to a function inside a class.
-	//
-	
-	global $functions;
-	$functions->usebb_die($errno, $error, $file, $line);
-	
-}
-set_error_handler('error_handler');
+//
+// Set the error handler
+//
+set_error_handler(array(&$functions, 'usebb_die'));
 
 //
 // Include config.php
@@ -266,8 +243,10 @@ $session = new session;
 // Load the database class
 //
 $db_class_file = ROOT_PATH.'sources/db_'.$dbs['type'].'.php';
+
 if ( !file_exists($db_class_file) || !is_readable($db_class_file) )
 	trigger_error('Unable to load module for database server "'.$dbs['type'].'"!', E_USER_ERROR);
+
 require($db_class_file);
 $db = new db;
 

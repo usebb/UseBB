@@ -75,6 +75,7 @@ $lang['IndexMoreUnactiveMembers'] = 'Er zijn %d leden die wachten op admin-activ
 $lang['IndexWarning'] = 'Waarschuwing!';
 $lang['IndexUnwritableConfig'] = 'Op dit moment is %s niet door PHP beschrijfbaar. Dit wordt niet aangeraden. Om dit beschrijfbaar te maken, pas de permissies aan met een FTP-client of voer een chmod-operatie (0777) op het bestand uit. Contacteer je host in geval van problemen.';
 $lang['IndexMultibyteUsage'] = 'Merk op dat je momenteel een vertaling gebruikt die geschreven is in een multibyte karakterset (%s). Deze vertalingen en karaktersets zijn offici&euml;el niet ondersteund op UseBB 1.';
+$lang['IndexDevelopmentEnvironment'] = 'UseBB is momenteel ingesteld om te draaien in een ontwikkelomgeving. Dit zal mogelijke PHP-notices tonen aan gebruikers and bevat niet bepaalde veiligheidsmaatregelen. Op productieomgevingen is dit niet aanbevolen.';
 
 $lang['VersionFailed'] = 'Het forum kon de laatste versie niet achterhalen. Gelieve geregeld %s te bezoeken om er zeker van te zijn dat je de laatste versie hebt.';
 $lang['VersionLatestVersionTitle'] = 'Dit is de laatste versie';

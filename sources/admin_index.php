@@ -50,6 +50,8 @@ if ( !empty($lang['character_encoding']) && strtolower($lang['character_encoding
 	$warnings[] = sprintf($lang['IndexMultibyteUsage'], strtoupper($lang['character_encoding']));
 if ( !is_writable(ROOT_PATH.'config.php') )
 	$warnings[] = sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>');
+if ( !USEBB_IS_PROD_ENV )
+	$warnings[] = $lang['IndexDevelopmentEnvironment'];
 if ( count($warnings) )
 	$content .= '<h2>'.$lang['IndexWarning'].'</h2>' . '<ul><li>'.join('</li><li>', $warnings).'</li></ul>';
 

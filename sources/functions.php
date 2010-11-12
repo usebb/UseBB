@@ -787,6 +787,7 @@ class functions {
 				case 'cookie_httponly':
 				case 'enable_error_log':
 				case 'error_log_log_hidden':
+				case 'dnsbl_powered_banning_globally':
 					$set_to = true;
 					break;
 				case 'view_search_min_level':

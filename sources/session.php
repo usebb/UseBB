@@ -281,6 +281,8 @@ class session {
 			
 		}
 		
+		$anon_spam_opportunity = ( $user_id == 0 && preg_match('#^(register|reply:|posttopic:)#', $location) );
+		
 		//
 		// DNSBL powered banning
 		//
@@ -300,7 +302,10 @@ class session {
 			
 		}
 		
-		if ( $functions->get_config('enable_dnsbl_powered_banning') && $dnsrr_available && !$_SESSION['dnsbl_whitelisted'] && ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
+		if ( $functions->get_config('enable_dnsbl_powered_banning')
+			&& ( $functions->get_config('dnsbl_powered_banning_globally') || $anon_spam_opportunity )
+			&& $dnsrr_available && !$_SESSION['dnsbl_whitelisted']
+			&& ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
 			
 			$whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');			
 			
@@ -457,7 +462,7 @@ class session {
 			'updated' => $current_time,
 			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
 			'ip_addr' => $ip_addr,
-			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') && !$user_id && !$_SESSION['antispam_question_posed'] && preg_match('#^(register|reply:|posttopic:)#', $location) )
+			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') && $anon_spam_opportunity && !$_SESSION['antispam_question_posed'] )
 		);
 		
 		if ( $location !== NULL ) {

@@ -430,12 +430,13 @@ $lang['DNSBLIPBansDisabledInfo'] = 'Om DNSBL-aangedreven banning te laten werken
 $lang['DNSBLGeneralInfo'] = 'Open proxies worden vaak gebruikt om spam of misbruikende berichten te plaatsen. Door het beschermingssysteem van UseBB kunnen veel van deze proxies opgespoord en geband worden. Hiervoor worden zogenaamde blacklists geraadpleegd voor informatie over het IP-adres van de gebruiker.';
 $lang['DNSBLEnableOpenDNSBLBan'] = 'DNSBL-banning inschakelen';
 $lang['DNSBLServers'] = 'DNS BlackList (DNSBL)-servers';
-$lang['DNSBLServersInfo'] = 'Een DNSBL-hostnaam per regel. Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken bij het starten van een nieuwe sessie.';
+$lang['DNSBLServersInfo'] = 'Een DNSBL-hostnaam per regel. Merk op dat het gebruik van veel blacklists traagheid kan veroorzaken.';
 $lang['DNSBLMinPositiveHits'] = 'Ten minste %s positieve hits zijn benodigd om een IP-adres te bannen.';
 $lang['DNSBLRecheckMinutes'] = 'Hercontroleer toegestane IP-adressen elke %s minuten (0 om uit te schakelen).';
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'Een IP-adres of hostnaam per regel (* en ? kunnen als wildcards worden gebruikt).';
 $lang['DNSBLSettingsSaved'] = 'DNSBL-aangedreven banning instellingen werden opgeslaan.';
+$lang['DNSBLGlobally'] = 'Voer controles globaal uit in plaats van enkel voor registraties/plaatsen van berichten (niet aanbevolen).';
 
 $lang['BadwordsInfo'] = 'Woorden kunnen gecensureerd of vervangen worden, eventueel d.m.v. wildcards (met *).';
 $lang['BadwordsDisabled'] = 'Woordcensuur uitgeschakeld';

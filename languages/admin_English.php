@@ -430,12 +430,13 @@ $lang['DNSBLIPBansDisabledInfo'] = 'For DNSBL powered banning to work, IP addres
 $lang['DNSBLGeneralInfo'] = 'Open proxies are often used to post spam or abusive messages. Using UseBB\'s protection system, most of these proxies can be detected and banned automatically. Herefore blacklists are queried for information about the visitor\'s IP address.';
 $lang['DNSBLEnableOpenDNSBLBan'] = 'Enable DNSBL powered banning';
 $lang['DNSBLServers'] = 'DNS BlackList (DNSBL) servers';
-$lang['DNSBLServersInfo'] = 'One DNSBL server per line. Note using many of these blacklists together may cause slowness upon creating a new session on your forum.';
+$lang['DNSBLServersInfo'] = 'One DNSBL server per line. Note using many of these blacklists together may cause slowness.';
 $lang['DNSBLMinPositiveHits'] = 'At least %s positive hits are required to ban an IP address.';
 $lang['DNSBLRecheckMinutes'] = 'Recheck allowed IP addresses every %s minutes (0 to disable).';
 $lang['DNSBLSettingsSaved'] = 'DNSBL banning settings saved.';
 $lang['DNSBLWhitelist'] = 'Whitelist';
 $lang['DNSBLWhitelistInfo'] = 'One IP address or hostname per line (* and ? can be used as wildcards).';
+$lang['DNSBLGlobally'] = 'Perform checking globally instead of only for registering/posting (not recommended).';
 
 $lang['BadwordsInfo'] = 'Badwords can be filtered or replaced, eventually using partial matching (using *).';
 $lang['BadwordsDisabled'] = 'Badwords filter disabled';

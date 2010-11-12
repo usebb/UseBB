@@ -54,14 +54,12 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 		
 		$new_settings = array(
 			'enable_dnsbl_powered_banning' => ( !empty($_POST['enable_dnsbl_powered_banning']) ) ? 1 : 0,
+			'dnsbl_powered_banning_globally' => ( !empty($_POST['dnsbl_powered_banning_globally']) ) ? 1 : 0,
 			'dnsbl_powered_banning_min_hits' => ( !empty($_POST['dnsbl_powered_banning_min_hits']) && valid_int($_POST['dnsbl_powered_banning_min_hits']) && intval($_POST['dnsbl_powered_banning_min_hits']) >= 1 ) ? intval($_POST['dnsbl_powered_banning_min_hits']) : 1,
 			'dnsbl_powered_banning_recheck_minutes' => ( !empty($_POST['dnsbl_powered_banning_recheck_minutes']) && valid_int($_POST['dnsbl_powered_banning_recheck_minutes']) ) ? intval($_POST['dnsbl_powered_banning_recheck_minutes']) : 0,
 			'dnsbl_powered_banning_servers' => ( !empty($_POST['dnsbl_powered_banning_servers']) ) ? preg_split("#[\r\n]+#", $_POST['dnsbl_powered_banning_servers']) : array(),
 			'dnsbl_powered_banning_whitelist' => ( !empty($_POST['dnsbl_powered_banning_whitelist']) ) ? preg_split("#[\r\n]+#", $_POST['dnsbl_powered_banning_whitelist']) : array(),
 		);
-		
-		/*foreach ( $dnsbl_servers as $key => $val )
-			$new_settings['enable_dnsbl_server_'.$key] = ( !empty($_POST['enable_dnsbl_server_'.$key]) ) ? 1 : 0;*/
 		
 		$admin_functions->set_config($new_settings);
 		
@@ -70,6 +68,7 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 	} else {
 		
 		$enable_dnsbl_powered_banning_checked = ( $functions->get_config('enable_dnsbl_powered_banning') ) ? ' checked="checked"' : '';
+		$dnsbl_powered_banning_globally_checked = ( $functions->get_config('dnsbl_powered_banning_globally') ) ? ' checked="checked"' : '';
 		$dnsbl_powered_banning_min_hits = intval($functions->get_config('dnsbl_powered_banning_min_hits'));
 		$dnsbl_powered_banning_recheck_minutes = intval($functions->get_config('dnsbl_powered_banning_recheck_minutes'));
 		$dnsbl_powered_banning_servers = $functions->get_config('dnsbl_powered_banning_servers');
@@ -86,6 +85,7 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 			$content .= '<p><label>'.sprintf($lang['DNSBLRecheckMinutes'], '<input type="text" name="dnsbl_powered_banning_recheck_minutes" size="2" maxlength="2" value="'.$dnsbl_powered_banning_recheck_minutes.'" />').'</label></p>';
 			$content .= '<h3>'.$lang['DNSBLWhitelist'].'</h3><p>'.$lang['DNSBLWhitelistInfo'].'</p>';
 			$content .= '<p><textarea name="dnsbl_powered_banning_whitelist" rows="5" cols="50">'.$dnsbl_powered_banning_whitelist.'</textarea></p>';
+			$content .= '<p><label><input type="checkbox" name="" value="1"'.$dnsbl_powered_banning_globally_checked.' /> '.$lang['DNSBLGlobally'].'</label></p>';
 		$content .= '</fieldset>';
 		$content .= '<p class="submit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p>';
 		$content .= '</form>';

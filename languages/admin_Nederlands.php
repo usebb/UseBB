@@ -258,6 +258,8 @@ $lang['ConfigBoard-antispam_question_questions'] = 'Aangepaste anti-spamvragen';
 $lang['ConfigBoard-antispam_question_questions-info'] = 'Vragen in de vorm van &quot;vraag|antwoord&quot; (zonder aanhalingstekens), gescheiden door nieuwe regels. Het antwoord is hoofdletterongevoelig.';
 $lang['ConfigBoard-enable_error_log'] = 'Foutenlog inschakelen';
 $lang['ConfigBoard-enable_error_log-info'] = 'Log fouten met PHP\'s loggingmechanisme. Zie PHP error_log-configuratieoptie.';
+$lang['ConfigBoard-error_log_log_hidden'] = 'Log fouten anders verborgen';
+$lang['ConfigBoard-error_log_log_hidden-info'] = 'Op productieomgevingen, sommige fouttypes zijn verborgen voor gebruikers. Dit inschakelen zal deze fouten nog steeds loggen wanneer mogelijk.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

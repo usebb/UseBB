@@ -263,6 +263,13 @@ define('HEADER_403', $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
 define('HEADER_404', $_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
 
 //
+// If logging hidden errors is enabled, reset error reporting to dev environment.
+// usebb_die will now catch these, log them and further ignore them.
+//
+if ( $functions->get_config('error_log_log_hidden') && USEBB_IS_PROD_ENV )
+	error_reporting(USEBB_DEV_ERROR_LEVEL);
+
+//
 // Include all other necessary files
 //
 require(ROOT_PATH.'sources/template.php');

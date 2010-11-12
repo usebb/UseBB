@@ -544,6 +544,12 @@ class functions {
 		global $db, $dbs, $template, $session;
 		
 		//
+		// Ignore the ones we don't want
+		//
+		if ( ($errno & error_reporting()) == 0 )
+			return;
+		
+		//
 		// Ignore certain messages
 		//
 		foreach ( array(
@@ -610,6 +616,12 @@ class functions {
 				.'['.$file.':'.$line.']');
 
 		}
+		
+		//
+		// Ignore hidden errors on production env (after being logged).
+		//
+		if ( USEBB_IS_PROD_ENV && ( ($errno & (USEBB_DEV_ERROR_LEVEL ^ USEBB_PROD_ERROR_LEVEL)) > 0 ) )
+			return;
 		
 		//
 		// Filter some sensitive data
@@ -774,6 +786,7 @@ class functions {
 				case 'hide_db_config_acp':
 				case 'cookie_httponly':
 				case 'enable_error_log':
+				case 'error_log_log_hidden':
 					$set_to = true;
 					break;
 				case 'view_search_min_level':

@@ -114,6 +114,7 @@ $conf['enable_rss_per_forum'] = 1;
 $conf['enable_rss_per_topic'] = 1;
 $conf['enable_stafflist'] = 1;
 $conf['enable_stats'] = 1;
+$conf['error_log_log_hidden'] = 0;
 $conf['exclude_forums_active_topics'] = array ();
 $conf['exclude_forums_rss'] = array ();
 $conf['exclude_forums_stats'] = array ();

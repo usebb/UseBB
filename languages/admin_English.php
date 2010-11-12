@@ -258,6 +258,8 @@ $lang['ConfigBoard-antispam_question_questions'] = 'Custom anti-spam questions';
 $lang['ConfigBoard-antispam_question_questions-info'] = 'Questions in the form of &quot;question|answer&quot; (without quotes), separated by newlines. The answer is case-insensitive.';
 $lang['ConfigBoard-enable_error_log'] = 'Enable error log';
 $lang['ConfigBoard-enable_error_log-info'] = 'Logs errors using PHP\'s logging mechanism. See PHP error_log configuration option.';
+$lang['ConfigBoard-error_log_log_hidden'] = 'Log errors otherwise hidden';
+$lang['ConfigBoard-error_log_log_hidden-info'] = 'On production environments, some error types are hidden for users. Enabling this will still log them if possible.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

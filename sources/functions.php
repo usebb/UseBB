@@ -544,31 +544,25 @@ class functions {
 		global $db, $dbs, $template, $session;
 		
 		//
-		// Ignore various warnings:
-		//  - ini_set() and ini_get() disabled
-		//  - exec() disabled
-		//  - var: Deprecated (PHP 5)
-		//  - property of non-object (bug(?) in some old PHP 5 version)
-		//  - zend.ze1_compatibility_mode notice
-		//  - errors regarding /proc/loadavg
-		//  - errors regarding unknown languages for mb_language()
-		//  - errors regarding unserialize()
+		// Ignore certain messages
 		//
-		/*FIXME $ignore_warnings = array(
-			'ini_set() has been disabled for security reasons',
-			'ini_get() has been disabled for security reasons',
-			'exec() has been disabled for security reasons'
-		);
-		if ( version_compare(PHP_VERSION, '5.0.0', '>=') ) {
+		foreach ( array(
+			// Might be disabled
+			'ini_set', 'ini_get', 'exec()',
+			// Available since PHP 5.0.0. Removed in PHP 5.3.0
+			'ze1_compatibility_mode',
+			// Not able to access
+			'/proc/loadavg',
+			// Unknown languages and such
+			'mb_language',
+			// Garbage data
+			'unserialize'
+		) as $ignore_warning ) {
 			
-			$ignore_warnings[] = 'var: Deprecated. Please use the public/private/protected modifiers';
-			$ignore_warnings[] = 'Trying to get property of non-object';
+			if ( strpos($error, $ignore_warning) !== FALSE )
+				return;
 			
 		}
-		if ( in_array($error, $ignore_warnings) || preg_match('#(?:zend\.ze1_compatibility_mode|/proc/loadavg|mb_language|unserialize)#', $error) )
-			return;*/
-		if ( in_array($error, $ignore_warnings) || preg_match('#(?:/proc/loadavg|mb_language)#', $error) )
-			return;
 		
 		//
 		// Error processing...

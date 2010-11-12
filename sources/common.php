@@ -59,11 +59,14 @@ if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0'
 // Production environment switch
 //
 // When TRUE:
-//  * PHP notices are not shown to the user (TODO)
+//  * PHP notices are not shown to the user
 //  * install/ directory must be removed to run
 //  * debug level 2 is reset to level 1
 //
 // This is deliberately not made a config setting.
+//
+// Set to FALSE only if you are testing the package, developing it or performing modifications.
+// In most other cases, such as live forums, this should be set to TRUE.
 //
 define('USEBB_IS_PROD_ENV', FALSE);
 
@@ -71,12 +74,20 @@ define('USEBB_IS_PROD_ENV', FALSE);
 // Security measures
 //
 
-$error_level = E_ALL;
+$error_level = E_ALL ^ E_NOTICE;
+if ( defined('E_DEPRECATED') )
+	$error_level ^= E_DEPRECATED;
+define('USEBB_PROD_ERROR_LEVEL', $error_level);
+
+$error_level |= E_NOTICE;
+// E_STRICT is not included in E_ALL
 if ( defined('E_STRICT') )
 	$error_level |= E_STRICT;
 if ( defined('E_DEPRECATED') )
 	$error_level |= E_DEPRECATED;
-error_reporting($error_level);
+define('USEBB_DEV_ERROR_LEVEL', $error_level);
+
+error_reporting(USEBB_IS_PROD_ENV ? USEBB_PROD_ERROR_LEVEL : USEBB_DEV_ERROR_LEVEL);
 
 set_magic_quotes_runtime(1);
 ini_set('display_errors', '1');

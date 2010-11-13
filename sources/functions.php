@@ -635,9 +635,9 @@ class functions {
 		$error = str_replace($full_path, '', $error);
 		
 		//
-		// MySQL username and host
+		// MySQL username and host for debug levels < extended
 		//
-		if ( ( !strncmp($error, 'mysql', 5) || $errtype == 'SQL_ERROR' ) && $this->get_config('debug') < 2 )
+		if ( ( !strncmp($error, 'mysql', 5) || $errtype == 'SQL_ERROR' ) && $this->get_config('debug') < DEBUG_EXTENDED )
 			$error = preg_replace("#'[^ ]+'?@'?[^ ]+'#", '<em>-filtered-</em>', $error);
 		
 		$html_msg  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -678,9 +678,9 @@ class functions {
 			<p id="error"><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
 				
 		//
-		// Show query with debug level 2
+		// Show query with extended debug
 		//
-		if ( $errtype == 'SQL_ERROR' && $this->get_config('debug') == 2 ) {
+		if ( $errtype == 'SQL_ERROR' && $this->get_config('debug') == DEBUG_EXTENDED ) {
 			
 			$used_queries = $db->get_used_queries();
 			
@@ -894,9 +894,9 @@ class functions {
 				$set_to .= '/';
 			if ( $setting == 'session_name' && ( !preg_match('#^[A-Za-z0-9]+$#', $set_to) || preg_match('#^[0-9]+$#', $set_to) ) )
 				$set_to = 'usebb';
-			// Only allow debug level 2 when not in production environment.
-			if ( $setting == 'debug' && $set_to == 2 && USEBB_IS_PROD_ENV )
-				$set_to = 1;
+			// Only allow extended debug when not in production environment.
+			if ( $setting == 'debug' && $set_to == DEBUG_EXTENDED && USEBB_IS_PROD_ENV )
+				$set_to = DEBUG_SIMPLE;
 			
 			$this->board_config[$setting] = $set_to;
 			return $this->board_config[$setting];

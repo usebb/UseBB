@@ -321,7 +321,7 @@ class template {
 		//
 		// Debug features
 		//
-		if ( $functions->get_config('debug') && empty($session->sess_info['ip_banned']) ) {
+		if ( $functions->get_config('debug') != DEBUG_DISABLED && empty($session->sess_info['ip_banned']) ) {
 			
 			//
 			// Timer for checking parsetime
@@ -337,7 +337,7 @@ class template {
 			$debug_info[] = $lang['TemplateSections'].': '.count($this->loaded_sections);
 			$debug_info[] = $lang['SQLQueries'].': '.count($db->get_used_queries());
 			
-			if ( $functions->get_config('debug') === 1 ) {
+			if ( $functions->get_config('debug') == DEBUG_SIMPLE ) {
 				
 				//
 				// List parsetime and queries in short
@@ -345,7 +345,7 @@ class template {
 				$debug_info_small = sprintf($this->get_config('debug_info_small'), join($this->get_config('item_delimiter'), $debug_info));
 				$debug_info_large = '';
 				
-			} elseif ( $functions->get_config('debug') === 2 ) {
+			} elseif ( $functions->get_config('debug') == DEBUG_EXTENDED ) {
 				
 				//
 				// Lists parsetime and queries fully

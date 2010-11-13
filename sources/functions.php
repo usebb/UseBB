@@ -677,23 +677,17 @@ class functions {
 			<p>In file <strong>'.$file.'</strong> on line <strong>'.$line.'</strong>:</p>
 			<p id="error"><em>'.$errtype.'</em> - '.nl2br($error).'</p>';
 				
-		if ( $errtype == 'SQL_ERROR' ) {
+		//
+		// Show query with debug level 2
+		//
+		if ( $errtype == 'SQL_ERROR' && $this->get_config('debug') == 2 ) {
 			
 			$used_queries = $db->get_used_queries();
 			
 			if ( count($used_queries) ) {
 				
-				if ( $this->get_config('debug') >= 2 ) {
-					
-					$html_msg .= '
+				$html_msg .= '
 			<p>SQL query causing the error:</p><p><textarea rows="10" cols="60" readonly="readonly">'.unhtml(end($used_queries)).'</textarea></p>';
-					
-				} elseif ( is_array($this->board_config) ) {
-					
-					$html_msg .= '
-			<p>Enable debug mode level 2 to see the error and erroneous SQL query.</p>';
-					
-				}
 				
 			}
 			

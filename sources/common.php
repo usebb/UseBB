@@ -261,6 +261,18 @@ define('HEADER_403', $_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
  * 404 header
  */
 define('HEADER_404', $_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+/**
+ * Debug disabled
+ */
+define('DEBUG_DISABLED', 0);
+/**
+ * Simple debug
+ */
+define('DEBUG_SIMPLE', 1);
+/**
+ * Extended debug
+ */
+define('DEBUG_EXTENDED', 2);
 
 //
 // If logging hidden errors is enabled, reset error reporting to dev environment.

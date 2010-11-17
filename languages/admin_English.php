@@ -260,6 +260,8 @@ $lang['ConfigBoard-enable_error_log'] = 'Enable error log';
 $lang['ConfigBoard-enable_error_log-info'] = 'Logs errors using PHP\'s logging mechanism. See PHP error_log configuration option.';
 $lang['ConfigBoard-error_log_log_hidden'] = 'Log errors otherwise hidden';
 $lang['ConfigBoard-error_log_log_hidden-info'] = 'On production environments, some error types are hidden for users. Enabling this will still log them if possible.';
+$lang['ConfigBoard-show_posting_links_to_guests'] = 'Show new topic and post reply links to guests.';
+$lang['ConfigBoard-show_posting_links_to_guests-info'] = 'Shown if members can post. &ndash; Will redirect to login.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

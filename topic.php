@@ -202,9 +202,25 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$forum_moderators = $functions->get_mods_list($topicdata['forum_id']);
 			
-			$new_topic_link = ( $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id']) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
+			$new_topic_link = (
+				(
+					$functions->auth($topicdata['auth'], 'post', $topicdata['forum_id'])
+					// True if is guest but members can post. Will redirect to login.
+					|| ( $functions->get_config('show_posting_links_to_guests') && !$session->sess_info['user_id'] && $functions->auth($topicdata['auth'], 'post', $topicdata['forum_id'], FALSE, array('id' => -1, 'level' => LEVEL_MEMBER)) )
+				)
+				&& ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN )
+			) ? '<a href="'.$functions->make_url('post.php', array('forum' => $topicdata['forum_id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
 			
-			$reply_link = ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" rel="nofollow">'.$lang['PostReply'].'</a>' : '';
+			$can_post_reply = (
+				( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) )
+				&& ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN )
+				&& ( 
+					$functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id'])
+					// True if is guest but members can post. Will redirect to login.
+					|| ( $functions->get_config('show_posting_links_to_guests') && !$session->sess_info['user_id'] && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id'], FALSE, array('id' => -1, 'level' => LEVEL_MEMBER)) )
+				)
+			);
+			$reply_link = ( $can_post_reply ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" rel="nofollow">'.$lang['PostReply'].'</a>' : '';
 			
 			//
 			// Get page number
@@ -360,7 +376,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 				if ( ( ( $session->sess_info['user_id'] && $postsdata['poster_id'] == $session->sess_info['user_id'] && $topicdata['last_post_id'] == $postsdata['id'] && ( time() - $functions->get_config('edit_post_timeout') ) <= $postsdata['post_time'] ) || $functions->auth($topicdata['auth'], 'delete', $topicdata['forum_id']) ) && $postsdata['poster_level'] <= $session->sess_info['user_info']['level'] )
 					$post_links[] = '<a href="'.$functions->make_url('edit.php', array('post' => $postsdata['id'], 'act' => 'delete')).'">'.$lang['Delete'].'</a>';
 				
-				if ( ( !$topicdata['status_locked'] || $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) && ( $topicdata['forum_status'] || $functions->get_user_level() == LEVEL_ADMIN ) && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) )
+				if ( $can_post_reply )
 					$post_links[] = '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic, 'quotepost' => $postsdata['id'])).'" rel="nofollow">'.$lang['Quote'].'</a>';
 				
 				if ( count($post_links) )

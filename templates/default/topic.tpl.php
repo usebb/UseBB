@@ -36,7 +36,7 @@ if ( !defined('INCLUDED') )
 $templates['header'] = '
 	<h3 id="forumname">{topic_name}</h3>
 	<p id="forummods">{forum_moderators}</p>
-	<p id="toolbartop">{new_topic_link} {reply_link}</p>
+	<p id="toolbartop">{reply_link}</p>
 	<p id="pagelinkstop">{page_links}</p>
 	<table class="maintable">
 		<tr>
@@ -71,7 +71,7 @@ $templates['post'] = '
 
 $templates['footer'] = '
 	</table>
-	<p id="toolbarbottom">{new_topic_link} {reply_link}</p>
+	<p id="toolbarbottom">{reply_link}</p>
 	<p id="pagelinksbottom">{page_links}</p>
 	<div id="bottomfix"></div>
 	<p id="actionlinks">{action_links}</p>

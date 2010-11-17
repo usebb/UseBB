@@ -89,7 +89,14 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
-			$new_topic_link = ( $functions->auth($forumdata['auth'], 'post', $_GET['id']) && ( $forumdata['status'] || $functions->get_user_level() == LEVEL_ADMIN ) ) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
+			$new_topic_link = (
+				(
+					$functions->auth($forumdata['auth'], 'post', $_GET['id'])
+					// True if is guest but members can post. Will redirect to login.
+					|| ( $functions->get_config('show_posting_links_to_guests') && !$session->sess_info['user_id'] && $functions->auth($forumdata['auth'], 'post', $_GET['id'], FALSE, array('id' => -1, 'level' => LEVEL_MEMBER)) )
+				)
+				&& ( $forumdata['status'] || $functions->get_user_level() == LEVEL_ADMIN )
+			) ? '<a href="'.$functions->make_url('post.php', array('forum' => $_GET['id'])).'" rel="nofollow">'.$lang['PostNewTopic'].'</a>' : '';
 			
 			//
 			// Get page number

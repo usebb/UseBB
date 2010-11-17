@@ -150,6 +150,7 @@ $conf['session_name'] = 'usebb';
 $conf['session_save_path'] = '';
 $conf['show_edited_message_timeout'] = 60;
 $conf['show_never_activated_members'] = 1;
+$conf['show_posting_links_to_guests'] = 1;
 $conf['show_raw_entities_in_code'] = 1;
 $conf['sig_allow_bbcode'] = 1;
 $conf['sig_allow_smilies'] = 1;

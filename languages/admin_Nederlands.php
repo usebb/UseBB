@@ -260,6 +260,8 @@ $lang['ConfigBoard-enable_error_log'] = 'Foutenlog inschakelen';
 $lang['ConfigBoard-enable_error_log-info'] = 'Log fouten met PHP\'s loggingmechanisme. Zie PHP error_log-configuratieoptie.';
 $lang['ConfigBoard-error_log_log_hidden'] = 'Log fouten anders verborgen';
 $lang['ConfigBoard-error_log_log_hidden-info'] = 'Op productieomgevingen, sommige fouttypes zijn verborgen voor gebruikers. Dit inschakelen zal deze fouten nog steeds loggen wanneer mogelijk.';
+$lang['ConfigBoard-show_posting_links_to_guests'] = 'Toon nieuw onderwerp- en plaats antwoord-links aan gasten.';
+$lang['ConfigBoard-show_posting_links_to_guests-info'] = 'Zichtbaar wanneer leden berichten kunnen plaatsen. &ndash; Zal naar het inlogformulier doorverwijzen.';
 
 $lang['CategoriesInfo'] = 'Deze sectie geeft je controle over de categorie&euml;n van je forum.';
 $lang['CategoriesAddNewCat'] = 'Nieuwe categorie aanmaken';

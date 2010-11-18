@@ -2942,6 +2942,123 @@ class functions {
 			setcookie($name, $value, $expires, $this->get_config('cookie_path'), $domain.'; HttpOnly', $secure);
 		
 	}
+
+	/**
+	 * Generate an antispam question
+	 *
+	 * @param int $mode Anti-spam mode
+	 */
+	function generate_antispam_question($mode) {
+		
+		global $lang;
+
+		switch ( $mode ) {
+			
+			case ANTI_SPAM_MATH:
+				//
+				// Random math question
+				//
+				$operator = mt_rand(1, 2);
+				if ( $operator == 1 ) {
+					
+					$num1 = mt_rand(1, 9);
+					$num2 = mt_rand(1, 9);
+					$_SESSION['antispam_question_question'] = sprintf($lang['AntiSpamQuestionMathPlus'], $num1, $num2);
+					$_SESSION['antispam_question_answer'] = $num1 + $num2;
+
+				} else {
+					
+					$num1 = mt_rand(1, 9);
+					$num2 = mt_rand(1, $num1);
+					$_SESSION['antispam_question_question'] = sprintf($lang['AntiSpamQuestionMathMinus'], $num1, $num2);
+					$_SESSION['antispam_question_answer'] = $num1 - $num2;
+					
+				}
+				break;
+			
+			case ANTI_SPAM_CUSTOM:
+				//
+				// Custom admin-defined question
+				//
+				$questionPairs = $this->get_config('antispam_question_questions');
+				if ( !is_array($questionPairs) || !count($questionPairs) )
+					trigger_error('No custom anti-spam questions found.', E_USER_ERROR);
+				$questions = array_keys($questionPairs);
+				$answers = array_values($questionPairs);
+				unset($questionPairs);
+				
+				$questionId = ( count($questions) == 1 ) ? 0 : mt_rand(0, count($questions)-1);
+				
+				$_SESSION['antispam_question_question'] = $questions[$questionId];
+				$_SESSION['antispam_question_answer'] = $answers[$questionId];
+				break;
+			
+			default:
+				trigger_error('Spam check mode '.$mode.' does not exist.', E_USER_ERROR);
+			
+		}
+
+	}
+
+	/**
+	 * Pose the anti-spam question
+	 *
+	 * This might render a form and halt further page execution.
+	 */
+	function pose_antispam_question() {
+		
+		global $session, $template, $lang, $db;
+
+		if ( !$session->sess_info['pose_antispam_question'] )
+			return;
+		
+		$template->set_page_title($lang['AntiSpamQuestion']);
+		$mode = (int)$this->get_config('antispam_question_mode');
+
+		if ( empty($_SESSION['antispam_question_question']) )
+			$this->generate_antispam_question($mode);
+	
+		if ( isset($_POST['answer']) && !is_array($_POST['answer']) && !strcasecmp(strval($_POST['answer']), strval($_SESSION['antispam_question_answer'])) ) {
+			
+			//
+			// Question passed, continuing...
+			//
+			$_SESSION['antispam_question_posed'] = true;
+			unset($_SESSION['antispam_question_question'], $_SESSION['antispam_question_answer']);
+			$this->redirect($_SERVER['PHP_SELF'], $_GET);
+
+			return;
+			
+		}
+		
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => $lang['AntiSpamWrongAnswer']
+			));
+			
+		}
+		
+		$size = ( $mode === ANTI_SPAM_MATH ) ? 'size="2" maxlength="2"' : 'size="35"';
+		$template->parse('anti_spam_question', 'various', array(
+			'form_begin' => '<form action="'.$this->make_url($_SERVER['PHP_SELF'], $_GET).'" method="post">',
+			'question' => unhtml($_SESSION['antispam_question_question']),
+			'answer_input' => '<input type="text" name="answer" id="answer" '.$size.' />',
+			'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
+			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
+			'form_end' => '</form>'
+		));
+		$template->set_js_onload("set_focus('answer')");
+		
+		//
+		// Include the page footer
+		//
+		require(ROOT_PATH.'sources/page_foot.php');
+		
+		exit();
+		
+	}
 	
 }
 

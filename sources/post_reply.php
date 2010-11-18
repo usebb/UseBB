@@ -87,6 +87,11 @@ if ( !$topicdata['id'] ) {
 		
 	} elseif ( $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id']) ) {
 		
+		//
+		// Pose the antispam question
+		//
+		$functions->pose_antispam_question();
+		
 		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 		
 		if ( $session->sess_info['user_id'] ) {

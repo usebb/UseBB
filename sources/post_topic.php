@@ -79,6 +79,11 @@ if ( !$forumdata['id'] ) {
 		
 	} elseif ( $functions->auth($forumdata['auth'], 'post', $_GET['forum']) ) {
 		
+		//
+		// Pose the antispam question
+		//
+		$functions->pose_antispam_question();
+		
 		$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 		
 		$flood_protect_wait_sec = ( $functions->get_user_level() <= LEVEL_MEMBER ) ? ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ) : 0;

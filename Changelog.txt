@@ -6,6 +6,7 @@ UseBB 1.0.12 Changelog
 - Added possibility to show new topic and post reply links to guests.
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added production environment switch (constant).
+- Fixed some bugs with anti-spam question posing timing.
 - Fixed wrong error when could not connect to database.
 - Fixed errors when getting config values before having config file loaded.
 - Post new topic links removed from topic template (template variable still available).

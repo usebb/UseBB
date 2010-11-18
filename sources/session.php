@@ -452,6 +452,8 @@ class session {
 			$user_id = ( $this->check_user($user_data) ) ? $current_sess_info['user_id'] : 0;
 			
 		}
+
+		$anon_spam_opportunity = ( $user_id == 0 && preg_match('#^(register|reply:|posttopic:)#', $location) );
 		
 		//
 		// Set new session data
@@ -462,7 +464,7 @@ class session {
 			'updated' => $current_time,
 			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
 			'ip_addr' => $ip_addr,
-			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') && $anon_spam_opportunity && !$_SESSION['antispam_question_posed'] )
+			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') > ANTI_SPAM_DISABLE && $anon_spam_opportunity && !$_SESSION['antispam_question_posed'] )
 		);
 		
 		if ( $location !== NULL ) {

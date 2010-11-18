@@ -64,6 +64,11 @@ if ( $functions->get_config('disable_registrations') ) {
 	
 } else {
 	
+	//
+	// Pose the antispam question
+	//
+	$functions->pose_antispam_question();
+
 	$_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 	
 	$username_taken = $username_banned = $email_taken = $email_banned = false;

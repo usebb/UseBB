@@ -496,10 +496,11 @@ table.maintable td.postcontent {
 	vertical-align: top;
 }
 table.maintable td.postcontent .post {
-	width: 564px;
+	width: 560px;
 	overflow: auto;
 	font-size: 10pt;
 	cursor: auto;
+	padding: 1px;
 }
 table.maintable td.postcontent .signature {
 	color: #444;

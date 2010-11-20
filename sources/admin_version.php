@@ -43,37 +43,52 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-$url = 'http://usebb.sourceforge.net/latest_version';
 $success = false;
 
 if ( !empty($_SESSION['latest_version']) ) {
 	
+	//
+	// Already in session
+	//
 	$success = true;
 	
-} elseif ( function_exists('curl_init') ) {
+} else {
+	
+	$url = 'http://usebb.sourceforge.net/latest_version';
+	$found_version = '';
+	
+	if ( function_exists('curl_init') ) {
+			
+		//
+		// Check using cURL
+		//
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		$found_version = trim(curl_exec($curl));
+		curl_close($curl);
+		
+	} elseif ( ini_get('allow_url_fopen') ) {
+		
+		//
+		// Check using fopen()
+		//
+		$fp = fopen($url, 'r');
+		$found_version = trim(fread($fp, 16));
+		fclose($fp);
+		
+	}
 	
 	//
-	// Check using cURL
+	// Check for valid version
 	//
-	$curl = curl_init($url);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($curl, CURLOPT_HEADER, false);
-	$_SESSION['latest_version'] = trim(curl_exec($curl));
-	curl_close($curl);
-	
-	$success = ( !empty($_SESSION['latest_version']) );
-	
-} elseif ( ini_get('allow_url_fopen') ) {
-	
-	//
-	// Check using fopen()
-	//
-	$fp = fopen($url, 'r');
-	$_SESSION['latest_version'] = trim(fread($fp, 16));
-	fclose($fp);
-	
-	$success = ( !empty($_SESSION['latest_version']) );
-	
+	if ( !empty($found_version) && preg_match('#^[0-9]+\.[0-9]+#', $found_version) ) {
+		
+		$_SESSION['latest_version'] = $found_version;
+		$success = true;
+		
+	}
+
 }
 
 if ( !$success ) {
@@ -86,11 +101,11 @@ if ( !$success ) {
 		
 		case -1:
 			$content = '<h2>'.$lang['VersionNeedUpdateTitle'].'</h2>';
-			$content .= '<p><strong>'.sprintf($lang['VersionNeedUpdate'], USEBB_VERSION, $_SESSION['latest_version'], '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
+			$content .= '<p><strong>'.sprintf($lang['VersionNeedUpdate'], USEBB_VERSION, unhtml($_SESSION['latest_version']), '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
 			break;
 		case 1:
 			$content = '<h2>'.$lang['VersionBewareDevVersionsTitle'].'</h2>';
-			$content .= '<p>'.sprintf($lang['VersionBewareDevVersions'], USEBB_VERSION, $_SESSION['latest_version']).'</p>';
+			$content .= '<p>'.sprintf($lang['VersionBewareDevVersions'], USEBB_VERSION, unhtml($_SESSION['latest_version'])).'</p>';
 			break;
 		default:
 			$content = '<h2>'.$lang['VersionLatestVersionTitle'].'</h2>';

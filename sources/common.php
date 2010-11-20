@@ -71,25 +71,26 @@ if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0'
 define('USEBB_IS_PROD_ENV', FALSE);
 
 //
-// Security measures
+// Error reporting levels
 //
-
 $error_level = E_ALL ^ E_NOTICE;
 if ( defined('E_DEPRECATED') )
 	$error_level ^= E_DEPRECATED;
 define('USEBB_PROD_ERROR_LEVEL', $error_level);
 
 $error_level |= E_NOTICE;
-// E_STRICT is not included in E_ALL
-if ( defined('E_STRICT') )
-	$error_level |= E_STRICT;
 if ( defined('E_DEPRECATED') )
 	$error_level |= E_DEPRECATED;
 define('USEBB_DEV_ERROR_LEVEL', $error_level);
 
 error_reporting(USEBB_IS_PROD_ENV ? USEBB_PROD_ERROR_LEVEL : USEBB_DEV_ERROR_LEVEL);
 
-set_magic_quotes_runtime(1);
+//
+// Setting some PHP config values
+//
+// magic_quotes_runtime is no longer used since 1.0.12
+//
+ini_set('magic_quotes_runtime', '0');
 ini_set('display_errors', '1');
 ini_set('session.use_trans_sid', '0');
 
@@ -102,6 +103,7 @@ if ( in_array('_GET', $request_keys) || in_array('_POST', $request_keys) || in_a
 
 //
 // Unset global variables
+// Upto here, all created variables can be removed
 //
 if ( ini_get('register_globals') ) {
 	
@@ -157,12 +159,13 @@ require(ROOT_PATH.'sources/functions.php');
 $functions = new functions;
 
 //
-// Add slashes and trim get, post and cookie variables
+// Check slashes and trim get, post and cookie variables
 //
-$_GET = slash_trim_global($_GET);
-$_POST = slash_trim_global($_POST);
-$_COOKIE = slash_trim_global($_COOKIE);
-$_REQUEST = slash_trim_global($_REQUEST);
+$magic_quotes = get_magic_quotes_gpc();
+array_walk($_GET, 'usebb_clean_input_value', $magic_quotes);
+array_walk($_POST, 'usebb_clean_input_value', $magic_quotes);
+array_walk($_COOKIE, 'usebb_clean_input_value', $magic_quotes);
+array_walk($_REQUEST, 'usebb_clean_input_value', $magic_quotes);
 
 //
 // Set the error handler

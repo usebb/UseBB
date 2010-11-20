@@ -135,7 +135,12 @@ class db {
 	 */
 	function fetch_result(&$result) {
 		
-		return mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$res_array = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+		if ( is_array($res_array) )
+			array_walk($res_array, 'usebb_clean_db_value');
+
+		return $res_array;
 		
 	}
 	

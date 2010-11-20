@@ -326,7 +326,7 @@ class admin_functions {
 		// Get the contents of config.php
 		//
 		$fp = fopen($config_file, 'r');
-		$config_content = stripslashes(fread($fp, filesize($config_file)));
+		$config_content = fread($fp, filesize($config_file));
 		fclose($fp);
 		
 		//
@@ -359,7 +359,7 @@ class admin_functions {
 			// Write the new contents
 			//
 			$fp = fopen($config_file, 'w');
-			fwrite($fp, addslashes($config_content));
+			fwrite($fp, $config_content);
 			fclose($fp);
 			
 		}

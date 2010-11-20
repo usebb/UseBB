@@ -6,9 +6,11 @@ UseBB 1.0.12 Changelog
 - Added possibility to show new topic and post reply links to guests.
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added production environment switch (constant).
+- Fixed a small issue with not properly checked new version information from server.
 - Fixed some bugs with anti-spam question posing timing.
 - Fixed wrong error when could not connect to database.
 - Fixed errors when getting config values before having config file loaded.
+- Removed mandatory usage of magic_quotes_runtime.
 - Post new topic links removed from topic template (template variable still available).
 - Hide PHP notices and deprecation warnings when in production environment.
 - Added log hidden errors setting which still logs errors hidden in production environment.

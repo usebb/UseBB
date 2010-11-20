@@ -44,36 +44,42 @@ if ( !defined('INCLUDED') )
 	exit();
 
 /**
- * Adds slashes to and trim an array
+ * Callback for array_walk
  *
- * @param array $global Array to slash/trim
- * @returns array Slashed/trimmed array
+ * Will add slashes to and trim the value.
+ * Third parameter disables addslashes (magic_quotes_gpc on)
  */
-function slash_trim_global($global) {
+function usebb_clean_input_value(&$value, $key, $mq=false) {
 	
-	if ( is_array($global) ) {
+	if ( is_array($value) ) {
 		
-		foreach ( $global as $key => $val ) {
-			
-			if ( is_array($val) ) {
-				
-				$global[$key] = slash_trim_global($val);
-			
-			} else {
-				
-				if ( !get_magic_quotes_gpc() )
-					$val = addslashes($val);
-				$global[$key] = trim($val);
-				
-			}
-			
-		}
+		array_walk($value, 'usebb_clean_input_value', $mq);
+		
+	} else {
+		
+		if ( !$mq )
+			$value = addslashes($value);
+		
+		$value = trim($value);
 		
 	}
+
+}
+
+/**
+ * Callback for array_walk
+ *
+ * Will add slashes to the value.
+ */
+function usebb_clean_db_value(&$value, $key) {
 	
-	return $global;
+	if ( is_array($value) )
+		array_walk($value, 'usebb_clean_db_value', $mq);
+	else
+		$value = addslashes($value);
 	
 }
+
 
 /**
  * Resets the named entities to the code ones.
@@ -698,14 +704,18 @@ class functions {
 		
 		//
 		// Installation note if
+		// - error "'install' must be removed"
 		// - mysql*() error "Access denied for user"
 		// - sql error "Table 'x' doesn't exist" or "Access denied for user"
 		//
-		if ( ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false ) || ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
+		if ( strpos($error, '\'install\' must be removed') !== false
+			|| ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false )
+			|| ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
-		<p><strong>It seems UseBB is not installed yet.</strong> If you are the owner of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
-		<p>If UseBB is installed, please check your database connection.</p>';
+		<p><strong>UseBB may not have been installed yet.</strong></p>
+		<p>If this is the case and you are the owner of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
+		<p>Otherwise, please report this error to the owner.</p>';
 			
 		} else {
 			

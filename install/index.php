@@ -228,7 +228,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	
 	foreach ($lines as $sql) {
 		
-		$sql = trim(stripslashes($sql));
+		$sql = trim($sql);
 		if ( !empty($sql) && !preg_match('#^[-\#]#', $sql) ) {
 			
 			if ( !array_key_exists($i, $queries) )

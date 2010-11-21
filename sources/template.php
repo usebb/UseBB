@@ -332,6 +332,8 @@ class template {
 			
 			$debug_info = array();
 			$debug_info[] = $lang['ParseTime'].': '.$parsetime.' s';
+			if ( function_exists('memory_get_peak_usage') )
+				$debug_info[] = $lang['MemoryUsage'].': '.sprintf('%.2f', (memory_get_peak_usage() / 1024 / 1024)).' '.$lang['MegaByteShort'];
 			if ( ( $server_load = $functions->get_server_load() ) == true )
 				$debug_info[] = $lang['ServerLoad'].': '.sprintf('%.2f', $server_load);
 			$debug_info[] = $lang['TemplateSections'].': '.count($this->loaded_sections);

@@ -120,7 +120,7 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 			$content .= '<label><input type="checkbox" name="recipients_members" value="1"'.$recipients_members_checked.' /> '.$lang['MassEmailRecipients-members'].'</label>';
 		$content .= '</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['MassEmailSubject'].'</td><td><input type="text" name="subject" size="35" maxlength="255" value="'.unhtml(stripslashes($_POST['subject'])).'" /></td></tr>';
-		$content .= '<tr><td class="fieldtitle">'.$lang['MassEmailBody'].'</td><td><textarea name="body" rows="10" cols="50">'.unhtml(stripslashes($_POST['body'])).'</textarea></td></tr>';
+		$content .= '<tr><td class="fieldtitle">'.$lang['MassEmailBody'].'</td><td><textarea name="body" rows="15" cols="50">'.unhtml(stripslashes($_POST['body'])).'</textarea></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['MassEmailOptions'].'</td><td>';
 			$content .= '<div><label><input type="checkbox" name="public_emails_only" value="1"'.$public_emails_only_checked.' /> '.$lang['MassEmailPublicEmailsOnly'].'</label></div>';
 			$content .= '<div><label><input type="checkbox" name="exclude_banned" value="1"'.$exclude_banned_checked.' /> '.$lang['MassEmailExcludeBanned'].'</label></div>';

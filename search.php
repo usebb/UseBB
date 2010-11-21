@@ -497,10 +497,10 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 			
 			$template->parse('search_form', 'search', array(
 				'form_begin' => '<form action="'.$functions->make_url('search.php').'" method="post">',
-				'keywords_input' => '<input type="text" name="keywords" id="keywords" size="35" value="'.$_REQUEST['keywords'].'" />',
+				'keywords_input' => '<input type="text" name="keywords" id="keywords" size="45" value="'.$_REQUEST['keywords'].'" />',
 				'keywords_explain' => sprintf($lang['KeywordsExplain'], $functions->get_config('search_nonindex_words_min_length')),
 				'mode_input' => $mode_input,
-				'author_input' => '<input type="text" name="author" size="20" value="'.$_REQUEST['author'].'" />',
+				'author_input' => '<input type="text" name="author" size="25" value="'.$_REQUEST['author'].'" />',
 				'exact_match_input' => '<label><input type="checkbox" name="exact_match" value="1"'.$exact_match_checked.' /> '.$lang['ExactMatch'].'</label>',
 				'include_guests_input' => '<label><input type="checkbox" name="include_guests" value="1"'.$include_guests_checked.' /> '.$lang['IncludeGuests'].'</label>',
 				'forums_input' => $forums_input,

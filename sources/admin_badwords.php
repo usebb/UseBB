@@ -73,6 +73,7 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'badwords')).'" method="post">';
 		$content .= '<table id="adminregulartable">';
 		$content .= '<tr><th>'.$lang['BadwordsAddBadwordWord'].'</th><th>'.$lang['BadwordsAddBadwordReplacement'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
+		$content .= '<tr><td><input type="text" name="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 		
 		if ( !count($badwords) ) {
 			
@@ -85,7 +86,6 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 			
 		}
 		
-		$content .= '<tr><td><input type="text" name="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 		$content .= '</table></form>';
 		
 	}

@@ -352,7 +352,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	$content = '<h2>'.$lang['MembersSearchMember'].'</h2>';
 	$content .= '<p>'.$lang['MembersSearchMemberInfo'].'</p>';
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members')).'" method="post">';
-	$content .= '<p>'.$lang['MembersSearchMemberExplain'].': <input type="text" name="search_member" id="search_member" size="20" maxlength="255" value="'.unhtml(stripslashes($search_member)).'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
+	$content .= '<p>'.$lang['MembersSearchMemberExplain'].': <input type="text" name="search_member" id="search_member" size="25" maxlength="255" value="'.unhtml(stripslashes($search_member)).'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
 	$content .= '</form>';
 	
 	if ( !empty($search_member) ) {

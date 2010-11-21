@@ -442,7 +442,7 @@ if (
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="5" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="10" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	

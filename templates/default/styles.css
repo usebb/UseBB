@@ -677,6 +677,7 @@ p#linkbar #rss-feed-icon img {
 }
 
 #bbcode-controls {
+	margin: 0 4px 3px 0;
 	padding: 4px 3px 4px 3px;
 	background-color: #FFF;
 	background-image: url(gfx/bbcode_bg.png);
@@ -684,7 +685,6 @@ p#linkbar #rss-feed-icon img {
 	background-repeat: repeat-x;
 	border: 1px solid #d7cbbe;
 	border-top: 0;
-	margin: 0 0 3px 0;
 }
 #bbcode-controls li a {
 	padding: 2px 6px 2px 6px;
@@ -702,7 +702,8 @@ p#linkbar #rss-feed-icon img {
 	margin: 3px 0 0 0;
 }
 #smiley-controls li {
-	margin: 0 2px 0 0;
+	margin: 0 5px 0 0;
+	vertical-align: sub;
 }
 
 #post-options input, #post-options label {

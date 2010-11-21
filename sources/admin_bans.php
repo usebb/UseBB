@@ -85,6 +85,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'])).'" method="post">';
 			$content .= '<table id="adminregulartable">';
 			$content .= '<tr><th>'.$lang['BansUsername'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
+			$content .= '<tr><td><input type="text" name="name" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 			
 			if ( !count($bans) ) {
 				
@@ -97,7 +98,6 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 				
 			}
 			
-			$content .= '<tr><td><input type="text" name="name" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 			$content .= '</table></form>';
 			
 		}
@@ -121,6 +121,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'])).'" method="post">';
 			$content .= '<table id="adminregulartable">';
 			$content .= '<tr><th>'.$lang['BansEmail'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
+			$content .= '<tr><td><input type="text" name="email" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 			
 			if ( !count($bans) ) {
 				
@@ -133,7 +134,6 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 				
 			}
 			
-			$content .= '<tr><td><input type="text" name="email" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 			$content .= '</table></form>';
 			
 		}
@@ -163,6 +163,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 				$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'])).'" method="post">';
 				$content .= '<table id="adminregulartable">';
 				$content .= '<tr><th>'.$lang['BansIp_addr'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
+				$content .= '<tr><td><input type="text" name="ip_addr" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 				
 				if ( !count($bans) ) {
 					
@@ -175,7 +176,6 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 					
 				}
 				
-				$content .= '<tr><td><input type="text" name="ip_addr" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
 				$content .= '</table></form>';
 				
 			}

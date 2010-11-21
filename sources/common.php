@@ -175,7 +175,7 @@ set_error_handler(array(&$functions, 'usebb_die'));
 //
 // Check for install/ on production environment.
 //
-if ( USEBB_IS_PROD_ENV && ( !defined('IS_INSTALLER') || !IS_INSTALLER ) && file_exists(ROOT_PATH.'install') )
+if ( USEBB_IS_PROD_ENV && !defined('IS_INSTALLER') && file_exists(ROOT_PATH.'install') )
 	trigger_error('The directory \'install\' must be removed after installation to access this forum.', E_USER_ERROR);
 
 //

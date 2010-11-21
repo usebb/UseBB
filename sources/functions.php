@@ -763,13 +763,13 @@ class functions {
 		//
 		// users_must_activate was renamed to activation_mode.
 		//
-		if ( $setting == 'activation_mode' && !array_key_exists($setting, $this->board_config_original) )
+		if ( $setting == 'activation_mode' && !isset($this->board_config_original[$setting]) )
 			$setting = 'users_must_activate';
 		
 		//
 		// Some missing (newer) settings have default values and are added to original config.
 		//
-		if ( !array_key_exists($setting, $this->board_config_original) ) {
+		if ( !isset($this->board_config_original[$setting]) ) {
 			
 			switch ( $setting ) {
 				
@@ -816,7 +816,7 @@ class functions {
 				
 			}
 			
-			if ( $set_to !== null )
+			if ( isset($set_to) )
 				$this->board_config_original[$setting] = $set_to;
 			
 		}
@@ -826,7 +826,7 @@ class functions {
 		// Treat a missing one as "false".
 		//
 		if ( defined('IS_INSTALLER') || $original )
-			return ( array_key_exists($setting, $this->board_config_original) ) ? $this->board_config_original[$setting] : false;
+			return ( isset($this->board_config_original[$setting]) ) ? $this->board_config_original[$setting] : false;
 		
 		//
 		// As of here, settings are altered and no longer "original",
@@ -838,13 +838,13 @@ class functions {
 		//
 		// Settings cache for this request.
 		//
-		if ( array_key_exists($setting, $this->board_config) )
+		if ( isset($this->board_config[$setting]) )
 			return $this->board_config[$setting];
 		
 		//
 		// User-based settings.
 		//
-		if ( is_object($session) && !empty($session->sess_info['user_id']) && array_key_exists($setting, $session->sess_info['user_info']) ) {
+		if ( is_object($session) && !empty($session->sess_info['user_id']) && isset($session->sess_info['user_info'][$setting]) ) {
 			
 			switch ( $setting ) {
 				
@@ -917,7 +917,7 @@ class functions {
 		// All other settings taken from the original array.
 		// Use false when setting does not exist.
 		//
-		$this->board_config[$setting] = array_key_exists($setting, $this->board_config_original) ? $this->board_config_original[$setting] : false;
+		$this->board_config[$setting] = isset($this->board_config_original[$setting]) ? $this->board_config_original[$setting] : false;
 
 		return $this->board_config[$setting];
 		

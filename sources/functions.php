@@ -936,7 +936,7 @@ class functions {
 		//
 		// Already requested, return
 		//
-		if ( array_key_exists($stat, $this->statistics) )
+		if ( isset($this->statistics[$stat]) )
 			return $this->statistics[$stat];
 		
 		//
@@ -978,7 +978,7 @@ class functions {
 			
 		}
 		
-		if ( array_key_exists($stat, $this->statistics) )
+		if ( isset($this->statistics[$stat]) )
 			return $this->statistics[$stat];
 		else
 			trigger_error('The statistic variable "'.$stat.'" does not exist!', E_USER_ERROR);
@@ -1106,13 +1106,24 @@ class functions {
 		$language = ( !empty($language) && in_array($language, $this->get_language_packs()) ) ? $language : $this->get_config('language');
 		$section = ( !empty($section) ) ? $section : 'lang';
 		
-		if ( !array_key_exists($language, $this->language_sections) || !in_array($section, $this->language_sections[$language]) ) {
+		if ( !isset($this->language_sections[$language]) || !in_array($section, $this->language_sections[$language]) ) {
 			
+			//
+			// Not loaded yet
+			//
+
 			if ( $section != 'lang' ) {
 				
+				//
+				// Add to current $lang
+				//
 				$lang = $GLOBALS['lang'];
+
 				if ( !file_exists(ROOT_PATH.'languages/'.$section.'_'.$language.'.php') ) {
 					
+					//
+					// Fallback to English
+					//
 					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 						require(ROOT_PATH.'languages/'.$section.'_English.php');
 					else
@@ -1122,6 +1133,9 @@ class functions {
 					
 					require(ROOT_PATH.'languages/'.$section.'_'.$language.'.php');
 					
+					//
+					// Merge with English for missing strings
+					//
 					if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 						$lang = array_merge($this->fetch_language('English', $section), $lang);
 					
@@ -1131,33 +1145,39 @@ class functions {
 				
 				require(ROOT_PATH.'languages/'.$section.'_'.$language.'.php');
 				
+				//
+				// Merge with English for missing strings
+				//
 				if ( $language != 'English' && in_array('English', $this->get_language_packs()) )
 					$lang = array_merge($this->fetch_language('English', $section), $lang);
 				
 				if ( empty($lang['character_encoding']) )
 					$lang['character_encoding'] = 'iso-8859-1';
 				
+				//
+				// UTF-8 patching
+				//
 				if ( function_exists('mb_internal_encoding') ) {
 					
-					//  setting mbstring.
+					// Setting mbstring
 					$mb_internal_encoding = ( $lang['character_encoding'] == 'iso-8859-8-i' ) ? 'iso-8859-8' : $lang['character_encoding'];
 
-					$is_mb_language = @mb_language($language);
-					$is_mb_internal_encoding = @mb_internal_encoding($mb_internal_encoding);
+					$is_mb_language = mb_language($language);
+					$is_mb_internal_encoding = mb_internal_encoding($mb_internal_encoding);
 					
-					if ( $is_mb_language !== FALSE || $is_mb_internal_encoding !== FALSE) {
+					if ( $is_mb_language !== FALSE || $is_mb_internal_encoding !== FALSE ) {
 						
 						$this->is_mbstring = TRUE;
 						
 					} else {
 						 
-						//  mbstring can not be used, it resets then.
+						// mbstring can not be used, reset
 						mb_language('neutral');
 						mb_internal_encoding('ISO-8859-1');
 						
 					}
 
-					//  reset other parameters.
+					// Reset other parameters
 					ini_set('mbstring.http_input', 'pass');
 					ini_set('mbstring.http_output', 'pass');
 					ini_set('mbstring.func_overload', 0);
@@ -1169,11 +1189,12 @@ class functions {
 			$this->languages[$language] = $lang;
 		}
 		
-		if ( !array_key_exists($language, $this->language_sections) )
+		if ( !isset($this->language_sections[$language]) )
 			$this->language_sections[$language] = array();
 		$this->language_sections[$language][] = $section;
 		
-		return $this->languages[$language];
+		$returned = &$this->languages[$language];
+		return $returned;
 		
 	}
 	
@@ -1222,7 +1243,7 @@ class functions {
 		else
 			$date = gmdate($format, $stamp + (3600 * $this->get_config('timezone')) + (3600 * $this->get_config('dst')));
 		
-		if ( $translate && array_key_exists('date_translations', $lang) && is_array($lang['date_translations']) )
+		if ( $translate && isset($lang['date_translations']) && is_array($lang['date_translations']) )
 			$date = ucfirst(strtr($date, $lang['date_translations']));
 		
 		return $date;
@@ -2610,7 +2631,7 @@ class functions {
 			$this->updated_forums = array();
 			while ( $topicsdata = $db->fetch_result($result) ) {
 				
-				if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !array_key_exists('t'.$topicsdata['id'], $_SESSION['viewed_topics']) || $_SESSION['viewed_topics']['t'.$topicsdata['id']] < $topicsdata['post_time'] ) )
+				if ( !in_array($topicsdata['forum_id'], $this->updated_forums) && ( !isset($_SESSION['viewed_topics']['t'.$topicsdata['id']]) || $_SESSION['viewed_topics']['t'.$topicsdata['id']] < $topicsdata['post_time'] ) )
 					$this->updated_forums[] = $topicsdata['forum_id'];
 				
 			}
@@ -2663,7 +2684,7 @@ class functions {
 		
 		global $session, $template, $lang;
 		
-		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && ( !array_key_exists('t'.$id, $_SESSION['viewed_topics']) || $_SESSION['viewed_topics']['t'.$id] < $post_time ) ) {
+		if ( $session->sess_info['user_id'] && !empty($_SESSION['previous_visit']) && $_SESSION['previous_visit'] < $post_time && ( !isset($_SESSION['viewed_topics']['t'.$id]) || $_SESSION['viewed_topics']['t'.$id] < $post_time ) ) {
 			
 			if ( !$locked ) {
 				
@@ -2726,7 +2747,7 @@ class functions {
 		for ( $i = 1; $i <= 12; $i++ ) {
 			
 			$selected = ( $birthday_month == $i ) ? ' selected="selected"' : '';
-			$month_name = ( array_key_exists('date_translations', $lang) && is_array($lang['date_translations']) ) ? $lang['date_translations'][$months[$i-1]] : $months[$i-1];
+			$month_name = ( isset($lang['date_translations']) && is_array($lang['date_translations']) ) ? $lang['date_translations'][$months[$i-1]] : $months[$i-1];
 			$birthday_month_input .= '<option value="'.$i.'"'.$selected.'>'.$month_name.'</option>';
 			
 		}

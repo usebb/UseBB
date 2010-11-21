@@ -64,7 +64,7 @@ select * {
 	font-family: verdana, sans-serif !important;
 }
 select option {
-	padding: 0 5px 0 0;
+	padding: 0 10px 0 0;
 }
 textarea {
 	width: 99%;

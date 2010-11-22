@@ -168,6 +168,9 @@ class session {
 			
 		}
 		
+		//
+		// Cleanup
+		//
 		if ( $run_cleanup ) {
 			
 			$add_to_remove_query = array();
@@ -281,7 +284,7 @@ class session {
 			
 		}
 		
-		$anon_spam_opportunity = ( $user_id == 0 && preg_match('#^(register|reply:|posttopic:)#', $location) );
+		$spam_opportunity = ( preg_match('#^(register|reply:|posttopic:)#', $location) );
 		
 		//
 		// DNSBL powered banning
@@ -303,7 +306,7 @@ class session {
 		}
 		
 		if ( $functions->get_config('enable_dnsbl_powered_banning')
-			&& ( $functions->get_config('dnsbl_powered_banning_globally') || $anon_spam_opportunity )
+			&& ( $functions->get_config('dnsbl_powered_banning_globally') || $spam_opportunity )
 			&& $dnsrr_available && !$_SESSION['dnsbl_whitelisted']
 			&& ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
 			
@@ -422,7 +425,7 @@ class session {
 					//
 					// Unset cookie when credentials are invalid
 					//
-					if ( !$user_id )
+					if ( $user_id == 0 )
 						$functions->unset_al();
 					
 				} else {
@@ -453,8 +456,6 @@ class session {
 			
 		}
 
-		$anon_spam_opportunity = ( $user_id == 0 && preg_match('#^(register|reply:|posttopic:)#', $location) );
-		
 		//
 		// Set new session data
 		//
@@ -464,7 +465,7 @@ class session {
 			'updated' => $current_time,
 			'pages' => ( $session_started ) ? $current_sess_info['pages']+1 : 1,
 			'ip_addr' => $ip_addr,
-			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') > ANTI_SPAM_DISABLE && $anon_spam_opportunity && !$_SESSION['antispam_question_posed'] )
+			'pose_antispam_question' => ( $functions->get_config('antispam_question_mode') > ANTI_SPAM_DISABLE && $user_id == 0 && $spam_opportunity && !$_SESSION['antispam_question_posed'] )
 		);
 		
 		if ( $location !== NULL ) {

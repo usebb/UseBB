@@ -54,35 +54,12 @@ if ( !empty($_SESSION['latest_version']) ) {
 	
 } else {
 	
-	$url = 'http://usebb.sourceforge.net/latest_version';
-	$found_version = '';
-	
-	if ( function_exists('curl_init') ) {
-			
-		//
-		// Check using cURL
-		//
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		$found_version = trim(curl_exec($curl));
-		curl_close($curl);
-		
-	} elseif ( ini_get('allow_url_fopen') ) {
-		
-		//
-		// Check using fopen()
-		//
-		$fp = fopen($url, 'r');
-		$found_version = trim(fread($fp, 16));
-		fclose($fp);
-		
-	}
+	$found_version = $admin_functions->read_remote_file('http://usebb.sourceforge.net/latest_version');
 	
 	//
 	// Check for valid version
 	//
-	if ( !empty($found_version) && preg_match('#^[0-9]+\.[0-9]+#', $found_version) ) {
+	if ( !empty($found_version) ) {
 		
 		$_SESSION['latest_version'] = $found_version;
 		$success = true;
@@ -97,21 +74,45 @@ if ( !$success ) {
 	
 } else {
 	
-	switch ( version_compare(USEBB_VERSION, $_SESSION['latest_version']) ) {
+	$content = '';
+	$msg = preg_split("#[\r\n]+#", $_SESSION['latest_version']);
+	
+	//
+	// Version comparing
+	//
+	if ( preg_match('#^[0-9]+\.[0-9]+#', $msg[0]) ) {
 		
-		case -1:
-			$content = '<h2>'.$lang['VersionNeedUpdateTitle'].'</h2>';
-			$content .= '<p><strong>'.sprintf($lang['VersionNeedUpdate'], USEBB_VERSION, unhtml($_SESSION['latest_version']), '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
-			break;
-		case 1:
-			$content = '<h2>'.$lang['VersionBewareDevVersionsTitle'].'</h2>';
-			$content .= '<p>'.sprintf($lang['VersionBewareDevVersions'], USEBB_VERSION, unhtml($_SESSION['latest_version'])).'</p>';
-			break;
-		default:
-			$content = '<h2>'.$lang['VersionLatestVersionTitle'].'</h2>';
-			$content .= '<p>'.sprintf($lang['VersionLatestVersion'], USEBB_VERSION).'</p>';
-		
+		$version = array_shift($msg);
+
+		switch ( version_compare(USEBB_VERSION, $version) ) {
+			
+			case -1:
+				$content .= '<h2>'.$lang['VersionNeedUpdateTitle'].'</h2>';
+				$content .= '<p><strong>'.sprintf($lang['VersionNeedUpdate'], USEBB_VERSION, unhtml($version), '<a href="http://www.usebb.net/downloads/">www.usebb.net/downloads</a>').'</strong></p>';
+				break;
+			case 1:
+				$content .= '<h2>'.$lang['VersionBewareDevVersionsTitle'].'</h2>';
+				$content .= '<p>'.sprintf($lang['VersionBewareDevVersions'], USEBB_VERSION, unhtml($version)).'</p>';
+				break;
+			default:
+				$content .= '<h2>'.$lang['VersionLatestVersionTitle'].'</h2>';
+				$content .= '<p>'.sprintf($lang['VersionLatestVersion'], USEBB_VERSION).'</p>';
+			
+		}
+
 	}
+	
+	//
+	// Additional header
+	//
+	if ( count($msg) > 1 )
+		$content .= '<h2>'.unhtml(array_shift($msg)).'</h2>';
+	
+	//
+	// Messages
+	//
+	foreach ( $msg as $line )
+		$content .= '<p>'.unhtml($line).'</p>';	
 	
 }
 

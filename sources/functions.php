@@ -951,16 +951,19 @@ class functions {
 				break;
 			
 			case 'forums':
+				$result = $db->query("SELECT COUNT(id) AS count FROM ".TABLE_PREFIX."forums");
+				$out = $db->fetch_result($result);
+				$this->statistics[$stat] = $out['count'];
+				break;
+
 			case 'viewable_forums':
 				$result = $db->query("SELECT id, auth FROM ".TABLE_PREFIX."forums");
-				$this->statistics['forums'] = 0;
-				$this->statistics['viewable_forums'] = 0;
+				$this->statistics[$stat] = 0;
 				
 				while ( $forumdata = $db->fetch_result($result) ) {
 					
-					$this->statistics['forums']++;
 					if ( $this->auth($forumdata['auth'], 'view', $forumdata['id']) )
-						$this->statistics['viewable_forums']++;
+						$this->statistics[$stat]++;
 					
 				}
 				break;

@@ -506,6 +506,10 @@ $lang['AntiSpamQuestionMathPlus'] = 'Hoeveel is %d plus %d?';
 $lang['AntiSpamQuestionMathMinus'] = 'Hoeveel is %d min %d?';
 $lang['AntiSpamWrongAnswer'] = 'Het verzonden antwoord is fout. Gelieve het juiste antwoord in te geven om dit component van het forum te openen.';
 $lang['WrongUsernamePassword'] = 'De combinatie van gebruikersnaam (%s) en wachtwoord is niet correct. Gelieve opnieuw te proberen.';
+$lang['All'] = 'Alles';
+$lang['Staff'] = 'Staf';
+$lang['Guests'] = 'Gasten';
+$lang['ShowOnly'] = 'Toon enkel';
 
 //
 // Date translations

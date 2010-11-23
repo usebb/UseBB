@@ -52,6 +52,9 @@ $templates['user'] = '
 ';
 
 $templates['footer'] = '
+		<tr>
+			<td colspan="3" class="formcontrols">{filter_links}</td>
+		</tr>
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

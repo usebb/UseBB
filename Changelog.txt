@@ -3,6 +3,7 @@ $Id$
 UseBB 1.0.12 Changelog
 ------------------------------
 
+- Added members/staff/guests filter on online user list.
 - Added possibility to show new topic and post reply links to guests.
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added production environment switch (constant).

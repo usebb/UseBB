@@ -60,10 +60,19 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	$functions->redir_to_login();
 	
 } else {
+
+	$show = ( !empty($_GET['show']) && in_array($_GET['show'], array('all', 'members', 'staff', 'guests')) ) ? $_GET['show'] : 'all';
+	
+	if ( $show != 'all' )
+		$q_user_id = ( $show == 'guests' ) ? " AND s.user_id = 0" : " AND s.user_id > 0";
+	else
+		$q_user_id = "";
+	
+	$q_level = ( $show == 'staff' ) ? " AND u.level > 1" : "";
 	
 	$min_updated = time() - ( $functions->get_config('online_min_updated') * 60 );
 	
-	$result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.displayed_name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated." ORDER BY s.updated DESC");
+	$result = $db->query("SELECT s.user_id, s.ip_addr, s.updated, s.location, u.displayed_name, u.level, u.hide_from_online_list FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE s.updated > ".$min_updated.$q_user_id.$q_level." ORDER BY s.updated DESC");
 	
 	$ids = $names = array(
 		'forums' => array(),
@@ -101,7 +110,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	$page = ( !empty($_GET['page']) && valid_int($_GET['page']) && intval($_GET['page']) > 0 && intval($_GET['page']) <= $numpages ) ? intval($_GET['page']) : 1;
 	$limit_start = ( $page - 1 ) * $functions->get_config('members_per_page');
 	$limit_end = $functions->get_config('members_per_page');
-	$page_links = $functions->make_page_links($numpages, $page, count($sessions), $functions->get_config('members_per_page'), 'online.php');
+	$page_links = $functions->make_page_links($numpages, $page, count($sessions), $functions->get_config('members_per_page'), 'online.php', null, true, array('show' => $show));
 	
 	$i = 0;
 	foreach ( $sessions as $key => $sessiondata ) {
@@ -302,9 +311,27 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		unset($location);
 		
 	}
+
+	function usebb_show_filter_link($new) {
+		
+		global $lang, $show, $functions;
+		
+		$lang_var = $lang[ucfirst($new)];
+		
+		return ( $show == $new ) ? '<strong>'.$lang_var.'</strong>' : '<a href="'.$functions->make_url('online.php', array('show' => $new)).'">'.$lang_var.'</a>';
+		
+	}
+	
+	$filter_links = array(
+		usebb_show_filter_link('members'),
+		usebb_show_filter_link('staff'),
+		usebb_show_filter_link('guests'),
+		usebb_show_filter_link('all'),
+	);
 	
 	$template->parse('footer', 'onlinelist', array(
-		'page_links' => $page_links
+		'page_links' => $page_links,
+		'filter_links' => $lang['ShowOnly'].': '.implode(', ', $filter_links)
 	));
 	
 }

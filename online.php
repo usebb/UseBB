@@ -311,6 +311,16 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		unset($location);
 		
 	}
+	
+	if ( !count($sessions) ) {
+		
+		$template->parse('user', 'onlinelist', array(
+			'username' => '<em>('.$lang['Nobody'].')</em>',
+			'current_page' => '&ndash;',
+			'latest_update' => '&ndash;',
+		));
+		
+	}
 
 	function usebb_show_filter_link($new) {
 		

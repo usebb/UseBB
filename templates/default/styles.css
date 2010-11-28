@@ -58,6 +58,7 @@ textarea {
 }
 textarea#tags-txtarea {
 	width: 98%;
+	padding: 3px;
 }
 input[type="submit"], input[type="reset"], input[type="button"],
 label, input[type="radio"], input[type="checkbox"], select {
@@ -65,6 +66,12 @@ label, input[type="radio"], input[type="checkbox"], select {
 }
 optgroup option {
 	padding: 0 10px 0 10px;
+}
+
+input[type="reset"] {
+	font-weight: normal !important;
+	color: #666;
+	font-style: italic;
 }
 
 pre.code {
@@ -252,7 +259,7 @@ td.formcontrols a {
 	color: #369 !important;
 }
 td.formcontrols .postformshortcut {
-	margin-top: 5px;
+	margin-top: 3px;
 	color: #666;
 	font-size: 7pt;
 }
@@ -652,7 +659,8 @@ p#linkbar #rss-feed-icon img {
 }
 
 #bbcode-controls {
-	margin: 0 4px 3px 0;
+	margin: 0 0 5px 0;
+	width: 98%;
 	padding: 4px 3px 4px 3px;
 	background-color: #FFF;
 	background-image: url(gfx/bbcode_bg.png);

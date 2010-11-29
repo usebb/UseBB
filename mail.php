@@ -169,7 +169,6 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'body_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="body">'.$_POST['body'].'</textarea>',
 						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.$bcc_disabled.' /> '.$lang['BCCMyself'].'</label>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
-						'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 						'form_end' => '</form>'
 					));
 					$template->set_js_onload("set_focus('subject')");

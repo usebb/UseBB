@@ -145,7 +145,7 @@ $templates['normal_footer'] = '
 ';
 
 $templates['msgbox'] = '
-	<div class="msgbox">
+	<div class="msgbox{more_css_classes}">
 		<h3>{box_title}</h3>
 		<p>{content}</p>
 	</div>
@@ -153,7 +153,7 @@ $templates['msgbox'] = '
 
 $templates['confirm_form'] = '
 	{form_begin}
-	<table class="confirmform">
+	<table class="confirmform{more_css_classes}">
 		<tr>
 			<th>{title}</th>
 		</tr>

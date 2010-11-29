@@ -3080,7 +3080,6 @@ class functions {
 			'question' => unhtml($_SESSION['antispam_question_question']),
 			'answer_input' => '<input type="text" name="answer" id="answer" '.$size.' />',
 			'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
-			'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'form_end' => '</form>'
 		));
 		$template->set_js_onload("set_focus('answer')");

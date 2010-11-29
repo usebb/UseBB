@@ -383,7 +383,6 @@ if ( $functions->get_config('disable_registrations') ) {
 			'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
 			'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
 			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.unhtml($_POST['saltcode']).'" />',
-			'reset_button'        => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'form_end'            => '</form>'
 		));
 		$template->set_js_onload("set_focus('user')");
@@ -408,6 +407,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			$_SESSION['saltcode'] = $saltcode = $functions->random_key();
 			
 			$template->parse('confirm_form', 'global', array(
+				'more_css_classes' => ' termsofuse',
 				'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 				'title' => $lang['TermsOfUse'],
 				'content' => nl2br($lang['TermsOfUseContent']),

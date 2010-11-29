@@ -380,7 +380,8 @@ class template {
 			'img_dir' => ROOT_PATH.'templates/'.$functions->get_config('template').'/gfx/',
 			'css_url' => ROOT_PATH.'templates/'.$functions->get_config('template').'/styles.css',
 			'acp_css_head_link' => ( !defined('IS_INSTALLER') && $session->sess_info['location'] == 'admin' ) ? '<link rel="stylesheet" type="text/css" href="'.ROOT_PATH.'templates/'.$functions->get_config('template').'/admin.css" />' : '',
-			'js_onload' => ( count($this->js_onload) ) ? ' onload="javascript:'.join(';', $this->js_onload).'"' : ''
+			'js_onload' => ( count($this->js_onload) ) ? ' onload="javascript:'.join(';', $this->js_onload).'"' : '',
+			'more_css_classes' => '',
 		));
 		
 		//

@@ -198,7 +198,6 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			'password_input' => '<input type="password" name="passwd" size="25" maxlength="255" tabindex="2" />',
 			'remember_input' => $remember_input,
 			'submit_button'  => '<input type="submit" value="'.$lang['LogIn'].'" tabindex="4" />',
-			'reset_button'   => '<input type="reset" value="'.$lang['Reset'].'" />',
 			'link_reg'       => '<a href="'.$functions->make_url('panel.php', array('act' => 'register')).'">'.$lang['RegisterNewAccount'].'</a>',
 			'link_sendpwd'   => '<a href="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'">'.$lang['SendPassword'].'</a>',
 			'form_end'       => '</form>'

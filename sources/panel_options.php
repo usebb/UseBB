@@ -173,7 +173,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'auto_subscribe_topic_input' => '<label><input type="checkbox" name="auto_subscribe_topic" value="1"'.$auto_subscribe_topic_checked.' /> '.$lang['OnPostingNewTopics'].'</label>',
 		'auto_subscribe_reply_input' => '<label><input type="checkbox" name="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /> '.$lang['OnPostingNewReplies'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
-		'reset_button'          => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'              => '</form>'
 	));
 	

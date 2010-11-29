@@ -507,7 +507,6 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				'sort_input' => $sort_input,
 				'show_mode_input' => $show_mode_input,
 				'submit_button' => '<input type="submit" value="'.$lang['Search'].'" />',
-				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
 			));
 			$template->set_js_onload("set_focus('keywords')");

@@ -307,7 +307,6 @@ if ( !$topicdata['id'] ) {
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="4" accesskey="s" />',
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" tabindex="3" />',
-				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
 			));
 			

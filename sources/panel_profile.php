@@ -337,7 +337,6 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.unhtml(stripslashes($user_info['jabber'])).'" />',
 		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.unhtml(stripslashes($user_info['skype'])).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
-		'reset_button'     => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'         => '</form>'
 	));
 	

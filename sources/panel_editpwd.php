@@ -107,7 +107,6 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
 		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
-		'reset_button'         => '<input type="reset" value="'.$lang['Reset'].'" />',
 		'form_end'             => '</form>'
 	));
 	$template->set_js_onload("set_focus('current_passwd')");

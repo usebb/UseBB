@@ -523,7 +523,6 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'content_input' => '<textarea rows="'.$template->get_config('quick_reply_textarea_rows').'" cols="'.$template->get_config('quick_reply_textarea_cols').'" name="content" accesskey="q"></textarea>',
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" accesskey="s" /><input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" /><input type="hidden" name="subscribe_topic" value="'.$subscribe_topic.'" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
-					'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 					'form_end' => '</form>'
 				));
 				

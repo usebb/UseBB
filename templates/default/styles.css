@@ -298,7 +298,7 @@ table.maintable th.lastpostinfo, table.maintable td.lastpostinfo {
 }
 .msgbox p, .preview div.preview {
 	background-color: #EFEFEF;
-	padding: 18px 36px 18px 36px;
+	padding: 15px 20px;
 	margin: 0 0 20px 0;
 	text-align: left;
 	border: 1px solid silver;
@@ -693,10 +693,15 @@ p#linkbar #rss-feed-icon img {
 	margin: 5px 0 0 0;
 }
 
-table#spamquestion {
+table#spamquestion, table.thinner-table, .msgbox, table.confirmform {
 	clear: both;
-	margin: 0px auto 20px auto;
+	margin: 0 auto 20px auto;
 	width: 67%;
+}
+
+table.termsofuse {
+	margin: 0 0 20px 0;
+	width: 100%;
 }
 
 #bottom {

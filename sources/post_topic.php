@@ -263,7 +263,6 @@ if ( !$forumdata['id'] ) {
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="5" accesskey="s" />',
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" tabindex="4" />',
-				'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
 				'form_end' => '</form>'
 			));
 			

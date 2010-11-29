@@ -53,7 +53,7 @@ $templates['forum_stats_box'] = '
 
 $templates['login_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_LogIn}</th>
 		</tr>
@@ -67,7 +67,7 @@ $templates['login_form'] = '
 			<td class="fieldtitle">{l_RememberMe}</td><td>{remember_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -95,7 +95,7 @@ $templates['mail_form'] = '
 			<td colspan="2">{bcc_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -103,7 +103,7 @@ $templates['mail_form'] = '
 
 $templates['move_topic_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_MoveTopic}</th>
 		</tr>
@@ -236,7 +236,7 @@ $templates['profile'] = '
 
 $templates['register_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_Register}</th>
 		</tr>
@@ -256,7 +256,7 @@ $templates['register_form'] = '
 			<td colspan="2">{l_UsernameInfo} {passwd_info} {l_EverythingRequired}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -264,7 +264,7 @@ $templates['register_form'] = '
 
 $templates['sendpwd_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_SendPassword}</th>
 		</tr>
@@ -278,7 +278,7 @@ $templates['sendpwd_form'] = '
 			<td colspan="2">{l_EverythingRequired}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}
@@ -300,7 +300,7 @@ $templates['anti_spam_question'] = '
 			<td class="fieldtitle">{l_Answer}</td><td>{answer_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
 		</tr>
 	</table>
 	{form_end}

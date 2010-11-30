@@ -186,8 +186,27 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	$template->set_page_title($lang['DetailedOnlineList']);
 	
+	function usebb_show_filter_link($new) {
+		
+		global $lang, $show, $functions;
+		
+		$lang_var = $lang[ucfirst($new)];
+		
+		return ( $show == $new ) ? '<strong>'.$lang_var.'</strong>' : '<a href="'.$functions->make_url('online.php', array('show' => $new)).'">'.$lang_var.'</a>';
+		
+	}
+	
+	$filter_links = array(
+		usebb_show_filter_link('members'),
+		usebb_show_filter_link('staff'),
+		usebb_show_filter_link('guests'),
+		usebb_show_filter_link('all'),
+	);
+	$filter_links = $lang['ShowOnly'].': '.implode(', ', $filter_links);
+	
 	$template->parse('header', 'onlinelist', array(
-		'page_links' => $page_links
+		'page_links' => $page_links,
+		'filter_links' => $filter_links,
 	));
 	
 	foreach ( $sessions as $sessiondata ) {
@@ -321,27 +340,10 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		));
 		
 	}
-
-	function usebb_show_filter_link($new) {
-		
-		global $lang, $show, $functions;
-		
-		$lang_var = $lang[ucfirst($new)];
-		
-		return ( $show == $new ) ? '<strong>'.$lang_var.'</strong>' : '<a href="'.$functions->make_url('online.php', array('show' => $new)).'">'.$lang_var.'</a>';
-		
-	}
-	
-	$filter_links = array(
-		usebb_show_filter_link('members'),
-		usebb_show_filter_link('staff'),
-		usebb_show_filter_link('guests'),
-		usebb_show_filter_link('all'),
-	);
 	
 	$template->parse('footer', 'onlinelist', array(
 		'page_links' => $page_links,
-		'filter_links' => $lang['ShowOnly'].': '.implode(', ', $filter_links)
+		'filter_links' => $filter_links,
 	));
 	
 }

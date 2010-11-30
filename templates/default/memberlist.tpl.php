@@ -37,6 +37,9 @@ $templates['header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
+			<td colspan="4" class="formcontrols">{sort_by_links}</td>
+		</tr>
+		<tr>
 			<th>{l_Username} / {l_RealName}</th>
 			<th>{l_Level} / {l_Rank}</th>
 			<th>{l_Registered}</th>
@@ -60,9 +63,6 @@ $templates['no_users_found'] = '
 ';
 
 $templates['footer'] = '
-		<tr>
-			<td colspan="4" class="formcontrols">{sort_by_links}</td>
-		</tr>
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

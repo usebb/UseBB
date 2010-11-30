@@ -37,6 +37,9 @@ $templates['header'] = '
 	<p id="pagelinksothertop">{page_links}</p>
 	<table class="maintable">
 		<tr>
+			<td colspan="3" class="formcontrols">{filter_links}</td>
+		</tr>
+		<tr>
 			<th>{l_Username}</th>
 			<th>{l_CurrentPage}</th>
 			<th>{l_LatestUpdate}</th>
@@ -52,9 +55,6 @@ $templates['user'] = '
 ';
 
 $templates['footer'] = '
-		<tr>
-			<td colspan="3" class="formcontrols">{filter_links}</td>
-		</tr>
 	</table>
 	<p id="pagelinksotherbottom">{page_links}</p>
 ';

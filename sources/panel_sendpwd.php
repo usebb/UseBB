@@ -152,7 +152,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 		'form_begin'          => '<form action="'.$functions->make_url('panel.php', array('act' => 'sendpwd')).'" method="post">',
 		'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="255" value="'.$_POST['user'].'" />',
 		'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
-		'submit_button'       => '<input type="submit" value="'.$lang['SendPassword'].'" />',
+		'submit_button'       => '<input type="submit" value="'.$lang['Send'].'" />',
 		'form_end'            => '</form>'
 	));
 	$template->set_js_onload("set_focus('user')");

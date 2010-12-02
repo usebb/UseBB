@@ -143,7 +143,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 	$sort_items = array(
 		'latest_post' => 'p2.post_time',
 		'topic_title' => 't.topic_title',
-		'forum' => 't.forum_id',
+		'forum' => 'f.name',
 		'author' => 'u.displayed_name',
 		'replies' => 't.count_replies',
 		'views' => 't.count_views'
@@ -190,12 +190,6 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		
 		$query_select = ( $_REQUEST['show_mode'] == 'topics' ) ? 'DISTINCT t.id' : 'p.id';
 		
-		//
-		// Change field for last post time
-		//
-		if ( $_REQUEST['show_mode'] == 'posts' )
-			$sort_items['latest_post'] = 'p.post_time';
-		
 		$query_where_parts = array();
 		
 		if ( !empty($_REQUEST['keywords']) ) {
@@ -230,7 +224,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		else
 			$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 		
-		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." ORDER BY ".$sort_items[$_REQUEST['sort_by']]." ".$_REQUEST['order']." LIMIT ".$functions->get_config('search_limit_results'));
+		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." LIMIT ".$functions->get_config('search_limit_results'));
 		$result_ids = array();
 		while ( $searchdata = $db->fetch_result($result) )
 			$result_ids[] = $searchdata['id'];
@@ -285,6 +279,20 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				$limit_start = ( $page - 1 ) * $per_page;
 				$limit_end = $per_page;
 				$page_links = $functions->make_page_links($numpages, $page, count($search_results['results']), $per_page, 'search.php', NULL, true, array('act' => 'results'));
+
+				//
+				// For posts, use a different field
+				//
+				if ( $search_results['show_mode'] == 'posts' )
+					$sort_items['latest_post'] = 'p.post_time';
+				
+				//
+				// Build the sort part
+				// Additional sorting on topic title
+				//
+				$query_sort_part = $sort_items[$search_results['sort_by']]." ".strtoupper($search_results['order']);
+				if ( $search_results['sort_by'] != 'topic_title' )
+					$query_sort_part .= ", ".$sort_items['topic_title']." ASC";
 				
 				if ( $search_results['show_mode'] == 'topics' ) {
 					
@@ -299,7 +307,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 						'author' => unhtml(stripslashes($search_results['author'])),
 					));
 					
-					$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY ".$sort_items[$search_results['sort_by']]." ".$search_results['order']." LIMIT ".$limit_start.", ".$limit_end);
+					$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id, ".TABLE_PREFIX."forums f WHERE t.id IN(".join(', ', $search_results['results']).") AND f.id = t.forum_id AND f.id IN(".join(', ', $forum_ids).") AND p.id = t.first_post_id AND p2.id = t.last_post_id ORDER BY ".$query_sort_part." LIMIT ".$limit_start.", ".$limit_end);
 					
 					while ( $topicdata = $db->fetch_result($result) ) {
 						
@@ -361,12 +369,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 						'author' => unhtml(stripslashes($search_results['author'])),
 					));
 					
-					//
-					// Change this field
-					//
-					$sort_items['latest_post'] = 'p.post_time';
-					
-					$result = $db->query("SELECT p.id, p.topic_id, p.content, p.post_time, p.poster_guest, p.poster_id, u.displayed_name AS poster_name, u.level AS poster_level, t.topic_title, t.status_sticky, t.forum_id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."topics t WHERE p.id IN(".join(', ', $search_results['results']).") AND t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY ".$sort_items[$search_results['sort_by']]." ".$search_results['order']." LIMIT ".$limit_start.", ".$limit_end);
+					$result = $db->query("SELECT p.id, p.topic_id, p.content, p.post_time, p.poster_guest, p.poster_id, u.displayed_name AS poster_name, u.level AS poster_level, t.topic_title, t.status_sticky, t.forum_id FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p.id IN(".join(', ', $search_results['results']).") AND f.id = t.forum_id AND f.id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY ".$query_sort_part." LIMIT ".$limit_start.", ".$limit_end);
 					
 					while ( $postdata = $db->fetch_result($result) ) {
 											

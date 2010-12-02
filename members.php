@@ -97,12 +97,20 @@ if ( empty($_GET['act']) ) {
 			$sort_by_links .= '</select> ';
 		$sort_by_links .= '<input type="submit" value="'.$lang['Sort'].'" /></form>';
 		
+		//
+		// Sort query part
+		// Additionally, keep second sort for displayed_name
+		//
+		$sort_part_sql = $_GET['sort_by']." ".strtoupper($_GET['order']);
+		if ( $_GET['sort_by'] != 'displayed_name' )
+			$sort_part_sql .= ", displayed_name ASC";
+		
 		$never_activated_sql = ( $functions->get_config('show_never_activated_members') ) ? "" : " AND ( active <> 0 OR last_login <> 0 )";
 		
 		//
 		// Get page number
 		//
-		$result = $db->query("SELECT COUNT(*) as count FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order']));
+		$result = $db->query("SELECT COUNT(*) as count FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$sort_part_sql);
 		$out = $db->fetch_result($result);
 		$num_members = $out['count'];
 		
@@ -130,7 +138,7 @@ if ( empty($_GET['act']) ) {
 			// Get members information
 			//
 			
-			$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$_GET['sort_by']." ".strtoupper($_GET['order'])." LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT id, displayed_name, real_name, email, email_show, level, rank, regdate, posts FROM ".TABLE_PREFIX."members WHERE displayed_name LIKE '%".str_replace(array('%', '_'), array('\%', '\_'), $_GET['search'])."%'".$never_activated_sql." ORDER BY ".$sort_part_sql." LIMIT ".$limit_start.", ".$limit_end);
 			
 			while ( $userdata = $db->fetch_result($result) ) {
 				

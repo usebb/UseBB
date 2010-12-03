@@ -20,6 +20,7 @@ UseBB 1.0.12 Changelog
 - Removed some old code for PHP < 4.3.0. PHP 4.3 is now a minimum requirement.
 - Debug info can now show memory usage on PHP >= 5.2.
 - Updated (better) sorting on member list and search results.
+- Now impossible for admin to delete own account in ACP.
 - Adjusted input and text area field sizes all over the system (generally bigger).
 - Place HTML title after character encoding meta tag as it should be.
 - Small style improvements, no custom styles anymore on most input fields.

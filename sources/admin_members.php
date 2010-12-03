@@ -224,6 +224,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$level_input = $lang['MembersEditingMemberCantChangeOwnLevel'];
 				
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td rowspan="2">'.$lang['MembersEditingMemberCantBanSelf'].'</td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td></tr>';
+
+				$delete_link = $lang['MembersEditingMemberCantDeleteSelf'];
 				
 			} else {
 				
@@ -237,6 +239,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><label><input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+
+				$delete_link = '<a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'">'.$lang['DeleteMembersConfirmMemberDelete'].'</a>';
 				
 			}
 			
@@ -304,7 +308,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['Rank'].'</td><td><input type="text" size="30" name="rank" maxlength="255" value="'.unhtml(stripslashes($_POST['rank'])).'" /></td></tr>';
 				$content .= $banned_input;
 				$content .= '<tr><td class="fieldtitle">'.$lang['Posts'].' <small>*</small></td><td><input type="text" size="11" name="posts" maxlength="11" value="'.unhtml(stripslashes($_POST['posts'])).'" /></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['Delete'].'</td><td><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'">'.$lang['DeleteMembersConfirmMemberDelete'].'</a></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Delete'].'</td><td>'.$delete_link.'</td></tr>';
 			
 			$content .= '<tr><th colspan="2">'.$lang['ContactInfo'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';

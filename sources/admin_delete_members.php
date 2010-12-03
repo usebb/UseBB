@@ -48,7 +48,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	$result = $db->query("SELECT id, name, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 	$memberdata = $db->fetch_result($result);
 	
-	if ( $memberdata['id'] ) {
+	if ( $memberdata['id'] && $memberdata['id'] != $session->sess_info['user_id'] ) {
 		
 		$userid = $memberdata['id'];
 		$email = $memberdata['email'];
@@ -232,6 +232,11 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '</form>';
 			
 		}
+		
+	} elseif ( $memberdata['id'] == $session->sess_info['user_id'] ) {
+		
+		$content = '<h2>'.$lang['Note'].'</h2>';
+		$content .= '<p>'.$lang['MembersEditingMemberCantDeleteSelf'].'</p>';
 		
 	} else {
 		

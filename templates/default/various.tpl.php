@@ -77,7 +77,7 @@ $templates['mail_form'] = '
 	{form_begin}
 	<table class="maintable thinner-table">
 		<tr>
-			<th colspan="2">{sendemail}</th>
+			<th colspan="2">{l_SendMessage}</th>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_From}</td><td>{from_v}</td>

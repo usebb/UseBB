@@ -704,6 +704,10 @@ table.termsofuse {
 	width: 100%;
 }
 
+.bcc-input {
+	margin-top: 5px;
+}
+
 #bottom {
 	clear: both;
 	float: left;

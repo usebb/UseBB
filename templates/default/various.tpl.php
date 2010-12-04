@@ -75,7 +75,7 @@ $templates['login_form'] = '
 
 $templates['mail_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{sendemail}</th>
 		</tr>
@@ -83,16 +83,13 @@ $templates['mail_form'] = '
 			<td class="fieldtitle">{l_From}</td><td>{from_v}</td>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_To}</td><td>{to_v}</td>
+			<td class="fieldtitle">{l_To}</td><td>{to_v}<div class="bcc-input">{bcc_input}</div></td>
 		</tr>
 		<tr>
 			<td class="fieldtitle">{l_Subject}</td><td>{subject_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2">{body_input}</td>
-		</tr>
-		<tr>
-			<td colspan="2">{bcc_input}</td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}</td>

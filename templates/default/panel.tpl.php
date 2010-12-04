@@ -38,7 +38,7 @@ $templates['menu'] = '
 ';
 
 $templates['sess_info'] = '
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_SessionInfo}</th>
 		</tr>
@@ -233,7 +233,7 @@ $templates['edit_options'] = '
 
 $templates['editpwd_form'] = '
 	{form_begin}
-	<table class="maintable">
+	<table class="maintable thinner-table">
 		<tr>
 			<th colspan="2">{l_EditPasswd}</th>
 		</tr>

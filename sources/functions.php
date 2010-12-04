@@ -1010,6 +1010,10 @@ class functions {
 			//
 			// Friendly URL's
 			//
+
+			if ( $filename == 'index' && count($vars) == 0 )
+				return './';
+
 			$url = $filename;
 			foreach ( $vars as $key => $val ) {
 				
@@ -2892,8 +2896,13 @@ class functions {
 	function redirect($page, $vars=array(), $anchor='') {
 		
 		$goto = $this->get_config('board_url').$this->make_url($page, $vars, false);
+		
+		if ( substr($goto, -2) == './' )
+			$goto = substr($goto, 0, strlen($goto)-2);
+
 		if ( !empty($anchor) )
 			$goto .= '#'.$anchor;
+		
 		$this->raw_redirect($goto);
 		
 	}

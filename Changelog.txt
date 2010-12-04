@@ -22,6 +22,7 @@ UseBB 1.0.12 Changelog
 - Updated (better) sorting on member list and search results.
 - Now impossible for admin to delete own account in ACP.
 - Adjusted input and text area field sizes all over the system (generally bigger).
+- System now links to application root instead of index.html with friendly URLs.
 - Place HTML title after character encoding meta tag as it should be.
 - Small style improvements, no custom styles anymore on most input fields.
 - Version check can now display full text messages.

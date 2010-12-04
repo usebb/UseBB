@@ -313,6 +313,8 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 	
 	list($birthday_year_input, $birthday_month_input, $birthday_day_input) = $functions->birthday_input_fields($session->sess_info['user_info']['birthday']);
 	
+	$textarea_rows = max(floor($template->get_config('textarea_rows') / 3), 3);
+
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
 		'username'         => $user_info['name'],
@@ -327,7 +329,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.unhtml(stripslashes($user_info['website'])).'" />',
 		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($user_info['occupation'])).'" />',
 		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($user_info['interests'])).'" />',
-		'signature_input'  => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="signature" id="tags-txtarea">'.unhtml(stripslashes($user_info['signature'])).'</textarea>',
+		'signature_input'  => '<textarea rows="'.$textarea_rows.'" cols="'.$template->get_config('textarea_cols').'" name="signature" id="tags-txtarea">'.unhtml(stripslashes($user_info['signature'])).'</textarea>',
 		'bbcode_controls' => ( $functions->get_config('sig_allow_bbcode') ) ? $functions->get_bbcode_controls() : '',
 		'smiley_controls' => ( $functions->get_config('sig_allow_smilies') ) ? $functions->get_smiley_controls() : '',
 		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.unhtml(stripslashes($user_info['msnm'])).'" />',

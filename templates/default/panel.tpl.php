@@ -43,12 +43,6 @@ $templates['sess_info'] = '
 			<th colspan="2">{l_SessionInfo}</th>
 		</tr>
 		<tr>
-			<td class="fieldtitle">{l_SessionID}</td><td>{sess_id_v}</td>
-		</tr>
-		<tr>
-			<td class="fieldtitle">{l_IPAddress}</td><td>{ip_addr_v}</td>
-		</tr>
-		<tr>
 			<td class="fieldtitle">{l_Started}</td><td>{started_v}</td>
 		</tr>
 		<tr>

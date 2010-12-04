@@ -88,6 +88,8 @@ if ( !empty($_GET['q']) ) {
 			'question_title' => $question[0],
 			'question_answer' => $question[1]
 		));
+
+		break;
 		
 	}
 	

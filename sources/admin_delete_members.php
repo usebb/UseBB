@@ -52,7 +52,6 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		
 		$userid = $memberdata['id'];
 		$email = $memberdata['email'];
-		$email_wildcard = substr_replace($email, '*', 0, strpos($email, '@'));
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
@@ -179,19 +178,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				//
 				if ( !empty($_POST['banemail']) ) {
 					
-					$toban = '';
-					switch ( $_POST['banemail'] ) {
-						
-						// example@example.net
-						case 'email':
-							$toban = $email;
-							break;
-						// *@example.net
-						case 'wildcard':
-							$toban = $email_wildcard;
-							break;
-
-					}
+					$toban = $_POST['email'];
 
 					if ( !empty($toban) ) {
 						
@@ -223,11 +210,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<p><strong>'.sprintf($lang['DeleteMembersConfirmMemberDeleteContent'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</strong></p>';
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'" method="post">';
 			$content .= '<p><label><input type="checkbox" name="deleteposts" value="1" />  '.$lang['DeleteMembersDeletePosts'].'</label></p>';
-			$content .= '<fieldset><legend>'.$lang['DeleteMembersBanEmail'].'</legend>';
-				$content .= '<label><input type="radio" name="banemail" value="email" /> '.$email.'</label> &nbsp;';
-				$content .= '<label><input type="radio" name="banemail" value="wildcard" /> '.$email_wildcard.'</label> &nbsp;';
-				$content .= '<label><input type="radio" name="banemail" value="0" checked="checked" /> '.$lang['No'].'</label>';
-			$content .= '</fieldset>';
+			$content .= '<p><label><input type="checkbox" name="banemail" value="1" />  '.$lang['DeleteMembersBanEmail'].' </label><input type="text" name="email" size="35" maxlength="255" value="'.$email.'" /></p>';
 			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';
 			

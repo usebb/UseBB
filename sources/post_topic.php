@@ -123,9 +123,8 @@ if ( !$forumdata['id'] ) {
 				
 			}
 			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'topics'");
-			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'");
+			$functions->set_stats('topics', 1, true);
+			$functions->set_stats('posts', 1, true);
 			
 			//
 			// Subscribe user to topic

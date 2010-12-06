@@ -113,10 +113,12 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 			$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN (".join(', ', $topics).")");
 			$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id IN (".join(', ', $topics).")");
 			$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN (".join(', ', $topics).")");
+
 			foreach ( $forums as $id => $val )
 				$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics - ".$val['topics'].", posts = posts - ".$val['posts']." WHERE id = ".$id);
-			$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['topics']." WHERE name = 'topics'");
-			$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content - ".$total['posts']." WHERE name = 'posts'");
+
+			$functions->set_stats('topics', - $total['topics'], true);
+			$functions->set_stats('posts', - $total['posts'], true);
 			
 		} else {
 			

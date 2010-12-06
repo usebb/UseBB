@@ -543,8 +543,8 @@ class admin_functions {
 			//
 			if ( $change_stats ) {
 				
-				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$topics." WHERE name = 'topics'");
-				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".$posts." WHERE name = 'posts'");
+				$functions->set_stats('topics', - $topics, true);
+				$functions->set_stats('posts', - $posts, true);
 				
 			}
 			

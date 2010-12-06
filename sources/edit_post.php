@@ -335,12 +335,11 @@ if ( !isset($_GET['act']) ) {
 					//
 					// 7. Adjust stats
 					//
-					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'posts'");
+					$functions->set_stats('posts', -1, true);
 					
 					if ( $topic_deleted ) {
 						
-						$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'");
-						
+						$functions->set_stats('topics', -1, true);
 						$functions->redirect('forum.php', array('id' => $postdata['forum_id']));
 						
 					} else {

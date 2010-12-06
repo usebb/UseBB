@@ -134,7 +134,7 @@ if ( !$topicdata['id'] ) {
 				
 			}
 			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'posts'");
+			$functions->set_stats('posts', 1, true);
 			
 			//
 			// E-mail subscribed users

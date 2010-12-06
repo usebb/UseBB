@@ -104,7 +104,8 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
 		$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id IN(".join(', ', $prune_members).")");
 		$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $prune_members).")");
 		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id IN(".join(', ', $prune_members).")");
-		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-".count($prune_members)." WHERE name = 'members'");
+
+		$functions->set_stats('members', - count($prune_members), true);
 		
 	}
 	

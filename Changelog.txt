@@ -8,6 +8,7 @@ UseBB 1.0.12 Changelog
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added production environment switch (constant).
 - Fixed a small issue with not properly checked new version information from server.
+- Fixed possible bug with statistics table and updating.
 - Fixed some bugs with anti-spam question posing timing.
 - Fixed wrong error when could not connect to database.
 - Fixed errors when getting config values before having config file loaded.

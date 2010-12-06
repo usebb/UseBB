@@ -256,7 +256,7 @@ if ( $functions->get_config('disable_registrations') ) {
 		//
 		// Update the statistics
 		//
-		$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'");
+		$functions->set_stats('members', 1, true);
 		
 		//
 		// Registration was succesful!

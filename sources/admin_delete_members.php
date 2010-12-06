@@ -161,8 +161,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					}
 					
 					// 6. Adjust global stats
-					$db->query("UPDATE ".TABLE_PREFIX."stats SET content = ".$topics." WHERE name = 'topics'");
-					$db->query("UPDATE ".TABLE_PREFIX."stats SET content = ".$posts." WHERE name = 'posts'");
+					$functions->set_stats('topics', $topics);
+					$functions->set_stats('posts', $posts);
 					
 				} else {
 					
@@ -194,7 +194,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id = ".$userid);
 				$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id = ".$userid);
 				$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = ".$userid);
-				$db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'members'");
+				$functions->set_stats('members', -1, true);
 				
 				$content = '<p>'.sprintf($lang['DeleteMembersComplete'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</p>';
 				

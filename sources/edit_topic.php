@@ -158,9 +158,8 @@ if ( $_GET['act'] == 'delete' ) {
 					//
 					// 6. Adjust stats
 					//
-					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-1 WHERE name = 'topics'");
-					
-					$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content-". ( $topicdata['count_replies']+1 ) ." WHERE name = 'posts'");
+					$functions->set_stats('topics', -1, true);
+					$functions->set_stats('posts', - ( $topicdata['count_replies']+1 ), true);
 					
 					$functions->redirect('forum.php', array('id' => $topicdata['forum_id']));
 					

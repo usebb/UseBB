@@ -249,10 +249,11 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 	}
 	
 	$queries[] = "INSERT INTO ".TABLE_PREFIX."members ( id, name, displayed_name, email, passwd, regdate, level, active, template, language, date_format, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, banned_reason, signature ) VALUES ( NULL, '".$_SESSION['admin_username']."', '".$_SESSION['admin_username']."', '".$_SESSION['admin_email']."', '".$_SESSION['admin_passwd']."', ".time().", 3, 1, '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '', '' )";
-	$queries[] = "UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'";
 	
 	foreach ( $queries as $query )
 		$db->query($query);
+
+	$functions->set_stats('members', 1, true);
 	
 	unset($_SESSION['installer_running'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_passwd']);
 	

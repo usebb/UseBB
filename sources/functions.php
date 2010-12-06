@@ -989,6 +989,25 @@ class functions {
 	}
 	
 	/**
+	 * Set board statistics
+	 *
+	 * @param string $stat Statistical value to set
+	 * @param mixed $value New value
+	 * @param bool $add Add to current value or not
+	 */
+	function set_stats($stat, $value, $add=false) {
+		
+		global $db;
+		
+		if ( $add )
+			$value = $this->get_stats($stat) + $value;
+
+		$db->query("UPDATE ".TABLE_PREFIX."stats SET content = '".$value."' WHERE name = '".$stat."'");
+		$this->statistics[$stat] = $value;
+
+	}
+	
+	/**
 	 * Interactive URL builder
 	 *
 	 * @param string $filename .php filename to link to

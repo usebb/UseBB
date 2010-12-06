@@ -66,7 +66,8 @@ if ( !empty($_POST['name']) ) {
 if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] ) {
 	
 	$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['name']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", 1, 1, '', '".$functions->get_config('template', true)."', '".$functions->get_config('language', true)."', '".$functions->get_config('date_format', true)."', ".$functions->get_config('timezone', true).", ".$functions->get_config('dst', true).", ".$functions->get_config('enable_quickreply', true).", ".$functions->get_config('return_to_topic_after_posting', true).", ".$functions->get_config('target_blank', true).", ".$functions->get_config('hide_avatars', true).", ".$functions->get_config('hide_userinfo', true).", ".$functions->get_config('hide_signatures', true).", '".$_POST['name']."', '', '' )");
-	$result = $db->query("UPDATE ".TABLE_PREFIX."stats SET content = content+1 WHERE name = 'members'");
+
+	$functions->set_stats('members', 1, true);
 	
 	$content = '<p>'.sprintf($lang['RegisterMembersComplete'], '<em>'.unhtml(stripslashes($_POST['name'])).'</em>').'</p>';
 	

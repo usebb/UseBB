@@ -28,6 +28,7 @@ UseBB 1.0.12 Changelog
 - Place HTML title after character encoding meta tag as it should be.
 - Small style improvements, no custom styles anymore on most input fields.
 - Session ID and IP address removed from session information in default template.
+- User level is now shown as tooltip over custom rank in topics.
 - Version check can now display full text messages.
 
 UseBB 1.0.11 Changelog

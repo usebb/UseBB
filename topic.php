@@ -312,30 +312,26 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					$poster_name = $functions->make_profile_link($postsdata['poster_id'], $postsdata['poster_name'], $postsdata['poster_level']);
 					
 					//
+					// Level
+					//
+					switch ( $postsdata['poster_level'] ) {
+						
+						case LEVEL_ADMIN:
+							$poster_level = $lang['Administrator'];
+							break;
+						case LEVEL_MOD:
+							$poster_level = $lang['Moderator'];
+							break;
+						case LEVEL_MEMBER:
+							$poster_level = $lang['Member'];
+							
+					}
+					
+					//
 					// Its rank
 					// If he has a custom rank, use it, otherwise use the level information
 					//
-					if ( !empty($postsdata['rank']) ) {
-						
-						$poster_rank = stripslashes($postsdata['rank']);
-						
-					} else {
-						
-						switch ( $postsdata['poster_level'] ) {
-							
-							case 3:
-								$poster_rank = $lang['Administrator'];
-								break;
-							case 2:
-								$poster_rank = $lang['Moderator'];
-								break;
-							case 1:
-								$poster_rank = $lang['Member'];
-								break;
-							
-						}
-						
-					}
+					$poster_rank = ( !empty($postsdata['rank']) ) ? '<abbr title="'.$poster_level.'">'.stripslashes($postsdata['rank']).'</abbr>' : $poster_level;
 					
 					//
 					// User's avatar

@@ -240,7 +240,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	if ( !empty($search_member) ) {
 		
 		$search_member_sql = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['search_member']);
-		$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
+		$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE ( name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ) AND id <> ".$session->sess_info['user_id']." ORDER BY name ASC");
 		$matching_members = array();
 		while ( $memberdata = $db->fetch_result($result) )
 			$matching_members[$memberdata['id']] = array(unhtml(stripslashes($memberdata['name'])), unhtml(stripslashes($memberdata['displayed_name'])));

@@ -221,7 +221,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			if ( $memberdata['id'] == $session->sess_info['user_id'] ) {
 				
-				$level_input = $lang['MembersEditingMemberCantChangeOwnLevel'];
+				$level_input = $lang['Administrator'].' &ndash; '.$lang['MembersEditingMemberCantChangeOwnLevel'];
 				
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td rowspan="2">'.$lang['MembersEditingMemberCantBanSelf'].'</td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td></tr>';
 

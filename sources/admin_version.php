@@ -54,7 +54,7 @@ if ( !empty($_SESSION['latest_version']) ) {
 	
 } else {
 	
-	$found_version = $admin_functions->read_remote_file('http://usebb.sourceforge.net/latest_version');
+	$found_version = $admin_functions->read_remote_file('http://usebb.sourceforge.net/latest_version_extended');
 	
 	//
 	// Check for valid version

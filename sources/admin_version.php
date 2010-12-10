@@ -75,7 +75,7 @@ if ( !$success ) {
 } else {
 	
 	$content = '';
-	$msg = preg_split("#[\r\n]+#", $_SESSION['latest_version']);
+	$msg = preg_split("#[\r\n]{2,}#", $_SESSION['latest_version']);
 	
 	//
 	// Version comparing
@@ -101,18 +101,25 @@ if ( !$success ) {
 		}
 
 	}
-	
-	//
-	// Additional header
-	//
-	if ( count($msg) > 1 )
-		$content .= '<h2>'.unhtml(array_shift($msg)).'</h2>';
-	
+
 	//
 	// Messages
 	//
-	foreach ( $msg as $line )
-		$content .= '<p>'.unhtml($line).'</p>';	
+	foreach ( $msg as $line ) {
+		
+		// Denote headers with leading =
+		if ( substr($line, 0, 1) == '=' ) {
+			
+			$line = substr($line, 1);
+			$content .= '<h2>'.unhtml($line).'</h2>';
+
+			continue;
+			
+		}
+
+		$content .= '<p>'.nl2br(unhtml($line)).'</p>';
+
+	}
 	
 }
 

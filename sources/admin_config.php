@@ -218,27 +218,6 @@ if (
 	
 } else {
 	
-	if ( !empty($_POST['conf-admin_email']) && !preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && !in_array('admin_email', $missing) )
-		$missing[] = 'admin_email';
-	if ( !empty($_POST['conf-session_name']) && ( !preg_match('#^[A-Za-z0-9]+$#', $_POST['conf-session_name']) || preg_match('#^[0-9]+$#', $_POST['conf-session_name']) ) && !in_array('session_name', $missing) )
-		$missing[] = 'session_name';
-	if ( isset($_POST['conf-antispam_question_mode']) && $_POST['conf-antispam_question_mode'] == ANTI_SPAM_CUSTOM && !$antispam_question_questions_valid )
-		$missing[] = 'antispam_question_questions';
-	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && count($missing) ) {
-		
-		$content = '<p id="adminconfigtop"><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
-		foreach ( $missing as $key )
-			$content .= '<li>'.$lang['ConfigBoard-'.$key].'</li>';
-		
-		$content .= '</ul>';
-		
-	} else {
-		
-		$content = '<p id="adminconfigtop">'.$lang['ConfigInfo'].'</p>';
-		
-	}
-	
 	//
 	// All configuration variables
 	//
@@ -369,6 +348,41 @@ if (
 	
 	if ( !$functions->get_config('hide_db_config_acp') )
 		$sections['database'] = array('type', 'server', 'username', 'passwd', 'dbname', 'prefix');
+	
+	//
+	// Check missing
+	//
+	if ( !empty($_POST['conf-admin_email']) && !preg_match(EMAIL_PREG, $_POST['conf-admin_email']) && !in_array('admin_email', $missing) )
+		$missing[] = 'admin_email';
+	if ( !empty($_POST['conf-session_name']) && ( !preg_match('#^[A-Za-z0-9]+$#', $_POST['conf-session_name']) || preg_match('#^[0-9]+$#', $_POST['conf-session_name']) ) && !in_array('session_name', $missing) )
+		$missing[] = 'session_name';
+	if ( isset($_POST['conf-antispam_question_mode']) && $_POST['conf-antispam_question_mode'] == ANTI_SPAM_CUSTOM && !$antispam_question_questions_valid )
+		$missing[] = 'antispam_question_questions';
+	
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && count($missing) ) {
+		
+		function usebb_missing_field_section($key, &$sections) {
+			
+			foreach ( $sections as $section => $keys ) {
+				
+				if ( in_array($key, $keys) )
+					return $section;
+
+			}
+
+		}
+		
+		$content = '<p id="adminconfigtop"><strong>'.$lang['ConfigMissingFields'].'</strong></p><ul>';
+		foreach ( $missing as $key )
+			$content .= '<li>'.$lang['ConfigBoardSection-'.usebb_missing_field_section($key, $sections)].': '.$lang['ConfigBoard-'.$key].'</li>';
+		
+		$content .= '</ul>';
+		
+	} else {
+		
+		$content = '<p id="adminconfigtop">'.$lang['ConfigInfo'].'</p>';
+		
+	}
 	
 	//
 	// These are all the current config settings

@@ -6,6 +6,7 @@ UseBB 1.0.12 Changelog
 - Added members/staff/guests filter on online user list.
 - Added possibility to show new topic and post reply links to guests.
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
+- Added max topic age setting for active topics.
 - Added production environment switch (constant).
 - Fixed a small issue with not properly checked new version information from server.
 - Fixed possible bug with statistics table and updating.

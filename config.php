@@ -67,6 +67,7 @@ $conf = array();
 //
 $conf['activation_mode'] = 1;
 $conf['active_topics_count'] = 25;
+$conf['active_topics_max_age'] = 30;
 $conf['admin_email'] = 'example@example.net';
 $conf['allow_multi_sess'] = 1;
 $conf['allow_duplicate_emails'] = 0;

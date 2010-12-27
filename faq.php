@@ -86,7 +86,7 @@ if ( !empty($_GET['q']) ) {
 		
 		$template->parse('question', 'faq', array(
 			'question_title' => $question[0],
-			'question_answer' => $question[1]
+			'question_answer' => nl2br($question[1])
 		));
 
 		break;

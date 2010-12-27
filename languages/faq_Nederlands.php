@@ -72,8 +72,8 @@ $faq[] = array('Wat is de RSS feed?', 'RSS feeds worden gebruikt om recente info
 $faq[] = array('Waar in mijn profiel kan ik mijn Google Talk-account plaatsen?', 'Google Talk is een IM-netwerk dat gebruik maakt van het Jabber/XMPP-protocol. Je kan je gebruikersnaam (volledig, inclusief de domeinnaam) opgeven in je profiel bij het Jabber/XMPP-veld.');
 
 $faq[] = array('--', 'Omtrent UseBB');
-$faq[] = array('Wie maakte dit forum? Wat is UseBB?', 'Dit forum, genaamd <em>UseBB</em>, wordt ontwikkeld door het UseBB Team. UseBB is Open Source-software vrijgegeven onder de GPL. Je kan UseBB gratis downloaden op <a href="http://www.usebb.net">www.usebb.net</a>. Merk op dat de administrator(s) van dit forum extra functionaliteit kunnen hebben toegevoegd.');
-$faq[] = array('Zijn de makers van UseBB verantwoordelijk voor dit forum?', 'Nee, dit forum wordt beheerd door de webmaster van deze website. Het UseBB Team kan in geen geval aansprakelijk gesteld worden.');
+$faq[] = array('Wie maakte dit forum? Wat is UseBB?', 'Dit forum, genaamd <em>UseBB</em>, wordt ontwikkeld door het UseBB Project. UseBB is Open Source-software vrijgegeven onder de GPL. Je kan UseBB gratis downloaden op <a href="http://www.usebb.net">www.usebb.net</a>. Merk op dat de administrator(s) van dit forum extra functionaliteit kunnen hebben toegevoegd.');
+$faq[] = array('Zijn de makers van UseBB verantwoordelijk voor dit forum?', 'Nee, dit forum wordt beheerd door de webmaster van deze website. Het UseBB Project kan in geen geval aansprakelijk gesteld worden.');
 $faq[] = array('Ik heb een klacht over dit forum. Tot wie richt ik mij?', 'Indien je een klacht hebt over de software van dit forum, ben je vrij dit te <a href="http://www.usebb.net">melden</a>. Voor elke andere klacht dien je je tot een administrator te begeven.');
 
 ?>

@@ -48,7 +48,7 @@ $templates['contents_cat_header'] = '
 ';
 
 $templates['contents_question'] = '
-					<li><a href="{question_link}">{question_title}</a></li>
+					<li>{question_entry}</li>
 ';
 
 $templates['contents_cat_footer'] = '

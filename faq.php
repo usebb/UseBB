@@ -65,21 +65,40 @@ if ( !file_exists($faq_file) || !is_readable($faq_file) )
 else
 	require($faq_file);
 
+//
+// Loop over FAQ and assign MD5 based keys
+//
+$faq2 = array();
+foreach ( $faq as $item ) {
+	
+	//
+	// Section
+	//
+	if ( $item[0] == '--' ) {
+		
+		$faq2[] = array('--', $item[1], '--');
+		continue;
+
+	}
+
+	//
+	// Question: set key
+	//
+	$faq2[] = array($item[0], $item[1], substr(md5($item[0]), 0, 5));
+	
+}
+
+$faq = $faq2;
+unset($faq2);
+
+//
+// Show individual question
+//
 if ( !empty($_GET['q']) ) {
 	
-	$questions = array();
-	foreach ( $faq as $item ) {
+	foreach ( $faq as $question ) {
 		
-		if ( $item[0] != '--' )
-			$questions[] = $item;
-		
-	}
-	
-	reset($questions);
-	
-	foreach ( $questions as $question ) {
-		
-		if ( substr(md5($question[0]), 0, 5) != $_GET['q'] )
+		if ( $question[2] != $_GET['q'] )
 			continue;
 		
 		$template->set_page_title('<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>'.$template->get_config('locationbar_item_delimiter').$question[0]);
@@ -95,6 +114,9 @@ if ( !empty($_GET['q']) ) {
 	
 }
 
+//
+// Parse list
+//
 $template->parse('contents_header', 'faq');
 
 $first = true;
@@ -114,9 +136,13 @@ foreach ( $faq as $item ) {
 		
 	} else {
 		
+		$current = ( !empty($_GET['q']) && $_GET['q'] == $item[2] );
+		$question_link = $functions->make_url('faq.php', array('q' => $item[2]));
+
 		$template->parse('contents_question', 'faq', array(
-			'question_link' => $functions->make_url('faq.php', array('q' => substr(md5($item[0]), 0, 5))),
+			'question_link' => $question_link,
 			'question_title' => $item[0],
+			'question_entry' => ( $current ) ? $item[0] : '<a href="'.$question_link.'">'.$item[0].'</a>'
 		));
 		
 	}

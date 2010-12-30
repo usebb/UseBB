@@ -529,6 +529,12 @@ table.maintable td#faq-contents h3 {
 table.maintable td#faq-contents ul {
 	margin: 0 0 10px 30px;
 }
+table.maintable td#faq-contents ul li {
+	font-style: italic;
+}
+table.maintable td#faq-contents ul li a {
+	font-style: normal;
+}
 table.maintable td#question {
 	font-size: 10pt;
 	padding: 12px !important;

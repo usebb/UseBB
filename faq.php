@@ -69,6 +69,7 @@ else
 // Loop over FAQ and assign MD5 based keys
 //
 $faq2 = array();
+$all_keys = array();
 foreach ( $faq as $item ) {
 	
 	//
@@ -82,9 +83,17 @@ foreach ( $faq as $item ) {
 	}
 
 	//
-	// Question: set key
+	// Question: find and set key
 	//
-	$faq2[] = array($item[0], $item[1], substr(md5($item[0]), 0, 5));
+	$key = md5($item[0]);
+	$len = 5;
+	$used_key = '';
+	do
+		$used_key = substr($key, 0, $len++);
+	while ( in_array($used_key, $all_keys) );
+
+	$faq2[] = array($item[0], $item[1], $used_key);
+	$all_keys[] = $used_key;
 	
 }
 

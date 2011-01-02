@@ -1006,7 +1006,31 @@ class functions {
 		$this->statistics[$stat] = $value;
 
 	}
-	
+
+	/**
+	 * Friendly URL builder
+	 *
+	 * @param string $filename base filename to link to
+	 * @param array $vars GET variabeles
+	 * @returns string URL
+	 */
+	function _make_friendly_url($filename, $vars) {
+		
+		if ( $filename == 'index' && count($vars) == 0 )
+			return './';
+
+		$url = $filename;
+		$keyed = array('forum', 'topic', 'post', 'quotepost', 'al');
+
+		foreach ( $vars as $key => $val )
+			$url .= '-' . urlencode(( in_array($key, $keyed) ) ? $key . $val : $val);
+
+		$url .= ( $filename == 'rss' ) ? '.xml' : '.html';
+
+		return $url;
+
+	}
+
 	/**
 	 * Interactive URL builder
 	 *
@@ -1021,78 +1045,63 @@ class functions {
 		
 		global $session;
 		
-		$filename = basename($filename, '.php');
-		$vars = ( is_array($vars) ) ? $vars : array();
-		
-		if ( !$force_php && !defined('IS_INSTALLER') && $this->get_config('friendly_urls') && $filename != 'admin' ) {
-			
-			//
-			// Friendly URL's
-			//
+		//
+		// Base name
+		//
+		if ( substr($filename, -4) == '.php' )
+			$filename = substr($filename, 0, -4);
 
-			if ( $filename == 'index' && count($vars) == 0 )
-				return './';
+		//
+		// Don't keep session key variable
+		//
+		if ( is_array($vars) )
+			unset($vars[$this->get_config('session_name').'_sid']);
+		else
+			$vars = array();
 
-			$url = $filename;
-			foreach ( $vars as $key => $val ) {
-				
-				if ( in_array($key, array('forum', 'topic', 'post', 'quotepost', 'al')) )
-					$url .= '-'.urlencode($key.$val);
-				else
-					$url .= '-'.urlencode($val);
-				
-			}
-			$url .= ( $filename == 'rss' ) ? '.xml' : '.html';
+		//
+		// No session IDs for search engines
+		//
+		$enable_sid = ( $enable_sid && !$session->is_search_engine() );
+
+		//
+		// No friendly URLs for admin and installer
+		//
+		$force_php = ( $force_php || $filename == 'admin' || defined('IS_INSTALLER') );
+
+		//
+		// Friendly URLs
+		//
+		if ( !$force_php && $this->get_config('friendly_urls') )
+			return $this->_make_friendly_url($filename, $vars);
+
+		//
+		// Build URL
+		//
+
+		$url = $filename . '.php';
+
+		//
+		// Add session variable when needed
+		//
+		$SID = SID;
+		if ( !empty($SID) && $enable_sid && ( !$html || !ini_get('session.use_trans_sid') ) ) {
 			
-		} else {
-			
-			$url = $filename.'.php';
-			
-			if ( isset($vars[$this->get_config('session_name').'_sid']) )
-				unset($vars[$this->get_config('session_name').'_sid']);
-			
-			//
-			// Pass session ID's
-			//
-			if ( defined('SID') ) {
-				
-				$SID = SID;
-				$SID_parts = explode('=', $SID, 2);
-				
-			}
-			
-			//
-			// Add the session ID when:
-			// - is enabled and available
-			// - the user agent isn't Googlebot
-			// - HTML is disabled or session.use_trans_sid is disabled
-			//
-			if ( $enable_sid && !empty($SID) && strpos($_SERVER['HTTP_USER_AGENT'], 'Googlebot') === false && ( !$html || !ini_get('session.use_trans_sid') ) )
-				$vars[$SID_parts[0]] = $SID_parts[1];
-			
-			if ( count($vars) ) {
-				
-				$url .= '?';
-				
-				if ( $html ) {
-					
-					foreach ( $vars as $key => $val )
-						$safe[] = urlencode($key).'='.urlencode($val);
-					$url .= join('&amp;', $safe);
-					
-				} else {
-					
-					foreach ( $vars as $key => $val )
-						$safe[] = $key.'='.$val;
-					$url .= join('&', $safe);
-					
-				}
-				
-			}
-			
+			$SID_parts = explode('=', $SID, 2);
+			$vars[$SID_parts[0]] = $SID_parts[1];
+
 		}
-		
-		return $url;
+
+		if ( count($vars) == 0 )
+			return $url;
+
+		$url .= '?';
+		$delim = ( $html ) ? '&amp;' : '&';
+
+		foreach ( $vars as $key => $val )
+			$url .= urlencode($key) . '=' . urlencode($val) . $delim;
+
+		return substr($url, 0, - strlen($delim));
 		
 	}
 	
@@ -1105,19 +1114,15 @@ class functions {
 	function attach_sid($url) {
 		
 		$SID = SID;
-		if ( !$this->get_config('friendly_urls') && !empty($SID) && !preg_match('/'.preg_quote($SID, '/').'$/', $url) ) {
-			
-			if ( strpos($url, '?') )
-				return $url.'&'.$SID;
-			else
-				return $url.'?'.$SID;
-			
-		} else {
-			
-			return $url;
-			
-		}
 		
+		if ( empty($SID) || $this->get_config('friendly_urls') || preg_match('/'.preg_quote($SID, '/').'$/', $url) )
+			return $url;
+		
+		if ( strpos($url, '?') !== false )
+			return $url . '&' . $SID;
+		
+		return $url . '?' . $SID;
+
 	}
 	
 	/**

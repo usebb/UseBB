@@ -617,6 +617,31 @@ class session {
 		return ( $user_data['active'] && !$user_data['banned'] && ( !$functions->get_config('board_closed') || $user_data['level'] == LEVEL_ADMIN ) );
 		
 	}
+
+	/**
+	 * Is search engine
+	 *
+	 * @returns bool Is search engine
+	 */
+	function is_search_engine() {
+		
+		$agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+		if ( empty($agent) )
+			return false;
+
+		$bots = array('googlebot', 'msnbot', 'yahoo!');
+
+		foreach ( $bots as $bot ) {
+			
+			if ( strpos($agent, $bot) !== false )
+				return true;
+
+		}
+
+		return false;
+
+	}
 	
 	/**
 	 * Destroy a running session

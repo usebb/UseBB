@@ -1048,8 +1048,7 @@ class functions {
 		//
 		// Base name
 		//
-		if ( substr($filename, -4) == '.php' )
-			$filename = substr($filename, 0, -4);
+		$filename = basename($filename, '.php');
 
 		//
 		// Don't keep session key variable

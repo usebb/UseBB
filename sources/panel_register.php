@@ -221,6 +221,7 @@ if ( $functions->get_config('disable_registrations') ) {
 		// Create a new row in the user table
 		//
 		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".$active_key_md5."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('timezone').", ".$functions->get_config('dst').", ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."', '', '' )");
+		$inserted_user_id = $db->last_id();
 
 		//
 		// Update the statistics
@@ -234,7 +235,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			//
 			$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
 				'account_name' => stripslashes($_POST['user']),
-				'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $db->last_id(), 'key' => $active_key), false),
+				'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $inserted_user_id, 'key' => $active_key), false),
 				'password' => $_POST['passwd1']
 			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 			

@@ -74,7 +74,7 @@ function usebb_clean_input_value(&$value, $key, $mq=false) {
 function usebb_clean_db_value(&$value, $key) {
 	
 	if ( is_array($value) )
-		array_walk($value, 'usebb_clean_db_value', $mq);
+		array_walk($value, 'usebb_clean_db_value');
 	else
 		$value = addslashes($value);
 	

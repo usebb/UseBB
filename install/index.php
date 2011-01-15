@@ -110,9 +110,9 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			
 			$config_warning = ( !is_writable(ROOT_PATH.'config.php') ) ? '<p class="important"><strong>Tip:</strong> <code>config.php</code> is at this moment not writable by the webserver. Therefore, you will be asked to download the file after filling in this form. If you would like UseBB to edit the file automatically, make <code>config.php</code> writable (<em>chmod</em> it to 0777) and <a href="index.php">refresh</a> this wizard.</p>' : '';
 			
-			$out .= '		<p>Hello and welcome to the UseBB installation script. First, thanks for choosing UseBB for your forum needs!</p>
+			$out .= '		<p>Hello and welcome to the UseBB 1 installation script. First, thanks for choosing UseBB for your forum needs!</p>
 		
-		<p>This wizard will install a basic UseBB forum at your website. Therefore, we need some information from you. Please fill in all the required fields below (marked with <small>*</small>). If you don\'t know what a field means or you don\'t know what to fill in, please ask your web hosting company for the right values.</p>
+		<p>This wizard will install a basic UseBB 1 forum at your website. Therefore, we need some information from you. Please fill in all the required fields below (marked with <small>*</small>). If you don\'t know what a field means or you don\'t know what to fill in, please ask your web hosting company or server administrator for the right values.</p>
 		
 		<p class="important"><strong>Important:</strong> this wizard does <strong>not</strong> upgrade an existing installation. Please see the <a href="../docs/index.html"><em>Readme</em> document</a> for upgrading instructions.</p>
 		

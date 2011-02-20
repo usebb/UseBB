@@ -7,11 +7,14 @@ UseBB 1.0.12 Changelog
 - Added possibility to show new topic and post reply links to guests.
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added max topic age setting for active topics.
+- Added automatic and manual logout for Admin Control Panel.
 - Fixed a small issue with not properly checked new version information from server.
 - Fixed possible bug with statistics table and updating.
 - Fixed some bugs with anti-spam question posing timing.
 - Fixed wrong error when could not connect to database.
 - Fixed errors when getting config values before having config file loaded.
+- Passwords can now contain symbols, and must contain at least one letter and one number.
+- Generated passwords now also contain symbols and are always checked to be valid.
 - Removed mandatory usage of magic_quotes_runtime.
 - Post new topic links removed from topic template (template variable still available).
 - Hide PHP notices and deprecation warnings when in production environment.
@@ -23,6 +26,12 @@ UseBB 1.0.12 Changelog
 - Updated (better) sorting on member list and search results.
 - Now impossible for admin to delete own account in ACP.
 - E-mail address to ban is now editable on user removal in ACP.
+- Show specific error for malformed passwords on several forms.
+- Activate member upon requesting new password if awaiting email activation.
+- Show correct error message upon login with not yet admin-activated account.
+- Show general error message for wrong username/email address combinations on send pw form.
+- Hide ban reason on send pw form, and only show on login form when correct password given.
+- Denote HTML enabled fields in ACP forms.
 - Adjusted input and text area field sizes all over the system (generally bigger).
 - System now links to application root instead of index.html with friendly URLs.
 - Place HTML title after character encoding meta tag as it should be.
@@ -32,7 +41,9 @@ UseBB 1.0.12 Changelog
 - Show config section names for missing labels of incorrect values.
 - Show newlines in question answers and current question for FAQ.
 - Ensure unique IDs for FAQ questions.
+- Show member edit link after registering member in ACP.
 - Version check can now display full text messages.
+- Enable DNSBL bans setting moved to General Configuration.
 
 UseBB 1.0.11 Changelog
 ------------------------------

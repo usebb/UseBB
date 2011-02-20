@@ -145,20 +145,18 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$content = '<h2>'.$lang['CategoriesConfirmCatDelete'].'</h2>';
 		$content .= '<p><strong>'.sprintf($lang['CategoriesConfirmCatDeleteContent'], '<em>'.unhtml(stripslashes($cats[$_GET['id']]['name'])).'</em>').'</strong></p>';
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'delete', 'id' => $_GET['id'])).'" method="post">';
-		if ( count($cats) >= 2 ) {
+		
+		$category_select = '<select name="move_contents">';
+		foreach ( $cats as $cat ) {
 			
-			$category_select = '<select name="move_contents">';
-			foreach ( $cats as $cat ) {
-				
-				if ( $cat['id'] != $_GET['id'] )
-					$category_select .= '<option value="'.$cat['id'].'">'.unhtml(stripslashes($cat['name'])).'</option>';
-				
-			}
-			$category_select .= '<option value="" class="strong">-'.$lang['CategoriesDeleteContents'].'-</option></select>';
-			
-			$content .= '<p>'.sprintf($lang['CategoriesMoveContents'], $category_select).'</p>';
+			if ( $cat['id'] != $_GET['id'] )
+				$category_select .= '<option value="'.$cat['id'].'">'.unhtml(stripslashes($cat['name'])).'</option>';
 			
 		}
+		$category_select .= '<option value="" class="strong">-'.$lang['CategoriesDeleteContents'].'-</option></select>';
+		
+		$content .= '<p>'.sprintf($lang['CategoriesMoveContents'], $category_select).'</p>';
+		
 		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 		$content .= '</form>';
 		

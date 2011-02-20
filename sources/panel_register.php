@@ -138,7 +138,8 @@ if ( $functions->get_config('disable_registrations') ) {
 	//
 	// If all necessary information has been posted and the user accepted the terms
 	//
-	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd1']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == $_POST['saltcode'] ) {
+	$valid_password = ( !empty($_POST['passwd1']) && $functions->validate_password(stripslashes($_POST['passwd1']), true) );
+	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) && $valid_password && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == stripslashes($_POST['saltcode']) ) {
 		
 		//
 		// Registration log file
@@ -155,10 +156,10 @@ if ( $functions->get_config('disable_registrations') ) {
 				
 				$entry_data = array(
 					'Username'		=> $_POST['user'],
-					'Email address'	=> $_POST['email'],
+					'Email address'		=> $_POST['email'],
 					'IP address'		=> $session->sess_info['ip_addr'],
 					'Host name'		=> gethostbyaddr($session->sess_info['ip_addr']),
-					'Browser'			=> $_SERVER['HTTP_USER_AGENT'],
+					'Browser'		=> $_SERVER['HTTP_USER_AGENT'],
 					'Session started'	=> $functions->make_date($session->sess_info['started'], 'D, d M Y H:i:s', true, false),
 					'Pages'			=> $session->sess_info['pages']
 				);
@@ -174,7 +175,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			
 		}
 		
-		$level = ( $functions->get_stats('members') ) ? LEVEL_MEMBER : LEVEL_ADMIN;
+		$level = ( intval($functions->get_stats('members')) > 0 ) ? LEVEL_MEMBER : LEVEL_ADMIN;
 		
 		//
 		// Generate the activation key if necessary
@@ -220,9 +221,9 @@ if ( $functions->get_config('disable_registrations') ) {
 		//
 		// Create a new row in the user table
 		//
-		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5($_POST['passwd1'])."', ".time().", ".$level.", ".$active.", '".$active_key_md5."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('timezone').", ".$functions->get_config('dst').", ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."', '', '' )");
+		$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['user']."', '".$_POST['email']."', '".md5(stripslashes($_POST['passwd1']))."', ".time().", ".$level.", ".$active.", '".$active_key_md5."', '".$functions->get_config('template')."', '".$functions->get_config('language')."', '".$functions->get_config('date_format')."', ".$functions->get_config('timezone').", ".$functions->get_config('dst').", ".$functions->get_config('enable_quickreply').", ".$functions->get_config('return_to_topic_after_posting').", ".$functions->get_config('target_blank').", ".$functions->get_config('hide_avatars').", ".$functions->get_config('hide_userinfo').", ".$functions->get_config('hide_signatures').", '".$_POST['user']."', '', '' )");
 		$inserted_user_id = $db->last_id();
-
+		
 		//
 		// Update the statistics
 		//
@@ -236,7 +237,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			$functions->usebb_mail($lang['RegistrationActivationEmailSubject'], $lang['RegistrationActivationEmailBody'], array(
 				'account_name' => stripslashes($_POST['user']),
 				'activate_link' => $functions->get_config('board_url').$functions->make_url('panel.php', array('act' => 'activate', 'id' => $inserted_user_id, 'key' => $active_key), false),
-				'password' => $_POST['passwd1']
+				'password' => stripslashes($_POST['passwd1'])
 			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 			
 		} else {
@@ -245,14 +246,14 @@ if ( $functions->get_config('disable_registrations') ) {
 				
 				$functions->usebb_mail($lang['AdminActivationEmailSubject'], $lang['AdminActivationEmailBody'], array(
 					'account_name' => stripslashes($_POST['user']),
-					'password' => $_POST['passwd1']
+					'password' => stripslashes($_POST['passwd1'])
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			} else {
 				
 				$functions->usebb_mail($lang['RegistrationEmailSubject'], $lang['RegistrationEmailBody'], array(
 					'account_name' => stripslashes($_POST['user']),
-					'password' => $_POST['passwd1']
+					'password' => stripslashes($_POST['passwd1'])
 				), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
 				
 			}
@@ -327,7 +328,7 @@ if ( $functions->get_config('disable_registrations') ) {
 				$errors[] = $lang['Username'];
 			if ( empty($_POST['email']) || !$functions->validate_email($_POST['email']) )
 				$errors[] = $lang['Email'];
-			if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] )
+			if ( empty($_POST['passwd1']) || empty($_POST['passwd2']) || $_POST['passwd1'] != $_POST['passwd2'] )
 				$errors[] = $lang['Password'];
 			
 			//
@@ -360,7 +361,14 @@ if ( $functions->get_config('disable_registrations') ) {
 				
 			}
 			
-			if ( !empty($_POST['passwd1']) && strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') ) {
+			if ( !empty($_POST['passwd1']) && !$valid_password ) {
+				
+				$template->parse('msgbox', 'global', array(
+					'box_title' => $lang['Error'],
+					'content' => sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length'))
+				));
+	
+			} elseif ( !empty($_POST['passwd1']) && strlen(stripslashes($_POST['passwd1'])) < $functions->get_config('passwd_min_length') ) {
 				
 				$template->parse('msgbox', 'global', array(
 					'box_title' => $lang['Error'],
@@ -381,9 +389,9 @@ if ( $functions->get_config('disable_registrations') ) {
 			'user_input'          => '<input type="text" name="user" id="user" size="25" maxlength="'.$functions->get_config('username_max_length').'" value="'.unhtml(stripslashes($_POST['user'])).'" />',
 			'email_input'         => '<input type="text" name="email" size="25" maxlength="255" value="'.$_POST['email'].'" />',
 			'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
-			'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
+			'passwd_info'         => sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')),
 			'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
-			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.unhtml($_POST['saltcode']).'" />',
+			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.unhtml(stripslashes($_POST['saltcode'])).'" />',
 			'form_end'            => '</form>'
 		));
 		$template->set_js_onload("set_focus('user')");
@@ -412,7 +420,7 @@ if ( $functions->get_config('disable_registrations') ) {
 				'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 				'title' => $lang['TermsOfUse'],
 				'content' => nl2br($lang['TermsOfUseContent']),
-				'submit_button' => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.$saltcode.'" />',
+				'submit_button' => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.unhtml($saltcode).'" />',
 				'cancel_button' => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 				'form_end' => '</form>'
 			));

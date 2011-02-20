@@ -72,6 +72,7 @@ class admin_functions {
 			'index',
 			'version',
 			'config',
+			'logout'
 		),
 		'forums' => array(
 			'categories',
@@ -354,6 +355,17 @@ class admin_functions {
 			'admin_content' => $content
 		));
 		
+		if ( strpos($content, '<form') !== false ) {
+			
+			//
+			// Count input fields, disable logout for large forms
+			//
+			$count = substr_count($content, '<input') + substr_count($content, '<select') + substr_count($content, '<textarea');
+			if ( $count >= 7 )
+				$this->disable_logout();
+
+		}
+		
 	}
 	
 	/**
@@ -499,7 +511,7 @@ class admin_functions {
 	 */
 	function delete_forums($condition, $change_stats=true) {
 		
-		global $db;
+		global $functions, $db;
 		
 		//
 		// Get the forum ID's and counts
@@ -649,6 +661,18 @@ class admin_functions {
 		
 		return $forums;
 		
+	}
+
+	/**
+	 * Disable automatic logout
+	 */
+	function disable_logout() {
+		
+		//
+		// This variable is used in admin.php
+		//
+		$_SESSION['admin_disable_logout'] = true;
+
 	}
 	
 }

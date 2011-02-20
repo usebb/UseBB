@@ -57,22 +57,19 @@ $template->set_page_title($lang['LogIn']);
 
 $_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 
-if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG, $_POST['user']) && preg_match(PWD_PREG, $_POST['passwd']) ) {
-	
+if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_password(stripslashes($_POST['passwd'])) ) {
+		
 	//
 	// The user already passed a username and password
 	//
 	
-	//
-	// Get information about this username
-	//
-	$result = $db->query("SELECT id, passwd, active, banned, banned_reason, level, last_pageview FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
+	$result = $db->query("SELECT id, passwd, active, active_key, banned, banned_reason, level, last_pageview FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
 	$userdata = $db->fetch_result($result);
 	
 	//
-	// If this user does not exist...
+	// If this user/password does not exist...
 	//
-	if ( !$userdata['id'] ) {
+	if ( !$userdata['id'] || md5(stripslashes($_POST['passwd'])) != $userdata['passwd'] ) {
 		
 		//
 		// ...show a warning
@@ -85,37 +82,40 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 	} elseif ( $userdata['banned'] ) {
 		
 		//
-		// It does exist, but it is banned
-		// thus, show another warning...
+		// User is banned
 		//
+
+		$banned_reason = ( !empty($userdata['banned_reason']) ) ? '<br /><br />'.$userdata['banned_reason'] : ' <em>'.$lang['Unknown'].'</em>';
+
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
-			'content' => sprintf($lang['BannedUserExplain'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>') . '<br /><br />' . $userdata['banned_reason']
+			'content' => sprintf($lang['BannedUserExplain'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>').$banned_reason
 		));
 		
 	} elseif ( !$userdata['active'] ) {
 		
 		//
-		// It does exist, but it hasn't been activated yet
-		// thus, show another warning...
+		// Account hasn't been activated yet
 		//
+
+		$msg_string = ( !empty($userdata['active_key']) ) ? $lang['NotActivated'] : $lang['NotActivatedByAdmin'];
+
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
+			'content' => sprintf($msg_string, '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
 		
 	} elseif ( $functions->get_config('board_closed') && $userdata['level'] != LEVEL_ADMIN ) {
 		
 		//
 		// Only admins can log in when the forum is closed.
-		// Show a warning to users...
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => $lang['BoardClosedOnlyAdmins']
 		));
 		
-	} elseif ( md5($_POST['passwd']) == $userdata['passwd'] ) {
+	} else {
 		
 		//
 		// The password is correct,
@@ -138,19 +138,8 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 		unset($_SESSION['refere_to']);
 		$functions->raw_redirect($refere_to);
 		
-	} else {
-		
-		//
-		// The password was not correct
-		// another warning
-		//
-		$template->parse('msgbox', 'global', array(
-			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['WrongUsernamePassword'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
-		));
-		
 	}
-	
+
 } else {
 	
 	//
@@ -167,7 +156,7 @@ if ( !empty($_POST['user']) && !empty($_POST['passwd']) && preg_match(USER_PREG,
 			$errors = array();
 			if ( empty($_POST['user']) || !preg_match(USER_PREG, $_POST['user']) )
 				$errors[] = $lang['Username'];
-			if ( empty($_POST['passwd']) || !preg_match(PWD_PREG, $_POST['passwd']) )
+			if ( empty($_POST['passwd']) || !$functions->validate_password(stripslashes($_POST['passwd'])) )
 				$errors[] = $lang['Password'];
 			
 			if ( count($errors) ) {

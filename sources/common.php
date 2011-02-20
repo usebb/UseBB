@@ -191,10 +191,13 @@ else
 // Define some constants
 //
 // NOTE!
-// We don't allow non-alphanumeric characters anymore for usernames and passwords
+// We don't allow non-alphanumeric characters anymore for usernames
 // in order to avoid problems with different encodings used on the board.
 // One can however set a publicly displayed name, eventually with non-alphanumeric
 // characters.
+//
+// UPDATE (1.0.12)
+// ASCII symbols are allowed for passwords - but may not contain HTML entities ofcourse.
 //
 /**
  * Current UseBB version.
@@ -211,7 +214,7 @@ define('EMAIL_PREG', '#^[a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+$#i');
 /**
  * Regular expression for matching passwords.
  */
-define('PWD_PREG', '#^[a-z0-9]+$#i');
+define('PWD_PREG', '#^[[:alnum:][:punct:]]+$#');
 /**
  * Regular expression for matching URL's.
  */

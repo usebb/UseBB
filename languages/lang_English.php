@@ -83,6 +83,7 @@ $lang['RememberMe'] = 'Remember me';
 $lang['Yes'] = 'Yes';
 $lang['No'] = 'No';
 $lang['NotActivated'] = 'Your account %s has not been activated yet. Please check your mail box you\'ve registered with on this forum for instructions on how to activate your account.';
+$lang['NotActivatedByAdmin'] = 'The administrator of this forum has not yet activated your account %s. Please allow some time for this to happen.';
 $lang['Error'] = 'Error';
 $lang['Profile'] = 'Profile of %s';
 $lang['Level'] = 'Level';
@@ -134,7 +135,7 @@ If you forget your password, you can request a new one via the link on the login
 [board_link]
 [admin_email]';
 $lang['SendpwdEmailSubject'] = 'New Password';
-$lang['SendpwdActivated'] = 'The new password for your account %s has been sent to %s. You are now able to login with your new password.';
+$lang['SendpwdActivated'] = 'The new password for your account %s has been sent to %s.';
 $lang['ForumIndex'] = 'Forum Index';
 $lang['MissingFields'] = 'The following required fields were missing or incorrect: %s.';
 $lang['TermsOfUseContent'] = 'You acknowledge that all posts found at this board are the opinions of its authors and not of the web site\'s webmaster, forum administrators or moderators, except for posts written by one of them.
@@ -332,7 +333,8 @@ $lang['DeletePost'] = 'Delete post';
 $lang['ConfirmDeletePost'] = 'Are you sure you want to delete this post in the topic %s? This is irreversible!';
 $lang['EditPost'] = 'Edit post';
 $lang['PostEditInfo'] = 'Last edit by %s on %s.';
-$lang['PasswdInfo'] = 'The password can only contain alphanumeric characters and has a minimum length of %d characters.';
+$lang['PasswdInfoNew'] = 'The password can only contain alphanumeric characters and symbols. For security, it must contain at least one letter and one number, and have a minimum length of %d characters.';
+$lang['PasswdInfo'] = $lang['PasswdInfoNew']; // Keep old key for mods etc.
 $lang['SubscribeTopic'] = 'Subscribe';
 $lang['UnsubscribeTopic'] = 'Unsubscribe';
 $lang['NewReplyEmailBody'] = 'Hello,
@@ -506,6 +508,7 @@ $lang['AntiSpamQuestionMathPlus'] = 'How much is %d plus %d?';
 $lang['AntiSpamQuestionMathMinus'] = 'How much is %d minus %d?';
 $lang['AntiSpamWrongAnswer'] = 'The submitted answer is wrong. Please fill in the correct answer to access this component.';
 $lang['WrongUsernamePassword'] = 'The username (%s) and password combination is not correct. Please try again.';
+$lang['WrongUsernameEmail'] = 'The username (%s) and email address combination does not exist. Please try again.';
 $lang['All'] = 'All';
 $lang['Staff'] = 'Staff';
 $lang['Guests'] = 'Guests';

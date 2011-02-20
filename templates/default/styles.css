@@ -240,6 +240,9 @@ table.maintable td, table.confirmform td, td.msg {
 table.maintable td a:visited {
 	color: #555;
 }
+table.maintable td ul {
+	margin-left: 15px;
+}
 td.fieldtitle {
 	background-color: #E8E8E8 !important;
 	width: 25%;

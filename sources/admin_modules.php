@@ -139,7 +139,8 @@ if ( $functions->get_config('enable_acp_modules') ) {
 	
 } else {
 	
-	$content = '<p>'.$lang['ModulesDisabled'].'</p>';
+	$content = '<h2>'.$lang['ModulesDisabled'].'</h2>';
+	$content .= '<p>'.$lang['ModulesDisabledInfo'].'</p>';
 	
 }
 

@@ -58,66 +58,57 @@ $template->set_page_title($lang['SendPassword']);
 $_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 
 if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) ) {
-	
-	//
-	// Check if this username already exists
-	//
-	$result = $db->query("SELECT id, email, banned, banned_reason FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
+
+	$result = $db->query("SELECT id, email, banned, banned_reason, active, active_key FROM ".TABLE_PREFIX."members WHERE name = '".$_POST['user']."'");
 	$userdata = $db->fetch_result($result);
 	
-	if ( !$userdata['id'] ) {
+	if ( !$userdata['id'] || $_POST['email'] != $userdata['email'] ) {
 		
 		//
-		// This user does not exist, show an error
+		// This user/email does not exist, show an error
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
-			'content' => sprintf($lang['NoSuchMember'], '<em>'.htmlspecialchars(stripslashes($_POST['user'])).'</em>')
+			'content' => sprintf($lang['WrongUsernameEmail'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
 		));
-		
+
 	} elseif ( $userdata['banned'] ) {
 		
 		//
-		// It does exist, but it is banned
-		// thus, show another warning...
+		// User is banned
 		//
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['BannedUser'],
-			'content' => sprintf($lang['BannedUserExplain'], '<em>'.$_POST['user'].'</em>') . '<br /><br />' . $userdata['banned_reason']
+			'content' => sprintf($lang['BannedUserExplain'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>') . ' <em>'.$lang['Hidden'].'</em>'
 		));
 		
 	} else {
 		
-		if ( $_POST['email'] == $userdata['email'] ) {
-			
-			$new_password = $functions->random_key(true);
-			
-			//
-			// Update the row in the user table
-			//
-			$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."' WHERE id = ".$userdata['id']);
-			
-			//
-			// E-mail new password
-			//
-			$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
-				'account_name' => stripslashes($_POST['user']),
-				'password' => $new_password
-			), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
-			
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['SendPassword'],
-				'content' => sprintf($lang['SendpwdActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email'])
-			));
-			
-		} else {
-			
-			$template->parse('msgbox', 'global', array(
-				'box_title' => $lang['Error'],
-				'content' => sprintf($lang['WrongEmail'], $_POST['email'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>')
-			));
-			
-		}
+		$new_password = $functions->random_key(true);
+		
+		//
+		// Make user active if awaiting email activation (has activation key).
+		// The password gets sent to the email address anyway
+		//
+		$active_query_part = ( !$userdata['active'] && !empty($userdata['active_key']) ) ? ", active = 1, active_key = ''" : "";
+		
+		//
+		// Update the row in the user table
+		//
+		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($new_password)."'".$active_query_part." WHERE id = ".$userdata['id']);
+		
+		//
+		// E-mail new password
+		//
+		$functions->usebb_mail($lang['SendpwdEmailSubject'], $lang['SendpwdEmailBody'], array(
+			'account_name' => stripslashes($_POST['user']),
+			'password' => $new_password
+		), $functions->get_config('board_name'), $functions->get_config('admin_email'), $_POST['email']);
+		
+		$template->parse('msgbox', 'global', array(
+			'box_title' => $lang['SendPassword'],
+			'content' => sprintf($lang['SendpwdActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email'])
+		));
 		
 	}
 	

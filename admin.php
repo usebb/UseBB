@@ -61,21 +61,49 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	// Get Admin variables
 	//
 	$lang = $functions->fetch_language('', 'admin');
+
+	$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
+
+	$_SESSION['admin_last_activity'] = ( isset($_SESSION['admin_last_activity']) ) ? (int) $_SESSION['admin_last_activity'] : 0;
+	$_SESSION['admin_disable_logout'] = ( isset($_SESSION['admin_disable_logout']) ) ? (bool) $_SESSION['admin_disable_logout'] : false;
+	$acp_auto_logout = (int) $functions->get_config('acp_auto_logout');
 	
-	if ( !empty($_POST['passwd']) && md5($_POST['passwd']) === $session->sess_info['user_info']['passwd'] ) {
+	if ( $_GET['act'] == 'logout' ) {
 		
-		$_SESSION['admin_pwd'] = md5($_POST['passwd']);
+		//
+		// Log out from ACP
+		//
+		$_SESSION['admin_pwd'] = '';
+		$functions->redirect('index.php');
+
+	} elseif ( !empty($_POST['passwd']) && md5(stripslashes($_POST['passwd'])) === $session->sess_info['user_info']['passwd'] ) {
+		
+		//
+		// Password submitted and correct
+		//
+
+		$_SESSION['admin_pwd'] = md5(stripslashes($_POST['passwd']));
+		$_SESSION['admin_last_activity'] = time();
+		$_SESSION['admin_disable_logout'] = false;
+
 		$functions->redirect('admin.php', $_GET);
 		
-	} elseif ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] ) {
+	} elseif ( !empty($_SESSION['admin_pwd']) && $_SESSION['admin_pwd'] === $session->sess_info['user_info']['passwd'] && ( $_SESSION['admin_disable_logout'] || $_SESSION['admin_last_activity'] > time() - $acp_auto_logout * 60 ) ) {
 		
+		//
+		// Password in session and recent activity
+		//
+		
+		$_SESSION['admin_last_activity'] = time();
+		$_SESSION['admin_disable_logout'] = false;
+
 		require(ROOT_PATH.'sources/functions_admin.php');
 		$admin_functions = new admin_functions;
 		
 		//
-		// Include page
+		// Include page/module
 		//
-		$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
+		
 		if ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $_GET['act'], $module_name) && array_key_exists($module_name[1], $admin_functions->acp_modules) ) {
 			
 			//
@@ -102,6 +130,10 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 		
 	} else {
 		
+		//
+		// Request password
+		//
+
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
 			if ( empty($_POST['passwd']) ) {

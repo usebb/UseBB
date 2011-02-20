@@ -83,6 +83,7 @@ $lang['RememberMe'] = 'Onthouden';
 $lang['Yes'] = 'Ja';
 $lang['No'] = 'Nee';
 $lang['NotActivated'] = 'Je account %s is nog niet geactiveerd. Gelieve je e-mail account waarmee je je registreerde te controleren op instructies over het activeren van je account.';
+$lang['NotActivatedByAdmin'] = 'De administrator van dit forum heeft je account %s nog niet geactiveerd. Gelieve hiervoor geduld uit te oefenen.';
 $lang['Error'] = 'Fout';
 $lang['Profile'] = 'Profiel van %s';
 $lang['Level'] = 'Niveau';
@@ -134,7 +135,7 @@ Indien je je wachtwoord vergeet kan je een nieuwe aanvragen via de link op het i
 [board_link]
 [admin_email]';
 $lang['SendpwdEmailSubject'] = 'Nieuw Wachtwoord';
-$lang['SendpwdActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s. Je kan nu met je nieuwe wachtwoord inloggen.';
+$lang['SendpwdActivated'] = 'Het nieuwe wachtwoord voor je account %s werd verstuurd naar %s.';
 $lang['ForumIndex'] = 'Forum-index';
 $lang['MissingFields'] = 'De volgende verplichte velden ontbreken of zijn foutief ingevuld: %s.';
 $lang['TermsOfUseContent'] = 'Je aanvaard dat alle berichten op dit discussieforum de meningen uitdrukken van de auteurs van de berichten en niet van de eigenaar van de website of administrators of moderators van dit forum, behalve voor de berichten geschreven door een van hen.
@@ -332,7 +333,7 @@ $lang['DeletePost'] = 'Bericht verwijderen';
 $lang['ConfirmDeletePost'] = 'Ben je zeker dat je dit bericht in het onderwerp %s wilt verwijderen? Dit is onomkeerbaar!';
 $lang['EditPost'] = 'Bericht bewerken';
 $lang['PostEditInfo'] = 'Laatste aanpassing door %s op %s.';
-$lang['PasswdInfo'] = 'Het wachtwoord kan enkel alfanumerieke karakters bevatten en heeft een minimum lengte van %d karakters.';
+$lang['PasswdInfoNew'] = 'Het wachtwoord kan enkel alfanumerieke karakters en symbolen bevatten. Omwille van de veiligheid moet het ten minste &eacute;&eacute;n letter en &eacute;&eacute;n cijfer bevatten, en een minimum lengte van %d karakters hebben.';
 $lang['SubscribeTopic'] = 'Inschrijven';
 $lang['UnsubscribeTopic'] = 'Uitschrijven';
 $lang['NewReplyEmailBody'] = 'Hallo,
@@ -506,6 +507,7 @@ $lang['AntiSpamQuestionMathPlus'] = 'Hoeveel is %d plus %d?';
 $lang['AntiSpamQuestionMathMinus'] = 'Hoeveel is %d min %d?';
 $lang['AntiSpamWrongAnswer'] = 'Het verzonden antwoord is fout. Gelieve het juiste antwoord in te geven om dit component van het forum te openen.';
 $lang['WrongUsernamePassword'] = 'De combinatie van gebruikersnaam (%s) en wachtwoord is niet correct. Gelieve opnieuw te proberen.';
+$lang['WrongUsernameEmail'] = 'De combinatie van gebruikersnaam (%s) en e-mailadres bestaat niet. Gelieve opnieuw te proberen.';
 $lang['All'] = 'Alles';
 $lang['Staff'] = 'Staf';
 $lang['Guests'] = 'Gasten';

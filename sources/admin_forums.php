@@ -206,13 +206,12 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$content = '<h2>'.$lang['ForumsConfirmForumDelete'].'</h2>';
 		$content .= '<p><strong>'.sprintf($lang['ForumsConfirmForumDeleteContent'], '<em>'.unhtml(stripslashes($forums[$_GET['id']]['name'])).'</em>').'</strong></p>';
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'delete', 'id' => $_GET['id'])).'" method="post">';
-		if ( count($forums) >= 2 ) {
-			
-			$content .= '<p>'.sprintf($lang['ForumsMoveContents'], $admin_functions->forum_select_box('move_contents', false, array($_GET['id']), '<option value="" class="strong">-'.$lang['ForumsDeleteContents'].'-</option>')).'</p>';
-			
+
+		$content .= '<p>'.sprintf($lang['ForumsMoveContents'], $admin_functions->forum_select_box('move_contents', false, array($_GET['id']), '<option value="" class="strong">-'.$lang['ForumsDeleteContents'].'-</option>')).'</p>';
+
+		if ( count($forums) >= 2 )
 			$content .= '<p><label><input type="checkbox" name="move_mods" value="1" /> '.$lang['ForumsMoveModerators'].'</label></p>';
-			
-		}
+
 		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 		$content .= '</form>';
 		
@@ -331,7 +330,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			$functions->redirect('admin.php', array('act' => 'forums'));
 			
 		} else {
-			
+						
 			if ( $_GET['do'] == 'edit' )
 				$content = '<h2>'.sprintf($lang['ForumsEditingForum'], '<em>'.unhtml(stripslashes($foruminfo['name'])).'</em>').'</h2>';
 			else
@@ -403,7 +402,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				$content .= '<tr><th colspan="2">'.$lang['ForumsGeneral'].'</th></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsForumName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsCatName'].'</td><td>'.$category_select.'</td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsDescription'].'</td><td><textarea name="descr" rows="7" cols="50">'.unhtml(stripslashes($_POST['descr'])).'</textarea><div class="moreinfo">'.$lang['ForumsDescriptionExplain'].'</div></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsDescription'].'</td><td><textarea name="descr" rows="7" cols="50">'.unhtml(stripslashes($_POST['descr'])).'</textarea><div class="moreinfo">'.$lang['HTMLEnabledField'].'</div></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsStatus'].'</td><td><label><input type="checkbox" name="status" value="1"'.$status_checked.' /> '.$lang['ForumsStatusOpen'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsModerators'].'</td><td><input type="text" size="30" name="moderators" value="'.$forum_moderators.'" /><div class="moreinfo">'.$lang['ForumsModeratorsExplain'].'</div></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['ForumsHideModsList'].'</td><td><label><input type="checkbox" name="hide_mods_list" value="1"'.$hide_mods_list_checked.' /> '.$lang['Yes'].'</label></td></tr>';

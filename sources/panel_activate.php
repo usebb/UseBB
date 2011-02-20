@@ -72,11 +72,11 @@ if ( $userdata['id'] ) {
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['AlreadyActivated'], $_GET['id'])
 		));
-		
+	
 	//
 	// If the user is not yet active and the key is OK, activate the user
 	//
-	} elseif ( md5($_GET['key']) == $userdata['active_key'] ) {
+	} elseif ( md5(stripslashes($_GET['key'])) == $userdata['active_key'] ) {
 		
 		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
 		

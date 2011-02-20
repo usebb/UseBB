@@ -80,6 +80,18 @@ function usebb_clean_db_value(&$value, $key) {
 	
 }
 
+/**
+ * Check whether the string contains HTML entities.
+ *
+ * @param string $string String to check
+ * @param bool $num_only Look for &#...; only
+ * @returns bool Contains entities
+ */
+function contains_entities($string, $num_only=false) {
+	
+	return preg_match(( $num_only ? '#&\#[^;]+;#' : '#&\#?[^;]+;#' ), $string);
+	
+}
 
 /**
  * Resets the named entities to the code ones.
@@ -811,6 +823,9 @@ class functions {
 				case 'mass_email_msg_recipients':
 					$set_to = 100;
 					break;
+				case 'acp_auto_logout':
+					$set_to = 10;
+					break;
 				default:
 					$set_to = null;
 				
@@ -1064,9 +1079,9 @@ class functions {
 		$enable_sid = ( $enable_sid && !$session->is_search_engine() );
 
 		//
-		// No friendly URLs for admin and installer
+		// No friendly URLs for admin, installer and activation links
 		//
-		$force_php = ( $force_php || $filename == 'admin' || defined('IS_INSTALLER') );
+		$force_php = ( $force_php || $filename == 'admin' || defined('IS_INSTALLER') || ( $filename == 'panel' && isset($vars['act']) && $vars['act'] == 'activate' ) );
 
 		//
 		// Friendly URLs
@@ -1400,7 +1415,7 @@ class functions {
 		return $new_string;
 		
 	}
-	
+
 	/**
 	 * Generate a random key
 	 *
@@ -1409,19 +1424,21 @@ class functions {
 	 */
 	function random_key($is_password=false) {
 		
-		$chars = array_merge(
-			range(48, 57), # 0-9
-			range(65, 90), # A-Z
-			range(97, 122) # a-z
-		);
+		$chars = range(33, 126); // ! until ~
+		$max = count($chars) - 1;
+
+		$passwd_min_length = (int) $this->get_config('passwd_min_length');
+		$length = ( $is_password && $passwd_min_length > 10 ) ? $passwd_min_length : 10;
 		
-		$passwd_min_length = $this->get_config('passwd_min_length');
-		$length = ( $is_password && $passwd_min_length >= 10 ) ? $passwd_min_length : 10;
+		do {
 		
-		$key = '';
-		$count = count($chars)-1;
-		for ( $i = 0; $i < $length; $i++ )
-			$key .= chr($chars[mt_rand(0, $count)]);
+			$key = '';
+			for ( $i = 0; $i < $length; $i++ )
+				$key .= chr($chars[mt_rand(0, $max)]);
+
+			$valid = $is_password ? $this->validate_password($key, true) : !contains_entities($key, true);
+
+		} while ( !$valid );
 		
 		return $key;
 		
@@ -2943,6 +2960,27 @@ class functions {
 		if ( strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') === false && strpos($_SERVER['SERVER_SOFTWARE'], 'Abyss') === false )
 			header('Location: '.$url);
 		die('<meta http-equiv="refresh" content="0;URL='.$url.'" />');
+		
+	}
+
+	/**
+	 * Validate a password
+	 *
+	 * @param string $password Password
+	 * @param bool $extended Extended checking (new passwords)
+	 * @returns bool Valid
+	 */
+	function validate_password($password, $extended=false) {
+		
+		$valid = ( preg_match(PWD_PREG, $password) );
+		
+		//
+		// Only do this for new passwords.
+		//
+		if ( $valid && $extended )
+			$valid = ( !contains_entities($password, true) && preg_match('#[[:alpha:]]#', $password) && preg_match('#[[:digit:]]#', $password) );
+		
+		return $valid;
 		
 	}
 	

@@ -241,7 +241,7 @@ $templates['editpwd_form'] = '
 			<td class="fieldtitle">{l_NewPasswordAgain}</td><td>{new_passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{passwd_info} {l_EverythingRequired}</td>
+			<td colspan="2"><ul><li>{passwd_info}</li><li>{l_EverythingRequired}</li></ul></td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}</td>

@@ -43,19 +43,22 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty($_POST['new_passwd2']) && md5($_POST['current_passwd']) == $session->sess_info['user_info']['passwd'] && strlen($_POST['new_passwd1']) >= $functions->get_config('passwd_min_length') && preg_match(PWD_PREG, $_POST['new_passwd1']) && $_POST['new_passwd1'] === $_POST['new_passwd2'] ) {
+$valid_password = ( !empty($_POST['new_passwd1']) && $functions->validate_password(stripslashes($_POST['new_passwd1']), true) );
+if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd2']) && md5(stripslashes($_POST['current_passwd'])) == $session->sess_info['user_info']['passwd'] && $valid_password && strlen(stripslashes($_POST['new_passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['new_passwd1'] === $_POST['new_passwd2'] ) {
 	
+	$new_passwd = md5(stripslashes($_POST['new_passwd1']));
+
 	//
 	// Update the password
 	//
-	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['new_passwd1'])."' WHERE id = ".$session->sess_info['user_id']);
+	$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".$new_passwd."' WHERE id = ".$session->sess_info['user_id']);
 	
 	if ( $functions->isset_al() ) {
 		
 		//
 		// Renew AL cookie
 		//
-		$functions->set_al($session->sess_info['user_id'], md5($_POST['new_passwd1']));
+		$functions->set_al($session->sess_info['user_id'], $new_passwd);
 		
 	}
 	
@@ -72,9 +75,9 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 		// Define missing fields
 		//
 		$errors = array();
-		if ( empty($_POST['current_passwd']) || md5($_POST['current_passwd']) != $session->sess_info['user_info']['passwd'] )
+		if ( empty($_POST['current_passwd']) || md5(stripslashes($_POST['current_passwd'])) != $session->sess_info['user_info']['passwd'] )
 			$errors[] = $lang['CurrentPassword'];
-		if ( empty($_POST['new_passwd1']) || empty($_POST['new_passwd2']) || !preg_match(PWD_PREG, $_POST['new_passwd1']) || $_POST['new_passwd1'] !== $_POST['new_passwd2'] )
+		if ( empty($_POST['new_passwd1']) || empty($_POST['new_passwd2']) || $_POST['new_passwd1'] !== $_POST['new_passwd2'] )
 			$errors[] = $lang['NewPassword'];
 		
 		//
@@ -88,8 +91,15 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 			));
 			
 		}
-		
-		if ( !empty($_POST['new_passwd1']) && strlen($_POST['new_passwd1']) < $functions->get_config('passwd_min_length') ) {
+
+		if ( !empty($_POST['new_passwd1']) && !$valid_password ) {
+			
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Error'],
+				'content' => sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length'))
+			));
+
+		} elseif ( !empty($_POST['new_passwd1']) && strlen(stripslashes($_POST['new_passwd1'])) < $functions->get_config('passwd_min_length') ) {
 			
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
@@ -103,7 +113,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd1']) && !empty
 	$template->parse('editpwd_form', 'panel', array(
 		'form_begin'           => '<form action="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'" method="post">',
 		'current_passwd_input' => '<input type="password" name="current_passwd" id="current_passwd" size="25" maxlength="255" />',
-		'passwd_info'         => sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')),
+		'passwd_info'         => sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')),
 		'new_passwd1_input'    => '<input type="password" name="new_passwd1" size="25" maxlength="255" />',
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
 		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',

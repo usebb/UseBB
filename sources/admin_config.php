@@ -50,7 +50,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('activation_mode', 'active_topics_count', 'active_topics_max_age', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'antispam_question_mode', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('acp_auto_logout', 'activation_mode', 'active_topics_count', 'active_topics_max_age', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'show_edited_message_timeout', 'sig_max_length', 'antispam_question_mode', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 
 if ( !$functions->get_config('hide_db_config_acp') )
@@ -81,7 +81,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 // Some extra arrays used
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
-$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
+$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_detailed_online_list', 'enable_dnsbl_powered_banning', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'antispam_question_questions');
 
 if ( !$functions->get_config('hide_db_config_acp') )
@@ -243,6 +243,7 @@ if (
 			'allow_multi_sess',
 			'session_max_lifetime',
 			'session_save_path',
+			'acp_auto_logout',
 		),
 		'page_counts' => array(
 			'active_topics_count',
@@ -312,6 +313,7 @@ if (
 		),
 		'security' => array(
 			'enable_ip_bans',
+			'enable_dnsbl_powered_banning',
 			'enable_badwords_filter',
 			'enable_registration_log',
 			'registration_log_file',
@@ -455,9 +457,20 @@ if (
 		
 		if ( in_array($key, array('passwd', 'prefix')) )
 			continue;
+
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>';
 		
-		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><textarea name="conf-'.$key.'" rows="10" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>'.$moreinfo.'</td></tr>' : '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		if ( !empty($lang['ConfigBoard-'.$key.'-info']) )
+			$moreinfo = $lang['ConfigBoard-'.$key.'-info'];
+		elseif ( in_array($key, array('board_closed_reason', 'disable_registrations_reason')) )
+			$moreinfo = $lang['HTMLEnabledField'];
+		else
+			$moreinfo = '';
+		$moreinfo = ( !empty($moreinfo) ) ? '<div class="moreinfo">'.$moreinfo.'</div>' : '';
+
+		$input[$key] .= ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<textarea name="conf-'.$key.'" rows="10" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>' : '<input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />';
+
+		$input[$key] .= $moreinfo.'</td></tr>';
 		
 	}
 	

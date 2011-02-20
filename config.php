@@ -65,6 +65,7 @@ $conf = array();
 //
 // Define configuration
 //
+$conf['acp_auto_logout'] = 10;
 $conf['activation_mode'] = 1;
 $conf['active_topics_count'] = 25;
 $conf['active_topics_max_age'] = 30;
@@ -96,7 +97,7 @@ $conf['dnsbl_powered_banning_recheck_minutes'] = 0;
 $conf['dnsbl_powered_banning_servers'] = array ();
 $conf['dnsbl_powered_banning_whitelist'] = array (  0 => '127.0.0.1',  1 => '*.googlebot.com',);
 $conf['dst'] = 0;
-$conf['edit_post_timeout'] = 600;
+$conf['edit_post_timeout'] = 900;
 $conf['email_view_level'] = 1;
 $conf['email_reply-to_header'] = 0;
 $conf['enable_acp_modules'] = 0;
@@ -149,7 +150,7 @@ $conf['sendmail_sender_parameter'] = 0;
 $conf['session_max_lifetime'] = 60;
 $conf['session_name'] = 'usebb';
 $conf['session_save_path'] = '';
-$conf['show_edited_message_timeout'] = 60;
+$conf['show_edited_message_timeout'] = 120;
 $conf['show_never_activated_members'] = 0;
 $conf['show_posting_links_to_guests'] = 1;
 $conf['show_raw_entities_in_code'] = 1;

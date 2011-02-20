@@ -78,7 +78,7 @@ else
 
 $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <ul>
-	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' (<a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a>)</li>
+	<li>'.$lang['IndexUseBBVersion'].': '.USEBB_VERSION.' &ndash; <a href="'.$functions->make_url('admin.php', array('act' => 'version')).'">'.$lang['Item-version'].'</a></li>
 	<li>'.$lang['IndexPHPVersion'].': '.PHP_VERSION.'</li>
 	<li>'.$lang['IndexSQLServer'].': '.join('/', $db->get_server_info()).'</li>
 	<li>'.$lang['IndexHTTPServer'].': '.$_SERVER['SERVER_SOFTWARE'].'</li>
@@ -92,7 +92,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
 	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
 </ul>
-<p id="admincopyright">Copyright &copy; 2003-2010 UseBB Project - Released under the GNU General Public License.</p>';
+<p id="admincopyright">By the UseBB Project and contributors &mdash; Released under the GNU GPLv2</p>';
 
 $admin_functions->create_body('index', $content);
 

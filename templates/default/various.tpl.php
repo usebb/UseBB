@@ -250,7 +250,7 @@ $templates['register_form'] = '
 			<td class="fieldtitle">{l_PasswordAgain}</td><td>{passwd2_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2">{l_UsernameInfo} {passwd_info} {l_EverythingRequired}</td>
+			<td colspan="2"><ul><li>{l_UsernameInfo}</li><li>{passwd_info}</li><li>{l_EverythingRequired}</li></ul></td>
 		</tr>
 		<tr>
 			<td colspan="2" class="formcontrols">{submit_button}</td>

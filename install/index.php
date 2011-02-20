@@ -75,13 +75,13 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 		
 		$functions->redirect('index.php', array('step' => 2));
 		
-	} elseif ( !empty($_POST['db_type']) && array_key_exists($_POST['db_type'], $db_servers) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && preg_match(PWD_PREG, $_POST['admin_passwd1']) && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
+	} elseif ( !empty($_POST['db_type']) && array_key_exists($_POST['db_type'], $db_servers) && !empty($_POST['db_server']) && !empty($_POST['db_username']) && !empty($_POST['db_dbname']) && !empty($_POST['admin_username']) && preg_match(USER_PREG, $_POST['admin_username']) && !empty($_POST['admin_email']) && preg_match(EMAIL_PREG, $_POST['admin_email']) && !empty($_POST['admin_passwd1']) && !empty($_POST['admin_passwd2']) && $functions->validate_password(stripslashes($_POST['admin_passwd1']), true) && strlen(stripslashes($_POST['admin_passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['admin_passwd1'] == $_POST['admin_passwd2'] ) {
 		
 		$_SESSION['installer_running'] = 1;
 		
 		$_SESSION['admin_username'] = $_POST['admin_username'];
 		$_SESSION['admin_email'] = $_POST['admin_email'];
-		$_SESSION['admin_passwd'] = md5($_POST['admin_passwd1']);
+		$_SESSION['admin_passwd'] = md5(stripslashes($_POST['admin_passwd1']));
 		
 		$admin_functions->set_config(array(
 			'type' => $_POST['db_type'],
@@ -188,7 +188,12 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			</tr>
 		</table>
 		
-		<p>This will also create an admin account for your forum. Fill in the fields below. Note a username can only contain alphanumeric characters, spaces, _ and -. The password can only contain alphanumeric characters.</p>
+		<p>This will also create an admin account for your forum. Fill in the fields below.</p>
+		<p>Please note...</p>
+		<ul>
+			<li>'.$lang['UsernameInfo'].'</li>
+			<li>'.sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')).'</li>
+		</ul>
 		
 		<table>
 			<tr>

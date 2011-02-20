@@ -86,7 +86,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 		}
 		
-		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( preg_match(PWD_PREG, $_POST['passwd1']) && $_POST['passwd1'] == $_POST['passwd2'] && strlen($_POST['passwd1']) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && isset($_POST['posts']) && valid_int($_POST['posts']) ) {
+		$valid_password = ( !empty($_POST['passwd1']) && $functions->validate_password(stripslashes($_POST['passwd1']), true) );
+		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( $valid_password && $_POST['passwd1'] == $_POST['passwd2'] && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && isset($_POST['posts']) && valid_int($_POST['posts']) ) {
 			
 			if ( !empty($_POST['avatar']) ) {
 					
@@ -169,7 +170,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			WHERE id = ".$memberdata['id']);
 			
 			if ( !empty($_POST['passwd1']) )
-				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5($_POST['passwd1'])."' WHERE id = ".$memberdata['id']);
+				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET passwd = '".md5(stripslashes($_POST['passwd1']))."' WHERE id = ".$memberdata['id']);
 			
 			if ( $_POST['level'] < $memberdata['level'] )
 				$admin_functions->reload_moderator_perms();
@@ -188,13 +189,13 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 					$errors[] = $lang['Username'];
 				if ( empty($_POST['displayed_name']) )
 					$errors[] = $lang['DisplayedName'];
-				if ( ( !empty($_POST['passwd1']) || !empty($_POST['passwd2']) ) && ( !preg_match(PWD_PREG, $_POST['passwd1']) || $_POST['passwd1'] != $_POST['passwd2'] ) )
+				if ( ( !empty($_POST['passwd1']) || !empty($_POST['passwd2']) ) && $_POST['passwd1'] != $_POST['passwd2'] )
 					$errors[] = $lang['Password'];
 				if ( !( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) )
 					$errors[] = $lang['Birthday'];
 				if ( empty($_POST['email']) || !preg_match(EMAIL_PREG, $_POST['email']) )
 					$errors[] = $lang['Email'];
-				if ( empty($_POST['posts']) || !valid_int($_POST['posts']) )
+				if ( !isset($_POST['posts']) || !valid_int($_POST['posts']) )
 					$errors[] = $lang['Posts'];
 				
 				//
@@ -209,7 +210,9 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				if ( $displayed_name_taken )
 					$content .= '<p><strong>'.sprintf($lang['MembersEditingMemberDisplayedNameExists'], '<em>'.unhtml(stripslashes($_POST['displayed_name'])).'</em>').'</strong></p>';
 				
-				if ( !empty($_POST['passwd1']) && strlen($_POST['passwd1']) < $functions->get_config('passwd_min_length') )
+				if ( !empty($_POST['passwd1']) && !$valid_password )
+					$content .= '<p><strong>'.sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')).'</strong></p>';
+				elseif ( !empty($_POST['passwd1']) && strlen(stripslashes($_POST['passwd1'])) < $functions->get_config('passwd_min_length') )
 					$content .= '<p><strong>'.sprintf($lang['StringTooShort'], $lang['Password'], $functions->get_config('passwd_min_length')).'</strong></p>';
 				
 			}
@@ -233,12 +236,12 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$selected = ( $_POST['level'] == 3 ) ? ' selected="selected"' : '';
 				$level_input .= '<option value="3"'.$selected.'>'.$lang['Administrator'].'</option>';
 				$selected = ( $_POST['level'] != 3 ) ? ' selected="selected"' : '';
-				$level_input .= '<option value="1"'.$selected.'>'.$lang['Member'].'/'.$lang['Moderator'].'</option>';
+				$level_input .= '<option value="1"'.$selected.'>'.$lang['Member'].' / '.$lang['Moderator'].'</option>';
 				$level_input .= '</select>';
 				$level_input .= '<div class="moreinfo">'.$lang['MembersEditingLevelModInfo'].'</div>';
 				
 				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
-				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><label><input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea></td></tr>';
+				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><label><input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea><div class="moreinfo">'.$lang['HTMLEnabledField'].'</div></td></tr>';
 
 				$delete_link = '<a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'">'.$lang['DeleteMembersConfirmMemberDelete'].'</a>';
 				
@@ -291,10 +294,9 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<table id="adminregulartable">';
 			
 			$content .= '<tr><th colspan="2">'.$lang['EditProfile'].'</th></tr>';
-			$content .= '<tr><td colspan="2">'.$lang['UsernameInfo'].' '.sprintf($lang['PasswdInfo'], $functions->get_config('passwd_min_length')).'</td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Username'].' <small>*</small></td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /><div class="moreinfo">'.$lang['UsernameInfo'].'</div></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['DisplayedName'].' <small>*</small></td><td><input type="text" size="30" name="displayed_name" maxlength="255" value="'.unhtml(stripslashes($_POST['displayed_name'])).'" /></td></tr>';
-				$content .= '<tr><td class="fieldtitle">'.$lang['Password'].'</td><td><input type="password" size="30" name="passwd1" maxlength="255" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['Password'].'</td><td><input type="password" size="30" name="passwd1" maxlength="255" /><div class="moreinfo">'.sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')).'</div></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].'</td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['RealName'].'</td><td><input type="text" size="30" name="real_name" maxlength="255" value="'.unhtml(stripslashes($_POST['real_name'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['AvatarURL'].'</td><td><input type="text" size="30" name="avatar" maxlength="255" value="'.unhtml(stripslashes($_POST['avatar_remote'])).'" /></td></tr>';

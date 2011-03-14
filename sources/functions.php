@@ -542,6 +542,7 @@ class functions {
 	 */
 	var $board_config = array();
 	var $board_config_original = array();
+	var $board_config_defined = array();
 	var $statistics = array();
 	var $languages = array();
 	var $language_sections = array();
@@ -769,8 +770,12 @@ class functions {
 		//
 		// Load settings into array.
 		//
-		if ( !count($this->board_config_original) )
+		if ( !count($this->board_config_original) ) {
+			
 			$this->board_config_original = $GLOBALS['conf'];
+			$this->board_config_defined = array_keys($GLOBALS['conf']);
+			
+		}
 		
 		//
 		// users_must_activate was renamed to activation_mode.
@@ -818,10 +823,10 @@ class functions {
 					$set_to = 30;
 					break;
 				case 'edit_post_timeout':
-					$set_to = 300;
+					$set_to = 900;
 					break;
 				case 'mass_email_msg_recipients':
-					$set_to = 100;
+					$set_to = 50;
 					break;
 				case 'acp_auto_logout':
 					$set_to = 10;

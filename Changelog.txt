@@ -13,6 +13,7 @@ UseBB 1.0.12 Changelog
 - Fixed some bugs with anti-spam question posing timing.
 - Fixed wrong error when could not connect to database.
 - Fixed errors when getting config values before having config file loaded.
+- Fixed bug where some new config settings did not get saved.
 - Passwords can now contain symbols, and must contain at least one letter and one number.
 - Generated passwords now also contain symbols and are always checked to be valid.
 - Removed mandatory usage of magic_quotes_runtime.

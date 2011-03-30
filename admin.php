@@ -62,7 +62,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	//
 	$lang = $functions->fetch_language('', 'admin');
 
-	$_GET['act'] = ( !empty($_GET['act']) ) ? $_GET['act'] : 'index';
+	$_GET['act'] = ( !empty($_GET['act']) ) ? str_replace(array('/', '\\'), '', $_GET['act']) : 'index';
 
 	$_SESSION['admin_last_activity'] = ( isset($_SESSION['admin_last_activity']) ) ? (int) $_SESSION['admin_last_activity'] : 0;
 	$_SESSION['admin_disable_logout'] = ( isset($_SESSION['admin_disable_logout']) ) ? (bool) $_SESSION['admin_disable_logout'] : false;

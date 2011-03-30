@@ -8,6 +8,7 @@ UseBB 1.0.12 Changelog
 - Added possibility to only check DNSBL servers upon registering or posting as guest.
 - Added max topic age setting for active topics.
 - Added automatic and manual logout for Admin Control Panel.
+- Fixed a minor security issue with includes in ACP.
 - Fixed a small issue with not properly checked new version information from server.
 - Fixed possible bug with statistics table and updating.
 - Fixed some bugs with anti-spam question posing timing.

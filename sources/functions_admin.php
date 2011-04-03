@@ -174,7 +174,7 @@ class admin_functions {
 	 */
 	function read_remote_file($url) {
 		
-		if ( function_exists('curl_init') ) {
+		if ( function_exists('curl_init') && function_exists('curl_exec') ) {
 			
 			//
 			// cURL

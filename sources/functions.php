@@ -2184,9 +2184,9 @@ class functions {
 			//
 			$matches = array();
 			while ( preg_match("#\[quote\](.*?)\[/quote\]#is", $string, $matches) )
-				$string = preg_replace("#\[quote\]".preg_quote($matches[1], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], trim($matches[1])), $string);
+				$string = preg_replace("#\[quote\]".preg_quote($matches[1], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), $lang['Quote'], ' '.trim($matches[1])).' ', $string);
 			while ( preg_match("#\[quote=(.*?)\](.*?)\[/quote\]#is", $string, $matches) )
-				$string = preg_replace("#\[quote=".preg_quote($matches[1], '#')."\]".preg_quote($matches[2], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), trim($matches[2])), $string);
+				$string = preg_replace("#\[quote=".preg_quote($matches[1], '#')."\]".preg_quote($matches[2], '#')."\[/quote\]#is", sprintf($template->get_config('quote_format'), sprintf($lang['Wrote'], $matches[1]), ' '.trim($matches[2]).' '), $string);
 			
 			//
 			// Undo the dirty fixing.
@@ -2208,17 +2208,20 @@ class functions {
 			//
 			// Parse URL's and e-mail addresses enclosed in special characters
 			//
-			$ignore_chars_email = "[^a-z0-9]*?";
-			$ignore_chars_url = "([^a-z0-9/]|&\#?[a-z0-9]+;)*?";
-			$string = preg_replace(array(
-				"#([\s]".$ignore_chars_url.")([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars_url."[\s])#is",
-				"#([\s]".$ignore_chars_url.")(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars_url."[\s])#is",
-				"#([\s]".$ignore_chars_url.")([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)(".$ignore_chars_url."[\s])#is"
-			), array(
-				'\\1<a href="\\3" title="\\3"'.$rel.'>\\3</a>\\4',
-				'\\1<a href="http://\\3" title="http://\\3"'.$rel.'>\\3</a>\\4',
-				'\\1<a href="mailto:\\3" title="\\3">\\3</a>\\5'
-			), $string);
+			$ignore_chars = "([^a-z0-9/]|&\#?[a-z0-9]+;)*?";
+			for ( $i = 0; $i < 2; $i++ ) {
+
+				$string = preg_replace(array(
+					"#([\s]".$ignore_chars.")([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
+					"#([\s]".$ignore_chars.")(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
+					"#([\s]".$ignore_chars.")([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)(".$ignore_chars."[\s])#is"
+				), array(
+					'\\1<a href="\\3" title="\\3"'.$rel.'>\\3</a>\\4',
+					'\\1<a href="http://\\3" title="http://\\3"'.$rel.'>\\3</a>\\4',
+					'\\1<a href="mailto:\\2" title="\\3">\\3</a>\\5'
+				), $string);
+
+			}
 			
 			//
 			// All kinds of BBCode regexps

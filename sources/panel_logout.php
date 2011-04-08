@@ -56,7 +56,7 @@ if ( !$session->sess_info['user_id'] ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		if ( !empty($_POST['logout']) ) {
+		if ( !empty($_POST['logout']) && $functions->verify_form(false) ) {
 			
 			$refere_to = $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
 			$session->destroy();
@@ -92,7 +92,7 @@ if ( !$session->sess_info['user_id'] ) {
 			'submit_button' => '<input type="submit" name="logout" value="'.$lang['Yes'].'" />',
 			'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 			'form_end' => '</form>'
-		));
+		), false, true);
 		
 		//
 		// Include the page footer

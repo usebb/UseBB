@@ -79,7 +79,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 		if ( file_exists($modules_dir) && is_writable($modules_dir) ) {
 			
-			if ( $_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) ) {
+			if ( $_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('acp_module', $_FILES) && is_uploaded_file($_FILES['acp_module']['tmp_name']) && $functions->verify_form() ) {
 				
 				$acp_module = $_FILES['acp_module'];
 				
@@ -106,7 +106,8 @@ if ( $functions->get_config('enable_acp_modules') ) {
 				
 			}
 			
-			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'upload')).'" method="post" enctype="multipart/form-data"><p><input type="file" name="acp_module" size="25" /> <input type="submit" value="'.$lang['Upload'].'" /></p></form>';
+			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'upload')).'" method="post" enctype="multipart/form-data">';
+			$content .= '<p><input type="file" name="acp_module" size="25" /> <input type="submit" value="'.$lang['Upload'].'" />'.$admin_functions->form_token().'</p></form>';
 			
 		} else {
 		
@@ -120,7 +121,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			if ( !empty($_POST['delete']) )
+			if ( !empty($_POST['delete']) && $functions->verify_form(false) )
 				unlink($modules_dir.$acp_module['filename']);
 			
 			$functions->redirect('admin.php', array('act' => 'modules'));
@@ -130,7 +131,7 @@ if ( $functions->get_config('enable_acp_modules') ) {
 			$content = '<h2>'.$lang['ModulesConfirmModuleDelete'].'</h2>';
 			$content .= '<p>'.sprintf($lang['ModulesConfirmModuleDeleteInfo'], '<em>'.$acp_module['long_name'].'</em>', '<code>'.$acp_module['short_name'].'</code>').'</p>';
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $_GET['name'])).'" method="post">';
-			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
+			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" />'.$admin_functions->form_token().' <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';
 			
 		}

@@ -112,6 +112,8 @@ class session {
 		$_SESSION['dnsbl_checked'] = ( !empty($_SESSION['dnsbl_checked']) ) ? $_SESSION['dnsbl_checked'] : 0;
 		$_SESSION['dnsbl_whitelisted'] = ( isset($_SESSION['dnsbl_whitelisted']) && $_SESSION['dnsbl_whitelisted'] );
 		$_SESSION['antispam_question_posed'] = ( isset($_SESSION['antispam_question_posed']) && $_SESSION['antispam_question_posed'] );
+		$_SESSION['tokens'] = ( isset($_SESSION['tokens']) && is_array($_SESSION['tokens']) ) ? $_SESSION['tokens'] : array();
+		$_SESSION['oldest_token'] = ( !empty($_SESSION['oldest_token']) ) ? (float) $_SESSION['oldest_token'] : 0.0;
 		
 	}
 	
@@ -141,10 +143,14 @@ class session {
 			$ip_addr = '127.0.0.1';
 		
 		//
-		// Check if we will run cleanup
-		// Cleanup is ran about 1 time per 10 requests
+		// Clean old form tokens
 		//
-		$run_cleanup = ( mt_rand(0, 9) === 0 ) ? true : false;
+		$this->clean_tokens();
+		
+		//
+		// Cleanup various stuff once in ten requests
+		//
+		$run_cleanup = ( mt_rand(0, 9) === 0 );
 		
 		//
 		// Get banned IP addresses
@@ -640,6 +646,52 @@ class session {
 		}
 
 		return false;
+
+	}
+
+	function clean_tokens() {
+
+		global $functions;
+		
+		//
+		// No tokens
+		//
+		if ( !$_SESSION['oldest_token'] )
+			return;
+
+		$max_age = 900;
+		$max_count = 20;
+		$current_time = time();
+		$current_count = count($_SESSION['tokens']);
+		$min = 0;
+
+		//
+		// Nothing to clean
+		//
+		if ( $current_time - $_SESSION['oldest_token'] <= $max_age && $current_count <= $max_count )
+			return;
+
+		$token_times = array_keys($_SESSION['tokens']);
+		foreach ( $token_times as $time ) {
+		
+			$ftime = (float)$time;
+			$min = $ftime;
+			
+			//
+			// Continue looping until not too old or not too many tokens
+			//
+			if ( $current_time - $ftime <= $max_age && $current_count <= $max_count )
+				break;
+			
+			unset($_SESSION['tokens'][$time]);
+			$current_count--;
+
+		}
+
+		//
+		// Get new oldest token
+		//
+		$_SESSION['oldest_token'] = ( $current_count > 0 ) ? $min : 0;
 
 	}
 	

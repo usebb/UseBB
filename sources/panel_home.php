@@ -43,7 +43,7 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
+if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) && $functions->verify_url() ) {
 	
 	if ( $_GET['al'] ) {
 		
@@ -51,7 +51,7 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 		// Set the AL cookie
 		//
 		$functions->set_al($session->sess_info['user_id'], $session->sess_info['user_info']['passwd']);
-		$msgbox_content = $lang['AutoLoginSet'];
+		$_SESSION['panel_msg'] = $lang['AutoLoginSet'];
 		
 	} elseif ( !$_GET['al'] ) {
 		
@@ -59,23 +59,17 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 		// Unset the AL cookie
 		//
 		$functions->unset_al();
-		$msgbox_content = $lang['AutoLoginUnset'];
+		$_SESSION['panel_msg'] = $lang['AutoLoginUnset'];
 		
 	}
+
+	$functions->redirect('panel.php');
 	
-	$template->parse('msgbox', 'global', array(
-		'box_title' => $lang['Note'],
-		'content' => $msgbox_content
-	));
-	
-} elseif ( !empty($_GET['do']) && $_GET['do'] == 'markallasread' ) {
+} elseif ( !empty($_GET['do']) && $_GET['do'] == 'markallasread' && $functions->verify_url() ) {
 	
 	$_SESSION['previous_visit'] = time();
-	
-	$template->parse('msgbox', 'global', array(
-		'box_title' => $lang['Note'],
-		'content' => $lang['MarkAllAsReadDone']
-	));
+	$_SESSION['panel_msg'] = $lang['MarkAllAsReadDone'];
+	$functions->redirect('panel.php');
 	
 } else {
 	
@@ -90,12 +84,12 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 	} elseif ( $functions->isset_al() ) {
 		
 		$al_status = $lang['Enabled'];
-		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 0)).'">'.$lang['Disable'].'</a>';
+		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 0), true, true, false, true).'">'.$lang['Disable'].'</a>';
 		
 	} else {
 		
 		$al_status = $lang['Disabled'];
-		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 1)).'">'.$lang['Enable'].'</a>';
+		$al_change = '<a href="'.$functions->make_url('panel.php', array('al' => 1), true, true, false, true).'">'.$lang['Enable'].'</a>';
 		
 	}
 	
@@ -110,7 +104,7 @@ if ( count($_COOKIE) >= 1 && isset($_GET['al']) && valid_int($_GET['al']) ) {
 		'pages_v' => $session->sess_info['pages'],
 		'al_status' => $al_status,
 		'al_change' => $al_change,
-		'mark_all_as_read' => '<a href="'.$functions->make_url('panel.php', array('do' => 'markallasread')).'">'.$lang['MarkAllAsRead'].'</a>'
+		'mark_all_as_read' => '<a href="'.$functions->make_url('panel.php', array('do' => 'markallasread'), true, true, false, true).'">'.$lang['MarkAllAsRead'].'</a>'
 	));
 	
 }

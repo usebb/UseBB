@@ -54,13 +54,13 @@ foreach ( $cats as $cat ) {
 
 $_GET['do'] = ( !empty($_GET['do']) ) ? $_GET['do'] : 'index';
 
-if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
+if ( $_GET['do'] == 'index' ) {
 	
 	$content = '<p>'.$lang['CategoriesInfo'].'</p>';
 	$content .= '<ul id="adminfunctionsmenu">';
 		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'add')).'">'.$lang['CategoriesAddNewCat'].'</a></li> ';
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'adjustsortids')).'">'.$lang['CategoriesAdjustSortIDs'].'</a></li> ';
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'autosort')).'">'.$lang['CategoriesSortAutomatically'].'</a></li> ';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'adjustsortids'), true, true, false, true).'">'.$lang['CategoriesAdjustSortIDs'].'</a></li> ';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'categories', 'do' => 'autosort'), true, true, false, true).'">'.$lang['CategoriesSortAutomatically'].'</a></li> ';
 	$content .= '</ul>';
 	
 	if ( !count($cats) ) {
@@ -71,40 +71,23 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			if ( $filled_in ) {
+			if ( $filled_in && $functions->verify_form() ) {
 				
 				foreach ( $cats as $cat )
 					$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$_POST['sort_id-'.$cat['id']]." WHERE id = ".$cat['id']);
 				$cats = $admin_functions->get_cats_array();
 				$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
 				
-			} else {
+			} elseif ( !$filled_in ) {
 				
 				$content .= '<p><strong>'.$lang['CategoriesMissingFields'].'</strong></p>';
 				
 			}
-			
-		} elseif ( $_GET['do'] == 'adjustsortids' ) {
-			
-			$cat_sort_id = 1;
-			foreach ( $cats as $cat ) {
-				
-				if ( $cat['sort_id'] != $cat_sort_id )
-					$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$cat_sort_id." WHERE id = ".$cat['id']);
-				$cat_sort_id++;
-				
-			}
-			$cats = $admin_functions->get_cats_array();
-			$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
-			
-		} elseif ( $_GET['do'] == 'autosort' ) {
-			
-			$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = 0");
-			$cats = $admin_functions->get_cats_array();
-			$content .= '<p>'.$lang['CategoriesSortChangesApplied'].'</p>';
-			
-		}
 		
+		}
+
+		$content .= $admin_functions->show_acp_msg();
+
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'categories')).'" method="post">';
 		$content .= '<table id="adminregulartable"><tr><th>'.$lang['CategoriesCatName'].'</th><th class="action">'.$lang['Edit'].'</th><th class="action">'.$lang['Delete'].'</th><th class="action">'.$lang['CategoriesSortID'].'</th></tr>';
 		
@@ -120,15 +103,44 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		}
 		
-		$content .= '<tr><td colspan="4" class="submit"><input type="submit" value="'.$lang['Save'].'" tabindex="'.$i.'" /> <input type="reset" value="'.$lang['Reset'].'" tabindex="'.($i+1).'" /></td></tr></table></form>';
+		$content .= '<tr><td colspan="4" class="submit"><input type="submit" value="'.$lang['Save'].'" tabindex="'.$i.'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" tabindex="'.($i+1).'" /></td></tr></table></form>';
 		
 	}
+
+} elseif ( $_GET['do'] == 'adjustsortids' ) {
 	
+	if ( $functions->verify_url(false) ) {
+	
+		$cat_sort_id = 1;
+		foreach ( $cats as $cat ) {
+			
+			if ( $cat['sort_id'] != $cat_sort_id )
+				$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = ".$cat_sort_id." WHERE id = ".$cat['id']);
+			$cat_sort_id++;
+			
+		}
+		$admin_functions->set_acp_msg($lang['CategoriesSortChangesApplied']);
+
+	}
+
+	$functions->redirect('admin.php', array('act' => 'categories'));
+
+} elseif ( $_GET['do'] == 'autosort' ) {
+	
+	if ( $functions->verify_url(false) ) {
+	
+		$db->query("UPDATE ".TABLE_PREFIX."cats SET sort_id = 0");
+		$admin_functions->set_acp_msg($lang['CategoriesSortChangesApplied']);
+
+	}
+
+	$functions->redirect('admin.php', array('act' => 'categories'));
+
 } elseif ( $_GET['do'] == 'delete' && !empty($_GET['id']) && array_key_exists($_GET['id'], $cats) ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		if ( !empty($_POST['delete']) ) {
+		if ( !empty($_POST['delete']) && $functions->verify_form(false) ) {
 			
 			if ( !empty($_POST['move_contents']) && array_key_exists($_POST['move_contents'], $cats) )
 				$db->query("UPDATE ".TABLE_PREFIX."forums SET cat_id = ".$_POST['move_contents']." WHERE cat_id = ".$_GET['id']);
@@ -157,7 +169,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 		$content .= '<p>'.sprintf($lang['CategoriesMoveContents'], $category_select).'</p>';
 		
-		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
+		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" />'.$admin_functions->form_token().' <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 		$content .= '</form>';
 		
 	}
@@ -167,7 +179,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 	if ( $_GET['do'] == 'edit' )
 		$catinfo = $cats[$_GET['id']];
 	
-	if ( !empty($_POST['name']) ) {
+	if ( !empty($_POST['name']) && $functions->verify_form() ) {
 		
 		if ( $_GET['do'] == 'edit' )
 			$db->query("UPDATE ".TABLE_PREFIX."cats SET name = '".$_POST['name']."' WHERE id = ".$_GET['id']);
@@ -202,7 +214,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		$content .= '<form action="'.$form.'" method="post">';
 		$content .= '<table id="adminregulartable">';
 		$content .= '<tr><td class="fieldtitle">'.$lang['CategoriesCatName'].'</td><td><input type="text" size="30" name="name" id="name" maxlength="255" value="'.unhtml(stripslashes($_POST['name'])).'" /></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 		
 		$template->set_js_onload("set_focus('name')");
 		

@@ -43,7 +43,7 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' && $functions->verify_form() ) {
 	
 	//
 	// Update the user's preferences
@@ -174,7 +174,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		'auto_subscribe_reply_input' => '<label><input type="checkbox" name="auto_subscribe_reply" value="1"'.$auto_subscribe_reply_checked.' /> '.$lang['OnPostingNewReplies'].'</label>',
 		'submit_button'         => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'form_end'              => '</form>'
-	));
+	), false, true);
 	
 }
 

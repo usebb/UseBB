@@ -43,7 +43,7 @@
 if ( !defined('INCLUDED') )
 	exit();
 
-if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) || !empty($_POST['recipients_members']) ) && !empty($_POST['subject']) && !empty($_POST['body']) ) {
+if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) || !empty($_POST['recipients_members']) ) && !empty($_POST['subject']) && !empty($_POST['body']) && $functions->verify_form() ) {
 	
 	$levels = array();
 	if ( !empty($_POST['recipients_admins']) )
@@ -125,7 +125,7 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 			$content .= '<div><label><input type="checkbox" name="public_emails_only" value="1"'.$public_emails_only_checked.' /> '.$lang['MassEmailPublicEmailsOnly'].'</label></div>';
 			$content .= '<div><label><input type="checkbox" name="exclude_banned" value="1"'.$exclude_banned_checked.' /> '.$lang['MassEmailExcludeBanned'].'</label></div>';
 		$content .= '</td></tr>';
-	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Send'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 }
 

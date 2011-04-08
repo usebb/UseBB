@@ -139,7 +139,7 @@ if ( $functions->get_config('disable_registrations') ) {
 	// If all necessary information has been posted and the user accepted the terms
 	//
 	$valid_password = ( !empty($_POST['passwd1']) && $functions->validate_password(stripslashes($_POST['passwd1']), true) );
-	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) && $valid_password && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) && !empty($_POST['saltcode']) && !empty($_SESSION['saltcode']) && $_SESSION['saltcode'] == stripslashes($_POST['saltcode']) ) {
+	if ( !empty($_POST['user']) && strlen($_POST['user']) >= $functions->get_config('username_min_length') && strlen($_POST['user']) <= $functions->get_config('username_max_length') && !$username_taken && !$username_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['user']) && $functions->validate_email($_POST['email']) && $valid_password && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['passwd1'] == $_POST['passwd2'] && !empty($_POST['acceptedterms']) ) {
 		
 		//
 		// Registration log file
@@ -268,8 +268,6 @@ if ( $functions->get_config('disable_registrations') ) {
 			'content' => $msgbox_content
 		));
 		
-		unset($_SESSION['saltcode']);
-		
 	} elseif ( !empty($_POST['acceptedterms']) ) {
 		
 		//
@@ -281,12 +279,6 @@ if ( $functions->get_config('disable_registrations') ) {
 			//
 			// The form has been submitted but there are missing fields
 			//
-			
-			//
-			// Because this often happens with bad config values...
-			//
-			if ( empty($_SESSION['saltcode']) )
-				trigger_error("Missing saltcode in session data!\n\nThis is most likely due to malfunctioning sessions. Please check UseBB's cookie/session configuration values.", E_USER_ERROR);
 			
 			if ( $username_taken ) {
 				
@@ -391,7 +383,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			'passwd1_input'       => '<input type="password" name="passwd1" size="25" maxlength="255" />',
 			'passwd_info'         => sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')),
 			'passwd2_input'       => '<input type="password" name="passwd2" size="25" maxlength="255" />',
-			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" /><input type="hidden" name="saltcode" value="'.unhtml(stripslashes($_POST['saltcode'])).'" />',
+			'submit_button'       => '<input type="submit" name="sentregform" value="'.$lang['Register'].'" /><input type="hidden" name="acceptedterms" value="true" />',
 			'form_end'            => '</form>'
 		));
 		$template->set_js_onload("set_focus('user')");
@@ -413,14 +405,13 @@ if ( $functions->get_config('disable_registrations') ) {
 		if ( !$session->sess_info['user_id'] ) {
 			
 			$_SESSION['refere_to'] = ( !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $functions->get_config('board_url')) === 0 && !preg_match('#(?:login|logout|register|activate|sendpwd|install)#', $_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '';
-			$_SESSION['saltcode'] = $saltcode = $functions->random_key();
 			
 			$template->parse('confirm_form', 'global', array(
 				'more_css_classes' => ' termsofuse',
 				'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'register')).'" method="post">',
 				'title' => $lang['TermsOfUse'],
 				'content' => nl2br($lang['TermsOfUseContent']),
-				'submit_button' => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" /><input type="hidden" name="saltcode" value="'.unhtml($saltcode).'" />',
+				'submit_button' => '<input type="submit" name="acceptedterms" value="'.$lang['IAccept'].'" />',
 				'cancel_button' => '<input type="submit" name="notaccepted" value="'.$lang['IDontAccept'].'" />',
 				'form_end' => '</form>'
 			));

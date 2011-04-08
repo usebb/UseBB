@@ -152,7 +152,9 @@ if (
 	in_array($_POST['conf-view_search_min_level'], $user_levels) &&
 	in_array($_POST['conf-view_stafflist_min_level'], $user_levels) &&
 	in_array($_POST['conf-view_stats_min_level'], $user_levels) &&
-	in_array($_POST['conf-view_contactadmin_min_level'], $user_levels)
+	in_array($_POST['conf-view_contactadmin_min_level'], $user_levels) &&
+
+	$functions->verify_form()
 ) {
 	
 	$new_settings = array();
@@ -669,7 +671,7 @@ if (
 		
 	}
 	
-	$content .= '<p class="submit" id="adminconfigsubmit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
+	$content .= '<p class="submit" id="adminconfigsubmit"><input type="submit" value="'.$lang['Save'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
 }
 

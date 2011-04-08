@@ -51,7 +51,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	$result = $db->query("SELECT id, name, language, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = 0");
 	$memberdata = $db->fetch_result($result);
 	
-	if ( $memberdata['id'] ) {
+	if ( $memberdata['id'] && $functions->verify_url(false) ) {
 		
 		$db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
 		
@@ -110,7 +110,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		foreach ( $unactivated as $userinfo ) {
 			
 			$logged_in_previously = ( $userinfo['last_login'] ) ? ' <small>*</small>' : '';
-			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'" title="'.$userinfo['email'].'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in_previously.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'show' => $_GET['show'], 'id' => $userinfo['id'])).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+			$content .= '<tr><td><a href="'.$functions->make_url('profile.php', array('id' => $userinfo['id'])).'" title="'.$userinfo['email'].'"><em>'.unhtml(stripslashes($userinfo['name'])).'</em></a>'.$logged_in_previously.'</td><td>'.$functions->make_date($userinfo['regdate']).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'activate_members', 'show' => $_GET['show'], 'id' => $userinfo['id']), true, true, false, true).'">'.$lang['Activate'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $userinfo['id'])).'">'.$lang['Edit'].'</a></td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $userinfo['id'])).'">'.$lang['Delete'].'</a></td></tr>';
 			
 		}
 		$content .= '</table>';

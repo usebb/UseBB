@@ -117,7 +117,7 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && $functions
 	
 }
 
-if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar_remote']) || preg_match(IMG_PREG, $_POST['avatar_remote']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) ) {
+if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar_remote']) || preg_match(IMG_PREG, $_POST['avatar_remote']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) && $functions->verify_form() ) {
 	
 	if ( !empty($_POST['avatar_remote']) ) {
 			
@@ -340,7 +340,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.unhtml(stripslashes($user_info['skype'])).'" />',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'form_end'         => '</form>'
-	));
+	), false, true);
 	
 }
 

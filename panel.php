@@ -131,6 +131,16 @@ if ( $_GET['act'] == 'login' ) {
 			'panel_passwd' => '<a href="'.$functions->make_url('panel.php', array('act' => 'editpwd')).'">' . ( ( $_GET['act'] != 'editpwd' ) ? $lang['EditPasswd'] : '<strong>'.$lang['EditPasswd'].'</strong>' ) .'</a>'
 		));
 		
+		if ( !empty($_SESSION['panel_msg']) ) {
+
+			$template->parse('msgbox', 'global', array(
+				'box_title' => $lang['Note'],
+				'content' => $_SESSION['panel_msg']
+			));
+			unset($_SESSION['panel_msg']);
+
+		}
+
 		switch ( $_GET['act'] ) {
 			
 			case 'panel_home':

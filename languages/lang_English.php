@@ -513,5 +513,15 @@ $lang['All'] = 'All';
 $lang['Staff'] = 'Staff';
 $lang['Guests'] = 'Guests';
 $lang['ShowOnly'] = 'Show only';
+$lang['InvalidFormTokenNotice'] = 'The security token is invalid or has expired.
+
+If you were led here through a third-party link or website, please ignore this page!
+
+If you were making changes and submitting the form yourself, please resubmit.';
+$lang['InvalidURLTokenNotice']  = 'The security token is invalid or has expired.
+
+If you were led here through a third-party link or website, please ignore this page!
+
+Otherwise, please reload the original page and revisit the link.';
 
 ?>

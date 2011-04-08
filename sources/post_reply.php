@@ -104,7 +104,7 @@ if ( !$topicdata['id'] ) {
 		
 		$flood_protect_wait_sec = ( $functions->get_user_level() <= LEVEL_MEMBER ) ? ( $functions->get_config('flood_interval') - ( time() - $_SESSION['latest_post'] ) ) : 0;
 		
-		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !$functions->post_empty($_POST['content']) && empty($_POST['preview']) && $flood_protect_wait_sec <= 0 ) {
+		if ( ( $session->sess_info['user_id'] || ( !empty($_POST['user']) && entities_strlen($_POST['user']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['user']) <= $functions->get_config('username_max_length') ) ) && !$functions->post_empty($_POST['content']) && empty($_POST['preview']) && $flood_protect_wait_sec <= 0 && $functions->verify_form() ) {
 			
 			//
 			// Save the guest's username in the session
@@ -308,7 +308,7 @@ if ( !$topicdata['id'] ) {
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="4" accesskey="s" />',
 				'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" tabindex="3" />',
 				'form_end' => '</form>'
-			));
+			), false, true);
 			
 			if ( $functions->get_config('topicreview_posts') ) {
 				

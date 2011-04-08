@@ -63,7 +63,7 @@ if ( !empty($_POST['forums']) && is_array($_POST['forums']) && count($_POST['for
 	
 }
 
-if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] == 'delete' || ( $_POST['action'] == 'move' && !empty($_POST['move_to']) && valid_int($_POST['move_to']) && in_array($_POST['move_to'], $forum_ids) && !in_array($_POST['move_to'], $_POST['forums']) ) || $_POST['action'] == 'lock' ) && !empty($_POST['latest_post']) && valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 && !empty($_POST['confirm']) ) {
+if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] == 'delete' || ( $_POST['action'] == 'move' && !empty($_POST['move_to']) && valid_int($_POST['move_to']) && in_array($_POST['move_to'], $forum_ids) && !in_array($_POST['move_to'], $_POST['forums']) ) || $_POST['action'] == 'lock' ) && !empty($_POST['latest_post']) && valid_int($_POST['latest_post']) && $_POST['latest_post'] > 0 && !empty($_POST['confirm']) && $functions->verify_form() ) {
 	
 	//
 	// What we need:
@@ -197,7 +197,7 @@ if ( count($_POST['forums']) && !empty($_POST['action']) && ( $_POST['action'] =
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsTopicAge'].'</td><td>'.sprintf($lang['PruneForumsTopicAgeField'], '<input type="text" name="latest_post" size="4" maxlength="4" value="'.$_POST['latest_post'].'" />').'</td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsExcludeStickies'].'</td><td><label><input type="checkbox" name="exclude_stickies" value="1"'.$exclude_stickies_checked.' /> '.$lang['PruneForumsExcludeStickies'].'</label></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PruneForumsConfirm'].'</td><td><label><input type="checkbox" name="confirm" value="1" /> '.$lang['PruneForumsConfirmText'].'</label></td></tr>';
-		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['PruneForumsStart'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr>';
+		$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['PruneForumsStart'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr>';
 	$content .= '</table></form>';
 	
 }

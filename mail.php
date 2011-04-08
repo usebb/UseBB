@@ -105,7 +105,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 				
 				$_POST['subject'] = ( !empty($_POST['subject']) ) ? stripslashes($_POST['subject']) : '';
 				$_POST['body'] = ( !empty($_POST['body']) ) ? stripslashes($_POST['body']) : '';
-				if ( !empty($_POST['subject']) && !empty($_POST['body']) ) {
+				if ( !empty($_POST['subject']) && !empty($_POST['body']) && $functions->verify_form() ) {
 					
 					//
 					// All information is passed, now send the mail
@@ -170,7 +170,7 @@ if ( intval($functions->get_config('email_view_level')) === 1 && !empty($_GET['i
 						'bcc_input' => '<label><input type="checkbox" name="bcc" value="1"'.$bcc_checked.$bcc_disabled.' /> '.$lang['BCCMyself'].'</label>',
 						'submit_button' => '<input type="submit" name="submit" value="'.$lang['Send'].'" />',
 						'form_end' => '</form>'
-					));
+					), false, true);
 					$template->set_js_onload("set_focus('subject')");
 					
 				}

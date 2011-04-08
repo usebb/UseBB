@@ -154,7 +154,7 @@ class template {
 	 * @param array $variables Template variables
 	 * @param bool $is_special Mark as a special template
 	 */
-	function parse($name, $section, $variables=array(), $is_special=false) {
+	function parse($name, $section, $variables=array(), $is_special=false, $enable_token=false) {
 		
 		global $functions;
 		
@@ -174,13 +174,46 @@ class template {
 				$this->templates[$section][$name] = '';
 			
 		}
-		
+
+		$variables = ( is_array($variables) && count($variables) ) ? $variables : array();
+
+		if ( $enable_token )
+			$this->install_token($variables);
+
 		$this->requests[] = array(
 			'section' => $section,
 			'template_name' => $name,
-			'variables' => ( is_array($variables) && count($variables) ) ? $variables : array()
+			'variables' => $variables,
 		);
 		
+	}
+
+	function install_token(&$variables) {
+
+		global $functions;
+		
+		//
+		// Find a variable where an input field was added.
+		// This location is good to add a hidden field without breaking HTML validity.
+		//
+		$alter_key = null;
+		foreach ( $variables as $key => $val ) {
+
+			if ( strpos($val, '<input ') !== false ) {
+
+				$alter_key = $key;
+				break;
+
+			}
+
+		}
+		
+		if ( !isset($alter_key) )
+			trigger_error('No template variable with input field found to install form token!', E_USER_ERROR);
+
+		$token = $functions->generate_token();
+		$variables[$alter_key] .= '<input type="hidden" name="_form_token_" value="'.$token.'" />';
+
 	}
 	
 	/**

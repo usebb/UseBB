@@ -87,7 +87,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		}
 		
 		$valid_password = ( !empty($_POST['passwd1']) && $functions->validate_password(stripslashes($_POST['passwd1']), true) );
-		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( $valid_password && $_POST['passwd1'] == $_POST['passwd2'] && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && isset($_POST['posts']) && valid_int($_POST['posts']) ) {
+		if ( !empty($_POST['name']) && !empty($_POST['displayed_name']) && !$username_taken && !$displayed_name_taken && !empty($_POST['email']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && ( ( empty($_POST['passwd1']) && empty($_POST['passwd2']) ) || ( $valid_password && $_POST['passwd1'] == $_POST['passwd2'] && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') ) ) && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && isset($_POST['posts']) && valid_int($_POST['posts']) && $functions->verify_form() ) {
 			
 			if ( !empty($_POST['avatar']) ) {
 					
@@ -339,7 +339,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['HideUserinfo'].'</td><td><label><input type="checkbox" name="hide_userinfo" value="1"'.$hide_userinfo_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['HideAllSignatures'].'</td><td><label><input type="checkbox" name="hide_signatures" value="1"'.$hide_signatures_checked.' /> '.$lang['Yes'].'</label></td></tr>';
 			
-			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Edit'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 			
 			$template->set_js_onload("set_focus('name')");
 			

@@ -44,7 +44,7 @@ if ( !defined('INCLUDED') )
 	exit();
 
 $valid_password = ( !empty($_POST['new_passwd1']) && $functions->validate_password(stripslashes($_POST['new_passwd1']), true) );
-if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd2']) && md5(stripslashes($_POST['current_passwd'])) == $session->sess_info['user_info']['passwd'] && $valid_password && strlen(stripslashes($_POST['new_passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['new_passwd1'] === $_POST['new_passwd2'] ) {
+if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd2']) && md5(stripslashes($_POST['current_passwd'])) == $session->sess_info['user_info']['passwd'] && $valid_password && strlen(stripslashes($_POST['new_passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['new_passwd1'] === $_POST['new_passwd2'] && $functions->verify_form() ) {
 	
 	$new_passwd = md5(stripslashes($_POST['new_passwd1']));
 
@@ -118,7 +118,7 @@ if ( !empty($_POST['current_passwd']) && !empty($_POST['new_passwd2']) && md5(st
 		'new_passwd2_input'    => '<input type="password" name="new_passwd2" size="25" maxlength="255" />',
 		'submit_button'        => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'form_end'             => '</form>'
-	));
+	), false, true);
 	$template->set_js_onload("set_focus('current_passwd')");
 	
 }

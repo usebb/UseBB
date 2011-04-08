@@ -46,7 +46,7 @@ if ( !defined('INCLUDED') )
 $modes = array('username', 'email', 'ip_addr');
 $_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $modes) ) ? $_GET['show'] : $modes[0];
 
-if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
+if ( !empty($_GET['delete']) && valid_int($_GET['delete']) && $functions->verify_url() ) {
 	
 	$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE id= ".$_GET['delete']);
 	$functions->redirect('admin.php', array('act' => 'bans', 'show' => $_GET['show']));
@@ -68,7 +68,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 	
 	if ( $_GET['show'] == 'username' ) {
 		
-		if ( !empty($_POST['name']) ) {
+		if ( !empty($_POST['name']) && $functions->verify_form() ) {
 			
 			$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE name = '".$_POST['name']."'");
 			$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '".$_POST['name']."', '', '')");
@@ -85,7 +85,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'])).'" method="post">';
 			$content .= '<table id="adminregulartable">';
 			$content .= '<tr><th>'.$lang['BansUsername'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
-			$content .= '<tr><td><input type="text" name="name" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
+			$content .= '<tr><td><input type="text" name="name" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" />'.$admin_functions->form_token().'</td></tr>';
 			
 			if ( !count($bans) ) {
 				
@@ -94,7 +94,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			} else {
 				
 				foreach ( $bans as $ban )
-					$content .= '<tr><td>'.unhtml(stripslashes($ban['name'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+					$content .= '<tr><td>'.unhtml(stripslashes($ban['name'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id']), true, true, false, true).'">'.$lang['Delete'].'</a></td></tr>';
 				
 			}
 			
@@ -104,7 +104,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 		
 	} elseif ( $_GET['show'] == 'email' ) {
 		
-		if ( !empty($_POST['email']) ) {
+		if ( !empty($_POST['email']) && $functions->verify_form() ) {
 			
 			$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE email = '".$_POST['email']."'");
 			$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '".$_POST['email']."', '')");
@@ -130,7 +130,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			} else {
 				
 				foreach ( $bans as $ban )
-					$content .= '<tr><td>'.unhtml(stripslashes($ban['email'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+					$content .= '<tr><td>'.unhtml(stripslashes($ban['email'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id']), true, true, false, true).'">'.$lang['Delete'].'</a></td></tr>';
 				
 			}
 			
@@ -146,7 +146,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 			
 		} else {
 			
-			if ( !empty($_POST['ip_addr']) ) {
+			if ( !empty($_POST['ip_addr']) && $functions->verify_form() ) {
 				
 				$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE ip_addr = '".$_POST['ip_addr']."'");
 				$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '', '".$_POST['ip_addr']."')");
@@ -163,7 +163,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 				$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'])).'" method="post">';
 				$content .= '<table id="adminregulartable">';
 				$content .= '<tr><th>'.$lang['BansIp_addr'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
-				$content .= '<tr><td><input type="text" name="ip_addr" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
+				$content .= '<tr><td><input type="text" name="ip_addr" size="30" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" />'.$admin_functions->form_token().'</td></tr>';
 				
 				if ( !count($bans) ) {
 					
@@ -172,7 +172,7 @@ if ( !empty($_GET['delete']) && valid_int($_GET['delete']) ) {
 				} else {
 					
 					foreach ( $bans as $ban )
-						$content .= '<tr><td>'.unhtml(stripslashes($ban['ip_addr'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id'])).'">'.$lang['Delete'].'</a></td></tr>';
+						$content .= '<tr><td>'.unhtml(stripslashes($ban['ip_addr'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'bans', 'show' => $_GET['show'], 'delete' => $ban['id']), true, true, false, true).'">'.$lang['Delete'].'</a></td></tr>';
 					
 				}
 				

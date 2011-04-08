@@ -86,7 +86,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 // Filled in and confirmed.
 // Perform the pruning.
 //
-if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
+if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $functions->verify_form() ) {
 	
 	$prune_members = array();
 	
@@ -228,7 +228,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) ) {
 		// Confirmation and prune button
 		//
 		$content .= '<p><label><input type="checkbox" name="confirm" value="1" /> '.$lang['PruneMembersConfirmText'].'</label></p>';
-		$content .= '<p class="submit"><input type="submit" name="dopruning" value="'.$lang['PruneMembersStart'].'" /></p>';
+		$content .= '<p class="submit"><input type="submit" name="dopruning" value="'.$lang['PruneMembersStart'].'" />'.$admin_functions->form_token().'</p>';
 	$content .= '</form>';
 	
 }

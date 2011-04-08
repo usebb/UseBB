@@ -55,7 +55,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			if ( !empty($_POST['delete']) ) {
+			if ( !empty($_POST['delete']) && $functions->verify_form(false) ) {
 				
 				//
 				// Delete the member
@@ -211,7 +211,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'delete_members', 'id' => $_GET['id'])).'" method="post">';
 			$content .= '<p><label><input type="checkbox" name="deleteposts" value="1" />  '.$lang['DeleteMembersDeletePosts'].'</label></p>';
 			$content .= '<p><label><input type="checkbox" name="banemail" value="1" />  '.$lang['DeleteMembersBanEmail'].' </label><input type="text" name="email" size="35" maxlength="255" value="'.$email.'" /></p>';
-			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
+			$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" />'.$admin_functions->form_token().' <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 			$content .= '</form>';
 			
 		}

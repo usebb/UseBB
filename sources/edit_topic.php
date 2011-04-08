@@ -81,7 +81,7 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				
-				if ( !empty($_POST['delete']) ) {
+				if ( !empty($_POST['delete']) && $functions->verify_form(false) ) {
 					
 					$forum_counts_updated = false;
 					
@@ -180,7 +180,7 @@ if ( $_GET['act'] == 'delete' ) {
 					'submit_button' => '<input type="submit" name="delete" value="'.$lang['Yes'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'
-				));
+				), false, true);
 				
 			}
 			
@@ -236,7 +236,7 @@ if ( $_GET['act'] == 'delete' ) {
 			
 			if ( !empty($_POST['new_forum_id']) && valid_int($_POST['new_forum_id']) ) {
 					
-				if ( !empty($_POST['move']) ) {
+				if ( !empty($_POST['move']) && $functions->verify_form(false) ) {
 					
 					//
 					// Get information about the new forum
@@ -366,7 +366,7 @@ if ( $_GET['act'] == 'delete' ) {
 					'submit_button' => '<input type="submit" name="move" value="'.$lang['OK'].'" />',
 					'cancel_button' => '<input type="submit" value="'.$lang['Cancel'].'" />',
 					'form_end' => '</form>'
-				));
+				), false, true);
 				
 			}
 			
@@ -383,7 +383,7 @@ if ( $_GET['act'] == 'delete' ) {
 	//
 	require(ROOT_PATH.'sources/page_foot.php');
 	
-} elseif ( $_GET['act'] == 'lock' ) {
+} elseif ( $_GET['act'] == 'lock' && $functions->verify_url(false) ) {
 	
 	//
 	// Lock topics
@@ -431,7 +431,7 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	}
 	
-} elseif ( $_GET['act'] == 'unlock' ) {
+} elseif ( $_GET['act'] == 'unlock' && $functions->verify_url(false) ) {
 	
 	//
 	// Unlock topics
@@ -479,7 +479,7 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	}
 	
-} elseif ( $_GET['act'] == 'sticky' ) {
+} elseif ( $_GET['act'] == 'sticky' && $functions->verify_url(false) ) {
 	
 	//
 	// Sticky topics
@@ -527,7 +527,7 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	}
 	
-} elseif ( $_GET['act'] == 'unsticky' ) {
+} elseif ( $_GET['act'] == 'unsticky' && $functions->verify_url(false) ) {
 	
 	//
 	// "Unsticky" topics
@@ -576,6 +576,10 @@ if ( $_GET['act'] == 'delete' ) {
 		
 	}
 	
+} else {
+
+	$functions->redirect('topic.php', array('id' => $_GET['topic']));
+
 }
 
 ?>

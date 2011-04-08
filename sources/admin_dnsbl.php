@@ -55,7 +55,7 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 	
 } else {
 	
-	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	if ( $_SERVER['REQUEST_METHOD'] == 'POST' && $functions->verify_form() ) {
 		
 		$new_settings = array(
 			'dnsbl_powered_banning_globally' => ( !empty($_POST['dnsbl_powered_banning_globally']) ) ? 1 : 0,
@@ -88,7 +88,7 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 		$content .= '<h2>'.$lang['DNSBLWhitelist'].'</h2><p>'.$lang['DNSBLWhitelistInfo'].'</p>';
 		$content .= '<p><textarea name="dnsbl_powered_banning_whitelist" rows="5" cols="50">'.$dnsbl_powered_banning_whitelist.'</textarea></p>';
 		$content .= '<p><label><input type="checkbox" name="" value="1"'.$dnsbl_powered_banning_globally_checked.' /> '.$lang['DNSBLGlobally'].'</label></p>';
-		$content .= '<p class="submit"><input type="submit" value="'.$lang['Save'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p>';
+		$content .= '<p class="submit"><input type="submit" value="'.$lang['Save'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></p>';
 		$content .= '</form>';
 		
 	}

@@ -157,14 +157,23 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			//
 			// Eventually (un)subscribe user to topic
 			//
+			if ( !empty($_SESSION['subscribe_msg']) && in_array($_SESSION['subscribe_msg'], array('subscribed', 'unsubscribed')) ) {
+	
+				$template->parse('msgbox', 'global', array(
+					'box_title' => $lang['Note'],
+					'content' => ( $_SESSION['subscribe_msg'] == 'subscribed' ) ? $lang['SubscribedTopic'] : $lang['UnsubscribedTopic']
+				));
+				unset($_SESSION['subscribe_msg']);
+
+			}
 			if ( $session->sess_info['user_id'] ) {
 				
 				$result = $db->query("SELECT COUNT(*) as subscribed FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
 				$subscribed = $db->fetch_result($result);
 				$subscribed = ( !$subscribed['subscribed'] ) ? false : true;
-				
+
 			}
-			if ( !empty($_GET['act']) && in_array($_GET['act'], array('subscribe', 'unsubscribe')) ) {
+			if ( !empty($_GET['act']) && in_array($_GET['act'], array('subscribe', 'unsubscribe')) && $functions->verify_url() ) {
 				
 				if ( !$session->sess_info['user_id'] ) {
 					
@@ -175,20 +184,14 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					if ( !$subscribed && $_GET['act'] == 'subscribe' ) {
 						
 						$result = $db->query("INSERT INTO ".TABLE_PREFIX."subscriptions VALUES(".$requested_topic.", ".$session->sess_info['user_id'].")");
-						$subscribed = true;
-						$template->parse('msgbox', 'global', array(
-							'box_title' => $lang['Note'],
-							'content' => $lang['SubscribedTopic']
-						));
+						$_SESSION['subscribe_msg'] = 'subscribed';
+						$functions->redirect('topic.php', array('id' => $requested_topic));
 						
 					} elseif ( $subscribed && $_GET['act'] == 'unsubscribe' ) {
 						
 						$result = $db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$requested_topic." AND user_id = ".$session->sess_info['user_id']);
-						$subscribed = false;
-						$template->parse('msgbox', 'global', array(
-							'box_title' => $lang['Note'],
-							'content' => $lang['UnsubscribedTopic']
-						));
+						$_SESSION['subscribe_msg'] = 'unsubscribed';
+						$functions->redirect('topic.php', array('id' => $requested_topic));
 						
 					}
 					
@@ -458,9 +461,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			if ( $session->sess_info['user_id'] ) {
 				
 				if ( !$subscribed )
-					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'subscribe')).'">'.$lang['SubscribeTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'subscribe'), true, true, false, true).'">'.$lang['SubscribeTopic'].'</a>';
 				else
-					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'unsubscribe')).'">'.$lang['UnsubscribeTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('topic.php', array('id' => $requested_topic, 'act' => 'unsubscribe'), true, true, false, true).'">'.$lang['UnsubscribeTopic'].'</a>';
 				
 			}
 			
@@ -473,18 +476,18 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			if ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_locked'] )
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unlock')).'">'.$lang['UnlockTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unlock'), true, true, false, true).'">'.$lang['UnlockTopic'].'</a>';
 				else
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'lock')).'">'.$lang['LockTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'lock'), true, true, false, true).'">'.$lang['LockTopic'].'</a>';
 				
 			}
 			
 			if ( $functions->auth($topicdata['auth'], 'sticky', $topicdata['forum_id']) ) {
 				
 				if ( $topicdata['status_sticky'] )
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unsticky')).'">'.$lang['MakeNormalTopic'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'unsticky'), true, true, false, true).'">'.$lang['MakeNormalTopic'].'</a>';
 				else
-					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'sticky')).'">'.$lang['MakeSticky'].'</a>';
+					$action_links[] = '<a href="'.$functions->make_url('edit.php', array('topic' => $requested_topic, 'act' => 'sticky'), true, true, false, true).'">'.$lang['MakeSticky'].'</a>';
 				
 			}
 			
@@ -520,7 +523,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" accesskey="s" /><input type="hidden" name="enable_bbcode" value="1" /><input type="hidden" name="enable_smilies" value="1" /><input type="hidden" name="enable_sig" value="1" /><input type="hidden" name="subscribe_topic" value="'.$subscribe_topic.'" />',
 					'preview_button' => '<input type="submit" name="preview" value="'.$lang['Preview'].'" />',
 					'form_end' => '</form>'
-				));
+				), false, true);
 				
 			}
 			

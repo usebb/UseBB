@@ -512,6 +512,16 @@ $lang['All'] = 'Alles';
 $lang['Staff'] = 'Staf';
 $lang['Guests'] = 'Gasten';
 $lang['ShowOnly'] = 'Toon enkel';
+$lang['InvalidFormTokenNotice'] = 'De veiligheidstoken is onjuist of vervallen.
+
+Indien je hier geleid werd via een link of website van een derde, gelieve deze pagina te negeren!
+
+Indien je wijzigingen aanbracht en het formulier zelf verzond, gelieve het opnieuw te verzenden.';
+$lang['InvalidURLTokenNotice']  = 'De veiligheidstoken is onjuist of vervallen.
+
+Indien je hier geleid werd via een link of website van een derde, gelieve deze pagina te negeren!
+
+Anderzijds, gelieve de oorspronkelijke pagina te herladen en de link opnieuw te bezoeken.';
 
 //
 // Date translations

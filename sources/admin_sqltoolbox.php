@@ -66,7 +66,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 	$content = '<h2>'.$lang['SQLToolboxExecuteQuery'].'</h2><p>'.$lang['SQLToolboxExecuteQueryInfo'].'</p>';
 	$result_content = '';
 	
-	if ( !empty($_POST['query']) ) {
+	if ( !empty($_POST['query']) && $functions->verify_form() ) {
 		
 		$result = $db->query(stripslashes($_POST['query']), true);
 		
@@ -117,7 +117,7 @@ if ( !isset($_SESSION['sqltoolbox_warned']) ) {
 		$content .= '<li><a href="javascript:insert_table(\''.$table.'\')">'.$table.'</a></li> ';
 	$content .= '</ul>';
 	$content .= '<p><textarea name="query" id="tags-txtarea" rows="5" cols="50">'.unhtml(stripslashes($_POST['query'])).'</textarea></p>';
-	$content .= '<p class="submit"><input type="submit" value="'.$lang['SQLToolboxExecute'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
+	$content .= '<p class="submit"><input type="submit" value="'.$lang['SQLToolboxExecute'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 
 	$content .= $result_content;
 	

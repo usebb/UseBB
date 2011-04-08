@@ -316,8 +316,9 @@ class admin_functions {
 			foreach ( $this->acp[$category_name] as $item ) {
 				
 				$selected = ( $location == $item ) ? ' class="selected"' : '';
+				$use_token = ( $item == 'logout' );
 				$name = ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $item, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$item];
-				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item)).'">'.$name.'</a></li>';
+				$out .= '<li'.$selected.'><a href="'.$functions->make_url('admin.php', array('act' => $item), true, true, false, $use_token).'">'.$name.'</a></li>';
 				
 			}
 			$out .= '</ul></li>';
@@ -672,6 +673,37 @@ class admin_functions {
 		// This variable is used in admin.php
 		//
 		$_SESSION['admin_disable_logout'] = true;
+
+	}
+
+	function form_token() {
+
+		global $functions;
+		
+		$token = $functions->generate_token();
+		
+		return '<input type="hidden" name="_form_token_" value="'.$token.'" />';
+
+	}
+
+	function set_acp_msg($msg) {
+
+		$_SESSION['acp_msg'] = $msg;
+
+	}
+
+	function show_acp_msg() {
+
+		if ( !empty($_SESSION['acp_msg']) ) {
+
+			$result = '<p>'.$_SESSION['acp_msg'].'</p>';
+			unset($_SESSION['acp_msg']);
+
+			return $result;
+
+		}
+
+		return '';
 
 	}
 	

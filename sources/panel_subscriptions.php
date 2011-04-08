@@ -46,7 +46,7 @@ if ( !defined('INCLUDED') )
 //
 // Unsubscribe topics
 //
-if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_array($_POST['unsubscribe']) && count($_POST['unsubscribe']) ) {
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_array($_POST['unsubscribe']) && count($_POST['unsubscribe']) && $functions->verify_form() ) {
 	
 	$to_unsubscribe = array();
 	foreach ( $_POST['unsubscribe'] as $topic_id ) {
@@ -88,6 +88,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 		}
 		
 	}
+
 	if ( !count($forum_ids) ) {
 		
 		//
@@ -165,7 +166,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unsubscribe']) && is_
 			$template->parse('subscriptions_footer', 'panel', array(
 				'unsubscribe_submit' => $unsubscribe_submit,
 				'form_end' => '</form>'
-			));
+			), false, true);
 			
 		}
 		

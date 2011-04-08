@@ -64,7 +64,7 @@ if ( !empty($_POST['name']) ) {
 }
 
 $valid_password = ( !empty($_POST['passwd1']) && $functions->validate_password(stripslashes($_POST['passwd1']), true) );
-if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && $valid_password && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['passwd1'] == $_POST['passwd2'] ) {
+if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !empty($_POST['passwd2']) && preg_match(USER_PREG, $_POST['name']) && preg_match(EMAIL_PREG, $_POST['email']) && $valid_password && strlen(stripslashes($_POST['passwd1'])) >= $functions->get_config('passwd_min_length') && $_POST['passwd1'] == $_POST['passwd2'] && $functions->verify_form() ) {
 	
 	$result = $db->query("INSERT INTO ".TABLE_PREFIX."members ( id, name, email, passwd, regdate, level, active, active_key, template, language, date_format, timezone, dst, enable_quickreply, return_to_topic_after_posting, target_blank, hide_avatars, hide_userinfo, hide_signatures, displayed_name, banned_reason, signature ) VALUES ( NULL, '".$_POST['name']."', '".$_POST['email']."', '".md5(stripslashes($_POST['passwd1']))."', ".time().", 1, 1, '', '".$functions->get_config('template', true)."', '".$functions->get_config('language', true)."', '".$functions->get_config('date_format', true)."', ".$functions->get_config('timezone', true).", ".$functions->get_config('dst', true).", ".$functions->get_config('enable_quickreply', true).", ".$functions->get_config('return_to_topic_after_posting', true).", ".$functions->get_config('target_blank', true).", ".$functions->get_config('hide_avatars', true).", ".$functions->get_config('hide_userinfo', true).", ".$functions->get_config('hide_signatures', true).", '".$_POST['name']."', '', '' )");
 	$inserted_user_id = $db->last_id();
@@ -115,7 +115,7 @@ if ( !empty($_POST['name']) && !$username_taken && !empty($_POST['email']) && !e
 		$content .= '<tr><td class="fieldtitle">'.$lang['Email'].' <small>*</small></td><td><input type="text" size="30" name="email" maxlength="255" value="'.unhtml(stripslashes($_POST['email'])).'" /></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['Password'].' <small>*</small></td><td><input type="password" size="30" name="passwd1" maxlength="255" /><div class="moreinfo">'.sprintf($lang['PasswdInfoNew'], $functions->get_config('passwd_min_length')).'</div></td></tr>';
 		$content .= '<tr><td class="fieldtitle">'.$lang['PasswordAgain'].' <small>*</small></td><td><input type="password" size="30" name="passwd2" maxlength="255" /></td></tr>';
-	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Register'].'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+	$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$lang['Register'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 	
 	$template->set_js_onload("set_focus('name')");
 	

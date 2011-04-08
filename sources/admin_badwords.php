@@ -45,7 +45,7 @@ if ( !defined('INCLUDED') )
 
 if ( $functions->get_config('enable_badwords_filter') ) {
 	
-	if ( !empty($_POST['word']) ) {
+	if ( !empty($_POST['word']) && $functions->verify_form() ) {
 		
 		$db->query("DELETE FROM ".TABLE_PREFIX."badwords WHERE word = '".$_POST['word']."'");
 		
@@ -56,7 +56,7 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 		
 		$functions->redirect('admin.php', array('act' => 'badwords'));
 				
-	} elseif ( !empty($_GET['do']) && $_GET['do'] == 'delete' && !empty($_GET['word']) ) {
+	} elseif ( !empty($_GET['do']) && $_GET['do'] == 'delete' && !empty($_GET['word']) && $functions->verify_url() ) {
 		
 		$db->query("DELETE FROM ".TABLE_PREFIX."badwords WHERE word = '".$_GET['word']."'");
 		$functions->redirect('admin.php', array('act' => 'badwords'));
@@ -73,7 +73,7 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'badwords')).'" method="post">';
 		$content .= '<table id="adminregulartable">';
 		$content .= '<tr><th>'.$lang['BadwordsAddBadwordWord'].'</th><th>'.$lang['BadwordsAddBadwordReplacement'].'</th><th class="action">'.$lang['Action'].'</th></tr>';
-		$content .= '<tr><td><input type="text" name="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" /></td></tr>';
+		$content .= '<tr><td><input type="text" name="word" size="20" maxlength="255" /></td><td><input type="text" name="replacement" size="20" maxlength="255" /></td><td class="action"><input type="submit" value="'.$lang['Add'].'" />'.$admin_functions->form_token().'</td></tr>';
 		
 		if ( !count($badwords) ) {
 			
@@ -82,7 +82,7 @@ if ( $functions->get_config('enable_badwords_filter') ) {
 		} else {
 			
 			foreach ( $badwords as $badword )
-				$content .= '<tr><td>'.unhtml(stripslashes($badword['word'])).'</td><td>'.unhtml(stripslashes($badword['replacement'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'badwords', 'do' => 'delete', 'word' => stripslashes($badword['word']))).'">'.$lang['Delete'].'</a></td></tr>';
+				$content .= '<tr><td>'.unhtml(stripslashes($badword['word'])).'</td><td>'.unhtml(stripslashes($badword['replacement'])).'</td><td class="action"><a href="'.$functions->make_url('admin.php', array('act' => 'badwords', 'do' => 'delete', 'word' => stripslashes($badword['word'])), true, true, false, true).'">'.$lang['Delete'].'</a></td></tr>';
 			
 		}
 		

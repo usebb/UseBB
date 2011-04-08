@@ -54,13 +54,13 @@ foreach ( $forums as $forum ) {
 
 $_GET['do'] = ( !empty($_GET['do']) ) ? $_GET['do'] : 'index';
 
-if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
-	
+if ( $_GET['do'] == 'index' ) {
+
 	$content = '<p>'.$lang['ForumsInfo'].'</p>';
 	$content .= '<ul id="adminfunctionsmenu">';
 		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'add')).'">'.$lang['ForumsAddNewForum'].'</a></li> ';
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'adjustsortids')).'">'.$lang['ForumsAdjustSortIDs'].'</a></li> ';
-		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'autosort')).'">'.$lang['ForumsSortAutomatically'].'</a></li> ';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'adjustsortids'), true, true, false, true).'">'.$lang['ForumsAdjustSortIDs'].'</a></li> ';
+		$content .= '<li><a href="'.$functions->make_url('admin.php', array('act' => 'forums', 'do' => 'autosort'), true, true, false, true).'">'.$lang['ForumsSortAutomatically'].'</a></li> ';
 	$content .= '</ul>';
 	
 	if ( !count($forums) ) {
@@ -71,7 +71,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
-			if ( $filled_in ) {
+			if ( $filled_in && $functions->verify_form() ) {
 				
 				foreach ( $forums as $forum )
 					$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = ".$_POST['sort_id-'.$forum['id']]." WHERE id = ".$forum['id']);
@@ -84,37 +84,10 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 				
 			}
 			
-		} elseif ( $_GET['do'] == 'adjustsortids' ) {
-			
-			$cat_id = 0;
-			foreach ( $forums as $forum ) {
-				
-				if ( $forum['cat_id'] != $cat_id ) {
-					
-					$forum_sort_id = 1;
-					$cat_id = $forum['cat_id'];
-					
-				} else {
-					
-					$forum_sort_id++;
-					
-				}
-				
-				if ( $forum['sort_id'] != $forum_sort_id )
-					$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = ".$forum_sort_id." WHERE id = ".$forum['id']);
-				
-			}
-			$forums = $admin_functions->get_forums_array();
-			$content .= '<p>'.$lang['ForumsSortChangesApplied'].'</p>';
-			
-		} elseif ( $_GET['do'] == 'autosort' ) {
-			
-			$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = 0");
-			$forums = $admin_functions->get_forums_array();
-			$content .= '<p>'.$lang['ForumsSortChangesApplied'].'</p>';
-			
 		}
-		
+
+		$content .= $admin_functions->show_acp_msg();
+
 		$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'forums')).'" method="post">';
 		$content .= '<table id="adminregulartable"><tr><th>'.$lang['ForumsForumName'].'</th><th class="action">'.$lang['Edit'].'</th><th class="action">'.$lang['Delete'].'</th><th class="action">'.$lang['ForumsSortID'].'</th></tr>';
 		
@@ -138,15 +111,54 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		}
 		
-		$content .= '<tr><td colspan="4" class="submit"><input type="submit" value="'.$lang['Save'].'" tabindex="'.$i.'" /> <input type="reset" value="'.$lang['Reset'].'" tabindex="'.($i+1).'" /></td></tr></table></form>';
+		$content .= '<tr><td colspan="4" class="submit"><input type="submit" value="'.$lang['Save'].'" tabindex="'.$i.'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" tabindex="'.($i+1).'" /></td></tr></table></form>';
 		
 	}
 	
+} elseif ( $_GET['do'] == 'adjustsortids' ) {
+	
+	if ( $functions->verify_url(false) ) {
+	
+		$cat_id = 0;
+		foreach ( $forums as $forum ) {
+			
+			if ( $forum['cat_id'] != $cat_id ) {
+				
+				$forum_sort_id = 1;
+				$cat_id = $forum['cat_id'];
+				
+			} else {
+				
+				$forum_sort_id++;
+				
+			}
+			
+			if ( $forum['sort_id'] != $forum_sort_id )
+				$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = ".$forum_sort_id." WHERE id = ".$forum['id']);
+			
+		}
+		$admin_functions->set_acp_msg($lang['ForumsSortChangesApplied']);
+
+	}
+
+	$functions->redirect('admin.php', array('act' => 'forums'));
+
+} elseif ( $_GET['do'] == 'autosort' ) {
+	
+	if ( $functions->verify_url(false) ) {
+	
+		$db->query("UPDATE ".TABLE_PREFIX."forums SET sort_id = 0");
+		$admin_functions->set_acp_msg($lang['ForumsSortChangesApplied']);
+
+	}
+
+	$functions->redirect('admin.php', array('act' => 'forums'));
+
 } elseif ( $_GET['do'] == 'delete' && !empty($_GET['id']) && array_key_exists($_GET['id'], $forums) ) {
 	
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
-		if ( !empty($_POST['delete']) ) {
+		if ( !empty($_POST['delete']) && $functions->verify_form(false) ) {
 			
 			if ( !empty($_POST['move_contents']) && array_key_exists($_POST['move_contents'], $forums) ) {
 				
@@ -212,7 +224,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 		if ( count($forums) >= 2 )
 			$content .= '<p><label><input type="checkbox" name="move_mods" value="1" /> '.$lang['ForumsMoveModerators'].'</label></p>';
 
-		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" /> <input type="submit" value="'.$lang['Cancel'].'" /></p>';
+		$content .= '<p class="submit"><input type="submit" name="delete" value="'.$lang['Delete'].'" />'.$admin_functions->form_token().' <input type="submit" value="'.$lang['Cancel'].'" /></p>';
 		$content .= '</form>';
 		
 	}
@@ -273,7 +285,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 			
 		}
 		
-		if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) && !count($forum_moderators_unknown) ) {
+		if ( !empty($_POST['name']) && !empty($_POST['cat_id']) && array_key_exists($_POST['cat_id'], $cats) && !count($forum_moderators_unknown) && $functions->verify_form() ) {
 			
 			$_POST['descr'] = ( !empty($_POST['descr']) ) ? $_POST['descr'] : '';
 			$_POST['auto_lock'] = ( !empty($_POST['auto_lock']) && valid_int($_POST['auto_lock']) ) ? $_POST['auto_lock'] : 0;
@@ -425,7 +437,7 @@ if ( in_array($_GET['do'], array('index', 'adjustsortids', 'autosort')) ) {
 					
 				}
 				
-			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" /> <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
+			$content .= '<tr><td colspan="2" class="submit"><input type="submit" value="'.$action.'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></td></tr></table></form>';
 			
 			$template->set_js_onload("set_focus('name')");
 			

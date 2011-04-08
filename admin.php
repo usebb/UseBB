@@ -68,7 +68,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 	$_SESSION['admin_disable_logout'] = ( isset($_SESSION['admin_disable_logout']) ) ? (bool) $_SESSION['admin_disable_logout'] : false;
 	$acp_auto_logout = (int) $functions->get_config('acp_auto_logout');
 	
-	if ( $_GET['act'] == 'logout' ) {
+	if ( $_GET['act'] == 'logout' && $functions->verify_url(false) ) {
 		
 		//
 		// Log out from ACP

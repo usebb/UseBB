@@ -1061,7 +1061,7 @@ class functions {
 	 * @param bool $force_php Force linking to .php files
 	 * @returns string URL
 	 */
-	function make_url($filename, $vars=array(), $html=true, $enable_sid=true, $force_php=false) {
+	function make_url($filename, $vars=array(), $html=true, $enable_sid=true, $force_php=false, $enable_token=false) {
 		
 		global $session;
 		
@@ -1084,9 +1084,9 @@ class functions {
 		$enable_sid = ( $enable_sid && !$session->is_search_engine() );
 
 		//
-		// No friendly URLs for admin, installer and activation links
+		// No friendly URLs for tokenized URLs, admin, installer and activation links
 		//
-		$force_php = ( $force_php || $filename == 'admin' || defined('IS_INSTALLER') || ( $filename == 'panel' && isset($vars['act']) && $vars['act'] == 'activate' ) );
+		$force_php = ( $force_php || $enable_token || $filename == 'admin' || defined('IS_INSTALLER') || ( $filename == 'panel' && isset($vars['act']) && $vars['act'] == 'activate' ) );
 
 		//
 		// Friendly URLs
@@ -1110,6 +1110,12 @@ class functions {
 			$vars[$SID_parts[0]] = $SID_parts[1];
 
 		}
+
+		//
+		// Add token
+		//
+		if ( $enable_token )
+			$vars['_url_token_'] = $this->generate_token();
 
 		if ( count($vars) == 0 )
 			return $url;
@@ -3176,6 +3182,94 @@ class functions {
 		
 		exit();
 		
+	}
+
+	function generate_token() {
+
+		static $token;
+
+		if ( isset($token) )
+			return $token;
+		
+		list($usec, $sec) = explode(' ', microtime());
+		$time = (float)$usec + (float)$sec;
+		$key = md5(mt_rand());
+
+		if ( !$_SESSION['oldest_token'] )
+			$_SESSION['oldest_token'] = $time;
+		
+		// For some reason, PHP juggled between dot and comma as decimal separator
+		// when using strval() and others. (PHP 5.3.6 on OS X 10.6.7)
+		$stime = number_format($time, 4, '.', '');
+		$_SESSION['tokens'][$stime] = $key;
+		$token = $stime.'-'.$key;
+
+		return $token;
+
+	}
+
+	function verify_token($try_token) {
+
+		if ( strpos($try_token, '-') === false )
+			return false;
+		
+		$try_token = explode('-', $try_token);
+
+		if ( count($try_token) != 2 )
+			return false;
+
+		list($time, $key) = $try_token;
+		$sess_idx = $time;
+
+		return ( !empty($_SESSION['tokens'][$sess_idx]) && $_SESSION['tokens'][$sess_idx] === $key );
+
+	}
+
+	function token_error($type) {
+		
+		global $template, $lang;
+
+		$content = '';
+		switch ( $type ) {
+
+			case 'form':
+				$content = $lang['InvalidFormTokenNotice'];
+				break;
+			case 'url':
+				$content = $lang['InvalidURLTokenNotice'];
+				break;
+
+		}
+		
+		$template->parse('msgbox', 'global', array(
+			'box_title' => $lang['Note'],
+			'content' => nl2br($content)
+		));
+
+	}
+
+	function verify_form($enable_message=true) {
+
+		$post_idx = '_form_token_';
+		$result = ( !empty($_POST[$post_idx]) && $this->verify_token($_POST[$post_idx]) );
+
+		if ( $enable_message && !$result )
+			$this->token_error('form');
+
+		return $result;
+
+	}
+
+	function verify_url($enable_message=true) {
+
+		$get_idx = '_url_token_';
+		$result = ( !empty($_GET[$get_idx]) && $this->verify_token($_GET[$get_idx]) );
+
+		if ( $enable_message && !$result )
+			$this->token_error('url');
+
+		return $result;
+
 	}
 	
 }

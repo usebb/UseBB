@@ -259,7 +259,7 @@ if ( !$topicdata['id'] ) {
 						
 						$quoteduser = ( !empty($quoteddata['displayed_name']) ) ? $quoteddata['displayed_name'] : $quoteddata['poster_guest'];
 						$quotedpost = $functions->replace_badwords(stripslashes($quoteddata['content']));
-						$_POST['content'] = '[quote='.str_replace(array('[', ']'), '', $quoteduser).']'."\n".$quotedpost."\n".'[/quote]';
+						$_POST['content'] = '[quote='.str_replace(array('[', ']'), '', $quoteduser).']'."\n".$quotedpost."\n".'[/quote]'."\n";
 						
 					}
 					

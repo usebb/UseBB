@@ -49,6 +49,7 @@ UseBB 1.0.12 Changelog
 - Show member edit link after registering member in ACP.
 - Version check can now display full text messages.
 - Enable DNSBL bans setting moved to General Configuration.
+- Mass email now also sends to submitting admin's email address.
 
 UseBB 1.0.11 Changelog
 ------------------------------

@@ -55,7 +55,7 @@ if ( ( !empty($_POST['recipients_admins']) || !empty($_POST['recipients_mods']) 
 	
 	$public_only = ( !empty($_POST['public_emails_only']) ) ? " AND email_show = 1" : '';
 	$exclude_banned = ( !empty($_POST['exclude_banned']) ) ? " AND banned = 0" : '';
-	$result = $db->query("SELECT DISTINCT email FROM ".TABLE_PREFIX."members WHERE level IN(".join(', ', $levels).") AND id <> ".$session->sess_info['user_id'].$public_only.$exclude_banned);
+	$result = $db->query("SELECT DISTINCT email FROM ".TABLE_PREFIX."members WHERE level IN(".join(', ', $levels).")".$public_only.$exclude_banned);
 	
 	$bcc_email = array();
 	while ( $user_data = $db->fetch_result($result) )

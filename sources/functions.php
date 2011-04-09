@@ -1059,6 +1059,7 @@ class functions {
 	 * @param bool $html Return HTML URL
 	 * @param bool $enable_sid Enable session ID's
 	 * @param bool $force_php Force linking to .php files
+	 * @param bool $enable_token Enable token (forces .php link)
 	 * @returns string URL
 	 */
 	function make_url($filename, $vars=array(), $html=true, $enable_sid=true, $force_php=false, $enable_token=false) {
@@ -3184,6 +3185,13 @@ class functions {
 		
 	}
 
+	/**
+	 * Generate a security token
+	 *
+	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 *
+	 * @returns string Token
+	 */
 	function generate_token() {
 
 		static $token;
@@ -3208,6 +3216,14 @@ class functions {
 
 	}
 
+	/**
+	 * Verify a token
+	 *
+	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 *
+	 * @param string $try_token Token to test
+	 * @returns bool Verified
+	 */
 	function verify_token($try_token) {
 
 		if ( strpos($try_token, '-') === false )
@@ -3225,6 +3241,15 @@ class functions {
 
 	}
 
+	/**
+	 * Token error
+	 *
+	 * Parse a msgbox template with a suitable message.
+	 *
+	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 *
+	 * @param string $type Error type ("form" or "url")
+	 */
 	function token_error($type) {
 		
 		global $template, $lang;
@@ -3248,6 +3273,14 @@ class functions {
 
 	}
 
+	/**
+	 * Verify a form for tokens
+	 *
+	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 *
+	 * @param bool $enable_message Enable error message
+	 * @returns bool Verified
+	 */
 	function verify_form($enable_message=true) {
 
 		$post_idx = '_form_token_';
@@ -3260,6 +3293,14 @@ class functions {
 
 	}
 
+	/**
+	 * Verify a URL for tokens
+	 *
+	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 *
+	 * @param bool $enable_message Enable error message
+	 * @returns bool Verified
+	 */
 	function verify_url($enable_message=true) {
 
 		$get_idx = '_url_token_';

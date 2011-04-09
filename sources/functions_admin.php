@@ -676,6 +676,11 @@ class admin_functions {
 
 	}
 
+	/**
+	 * Form token input field
+	 *
+	 * @returns string Input field
+	 */
 	function form_token() {
 
 		global $functions;
@@ -686,24 +691,31 @@ class admin_functions {
 
 	}
 
+	/**
+	 * Set ACP info message
+	 *
+	 * @param string $msg Message
+	 */
 	function set_acp_msg($msg) {
 
 		$_SESSION['acp_msg'] = $msg;
 
 	}
 
+	/**
+	 * Show ACP info message
+	 *
+	 * @returns string Message
+	 */
 	function show_acp_msg() {
 
-		if ( !empty($_SESSION['acp_msg']) ) {
+		if ( empty($_SESSION['acp_msg']) )
+			return '';
 
-			$result = '<p>'.$_SESSION['acp_msg'].'</p>';
-			unset($_SESSION['acp_msg']);
+		$result = '<p>'.$_SESSION['acp_msg'].'</p>';
+		unset($_SESSION['acp_msg']);
 
-			return $result;
-
-		}
-
-		return '';
+		return $result;
 
 	}
 	

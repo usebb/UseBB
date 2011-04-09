@@ -153,6 +153,7 @@ class template {
 	 * @param string $section Template section
 	 * @param array $variables Template variables
 	 * @param bool $is_special Mark as a special template
+	 * @param bool $enable_token Enable token
 	 */
 	function parse($name, $section, $variables=array(), $is_special=false, $enable_token=false) {
 		
@@ -188,6 +189,13 @@ class template {
 		
 	}
 
+	/**
+	 * Install token
+	 *
+	 * Called by parse(). Inserts form token into first variable containing input field.
+	 *
+	 * @param array $variables Template variables
+	 */
 	function install_token(&$variables) {
 
 		global $functions;

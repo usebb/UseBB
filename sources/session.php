@@ -645,6 +645,13 @@ class session {
 
 	}
 
+	/**
+	 * Clean tokens
+	 *
+	 * Always called in session.
+	 *
+	 * @param int $current_time Current timestamp
+	 */
 	function clean_tokens($current_time) {
 
 		global $functions;

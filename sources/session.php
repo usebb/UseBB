@@ -145,7 +145,7 @@ class session {
 		//
 		// Clean old form tokens
 		//
-		$this->clean_tokens();
+		$this->clean_tokens($current_time);
 		
 		//
 		// Cleanup various stuff once in ten requests
@@ -314,7 +314,7 @@ class session {
 		if ( $functions->get_config('enable_dnsbl_powered_banning')
 			&& ( $functions->get_config('dnsbl_powered_banning_globally') || $spam_opportunity )
 			&& $dnsrr_available && !$_SESSION['dnsbl_whitelisted']
-			&& ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( time() - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
+			&& ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( $current_time - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
 			
 			$whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');			
 			
@@ -382,7 +382,7 @@ class session {
 					
 				} else {
 					
-					$_SESSION['dnsbl_checked'] = time();
+					$_SESSION['dnsbl_checked'] = $current_time;
 					
 				}
 				
@@ -390,7 +390,7 @@ class session {
 			
 		} else {
 			
-			$_SESSION['dnsbl_checked'] = time();
+			$_SESSION['dnsbl_checked'] = $current_time;
 			
 		}
 		
@@ -649,7 +649,7 @@ class session {
 
 	}
 
-	function clean_tokens() {
+	function clean_tokens($current_time) {
 
 		global $functions;
 		
@@ -661,7 +661,6 @@ class session {
 
 		$max_age = 900;
 		$max_count = 20;
-		$current_time = time();
 		$current_count = count($_SESSION['tokens']);
 		$min = 0;
 
@@ -678,7 +677,7 @@ class session {
 			$min = $ftime;
 			
 			//
-			// Continue looping until not too old or not too many tokens
+			// Continue looping until not too old and not too many tokens
 			//
 			if ( $current_time - $ftime <= $max_age && $current_count <= $max_count )
 				break;

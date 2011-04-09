@@ -47,9 +47,7 @@ if ( !defined('INCLUDED') )
 // Page footer
 //
 $template->parse('normal_footer', 'global');
-$template->add_raw_content(count($_SESSION['tokens']).' - '.$_SESSION['oldest_token']);
-foreach ( $_SESSION['tokens'] as $time => $token )
-	$template->add_raw_content('<br />'.$time.' - '.$token);
+
 //
 // Output the page body
 //

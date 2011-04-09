@@ -190,13 +190,9 @@ class session {
 			//
 			// Remove outdated sessions and searches if needed
 			//
-			if ( $functions->get_config('session_max_lifetime') ) {
-				
-				$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
-				$add_to_remove_query[] = "updated < ".$min_updated;
-				$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
-				
-			}
+			$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
+			$add_to_remove_query[] = "updated < ".$min_updated;
+			$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
 			
 			//
 			// Remove sessions with banned IP addresses

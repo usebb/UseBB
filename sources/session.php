@@ -511,6 +511,11 @@ class session {
 			// Update the searches
 			//
 			$db->query("UPDATE ".TABLE_PREFIX."searches SET sess_id = '".$new_sid."' WHERE sess_id = '".$old_sid."'");
+
+			//
+			// Do not use these timestamps for the logged in user.
+			//
+			$_SESSION['viewed_topics'] = array();
 			
 		}
 		

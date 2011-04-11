@@ -87,7 +87,7 @@ if ( !$functions->get_config('enable_ip_bans') ) {
 		$content .= '<p><label>'.sprintf($lang['DNSBLRecheckMinutes'], '<input type="text" name="dnsbl_powered_banning_recheck_minutes" size="2" maxlength="2" value="'.$dnsbl_powered_banning_recheck_minutes.'" />').'</label></p>';
 		$content .= '<h2>'.$lang['DNSBLWhitelist'].'</h2><p>'.$lang['DNSBLWhitelistInfo'].'</p>';
 		$content .= '<p><textarea name="dnsbl_powered_banning_whitelist" rows="5" cols="50">'.$dnsbl_powered_banning_whitelist.'</textarea></p>';
-		$content .= '<p><label><input type="checkbox" name="" value="1"'.$dnsbl_powered_banning_globally_checked.' /> '.$lang['DNSBLGlobally'].'</label></p>';
+		$content .= '<p><label><input type="checkbox" name="dnsbl_powered_banning_globally" value="1"'.$dnsbl_powered_banning_globally_checked.' /> '.$lang['DNSBLGlobally'].'</label></p>';
 		$content .= '<p class="submit"><input type="submit" value="'.$lang['Save'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></p>';
 		$content .= '</form>';
 		

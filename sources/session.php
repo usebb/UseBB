@@ -311,13 +311,19 @@ class session {
 			
 		}
 		
-		if ( $functions->get_config('enable_dnsbl_powered_banning')
+		$recheck_min = $functions->get_config('dnsbl_powered_banning_recheck_minutes');
+		if ( $functions->get_config('enable_ip_bans') && $functions->get_config('enable_dnsbl_powered_banning')
+			// Perform checking on this page
 			&& ( $functions->get_config('dnsbl_powered_banning_globally') || $spam_opportunity )
+			// Can and should check
 			&& $dnsrr_available && !$_SESSION['dnsbl_whitelisted']
-			&& ( !$_SESSION['dnsbl_checked'] || ( $functions->get_config('dnsbl_powered_banning_recheck_minutes') && $_SESSION['dnsbl_checked'] <= ( $current_time - $functions->get_config('dnsbl_powered_banning_recheck_minutes') * 60 ) ) ) ) {
+			// Not checked or too long ago
+			&& ( !$_SESSION['dnsbl_checked'] || ( $recheck_min > 0 && $_SESSION['dnsbl_checked'] <= ( $current_time - $recheck_min * 60 ) ) ) ) {
 			
+			//
+			// Check whitelist
+			//
 			$whitelist = $functions->get_config('dnsbl_powered_banning_whitelist');			
-			
 			if ( count($whitelist) ) {
 				
 				foreach ( $whitelist as $ip_host ) {
@@ -382,15 +388,14 @@ class session {
 					
 				} else {
 					
+					//
+					// Checked, but recheck later
+					//
 					$_SESSION['dnsbl_checked'] = $current_time;
 					
 				}
 				
 			}
-			
-		} else {
-			
-			$_SESSION['dnsbl_checked'] = $current_time;
 			
 		}
 		

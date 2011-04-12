@@ -18,6 +18,7 @@ UseBB 1.0.12 Changelog
 - Fixed bug where some new config settings did not get saved.
 - Fixed error when curl_exec() has been disabled for security reasons.
 - Fixed URL parsing errors when entities at front/end.
+- Fixed bug with DNSBL banning recheck.
 - Passwords can now contain symbols, and must contain at least one letter and one number.
 - Generated passwords now also contain symbols and are always checked to be valid.
 - Removed mandatory usage of magic_quotes_runtime.

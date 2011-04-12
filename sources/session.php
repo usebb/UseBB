@@ -150,7 +150,7 @@ class session {
 		//
 		// Cleanup various stuff once in ten requests
 		//
-		$run_cleanup = false;//( mt_rand(0, 9) === 0 );
+		$run_cleanup = ( mt_rand(0, 9) === 0 );
 		
 		//
 		// Get banned IP addresses

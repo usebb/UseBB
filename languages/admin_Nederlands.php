@@ -126,6 +126,7 @@ $lang['ConfigBoard-session_name-info'] = 'Alleen alfanumerieke karakters, geen s
 $lang['ConfigBoard-template'] = 'Standaard template';
 $lang['ConfigBoard-template-info'] = 'Alleen van toepassing op gasten en nieuwe accounts.';
 $lang['ConfigBoard-active_topics_count'] = 'Aantal actieve onderwerpen';
+$lang['ConfigBoard-active_topics_count-info'] = 'Rekening houdende met de instelling \'Maximum leeftijd actieve onderwerpen\' kunnen minder onderwerpen getoond worden.';
 $lang['ConfigBoard-active_topics_max_age'] = 'Maximum leeftijd actieve onderwerpen';
 $lang['ConfigBoard-active_topics_max_age-info'] = 'Maximum leeftijd (laatste bericht) in dagen, 0 om uit te schakelen.';
 $lang['ConfigBoard-avatars_force_height'] = 'Maximum avatarhoogte (px)';

@@ -126,6 +126,7 @@ $lang['ConfigBoard-session_name-info'] = 'Only alphanumeric characters, no space
 $lang['ConfigBoard-template'] = 'Default template';
 $lang['ConfigBoard-template-info'] = 'Only applies to guests and new accounts.';
 $lang['ConfigBoard-active_topics_count'] = 'Active topics count';
+$lang['ConfigBoard-active_topics_count-info'] = 'Keeping into account the setting \'Active topics maximum age\', less topics may be displayed.';
 $lang['ConfigBoard-active_topics_max_age'] = 'Active topics maximum age';
 $lang['ConfigBoard-active_topics_max_age-info'] = 'Maximum age (last reply) in days, 0 to disable.';
 $lang['ConfigBoard-avatars_force_height'] = 'Max avatar height (px)';

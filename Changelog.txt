@@ -22,6 +22,7 @@ UseBB 1.0.12 Changelog
 - Passwords can now contain symbols, and must contain at least one letter and one number.
 - Generated passwords now also contain symbols and are always checked to be valid.
 - Removed mandatory usage of magic_quotes_runtime.
+- Force expired sessions to be destroyed immediately, not only when cleaning up.
 - Post new topic links removed from topic template (template variable still available).
 - Hide PHP notices and deprecation warnings when in production environment.
 - Added log hidden errors setting which still logs errors hidden in production environment.
@@ -51,6 +52,7 @@ UseBB 1.0.12 Changelog
 - Version check can now display full text messages.
 - Enable DNSBL bans setting moved to General Configuration.
 - Mass email now also sends to submitting admin's email address.
+- RSS feed settings in ACP General Config in separate section.
 
 UseBB 1.0.11 Changelog
 ------------------------------

@@ -59,6 +59,7 @@ if ( !$session->sess_info['user_id'] ) {
 		if ( !empty($_POST['logout']) && $functions->verify_form(false) ) {
 			
 			$refere_to = $functions->get_config('board_url').$functions->make_url('index.php', array(), false);
+			$functions->unset_al();
 			$session->destroy();
 			
 		} else {

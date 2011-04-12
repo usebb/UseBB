@@ -150,7 +150,7 @@ class session {
 		//
 		// Cleanup various stuff once in ten requests
 		//
-		$run_cleanup = ( mt_rand(0, 9) === 0 );
+		$run_cleanup = false;//( mt_rand(0, 9) === 0 );
 		
 		//
 		// Get banned IP addresses
@@ -173,6 +173,8 @@ class session {
 			}
 			
 		}
+
+		$session_max_lifetime = $functions->get_config('session_max_lifetime');
 		
 		//
 		// Cleanup
@@ -190,11 +192,11 @@ class session {
 			//
 			// Remove outdated sessions and searches if needed
 			//
-			if ( $functions->get_config('session_max_lifetime') ) {
+			if ( $session_max_lifetime ) {
 				
-				$min_updated = $current_time - ( $functions->get_config('session_max_lifetime') * 60 );
-				$add_to_remove_query[] = "updated < ".$min_updated;
-				$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$min_updated);
+				$session_min_updated = $current_time - ( $session_max_lifetime * 60 );
+				$add_to_remove_query[] = "updated < ".$session_min_updated;
+				$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE time < ".$session_min_updated);
 				
 			}
 			
@@ -237,7 +239,7 @@ class session {
 		//
 		// Get information about the current session (and user)
 		//
-		$result = $db->query("SELECT s.user_id, s.started, s.location AS slocation, s.pages, s.ip_addr, u.* FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE sess_id = '".session_id()."'");
+		$result = $db->query("SELECT s.user_id, s.started, s.updated, s.location AS slocation, s.pages, s.ip_addr, u.* FROM ".TABLE_PREFIX."sessions s LEFT JOIN ".TABLE_PREFIX."members u ON u.id = s.user_id WHERE sess_id = '".session_id()."'");
 		$user_data = $db->fetch_result($result);
 		
 		if ( is_array($user_data) ) {
@@ -251,13 +253,14 @@ class session {
 			$current_sess_info = array(
 				'user_id' => $user_data['user_id'],
 				'started' => $user_data['started'],
+				'updated' => $user_data['updated'],
 				'location' => $user_data['slocation'],
 				'pages' => $user_data['pages'],
 				'ip_addr' => $user_data['ip_addr']
 			);
 			
 			if ( $current_sess_info['user_id'] )
-				unset($user_data['user_id'], $user_data['started'], $user_data['slocation'], $user_data['pages'], $user_data['ip_addr']);
+				unset($user_data['user_id'], $user_data['started'], $user_data['updated'], $user_data['slocation'], $user_data['pages'], $user_data['ip_addr']);
 			else
 				unset($user_data);
 			
@@ -269,24 +272,47 @@ class session {
 		}
 		
 		//
-		// If this session ID exists in DB and if it doesn't belong to this IP address
+		// Existing session checks
 		//
-		if ( $session_started && $current_sess_info['ip_addr'] !== $ip_addr ) {
+		if ( $session_started ) {
+
+			//
+			// Wrong IP address (hijack)
+			//
+			if ( $current_sess_info['ip_addr'] !== $ip_addr ) {
 			
+				//
+				// Reload the page, stripping the wrong session ID
+				// in the URL (if present) and unsetting the cookie
+				//
+				$SID = SID;
+				$functions->setcookie($functions->get_config('session_name').'_sid', '');
+				$functions->raw_redirect(str_replace($SID, '', $_SERVER['REQUEST_URI']));
+				
+				//
+				// Developer note:
+				// This is a dirty way of getting rid of the session ID, but it is the only one,
+				// as PHP starts the session anyway when getting a session ID, and we are only
+				// working on top of it. Also we do not want to destroy the session itself.
+				//
+
+			}
+
 			//
-			// Reload the page, stripping the wrong session ID
-			// in the URL (if present) and unsetting the cookie
+			// Expired session
 			//
-			$SID = SID;
-			$functions->setcookie($functions->get_config('session_name').'_sid', '');
-			$functions->raw_redirect(str_replace($SID, '', $_SERVER['REQUEST_URI']));
-			
-			//
-			// Developer note:
-			// This is a dirty way of getting rid of the session ID, but it is the only one,
-			// as PHP starts the session anyway when getting a session ID, and we are only
-			// working on top of it. Also we do not want to destroy the session itself.
-			//
+			if ( $session_max_lifetime && $current_sess_info['updated'] < $current_time - ( $session_max_lifetime * 60 ) ) {
+				
+				//
+				// This will not happen if cleanup ran, but since it only runs one in ten requests,
+				// a check here is necessary.
+				//
+				// When expired, destroy session and restart.
+				//
+				$this->destroy();
+				$functions->raw_redirect($_SERVER['REQUEST_URI']);
+
+			}
 			
 		}
 		
@@ -718,7 +744,6 @@ class session {
 		
 		global $functions, $db;
 		
-		$functions->unset_al();
 		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE sess_id = '".session_id()."'");
 		$db->query("DELETE FROM ".TABLE_PREFIX."searches WHERE sess_id = '".session_id()."'");
 		$_SESSION = array();

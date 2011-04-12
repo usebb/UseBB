@@ -112,6 +112,7 @@ $lang['ConfigBoardSection-layout'] = 'Layout-instellingen';
 $lang['ConfigBoardSection-min_levels'] = 'Minimale toegangsniveau\'s';
 $lang['ConfigBoardSection-min_levels-info'] = 'Dit zijn de minimale niveau\'s benodigd om elk item te bekijken.';
 $lang['ConfigBoardSection-security'] = 'Veiligheid';
+$lang['ConfigBoardSection-rss'] = 'RSS-feeds';
 $lang['ConfigBoard-admin_email'] = 'Admin e-mailadres';
 $lang['ConfigBoard-board_descr'] = 'Forumomschrijving';
 $lang['ConfigBoard-board_keywords'] = 'Forum-kernwoorden';

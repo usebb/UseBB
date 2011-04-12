@@ -112,6 +112,7 @@ $lang['ConfigBoardSection-min_levels'] = 'Minimum access levels';
 $lang['ConfigBoardSection-min_levels-info'] = 'These are the minimal levels required to access each item.';
 $lang['ConfigBoardSection-layout'] = 'Layout settings';
 $lang['ConfigBoardSection-security'] = 'Security';
+$lang['ConfigBoardSection-rss'] = 'RSS feeds';
 $lang['ConfigBoard-admin_email'] = 'Admin e-mail address';
 $lang['ConfigBoard-board_descr'] = 'Board description';
 $lang['ConfigBoard-board_keywords'] = 'Board keywords';

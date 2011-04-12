@@ -253,7 +253,7 @@ if (
 			'posts_per_page',
 			'topicreview_posts',
 			'members_per_page',
-			'rss_items_count',
+			
 		),
 		'date_time' => array(
 			'date_format',
@@ -299,16 +299,19 @@ if (
 			'show_posting_links_to_guests',
 			'disable_xhtml_header',
 		),
+		'rss' => array(
+			'enable_rss',
+			'exclude_forums_rss',
+			'enable_rss_per_forum',
+			'enable_rss_per_topic',
+			'rss_items_count',
+		),
 		'additional' => array(
 			'enable_contactadmin',
 			'enable_detailed_online_list',
 			'enable_forum_stats_box',
 			'enable_memberlist',
 			'enable_quickreply',
-			'enable_rss',
-			'exclude_forums_rss',
-			'enable_rss_per_forum',
-			'enable_rss_per_topic',
 			'enable_stafflist',
 			'enable_stats',
 			'exclude_forums_stats',
@@ -323,6 +326,7 @@ if (
 			'enable_email_dns_check',
 			'antispam_question_mode',
 			'antispam_question_questions',
+			'flood_interval',
 		),
 		'advanced' => array(
 			'friendly_urls',
@@ -336,7 +340,6 @@ if (
 			'debug',
 			'active_topics_max_age',
 			'exclude_forums_active_topics',
-			'flood_interval',
 			'online_min_updated',
 			'search_limit_results',
 			'search_nonindex_words_min_length',

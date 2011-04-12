@@ -83,16 +83,18 @@
 		<ol>
 			<li>Execute <code>install/schemas/mysql.sql</code> followed by <code>install/usebb.sql</code> on your database (using a database management tool such as <a href="http://www.phpmyadmin.net/">phpMyAdmin</a>);</li>
 			<li>Rename <code>config.php-dist</code> to <code>config.php</code>;</li>
-			<li>Edit <code>config.php</code> and adjust the database settings;</li>
+			<li>Edit <code>config.php</code> and adjust the database settings<sup>1</sup>;</li>
 			<li>Upload/move all the files except for the <code>install</code> directory to their final destination online;</li>
 			<li><em>Optional but recommended:</em> <a href="http://en.wikipedia.org/wiki/Chmod">chmod</a> <code>config.php</code> so that it is writable by the webserver (try <code>chmod 0777</code>), this will able UseBB's ACP to change settings;</li>
 			<li>Register a first user, it will automatically be an administrator.</li>
 		</ol>
 
+		<p><sup>1</sup>Use type '<code>mysqli</code>' if you use PHP 5 and have the <code>mysqli</code> extension available.</p>
+
 		<h3>After installation</h3>
 
 		<p>When installation is done, you can log in and start configuring your forum. The link to the ACP (Admin Control Panel) is at the bottom of the page.</p>
-		<p>Note it is highly advised to set up multiple <em>custom anti-spam questions</em> in order to protect your forum from spam bots.</p>
+		<p>Note it is highly advised to set up multiple <em>custom anti-spam questions</em> and to hide user profiles from guests in order to protect your forum from spam bots.</p>
 		
 		<h2 id="upgrade-usebb">Upgrade an existing UseBB</h2>
 		<p>If you run a forum powered by a previous UseBB 1.0 version, you can upgrade as following:</p>

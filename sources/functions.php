@@ -717,17 +717,19 @@ class functions {
 		
 		//
 		// Installation note if
+		// - config.php does not exist
 		// - error "'install' must be removed"
 		// - mysql*() error "Access denied for user"
 		// - sql error "Table 'x' doesn't exist" or "Access denied for user"
 		//
-		if ( strpos($error, '\'install\' must be removed') !== false
+		if ( strpos($error, 'config.php does not exist') !== false 
+			|| strpos($error, '\'install\' must be removed') !== false
 			|| ( !strncmp($error, 'mysql', 5) && strpos($error, 'Access denied for user') !== false )
 			|| ( $errtype == 'SQL_ERROR' && preg_match("#(?:Table '.+' doesn't exist|Access denied for user)#i", $error) ) ) {
 			
 			$html_msg .= '
 		<p><strong>UseBB may not have been installed yet.</strong></p>
-		<p>If this is the case and you are the owner of this board, please see <a href="docs/index.html">docs/index.html</a> for installation instructions.</p>
+		<p>If this is the case and you are the owner of this board, please <a href="docs/index.html">see docs/index.html for <strong>installation instructions</strong></a>.</p>
 		<p>Otherwise, please report this error to the owner.</p>';
 			
 		} else {

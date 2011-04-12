@@ -185,7 +185,7 @@ $config_file = ROOT_PATH.'config.php';
 if ( file_exists($config_file) )
 	require($config_file);
 else
-	trigger_error('config.php does not exist! Please rename config.php-dist to config.php.', E_USER_ERROR);
+	trigger_error('config.php does not exist!', E_USER_ERROR);
 
 //
 // Define some constants

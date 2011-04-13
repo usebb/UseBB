@@ -85,7 +85,7 @@ class db {
 		//
 		// Connect to server
 		//
-		$this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysqli_error(), E_USER_ERROR);
+		$this->connection = @mysqli_connect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysqli_connect_error(), E_USER_ERROR);
 		
 		//
 		// Select database

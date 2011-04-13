@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2003-2007 UseBB Team
+	Copyright (C) 2003-2011 UseBB Team
 	http://www.usebb.net
 	
 	$Id$

@@ -3228,15 +3228,10 @@ class functions {
 	 */
 	function verify_token($try_token) {
 
-		if ( strpos($try_token, '-') === false )
+		if ( !preg_match('#^[0-9]+\.[0-9]{4}\-[0-9a-f]{32}$#', $try_token) )
 			return false;
 		
-		$try_token = explode('-', $try_token);
-
-		if ( count($try_token) != 2 )
-			return false;
-
-		list($time, $key) = $try_token;
+		list($time, $key) = explode('-', $try_token);
 		$sess_idx = $time;
 
 		return ( !empty($_SESSION['tokens'][$sess_idx]) && $_SESSION['tokens'][$sess_idx] === $key );

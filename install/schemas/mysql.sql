@@ -8,7 +8,7 @@ CREATE TABLE usebb_badwords (
   word varchar(255) NOT NULL default '',
   replacement varchar(255) NOT NULL default '',
   PRIMARY KEY  (word)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -22,7 +22,7 @@ CREATE TABLE usebb_bans (
   email varchar(255) NOT NULL default '',
   ip_addr varchar(23) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -35,7 +35,7 @@ CREATE TABLE usebb_cats (
   name varchar(255) NOT NULL default '',
   sort_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -58,7 +58,7 @@ CREATE TABLE usebb_forums (
   increase_post_count int(1) NOT NULL default '1',
   hide_mods_list int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE usebb_members (
   jabber varchar(255) NOT NULL default '',
   skype varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -125,7 +125,7 @@ CREATE TABLE usebb_members (
 CREATE TABLE usebb_moderators (
   forum_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE usebb_posts (
   enable_sig int(1) NOT NULL default '1',
   enable_html int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,7 @@ CREATE TABLE usebb_searches (
   time int(10) NOT NULL default '0',
   results text NOT NULL,
   PRIMARY KEY  (sess_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,7 @@ CREATE TABLE usebb_sessions (
   location varchar(255) NOT NULL default '',
   pages int(11) NOT NULL default '0',
   PRIMARY KEY  (sess_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,7 @@ CREATE TABLE usebb_stats (
   name varchar(255) NOT NULL default '',
   content text NOT NULL,
   PRIMARY KEY  (name)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,7 @@ CREATE TABLE usebb_stats (
 CREATE TABLE usebb_subscriptions (
   topic_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -220,4 +220,4 @@ CREATE TABLE usebb_topics (
   status_locked int(1) NOT NULL default '0',
   status_sticky int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;

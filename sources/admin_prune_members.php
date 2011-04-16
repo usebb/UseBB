@@ -87,7 +87,7 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 //
 if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $functions->verify_form() ) {
 	
-	$count = $admin_functions->delete_members($query_where_part);
+	$count = $admin_functions->delete_members($query_where_part, !empty($_POST['delete_posts']));
 	$content = '<p>'.sprintf($lang['PruneMembersDone'], $count).'</p>';
 	
 } else {
@@ -133,6 +133,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$_POST['last_logged_in'] = ( !empty($_POST['type']) && $_POST['type'] == 'not_logged_in' && !empty($_POST['last_logged_in']) && valid_int($_POST['last_logged_in']) && $_POST['last_logged_in'] > 0 ) ? $_POST['last_logged_in'] : '';
 		$exclude_admins_checked = ( !empty($_POST['exclude_admins']) ) ? ' checked="checked"' : '';
 		$exclude_mods_checked = ( !empty($_POST['exclude_mods']) ) ? ' checked="checked"' : '';
+		$delete_posts_checked = ( !empty($_POST['delete_posts']) ) ? ' checked="checked"' : '';
 		
 	} else {
 		
@@ -144,6 +145,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$_POST['last_logged_in'] = '';
 		$exclude_admins_checked = ' checked="checked"';
 		$exclude_mods_checked = ' checked="checked"';
+		$delete_posts_checked = '';
 		
 	}
 	
@@ -161,6 +163,10 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$content .= '<fieldset><legend>'.$lang['PruneMembersExclude'].'</legend>';
 			$content .= '<label><input type="checkbox" name="exclude_admins" value="1"'.$exclude_admins_checked.' /> '.$lang['Administrators'].'</label> ';
 			$content .= '<label><input type="checkbox" name="exclude_mods" value="1"'.$exclude_mods_checked.' /> '.$lang['Moderators'].'</label>';
+		$content .= '</fieldset>';
+
+		$content .= '<fieldset><legend>'.$lang['PruneMembersOptions'].'</legend>';
+			$content .= '<label><input type="checkbox" name="delete_posts" value="1"'.$delete_posts_checked.' /> '.$lang['PruneMembersDeletePosts'].'</label>';
 		$content .= '</fieldset>';
 		
 		//

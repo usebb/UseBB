@@ -1,5 +1,10 @@
 $Id$
 
+UseBB 1.0.13 Changelog
+------------------------------
+
+- Member pruning can now delete pruned members' posts.
+
 UseBB 1.0.12 Changelog
 ------------------------------
 

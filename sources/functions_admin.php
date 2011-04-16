@@ -528,46 +528,208 @@ class admin_functions {
 			
 		}
 		
-		if ( count($forum_ids) ) {
+		if ( count($forum_ids) == 0 )
+			return;
 			
-			//
-			// Delete the forums
-			//
-			$db->query("DELETE FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).")");
+		//
+		// Delete the forums
+		//
+		$db->query("DELETE FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $forum_ids).")");
+		
+		//
+		// Delete the posts and topic subscriptions
+		//
+		$result = $db->query("SELECT id FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
+		while ( $topicdata = $db->fetch_result($result) ) {
 			
-			//
-			// Delete the posts and topic subscriptions
-			//
-			$result = $db->query("SELECT id FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
-			while ( $topicdata = $db->fetch_result($result) ) {
-				
-				$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topicdata['id']);
-				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$topicdata['id']);
-				
-			}
-			
-			//
-			// Delete the topics
-			//
-			$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
-			
-			//
-			// Update the stats
-			//
-			if ( $change_stats ) {
-				
-				$functions->set_stats('topics', - $topics, true);
-				$functions->set_stats('posts', - $posts, true);
-				
-			}
-			
-			//
-			// Reload moderator perms
-			//
-			$this->reload_moderator_perms();
+			$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topicdata['id']);
+			$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id = ".$topicdata['id']);
 			
 		}
 		
+		//
+		// Delete the topics
+		//
+		$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE forum_id IN(".join(', ', $forum_ids).")");
+		
+		//
+		// Update the stats
+		//
+		if ( $change_stats ) {
+			
+			$functions->set_stats('topics', - $topics, true);
+			$functions->set_stats('posts', - $posts, true);
+			
+		}
+		
+		//
+		// Reload moderator perms
+		//
+		$this->reload_moderator_perms();
+		
+	}
+
+	/**
+	 * Cleanly delete members
+	 *
+	 * @param string $condition SQL condition to match members
+	 * @param bool $delete_posts Delete posts, or assign to guest
+	 * @param bool $ban_email Ban associated email addresses
+	 */
+	function delete_members($condition, $delete_posts=false, $ban_email=false) {
+
+		global $db, $functions;
+		
+		$result = $db->query("SELECT id, name, email FROM ".TABLE_PREFIX."members WHERE ".$condition);
+		$users = array();
+		while ( $userdata = $db->fetch_result($result) )			
+			$users[$userdata['id']] = array($userdata['name'], $userdata['email']);
+		
+		if ( count($users) == 0 )
+			return;
+		
+		$user_ids = implode(',', array_keys($users));
+
+		if ( $delete_posts ) {
+			
+			//
+			// Delete the posts
+			// This is a tiresome process since there is no ORM or API in 1.0.
+			// A small one could have been added, but since this code was added
+			// after the closing of 1.0 development it is faster this way.
+			// It is unlikely this code will have to be edited a lot. 
+			//
+			
+			$topics = $posts = 0;
+			$topic_replies = $topic_firsts = $topic_lasts = $delete_topics = array();
+			
+			// 1. Delete post entries
+			$result = $db->query("SELECT t.id AS topic_id, t.count_replies, t.first_post_id, t.last_post_id, p.id AS post_id FROM ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."topics t WHERE t.id = p.topic_id AND p.poster_id IN(".$user_ids.")");
+			while ( $data = $db->fetch_result($result) ) {
+				
+				// Calculate the remanining replies in the end
+				if ( !array_key_exists($data['topic_id'], $topic_replies) )
+					$topic_replies[$data['topic_id']] = $data['count_replies']-1;
+				else
+					$topic_replies[$data['topic_id']]--;
+				
+				// Collect topics with to reset first/last ID
+				if ( $data['first_post_id'] == $data['post_id'] )
+					$topic_firsts[] = $data['topic_id'];
+				if ( $data['last_post_id']  == $data['post_id'] )
+					$topic_lasts[]  = $data['topic_id'];
+
+			}
+			$db->query("DELETE FROM ".TABLE_PREFIX."posts WHERE poster_id IN(".$user_ids.")");
+			
+			// 2. Delete topic entries with no replies
+			foreach ( $topic_replies as $topic => $replies ) {
+				
+				// Collect empty topics
+				if ( $replies < 0 ) # Smaller than zero, because 0 = no replies but one post
+					$delete_topics[] = $topic;
+				
+			}
+			if ( count($delete_topics) > 0 ) {
+				
+				$db->query("DELETE FROM ".TABLE_PREFIX."topics WHERE id IN(".implode(',', $delete_topics).")");
+				$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE topic_id IN(".implode(',', $delete_topics).")");
+				
+			}
+
+			// 3. Adjust topic first and last post IDs
+			$topic_firsts = array_diff($topic_firsts, $delete_topics);
+			$topic_lasts  = array_diff($topic_lasts,  $delete_topics);
+			foreach ( $topic_firsts as $topic ) {
+				
+				// Get the first ASC
+				$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id ASC LIMIT 1");
+				$data = $db->fetch_result($result);
+				$db->query("UPDATE ".TABLE_PREFIX."topics SET first_post_id = ".$data['id']." WHERE id = ".$topic);	
+			}
+			foreach ( $topic_lasts as $topic ) {
+				
+				// Get the first DESC
+				$result = $db->query("SELECT id FROM ".TABLE_PREFIX."posts WHERE topic_id = ".$topic." ORDER BY id DESC LIMIT 1");
+				$data = $db->fetch_result($result);
+				$db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$data['id']." WHERE id = ".$topic);	
+			}
+			
+			// 4. Adjust topic reply counts
+			foreach ( $topic_replies as $topic => $replies ) {
+				
+				if ( in_array($topic, $delete_topics) )
+					continue;
+
+				$db->query("UPDATE ".TABLE_PREFIX."topics SET count_replies = ".$replies." WHERE id = ".$topic);
+
+			}
+			
+			// 5. Adjust forum latest updated topic and counters
+			// Simply do this for all forums, or it gets too complicated above
+			$result = $db->query("SELECT forum_id, COUNT(id) AS topics, SUM(count_replies) AS replies FROM ".TABLE_PREFIX."topics GROUP BY forum_id");
+			while ( $forum = $db->fetch_result($result) ) {
+				
+				$topics += $forum['topics'];
+				$posts += ($forum['topics'] + $forum['replies']); # Because replies does not include the first post
+
+				if ( $forum['topics'] > 0 ) {
+					
+					// Select last updated topic in forum
+					$topicresult = $db->query("SELECT id FROM ".TABLE_PREFIX."topics WHERE forum_id = ".$forum['forum_id']." ORDER BY last_post_id DESC LIMIT 1");
+					$topic = $db->fetch_result($topicresult);
+					$last_topic_id = $topic['id'];
+
+				} else {
+					
+					$last_topic_id = 0;
+
+				}
+				$db->query("UPDATE ".TABLE_PREFIX."forums SET topics = ".$forum['topics'].", posts = ".($forum['topics'] + $forum['replies']).", last_topic_id = ".$last_topic_id." WHERE id = ".$forum['forum_id']);
+
+			}
+			
+			// 6. Adjust global stats
+			$functions->set_stats('topics', $topics);
+			$functions->set_stats('posts', $posts);
+			
+		} else {
+			
+			//
+			// Reassign the posts to guest
+			//
+			foreach ( $users as $id => $vals ) {
+				
+				list($name, ) = $vals;
+				$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$name."' WHERE poster_id = ".$id);
+
+			}
+			
+		}
+
+		//
+		// Ban email address
+		//
+		if ( $ban_email ) {
+			
+			foreach ( $users as $vals ) {
+				
+				list(, $email) = $vals;
+				$db->query("DELETE FROM ".TABLE_PREFIX."bans WHERE email = '".$email."'");
+				$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '".$email."', '')");
+				
+			}
+
+		}
+		
+		$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by IN(".$user_ids.")");
+		$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id IN(".$user_ids.")");
+		$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id IN(".$user_ids.")");
+		$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id IN(".$user_ids.")");
+		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id IN(".$user_ids.")");
+
+		$functions->set_stats('members', - count($users), true);
+
 	}
 	
 	/**

@@ -44,7 +44,7 @@ if ( !defined('INCLUDED') )
 	exit();
 
 $filled_in = false;
-$result = null;
+$query_where_part = null;
 
 if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated', 'never_posted', 'not_logged_in')) && (
 	( $_POST['type'] == 'never_activated' &&
@@ -78,7 +78,6 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 		$query_where_part .= " AND level <> ".LEVEL_MOD;
 	
 	$filled_in = true;
-	$result = $db->query("SELECT id, name, level FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY name ASC");
 	
 }
 
@@ -88,28 +87,8 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 //
 if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $functions->verify_form() ) {
 	
-	$prune_members = array();
-	
-	while ( $memberdata = $db->fetch_result($result) ) {
-		
-		$prune_members[] = $memberdata['id'];
-		$db->query("UPDATE ".TABLE_PREFIX."posts SET poster_id = 0, poster_guest = '".$memberdata['name']."' WHERE poster_id = ".$memberdata['id']);
-		
-	}
-	
-	if ( count($prune_members) ) {
-		
-		$db->query("UPDATE ".TABLE_PREFIX."posts SET post_edit_by = 0 WHERE post_edit_by IN(".join(', ', $prune_members).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."subscriptions WHERE user_id IN(".join(', ', $prune_members).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."moderators WHERE user_id IN(".join(', ', $prune_members).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id IN(".join(', ', $prune_members).")");
-		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id IN(".join(', ', $prune_members).")");
-
-		$functions->set_stats('members', - count($prune_members), true);
-		
-	}
-	
-	$content = '<p>'.sprintf($lang['PruneMembersDone'], count($prune_members)).'</p>';
+	$count = $admin_functions->delete_members($query_where_part);
+	$content = '<p>'.sprintf($lang['PruneMembersDone'], $count).'</p>';
 	
 } else {
 	
@@ -192,6 +171,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 			$prune_members = array();
 			$num = 0;
 			
+			$result = $db->query("SELECT id, name, level FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY name ASC");
 			while ( $memberdata = $db->fetch_result($result) ) {
 				
 				$prune_members[] = $functions->make_profile_link($memberdata['id'], $memberdata['name'], $memberdata['level']);

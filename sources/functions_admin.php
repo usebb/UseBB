@@ -575,17 +575,32 @@ class admin_functions {
 	 * @param string $condition SQL condition to match members
 	 * @param bool $delete_posts Delete posts, or assign to guest
 	 * @param bool $ban_email Ban associated email addresses
+	 * @returns int Member count
 	 */
 	function delete_members($condition, $delete_posts=false, $ban_email=false) {
 
 		global $db, $functions;
 		
-		$result = $db->query("SELECT id, name, email FROM ".TABLE_PREFIX."members WHERE ".$condition);
+		$fields = array('id');
+		if ( !$delete_posts )
+			$fields[] = 'name';
+		if ( $ban_email )
+			$fields[] = 'email';
+
+		$result = $db->query("SELECT ".implode(',', $fields)." FROM ".TABLE_PREFIX."members WHERE ".$condition);
 		$users = array();
-		while ( $userdata = $db->fetch_result($result) )			
-			$users[$userdata['id']] = array($userdata['name'], $userdata['email']);
+		while ( $userdata = $db->fetch_result($result) ) {
+			
+			$users[$userdata['id']] = array(
+				isset($userdata['name'])  ? $userdata['name']  : '', 
+				isset($userdata['email']) ? $userdata['email'] : ''
+			);
+
+		}
+
+		$count = count($users);
 		
-		if ( count($users) == 0 )
+		if ( $count == 0 )
 			return;
 		
 		$user_ids = implode(',', array_keys($users));
@@ -692,6 +707,8 @@ class admin_functions {
 			// 6. Adjust global stats
 			$functions->set_stats('topics', $topics);
 			$functions->set_stats('posts', $posts);
+
+			unset($topics, $posts, $topic_replies, $topic_firsts, $topic_lasts, $delete_topics, $data, $forum);
 			
 		} else {
 			
@@ -728,7 +745,9 @@ class admin_functions {
 		$db->query("DELETE FROM ".TABLE_PREFIX."members WHERE id IN(".$user_ids.")");
 		$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id IN(".$user_ids.")");
 
-		$functions->set_stats('members', - count($users), true);
+		$functions->set_stats('members', - $count, true);
+
+		return $count;
 
 	}
 	

@@ -46,14 +46,16 @@ if ( !defined('INCLUDED') )
 $filled_in = false;
 $query_where_part = null;
 
-if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated', 'never_posted', 'not_logged_in')) && (
-	( $_POST['type'] == 'never_activated' &&
-		!empty($_POST['na_registered_days_ago']) && valid_int($_POST['na_registered_days_ago']) && $_POST['na_registered_days_ago'] > 0 ) ||
-	( $_POST['type'] == 'never_posted' &&
-		!empty($_POST['np_registered_days_ago']) && valid_int($_POST['np_registered_days_ago']) && $_POST['np_registered_days_ago'] > 0 ) ||
-	( $_POST['type'] == 'not_logged_in' &&
-		!empty($_POST['last_logged_in']) && valid_int($_POST['last_logged_in']) && $_POST['last_logged_in'] > 0 )
-) ) {
+if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated', 'never_posted', 'not_logged_in', 'profile_spam')) &&
+	( $_POST['type'] != 'never_activated' ||
+		!empty($_POST['na_registered_days_ago']) && valid_int($_POST['na_registered_days_ago']) && $_POST['na_registered_days_ago'] > 0 ) &&
+	( $_POST['type'] != 'never_posted' ||
+		!empty($_POST['np_registered_days_ago']) && valid_int($_POST['np_registered_days_ago']) && $_POST['np_registered_days_ago'] > 0 ) &&
+	( $_POST['type'] != 'not_logged_in' ||
+		!empty($_POST['last_logged_in']) && valid_int($_POST['last_logged_in']) && $_POST['last_logged_in'] > 0 ) &&
+	( $_POST['type'] != 'profile_spam' ||
+		!empty($_POST['ps_registered_days_ago']) && valid_int($_POST['ps_registered_days_ago']) && $_POST['ps_registered_days_ago'] > 0 )
+) {
 	
 	//
 	// All information is filled in.
@@ -69,6 +71,9 @@ if ( !empty($_POST['type']) && in_array($_POST['type'], array('never_activated',
 			break;
 		case 'not_logged_in':
 			$query_where_part = "GREATEST(last_login, regdate) < ".( time() - $_POST['last_logged_in'] * 86400 );
+			break;
+		case 'profile_spam':
+			$query_where_part = "( signature LIKE '%http://%' OR signature LIKE '%www.%' ) AND posts = 0 AND regdate < ".( time() - $_POST['ps_registered_days_ago'] * 86400 );
 		
 	}
 	
@@ -108,7 +113,7 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 
 			$errors = array();
 
-			if ( empty($_POST['type']) || !in_array($_POST['type'], array('never_activated', 'never_posted', 'not_logged_in')) )
+			if ( empty($_POST['type']) || !in_array($_POST['type'], array('never_activated', 'never_posted', 'not_logged_in', 'profile_spam')) )
 				$errors[] = $lang['PruneMembersType'];
 			if ( !empty($_POST['type']) && $_POST['type'] == 'never_activated' && ( empty($_POST['na_registered_days_ago']) || !valid_int($_POST['na_registered_days_ago']) || $_POST['na_registered_days_ago'] <= 0 ) )
 				$errors[] = sprintf($lang['PruneMembersRegisteredDaysAgo'], '<em>x</em>');
@@ -116,6 +121,8 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 				$errors[] = sprintf($lang['PruneMembersRegisteredDaysAgo'], '<em>x</em>');
 			if ( !empty($_POST['type']) && $_POST['type'] == 'not_logged_in' && ( empty($_POST['last_logged_in']) || !valid_int($_POST['last_logged_in']) || $_POST['last_logged_in'] <= 0 ) )
 				$errors[] = sprintf($lang['PruneMembersLastLoggedIn'], '<em>x</em>');
+			if ( !empty($_POST['type']) && $_POST['type'] == 'profile_spam' && ( empty($_POST['ps_registered_days_ago']) || !valid_int($_POST['ps_registered_days_ago']) || $_POST['ps_registered_days_ago'] <= 0 ) )
+				$errors[] = sprintf($lang['PruneMembersRegisteredDaysAgo'], '<em>x</em>');
 			
 			//
 			// Show an error message
@@ -131,6 +138,8 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$_POST['np_registered_days_ago'] = ( !empty($_POST['type']) && $_POST['type'] == 'never_posted' && !empty($_POST['np_registered_days_ago']) && valid_int($_POST['np_registered_days_ago']) && $_POST['np_registered_days_ago'] > 0 ) ? $_POST['np_registered_days_ago'] : '';
 		$not_logged_in_checked = ( !empty($_POST['type']) && $_POST['type'] == 'not_logged_in' ) ? ' checked="checked"' : '';
 		$_POST['last_logged_in'] = ( !empty($_POST['type']) && $_POST['type'] == 'not_logged_in' && !empty($_POST['last_logged_in']) && valid_int($_POST['last_logged_in']) && $_POST['last_logged_in'] > 0 ) ? $_POST['last_logged_in'] : '';
+		$profile_spam_checked = ( !empty($_POST['type']) && $_POST['type'] == 'profile_spam' ) ? ' checked="checked"' : '';
+		$_POST['ps_registered_days_ago'] = ( !empty($_POST['type']) && $_POST['type'] == 'profile_spam' && !empty($_POST['ps_registered_days_ago']) && valid_int($_POST['ps_registered_days_ago']) && $_POST['ps_registered_days_ago'] > 0 ) ? $_POST['ps_registered_days_ago'] : '';
 		$exclude_admins_checked = ( !empty($_POST['exclude_admins']) ) ? ' checked="checked"' : '';
 		$exclude_mods_checked = ( !empty($_POST['exclude_mods']) ) ? ' checked="checked"' : '';
 		$delete_posts_checked = ( !empty($_POST['delete_posts']) ) ? ' checked="checked"' : '';
@@ -143,6 +152,8 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$_POST['np_registered_days_ago'] = '';
 		$not_logged_in_checked = '';
 		$_POST['last_logged_in'] = '';
+		$profile_spam_checked = '';
+		$_POST['ps_registered_days_ago'] = '';
 		$exclude_admins_checked = ' checked="checked"';
 		$exclude_mods_checked = ' checked="checked"';
 		$delete_posts_checked = '';
@@ -158,6 +169,10 @@ if ( $filled_in && !empty($_POST['confirm']) && !empty($_POST['dopruning']) && $
 		$content .= '</fieldset>';
 		$content .= '<fieldset><legend><label><input type="radio" name="type" value="not_logged_in"'.$not_logged_in_checked.' /> '.$lang['PruneMembersTypeInactive'].'</label></legend>';
 			$content .= '<label>'.sprintf($lang['PruneMembersLastLoggedIn'], '<input type="text" name="last_logged_in" size="4" maxlength="255" value="'.$_POST['last_logged_in'].'" />').'</label>';
+		$content .= '</fieldset>';
+		$content .= '<fieldset><legend><label><input type="radio" name="type" value="profile_spam"'.$profile_spam_checked.' /> '.$lang['PruneMembersTypeProfileSpam'].'</label></legend>';
+			$content .= '<p>'.$lang['PruneMembersTypeProfileSpamExplain'].'</p>';
+			$content .= '<label>'.sprintf($lang['PruneMembersRegisteredDaysAgo'], '<input type="text" name="ps_registered_days_ago" size="4" maxlength="255" value="'.$_POST['ps_registered_days_ago'].'" />').'</label>';
 		$content .= '</fieldset>';
 		
 		$content .= '<fieldset><legend>'.$lang['PruneMembersExclude'].'</legend>';

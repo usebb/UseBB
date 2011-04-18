@@ -316,7 +316,7 @@ class session {
 			
 		}
 		
-		$spam_opportunity = ( preg_match('#^(register|reply:|posttopic:)#', $location) );
+		$spam_opportunity = ( preg_match('#^(register|editprofile|reply:|posttopic:|sendemail:)#', $location) );
 		
 		//
 		// DNSBL powered banning

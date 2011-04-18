@@ -5,6 +5,7 @@ UseBB 1.0.13 Changelog
 
 - Member pruning can now delete profile spam accounts.
 - Member pruning can now delete pruned members' posts.
+- Also perform DNSBL check for "edit profile" and "send email".
 
 UseBB 1.0.12 Changelog
 ------------------------------

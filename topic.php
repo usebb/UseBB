@@ -223,7 +223,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					|| ( $functions->get_config('show_posting_links_to_guests') && !$session->sess_info['user_id'] && $functions->auth($topicdata['auth'], 'reply', $topicdata['forum_id'], FALSE, array('id' => -1, 'level' => LEVEL_MEMBER)) )
 				)
 			);
-			$reply_link = ( $can_post_reply ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" rel="nofollow">'.$lang['PostReply'].'</a>' : '<span class="locked-msg">'.$lang['Locked'].'</span>';
+			$reply_link = ( $can_post_reply ) ? '<a href="'.$functions->make_url('post.php', array('topic' => $requested_topic)).'" rel="nofollow">'.$lang['PostReply'].'</a>' : ( $topicdata['status_locked'] ? '<span class="locked-msg">'.$lang['Locked'].'</span>' : '' );
 			
 			//
 			// Get page number

@@ -370,18 +370,20 @@ table.maintable td.stats-cell {
 	text-align: right;
 	margin: 0 0 6px 0;
 }
+#toolbartop a, #toolbarbottom a, #toolbartop .locked-msg, #toolbarbottom .locked-msg {
+	padding: 3px 11px 3px 11px;
+	margin: 0 0 0 4px;
+	font-weight: bold;
+}
 #toolbartop a, #toolbarbottom a {
 	background-image: url(gfx/button_normal.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
 	text-decoration: none !important;
-	padding: 3px 11px 3px 11px;
-	margin: 0 0 0 4px;
 	border-top: 1px solid #99b2cc;
 	border-left: 1px solid #99b2cc;
 	border-bottom: 1px solid #369;
 	border-right: 1px solid #369;
-	font-weight: bold;
 }
 #toolbartop a:hover, #toolbarbottom a:hover {
 	background-image: url(gfx/button_reverse.png);
@@ -390,6 +392,11 @@ table.maintable td.stats-cell {
 	border-left: 1px solid #369;
 	border-bottom: 1px solid #99b2cc;
 	border-right: 1px solid #99b2cc;
+}
+#toolbartop .locked-msg, #toolbarbottom .locked-msg {
+	background-color: #FEE;
+	border: 1px solid #F88;
+	color: #333;
 }
 #pagelinkstop {
 	float: left;

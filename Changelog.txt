@@ -7,6 +7,7 @@ UseBB 1.0.13 Changelog
 - Member pruning can now delete pruned members' posts.
 - Also perform DNSBL check for "edit profile" and "send email".
 - Show locked button when topic locked and cannot reply.
+- Activation keys are no longer in the password format, but a longer random string.
 
 UseBB 1.0.12 Changelog
 ------------------------------

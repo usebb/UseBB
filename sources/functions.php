@@ -1438,11 +1438,14 @@ class functions {
 	 */
 	function random_key($is_password=false) {
 		
+		if ( !$is_password )
+			return md5(mt_rand());
+		
 		$chars = range(33, 126); // ! until ~
 		$max = count($chars) - 1;
 
 		$passwd_min_length = (int) $this->get_config('passwd_min_length');
-		$length = ( $is_password && $passwd_min_length > 10 ) ? $passwd_min_length : 10;
+		$length = ( $passwd_min_length > 10 ) ? $passwd_min_length : 10;
 		
 		do {
 		
@@ -1450,7 +1453,7 @@ class functions {
 			for ( $i = 0; $i < $length; $i++ )
 				$key .= chr($chars[mt_rand(0, $max)]);
 
-			$valid = $is_password ? $this->validate_password($key, true) : !contains_entities($key, true);
+			$valid = $this->validate_password($key, true);
 
 		} while ( !$valid );
 		
@@ -3203,7 +3206,7 @@ class functions {
 		
 		list($usec, $sec) = explode(' ', microtime());
 		$time = (float)$usec + (float)$sec;
-		$key = md5(mt_rand());
+		$key = $this->random_key();
 
 		if ( !$_SESSION['oldest_token'] )
 			$_SESSION['oldest_token'] = $time;

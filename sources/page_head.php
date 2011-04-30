@@ -134,8 +134,14 @@ if ( ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_close
 //
 // Contact admin
 //
-if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') )
-	$link_bar[] = '<a href="mailto:'.$functions->get_config('admin_email').'">'.$lang['ContactAdmin'].'</a>';
+if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level() >= $functions->get_config('view_contactadmin_min_level') ) {
+	
+	$mail_link = ( $functions->get_config('enable_contactadmin_form') )
+		? $functions->make_url('mail.php', array('act' => 'admin'))
+		: 'mailto:'.$functions->get_config('admin_email');
+	$link_bar[] = '<a href="'.$mail_link.'">'.$lang['ContactAdmin'].'</a>';
+
+}
 
 $template->add_global_vars(array(
 	

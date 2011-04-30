@@ -103,6 +103,7 @@ $conf['email_reply-to_header'] = 0;
 $conf['enable_acp_modules'] = 0;
 $conf['enable_badwords_filter'] = 0;
 $conf['enable_contactadmin'] = 1;
+$conf['enable_contactadmin_form'] = 1;
 $conf['enable_detailed_online_list'] = 1;
 $conf['enable_dnsbl_powered_banning'] = 0;
 $conf['enable_email_dns_check'] = 0;

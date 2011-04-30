@@ -169,6 +169,7 @@ $lang['ConfigBoard-cookie_httponly'] = 'Enable HTTP only cookies';
 $lang['ConfigBoard-cookie_httponly-info'] = 'Adds a HttpOnly flag to the cookies, making them more secured against XSS.';
 $lang['ConfigBoard-dst'] = 'Daylight saving times';
 $lang['ConfigBoard-enable_contactadmin'] = 'Enable contact admin link';
+$lang['ConfigBoard-enable_contactadmin_form'] = 'Use mail form instead of email link for contact admin';
 $lang['ConfigBoard-enable_detailed_online_list'] = 'Enable detailed online list';
 $lang['ConfigBoard-enable_forum_stats_box'] = 'Enable forum statistics box';
 $lang['ConfigBoard-enable_memberlist'] = 'Enable member list';

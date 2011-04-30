@@ -98,6 +98,34 @@ $templates['mail_form'] = '
 	{form_end}
 ';
 
+$templates['mail_form_guest'] = '
+	{form_begin}
+	<table class="maintable thinner-table">
+		<tr>
+			<th colspan="2">{l_SendMessage}</th>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Name}</td><td>{name_v}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Email}</td><td>{email_v}</td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_To}</td><td>{to_v}<div class="bcc-input">{bcc_input}</div></td>
+		</tr>
+		<tr>
+			<td class="fieldtitle">{l_Subject}</td><td>{subject_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2">{body_input}</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="formcontrols">{submit_button}</td>
+		</tr>
+	</table>
+	{form_end}
+';
+
 $templates['move_topic_form'] = '
 	{form_begin}
 	<table class="maintable thinner-table">

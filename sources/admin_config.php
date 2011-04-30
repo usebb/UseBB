@@ -82,7 +82,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_contactadmin_form', 'enable_detailed_online_list', 'enable_dnsbl_powered_banning', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
-$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'antispam_question_questions');
+$optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'contactadmin_custom_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'antispam_question_questions');
 
 if ( !$functions->get_config('hide_db_config_acp') )
 	$optional_strings = array_merge($optional_strings, array('passwd', 'prefix'));
@@ -307,15 +307,15 @@ if (
 			'rss_items_count',
 		),
 		'additional' => array(
-			'enable_contactadmin',
-			'enable_contactadmin_form',
-			'enable_detailed_online_list',
 			'enable_forum_stats_box',
+			'enable_detailed_online_list',
 			'enable_memberlist',
 			'enable_quickreply',
 			'enable_stafflist',
 			'enable_stats',
 			'exclude_forums_stats',
+			'enable_contactadmin',
+			'enable_contactadmin_form',
 		),
 		'security' => array(
 			'enable_ip_bans',
@@ -349,6 +349,7 @@ if (
 			'username_min_length',
 			'username_max_length',
 			'passwd_min_length',
+			'contactadmin_custom_url',
 			'enable_error_log',
 			'error_log_log_hidden',
 		)

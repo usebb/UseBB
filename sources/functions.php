@@ -44,6 +44,25 @@ if ( !defined('INCLUDED') )
 	exit();
 
 /**
+ * Debug output function
+ *
+ * Takes variable number of arguments that get printed out to template.
+ */
+function usebb_debug_output() {
+	
+	global $template;
+
+	$numargs = func_num_args();
+
+	if ( $template == null || USEBB_IS_PROD_ENV || $numargs == 0 )
+		return;
+	
+	$values = array_map('unhtml', array_map('print_r', func_get_args(), array_fill(0, $numargs, true)));
+	$template->add_raw_content('<pre>'.implode('<br />', $values).'</pre>');
+
+}
+
+/**
  * Callback for array_walk
  *
  * Will add slashes to and trim the value.

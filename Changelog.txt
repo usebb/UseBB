@@ -5,9 +5,12 @@ UseBB 1.0.13 Changelog
 
 - Member pruning can now delete profile spam accounts.
 - Member pruning can now delete pruned members' posts.
+- Make mail.php accessible to guests.
+- Able "contact admin" feature to use the mail.php form.
 - Also perform DNSBL check for "edit profile" and "send email".
 - Show locked button when topic locked and cannot reply.
 - Activation keys are no longer in the password format, but a longer random string.
+- Added usebb_debug_output function for clean debug output.
 
 UseBB 1.0.12 Changelog
 ------------------------------

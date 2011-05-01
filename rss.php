@@ -61,15 +61,10 @@ $template->content_type = 'application/rss+xml';
 $template->parse_special_templates_only = true;
 
 //
-// Update and get the session information
-//
-$session->update('rss');
-
-//
 // Error page for the RSS feed
 // Don't use the templated pages for RSS readers
 //
-function rss_error($num) {
+function usebb_rss_error($num) {
 	
 	switch ( $num ) {
 		case 403:
@@ -83,11 +78,17 @@ function rss_error($num) {
 	
 }
 
-//
-// Make a Forbidden header when the RSS feed cannot be requested
-//
-if ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') || ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST ) )
-	rss_error(403);
+function usebb_check_rss_access() {
+	
+	global $session, $functions;
+
+	//
+	// Make a Forbidden header when the RSS feed cannot be requested
+	//
+	if ( $session->sess_info['ip_banned'] || $functions->get_config('board_closed') || ( !$functions->get_config('guests_can_access_board') && $functions->get_user_level() == LEVEL_GUEST ) )
+		usebb_rss_error(403);
+
+}
 
 $pubDate = $functions->make_date(time(), 'D, d M Y H:i:s', true, false).' GMT';
 
@@ -104,9 +105,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Show a feed for a forum
 	//
+	$session->update('rss-forum:'.$_GET['forum']);
+
+	usebb_check_rss_access();
 	
 	if ( !$functions->get_config('enable_rss_per_forum') )
-		rss_error(404);
+		usebb_rss_error(404);
 	
 	//
 	// Get information about the forum
@@ -118,13 +122,13 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	// Forum does not exist
 	//
 	if ( !$forumdata['id'] )
-		rss_error(404);
+		usebb_rss_error(404);
 	
 	//
 	// Forum is not accessible
 	//
 	if ( !$functions->auth($forumdata['auth'], 'view', $_GET['forum']) )
-		rss_error(403);
+		usebb_rss_error(403);
 	
 	$forum_name = unhtml(stripslashes($forumdata['name']), true);
 	$forum_link = $functions->get_config('board_url').$functions->make_url('forum.php', array('id' => $_GET['forum']), true, false);
@@ -189,9 +193,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Show a feed for a topic
 	//
+	$session->update('rss-topic:'.$_GET['topic']);
+
+	usebb_check_rss_access();
 	
 	if ( !$functions->get_config('enable_rss_per_topic') )
-		rss_error(404);
+		usebb_rss_error(404);
 	
 	//
 	// Get information about the topic and forum
@@ -203,13 +210,13 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	// Topic does not exist
 	//
 	if ( !$topicdata['id'] )
-		rss_error(404);
+		usebb_rss_error(404);
 	
 	//
 	// Topic is not accessible
 	//
 	if ( !$functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) )
-		rss_error(403);
+		usebb_rss_error(403);
 	
 	$topic_name = unhtml(stripslashes($topicdata['topic_title']), true);
 	$topic_link = $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $_GET['topic']), true, false);
@@ -262,9 +269,12 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Show a regular active topics feed
 	//
+	$session->update('rss');
+
+	usebb_check_rss_access();
 	
 	if ( !$functions->get_config('enable_rss') )
-		rss_error(404);
+		usebb_rss_error(404);
 	
 	//
 	// Excluded forums
@@ -296,7 +306,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	// No viewable forums
 	//
 	if ( !count($forum_ids) )
-		rss_error(403);
+		usebb_rss_error(403);
 	
 	$header_vars = array(
 		

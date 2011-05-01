@@ -281,13 +281,13 @@ if (
 		),
 		'min_levels' => array(
 			'view_active_topics_min_level',
-			'view_contactadmin_min_level',
-			'view_detailed_online_list_min_level',
-			'view_forum_stats_box_min_level',
-			'view_memberlist_min_level',
 			'view_search_min_level',
+			'view_forum_stats_box_min_level',
+			'view_detailed_online_list_min_level',
+			'view_memberlist_min_level',
 			'view_stafflist_min_level',
 			'view_stats_min_level',
+			'view_contactadmin_min_level',
 		),
 		'layout' => array(
 			'template',

@@ -525,5 +525,7 @@ If you were led here through a third-party link or website, please ignore this p
 Otherwise, please reload the original page and revisit the link.';
 $lang['Name'] = 'Name';
 $lang['GuestName'] = '%s (guest)';
+$lang['RSSFeedForTopic'] = 'RSS Feed for topic %s';
+$lang['RSSFeedForForum'] = 'RSS Feed for forum %s';
 
 ?>

@@ -126,9 +126,9 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 		$element = '';
 		
-		if ( preg_match('#^(?:forum|posttopic):([0-9]+)$#', $sessiondata['location'], $matches) )
+		if ( preg_match('#^(?:forum|posttopic|rss-forum):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'forums';
-		elseif ( preg_match('#^(?:topic|reply|movetopic|deletetopic):([0-9]+)$#', $sessiondata['location'], $matches) )
+		elseif ( preg_match('#^(?:topic|reply|movetopic|deletetopic|rss-topic):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'topics';
 		elseif ( preg_match('#^(?:editpost|deletepost):([0-9]+)$#', $sessiondata['location'], $matches) )
 			$element = 'posts';
@@ -291,6 +291,9 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 			case 'stats':
 				$location = '<a href="'.$functions->make_url('stats.php').'">'.$lang['Statistics'].'</a>';
 				break;
+			case 'sendemail:admin':
+				$location = '<a href="'.$functions->make_url('mail.php', array('act' => 'admin')).'">'.$lang['ContactAdmin'].'</a>';
+				break;
 			
 		}
 		
@@ -316,6 +319,10 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 				$location = sprintf($lang['Profile'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['users'][$matches[1]])).'</a>');
 			elseif ( preg_match('#^sendemail:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['users']) )
 				$location = sprintf($lang['SendEmail'], '<a href="'.$functions->make_url('profile.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['users'][$matches[1]])).'</a>');
+			elseif ( preg_match('#^rss-topic:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['topics']) )
+				$location = sprintf($lang['RSSFeedForTopic'], '<a href="'.$functions->make_url('topic.php', array('id' => $matches[1])).'">'.unhtml($functions->replace_badwords(stripslashes($names['topics'][$matches[1]]))).'</a>');
+			elseif ( preg_match('#^rss-forum:([0-9]+)$#', $sessiondata['location'], $matches) && array_key_exists($matches[1], $names['forums']) )
+				$location = sprintf($lang['RSSFeedForForum'], '<a href="'.$functions->make_url('forum.php', array('id' => $matches[1])).'">'.unhtml(stripslashes($names['forums'][$matches[1]])).'</a>');
 			else
 				$location = $lang['Unknown'];
 			

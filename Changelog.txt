@@ -9,6 +9,7 @@ UseBB 1.0.13 Changelog
 - Able "contact admin" feature to use the mail.php form, or a custom URL.
 - Also perform DNSBL check for "edit profile" and "send email".
 - Show locked button when topic locked and cannot reply.
+- Show RSS feed locations in online list.
 - Activation keys are no longer in the password format, but a longer random string.
 - Added usebb_debug_output function for clean debug output.
 

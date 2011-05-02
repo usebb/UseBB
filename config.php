@@ -56,6 +56,7 @@ $dbs['username'] = 'usebb';
 $dbs['passwd'] = 'usebb';
 $dbs['dbname'] = 'usebb';
 $dbs['prefix'] = 'usebb_';
+$dbs['persistent'] = 0;
 
 //
 // Initialize a new configuration holder array
@@ -130,7 +131,7 @@ $conf['guests_can_access_board'] = 1;
 $conf['guests_can_see_contact_info'] = 0;
 $conf['guests_can_view_profiles'] = 0;
 $conf['hide_avatars'] = 0;
-$conf['hide_db_config_acp'] = 1;
+$conf['hide_db_config_acp'] = 0;
 $conf['hide_signatures'] = 0;
 $conf['hide_undefined_template_setting_warnings'] = 0;
 $conf['hide_undefined_template_warnings'] = 0;

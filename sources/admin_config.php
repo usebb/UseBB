@@ -54,7 +54,7 @@ $necessary_settings = array(
 );
 
 if ( !$functions->get_config('hide_db_config_acp') )
-	$necessary_settings = array_merge($necessary_settings, array('type', 'server', 'username', 'dbname'));
+	$necessary_settings['strings'] = array_merge($necessary_settings['strings'], array('type', 'server', 'username', 'dbname'));
 
 foreach ( $necessary_settings['strings'] as $key ) {
 	
@@ -84,8 +84,12 @@ $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
 $onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_contactadmin_form', 'enable_detailed_online_list', 'enable_dnsbl_powered_banning', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'contactadmin_custom_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'antispam_question_questions');
 
-if ( !$functions->get_config('hide_db_config_acp') )
+if ( !$functions->get_config('hide_db_config_acp') ) {
+	
+	$onoff_settings[] = 'persistent';
 	$optional_strings = array_merge($optional_strings, array('passwd', 'prefix'));
+
+}
 
 //
 // First convert antispam_question_questions to an array
@@ -116,6 +120,8 @@ if ( !empty($_POST['conf-antispam_question_questions']) ) {
 	unset($tmp_questions);
 	
 }
+
+$db_servers = ( version_compare(phpversion(), '5.0.0', '<') || !extension_loaded('mysqli') ) ? array('mysql' => 'MySQL') : array('mysqli' => 'MySQL 4.1/5.x &mdash; mysqli', 'mysql' => 'MySQL 3.x/4.0 &mdash; mysql');
 
 if (
 	$filled_in && // checks necessary strings and integers
@@ -153,6 +159,8 @@ if (
 	in_array($_POST['conf-view_stafflist_min_level'], $user_levels) &&
 	in_array($_POST['conf-view_stats_min_level'], $user_levels) &&
 	in_array($_POST['conf-view_contactadmin_min_level'], $user_levels) &&
+
+	( $functions->get_config('hide_db_config_acp') || isset($db_servers[$_POST['conf-type']]) ) &&
 
 	$functions->verify_form()
 ) {
@@ -356,7 +364,7 @@ if (
 	);
 	
 	if ( !$functions->get_config('hide_db_config_acp') )
-		$sections['database'] = array('type', 'server', 'username', 'passwd', 'dbname', 'prefix');
+		$sections['database'] = array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'persistent');
 	
 	//
 	// Check missing
@@ -425,7 +433,7 @@ if (
 	//
 	foreach ( $necessary_settings['strings'] as $key ) {
 		
-		if ( in_array($key, array('type', 'server', 'username', 'dbname', 'language', 'template')) )
+		if ( in_array($key, array('type', 'language', 'template')) )
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
@@ -461,9 +469,6 @@ if (
 	// Optional string settings
 	//
 	foreach ( $optional_strings as $key ) {
-		
-		if ( in_array($key, array('passwd', 'prefix')) )
-			continue;
 
 		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>';
 		
@@ -482,17 +487,19 @@ if (
 	}
 	
 	//
-	// Database config
+	// Database type
 	//
 	if ( !$functions->get_config('hide_db_config_acp') ) {
 		
-		foreach ( $dbs as $key => $val ) {
+		$dbtype_input = '<select name="conf-type">';
+		foreach ( $db_servers as $db_server => $db_info ) {
 			
-			$_POST['conf-'.$key] = ( !empty($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : $val;
-			$required = ( in_array($key, $necessary_settings['strings']) ) ? ' <small>*</small>' : '';
-			$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].$required.'</td><td><input type="text" size="15" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" /></td></tr>';
+			$selected = ( $_POST['conf-type'] == $db_server ) ? ' selected="selected"' : '';
+			$dbtype_input .= '<option value="'.$db_server.'"'.$selected.'>'.$db_info.'</option>';
 			
 		}
+		$dbtype_input .= '</select>';
+		$input['type'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-type'].'</td><td>'.$dbtype_input.'</td></tr>';
 		
 	}
 	

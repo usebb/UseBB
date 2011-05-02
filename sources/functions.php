@@ -793,8 +793,8 @@ class functions {
 		//
 		if ( !count($this->board_config_original) ) {
 			
-			$this->board_config_original = $GLOBALS['conf'];
-			$this->board_config_defined = array_keys($GLOBALS['conf']);
+			$this->board_config_original = array_merge($GLOBALS['dbs'], $GLOBALS['conf']);
+			$this->board_config_defined = array_keys($this->board_config_original);
 			
 		}
 		
@@ -825,7 +825,6 @@ class functions {
 				case 'show_raw_entities_in_code':
 				case 'show_never_activated_members':
 				case 'disable_xhtml_header':
-				case 'hide_db_config_acp':
 				case 'cookie_httponly':
 				case 'enable_error_log':
 				case 'error_log_log_hidden':

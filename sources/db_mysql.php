@@ -68,6 +68,7 @@ class db {
 	 */
 	var $connection;
 	var $queries = array();
+	var $persistent;
 	/**#@-*/
 	
 	/**
@@ -80,10 +81,15 @@ class db {
 		if ( defined('NO_DB') )
 			return;
 		
+		$this->persistent = (bool) $config['persistent'];
+
 		//
 		// Connect to server
 		//
-		$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'], true) or trigger_error('SQL: '.mysql_error(), E_USER_ERROR);
+		if ( $this->persistent )
+			$this->connection = @mysql_pconnect($config['server'], $config['username'], $config['passwd']) or trigger_error('SQL: '.mysql_error(), E_USER_ERROR);
+		else
+			$this->connection = @mysql_connect($config['server'], $config['username'], $config['passwd'], true) or trigger_error('SQL: '.mysql_error(), E_USER_ERROR);
 		
 		//
 		// Select database
@@ -189,7 +195,8 @@ class db {
 	 */
 	function disconnect() {
 		
-		@mysql_close($this->connection);
+		if ( !$this->persistent )
+			@mysql_close($this->connection);
 		
 	}
 	

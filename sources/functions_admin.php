@@ -407,7 +407,7 @@ class admin_functions {
 		//
 		foreach ( $settings as $key => $val ) {
 			
-			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix')) ) ? 'dbs' : 'conf';
+			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'persistent')) ) ? 'dbs' : 'conf';
 			
 			if ( $variable == 'dbs' || in_array($key, $functions->board_config_defined) )
 				$config_content = preg_replace('#(\s)?\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);

@@ -95,6 +95,7 @@ $lang['ConfigBoard-username'] = 'Username';
 $lang['ConfigBoard-passwd'] = 'Password';
 $lang['ConfigBoard-dbname'] = 'Database name';
 $lang['ConfigBoard-prefix'] = 'Table prefix';
+$lang['ConfigBoard-persistent'] = 'Persistent connection';
 $lang['ConfigBoardSection-general'] = 'General board';
 $lang['ConfigBoardSection-cookies'] = 'Cookies';
 $lang['ConfigBoardSection-cookies-info'] = 'You may leave these blank for auto-detection.';

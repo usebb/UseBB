@@ -68,6 +68,7 @@ class db {
 	 */
 	var $connection;
 	var $queries = array();
+	var $persistent;
 	/**#@-*/
 	
 	/**
@@ -82,6 +83,13 @@ class db {
 		if ( defined('NO_DB') )
 			return;
 		
+		//
+		// mysqli persistent only for 5.3.0+
+		//
+		$this->persistent = ( $config['persistent'] && version_compare(PHP_VERSION, '5.3.0', '>=') );
+		if ( $this->persistent )
+			$config['server'] = 'p:'.$config['server'];
+
 		//
 		// Connect to server
 		//
@@ -197,7 +205,8 @@ class db {
 	 */
 	function disconnect() {
 		
-		@mysqli_close($this->connection);
+		if ( !$this->persistent )
+			@mysqli_close($this->connection);
 		
 	}
 	

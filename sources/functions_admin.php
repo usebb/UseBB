@@ -409,7 +409,7 @@ class admin_functions {
 			
 			$variable = ( in_array($key, array('type', 'server', 'username', 'passwd', 'dbname', 'prefix', 'persistent')) ) ? 'dbs' : 'conf';
 			
-			if ( $variable == 'dbs' || in_array($key, $functions->board_config_defined) )
+			if ( in_array($key, $functions->board_config_defined) )
 				$config_content = preg_replace('#(\s)?\$'.$variable."\['".$key."'\] = .+;#", '\\1\$'.$variable."['".$key."'] = ".$this->make_php_string($val).';', $config_content);
 			else
 				$config_content = preg_replace('#(\s*?)?\?>#', "\n\$".$variable."['".$key."'] = ".$this->make_php_string($val).";\\1?>", $config_content);

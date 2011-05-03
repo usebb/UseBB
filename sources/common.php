@@ -309,6 +309,10 @@ $db = new db;
 //
 // Connect to DB
 //
+
+if ( !isset($dbs['persistent']) )
+	$dbs['persistent'] = 0;
+
 $db->connect($dbs);
 
 //

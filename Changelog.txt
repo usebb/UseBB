@@ -5,6 +5,7 @@ UseBB 1.0.13 Changelog
 
 - Added persistent connections for mysql(i).
 - Fixed database settings screen in ACP general config.
+- Fixed invalid XHTML on member list.
 - Member pruning can now delete profile spam accounts.
 - Member pruning can now delete pruned members' posts.
 - Make mail.php accessible to guests.

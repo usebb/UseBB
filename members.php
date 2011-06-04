@@ -77,7 +77,7 @@ if ( empty($_GET['act']) ) {
 		//
 		// Construct sort form
 		//
-		$sort_by_links = '<form action="'.$functions->make_url('members.php', NULL, true, true, true).'" method="get">';
+		$sort_by_links = '<form action="'.$functions->make_url('members.php', NULL, true, true, true).'" method="get"><div>';
 			$sort_by_links .= $lang['Search'].': <input type="text" name="search" value="'.unhtml(stripslashes($_GET['search'])).'" size="10" maxlength="255" /> ';
 			$sort_by_links .= $lang['SortBy'].': <select name="sort_by">';
 			foreach ( $sort_items as $sort_item ) {
@@ -95,7 +95,7 @@ if ( empty($_GET['act']) ) {
 				
 			}
 			$sort_by_links .= '</select> ';
-		$sort_by_links .= '<input type="submit" value="'.$lang['Sort'].'" /></form>';
+		$sort_by_links .= '<input type="submit" value="'.$lang['Sort'].'" /></div></form>';
 		
 		//
 		// Sort query part

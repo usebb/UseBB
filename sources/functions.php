@@ -3405,8 +3405,8 @@ class functions {
 
 		$result = $this->read_url('http://www.stopforumspam.com/api?email='.urlencode($email));
 
-		if ( strpos($result, '<appears>no</appears>') !== false )
-			return false;
+		if ( strpos($result, '<appears>yes</appears>') === FALSE )
+			return FALSE;
 
 		$return = array();
 

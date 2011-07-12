@@ -3,6 +3,7 @@ $Id$
 UseBB 1.0.13 Changelog
 ------------------------------
 
+- Added Stop Forum Spam API usage for email addresses (unfinished).
 - Added persistent connections for mysql(i).
 - Fixed database settings screen in ACP general config.
 - Fixed invalid XHTML on member list.

@@ -3330,6 +3330,95 @@ class functions {
 		return $result;
 
 	}
+
+	/**
+	 * Read a remote URL into string
+	 *
+	 * @param string $url URL
+	 * @returns string Contents
+	 */
+	function read_url($url) {
+		
+		if ( function_exists('curl_init') && function_exists('curl_exec') ) {
+			
+			//
+			// cURL
+			//
+			$curl = curl_init($url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_HEADER, false);
+			$contents = trim(curl_exec($curl));
+			curl_close($curl);
+
+			return $contents;
+			
+		}
+
+		//
+		// URL fopen()
+		//
+		if ( !ini_get('allow_url_fopen') )
+			return false;
+		
+		$fp = fopen($url, 'r');
+
+		if ( !$fp )
+			return false;
+
+		$contents = '';
+
+		if ( function_exists('stream_get_contents') ) {
+			
+			//
+			// PHP 5 stream
+			//
+			$contents = trim(stream_get_contents($fp));
+			
+		} else {
+			
+			//
+			// fread() packet reading
+			//
+			while ( !feof($fp) )
+				$contents .= fread($fp, 8192);
+			$contents = trim($contents);
+			
+		}
+
+		fclose($fp);
+
+		return $contents;
+		
+	}
+
+	/**
+	 * Stop Forum Spam e-mail API request
+	 *
+	 * FIXME: needs further checking
+	 *
+	 * @link http://www.stopforumspam.com/usage
+	 *
+	 * @param string $email Email address
+	 * @returns mixed FALSE if nothing found, array otherwise
+	 */
+	function sfs_api_request($email) {
+
+		$result = $this->read_url('http://www.stopforumspam.com/api?email='.urlencode($email));
+
+		if ( strpos($result, '<appears>no</appears>') !== false )
+			return false;
+
+		$return = array();
+
+		if ( preg_match('#<lastseen>([0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})</lastseen>#', $result, $matches) )
+			$return['lastSeen'] = strtotime($matches[1]);
+
+		if ( preg_match('#<frequency>([0-9]+)</frequency>#', $result, $matches) )
+			$return['frequency'] = (int) $matches[1];
+
+		return $return;
+
+	}
 	
 }
 

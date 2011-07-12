@@ -173,56 +173,10 @@ class admin_functions {
 	 * @returns string Contents
 	 */
 	function read_remote_file($url) {
-		
-		if ( function_exists('curl_init') && function_exists('curl_exec') ) {
-			
-			//
-			// cURL
-			//
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			$contents = trim(curl_exec($curl));
-			curl_close($curl);
 
-			return $contents;
-			
-		}
+		global $functions;
 
-		//
-		// URL fopen()
-		//
-		if ( !ini_get('allow_url_fopen') )
-			return false;
-		
-		$fp = fopen($url, 'r');
-
-		if ( !$fp )
-			return false;
-
-		$contents = '';
-
-		if ( function_exists('stream_get_contents') ) {
-			
-			//
-			// PHP 5 stream
-			//
-			$contents = trim(stream_get_contents($fp));
-			
-		} else {
-			
-			//
-			// fread() packet reading
-			//
-			while ( !feof($fp) )
-				$contents .= fread($fp, 8192);
-			$contents = trim($contents);
-			
-		}
-
-		fclose($fp);
-
-		return $contents;
+		return $functions->read_url($url);
 		
 	}
 	

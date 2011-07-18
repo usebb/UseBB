@@ -277,6 +277,13 @@ $lang['ConfigBoard-acp_auto_logout'] = 'Auto logout from ACP after x minutes ina
 $lang['ConfigBoard-acp_auto_logout-info'] = 'This is disabled for pages with large forms, such as General Configuration.';
 $lang['ConfigBoard-enable_dnsbl_powered_banning'] = 'Enable DNSBL powered banning';
 $lang['ConfigBoard-enable_dnsbl_powered_banning-info'] = 'Requires IP address banning to be enabled.';
+$lang['ConfigBoard-sfs_email_check'] = 'Check email addresses with Stop Forum Spam';
+$lang['ConfigBoard-sfs_email_check-info'] = 'Limited to 20,000 checks per day. See stopforumspam.com for more info.';
+$lang['ConfigBoard-sfs_max_lastseen'] = 'Do not block if last seen more than x days ago (0 to ignore)';
+$lang['ConfigBoard-sfs_min_frequency'] = 'Do not block if spam frequency is lower than x (0 to ignore)';
+$lang['ConfigBoard-sfs_save_bans'] = 'Save blocked email addresses in the forum\'s ban table';
+$lang['ConfigBoard-sfs_api_key'] = 'Stop Forum Spam API key';
+$lang['ConfigBoard-sfs_api_key-info'] = 'For submissions only. See stopforumspam.com for requesting keys.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';
@@ -400,8 +407,10 @@ $lang['DeleteMembersSearchMemberList'] = 'The following members were found';
 $lang['DeleteMembersConfirmMemberDelete'] = 'Confirm member deletion';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Are you sure you want to delete the member %s? This is irreversible!';
 $lang['DeleteMembersComplete'] = 'Deletion of member %s complete.';
-$lang['DeleteMembersDeletePosts'] = 'Also permanently delete the user\'s posts (useful for spam).';
+$lang['DeleteMembersDeletePosts'] = 'Permanently delete the user\'s posts.';
 $lang['DeleteMembersBanEmail'] = 'Ban email address';
+$lang['DeleteMembersBanIPAddress'] = 'Ban last used IP address';
+$lang['DeleteMembersSFSSubmit'] = 'Submit &quot;%s; %s; %s&quot; to Stop Forum Spam.';
 
 $lang['RegisterMembersExplain'] = 'Here you can preregister member accounts. Just fill in the following information to create an account.';
 $lang['RegisterMembersComplete'] = 'Registration of user %s is complete. The user can log in right away.';

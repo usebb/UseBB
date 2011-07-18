@@ -114,6 +114,7 @@ class session {
 		$_SESSION['antispam_question_posed'] = ( isset($_SESSION['antispam_question_posed']) && $_SESSION['antispam_question_posed'] );
 		$_SESSION['tokens'] = ( isset($_SESSION['tokens']) && is_array($_SESSION['tokens']) ) ? $_SESSION['tokens'] : array();
 		$_SESSION['oldest_token'] = ( !empty($_SESSION['oldest_token']) ) ? (float) $_SESSION['oldest_token'] : 0.0;
+		$_SESSION['sfs_ban_cache'] = ( isset($_SESSION['sfs_ban_cache']) && is_array($_SESSION['sfs_ban_cache']) ) ? $_SESSION['sfs_ban_cache'] : array();
 		
 	}
 	

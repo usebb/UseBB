@@ -159,7 +159,7 @@ function insert_table(name) {
 //
 function acp_config_toggle(panel) {
 	
-	if ( !document.getElementsByTagName )
+	if ( !document.getElementsByTagName || !panel )
 		return;
 	
 	var panels = document.getElementsByTagName('div');
@@ -171,9 +171,23 @@ function acp_config_toggle(panel) {
 		
 	}
 	
-	if ( panel != null )
-		document.getElementById(panel).style.display = 'block';
+	var selected = document.getElementById(panel);
+
+	if ( selected != null )
+		selected.style.display = 'block';
 	
+}
+
+function acp_config_onload() {
+
+	var hash = self.document.location.hash.substring(1);
+
+	if ( hash )
+		acp_config_toggle(hash);
+	else
+		acp_config_toggle('general');
+
+
 }
 
 //

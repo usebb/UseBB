@@ -3347,7 +3347,13 @@ class functions {
 			$curl = curl_init($url);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_HEADER, false);
-			$contents = trim(curl_exec($curl));
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+			$result = curl_exec($curl);
+
+			if ( $result === FALSE )
+				return FALSE;
+
+			$contents = trim($result);
 			curl_close($curl);
 
 			return $contents;
@@ -3372,15 +3378,29 @@ class functions {
 			//
 			// PHP 5 stream
 			//
-			$contents = trim(stream_get_contents($fp));
+			$result = stream_get_contents($fp);
+
+			if ( $result === FALSE )
+				return FALSE;
+
+			$contents = trim($result);
 			
 		} else {
 			
 			//
 			// fread() packet reading
 			//
-			while ( !feof($fp) )
-				$contents .= fread($fp, 8192);
+			while ( !feof($fp) ) {
+
+				$result = fread($fp, 8192);
+
+				if ( $result === FALSE )
+					return FALSE;
+
+				$contents .= $result;
+
+			}
+
 			$contents = trim($contents);
 			
 		}
@@ -3392,9 +3412,7 @@ class functions {
 	}
 
 	/**
-	 * Stop Forum Spam e-mail API request
-	 *
-	 * FIXME: needs further checking
+	 * Stop Forum Spam API request
 	 *
 	 * @link http://www.stopforumspam.com/usage
 	 *
@@ -3403,20 +3421,104 @@ class functions {
 	 */
 	function sfs_api_request($email) {
 
+		//
+		// Not really clean XML parsing code. Will improve for UseBB 2.
+		//
+		
+		//
+		// Session cache
+		//
+		if ( isset($_SESSION['sfs_ban_cache'][$email]) )
+			return $_SESSION['sfs_ban_cache'][$email];
+		
 		$result = $this->read_url('http://www.stopforumspam.com/api?email='.urlencode($email));
 
-		if ( strpos($result, '<appears>yes</appears>') === FALSE )
+		//
+		// Failed request
+		//
+		if ( $result === FALSE || !preg_match('#<response[^>]+success="true"[^>]*>#', $result) )
+			return FALSE;
+		
+		//
+		// Not in database
+		//
+		if ( strpos($result, '<appears>yes</appears>') === FALSE ) {
+
+			$_SESSION['sfs_ban_cache'][$email] = FALSE;
+			
 			return FALSE;
 
+		}
+		
 		$return = array();
 
-		if ( preg_match('#<lastseen>([0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})</lastseen>#', $result, $matches) )
-			$return['lastSeen'] = strtotime($matches[1]);
+		if ( preg_match('#<lastseen>([0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})</lastseen>#i', $result, $matches) )
+			$return['lastseen'] = strtotime($matches[1]);
 
-		if ( preg_match('#<frequency>([0-9]+)</frequency>#', $result, $matches) )
+		if ( preg_match('#<frequency>([0-9]+)</frequency>#i', $result, $matches) )
 			$return['frequency'] = (int) $matches[1];
 
+		$_SESSION['sfs_ban_cache'][$email] = $return;
+
 		return $return;
+
+	}
+
+	/**
+	 * Stop Forum Spam email check
+	 *
+	 * Check Stop Forum Spam for a banned email address.
+	 *
+	 * @param string $email Email address
+	 * @returns bool Banned
+	 */
+	function sfs_email_banned($email) {
+
+		global $db;
+		
+		if ( !$this->get_config('sfs_email_check') )
+			return FALSE;
+
+		$info = $this->sfs_api_request($email);
+
+		//
+		// Not banned
+		//
+		if ( $info === FALSE )
+			return FALSE;
+
+		$min_frequency = $this->get_config('sfs_min_frequency');
+		$max_lastseen = $this->get_config('sfs_max_lastseen');
+
+		//
+		// Does not meet requirements
+		//
+		if ( ( $min_frequency > 0 && ( !isset($info['frequency']) || $info['frequency'] < $min_frequency ) )
+			|| ( $max_lastseen > 0 && ( !isset($info['lastseen']) || $info['lastseen'] < time() - $max_lastseen * 86400 ) ) )
+			return FALSE;
+
+		if ( $this->get_config('sfs_save_bans') )
+			$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '".$email."', '')");
+		
+		return TRUE;
+
+	}
+
+	function sfs_api_submit($data) {
+
+		$key = $this->get_config('sfs_api_key');
+
+		if ( empty($data['username']) || empty($data['email']) || empty($data['ip_addr']) || empty($key) )
+			return FALSE;
+		
+		$url = 'http://www.stopforumspam.com/add.php'
+			.'?username='.urlencode($data['username'])
+			.'&ip_addr='.urlencode($data['ip_addr'])
+			.'&email='.urlencode($data['email'])
+			.'&api_key='.urlencode($key);
+		$result = $this->read_url($url);
+		
+		return ( $result !== FALSE );
 
 	}
 	

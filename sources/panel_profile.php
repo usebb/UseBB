@@ -112,6 +112,11 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && $functions
 				$email_banned = true;
 			
 		}
+
+		//
+		// Check Stop Forum Spam API for e-mail address
+		//
+		$email_banned = ( $email_banned || $functions->sfs_email_banned($_POST['email']) );
 		
 	}
 	

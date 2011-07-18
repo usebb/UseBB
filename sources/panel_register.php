@@ -130,20 +130,12 @@ if ( $functions->get_config('disable_registrations') ) {
 					$email_banned = true;
 				
 			}
+
+			//
+			// Check Stop Forum Spam API for e-mail address
+			//
+			$email_banned = ( $email_banned || $functions->sfs_email_banned($_POST['email']) );
 			
-		}
-
-		//
-		// Check Stop Forum Spam API for e-mail address
-		//
-		// FIXME: rough code, needs better checking and integration into config
-		//
-		$spammer = $functions->sfs_api_request($_POST['email']);
-		if ( $spammer !== FALSE ) {
-
-			$db->query("INSERT INTO ".TABLE_PREFIX."bans VALUES(NULL, '', '".$_POST['email']."', '')");
-			$email_banned = TRUE;
-
 		}
 		
 	}

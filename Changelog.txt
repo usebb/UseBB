@@ -3,18 +3,23 @@ $Id$
 UseBB 1.0.13 Changelog
 ------------------------------
 
-- Added Stop Forum Spam API usage for email addresses (unfinished).
+- Added Stop Forum Spam API usage for email addresses.
+- Added possibility to submit user info to Stop Forum Spam on deletion.
+- Added possibility to ban last used IP address on user deletion.
 - Added persistent connections for mysql(i).
-- Fixed database settings screen in ACP general config.
-- Fixed invalid XHTML on member list.
+- Added anti-spam information document.
 - Member pruning can now delete profile spam accounts.
 - Member pruning can now delete pruned members' posts.
+- Fixed database settings screen in ACP general config.
+- Fixed invalid XHTML on member list.
 - Make mail.php accessible to guests.
 - Able "contact admin" feature to use the mail.php form, or a custom URL.
 - Also perform DNSBL check for "edit profile" and "send email".
 - Show locked button when topic locked and cannot reply.
 - Show RSS feed locations in online list.
 - Activation keys are no longer in the password format, but a longer random string.
+- Reading remote URLs has a timeout of three seconds and recognizes failures better.
+- ACP General Configuration panes can be reloaded thanks to URL hash usage.
 - Added usebb_debug_output function for clean debug output.
 
 UseBB 1.0.12 Changelog

@@ -284,6 +284,10 @@ $lang['ConfigBoard-sfs_min_frequency'] = 'Do not block if spam frequency is lowe
 $lang['ConfigBoard-sfs_save_bans'] = 'Save blocked email addresses in the forum\'s ban table';
 $lang['ConfigBoard-sfs_api_key'] = 'Stop Forum Spam API key';
 $lang['ConfigBoard-sfs_api_key-info'] = 'For submissions only. See stopforumspam.com for requesting keys.';
+$lang['ConfigBoard-Passwd-NotSet'] = 'Not set';
+$lang['ConfigBoard-Passwd-KeepCurrent'] = 'Keep current';
+$lang['ConfigBoard-Passwd-Set'] = 'Set';
+$lang['ConfigBoard-Passwd-Clear'] = 'Clear';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

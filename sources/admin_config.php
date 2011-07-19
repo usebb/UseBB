@@ -87,7 +87,7 @@ $optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 
 if ( !$functions->get_config('hide_db_config_acp') ) {
 	
 	$onoff_settings[] = 'persistent';
-	$optional_strings = array_merge($optional_strings, array('passwd', 'prefix'));
+	$optional_strings = array_merge($optional_strings, array('prefix'));
 
 }
 
@@ -218,6 +218,31 @@ if (
 		
 		$new_settings['avatars_force_width'] = $new_settings['avatars_force_height'] = 0;
 		
+	}
+
+	//
+	// Database password
+	//
+	if ( !$functions->get_config('hide_db_config_acp') ) {
+
+		$_POST['passwd-act'] = ( !empty($_POST['passwd-act']) ) ? $_POST['passwd-act'] : 'keep';
+		switch ( $_POST['passwd-act'] ) {
+
+			case 'keep':
+				// Do nothing
+				break;
+			case 'set':
+				if ( !empty($_POST['passwd']) )
+					$new_settings['passwd'] = stripslashes($_POST['passwd']);
+				break;
+			case 'clear':
+				$new_settings['passwd'] = '';
+				break;
+			default:
+				// Cannot happen
+
+		}
+
 	}
 	
 	//
@@ -475,6 +500,9 @@ if (
 	//
 	foreach ( $optional_strings as $key ) {
 
+		if ( $key == 'passwd' )
+			continue;
+		
 		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td>';
 		
 		if ( !empty($lang['ConfigBoard-'.$key.'-info']) )
@@ -491,11 +519,11 @@ if (
 		
 	}
 	
-	//
-	// Database type
-	//
 	if ( !$functions->get_config('hide_db_config_acp') ) {
 		
+		//
+		// Database type
+		//
 		$dbtype_input = '<select name="conf-type">';
 		foreach ( $db_servers as $db_server => $db_info ) {
 			
@@ -505,9 +533,16 @@ if (
 		}
 		$dbtype_input .= '</select>';
 		$input['type'] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-type'].'</td><td>'.$dbtype_input.'</td></tr>';
+
+		//
+		// Database password
+		//
+		$input['passwd'] = '<tr><td class="fieldtitle" rowspan="3">'.$lang['ConfigBoard-passwd'].'</td>'
+			    .'<td><label><input type="radio" name="passwd-act" value="keep" checked="checked" /> '.( $functions->get_config('passwd', TRUE) ? $lang['ConfigBoard-Passwd-KeepCurrent'] : $lang['ConfigBoard-Passwd-NotSet'] ).'</label></td></tr>'
+			.'<tr><td><label><input type="radio" name="passwd-act" value="set" /> '.$lang['ConfigBoard-Passwd-Set'].':</label> <input type="password" name="passwd" size="20" /></td></tr>'
+			.'<tr><td><label><input type="radio" name="passwd-act" value="clear" /> '.$lang['ConfigBoard-Passwd-Clear'].'</label></td></tr>';
 		
-	}
-	
+	}	
 	//
 	// Exclude from active topics
 	//

@@ -37,7 +37,7 @@
 			<li><a href="#spam-email">Known spammers' email addresses</a></li>
 			<li><a href="#random-questions">Custom anti-spam questions</a></li>
 			<li><a href="#remove-account">Removing spam accounts and posts</a></li>
-			<li><a href="#avoid-profile-spam">Avoiding profile spam</a></li>
+			<li><a href="#hinder-spam">Hindering (profile) spam</a></li>
 			<li><a href="#hide-profile-spam">Hiding profile spam</a></li>
 			<li><a href="#clean-profile-spam">Mass cleaning up profile spam accounts</a></li>
 			<li><a href="#recommendations"><strong>Recommended settings</strong></a></li>
@@ -66,10 +66,10 @@
 		<p>Email addresses from the Stop Forum Spam database can be used as well, but this can not be done using DNSBL bans. Instead, since UseBB 1.0.13 it is possible to use Stop Forum Spam's API to check the email address upon registration or profile changes.</p>
 
 		<ul>
-			<li>In the ACP, enter General Configuration and click Security.</li>
-			<li>Tick "Check email addresses with Stop Forum Spam".</li>
-			<li>Eventually, change the "minimal frequency" and "last seen" settings.</li>
-			<li>Tick "Save blocked email addresses in the forum's ban table" to save the blocked addresses in the forum's bans.</li>
+			<li>In the ACP, enter General Configuration and click Anti-spam.</li>
+			<li>Tick "Stop Forum Spam: check email addresses".</li>
+			<li>Eventually, change the "minimum frequency" and "maximum last seen" settings.</li>
+			<li>Tick "Stop Forum Spam: save blocks in forum's ban table" to save the blocked addresses in the forum's bans.</li>
 			<li>Save the form.</li>
 		</ul>
 
@@ -78,7 +78,7 @@
 		<p>Custom anti-spam questions can be used to somewhat block automatic bots from the forum, given that the answers to the questions can not be easily calculated or derived, and the questions are changed regularly.</p>
 
 		<ul>
-			<li>In the ACP, enter General Configuration and click Security.</li>
+			<li>In the ACP, enter General Configuration and click Anti-spam.</li>
 			<li>Change the setting "Anti-spam question mode" to "Randomly chosen custom question".</li>
 			<li>Enter questions in the form of <code>question|answer</code> in the field "Custom anti-spam questions".</li>
 			<li>Save the form.</li>
@@ -98,11 +98,20 @@
 			<li>Click Delete.</li>
 		</ul>
 
-		<p>* To set an API key, register and request one at <a href="http://www.stopforumspam.com/">stopforumspam.com</a>, enter the ACP at "General Configuration" -&gt; "Security" and enter the key in the field "Stop Forum Spam API key".</p>
+		<p>* To set an API key, register and request one at <a href="http://www.stopforumspam.com/">stopforumspam.com</a>, enter the ACP at General Configuration &raquo; Anti-spam and enter the key in the field "Stop Forum Spam: API key".</p>
 
-		<h2 id="avoid-profile-spam">Avoiding profile spam</h2>
+		<h2 id="hinder-spam">Hindering (profile) spam</h2>
 
-		<p>TODO</p>
+		<p>You can hinder spam by using the "potential spammer" status and avoiding the forum to render URLs in the spammer's profile and/or signature. Spamming will be useless.</p>
+
+		<ul>
+			<li>In the ACP, enter General Configuration and click Anti-spam.</li>
+			<li>Tick "Potential spammer: disable profile links" and/or "Potential spammer: disable post links".</li>
+			<li>Set a number of posts in the field "Potential spammer: maximum post count". You can leave this at 0 to only manually approve accounts.</li>
+			<li>Save the form.</li>
+		</ul>
+
+		<p>When a user registers or activates, the account will have the status of a potential spammer. The restrictions enabled above will be in effect until the special status is lost, either when the post count is exceeded or when the account was edited manually by the administrator.</p>
 
 		<h2 id="hide-profile-spam">Hiding profile spam</h2>
 
@@ -120,16 +129,18 @@
 
 		<ul>
 			<li>In the ACP, enter Prune Members.</li>
-			<li>Select "Profile spam accounts" and enter any number of days in the field below.</li>
+			<li>Select "Profile spam accounts" and enter a number of days in the field below.</li>
 			<li>You can see a preview using the "Preview Members" button.</li>
 			<li>Tick "I understand this action is irreversible" and click "Start Pruning".</li>
 		</ul>
+
+		<p>Selected accounts are those with URLs added to the signature but with a post count of zero. Please be advised to choose a number of days big enough to avoid deleting accounts registered very recently.</p>
 
 		<h2 id="recommendations">Recommended settings</h2>
 
 		<p>Forums that are not publicly accessible, or can not be posted in by guests and have disabled public registrations, do not require any spam protection.</p>
 
-		<p>For other forums it would be advised to <a href="#spam-ip">enable DNSBL bans</a> in order to check IP addresses, <a href="#spam-email">enable Stop Forum Spam</a> email address checking and <!-- TODO --> <a href="#avoid-profile-spam">disable setting website and signature fields</a> for new members.</p>
+		<p>For other forums it would be advised to <a href="#spam-ip">enable DNSBL bans</a> in order to check IP addresses, <a href="#spam-email">enable Stop Forum Spam</a> email address checking and <a href="#hinder-spam">disable displaying URLs in profiles</a> of new members.</p>
 
 		<p>It is also encouraged to <a href="#remove-account">obtain a Stop Forum Spam API key</a> so that eventual spam accounts can be reported upon deletion.</p>
 

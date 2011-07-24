@@ -107,6 +107,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$birthday = 0;
 			
 			$_POST['level'] = ( !empty($_POST['level']) && in_array($_POST['level'], array(LEVEL_ADMIN, LEVEL_MOD, LEVEL_MEMBER)) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['level'] : $memberdata['level'];
+			$_POST['active'] = ( isset($_POST['active']) && in_array($_POST['active'], array(USER_INACTIVE, USER_ACTIVE, USER_POTENTIAL_SPAMMER)) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['active'] : $memberdata['active'];
 			$_POST['banned'] = ( !empty($_POST['banned']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? 1 : 0;
 			$_POST['banned_reason'] = ( !empty($_POST['banned_reason']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['banned_reason'] : '';
 			
@@ -140,6 +141,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				interests = '".$_POST['interests']."',
 				signature = '".$_POST['signature']."',
 				level = ".$_POST['level'].",
+				active = ".$_POST['active'].",
 				rank = '".$_POST['rank']."',
 				banned = ".$_POST['banned'].",
 				banned_reason = '".$_POST['banned_reason']."',
@@ -225,6 +227,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			if ( $memberdata['id'] == $session->sess_info['user_id'] ) {
 				
 				$level_input = $lang['Administrator'].' &ndash; '.$lang['MembersEditingMemberCantChangeOwnLevel'];
+
+				$activation_input = $lang['MembersEditingMemberCantChangeOwnActivation'];
 				
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td rowspan="2">'.$lang['MembersEditingMemberCantBanSelf'].'</td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td></tr>';
 
@@ -239,6 +243,16 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$level_input .= '<option value="1"'.$selected.'>'.$lang['Member'].' / '.$lang['Moderator'].'</option>';
 				$level_input .= '</select>';
 				$level_input .= '<div class="moreinfo">'.$lang['MembersEditingLevelModInfo'].'</div>';
+
+				$activation_input = '<select name="active">';
+				$selected = ( $_POST['active'] == USER_INACTIVE ) ? ' selected="selected"' : '';
+				$activation_input .= '<option value="'.USER_INACTIVE.'"'.$selected.'>'.$lang['MembersEditingActivationInactive'].'</option>';
+				$selected = ( $_POST['active'] == USER_POTENTIAL_SPAMMER ) ? ' selected="selected"' : '';
+				$activation_input .= '<option value="'.USER_POTENTIAL_SPAMMER.'"'.$selected.'>'.$lang['MembersEditingActivationPotentialSpammer'].'</option>';
+				$selected = ( $_POST['active'] == USER_ACTIVE ) ? ' selected="selected"' : '';
+				$activation_input .= '<option value="'.USER_ACTIVE.'"'.$selected.'>'.$lang['MembersEditingActivationActive'].'</option>';
+				$activation_input .= '</select>';
+				$activation_input .= '<div class="moreinfo">'.$lang['MembersEditingActivationInfo'].'</div>';
 				
 				$banned_checked = ( $_POST['banned'] ) ? ' checked="checked"' : '';
 				$banned_input = '<tr><td class="fieldtitle">'.$lang['MembersEditingMemberBanned'].'</td><td><label><input type="checkbox" name="banned" value="1"'.$banned_checked.' /> '.$lang['Yes'].'</label></td></tr><tr><td class="fieldtitle">'.$lang['MembersEditingMemberBannedReason'].'</td><td><textarea rows="5" cols="30" name="banned_reason">'.unhtml(stripslashes($_POST['banned_reason'])).'</textarea><div class="moreinfo">'.$lang['HTMLEnabledField'].'</div></td></tr>';
@@ -308,6 +322,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$content .= '<tr><td class="fieldtitle">'.$lang['Signature'].'</td><td><textarea rows="5" cols="30" name="signature">'.unhtml(stripslashes($_POST['signature'])).'</textarea></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Level'].'</td><td>'.$level_input.'</td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Rank'].'</td><td><input type="text" size="30" name="rank" maxlength="255" value="'.unhtml(stripslashes($_POST['rank'])).'" /></td></tr>';
+				$content .= '<tr><td class="fieldtitle">'.$lang['MembersEditingActivation'].'</td><td>'.$activation_input.'</td></tr>';
 				$content .= $banned_input;
 				$content .= '<tr><td class="fieldtitle">'.$lang['Posts'].' <small>*</small></td><td><input type="text" size="11" name="posts" maxlength="11" value="'.unhtml(stripslashes($_POST['posts'])).'" /></td></tr>';
 				$content .= '<tr><td class="fieldtitle">'.$lang['Delete'].'</td><td>'.$delete_link.'</td></tr>';

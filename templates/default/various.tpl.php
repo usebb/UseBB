@@ -166,6 +166,7 @@ $templates['post_form'] = '
 				<ul id="bbcode-controls"><li>{bbcode_controls}</li></ul>
 				{content_input}
 				<ul id="smiley-controls"><li>{smiley_controls}</li></ul>
+				{potential_spammer_notice}
 			</td>
 		</tr>
 		<tr>

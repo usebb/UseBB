@@ -190,7 +190,7 @@ if ( $functions->get_config('disable_registrations') ) {
 			//
 			// The first user does not need activation
 			//
-			$active = 1;
+			$active = USER_ACTIVE;
 			$active_key_md5 = '';
 			$msgbox_content = sprintf($lang['RegisteredActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
 			
@@ -200,14 +200,14 @@ if ( $functions->get_config('disable_registrations') ) {
 				
 				// No activation
 				case 0:
-					$active = 1;
+					$active = $functions->user_active_value();
 					$active_key_md5 = '';
 					$msgbox_content = sprintf($lang['RegisteredActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
 					break;
 				
 				// E-mail activation
 				case 1:
-					$active = 0;
+					$active = USER_INACTIVE;
 					$active_key = $functions->random_key(); # used in the email url
 					$active_key_md5 = md5($active_key);
 					$msgbox_content = sprintf($lang['RegisteredNotActivated'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
@@ -215,7 +215,7 @@ if ( $functions->get_config('disable_registrations') ) {
 				
 				// Admin activation
 				case 2:
-					$active = 0;
+					$active = USER_INACTIVE;
 					$active_key_md5 = '';
 					$msgbox_content = sprintf($lang['RegisteredNotActivatedByAdmin'], '<em>'.unhtml(stripslashes($_POST['user'])).'</em>', $_POST['email']);
 				

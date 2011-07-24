@@ -119,6 +119,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			$username = unhtml(stripslashes($profiledata['displayed_name']));
 			if ( $functions->get_user_level() == LEVEL_ADMIN || $own_profile )
 				$username .= ' (<em>'.unhtml(stripslashes($profiledata['name'])).'</em>)';
+			if ( !$own_profile && $functions->antispam_is_potential_spammer($profiledata) )
+				$username .= $template->get_config('item_delimiter').'<strong>'.$lang['PotentialSpammer'].'</strong>';
 			if ( $functions->get_user_level() == LEVEL_ADMIN && !$own_profile ) {
 
 				$username .= $template->get_config('item_delimiter').'<a href="'.$functions->make_url('admin.php', array('act' => 'members', 'id' => $_GET['id'])).'">'.$lang['EditThisMember'].'</a>';
@@ -193,6 +195,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				$skype_v = ( !empty($profiledata['skype']) ) ? '<a href="callto://'.urlencode(stripslashes($profiledata['skype'])).'">'.unhtml(stripslashes($profiledata['skype'])).'</a>' : '';
 				
 			}
+
+			$can_add_profile_links = $functions->antispam_can_add_profile_links($profiledata);
 			
 			$template->parse('profile', 'various', array(
 				'title'         => sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))),
@@ -212,7 +216,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				'website_v'     => ( !empty($profiledata['website']) ) ? '<a href="'.unhtml(stripslashes($profiledata['website'])).'"'.$target_blank.'>'.unhtml(stripslashes($profiledata['website'])).'</a>' : '',
 				'occupation_v'  => unhtml(stripslashes($profiledata['occupation'])),
 				'interests_v'   => unhtml(stripslashes($profiledata['interests'])),
-				'signature_v'   => $functions->markup($functions->replace_badwords(stripslashes($profiledata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies')),
+				'signature_v'   => $functions->markup($functions->replace_badwords(stripslashes($profiledata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'), NULL, NULL, $can_add_profile_links),
 				'email_v'       => $email_v,
 				'msnm_v'        => $msnm_v,
 				'yahoom_v'      => $yahoom_v,

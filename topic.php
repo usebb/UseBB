@@ -261,7 +261,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
 			
-			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank, u.active".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page'));
 			$new_post_anchor_set = false;
@@ -429,6 +429,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					$post_editinfo = '';
 					
 				}
+
+				$can_add_profile_links = $functions->antispam_can_add_profile_links($postsdata);
+				$can_post_links = $functions->antispam_can_post_links($postsdata);
 				
 				//
 				// Output the post
@@ -444,8 +447,8 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 					'post_anchor' => '<a href="'.$functions->make_url('topic.php', array('post' => $postsdata['id'])).'#post'.$postsdata['id'].'" name="post'.$postsdata['id'].'" rel="nofollow">#'.$i.'</a>'.$new_post_anchor,
 					'post_date' => $functions->make_date($postsdata['post_time']),
 					'post_links' => $post_links,
-					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
-					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup($functions->replace_badwords(stripslashes($postsdata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'))) : '',
+					'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html'], NULL, $can_post_links),
+					'poster_sig' => ( !$functions->get_config('hide_signatures') && !empty($postsdata['signature']) && $postsdata['enable_sig'] ) ? sprintf($template->get_config('sig_format'), $functions->markup($functions->replace_badwords(stripslashes($postsdata['signature'])), $functions->get_config('sig_allow_bbcode'), $functions->get_config('sig_allow_smilies'), NULL, NULL, $can_add_profile_links)) : '',
 					'post_editinfo' => $post_editinfo,
 					'poster_ip_addr' => ( !empty($postsdata['poster_ip_addr']) && $functions->get_user_level() == LEVEL_ADMIN ) ? sprintf($template->get_config('poster_ip_addr_format'), sprintf($lang['ViewingIP'], '<a href="'.$functions->make_url('admin.php', array('act' => 'iplookup', 'ip' => $postsdata['poster_ip_addr'])).'">'.$postsdata['poster_ip_addr'].'</a>')) : '',
 					'colornum' => $colornum

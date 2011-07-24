@@ -100,6 +100,8 @@ if ( !isset($_GET['act']) ) {
 				
 			} else {
 				
+				$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info']);
+				
 				$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($postdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post'].'">'.unhtml($functions->replace_badwords(stripslashes($postdata['topic_title']))).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['EditPost']);
 				
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
@@ -130,7 +132,7 @@ if ( !isset($_GET['act']) ) {
 					} elseif ( !empty($_POST['preview']) ) {
 						
 						$template->parse('preview', 'various', array(
-							'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+							'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked, NULL, $can_post_links)
 						));
 						
 					}
@@ -169,7 +171,8 @@ if ( !isset($_GET['act']) ) {
 					'username_input' => ( $postdata['poster_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $postdata['poster_id'])).'">'.unhtml(stripslashes($postdata['poster_name'])).'</a>' : '<input type="text" size="25" maxlength="255" name="poster_guest" id="poster_guest" value="'.unhtml(stripslashes($poster_guest)).'" tabindex="1" />',
 					'subject_input' => ( $postdata['first_post_id'] != $_GET['post'] ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $postdata['topic_id'])).'">'.unhtml(stripslashes($postdata['topic_title'])).'</a>' : '<input type="text" name="topic_title" id="topic_title" size="50" value="'.$topic_title.'" tabindex="2" />',
 					'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="3">'.$content.'</textarea>',
-					'bbcode_controls' => $functions->get_bbcode_controls(),
+					'potential_spammer_notice' => $can_post_links ? '' : '<div class="potential-spammer-notice">'.$lang['PotentialSpammerNoPostLinks'].'</div>',
+					'bbcode_controls' => $functions->get_bbcode_controls($can_post_links),
 					'smiley_controls' => $functions->get_smiley_controls(),
 					'options_input' => $options_input,
 					'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="5" accesskey="s" />',

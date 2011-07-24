@@ -43,6 +43,8 @@
 if ( !defined('INCLUDED') )
 	exit();
 
+$can_add_profile_links = $functions->antispam_can_add_profile_links($session->sess_info['user_info']);
+
 if ( !empty($_POST['displayed_name']) )
 	$_POST['displayed_name'] = preg_replace('#\s+#', ' ', $_POST['displayed_name']);
 
@@ -122,7 +124,17 @@ if ( !empty($_POST['displayed_name']) || ( !empty($_POST['email']) && $functions
 	
 }
 
-if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar_remote']) || preg_match(IMG_PREG, $_POST['avatar_remote']) ) && ( empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) && $functions->verify_form() ) {
+if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name']) >= $functions->get_config('username_min_length') && entities_strlen($_POST['displayed_name']) <= $functions->get_config('username_max_length') && !$displayed_name_taken && !$displayed_name_banned && !empty($_POST['email']) && !$email_taken && !$email_banned && entities_strlen($_POST['signature']) <= $functions->get_config('sig_max_length') && ( ( empty($_POST['birthday_month']) && empty($_POST['birthday_day']) && empty($_POST['birthday_year']) ) || ( valid_int($_POST['birthday_month']) && valid_int($_POST['birthday_day']) && valid_int($_POST['birthday_year']) && checkdate($_POST['birthday_month'], $_POST['birthday_day'], $_POST['birthday_year']) ) ) && !empty($_POST['email']) && $functions->validate_email($_POST['email']) && ( empty($_POST['avatar_remote']) || preg_match(IMG_PREG, $_POST['avatar_remote']) ) && ( !$can_add_profile_links || empty($_POST['website']) || preg_match(WEB_PREG, $_POST['website']) ) && $functions->verify_form() ) {
+	
+	//
+	// Set some fields empty if not submitted
+	//
+	foreach ( $session->sess_info['user_info'] as $key => $val ) {
+
+		if ( !isset($_POST[$key]) )
+			$_POST[$key] = '';
+
+	}
 	
 	if ( !empty($_POST['avatar_remote']) ) {
 			
@@ -146,13 +158,13 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		switch ( intval($functions->get_config('activation_mode')) ) {
 			
 			case 1:
-				$active = 0;
+				$active = USER_INACTIVE;
 				$active_key = $functions->random_key(); # used in the email url
 				$active_key_md5 = md5($active_key);
 				$msgbox_content = sprintf($lang['NewEmailNotActivated'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email']);
 				break;
 			case 2:
-				$active = 0;
+				$active = USER_INACTIVE;
 				$active_key_md5 = '';
 				$msgbox_content = sprintf($lang['NewEmailNotActivatedByAdmin'], '<em>'.$session->sess_info['user_info']['name'].'</em>', $_POST['email']);
 			
@@ -160,7 +172,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		
 	} else {
 		
-		$active = 1;
+		$active = $functions->user_active_value($session->sess_info['user_info']);
 		$active_key_md5 = '';
 		$msgbox_content = $lang['ProfileEdited'];
 		
@@ -183,7 +195,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		displayed_name = '".$_POST['displayed_name']."',
 		real_name     = '".$_POST['real_name']."',
 		location      = '".$_POST['location']."',
-		website       = '".$_POST['website']."',
+		website       = '".( $can_add_profile_links ? $_POST['website'] : $session->sess_info['user_info']['website'] )."',
 		occupation    = '".$_POST['occupation']."',
 		interests     = '".$_POST['interests']."',
 		signature     = '".$_POST['signature']."',
@@ -268,7 +280,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 			$errors[] = $lang['Email'];
 		if ( !empty($_POST['avatar_remote']) && !preg_match(IMG_PREG, $_POST['avatar_remote']) )
 			$errors[] = $lang['AvatarURL'];
-		if ( !empty($_POST['website']) && !preg_match(WEB_PREG, $_POST['website']) )
+		if ( $can_add_profile_links && !empty($_POST['website']) && !preg_match(WEB_PREG, $_POST['website']) )
 			$errors[] = $lang['Website'];
 		
 		if ( count($errors) ) {
@@ -320,6 +332,15 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 	
 	$textarea_rows = max(floor($template->get_config('textarea_rows') / 3), 3);
 
+	if ( !$can_add_profile_links ) {
+
+		$template->parse('msgbox', 'global', array(
+			'box_title' => $lang['Note'],
+			'content' => $lang['PotentialSpammerNoProfileLinks']
+		));
+
+	}
+	
 	$template->parse('edit_profile', 'panel', array(
 		'form_begin'       => '<form action="'.$functions->make_url('panel.php', array('act' => 'editprofile')).'" method="post">',
 		'username'         => $user_info['name'],
@@ -331,11 +352,11 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		'birthday_year_input' => $birthday_year_input,
 		'birthday_month_input' => $birthday_month_input,
 		'birthday_day_input' => $birthday_day_input,
-		'website_input'    => '<input type="text" size="50" maxlength="255" name="website" value="'.unhtml(stripslashes($user_info['website'])).'" />',
+		'website_input'    => $can_add_profile_links ? '<input type="text" size="50" maxlength="255" name="website" value="'.unhtml(stripslashes($user_info['website'])).'" />' : '<input type="text" size="50" value="- '.$lang['Disabled'].' -" disabled="disabled" />',
 		'occupation_input' => '<input type="text" size="50" maxlength="255" name="occupation" value="'.unhtml(stripslashes($user_info['occupation'])).'" />',
 		'interests_input'  => '<input type="text" size="50" maxlength="255" name="interests" value="'.unhtml(stripslashes($user_info['interests'])).'" />',
 		'signature_input'  => '<textarea rows="'.$textarea_rows.'" cols="'.$template->get_config('textarea_cols').'" name="signature" id="tags-txtarea">'.unhtml(stripslashes($user_info['signature'])).'</textarea>',
-		'bbcode_controls' => ( $functions->get_config('sig_allow_bbcode') ) ? $functions->get_bbcode_controls() : '',
+		'bbcode_controls' => ( $functions->get_config('sig_allow_bbcode') ) ? $functions->get_bbcode_controls($can_add_profile_links) : '',
 		'smiley_controls' => ( $functions->get_config('sig_allow_smilies') ) ? $functions->get_smiley_controls() : '',
 		'msnm_input'       => '<input type="text" size="50" maxlength="255" name="msnm" value="'.unhtml(stripslashes($user_info['msnm'])).'" />',
 		'yahoom_input'     => '<input type="text" size="50" maxlength="255" name="yahoom" value="'.unhtml(stripslashes($user_info['yahoom'])).'" />',

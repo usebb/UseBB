@@ -65,6 +65,7 @@ $faq[] = array('Why can\'t I post new topics or replies?', 'If no link appears t
 $faq[] = array('What are BBCode and smilies?', 'BBCode are tags which you can use to add certain elements to your post. Try some and preview your post to see the effect. Smilies are used to express emotions in your posts.');
 $faq[] = array('My post count does not increase when posting!', 'In certain forums, post count increasing may have been disabled. This is common for testing or general chat forums.');
 $faq[] = array('Why do I have to wait a certain amount of time between posting?', 'Flood protection is used to ommit spamming or flooding the server with posting requests. Please wait for a moment and resubmit the post.');
+$faq[] = array('Why do links in my signature and/or posts remain unclickable?', 'The forum might add a &quot;potential spammer&quot; status to new accounts, which results in less rights for posting links on the forum. Mostly, the status is removed after some posting activity. Otherwise or if this is a problem, please contact the administrator.');
 
 $faq[] = array('--', 'Various');
 $faq[] = array('I don\'t receive any e-mails from this board!', 'Make sure the e-mails are not blocked by anti spam software. If not, the e-mail address set up in your profile may not work anymore.');

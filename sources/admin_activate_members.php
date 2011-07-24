@@ -48,12 +48,12 @@ $_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $list_modes) 
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT id, name, language, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = 0");
+	$result = $db->query("SELECT id, name, language, email, posts FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = ".USER_INACTIVE);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] && $functions->verify_url(false) ) {
 		
-		$db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
+		$db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($memberdata).", active_key = '' WHERE id = ".$_GET['id']);
 		
 		$user_lang = $functions->fetch_language($memberdata['language']);
 		
@@ -77,13 +77,13 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			switch ( $mode ) {
 				
 				case 'admin':
-					$query_where_part = "active = 0 AND active_key = ''";
+					$query_where_part = "active = ".USER_INACTIVE." AND active_key = ''";
 					break;
 				case 'email':
-					$query_where_part = "active = 0 AND active_key <> ''";
+					$query_where_part = "active = ".USER_INACTIVE." AND active_key <> ''";
 					break;
 				case 'all':
-					$query_where_part = "active = 0";
+					$query_where_part = "active = ".USER_INACTIVE;
 					break;
 				
 			}

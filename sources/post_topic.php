@@ -119,7 +119,7 @@ if ( !$forumdata['id'] ) {
 			
 			if ( $session->sess_info['user_id'] && $forumdata['increase_post_count'] ) {
 				
-				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id']);
+				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1, active = ".$functions->user_active_value($session->sess_info['user_info'], TRUE)." WHERE id = ".$session->sess_info['user_id']);
 				
 			}
 			
@@ -147,6 +147,8 @@ if ( !$forumdata['id'] ) {
 				$functions->redirect('forum.php', array('id' => $_GET['forum']));
 			
 		} else {
+			
+			$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info'], TRUE);
 			
 			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostNewTopic']);
 			
@@ -198,7 +200,7 @@ if ( !$forumdata['id'] ) {
 				if ( !empty($_POST['preview']) && !$functions->post_empty($_POST['content']) ) {
 					
 					$template->parse('preview', 'various', array(
-						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked, NULL, $can_post_links)
 					));
 					
 				} elseif ( $flood_protect_wait_sec > 0 ) {
@@ -257,7 +259,8 @@ if ( !$forumdata['id'] ) {
 				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 				'subject_input' => '<input type="text" name="subject" id="subject" size="50" value="'.unhtml(stripslashes($_POST['subject'])).'" tabindex="2" />',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="3">'.unhtml(stripslashes($_POST['content'])).'</textarea>',
-				'bbcode_controls' => $functions->get_bbcode_controls(),
+				'potential_spammer_notice' => $can_post_links ? '' : '<div class="potential-spammer-notice">'.$lang['PotentialSpammerNoPostLinks'].'</div>',
+				'bbcode_controls' => $functions->get_bbcode_controls($can_post_links),
 				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="5" accesskey="s" />',

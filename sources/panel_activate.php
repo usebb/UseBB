@@ -78,7 +78,7 @@ if ( $userdata['id'] ) {
 	//
 	} elseif ( md5(stripslashes($_GET['key'])) == $userdata['active_key'] ) {
 		
-		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = 1, active_key = '' WHERE id = ".$_GET['id']);
+		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($userdata).", active_key = '' WHERE id = ".$_GET['id']);
 		
 		$session->update('activate', $_GET['id']);
 		

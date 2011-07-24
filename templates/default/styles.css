@@ -723,6 +723,12 @@ table.termsofuse {
 	margin-top: 5px;
 }
 
+.potential-spammer-notice {
+	color: #333;
+	font-style: italic;
+	padding-top: 3px;
+}
+
 #bottom {
 	clear: both;
 	float: left;

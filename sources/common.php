@@ -279,6 +279,18 @@ define('DEBUG_SIMPLE', 1);
  * Extended debug
  */
 define('DEBUG_EXTENDED', 2);
+/**
+ * Inactive
+ */
+define('USER_INACTIVE', 0);
+/**
+ * Active status
+ */
+define('USER_ACTIVE', 1);
+/**
+ * Potential spammer status
+ */
+define('USER_POTENTIAL_SPAMMER', 2);
 
 //
 // If logging hidden errors is enabled, reset error reporting to dev environment.

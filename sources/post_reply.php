@@ -130,7 +130,7 @@ if ( !$topicdata['id'] ) {
 			
 			if ( $session->sess_info['user_id'] && $topicdata['increase_post_count'] ) {
 				
-				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1 WHERE id = ".$session->sess_info['user_id']);
+				$result = $db->query("UPDATE ".TABLE_PREFIX."members SET posts = posts+1, active = ".$functions->user_active_value($session->sess_info['user_info'], TRUE)." WHERE id = ".$session->sess_info['user_id']);
 				
 			}
 			
@@ -183,6 +183,7 @@ if ( !$topicdata['id'] ) {
 		} else {
 			
 			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
+			$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info'], TRUE);
 			
 			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostReply']);
 			
@@ -231,7 +232,7 @@ if ( !$topicdata['id'] ) {
 				if ( !empty($_POST['preview']) && !$functions->post_empty($_POST['content']) ) {
 					
 					$template->parse('preview', 'various', array(
-						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked)
+						'post_content' => $functions->markup(stripslashes($_POST['content']), $enable_bbcode_checked, $enable_smilies_checked, $enable_html_checked, NULL, $can_post_links)
 					));
 					
 				} elseif ( $flood_protect_wait_sec > 0 ) {
@@ -302,7 +303,8 @@ if ( !$topicdata['id'] ) {
 				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="2">'.unhtml(stripslashes($_POST['content'])).'</textarea>',
-				'bbcode_controls' => $functions->get_bbcode_controls(),
+				'potential_spammer_notice' => $can_post_links ? '' : '<div class="potential-spammer-notice">'.$lang['PotentialSpammerNoPostLinks'].'</div>',
+				'bbcode_controls' => $functions->get_bbcode_controls($can_post_links),
 				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,
 				'submit_button' => '<input type="submit" name="submit" value="'.$lang['OK'].'" tabindex="4" accesskey="s" />',
@@ -315,7 +317,7 @@ if ( !$topicdata['id'] ) {
 				//
 				// Topic review feature
 				//
-				$result = $db->query("SELECT p.poster_id, u.displayed_name, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'));
+				$result = $db->query("SELECT p.poster_id, u.displayed_name, u.level, u.active, p.poster_guest, p.post_time, p.content, p.enable_bbcode, p.enable_smilies, p.enable_sig, p.enable_html FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ), ".TABLE_PREFIX."topics t WHERE t.id = ".$_GET['topic']." AND p.topic_id = t.id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('topicreview_posts'));
 				
 				$view_more_posts = ( $topicdata['count_replies']+1 > $functions->get_config('topicreview_posts') ) ? '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'" target="topicreview">'.$lang['ViewMorePosts'].'</a>' : '';
 				$template->parse('header', 'topicreview', array(
@@ -328,7 +330,7 @@ if ( !$topicdata['id'] ) {
 					$template->parse('post', 'topicreview', array(
 						'poster_name' => ( !empty($postsdata['poster_id']) ) ? unhtml(stripslashes($postsdata['displayed_name'])) : unhtml(stripslashes($postsdata['poster_guest'])),
 						'post_date' => $functions->make_date($postsdata['post_time']),
-						'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html']),
+						'post_content' => $functions->markup($functions->replace_badwords(stripslashes($postsdata['content'])), $postsdata['enable_bbcode'], $postsdata['enable_smilies'], $postsdata['enable_html'], NULL, $functions->antispam_can_post_links($postsdata)),
 						'colornum' => $colornum
 					));
 					$colornum = ( $colornum !== 1 ) ? 1 : 2;

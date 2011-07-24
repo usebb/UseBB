@@ -50,7 +50,7 @@ $filled_in = true;
 $missing = array();
 $necessary_settings = array(
 	'strings' => array('admin_email', 'board_descr', 'board_name', 'date_format', 'language', 'session_name', 'template'),
-	'integers' => array('acp_auto_logout', 'activation_mode', 'active_topics_count', 'active_topics_max_age', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'sfs_max_lastseen', 'sfs_min_frequency', 'show_edited_message_timeout', 'sig_max_length', 'antispam_question_mode', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
+	'integers' => array('acp_auto_logout', 'activation_mode', 'active_topics_count', 'active_topics_max_age', 'antispam_status_max_posts', 'debug', 'edit_post_timeout', 'email_view_level', 'flood_interval', 'mass_email_msg_recipients', 'members_per_page', 'online_min_updated', 'output_compression', 'passwd_min_length', 'posts_per_page', 'rss_items_count', 'search_limit_results', 'search_nonindex_words_min_length', 'session_max_lifetime', 'sfs_max_lastseen', 'sfs_min_frequency', 'show_edited_message_timeout', 'sig_max_length', 'antispam_question_mode', 'topicreview_posts', 'topics_per_page', 'username_min_length', 'username_max_length', 'view_active_topics_min_level', 'view_detailed_online_list_min_level', 'view_forum_stats_box_min_level', 'view_hidden_email_addresses_min_level', 'view_memberlist_min_level', 'view_search_min_level', 'view_stafflist_min_level', 'view_stats_min_level', 'view_contactadmin_min_level')
 );
 
 if ( !$functions->get_config('hide_db_config_acp') )
@@ -81,7 +81,7 @@ foreach ( $necessary_settings['integers'] as $key ) {
 // Some extra arrays used
 //
 $user_levels = array(LEVEL_GUEST, LEVEL_MEMBER, LEVEL_MOD, LEVEL_ADMIN);
-$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_contactadmin_form', 'enable_detailed_online_list', 'enable_dnsbl_powered_banning', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'sfs_email_check', 'sfs_save_bans', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
+$onoff_settings = array('allow_multi_sess', 'allow_duplicate_emails', 'antispam_disable_post_links', 'antispam_disable_profile_links', 'board_closed', 'cookie_httponly', 'cookie_secure', 'disable_registrations', 'disable_xhtml_header', 'dst', 'email_reply-to_header', 'enable_acp_modules', 'enable_badwords_filter', 'enable_contactadmin', 'enable_contactadmin_form', 'enable_detailed_online_list', 'enable_dnsbl_powered_banning', 'enable_email_dns_check', 'enable_error_log', 'enable_forum_stats_box', 'enable_ip_bans', 'enable_memberlist', 'enable_quickreply', 'enable_registration_log', 'enable_rss', 'enable_rss_per_forum', 'enable_rss_per_topic', 'enable_stafflist', 'enable_stats', 'error_log_log_hidden', 'friendly_urls', 'guests_can_access_board', 'guests_can_see_contact_info', 'guests_can_view_profiles', 'hide_avatars', 'hide_signatures', 'hide_userinfo', 'rel_nofollow', 'return_to_topic_after_posting', 'sendmail_sender_parameter', 'sfs_email_check', 'sfs_save_bans', 'show_never_activated_members', 'show_posting_links_to_guests', 'show_raw_entities_in_code', 'sig_allow_bbcode', 'sig_allow_smilies', 'single_forum_mode', 'target_blank');
 $optional_strings = array('board_closed_reason', 'board_keywords', 'board_url', 'contactadmin_custom_url', 'cookie_domain', 'cookie_path', 'disable_registrations_reason', 'session_save_path', 'registration_log_file', 'sfs_api_key', 'antispam_question_questions');
 
 if ( !$functions->get_config('hide_db_config_acp') ) {
@@ -353,19 +353,24 @@ if (
 		'security' => array(
 			'enable_ip_bans',
 			'enable_dnsbl_powered_banning',
-			'antispam_question_mode',
-			'antispam_question_questions',
-			'sfs_email_check',
-			'sfs_min_frequency',
-			'sfs_max_lastseen',
-			'sfs_save_bans',
-			'sfs_api_key',
 			'show_never_activated_members',
 			'flood_interval',
 			'enable_badwords_filter',
 			'enable_registration_log',
 			'registration_log_file',
 			'enable_email_dns_check',
+		),
+		'anti_spam' => array(
+			'antispam_question_mode',
+			'antispam_question_questions',
+			'antispam_disable_profile_links',
+			'antispam_disable_post_links',
+			'antispam_status_max_posts',
+			'sfs_email_check',
+			'sfs_min_frequency',
+			'sfs_max_lastseen',
+			'sfs_save_bans',
+			'sfs_api_key',
 		),
 		'advanced' => array(
 			'friendly_urls',

@@ -527,5 +527,8 @@ $lang['Name'] = 'Name';
 $lang['GuestName'] = '%s (guest)';
 $lang['RSSFeedForTopic'] = 'RSS Feed for topic %s';
 $lang['RSSFeedForForum'] = 'RSS Feed for forum %s';
+$lang['PotentialSpammer'] = 'Potential spammer';
+$lang['PotentialSpammerNoProfileLinks'] = 'You have the (temporary) status of potential spammer, which means no profile links can be set or will be rendered. Thank you for your understanding.';
+$lang['PotentialSpammerNoPostLinks'] = 'You have the (temporary) status of potential spammer, which means no links in your posts will be rendered. Thank you for your understanding.';
 
 ?>

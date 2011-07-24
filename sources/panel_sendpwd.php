@@ -90,7 +90,7 @@ if ( !empty($_POST['user']) && !empty($_POST['email']) && preg_match(USER_PREG, 
 		// Make user active if awaiting email activation (has activation key).
 		// The password gets sent to the email address anyway
 		//
-		$active_query_part = ( !$userdata['active'] && !empty($userdata['active_key']) ) ? ", active = 1, active_key = ''" : "";
+		$active_query_part = ( !$userdata['active'] && !empty($userdata['active_key']) ) ? ", active = ".$functions->user_active_value($userdata).", active_key = ''" : "";
 		
 		//
 		// Update the row in the user table

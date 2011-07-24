@@ -2152,9 +2152,10 @@ class functions {
 	 * @param bool $smilies Enable smilies
 	 * @param bool $html Enable HTML
 	 * @param bool $rss_mode Enable RSS mode
+	 * @param bool $links Enable links parsing
 	 * @returns string HTML
 	 */
-	function markup($string, $bbcode=true, $smilies=true, $html=false, $rss_mode=false) {
+	function markup($string, $bbcode=true, $smilies=true, $html=false, $rss_mode=false, $links=true) {
 		
 		global $db, $template, $lang;
 		static $random;
@@ -2245,18 +2246,22 @@ class functions {
 			//
 			// Parse URL's and e-mail addresses enclosed in special characters
 			//
-			$ignore_chars = "([^a-z0-9/]|&\#?[a-z0-9]+;)*?";
-			for ( $i = 0; $i < 2; $i++ ) {
+			if ( $links ) {
 
-				$string = preg_replace(array(
-					"#([\s]".$ignore_chars.")([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
-					"#([\s]".$ignore_chars.")(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
-					"#([\s]".$ignore_chars.")([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)(".$ignore_chars."[\s])#is"
-				), array(
-					'\\1<a href="\\3" title="\\3"'.$rel.'>\\3</a>\\4',
-					'\\1<a href="http://\\3" title="http://\\3"'.$rel.'>\\3</a>\\4',
-					'\\1<a href="mailto:\\2" title="\\3">\\3</a>\\5'
-				), $string);
+				$ignore_chars = "([^a-z0-9/]|&\#?[a-z0-9]+;)*?";
+				for ( $i = 0; $i < 2; $i++ ) {
+
+					$string = preg_replace(array(
+						"#([\s]".$ignore_chars.")([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
+						"#([\s]".$ignore_chars.")(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)(".$ignore_chars."[\s])#is",
+						"#([\s]".$ignore_chars.")([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)(".$ignore_chars."[\s])#is"
+					), array(
+						'\\1<a href="\\3" title="\\3"'.$rel.'>\\3</a>\\4',
+						'\\1<a href="http://\\3" title="http://\\3"'.$rel.'>\\3</a>\\4',
+						'\\1<a href="mailto:\\2" title="\\3">\\3</a>\\5'
+					), $string);
+
+				}
 
 			}
 			
@@ -2273,19 +2278,19 @@ class functions {
 				// [s]text[/s]
 					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
-					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/img\]#is" => '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />',
+					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/img\]#is" => ( $links ) ? '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />' : '\\1',
 				// www.usebb.net
-					"#([\s])(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)#is" => '\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3',
+					"#([\s])(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)#is" => ( $links ) ? '\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3' : '\\1\\2\\3',
 				// ftp.usebb.net
-					"#([\s])(ftp\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)([\s])#is" => '\\1<a href="ftp://\\2" title="ftp://\\2"'.$rel.'>\\2</a>\\3',
+					"#([\s])(ftp\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)([\s])#is" => ( $links ) ? '\\1<a href="ftp://\\2" title="ftp://\\2"'.$rel.'>\\2</a>\\3' : '\\1\\2\\3',
 				// [url]http://www.usebb.net[/url]
-					"#\[url\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\1</a>',
+					"#\[url\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/url\]#is" => ( $links ) ? '<a href="\\1" title="\\1"'.$rel.'>\\1</a>' : '\\1',
 				// [url=http://www.usebb.net]UseBB[/url]
-					"#\[url=([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\](.*?)\[/url\]#is" => '<a href="\\1" title="\\1"'.$rel.'>\\2</a>',
+					"#\[url=([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\](.*?)\[/url\]#is" => ( $links ) ? '<a href="\\1" title="\\1"'.$rel.'>\\2</a>' : '\\2 [\\1]',
 				// [mailto]somebody@nonexistent.com[/mailto]
-					"#\[mailto\]([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => '<a href="mailto:\\1" title="\\1">\\1</a>',
+					"#\[mailto\]([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\[/mailto\]#is" => ( $links ) ? '<a href="mailto:\\1" title="\\1">\\1</a>' : '\\1',
 				// [mailto=somebody@nonexistent.com]mail me[/mailto]
-					"#\[mailto=([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => '<a href="mailto:\\1" title="\\1">\\3</a>',
+					"#\[mailto=([a-z0-9&\-_\.\+]+?@[\w\-]+\.([\w\-\.]+\.)?[\w]+)\](.*?)\[/mailto\]#is" => ( $links ) ? '<a href="mailto:\\1" title="\\1">\\3</a>' : '\\3 [\\1]',
 				// [color=red]text[/color]
 					"#\[color=([\#a-z0-9]+)\](.*?)\[/color\]#is" => '<span style="color:\\1">\\2</span>',
 				// [size=999]too big text[/size]
@@ -2337,9 +2342,10 @@ class functions {
 	/**
 	 * Return the BBCode control buttons
 	 *
+	 * @param bool $links Enable controls for links
 	 * @returns string HTML BBCode controls
 	 */
-	function get_bbcode_controls() {
+	function get_bbcode_controls($links=true) {
 		
 		global $lang, $template;
 		
@@ -2350,11 +2356,21 @@ class functions {
 			array('[s]', '[/s]', 'S', 'text-decoration: line-through'),
 			array('[quote]', '[/quote]', $lang['Quote'], ''),
 			array('[code]', '[/code]', $lang['Code'], ''),
-			array('[img]', '[/img]', $lang['Img'], ''),
-			array('[url=http://www.example.com]', '[/url]', $lang['URL'], ''),
+		);
+
+		if ( $links ) {
+
+			$controls = array_merge($controls, array(
+				array('[img]', '[/img]', $lang['Img'], ''),
+				array('[url=http://www.example.com]', '[/url]', $lang['URL'], ''),
+			));
+
+		}
+
+		$controls = array_merge($controls, array(
 			array('[color=red]', '[/color]', $lang['Color'], ''),
 			array('[size=14]', '[/size]', $lang['Size'], '')
-		);
+		));
 		
 		$out = array();
 		foreach ( $controls as $data )
@@ -3521,7 +3537,78 @@ class functions {
 		return ( $result !== FALSE );
 
 	}
-	
+
+	function user_active_value($user=NULL, $new_post=FALSE) {
+		
+		//
+		// Potential spammer status not enabled
+		//
+		if ( !$this->get_config('antispam_disable_post_links') 
+			&& !$this->get_config('antispam_disable_profile_links') )
+			return USER_ACTIVE;
+		
+		//
+		// New (no) user = potential spammer
+		//
+		if ( $user === NULL )
+			return USER_POTENTIAL_SPAMMER;
+
+		//
+		// poster_level is sometimes used
+		//
+		if ( !isset($user['level']) && isset($user['poster_level']) )
+			$user['level'] = $user['poster_level'];
+
+		if ( !isset($user['active']) || !isset($user['level']) )
+			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
+
+		//
+		// Only for regular members
+		//
+		if ( $user['level'] != LEVEL_MEMBER )
+			return USER_ACTIVE;
+		
+		//
+		// Keep status for no new post or non potential spammers
+		//
+		if ( !$new_post || $user['active'] != USER_POTENTIAL_SPAMMER )
+			return $user['active'];
+		
+
+		if ( !isset($user['posts']) )
+			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
+
+		$max_posts = (int) $this->get_config('antispam_status_max_posts');
+
+		//
+		// When max posts is set and user has more posts,
+		// user gets active status, otherwise still potential spammer.
+		//
+		return ( $max_posts > 0 && ($user['posts'] + 1) > $max_posts ) 
+			? USER_ACTIVE : USER_POTENTIAL_SPAMMER;
+
+	}
+
+	function antispam_is_potential_spammer($user, $new_post=FALSE) {
+
+		return ( $this->user_active_value($user, $new_post) == USER_POTENTIAL_SPAMMER );
+
+	}
+
+	function antispam_can_post_links($user, $new_post=FALSE) {
+
+		return ( !$this->antispam_is_potential_spammer($user, $new_post) 
+			|| !$this->get_config('antispam_disable_post_links') );
+
+	}
+
+	function antispam_can_add_profile_links($user) {
+
+		return ( !$this->antispam_is_potential_spammer($user, FALSE) 
+			|| !$this->get_config('antispam_disable_profile_links') );
+
+	}
+
 }
 
 ?>

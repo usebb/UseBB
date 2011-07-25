@@ -3520,6 +3520,14 @@ class functions {
 
 	}
 
+	/**
+	 * Stop Forum Spam API submit
+	 *
+	 * Submit account information to the Stop Forum Spam database.
+	 *
+	 * @param array $data Array with username, email and ip_addr.
+	 * @returns bool Success
+	 */
 	function sfs_api_submit($data) {
 
 		$key = $this->get_config('sfs_api_key');
@@ -3538,6 +3546,15 @@ class functions {
 
 	}
 
+	/**
+	 * Active value for user
+	 *
+	 * Calculate whether the user gets (in)active or is a potential spammer.
+	 *
+	 * @param array $user User array with active, level and posts.
+	 * @param bool $new_post Whether this is in a query increasing the post count.
+	 * @returns int Active value
+	 */
 	function user_active_value($user=NULL, $new_post=FALSE) {
 		
 		//
@@ -3574,7 +3591,6 @@ class functions {
 		if ( !$new_post || $user['active'] != USER_POTENTIAL_SPAMMER )
 			return $user['active'];
 		
-
 		if ( !isset($user['posts']) )
 			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
 
@@ -3589,12 +3605,26 @@ class functions {
 
 	}
 
+	/**
+	 * Is potential spammer
+	 *
+	 * @param array $user User array with active, level and posts.
+	 * @param bool $new_post Whether this is for a request increasing the post count.
+	 * @returns bool Is potential spammer
+	 */
 	function antispam_is_potential_spammer($user, $new_post=FALSE) {
 
 		return ( $this->user_active_value($user, $new_post) == USER_POTENTIAL_SPAMMER );
 
 	}
 
+	/**
+	 * Can post links
+	 *
+	 * @param array $user User array with active, level and posts.
+	 * @param bool $new_post Whether this is for a request increasing the post count.
+	 * @returns bool Whether can post links
+	 */
 	function antispam_can_post_links($user, $new_post=FALSE) {
 
 		return ( !$this->antispam_is_potential_spammer($user, $new_post) 
@@ -3602,6 +3632,12 @@ class functions {
 
 	}
 
+	/**
+	 * Can add profile links
+	 *
+	 * @param array $user User array with active, level and posts.
+	 * @returns bool Whether can add profile links
+	 */
 	function antispam_can_add_profile_links($user) {
 
 		return ( !$this->antispam_is_potential_spammer($user, FALSE) 

@@ -108,7 +108,7 @@ if ( empty($_SESSION['installer_running']) && $functions->get_config('installer_
 			
 		} else {
 			
-			$config_warning = ( !is_writable(ROOT_PATH.'config.php') ) ? '<p class="important"><strong>Tip:</strong> <code>config.php</code> is at this moment not writable by the webserver. Therefore, you will be asked to download the file after filling in this form. If you would like UseBB to edit the file automatically, make <code>config.php</code> writable (<em>chmod</em> it to 0777) and <a href="index.php">refresh</a> this wizard.</p>' : '';
+			$config_warning = ( !is_writable(ROOT_PATH.'config.php') ) ? '<p class="important"><strong>Tip:</strong> <code>config.php</code> is at this moment not writable by the webserver. Therefore, you will be asked to download the file after filling in this form. If you would like UseBB to edit the file automatically, make <code>config.php</code> writable and <a href="index.php">refresh</a> this wizard.</p>' : '';
 			
 			$out .= '		<p>Hello and welcome to the UseBB 1 installation script. First, thanks for choosing UseBB for your forum needs!</p>
 		

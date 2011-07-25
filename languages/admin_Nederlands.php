@@ -74,7 +74,7 @@ $lang['IndexNoUnactiveMembers'] = 'Er zijn geen leden die wachten op admin-activ
 $lang['IndexOneUnactiveMember'] = 'Er is 1 lid die wacht op admin-activatie.';
 $lang['IndexMoreUnactiveMembers'] = 'Er zijn %d leden die wachten op admin-activatie.';
 $lang['IndexWarning'] = 'Waarschuwing!';
-$lang['IndexUnwritableConfig'] = 'Op dit moment is %s niet door PHP beschrijfbaar. Dit wordt niet aangeraden. Om dit beschrijfbaar te maken, pas de permissies aan met een FTP-client of voer een chmod-operatie (0777) op het bestand uit. Contacteer je host in geval van problemen.';
+$lang['IndexUnwritableConfig'] = 'Op dit moment is %s niet door PHP beschrijfbaar. Om dit beschrijfbaar te maken, pas de permissies aan met een FTP-client of voer een chmod-operatie op het bestand uit. Contacteer je host in geval van problemen. Wanneer onbeschrijfbaar zal het aangepaste bestand als download worden aangeboden.';
 $lang['IndexMultibyteUsage'] = 'Merk op dat je momenteel een vertaling gebruikt die geschreven is in een multibyte karakterset (%s). Deze vertalingen en karaktersets zijn offici&euml;el niet ondersteund op UseBB 1.';
 $lang['IndexDevelopmentEnvironment'] = 'UseBB is momenteel ingesteld om te draaien in een ontwikkelomgeving. Dit zal mogelijke PHP-notices tonen aan gebruikers and bevat niet bepaalde veiligheidsmaatregelen. Op productieomgevingen is dit niet aanbevolen.';
 
@@ -367,7 +367,7 @@ $lang['ModulesUploadInfo'] = 'Voer een lokale bestandsnaam van een UseBB ACP-mod
 $lang['ModulesUploadDuplicateModule'] = 'Er bestaat reeds een module onder de bestandsnaam %s. Gelieve deze eerst te verwijderen.';
 $lang['ModulesUploadNoValidModule'] = 'Het bestand %s is geen geldige ACP-module.';
 $lang['ModulesUploadFailed'] = 'De module %s kon niet ge&iuml;nstalleerd worden. Kopi&euml;ren mislukt.';
-$lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver (probeer chmod 777).';
+$lang['ModulesUploadDisabled'] = 'De module-map is niet beschrijfbaar. Uploaden werd uitgeschakeld. Om dit in te schakelen, maak de map %s beschrijfbaar door de webserver.';
 $lang['ModulesConfirmModuleDelete'] = 'Bevestigen van verwijderen module';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Ben je zeker dat je de module %s (%s) wilt verwijderen?';
 

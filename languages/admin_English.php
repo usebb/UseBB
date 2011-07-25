@@ -74,7 +74,7 @@ $lang['IndexNoUnactiveMembers'] = 'There are no members awaiting admin activatio
 $lang['IndexOneUnactiveMember'] = 'There is one member awaiting admin activation.';
 $lang['IndexMoreUnactiveMembers'] = 'There are %d members awaiting admin activation.';
 $lang['IndexWarning'] = 'Warning!';
-$lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. This is not recommended. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation (0777) on it. Contact your host in case of problems.';
+$lang['IndexUnwritableConfig'] = 'At this moment, %s is not writable by PHP. To make it writable, change the file\'s permissions with a FTP client or perform a chmod operation on it. Contact your host in case of problems. When not writable, you will be offered to download the updated file.';
 $lang['IndexMultibyteUsage'] = 'Please note that you are currently using a translation written in a multibyte character set (%s). These translations and character sets are not officially supported on UseBB 1.';
 $lang['IndexDevelopmentEnvironment'] = 'UseBB is currently set to be running in a development environment. This will show possible PHP notices to users and does not include certain security measures. On production environments this is not advised.';
 
@@ -393,7 +393,7 @@ $lang['ModulesUploadInfo'] = 'Enter a local filename of a UseBB ACP module to up
 $lang['ModulesUploadDuplicateModule'] = 'A module under the filename %s already exists. Please remove it first.';
 $lang['ModulesUploadNoValidModule'] = 'The file %s is not a valid UseBB module.';
 $lang['ModulesUploadFailed'] = 'Could not install the module %s. Copying failed.';
-$lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver (try chmod 777).';
+$lang['ModulesUploadDisabled'] = 'The module directory is not writable. Uploading has been disabled. To enable, make the directory %s writable by the webserver.';
 $lang['ModulesConfirmModuleDelete'] = 'Confirm module deletion';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Are you sure you want to delete the module %s (%s)?';
 

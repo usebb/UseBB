@@ -58,7 +58,7 @@ $template->set_page_title($lang['Activate']);
 //
 // Check if the user exists
 //
-$result = $db->query("SELECT id, name, level, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+$result = $db->query("SELECT id, name, level, active, active_key, posts FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 $userdata = $db->fetch_result($result);
 if ( $userdata['id'] ) {
 	
@@ -78,7 +78,7 @@ if ( $userdata['id'] ) {
 	//
 	} elseif ( md5(stripslashes($_GET['key'])) == $userdata['active_key'] ) {
 		
-		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($userdata).", active_key = '' WHERE id = ".$_GET['id']);
+		$result = $db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($userdata, FALSE, TRUE).", active_key = '' WHERE id = ".$_GET['id']);
 		
 		$session->update('activate', $_GET['id']);
 		

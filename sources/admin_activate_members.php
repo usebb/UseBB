@@ -48,12 +48,12 @@ $_GET['show'] = ( !empty($_GET['show']) && in_array($_GET['show'], $list_modes) 
 
 if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	
-	$result = $db->query("SELECT id, name, language, email, posts FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = ".USER_INACTIVE);
+	$result = $db->query("SELECT id, name, level, active, posts, language, email FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']." AND active = ".USER_INACTIVE);
 	$memberdata = $db->fetch_result($result);
 	
 	if ( $memberdata['id'] && $functions->verify_url(false) ) {
 		
-		$db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($memberdata).", active_key = '' WHERE id = ".$_GET['id']);
+		$db->query("UPDATE ".TABLE_PREFIX."members SET active = ".$functions->user_active_value($memberdata, FALSE, TRUE).", active_key = '' WHERE id = ".$_GET['id']);
 		
 		$user_lang = $functions->fetch_language($memberdata['language']);
 		
@@ -99,7 +99,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	}
 	$content .= '</ul>';
 	
-	$result = $db->query("SELECT id, name, regdate, active_key, last_login, email FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY regdate ASC");
+	$result = $db->query("SELECT id, name, regdate, last_login, email FROM ".TABLE_PREFIX."members WHERE ".$query_where_part." ORDER BY regdate ASC");
 	$unactivated = array();
 	while ( $userinfo = $db->fetch_result($result) )
 		$unactivated[] = $userinfo;

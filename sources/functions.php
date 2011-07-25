@@ -3553,9 +3553,10 @@ class functions {
 	 *
 	 * @param array $user User array with active, level and posts.
 	 * @param bool $new_post Whether this is in a query increasing the post count.
+	 * @param bool $activate Whether this is when activating a user.
 	 * @returns int Active value
 	 */
-	function user_active_value($user=NULL, $new_post=FALSE) {
+	function user_active_value($user=NULL, $new_post=FALSE, $activate=FALSE) {
 		
 		//
 		// Potential spammer status not enabled
@@ -3586,9 +3587,9 @@ class functions {
 			return USER_ACTIVE;
 		
 		//
-		// Keep status for no new post or non potential spammers
+		// Keep status for no new post or active user, unless is activating
 		//
-		if ( !$new_post || $user['active'] != USER_POTENTIAL_SPAMMER )
+		if ( !$activate && ( !$new_post || $user['active'] == USER_ACTIVE ) )
 			return $user['active'];
 		
 		if ( !isset($user['posts']) )

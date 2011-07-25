@@ -58,7 +58,7 @@ $template->set_page_title($lang['Activate']);
 //
 // Check if the user exists
 //
-$result = $db->query("SELECT id, name, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
+$result = $db->query("SELECT id, name, level, active, active_key FROM ".TABLE_PREFIX."members WHERE id = ".$_GET['id']);
 $userdata = $db->fetch_result($result);
 if ( $userdata['id'] ) {
 	

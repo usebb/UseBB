@@ -398,9 +398,9 @@ $lang['ModulesConfirmModuleDelete'] = 'Confirm module deletion';
 $lang['ModulesConfirmModuleDeleteInfo'] = 'Are you sure you want to delete the module %s (%s)?';
 
 $lang['MembersSearchMember'] = 'Search member';
-$lang['MembersSearchMemberInfo'] = 'Enter a (part of a) username or displayed name to edit.';
-$lang['MembersSearchMemberExplain'] = 'Username or displayed name';
-$lang['MembersSearchMemberNotFound'] = 'No members with username or displayed name %s found.';
+$lang['MembersSearchMemberInfo'] = 'Enter a (part of a) username, displayed name or email address to edit.';
+$lang['MembersSearchMemberExplain'] = 'Username, displayed name or email address';
+$lang['MembersSearchMemberNotFound'] = 'No members with %s found.';
 $lang['MembersSearchMemberList'] = 'The following members were found';
 $lang['MembersEditingMember'] = 'Editing member %s';
 $lang['MembersEditingMemberInfo'] = 'Update the user\'s info and submit the form. Fields marked with an asterisk (*) are required.';
@@ -421,9 +421,9 @@ $lang['MembersEditingActivationPotentialSpammer'] = 'Potential spammer';
 $lang['MembersEditingActivationInfo'] = 'Changing activation status here will not send an email to the user. &mdash; Potential spammer status can be unset automatically based on the configuration setting of &quot;Potential spammer: maximum post count&quot;.';
 
 $lang['DeleteMembersSearchMember'] = 'Search member';
-$lang['DeleteMembersSearchMemberInfo'] = 'Enter a (part of a) username or displayed name to delete.';
-$lang['DeleteMembersSearchMemberExplain'] = 'Username or displayed name';
-$lang['DeleteMembersSearchMemberNotFound'] = 'No members with username or displayed name %s found.';
+$lang['DeleteMembersSearchMemberInfo'] = 'Enter a (part of a) username, displayed name or email address to delete.';
+$lang['DeleteMembersSearchMemberExplain'] = 'Username, displayed name or email address';
+$lang['DeleteMembersSearchMemberNotFound'] = 'No members with %s found.';
 $lang['DeleteMembersSearchMemberList'] = 'The following members were found';
 $lang['DeleteMembersConfirmMemberDelete'] = 'Confirm member deletion';
 $lang['DeleteMembersConfirmMemberDeleteContent'] = 'Are you sure you want to delete the member %s? This is irreversible!';

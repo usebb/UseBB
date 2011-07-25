@@ -373,26 +373,26 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 	$content = '<h2>'.$lang['MembersSearchMember'].'</h2>';
 	$content .= '<p>'.$lang['MembersSearchMemberInfo'].'</p>';
 	$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members')).'" method="post">';
-	$content .= '<p>'.$lang['MembersSearchMemberExplain'].': <input type="text" name="search_member" id="search_member" size="25" maxlength="255" value="'.unhtml(stripslashes($search_member)).'" /> <input type="submit" value="'.$lang['Search'].'" /></p>';
+	$content .= '<fieldset><legend>'.$lang['MembersSearchMemberExplain'].'</legend><input type="text" name="search_member" id="search_member" size="25" maxlength="255" value="'.unhtml(stripslashes($search_member)).'" /> <input type="submit" value="'.$lang['Search'].'" /></fieldset>';
 	$content .= '</form>';
 	
 	if ( !empty($search_member) ) {
 		
 		$search_member_sql = preg_replace(array('#%#', '#_#', '#\s+#'), array('\%', '\_', ' '), $_POST['search_member']);
-		$result = $db->query("SELECT id, name, displayed_name FROM ".TABLE_PREFIX."members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' ORDER BY name ASC");
+		$result = $db->query("SELECT id, name, displayed_name, email FROM ".TABLE_PREFIX."members WHERE name LIKE '%".$search_member_sql."%' OR displayed_name LIKE '%".$search_member_sql."%' OR email LIKE '%".$search_member_sql."%' ORDER BY name ASC");
 		$matching_members = array();
 		while ( $memberdata = $db->fetch_result($result) )
-			$matching_members[$memberdata['id']] = array(unhtml(stripslashes($memberdata['name'])), unhtml(stripslashes($memberdata['displayed_name'])));
+			$matching_members[$memberdata['id']] = array(unhtml(stripslashes($memberdata['name'])), unhtml(stripslashes($memberdata['displayed_name'])), unhtml(stripslashes($memberdata['email'])));
 		
 		if ( count($matching_members) ) {
 			
 			$select = '<select name="id">';
 			foreach ( $matching_members as $key => $val )
-				$select .= '<option value="'.$key.'">'.$val[0].' ('.$val[1].')</option>';
+				$select .= '<option value="'.$key.'">'.$val[0].' ('.$val[1].' &mdash; '.$val[2].')</option>';
 			$select .= '</select>';
 			
 			$content .= '<form action="'.$functions->make_url('admin.php', array('act' => 'members')).'" method="get">';
-			$content .= '<p>'.$lang['MembersSearchMemberList'].': <input type="hidden" name="act" value="members" />'.$select.' <input type="submit" value="'.$lang['Edit'].'" /></p>';
+			$content .= '<fieldset><legend>'.$lang['MembersSearchMemberList'].'</legend><input type="hidden" name="act" value="members" />'.$select.' <input type="submit" value="'.$lang['Edit'].'" /></fieldset>';
 			$content .= '</form>';
 			
 		} else {

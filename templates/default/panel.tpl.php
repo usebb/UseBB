@@ -161,7 +161,7 @@ $templates['edit_profile'] = '
 			<td class="fieldtitle">{l_Skype}</td><td>{skype_input}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="formcontrols">{submit_button}&nbsp;{reset_button}</td>
+			<td colspan="2" class="formcontrols">{visibility_info}{submit_button}&nbsp;{reset_button}</td>
 		</tr>
 	</table>
 	{form_end}

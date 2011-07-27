@@ -364,6 +364,7 @@ if ( !empty($_POST['displayed_name']) && entities_strlen($_POST['displayed_name'
 		'icq_input'        => '<input type="text" size="50" maxlength="255" name="icq" value="'.unhtml(stripslashes($user_info['icq'])).'" />',
 		'jabber_input'     => '<input type="text" size="50" maxlength="255" name="jabber" value="'.unhtml(stripslashes($user_info['jabber'])).'" />',
 		'skype_input'      => '<input type="text" size="50" maxlength="255" name="skype" value="'.unhtml(stripslashes($user_info['skype'])).'" />',
+		'visibility_info'  => ( $functions->get_config('guests_can_view_profiles') ) ? '' : '<div class="visibility-info">'.$lang['InvisibleToGuests'].'</div>',
 		'submit_button'    => '<input type="submit" name="submit" value="'.$lang['OK'].'" />',
 		'form_end'         => '</form>'
 	), false, true);

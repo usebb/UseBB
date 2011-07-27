@@ -723,10 +723,17 @@ table.termsofuse {
 	margin-top: 5px;
 }
 
-.potential-spammer-notice {
+.potential-spammer-notice, .visibility-info {
 	color: #333;
 	font-style: italic;
+}
+
+.potential-spammer-notice {
 	padding-top: 3px;
+}
+
+.visibility-info {
+	padding-bottom: 5px;
 }
 
 #bottom {

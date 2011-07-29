@@ -181,7 +181,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 		} else {
 			
-			$content = '<h2>'.sprintf($lang['MembersEditingMember'], '<em>'.unhtml(stripslashes($memberdata['name'])).'</em>').'</h2>';
+			$content = '<h2>'.sprintf($lang['MembersEditingMember'], $functions->make_profile_link($memberdata['id'], $memberdata['name'], $memberdata['level'])).'</h2>';
 			$content .= '<p>'.$lang['MembersEditingMemberInfo'].'</p>';
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {

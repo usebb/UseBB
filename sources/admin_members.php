@@ -108,6 +108,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			
 			$_POST['level'] = ( !empty($_POST['level']) && in_array($_POST['level'], array(LEVEL_ADMIN, LEVEL_MOD, LEVEL_MEMBER)) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['level'] : $memberdata['level'];
 			$_POST['active'] = ( isset($_POST['active']) && in_array($_POST['active'], array(USER_INACTIVE, USER_ACTIVE, USER_POTENTIAL_SPAMMER)) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['active'] : $memberdata['active'];
+			$active_key = ( isset($_POST['active']) && $_POST['active'] != USER_INACTIVE && $memberdata['id'] != $session->sess_info['user_id'] ) ? "active_key = ''," : '';
 			$_POST['banned'] = ( !empty($_POST['banned']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? 1 : 0;
 			$_POST['banned_reason'] = ( !empty($_POST['banned_reason']) && $memberdata['id'] != $session->sess_info['user_id'] ) ? $_POST['banned_reason'] : '';
 			
@@ -142,6 +143,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				signature = '".$_POST['signature']."',
 				level = ".$_POST['level'].",
 				active = ".$_POST['active'].",
+				".$active_key."
 				rank = '".$_POST['rank']."',
 				banned = ".$_POST['banned'].",
 				banned_reason = '".$_POST['banned_reason']."',

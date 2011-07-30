@@ -622,7 +622,9 @@ class session {
 		$this->sess_info = array_merge($new_sess_info, array(
 			'sess_id' => session_id(),
 			'ip_banned' => false,
-			'user_info' => ( $new_sess_info['user_id'] ) ? $user_data : array('level' => LEVEL_GUEST)
+			'user_info' => ( $new_sess_info['user_id'] ) 
+				? $user_data 
+				: array('active' => USER_ACTIVE, 'level' => LEVEL_GUEST)
 		));
 		
 		//

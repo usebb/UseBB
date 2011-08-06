@@ -61,7 +61,7 @@ $lang['Forum'] = 'Forum';
 $lang['Topics'] = 'Onderwerpen';
 $lang['Posts'] = 'Berichten';
 $lang['LatestPost'] = 'Laatste bericht';
-$lang['RSSFeed'] = 'RSS Feed';
+$lang['RSSFeed'] = 'RSS-feed';
 $lang['NewPosts'] = 'Nieuwe berichten';
 $lang['NoNewPosts'] = 'Geen nieuwe berichten';
 $lang['LockedNewPosts'] = 'Gesloten (nieuwe berichten)';
@@ -522,6 +522,14 @@ $lang['InvalidURLTokenNotice']  = 'De veiligheidstoken is onjuist of vervallen.
 Indien je hier geleid werd via een link of website van een derde, gelieve deze pagina te negeren!
 
 Anderzijds, gelieve de oorspronkelijke pagina te herladen en de link opnieuw te bezoeken.';
+$lang['Name'] = 'Naam';
+$lang['GuestName'] = '%s (gast)';
+$lang['RSSFeedForTopic'] = 'RSS-feed voor onderwerp %s';
+$lang['RSSFeedForForum'] = 'RSS-feed voor forum %s';
+$lang['PotentialSpammer'] = 'Potenti&euml;le spammer';
+$lang['PotentialSpammerNoProfileLinks'] = 'Je hebt de (tijdelijke) status van potenti&euml;le spammer, wat betekent dat geen profiellinks ingesteld kunnen of getoond zullen worden. Bedankt voor je begip.';
+$lang['PotentialSpammerNoPostLinks'] = 'Je hebt de (tijdelijke) status van potenti&euml;le spammer, wat betekent dat geen links in je berichten getoond zullen worden. Bedankt voor je begrip.';
+$lang['InvisibleToGuests'] = 'Profielen zijn momenteel onzichtbaar voor anonieme gebruikers (gasten).';
 
 //
 // Date translations

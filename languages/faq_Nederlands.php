@@ -65,6 +65,7 @@ $faq[] = array('Waarom kan ik geen nieuwe onderwerpen of antwoorden plaatsen?', 
 $faq[] = array('Wat zijn BBCode en smilies?', 'BBCode zijn tags welke je kan gebruiken om bepaalde elementen aan een bericht toe te voegen. Probeer er enkele en gebruik de voorbeeld-functie om het effect te zien. Smilies worden gebruikt om emoties in een bericht uit te drukken.');
 $faq[] = array('Mijn berichtenteller verhoogt niet bij het plaatsen van berichten!', 'In bepaalde forums kan het verhogen van berichtentellers uitgeschakeld zijn. Dit is gewoonlijk zo bij test- of algemene forums.');
 $faq[] = array('Waarom moet ik wachten tussen het plaatsen van twee berichten?', 'Flood-protectie wordt gebruikt om het spammen tegen te gaan of te voorkomen dat de server wordt overspoeld met aanvragen. Gelieve enkele ogenblikken te wachten en het bericht opnieuw te verzenden.');
+$faq[] = array('Waarom blijven links in mijn handtekening en/of berichten onklikbaar?', 'Het forum kan een &quot;potenti&euml;le spammer&quot;-status aan nieuwe accounts toekennen, wat resulteert in verminderde rechten voor het posten van links op het forum. Meestal wordt deze status verwijderd na het plaatsen van een aantal berichten. Anderzijds of wanneer dit een probleem is, gelieve de administrator te contacteren.');
 
 $faq[] = array('--', 'Diversen');
 $faq[] = array('Ik ontvang geen enkele e-mail van dit forum!', 'Controleer of de e-mails niet worden geblokkeerd door antispam-software, of het e-mailadres in je profiel werkt niet meer.');

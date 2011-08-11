@@ -1,6 +1,6 @@
-Developers (with SF.net username)
+Developers (with GitHub username)
 
-	* Dietrich Moerman (pc_freak)
+	* Dietrich Moerman (dietrichm)
 		Project founder, developer
 
 3rd party contributors
@@ -29,6 +29,6 @@ Developers (with SF.net username)
 		HTML named entities to code table (GNU GPL v2)
 
 	Any changes to 3rd party code can be tracked at
-	http://usebb.svn.sourceforge.net/viewvc/usebb/branches/UseBB-1.0/.
+	https://github.com/usebb/UseBB/tree/v1.0.
 
 Should anyone be missing from this list, please email to contact@usebb.net.

@@ -4,8 +4,6 @@
 	Copyright (C) 2003-2011 UseBB Team
 	http://www.usebb.net
 	
-	$Id$
-	
 	This file is part of UseBB.
 	
 	UseBB is free software; you can redistribute it and/or modify
@@ -90,7 +88,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <ul>
 	<li><a href="http://www.usebb.net/">UseBB.net</a></li>
 	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
-	<li><a href="http://usebb.sourceforge.net/">UseBB Development</a></li>
+	<li><a href="https://github.com/usebb">UseBB Development</a></li>
 </ul>
 <p id="admincopyright">By the UseBB Project and contributors &mdash; Released under the GNU GPLv2</p>';
 

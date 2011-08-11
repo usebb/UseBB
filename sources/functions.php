@@ -3227,7 +3227,7 @@ class functions {
 	/**
 	 * Generate a security token
 	 *
-	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 * @link https://github.com/usebb/UseBB/wiki/UseBB-1-CSRF
 	 *
 	 * @returns string Token
 	 */
@@ -3258,7 +3258,7 @@ class functions {
 	/**
 	 * Verify a token
 	 *
-	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 * @link https://github.com/usebb/UseBB/wiki/UseBB-1-CSRF
 	 *
 	 * @param string $try_token Token to test
 	 * @returns bool Verified
@@ -3280,7 +3280,7 @@ class functions {
 	 *
 	 * Parse a msgbox template with a suitable message.
 	 *
-	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 * @link https://github.com/usebb/UseBB/wiki/UseBB-1-CSRF
 	 *
 	 * @param string $type Error type ("form" or "url")
 	 */
@@ -3310,7 +3310,7 @@ class functions {
 	/**
 	 * Verify a form for tokens
 	 *
-	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 * @link https://github.com/usebb/UseBB/wiki/UseBB-1-CSRF
 	 *
 	 * @param bool $enable_message Enable error message
 	 * @returns bool Verified
@@ -3330,7 +3330,7 @@ class functions {
 	/**
 	 * Verify a URL for tokens
 	 *
-	 * @link http://sourceforge.net/apps/trac/usebb/wiki/UseBB1CSRF
+	 * @link https://github.com/usebb/UseBB/wiki/UseBB-1-CSRF
 	 *
 	 * @param bool $enable_message Enable error message
 	 * @returns bool Verified

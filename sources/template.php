@@ -457,7 +457,7 @@ class template {
 		foreach ( $this->global_vars as $key => $val ) {
 			
 			$finds[] = '{'.$key.'}';
-			$replaces[] = str_replace(array('{', '}', '$'), array('&#123;', '&#125;', '&#36;'), $val);
+			$replaces[] = ( substr($key, 0, 3) == 'js_' ) ? $val : str_replace(array('{', '}', '$'), array('&#123;', '&#125;', '&#36;'), $val);
 			
 		}
 		foreach ( $lang as $key => $val ) {

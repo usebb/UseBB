@@ -291,6 +291,18 @@ define('USER_ACTIVE', 1);
  * Potential spammer status
  */
 define('USER_POTENTIAL_SPAMMER', 2);
+/**
+ * Single domain
+ */
+define('GA_SINGLE_DOMAIN', 0);
+/**
+ * Multiple subdomains
+ */
+define('GA_MULTIPLE_SUBDOMAINS', 1);
+/**
+ * Multiple domains
+ */
+define('GA_MULTIPLE_DOMAINS', 2);
 
 //
 // If logging hidden errors is enabled, reset error reporting to dev environment.

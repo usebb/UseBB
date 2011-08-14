@@ -299,6 +299,15 @@ $lang['ConfigBoard-antispam_disable_post_links'] = 'Potential spammer: disable p
 $lang['ConfigBoard-antispam_disable_post_links-info'] = 'Links in potential spammer\'s posts remain unclickable.';
 $lang['ConfigBoard-antispam_disable_profile_links'] = 'Potential spammer: disable profile links';
 $lang['ConfigBoard-antispam_disable_profile_links-info'] = 'Potential spammers can not set website field or use links in signature.';
+$lang['ConfigBoard-ga_mode'] = 'Google Analytics mode';
+$lang['ConfigBoard-ga_mode0'] = 'A single domain';
+$lang['ConfigBoard-ga_mode1'] = 'One domain with multiple subdomains';
+$lang['ConfigBoard-ga_mode2'] = 'Multiple top-level domains';
+$lang['ConfigBoard-ga_mode-info'] = 'Also see your Analytics account settings under \'Tracking Code\'.';
+$lang['ConfigBoard-ga_account'] = 'Google Analytics Web Property ID';
+$lang['ConfigBoard-ga_account-info'] = 'Will add Analytics code to your forum\'s web pages. Often in the form of <code>UA-xxxxxxx-x</code>. Empty to disable.';
+$lang['ConfigBoard-ga_domain'] = 'Google Analytics domain';
+$lang['ConfigBoard-ga_domain-info'] = 'Required for multiple (sub)domains.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

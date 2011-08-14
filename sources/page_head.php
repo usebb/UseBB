@@ -154,6 +154,58 @@ if ( $functions->get_config('enable_contactadmin') && $functions->get_user_level
 
 }
 
+//
+// Google Analytics
+//
+$ga_account = $functions->get_config('ga_account');
+if ( !empty($ga_account) ) {
+
+	$code_opts = array(
+		'setAccount' => $ga_account
+	);
+
+	switch ( $functions->get_config('ga_mode') ) {
+
+	case GA_SINGLE_DOMAIN:
+		break;
+	case GA_MULTIPLE_SUBDOMAINS:
+		$code_opts['setDomainName'] = $functions->get_config('ga_domain');
+		$code_opts['setAllowHash'] = 'false';
+		break;
+	case GA_MULTIPLE_DOMAINS:
+		$code_opts['setDomainName'] = $functions->get_config('ga_domain');
+		$code_opts['setAllowHash'] = 'false';
+		$code_opts['setAllowLinker'] = 'true';
+		break;
+	default:
+		trigger_error(E_USER_ERROR, 'Unknown Google Analytics mode.');
+
+	}
+
+	$code_opt = '';
+	foreach ( $code_opts as $k => $v )
+		$code_opt .= "_gaq.push(['_{$k}', '{$v}']);\n";
+
+	$ga_code = "<script type=\"text/javascript\">
+
+  var _gaq = _gaq || [];
+  {$code_opt}
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>";
+
+} else {
+
+	$ga_code = '';
+
+}
+
 $template->add_global_vars(array(
 	
 	//
@@ -195,6 +247,11 @@ $template->add_global_vars(array(
 	'usebb_copyright' => sprintf($lang['PoweredBy'], unhtml($functions->get_config('board_name')), '<a href="http://www.usebb.net">UseBB 1 '.$lang['ForumSoftware'].'</a>'),
 	
 	'reset_button' => '<input type="reset" value="'.$lang['Reset'].'" />',
+
+	//
+	// Google Analytics
+	//
+	'js_ga_code' => $ga_code
 	
 ));
 

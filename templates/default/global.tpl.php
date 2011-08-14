@@ -100,6 +100,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<link rel="shortcut icon" href="{img_dir}usebb.ico" />
 	{rss_head_link}
 	<script type="text/javascript" src="sources/javascript.js"></script>
+	{js_ga_code}
 </head>
 <body{js_onload}>
 	<div id="pagebox-bg">

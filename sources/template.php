@@ -79,6 +79,7 @@ class template {
 	var $global_vars = array();
 	var $raw_contents = array();
 	var $js_onload = array();
+	var $breadcrumbs = array();
 	/**#@-*/
 	
 	/**
@@ -245,6 +246,8 @@ class template {
 	 * Set the page title
 	 *
 	 * @param string $page_title Page title (may be HTML)
+	 *
+	 * @todo Reimplement using breadcrumbs.
 	 */
 	function set_page_title($page_title) {
 		

@@ -1,4 +1,8 @@
-$Id$
+UseBB 1.0.14 Changelog
+------------------------------
+
+- Added Google Analytics tracking code support (#93).
+- Allow global template variable to be unescaped through js_ prefix (for JS snippets).
 
 UseBB 1.0.13 Changelog
 ------------------------------

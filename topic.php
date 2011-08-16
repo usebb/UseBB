@@ -78,7 +78,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			// This post does not exist, show an error
 			//
 			header(HEADER_404);
-			$template->set_page_title($lang['Error']);
+			$template->add_breadcrumb($lang['Error']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
@@ -130,7 +130,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		// This topic does not exist, show an error
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$requested_topic)
@@ -146,7 +146,11 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			
 			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
 			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$topic_title);
+			$template->add_breadcrumb(
+				unhtml(stripslashes($topicdata['forum_name'])),
+				array('forum.php', array('id' => $topicdata['forum_id']))
+			);
+			$template->add_breadcrumb($topic_title);
 			
 			//
 			// Update views count (once per session)

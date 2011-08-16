@@ -71,7 +71,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 		// This forum does not exist, show an error
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchForum'], 'ID '.$_GET['id'])
@@ -85,7 +85,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			// User is allowed to view this forum
 			//
 			
-			$template->set_page_title(unhtml(stripslashes($forumdata['name'])));
+			$template->add_breadcrumb(unhtml(stripslashes($forumdata['name'])));
 			
 			$forum_moderators = $functions->get_mods_list($_GET['id']);
 			
@@ -173,7 +173,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			}
 			
 			//
-			// Topiclist footer and location bar
+			// Topiclist footer
 			//
 			
 			$template->parse('footer', 'topiclist', array(

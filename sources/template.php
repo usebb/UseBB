@@ -241,22 +241,28 @@ class template {
 		}
 		
 	}
+
+	function add_breadcrumb($title, $link_args=NULL) {
+
+		$this->breadcrumbs[] = array($title, $link_args);
+
+	}
 	
 	/**
 	 * Set the page title
 	 *
 	 * @param string $page_title Page title (may be HTML)
 	 *
-	 * @todo Reimplement using breadcrumbs.
+	 * @todo Deprecated - reimplement for backwards compatibility using breadcrumbs.
 	 */
 	function set_page_title($page_title) {
 		
 		global $functions;
-		
-		$this->add_global_vars(array(
+		usebb_debug_output("deprecated set_page_title");
+		/*$this->add_global_vars(array(
 			'page_title' => strip_tags($page_title),
 			'location_bar' => ( $functions->get_config('single_forum_mode') && $functions->get_stats('viewable_forums') === 1 ) ? $page_title : '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
-		), true);
+		), true);*/
 		
 	}
 	
@@ -318,6 +324,77 @@ class template {
 		$string = str_replace("\0", "\n", $string);
 		return $string;
 		
+	}
+
+	function generate_breadcrumbs() {
+
+		global $functions;
+		
+		$breadcrumbs_last_index = count($this->breadcrumbs) - 1;
+		$breadcrumbs_set = $breadcrumbs_last_index > -1;
+		$breadcrumbs_delim = $this->get_config('breadcrumbs_item_delimiter');
+
+		if ( $breadcrumbs_set ) {
+
+			//
+			// Add index link to start when set
+			//
+			array_unshift($this->breadcrumbs, array(
+				unhtml($functions->get_config('board_name')), 
+				array('index.php')
+			));
+			$breadcrumbs_last_index++;
+			
+			$breadcrumbs_butlast = '';
+
+			for ( $i = 0; $i <= $breadcrumbs_last_index; $i++ ) {
+
+				if ( $i < $breadcrumbs_last_index ) {
+					
+					if ( isset($this->breadcrumbs[$i][1]) ) {
+
+						$link = call_user_func_array(array(&$functions, 'make_url'), $this->breadcrumbs[$i][1]);
+						$breadcrumbs_butlast .= '<a href="'.$link.'">'.$this->breadcrumbs[$i][0].'</a>';
+
+					} else {
+					
+						$breadcrumbs_butlast .= $this->breadcrumbs[$i][0];
+
+					}
+
+					if ( $i < $breadcrumbs_last_index - 1 )
+						$breadcrumbs_butlast .= $breadcrumbs_delim;
+
+				} else {
+
+					//
+					// No link for last.
+					//
+					$breadcrumbs_last = $this->breadcrumbs[$i][0];
+
+				}
+				
+			}
+
+			$breadcrumbs_all = ( $breadcrumbs_last_index > 0 ) 
+				? $breadcrumbs_butlast . $breadcrumbs_delim . $breadcrumbs_last
+				: $breadcrumbs_last;
+
+		} else {
+
+			$breadcrumbs_butlast = $breadcrumbs_last = $breadcrumbs_all = '';
+
+		}
+
+		$this->add_global_vars(array(
+			'breadcrumbs_butlast' => $breadcrumbs_butlast,
+			'breadcrumbs_last' => $breadcrumbs_last,
+			'breadcrumbs_all' => $breadcrumbs_all,
+
+			'breadcrumbs_butlast_nolinks' => strip_tags($breadcrumbs_butlast),
+			'breadcrumbs_all_nolinks' => strip_tags($breadcrumbs_all),
+		));
+
 	}
 	
 	/**
@@ -412,6 +489,11 @@ class template {
 			'debug_info_large' => $debug_info_large
 		));
 		unset($debug_info, $debug_info_small, $debug_info_large);
+
+		//
+		// Breadcrumbs
+		//
+		$this->generate_breadcrumbs();
 		
 		//
 		// Add some global template variables such as content type and charset

@@ -191,7 +191,7 @@ h2#boarddescr {
 	margin: 0 0 15px 0;
 	width: 100%; /* Be nice to Safari */
 }
-p.locationbar {
+p.breadcrumbs {
 	clear: both;
 	text-align: left;
 	font-style: italic;
@@ -199,7 +199,7 @@ p.locationbar {
 	margin: -10px 0 10px 0;
 	padding: 3px;
 }
-p.locationbar a {
+p.breadcrumbs a {
 	font-style: normal;
 }
 

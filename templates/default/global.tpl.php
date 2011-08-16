@@ -40,7 +40,8 @@ $templates = array();
 $templates['config'] = array(
 	'content_type'				=> 'application/xhtml+xml',
 	'item_delimiter'			=> ' &middot; ',
-	'locationbar_item_delimiter'		=> ' &raquo; ',
+	'breadcrumbs_item_delimiter'		=> ' &raquo; ',
+	'locationbar_item_delimiter'		=> ' &raquo; ', //FIXME remove
 	'postlinks_item_delimiter'		=> ' | ',
 	'open_nonewposts_icon'			=> 'open_nonewposts.gif',
 	'open_newposts_icon'			=> 'open_newposts.gif',
@@ -93,7 +94,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{language_code}" lang="{language_code}" dir="{text_direction}">
 <head>	
 	<meta http-equiv="Content-Type" content="{content_type}; charset={character_encoding}" />
-	<title>{board_name}: {page_title}</title>
+	<title>{board_name}: {breadcrumbs_last}</title>
 	<meta name="description" content="{board_descr}" />
 	<meta name="keywords" content="{board_keywords}" />
 	<link rel="stylesheet" type="text/css" href="{css_url}" />{acp_css_head_link}
@@ -116,14 +117,14 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	</ul></div>
 	<div id="topmenu-shadow"></div>
 	
-	<p class="locationbar">
-		&bull; {location_bar}
+	<p class="breadcrumbs">
+		&bull; {breadcrumbs_all}
 	</p>
 ';
 
 $templates['normal_footer'] = '
-	<p class="locationbar">
-		&bull; {location_bar}
+	<p class="breadcrumbs">
+		&bull; {breadcrumbs_all}
 	</p>
 	
 	<p id="linkbar">

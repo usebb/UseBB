@@ -178,7 +178,7 @@ if ( !empty($ga_account) ) {
 		$code_opts['setAllowLinker'] = 'true';
 		break;
 	default:
-		trigger_error(E_USER_ERROR, 'Unknown Google Analytics mode.');
+		trigger_error('Unknown Google Analytics mode.', E_USER_ERROR);
 
 	}
 

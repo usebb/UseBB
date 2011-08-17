@@ -243,6 +243,15 @@ class template {
 	}
 
 	/**
+	 * Clear all breadcrumbs
+	 */
+	function clear_breadcrumbs() {
+
+		$this->breadcrumbs = array();
+
+	}
+
+	/**
 	 * Add breadcrumb
 	 *
 	 * @param string $title Title

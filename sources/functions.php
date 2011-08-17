@@ -1290,6 +1290,7 @@ class functions {
 		} else {
 			
 			header(HEADER_403);
+			$template->clear_breadcrumbs();
 			$template->add_breadcrumb($lang['Note']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],
@@ -3177,7 +3178,9 @@ class functions {
 		if ( !$session->sess_info['pose_antispam_question'] )
 			return;
 		
+		$template->clear_breadcrumbs();
 		$template->add_breadcrumb($lang['AntiSpamQuestion']);
+		
 		$mode = (int)$this->get_config('antispam_question_mode');
 
 		if ( empty($_SESSION['antispam_question_question']) )

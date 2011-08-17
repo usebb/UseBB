@@ -63,7 +63,7 @@ if ( empty($_GET['act']) ) {
 		
 	} else {
 		
-		$template->set_page_title($lang['MemberList']);
+		$template->add_breadcrumb($lang['MemberList']);
 		
 		//
 		// Sort options
@@ -201,7 +201,7 @@ if ( empty($_GET['act']) ) {
 		
 	} else {
 		
-		$template->set_page_title($lang['StaffList']);
+		$template->add_breadcrumb($lang['StaffList']);
 		
 		//
 		// Get members information

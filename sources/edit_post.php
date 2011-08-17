@@ -66,7 +66,7 @@ if ( !isset($_GET['act']) ) {
 		// This post does not exist
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
@@ -102,7 +102,16 @@ if ( !isset($_GET['act']) ) {
 				
 				$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info']);
 				
-				$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $postdata['forum_id'])).'">'.unhtml(stripslashes($postdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('post' => $_GET['post'])).'#post'.$_GET['post'].'">'.unhtml($functions->replace_badwords(stripslashes($postdata['topic_title']))).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['EditPost']);
+				$template->add_breadcrumb(
+					unhtml(stripslashes($postdata['forum_name'])), 
+					array('forum.php', array('id' => $postdata['forum_id']))
+				);
+				$template->add_breadcrumb(
+					unhtml($functions->replace_badwords(stripslashes($postdata['topic_title']))), 
+					array('topic.php', array('post' => $_GET['post'])), 
+					'post'.$_GET['post']
+				);
+				$template->add_breadcrumb($lang['EditPost']);
 				
 				if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					
@@ -216,7 +225,7 @@ if ( !isset($_GET['act']) ) {
 		// This post does not exist
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchPost'], 'ID '.$_GET['post'])
@@ -359,7 +368,7 @@ if ( !isset($_GET['act']) ) {
 				
 			} else {
 				
-				$template->set_page_title($lang['DeletePost']);
+				$template->add_breadcrumb($lang['DeletePost']);
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('post' => $_GET['post'], 'act' => 'delete')).'" method="post">',
 					'title' => $lang['DeletePost'],

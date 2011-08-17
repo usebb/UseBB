@@ -66,7 +66,7 @@ if ( $_GET['act'] == 'delete' ) {
 		// This topic does not exist
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
@@ -171,7 +171,15 @@ if ( $_GET['act'] == 'delete' ) {
 				
 			} else {
 				
-				$template->set_page_title($lang['DeleteTopic']);
+				$template->add_breadcrumb(
+					unhtml(stripslashes($topicdata['forum_name'])), 
+					array('forum.php', array('id' => $topicdata['forum_id']))
+				);
+				$template->add_breadcrumb(
+					unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))), 
+					array('topic.php', array('id' => $_GET['topic'])) 
+				);
+				$template->add_breadcrumb($lang['DeleteTopic']);
 				
 				$template->parse('confirm_form', 'global', array(
 					'form_begin' => '<form action="'.$functions->make_url('edit.php', array('topic' => $_GET['topic'], 'act' => 'delete')).'" method="post">',
@@ -221,7 +229,7 @@ if ( $_GET['act'] == 'delete' ) {
 		// I didn't see that topic!?
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
@@ -315,7 +323,15 @@ if ( $_GET['act'] == 'delete' ) {
 				
 			} else {
 				
-				$template->set_page_title($lang['MoveTopic']);
+				$template->add_breadcrumb(
+					unhtml(stripslashes($topicdata['forum_name'])), 
+					array('forum.php', array('id' => $topicdata['forum_id']))
+				);
+				$template->add_breadcrumb(
+					unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title']))), 
+					array('topic.php', array('id' => $_GET['topic'])) 
+				);
+				$template->add_breadcrumb($lang['MoveTopic']);
 				
 				$result = $db->query("SELECT c.id AS cat_id, c.name AS cat_name, f.id, f.name, f.auth FROM ".TABLE_PREFIX."cats c, ".TABLE_PREFIX."forums f WHERE c.id = f.cat_id AND f.id <> ".$topicdata['forum_id']." ORDER BY c.sort_id ASC, c.name ASC, f.sort_id ASC, f.name ASC");
 				$forums = array();

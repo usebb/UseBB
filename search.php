@@ -60,7 +60,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 	
 } else {
 	
-	$template->set_page_title($lang['Search']);
+	$template->add_breadcrumb($lang['Search'], array('search.php'));
 	
 	//
 	// Get a list of forums the user is allowed to view
@@ -267,6 +267,8 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 			$search_results = $db->fetch_result($result);
 			
 			if ( !empty($search_results['results']) ) {
+
+				$template->add_breadcrumb($lang['SearchResults']);
 				
 				$search_results = unserialize(stripslashes($search_results['results']));
 				

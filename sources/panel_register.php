@@ -53,7 +53,7 @@ $session->update('register');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['Register']);
+$template->add_breadcrumb($lang['Register']);
 
 if ( $functions->get_config('disable_registrations') ) {
 	

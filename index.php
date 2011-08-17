@@ -54,7 +54,7 @@ $session->update('index');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['ForumIndex']);
+$template->add_breadcrumb($lang['ForumIndex']);
 
 //
 // Parse the forums

@@ -54,7 +54,7 @@ $session->update('faq');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['FAQ']);
+$template->add_breadcrumb($lang['FAQ'], array('faq.php'));
 
 //
 // Get FAQ variables
@@ -110,7 +110,7 @@ if ( !empty($_GET['q']) ) {
 		if ( $question[2] != $_GET['q'] )
 			continue;
 		
-		$template->set_page_title('<a href="'.$functions->make_url('faq.php').'">'.$lang['FAQ'].'</a>'.$template->get_config('locationbar_item_delimiter').$question[0]);
+		$template->add_breadcrumb($question[0]);
 		
 		$template->parse('question', 'faq', array(
 			'question_title' => $question[0],

@@ -79,6 +79,8 @@ class template {
 	var $global_vars = array();
 	var $raw_contents = array();
 	var $js_onload = array();
+	var $breadcrumbs = array();
+	var $config_debug = true;
 	/**#@-*/
 	
 	/**
@@ -136,13 +138,14 @@ class template {
 		global $functions;
 		
 		$this->load_section('global');
-		
-		if ( array_key_exists($setting, $this->templates['global']['config']) )
+
+		if ( isset($this->templates['global']['config'][$setting]) )
 			return $this->templates['global']['config'][$setting];
-		elseif ( !$functions->get_config('hide_undefined_template_setting_warnings') )
-			trigger_error('The template configuration variable "'.$setting.'" does not exist!', E_USER_ERROR);
-		else
-			return '';
+
+		if ( $this->config_debug )
+			usebb_debug_output('Template configuration variable '.$setting.' not found.');
+
+		return ( strpos($setting, 'delimiter') !== false ) ? ' - ' : '';
 		
 	}
 	
@@ -169,10 +172,8 @@ class template {
 		
 		if ( !array_key_exists($name, $this->templates[$section]) ) {
 			
-			if ( !$functions->get_config('hide_undefined_template_warnings') )			
-				trigger_error('Unable to load "'.$name.'" template in '.$section.' templates file for set "'.$functions->get_config('template').'"!', E_USER_ERROR);
-			else
-				$this->templates[$section][$name] = '';
+			usebb_debug_output('Template '.$name.' in section '.$section.' not found.');
+			$this->templates[$section][$name] = '';
 			
 		}
 
@@ -240,20 +241,45 @@ class template {
 		}
 		
 	}
+
+	/**
+	 * Clear all breadcrumbs
+	 */
+	function clear_breadcrumbs() {
+
+		$this->breadcrumbs = array();
+
+	}
+
+	/**
+	 * Add breadcrumb
+	 *
+	 * @param string $title Title
+	 * @param array $link_args Arguments to make_url()
+	 * @param string $hash URL hash
+	 */
+	function add_breadcrumb($title, $link_args=NULL, $hash=NULL) {
+
+		$this->breadcrumbs[] = array($title, $link_args, $hash);
+
+	}
 	
 	/**
 	 * Set the page title
 	 *
 	 * @param string $page_title Page title (may be HTML)
+	 *
+	 * Deprecated - reimplemented for backwards compatibility using breadcrumbs.
 	 */
 	function set_page_title($page_title) {
 		
 		global $functions;
-		
-		$this->add_global_vars(array(
-			'page_title' => strip_tags($page_title),
-			'location_bar' => ( $functions->get_config('single_forum_mode') && $functions->get_stats('viewable_forums') === 1 ) ? $page_title : '<a href="'.$functions->make_url('index.php').'">'.unhtml($functions->get_config('board_name')).'</a>'.$this->get_config('locationbar_item_delimiter').$page_title
-		), true);
+
+		usebb_debug_output('$template->set_page_title is deprecated.');
+
+		$parts = explode($this->get_config('locationbar_item_delimiter'), $page_title);
+		foreach ( $parts as $part )
+			$this->add_breadcrumb($part);
 		
 	}
 	
@@ -316,11 +342,103 @@ class template {
 		return $string;
 		
 	}
+
+	/**
+	 * Generate breadcrumbs variables
+	 */
+	function generate_breadcrumbs() {
+
+		global $functions;
+		
+		$breadcrumbs_last_index = count($this->breadcrumbs) - 1;
+		$breadcrumbs_isset = $breadcrumbs_last_index > -1;
+		$breadcrumbs_delim = $this->get_config('breadcrumbs_item_delimiter');
+
+		//
+		// Backwards compatibility
+		//
+		if ( empty($breadcrumbs_delim) ) {
+
+			$this->config_debug = false;
+			$breadcrumbs_delim = $this->get_config('locationbar_item_delimiter');
+			$this->config_debug = true;
+
+		}
+
+		if ( $breadcrumbs_isset ) {
+
+			//
+			// Add index link to start when set
+			//
+			array_unshift($this->breadcrumbs, array(
+				unhtml($functions->get_config('board_name')), 
+				array('index.php')
+			));
+			$breadcrumbs_last_index++;
+			
+			$breadcrumbs_butfirst = array();
+			$breadcrumbs_butlast = array();
+
+			for ( $i = 0; $i <= $breadcrumbs_last_index; $i++ ) {
+
+				if ( isset($this->breadcrumbs[$i][1]) ) {
+
+					$link = call_user_func_array(array(&$functions, 'make_url'), $this->breadcrumbs[$i][1]);
+					$link .= ( !empty($this->breadcrumbs[$i][2]) ) ? '#'.$this->breadcrumbs[$i][2] : '';
+					$item = '<a href="'.$link.'">'.$this->breadcrumbs[$i][0].'</a>';
+
+				} else {
+				
+					$item = $this->breadcrumbs[$i][0];
+
+				}
+
+				if ( $i > 0 )
+					$breadcrumbs_butfirst[] = $item;
+
+				if ( $i < $breadcrumbs_last_index )
+					$breadcrumbs_butlast[] = $item;
+				else
+					$breadcrumbs_last = $this->breadcrumbs[$i][0];
+				
+			}
+
+			$breadcrumbs_all = array_merge($breadcrumbs_butlast, array($breadcrumbs_last));
+
+			$breadcrumbs_butfirst = implode($breadcrumbs_delim, $breadcrumbs_butfirst);
+			$breadcrumbs_butlast = implode($breadcrumbs_delim, $breadcrumbs_butlast);
+			$breadcrumbs_all = implode($breadcrumbs_delim, $breadcrumbs_all);
+
+		} else {
+
+			$breadcrumbs_butfirst = $breadcrumbs_butlast = $breadcrumbs_last = $breadcrumbs_all = '';
+
+		}
+
+		$breadcrumbs_butfirst_nolinks = strip_tags($breadcrumbs_butfirst);
+		$this->add_global_vars(array(
+			'breadcrumbs_butfirst' => $breadcrumbs_butfirst,
+			'breadcrumbs_butlast' => $breadcrumbs_butlast,
+			'breadcrumbs_last' => $breadcrumbs_last,
+			'breadcrumbs_all' => $breadcrumbs_all,
+
+			'breadcrumbs_butfirst_nolinks' => $breadcrumbs_butfirst_nolinks,
+			'breadcrumbs_butlast_nolinks' => strip_tags($breadcrumbs_butlast),
+			'breadcrumbs_all_nolinks' => strip_tags($breadcrumbs_all),
+
+			//
+			// Backwards compatibility
+			//
+			'page_title' => $breadcrumbs_butfirst_nolinks,
+			'location_bar' => $breadcrumbs_all
+		));
+
+	}
 	
 	/**
 	 * Output the page body
 	 *
-	 * This method parses all the template data and takes care of unwanted output by triggering an error.
+	 * This method parses all the template data.
 	 */
 	function body() {
 		
@@ -409,6 +527,11 @@ class template {
 			'debug_info_large' => $debug_info_large
 		));
 		unset($debug_info, $debug_info_small, $debug_info_large);
+
+		//
+		// Breadcrumbs
+		//
+		$this->generate_breadcrumbs();
 		
 		//
 		// Add some global template variables such as content type and charset

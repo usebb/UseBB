@@ -96,7 +96,8 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			if ( $own_profile ) {
 				
 				$profiledata = $session->sess_info['user_info'];
-				$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a>'.$template->get_config('locationbar_item_delimiter').$lang['ViewProfile']);
+				$template->add_breadcrumb($lang['YourPanel'], array('panel.php'));
+				$template->add_breadcrumb($lang['ViewProfile']);
 				
 				//
 				// View the panel menu if the user is viewing his own profile
@@ -112,7 +113,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				
 			} else {
 				
-				$template->set_page_title(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))));
+				$template->add_breadcrumb(sprintf($lang['Profile'], unhtml(stripslashes($profiledata['displayed_name']))));
 				
 			}
 			
@@ -233,7 +234,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 			// This user does not exist, show an error
 			//
 			header(HEADER_404);
-			$template->set_page_title($lang['Error']);
+			$template->add_breadcrumb($lang['Error']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])

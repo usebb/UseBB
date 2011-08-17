@@ -53,7 +53,7 @@ $session->update('sendpwd');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['SendPassword']);
+$template->add_breadcrumb($lang['SendPassword']);
 
 $_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 

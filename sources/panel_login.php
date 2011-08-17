@@ -53,7 +53,7 @@ $session->update('login');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['LogIn']);
+$template->add_breadcrumb($lang['LogIn']);
 
 $_POST['user'] = ( !empty($_POST['user']) ) ? preg_replace('#\s+#', ' ', $_POST['user']) : '';
 

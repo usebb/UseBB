@@ -116,12 +116,11 @@ if ( $_GET['act'] == 'login' ) {
 				break;
 			
 		}
-		
-		if ( $_GET['act'] == 'panel_home' )
-			$template->set_page_title($lang['YourPanel']);
-		else
-			$template->set_page_title('<a href="'.$functions->make_url('panel.php').'">'.$lang['YourPanel'].'</a>'.$template->get_config('locationbar_item_delimiter').$location);
-		
+
+		$template->add_breadcrumb($lang['YourPanel'], array('panel.php'));
+		if ( $_GET['act'] != 'panel_home' )
+			$template->add_breadcrumb($location);
+				
 		$template->parse('menu', 'panel', array(
 			'panel_home' => '<a href="'.$functions->make_url('panel.php').'">' . ( ( $_GET['act'] != 'panel_home' ) ? $lang['PanelHome'] : '<strong>'.$lang['PanelHome'].'</strong>' ) . '</a>',
 			'panel_subscriptions' => '<a href="'.$functions->make_url('panel.php', array('act' => 'subscriptions')).'">' . ( ( $_GET['act'] != 'subscriptions' ) ? $lang['Subscriptions'] : '<strong>'.$lang['Subscriptions'].'</strong>' ) . '</a>',

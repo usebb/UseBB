@@ -61,7 +61,7 @@ if ( !$topicdata['id'] ) {
 	// This topic does not exist, show an error
 	//
 	header(HEADER_404);
-	$template->set_page_title($lang['Error']);
+	$template->add_breadcrumb($lang['Error']);
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Error'],
 		'content' => sprintf($lang['NoSuchTopic'], 'ID '.$_GET['topic'])
@@ -69,9 +69,20 @@ if ( !$topicdata['id'] ) {
 	
 } else {
 	
+	$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
+	
+	$template->add_breadcrumb(
+		unhtml(stripslashes($topicdata['forum_name'])), 
+		array('forum.php', array('id' => $topicdata['forum_id']))
+	);
+	$template->add_breadcrumb(
+		$topic_title, 
+		array('topic.php', array('id' => $_GET['topic'])) 
+	);
+	$template->add_breadcrumb($lang['PostReply']);
+	
 	if ( $topicdata['status_locked'] && !$functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) ) {
 		
-		$template->set_page_title($lang['TopicIsLocked']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['TopicIsLocked'],
 			'content' => $lang['TopicIsLockedExplain']
@@ -79,7 +90,6 @@ if ( !$topicdata['id'] ) {
 		
 	} elseif ( !$topicdata['forum_status'] && $functions->get_user_level() != LEVEL_ADMIN ) {
 		
-		$template->set_page_title($lang['ForumIsLocked']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['ForumIsLocked'],
 			'content' => $lang['ForumIsLockedExplain']
@@ -182,10 +192,7 @@ if ( !$topicdata['id'] ) {
 			
 		} else {
 			
-			$topic_title = unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])));
 			$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info'], TRUE);
-			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $topicdata['forum_id'])).'">'.unhtml(stripslashes($topicdata['forum_name'])).'</a>'.$template->get_config('locationbar_item_delimiter').'<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostReply']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

@@ -154,7 +154,7 @@ if ( $functions->get_user_level() == LEVEL_ADMIN ) {
 			
 		}
 		
-		$template->set_page_title($lang['AdminLogin']);
+		$template->add_breadcrumb($lang['AdminLogin']);
 		$template->parse('login_form', 'admin', array(
 			'form_begin' => '<form action="'.$functions->make_url('admin.php', $_GET).'" method="post">',
 			'form_end' => '</form>',

@@ -184,7 +184,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 	}
 	
-	$template->set_page_title($lang['DetailedOnlineList']);
+	$template->add_breadcrumb($lang['DetailedOnlineList']);
 	
 	function usebb_show_filter_link($new) {
 		

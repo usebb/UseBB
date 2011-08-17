@@ -61,7 +61,7 @@ if ( !$forumdata['id'] ) {
 	// This forum does not exist, show an error
 	//
 	header(HEADER_404);
-	$template->set_page_title($lang['Error']);
+	$template->add_breadcrumb($lang['Error']);
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Error'],
 		'content' => sprintf($lang['NoSuchForum'], 'ID '.$_GET['forum'])
@@ -69,9 +69,14 @@ if ( !$forumdata['id'] ) {
 	
 } else {
 	
+	$template->add_breadcrumb(
+		unhtml(stripslashes($forumdata['name'])), 
+		array('forum.php', array('id' => $_GET['forum']))
+	);
+	$template->add_breadcrumb($lang['PostNewTopic']);
+	
 	if ( !$forumdata['status'] && $functions->get_user_level() != LEVEL_ADMIN ) {
 		
-		$template->set_page_title($lang['ForumIsLocked']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['ForumIsLocked'],
 			'content' => $lang['ForumIsLockedExplain']
@@ -149,8 +154,6 @@ if ( !$forumdata['id'] ) {
 		} else {
 			
 			$can_post_links = $functions->antispam_can_post_links($session->sess_info['user_info'], TRUE);
-			
-			$template->set_page_title('<a href="'.$functions->make_url('forum.php', array('id' => $_GET['forum'])).'">'.unhtml(stripslashes($forumdata['name'])).'</a>'.$template->get_config('locationbar_item_delimiter').$lang['PostNewTopic']);
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				

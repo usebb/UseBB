@@ -85,7 +85,7 @@ if ( !$session->sess_info['user_id'] ) {
 		//
 		require(ROOT_PATH.'sources/page_head.php');
 		
-		$template->set_page_title(sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))));
+		$template->add_breadcrumb(sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))));
 		$template->parse('confirm_form', 'global', array(
 			'form_begin' => '<form action="'.$functions->make_url('panel.php', array('act' => 'logout')).'" method="post">',
 			'title' => sprintf($lang['LogOut'], unhtml(stripslashes($session->sess_info['user_info']['name']))),

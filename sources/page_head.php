@@ -266,7 +266,7 @@ $template->parse('normal_header', 'global');
 if ( $session->sess_info['ip_banned'] ) {
 	
 	header(HEADER_403);
-	$template->set_page_title($lang['Note']);
+	$template->add_breadcrumb($lang['Note']);
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => sprintf($lang['BannedIP'], $session->sess_info['ip_addr'])
@@ -286,7 +286,7 @@ if ( $session->sess_info['ip_banned'] ) {
 //
 if ( $functions->get_config('board_closed') && $session->sess_info['location'] != 'login' ) {
 	
-	$template->set_page_title($lang['BoardClosed']);
+	$template->add_breadcrumb($lang['BoardClosed']);
 	
 	//
 	// Show this annoying board closed message on all pages but the login page.

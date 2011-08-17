@@ -106,7 +106,7 @@ if ( $mail_user || ( $functions->get_config('enable_contactadmin') && $functions
 			// You can't e-mail this user if he/she chose not to receive e-mails
 			// unless you are an admin or your are trying to e-mail yourself :p
 			//
-			$template->set_page_title($lang['Error']);
+			$template->add_breadcrumb($lang['Error']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Error'],
 				'content' => $lang['NoMails']
@@ -119,7 +119,7 @@ if ( $mail_user || ( $functions->get_config('enable_contactadmin') && $functions
 			//
 			$functions->pose_antispam_question();
 			
-			$template->set_page_title(sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))));
+			$template->add_breadcrumb(sprintf($lang['SendEmail'], unhtml(stripslashes($user_to_mail['displayed_name']))));
 			
 			$_POST['name'] = ( !empty($_POST['name']) ) ? stripslashes($_POST['name']) : '';
 			$_POST['email'] = ( !empty($_POST['email']) ) ? stripslashes($_POST['email']) : '';
@@ -246,7 +246,7 @@ if ( $mail_user || ( $functions->get_config('enable_contactadmin') && $functions
 		// This user does not exist, show an error
 		//
 		header(HEADER_404);
-		$template->set_page_title($lang['Error']);
+		$template->add_breadcrumb($lang['Error']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Error'],
 			'content' => sprintf($lang['NoSuchMember'], 'ID '.$_GET['id'])

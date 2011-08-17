@@ -53,7 +53,7 @@ $session->update('activate');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-$template->set_page_title($lang['Activate']);
+$template->add_breadcrumb($lang['Activate']);
 
 //
 // Check if the user exists

@@ -247,10 +247,11 @@ class template {
 	 *
 	 * @param string $title Title
 	 * @param array $link_args Arguments to make_url()
+	 * @param string $hash URL hash
 	 */
-	function add_breadcrumb($title, $link_args=NULL) {
+	function add_breadcrumb($title, $link_args=NULL, $hash=NULL) {
 
-		$this->breadcrumbs[] = array($title, $link_args);
+		$this->breadcrumbs[] = array($title, $link_args, $hash);
 
 	}
 	
@@ -374,6 +375,7 @@ class template {
 				if ( isset($this->breadcrumbs[$i][1]) ) {
 
 					$link = call_user_func_array(array(&$functions, 'make_url'), $this->breadcrumbs[$i][1]);
+					$link .= ( !empty($this->breadcrumbs[$i][2]) ) ? '#'.$this->breadcrumbs[$i][2] : '';
 					$item = '<a href="'.$link.'">'.$this->breadcrumbs[$i][0].'</a>';
 
 				} else {

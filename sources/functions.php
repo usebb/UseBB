@@ -1290,7 +1290,7 @@ class functions {
 		} else {
 			
 			header(HEADER_403);
-			$template->set_page_title($lang['Note']);
+			$template->add_breadcrumb($lang['Note']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],
 				'content' => $lang['NotPermitted']
@@ -3177,7 +3177,7 @@ class functions {
 		if ( !$session->sess_info['pose_antispam_question'] )
 			return;
 		
-		$template->set_page_title($lang['AntiSpamQuestion']);
+		$template->add_breadcrumb($lang['AntiSpamQuestion']);
 		$mode = (int)$this->get_config('antispam_question_mode');
 
 		if ( empty($_SESSION['antispam_question_question']) )

@@ -299,10 +299,9 @@ class admin_functions {
 		
 		$name = ( preg_match('#^mod_([A-Za-z0-9\-_\.]+)$#', $location, $module_name) ) ? $this->acp_modules[$module_name[1]]['long_name'] : $lang['Item-'.$location];
 		
-		if ( $location == 'index' )
-			$template->set_page_title($lang['ACP']);
-		else
-			$template->set_page_title('<a href="'.$functions->make_url('admin.php').'">'.$lang['ACP'].'</a>'.$template->get_config('locationbar_item_delimiter').$name);
+		$template->add_breadcrumb($lang['ACP'], array('admin.php'));
+		if ( $location != 'index' )
+			$template->add_breadcrumb($name);
 		
 		$template->parse('main', 'admin', array(
 			'admin_menu' => $this->create_acp_menu($location),

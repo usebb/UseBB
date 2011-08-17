@@ -60,7 +60,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_active_topics_m
 	//
 	// No active topics
 	//
-	$template->set_page_title($lang['Note']);
+	$template->add_breadcrumb($lang['Note']);
 	$template->parse('msgbox', 'global', array(
 		'box_title' => $lang['Note'],
 		'content' => $lang['NoActivetopics']
@@ -95,7 +95,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_active_topics_m
 		//
 		// No active topics
 		//
-		$template->set_page_title($lang['Note']);
+		$template->add_breadcrumb($lang['Note']);
 		$template->parse('msgbox', 'global', array(
 			'box_title' => $lang['Note'],
 			'content' => $lang['NoActivetopics']
@@ -119,7 +119,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_active_topics_m
 			
 			if ( !$active_topics_found ) {
 				
-				$template->set_page_title($lang['ActiveTopics']);
+				$template->add_breadcrumb($lang['ActiveTopics']);
 				$template->parse('header', 'activetopics');
 
 				$active_topics_found = true;
@@ -173,7 +173,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_active_topics_m
 			//
 			// No active topics
 			//
-			$template->set_page_title($lang['Note']);
+			$template->add_breadcrumb($lang['Note']);
 			$template->parse('msgbox', 'global', array(
 				'box_title' => $lang['Note'],
 				'content' => $lang['NoActivetopics']

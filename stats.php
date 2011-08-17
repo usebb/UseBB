@@ -64,7 +64,7 @@ if ( !$functions->get_config('enable_stats') ) {
 	
 } else {
 		
-	$template->set_page_title($lang['Statistics']);
+	$template->add_breadcrumb($lang['Statistics']);
 	
 	//
 	// Show general statistics

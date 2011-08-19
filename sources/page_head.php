@@ -286,8 +286,6 @@ if ( $session->sess_info['ip_banned'] ) {
 //
 if ( $functions->get_config('board_closed') && $session->sess_info['location'] != 'login' ) {
 	
-	$template->add_breadcrumb($lang['BoardClosed']);
-	
 	//
 	// Show this annoying board closed message on all pages but the login page.
 	//
@@ -300,6 +298,8 @@ if ( $functions->get_config('board_closed') && $session->sess_info['location'] !
 	// Admins can still enter the board
 	//
 	if ( $functions->get_user_level() < LEVEL_ADMIN ) {
+		
+		$template->add_breadcrumb($lang['BoardClosed']);
 		
 		//
 		// Include the page footer

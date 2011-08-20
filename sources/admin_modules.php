@@ -59,10 +59,12 @@ if ( $functions->get_config('enable_acp_modules') ) {
 			
 			$content .= '<table id="adminregulartable"><tr><th>'.$lang['ModulesCategory'].' - '.$lang['ModulesLongName'].'</th><th>'.$lang['ModulesShortName'].' - '.$lang['ModulesFilename'].'</th><th class="action">'.$lang['Delete'].'</th></tr>';
 			foreach ( $admin_functions->acp_modules as $module ) {
-				
+
+				$min_version = ( !empty($module['min_version']) && version_compare(USEBB_VERSION, $module['min_version'], '<') ) ? '<br /><strong>'.sprintf($lang['RunningACPModuleMinVersion'], $module['min_version']).'</strong>' : '';
+
 				$delete_link = ( is_writable($modules_dir.$module['filename']) ) ? '<a href="'.$functions->make_url('admin.php', array('act' => 'modules', 'do' => 'delete', 'name' => $module['short_name'])).'">'.$lang['Delete'].'</a>' : $lang['ModulesDeleteNotPermitted'];
 				
-				$content .= '<tr><td>'.$lang['Category-'.$module['acp_category']].'<br />&middot; <a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'">'.$module['long_name'].'</a></td><td><code>'.$module['short_name'].'<br />'.$module['filename'].'</code></td><td class="action">'.$delete_link.'</td></tr>';
+				$content .= '<tr><td>'.$lang['Category-'.$module['acp_category']].'<br />&middot; <a href="'.$functions->make_url('admin.php', array('act' => 'mod_'.$module['short_name'])).'">'.$module['long_name'].'</a>'.$min_version.'</td><td><code>'.$module['short_name'].'<br />'.$module['filename'].'</code></td><td class="action">'.$delete_link.'</td></tr>';
 				
 			}
 			$content .= '</table>';

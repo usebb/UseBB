@@ -33,6 +33,7 @@ $lang['AdminLogin'] = 'Admin Login';
 $lang['AdminPasswordExplain'] = 'For security reasons, you must enter your account\'s password to login into the ACP.';
 
 $lang['RunningBadACPModule'] = 'UseBB can not run this module because one or more aspects are missing (no $usebb_module object found and/or missing run_module() object method).';
+$lang['RunningACPModuleMinVersion'] = 'To run this module, UseBB version %s or later is required.';
 
 $lang['Category-main'] = 'General';
 $lang['Category-forums'] = 'Forums';

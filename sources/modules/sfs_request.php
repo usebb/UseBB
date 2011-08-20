@@ -35,6 +35,7 @@ $usebb_module_info = array(
 	'short_name' => 'sfs_request',
 	'long_name' => 'SFS Request',
 	'acp_category' => 'security',
+	'min_version' => '1.0.13'
 );
 
 if ( defined('RUN_MODULE') ) {

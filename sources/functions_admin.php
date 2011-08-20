@@ -235,6 +235,9 @@ class admin_functions {
 	function run_module($module_name) {
 		
 		global $lang;
+
+		if ( !empty($this->acp_modules[$module_name]['min_version']) && version_compare(USEBB_VERSION, $this->acp_modules[$module_name]['min_version'], '<') )
+			return $this->create_body('mod_'.$module_name, '<p><strong>'.sprintf($lang['RunningACPModuleMinVersion'], $this->acp_modules[$module_name]['min_version']).'</strong></p>');
 		
 		//
 		// Load the module

@@ -749,6 +749,9 @@ if (
 		
 	}
 	
+	if ( !is_writable(ROOT_PATH.'config.php') )
+		$content .= '<p>'.sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>').'</p>';
+	
 	$content .= '<p class="submit" id="adminconfigsubmit"><input type="submit" value="'.$lang['Save'].'" />'.$admin_functions->form_token().' <input type="reset" value="'.$lang['Reset'].'" /></p></form>';
 	
 }

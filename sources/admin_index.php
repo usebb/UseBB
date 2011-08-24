@@ -46,8 +46,6 @@ $content = '<p>'.$lang['IndexWelcome'].'</p>';
 $warnings = array();
 if ( !empty($lang['character_encoding']) && strtolower($lang['character_encoding']) == 'utf-8' )
 	$warnings[] = sprintf($lang['IndexMultibyteUsage'], strtoupper($lang['character_encoding']));
-if ( !is_writable(ROOT_PATH.'config.php') )
-	$warnings[] = sprintf($lang['IndexUnwritableConfig'], '<code>config.php</code>');
 if ( !USEBB_IS_PROD_ENV )
 	$warnings[] = $lang['IndexDevelopmentEnvironment'];
 if ( count($warnings) )

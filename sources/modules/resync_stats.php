@@ -51,52 +51,176 @@ if ( defined('RUN_MODULE') ) {
 				."WHERE p.topic_id = t.id "
 				."GROUP BY t.id");
 			$i = 0;
-			while ( $topics = $db->fetch_result($result) ) {
+			while ( $topic = $db->fetch_result($result) ) {
 
-				if ( $topics['count_replies'] == $topics['num_posts'] - 1 )
+				if ( $topic['count_replies'] == $topic['num_posts'] - 1 )
 					continue;
 				
 				$db->query(
 					"UPDATE ".TABLE_PREFIX."topics "
-					."SET count_replies = ".( $topics['num_posts'] - 1 )." "
-					."WHERE id = ".$topics['id']);
+					."SET count_replies = ".( $topic['num_posts'] - 1 )." "
+					."WHERE id = ".$topic['id']);
 				$i++;
 
 			}
 			
 			$_SESSION['resync_stats']['topic_counts'] = true;
 			
-			return '<p>'.$i.' topics have been adjusted.</p>';
+			return '<p>'.$i.' topic(s) have been adjusted.</p>';
 
 		}
 
 		function stage_topic_posts() {
 
+			global $db;
 			
+			$result = $db->query(
+				"SELECT t.id, first_post_id, last_post_id, MIN(p.id) AS new_first_post_id, MAX(p.id) AS new_last_post_id "
+				."FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p "
+				."WHERE p.topic_id = t.id "
+				."GROUP BY t.id");
+			$i = 0;
+			while ( $topic = $db->fetch_result($result) ) {
+
+				if ( $topic['first_post_id'] == $topic['new_first_post_id'] 
+					&& $topic['last_post_id'] == $topic['new_last_post_id'] )
+					continue;
+				
+				$db->query(
+					"UPDATE ".TABLE_PREFIX."topics "
+					."SET first_post_id = ".$topic['new_first_post_id'].", last_post_id = ".$topic['new_last_post_id']." "
+					."WHERE id = ".$topic['id']);
+				$i++;
+
+			}
+			
+			$_SESSION['resync_stats']['topic_posts'] = true;
+			
+			return '<p>'.$i.' topic(s) have been adjusted.</p>';
 
 		}
 
 		function stage_forum_counts() {
 
+			global $db;
+			
+			$result = $db->query(
+				"SELECT f.id, topics, posts, COUNT(t.id) AS num_topics, SUM(t.count_replies) AS num_replies "
+				."FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t "
+				."WHERE t.forum_id = f.id "
+				."GROUP BY f.id");
+			$i = 0;
+			while ( $forum = $db->fetch_result($result) ) {
 
+				if ( $forum['topics'] == $forum['num_topics'] 
+					&& $forum['posts'] == ( $forum['num_replies'] + $forum['num_topics'] ) )
+					continue;
+				
+				$db->query(
+					"UPDATE ".TABLE_PREFIX."forums "
+					."SET topics = ".$forum['num_topics'].", posts = ".( $forum['num_replies'] + $forum['num_topics'] )." "
+					."WHERE id = ".$forum['id']);
+				$i++;
+
+			}
+			
+			$_SESSION['resync_stats']['forum_counts'] = true;
+			
+			return '<p>'.$i.' forum(s) have been adjusted.</p>';
 
 		}
 
 		function stage_forum_topics() {
 
+			global $db;
+			
+			$result = $db->query(
+				"SELECT f.id, f.last_topic_id, MAX(t.last_post_id) AS new_last_post_id "
+				."FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t "
+				."WHERE t.forum_id = f.id "
+				."GROUP BY f.id");
+			$i = 0;
+			while ( $forum = $db->fetch_result($result) ) {
 
+				$result2 = $db->query(
+					"SELECT topic_id AS new_last_topic_id "
+					."FROM ".TABLE_PREFIX."posts "
+					."WHERE id = ".$forum['new_last_post_id']);
+				$topic = $db->fetch_result($result2);
+
+				if ( $forum['last_topic_id'] == $topic['new_last_topic_id'] )
+					continue;
+				
+				$db->query(
+					"UPDATE ".TABLE_PREFIX."forums "
+					."SET last_topic_id = ".$topic['new_last_topic_id']." "
+					."WHERE id = ".$forum['id']);
+				$i++;
+
+			}
+			
+			$_SESSION['resync_stats']['forum_topics'] = true;
+			
+			return '<p>'.$i.' forum(s) have been adjusted.</p>';
 
 		}
 
 		function stage_members() {
 
+			global $db;
+			
+			$result = $db->query(
+				"SELECT m.id, m.posts, COUNT(p.id) AS new_posts "
+				."FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."members m "
+				."WHERE m.id = p.poster_id AND p.topic_id = t.id AND t.forum_id = f.id AND f.increase_post_count = 1 "
+				."GROUP BY m.id");
+			$i = 0;
+			while ( $member = $db->fetch_result($result) ) {
 
+				if ( $member['posts'] == $member['new_posts'] )
+					continue;
+				
+				$db->query(
+					"UPDATE ".TABLE_PREFIX."members "
+					."SET posts = ".$member['new_posts']." "
+					."WHERE id = ".$member['id']);
+				$i++;
+
+			}
+			
+			$_SESSION['resync_stats']['members'] = true;
+			
+			return '<p>'.$i.' member(s) have been adjusted.</p>';
 
 		}
 
 		function stage_global() {
 
+			global $db;
 
+			$result = $db->query(
+				"SELECT SUM(topics) AS num_topics, SUM(posts) AS num_posts "
+				."FROM ".TABLE_PREFIX."forums");
+			$forums = $db->fetch_result($result);
+
+			$result = $db->query(
+				"SELECT COUNT(id) AS num_members "
+				."FROM ".TABLE_PREFIX."members");
+			$members = $db->fetch_result($result);
+
+			$db->query("UPDATE ".TABLE_PREFIX."stats "
+				."SET content = '".$forums['num_topics']."' "
+				."WHERE name = 'topics'");
+			$db->query("UPDATE ".TABLE_PREFIX."stats "
+				."SET content = '".$forums['num_posts']."' "
+				."WHERE name = 'posts'");
+			$db->query("UPDATE ".TABLE_PREFIX."stats "
+				."SET content = '".$members['num_members']."' "
+				."WHERE name = 'members'");
+
+			$_SESSION['resync_stats']['global'] = true;
+			
+			return '<p>Global statistics have been adjusted.</p>';
 
 		}
 		
@@ -120,7 +244,7 @@ if ( defined('RUN_MODULE') ) {
 				'topic_posts' => array('Topic posts', 'First and last post IDs.'),
 				'forum_counts' => array('Forum counts', 'Number of topics and posts per forum.'), 
 				'forum_topics' => array('Forum topics', 'Last topic IDs.'),
-				'members' => array('Members', 'Number of posts per member.'),
+				'members' => array('Members', 'Number of posts per member (in forums with post count increasing only).'),
 				'global' => array('Global', 'Global forum statistics.'),
 			);
 

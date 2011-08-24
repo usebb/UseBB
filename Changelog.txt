@@ -1,4 +1,6 @@
-Issue numbers (#x): see https://github.com/usebb/UseBB/issues/x.
+Issue numbers (#x):
+ * As of 1.0.14: see https://github.com/usebb/UseBB/issues/x
+ * Before: see http://www.usebb.net/community/topic-x.html
 
 UseBB 1.0.14 Changelog
 ------------------------------

@@ -1,3 +1,5 @@
+Issue numbers (#x): see https://github.com/usebb/UseBB/issues/x.
+
 UseBB 1.0.14 Changelog
 ------------------------------
 

@@ -1577,6 +1577,7 @@ class functions {
 			
 		}
 		
+		// TODO safe mode to be removed in PHP 5.4
 		$is_safe_mode = in_array(strtolower(ini_get('safe_mode')), array('1', 'on'));
 
 		if ( $is_mbstring && function_exists('mb_send_mail') ) {

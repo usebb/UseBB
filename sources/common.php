@@ -104,6 +104,7 @@ if ( in_array('_GET', $request_keys) || in_array('_POST', $request_keys) || in_a
 //
 // Unset global variables
 // Upto here, all created variables can be removed
+// TODO to be removed in PHP 5.4
 //
 if ( ini_get('register_globals') ) {
 	

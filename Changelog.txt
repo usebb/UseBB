@@ -10,6 +10,7 @@ UseBB 1.0.14 Changelog
 - Added Stop Forum Spam API request ACP module (#91).
 - Breadcrumbs are now made with array -- can use different subsets in templates (#92).
 - Allow global template variable to be unescaped through js_ prefix (for JS snippets).
+- Potential spammer status and restrictions can now be applied to guests (#94).
 - ACP modules can require minimal UseBB version.
 - Replaced missing template config setting errors with debug output.
 

@@ -3581,15 +3581,24 @@ class functions {
 		if ( !isset($user['level']) && isset($user['poster_level']) )
 			$user['level'] = $user['poster_level'];
 
-		if ( !isset($user['active']) || !isset($user['level']) )
+		if ( !isset($user['level']) )
 			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
+
+		//
+		// Guests are potential spammers (when enabled)
+		//
+		if ( $user['level'] == LEVEL_GUEST && $this->get_config('antispam_status_for_guests') )
+			return USER_POTENTIAL_SPAMMER;
 
 		//
 		// Only for regular members
 		//
 		if ( $user['level'] != LEVEL_MEMBER )
 			return USER_ACTIVE;
-		
+
+		if ( !isset($user['active']) )
+			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
+
 		//
 		// Keep status for no new post or active user, unless is activating
 		//

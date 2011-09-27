@@ -76,6 +76,7 @@ $conf['allow_duplicate_emails'] = 0;
 $conf['antispam_disable_post_links'] = 0;
 $conf['antispam_disable_profile_links'] = 0;
 $conf['antispam_status_max_posts'] = 0;
+$conf['antispam_status_for_guests'] = 0;
 $conf['antispam_question_mode'] = 0;
 $conf['antispam_question_questions'] = array ();
 $conf['avatars_force_width'] = 0;

@@ -311,6 +311,8 @@ $lang['ConfigBoard-ga_account'] = 'Google Analytics Web Property ID';
 $lang['ConfigBoard-ga_account-info'] = 'Will add Analytics code to your forum\'s web pages. Often in the form of <code>UA-xxxxxxx-x</code>. Empty to disable.';
 $lang['ConfigBoard-ga_domain'] = 'Google Analytics domain';
 $lang['ConfigBoard-ga_domain-info'] = 'Required for multiple (sub)domains.';
+$lang['ConfigBoard-allow_multi_sess_per_user'] = 'Allow multiple sessions per user';
+$lang['ConfigBoard-allow_multi_sess_per_user-info'] = 'When disabled, upon login all other sessions for the current user will be removed.';
 
 $lang['CategoriesInfo'] = 'This section gives you the control over the various categories that exist at your board.';
 $lang['CategoriesAddNewCat'] = 'Add a new category';

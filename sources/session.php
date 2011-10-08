@@ -632,6 +632,12 @@ class session {
 		//
 		$_SESSION['previous_visit'] = ( $new_sess_info['user_id'] && ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] || empty($_SESSION['previous_visit']) ) ) ? $user_data['last_pageview'] : $_SESSION['previous_visit'];
 		
+		//
+		// Remove other sessions with same user ID (if enabled)
+		//
+		if ( !$functions->get_config('allow_multi_sess_per_user') && $new_sess_info['user_id'] && ( !$session_started || $current_sess_info['user_id'] !== $new_sess_info['user_id'] ) )
+			$db->query("DELETE FROM ".TABLE_PREFIX."sessions WHERE user_id = '".$new_sess_info['user_id']."' AND sess_id <> '".session_id()."'");
+		
 	}
 	
 	/**

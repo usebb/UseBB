@@ -25,6 +25,8 @@ abstract class AbstractContext extends PluginRunningClass {
 	
 	/**
 	 * Handle the current request.
+	 * 
+	 * \attention This method is called automatically.
 	 */
 	abstract public function handleRequest();
 	
@@ -71,6 +73,17 @@ abstract class AbstractContext extends PluginRunningClass {
 	 * \returns New string
 	 */
 	abstract public function applyArgumentsToString($string, array $args);
+	
+	/**
+	 * Generate a link.
+	 * 
+	 * Given a number of parameters (key/value pairs), generate a context-
+	 * specific string representing a link.
+	 * 
+	 * \param $params Parameters
+	 * \returns Link
+	 */
+	abstract public function generateLink(array $params);
 	
 	/**
 	* PHP error handler.

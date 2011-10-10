@@ -10,11 +10,15 @@ use UseBB\System\Plugins\PluginRunningClass;
  * Modules register controllers for specific requests. A request is a (group of)
  * input variable keys/values, such as HTTP GET variables or CLI parameters.
  * 
+ * Components in the system can retrieve links to registered requests using
+ * the controller and name strings.
+ * 
  * \author Dietrich Moerman
  */
 class Registry extends PluginRunningClass {
 	private $requests = array();
 	private $registry = array();
+	private $reverseRegistry = array();
 	
 	/**
 	 * Fill a request array: create parameters for key-only parts.
@@ -44,11 +48,14 @@ class Registry extends PluginRunningClass {
 	 * Register a controller for a certain request.
 	 * 
 	 * Parameters (\c @@name) can be used. They are used for generating system
-	 * paths (such as URLs) and can match any value.
+	 * links (such as URLs) and can match any value.
+	 * 
+	 * A value without key is treated as a key with a parameter with same name.
+	 * E.g. in example below \c foobar = \c @@foobar
 	 * 
 	 * Example:
 	 * \code
-	 * $navigation->register(array("foobar", "foo" => "@bar"), 
+	 * $nav->register(array("foobar", "foo" => "@bar"), 
 	 * 	"UseBB\Modules\Test\TestController");
 	 * \endcode
 	 * will make \c TestController handle the matching requests.
@@ -73,6 +80,7 @@ class Registry extends PluginRunningClass {
 		$i = "c" . count($this->requests);
 		$this->requests[$i] = $request;
 		$this->registry[$i] = array($controller, $name);
+		$this->reverseRegistry[$controller . "__" . $name] = $i;
 	}
 	
 	/**
@@ -126,6 +134,8 @@ class Registry extends PluginRunningClass {
 	 * \param $current Request
 	 * 
 	 * \exception NoControllerFoundException When no suitable controller found
+	 * 
+	 * \attention This method is called automatically.
 	 */
 	public function handleRequest(array $current) {
 		// Sort with descending number of values.
@@ -155,5 +165,43 @@ class Registry extends PluginRunningClass {
 		$controller = new $found($this->getServiceRegistry());
 		$name = ucfirst($name);
 		call_user_func(array($controller, "handle" . $name . "Request"));
+	}
+	
+	/**
+	 * Get the link to a specific controller and optional name.
+	 * 
+	 * Pass a controller and name with eventual parameters and a context-
+	 * specific link will be returned.
+	 * 
+	 * Parameters are \c @@name formatted values used when registering requests.
+	 * They will be replaced by the new value in the parameter array.
+	 * 
+	 * Example (using code from register()):
+	 * \code
+	 * $nav->getLink("UseBB\Modules\Test\TestController", NULL, array(
+	 * 	"@foobar" => "something",
+	 * 	"@bar" => "baz"
+	 * ));
+	 * \endcode
+	 * 
+	 * \exception NoRegisteredRequestException When no request could be found 
+	 * for the specified controller and name
+	 * 
+	 * \param $controller Controller
+	 * \param $name Name
+	 * \param $params Parameters
+	 * \returns Link
+	 */
+	public function getLink($controller, $name = "", array $params = array()) {
+		$key = $controller  . "__" . $name;
+		
+		if (!isset($this->reverseRegistry[$key])) {
+			throw new NoRegisteredRequestException($controller, $name);
+		}
+		
+		$request = $this->requests[$this->reverseRegistry[$key]];
+		
+		return $this->getService("context")
+			->generateLink(array_replace($request, $params));
 	}
 }

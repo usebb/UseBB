@@ -29,6 +29,11 @@ class CLI extends AbstractContext {
 		// TODO
 		return $string;
 	}
+	
+	public function generateLink(array $params) {
+		// TODO
+		return "";
+	}
 
 	/**
 	 * PHP error handler.

@@ -166,6 +166,20 @@ class HTTP extends AbstractContext {
 		setcookie($name, "", -86400, $config->get("cookiePath"), 
 			$config->get("cookieDomain"), $this->isSecureHTTP(), FALSE);
 	}
+	
+	public function generateLink(array $params) {
+		if (count($params) == 0) {
+			return "./";
+		}
+		
+		$vars = array();
+		
+		foreach ($params as $k => $v) {
+			$vars[] = urlencode($k) . "=" . urlencode($v);
+		}
+		
+		return "./?" . implode("&", $vars);
+	}
 
 	/**
 	 * PHP error handler.

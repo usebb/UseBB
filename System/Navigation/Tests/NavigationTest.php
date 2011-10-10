@@ -22,6 +22,7 @@ class NavigationTest extends \PHPUnit_Extensions_OutputTestCase {
 	
 	protected function setUp() {
 		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
+		$services->setForcedContext("UseBB\System\Context\HTTP");
 		$this->navigation = $services->get("navigation");
 	}
 	
@@ -124,5 +125,33 @@ class NavigationTest extends \PHPUnit_Extensions_OutputTestCase {
 			"test" => ".", 
 			"foo" => "bar"
 		));
+	}
+	
+	public function testLink() {
+		$this->navigation->register(array(
+			"do" => "some",
+			"id" => "@id",
+			"foo" => "barù"
+		), "SomeController");
+		
+		$this->assertEquals("./?do=some&id=5&foo=bar%C3%B9", 
+			$this->navigation->getLink("SomeController", NULL, 
+			array("id" => 5)));
+	}
+	
+	public function testLinkWithCName() {
+		$this->navigation->register(array(
+			"do" => "some",
+			"id" => "@id"
+		), "SomeController");
+		$this->navigation->register(array(
+			"do" => "some",
+			"act" => "edit",
+			"id" => "@id"
+		), "SomeController", "edit");
+		
+		$this->assertEquals("./?do=some&act=edit&id=5", 
+			$this->navigation->getLink("SomeController", "edit", 
+			array("id" => 5)));
 	}
 }

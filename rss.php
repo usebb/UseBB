@@ -137,7 +137,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		
 		'board_name' => unhtml($functions->get_config('board_name').': '.stripslashes($forumdata['name']), true),
 		// Stripping tags, Firefox doesn't show the description when it has tags.
-		'board_descr' => strip_tags(stripslashes($forumdata['descr'])),
+		'board_descr' => named_entities_to_numeric(strip_tags(stripslashes($forumdata['descr']))),
 		'board_url' => $forum_link,
 		'pubDate' => $pubDate,
 		'link_rss' => $functions->get_config('board_url').$functions->make_url('rss.php', array('forum' => $_GET['forum']), true, false),

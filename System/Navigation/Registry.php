@@ -60,8 +60,8 @@ class Registry extends PluginRunningClass {
 	 * \endcode
 	 * will make \c TestController handle the matching requests.
 	 * 
-	 * The method called on the controller is \c %handleRequest(), unless a name 
-	 * \c foo is given, in which case \c handleFooRequest() is called.
+	 * The method called on the controller is \c doIt(), unless a name 
+	 * \c foo is given, in which case \c doFoo() is called.
 	 * 
 	 * \param $request Request
 	 * \param $controller Controller class name (handler)
@@ -163,8 +163,8 @@ class Registry extends PluginRunningClass {
 		}
 		
 		$controller = new $found($this->getServiceRegistry());
-		$name = ucfirst($name);
-		call_user_func(array($controller, "handle" . $name . "Request"));
+		$name = empty($name) ? "It" : ucfirst($name);
+		call_user_func(array($controller, "do" . $name));
 	}
 	
 	/**

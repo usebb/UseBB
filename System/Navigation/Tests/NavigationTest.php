@@ -6,13 +6,13 @@ use UseBB\System\AbstractController;
 use UseBB\System\ServiceRegistry;
 
 class TestController extends AbstractController {
-	public function handleRequest() {
+	public function doIt() {
 		echo "Handling request.";
 	}
 }
 
 class TestController2 extends AbstractController {
-	public function handleFooRequest() {
+	public function doFoo() {
 		echo "Handling named request.";
 	}
 }

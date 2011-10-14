@@ -16,7 +16,7 @@ class Installer extends AbstractController {
 	 * 
 	 * \request{\rootRequest}
 	 */
-	public function handleRequest() {
+	public function doIt() {
 		$output = "<h1>" . $this->t("UseBB Simple Installer") . "</h1>";
 		$can = $this->canConnect();
 		

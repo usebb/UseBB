@@ -16,7 +16,8 @@ class ModulesTest extends \PHPUnit_Extensions_OutputTestCase {
 	
 	protected function setUp() {
 		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->services->setForcedContext("UseBB\System\Context\HTTP");
+		$this->services->setServiceInstance("context", 
+			new \UseBB\System\Context\HTTP($this->services));
 		$this->systemSchema = new SystemSchema($this->services);
 		$this->systemSchema->install();
 		$this->modules = $this->services->get("modules");

@@ -17,7 +17,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function setUp() {
 		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$services->setForcedContext("UseBB\System\Context\HTTP");
+		$services->setServiceInstance("context", 
+			new \UseBB\System\Context\HTTP($services));
 		$services->get("config")->set("system", "sessionLifetime", 4);
 		$this->session = $services->get("session");
 	}

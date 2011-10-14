@@ -56,7 +56,8 @@ class TranslationTest extends \PHPUnit_Extensions_OutputTestCase {
 	
 	public static function setUpBeforeClass() {
 		self::$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		self::$services->setForcedContext("UseBB\System\Context\HTTP");
+		self::$services->setServiceInstance("context", 
+			new \UseBB\System\Context\HTTP(self::$services));
 		self::$translation = self::$services->get("translation");
 		self::$systemTestClass = new SystemTestClass(self::$services);
 		self::$moduleTestClass = new ModuleTestClass(self::$services);

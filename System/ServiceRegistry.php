@@ -28,7 +28,6 @@ use UseBB\Utils\Mail\Sender as Mail;
 class ServiceRegistry {
 	private $services = array();
 	private $dbConfig;
-	private $forcedContext;
 
 	/**
 	 * Constructor.
@@ -40,13 +39,16 @@ class ServiceRegistry {
 	}
 	
 	/**
-	 * Set the forced context class to use instead of the dynamically
-	 * decided one.
+	 * Explicitly set a service to a given instance.
 	 * 
-	 * \note This is mostly used for unit tests - not production code.
+	 * This method is often used in unit tests and can be useful for
+	 * mocking objects.
+	 * 
+	 * \param $name Service name
+	 * \param $instance Instance
 	 */
-	public function setForcedContext($context) {
-		$this->forcedContext = $context;
+	public function setServiceInstance($name, $instance) {
+		$this->services[$name] = $instance;
 	}
 
 	/**
@@ -119,12 +121,6 @@ class ServiceRegistry {
 	 * \exception UseBBException When no suitable context found
 	 */
 	private function contextFactory() {
-		if (isset($this->forcedContext)) {
-			$className = $this->forcedContext;
-			
-			return new $className($this);
-		}
-		
 		if (!empty($_SERVER["SHELL"])) {
 			return new CLI($this);
 		}

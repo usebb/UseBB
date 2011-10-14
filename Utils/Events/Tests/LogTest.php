@@ -24,7 +24,8 @@ class LogTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function setUp() {
 		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->services->setForcedContext("UseBB\System\Context\HTTP");
+		$this->services->setServiceInstance("context", 
+			new \UseBB\System\Context\HTTP($this->services));
 		$this->sSchema = new SystemSchema($this->services);
 		$this->sSchema->install();
 		$this->log = $this->services->get("log");

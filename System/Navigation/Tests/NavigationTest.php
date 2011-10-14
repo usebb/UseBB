@@ -22,7 +22,8 @@ class NavigationTest extends \PHPUnit_Extensions_OutputTestCase {
 	
 	protected function setUp() {
 		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$services->setForcedContext("UseBB\System\Context\HTTP");
+		$services->setServiceInstance("context", 
+			new \UseBB\System\Context\HTTP($services));
 		$this->navigation = $services->get("navigation");
 	}
 	

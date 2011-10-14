@@ -153,7 +153,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	if ( $functions->auth($forumdata['auth'], 'read', $_GET['forum']) ) {
 		
 		$can_read = true;
-		$add_to_query = array("p.content", "p.enable_bbcode", "p.enable_smilies", "p.enable_html");
+		$add_to_query = array("p.content", "p.enable_bbcode", "p.enable_smilies", "p.enable_html", "m.level AS poster_level", "m.active");
 		
 	} else {
 		
@@ -169,10 +169,11 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	while ( $topicdata = $db->fetch_result($result) ) {
 		
 		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('id' => $topicdata['id']), true, false);
+		$can_post_links = $can_read && $functions->antispam_can_post_links($topicdata);
 		
 		$template->parse('topic', 'rss', array(
 			'title' => unhtml($functions->replace_badwords(stripslashes($topicdata['topic_title'])), true),
-			'description' => $can_read ? $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true) : '',
+			'description' => $can_read ? $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true, $can_post_links) : '',
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['displayed_name'] : $topicdata['poster_guest']), true),
 			'link' => $link,
@@ -237,7 +238,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	// Get the posts
 	//
 	
-	$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_html, m.displayed_name FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE p.topic_id = ".$_GET['topic']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.content, p.post_time, p.enable_bbcode, p.enable_smilies, p.enable_html, m.displayed_name, m.level AS poster_level, m.active FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE p.topic_id = ".$_GET['topic']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 	
 	while ( $postdata = $db->fetch_result($result) ) {
 		
@@ -245,10 +246,11 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 		$title = ( ( $postdata['id'] != $topicdata['first_post_id'] ) ? $lang['Re'].' ' : '' ) . $title;
 
 		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $postdata['id']), true, false).'#post'.$postdata['id'];
+		$can_post_links = $functions->antispam_can_post_links($postdata);
 		
 		$template->parse('topic', 'rss', array(
 			'title' => $title,
-			'description' => $functions->markup($functions->replace_badwords(stripslashes($postdata['content'])), $postdata['enable_bbcode'], $postdata['enable_smilies'], $postdata['enable_html'], true),
+			'description' => $functions->markup($functions->replace_badwords(stripslashes($postdata['content'])), $postdata['enable_bbcode'], $postdata['enable_smilies'], $postdata['enable_html'], true, $can_post_links),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($postdata['poster_id']) ) ? $postdata['displayed_name'] : $postdata['poster_guest']), true),
 			'link' => $link,
@@ -320,7 +322,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	$template->parse('header', 'rss', $header_vars, true);
 	
-	$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, m.level AS poster_level, m.active, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 			
 	$reply_counts = array();
 	
@@ -336,13 +338,14 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 			$title = $lang['Re'].' '.$title;
 		
 		$link = $functions->get_config('board_url').$functions->make_url('topic.php', array('post' => $topicdata['post_id']), true, false).'#post'.$topicdata['post_id'];
+		$can_post_links = $functions->antispam_can_post_links($topicdata);
 		
 		//
 		// Parse the topic template
 		//
 		$template->parse('topic', 'rss', array(
 			'title' => $title,
-			'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true),
+			'description' => $functions->markup($functions->replace_badwords(stripslashes($topicdata['content'])), $topicdata['enable_bbcode'], $topicdata['enable_smilies'], $topicdata['enable_html'], true, $can_post_links),
 			// <author> was renamed to <dc:creator> in the default template to keep validity.
 			'author' => unhtml(stripslashes( ( !empty($topicdata['poster_id']) ) ? $topicdata['last_poster_name'] : $topicdata['last_poster_guest']), true),
 			'link' => $link,

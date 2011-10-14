@@ -8,6 +8,7 @@ UseBB 1.0.14 Changelog
 - Added Google Analytics tracking code support (#93).
 - Added re-sync statistics ACP module (#90).
 - Added Stop Forum Spam API request ACP module (#91).
+- Fixed potential spammer status not taken into account in RSS feeds (#103).
 - Automatically close other sessions for same user (#95).
 - Breadcrumbs are now made with array -- can use different subsets in templates (#92).
 - Allow global template variable to be unescaped through js_ prefix (for JS snippets).

@@ -123,7 +123,7 @@ class Registry extends ServiceAccessor {
 	private function readAllModules() {
 		$this->getModuleStatuses();
 		
-		$modulesDir = USEBB_ROOT_PATH . "Modules/";
+		$modulesDir = USEBB_ROOT_PATH . "/Modules/";
 		$iterator = new \DirectoryIterator($modulesDir);
 		$this->allModules = array();
 		

@@ -19,8 +19,8 @@ class Defaults extends AbstractRegistry {
 	 */
 	private function readConfigForModule($module) {
 		$dir = $module == "system"
-			? USEBB_ROOT_PATH . "includes/"
-			: USEBB_ROOT_PATH . "Modules/" . $module . "/";
+			? USEBB_ROOT_PATH . "/includes/"
+			: USEBB_ROOT_PATH . "/Modules/" . $module . "/";
 		$file = $dir . "configDefaults.php";
 		
 		if (!file_exists($file)) {

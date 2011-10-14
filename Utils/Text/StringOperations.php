@@ -2,7 +2,7 @@
 
 namespace UseBB\Utils\Text;
 
-require USEBB_ROOT_PATH . "includes/utf8/utf8.php";
+require USEBB_ROOT_PATH . "/includes/utf8/utf8.php";
 
 use DokuWiki\UTF8;
 

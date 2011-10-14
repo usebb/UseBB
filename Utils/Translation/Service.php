@@ -104,7 +104,7 @@ class Service extends ServiceAccessor {
 		}
 		
 		$this->available = array("en" => array("English", "English"));
-		$langDir = USEBB_ROOT_PATH . "includes/translations/";
+		$langDir = USEBB_ROOT_PATH . "/includes/translations/";
 		$iterator = new \DirectoryIterator($langDir);
 		
 		foreach ($iterator as $file) {
@@ -180,8 +180,8 @@ class Service extends ServiceAccessor {
 		}
 		
 		$dir = $module == "system"
-			? USEBB_ROOT_PATH . "includes/translations/"
-			: USEBB_ROOT_PATH . "Modules/" . $module . "/translations/";
+			? USEBB_ROOT_PATH . "/includes/translations/"
+			: USEBB_ROOT_PATH . "/Modules/" . $module . "/translations/";
 		$file = $dir . $language . "/" . $section . ".php";
 		
 		if (!file_exists($file)) {

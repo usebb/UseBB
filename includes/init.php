@@ -9,19 +9,23 @@ error_reporting(E_ALL | E_STRICT);
 
 // Set to current path if not set.
 if (!defined("USEBB_ROOT_PATH")) {
-	define("USEBB_ROOT_PATH", "./");
+	define("USEBB_ROOT_PATH", realpath("./"));
 }
 
 date_default_timezone_set("UTC");
 
 // UseBB
 spl_autoload_register(function($name) {
-	$file = USEBB_ROOT_PATH . str_replace("\\", "/", substr($name, 6)) . ".php";
-
+	if (strncmp($name, "UseBB\\", 6) !== 0) {
+		return;
+	}
+	
+	$file = USEBB_ROOT_PATH . str_replace("\\", "/", substr_replace($name, "/", 0, 6)) . ".php";
+	
 	if (!file_exists($file)) {
 		return;
 	}
-
+	
 	require $file;
 });
 

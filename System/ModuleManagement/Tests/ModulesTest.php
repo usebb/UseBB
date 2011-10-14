@@ -7,7 +7,7 @@ use UseBB\Utils\SchemaManagement\SystemSchema;
 use UseBB\Utils\Config\NotFoundException;
 use UseBB\System\ModuleManagement\EnableOutdatedModuleException;
 
-require USEBB_ROOT_PATH . "Modules/FooBar/moduleInfo.php";
+require USEBB_ROOT_PATH . "/Modules/FooBar/moduleInfo.php";
 
 class ModulesTest extends \PHPUnit_Extensions_OutputTestCase {
 	protected $services;

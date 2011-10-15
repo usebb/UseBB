@@ -37,11 +37,5 @@ $doctrine = new Doctrine\Common\ClassLoader("Doctrine");
 $doctrine->register();
 
 // Include local database configuration.
-
-if (file_exists("./dbConfig.php")) {
-	require "./dbConfig.php";
-}
-
-if (!isset($dbConfig) || !is_array($dbConfig)) {
-	$dbConfig = array();
-}
+$dbConfig = new UseBB\Utils\File\InfoFile("./dbConfig.php");
+$dbConfig = $dbConfig->getInfo();

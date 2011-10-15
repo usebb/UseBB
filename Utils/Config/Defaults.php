@@ -2,6 +2,8 @@
 
 namespace UseBB\Utils\Config;
 
+use UseBB\Utils\File\InfoFile;
+
 /**
  * Config default values.
  * 
@@ -21,19 +23,9 @@ class Defaults extends AbstractRegistry {
 		$dir = $module == "system"
 			? USEBB_ROOT_PATH . "/includes/"
 			: USEBB_ROOT_PATH . "/Modules/" . $module . "/";
-		$file = $dir . "configDefaults.php";
+		$file = new InfoFile($dir . "configDefaults.php");
 		
-		if (!file_exists($file)) {
-			return array();
-		}
-		
-		require $file;
-		
-		if (!isset($configDefaults) || !is_array($configDefaults)) {
-			return array();
-		}
-		
-		return $configDefaults;
+		return $file->getInfo();
 	}
 	
 	/**

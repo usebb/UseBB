@@ -3,6 +3,7 @@
 namespace UseBB\System\ModuleManagement;
 
 use UseBB\System\ServiceAccessor;
+use UseBB\Utils\File\InfoFile;
 
 /**
  * Module management class.
@@ -106,11 +107,8 @@ class Registry extends ServiceAccessor {
 			return;
 		}
 		
-		require $infoFile;
-		
-		if (!isset($moduleInfo) || !is_array($moduleInfo)) {
-			return;
-		}
+		$infoFile = new InfoFile($infoFile);
+		$moduleInfo = $infoFile->getInfo();
 		
 		$this->fillModuleInfo($moduleName, $moduleInfo);
 		$this->allModules[$moduleName] = 

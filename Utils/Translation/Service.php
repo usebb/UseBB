@@ -4,6 +4,7 @@ namespace UseBB\Utils\Translation;
 
 use UseBB\System\ServiceAccessor;
 use UseBB\System\ServiceRegistry;
+use UseBB\Utils\File\InfoFile;
 
 /**
  * Translation service.
@@ -50,28 +51,13 @@ class Service extends ServiceAccessor {
 		}
 		
 		$name = $file->getFilename();
-		$infoFile = $langDir . $name . "/translationInfo.php";
+		$infoFile = new InfoFile($langDir . $name . "/translationInfo.php");
+		
+		$translationInfo = $infoFile->getInfo();
+		
 		$defaultLongName = array($name, $name);
 		$defaultPluralFunction = array($this, "defaultPluralFunction");
 		$defaultNumberFormat = array(".", ",");
-		
-		if (!file_exists($infoFile)) {
-			$this->available[$name] = $defaultLongName;
-			$this->pluralFunctions[$name] = $defaultPluralFunction;
-			$this->numberFormats[$name] = $defaultNumberFormat;
-			
-			return;
-		}
-		
-		require $infoFile;
-		
-		if (!isset($translationInfo) || !is_array($translationInfo)) {
-			$this->available[$name] = $defaultLongName;
-			$this->pluralFunctions[$name] = $defaultPluralFunction;
-			$this->numberFormats[$name] = $defaultNumberFormat;
-			
-			return;
-		}
 		
 		$longName = isset($translationInfo["longName"]) 
 			&& is_array($translationInfo["longName"]) 
@@ -182,19 +168,10 @@ class Service extends ServiceAccessor {
 		$dir = $module == "system"
 			? USEBB_ROOT_PATH . "/includes/translations/"
 			: USEBB_ROOT_PATH . "/Modules/" . $module . "/translations/";
-		$file = $dir . $language . "/" . $section . ".php";
+		$file = new InfoFile($dir . $language . "/" . $section . ".php", 
+			"translations");
 		
-		if (!file_exists($file)) {
-			return;
-		}
-		
-		require $file;
-		
-		if (!isset($translations) || !is_array($translations)) {
-			return;
-		}
-		
-		$this->cache[$module][$section][$language] = $translations;
+		$this->cache[$module][$section][$language] = $file->getInfo();
 	}
 	
 	/**

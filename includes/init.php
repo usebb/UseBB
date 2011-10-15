@@ -20,7 +20,8 @@ spl_autoload_register(function($name) {
 		return;
 	}
 	
-	$file = USEBB_ROOT_PATH . str_replace("\\", "/", substr_replace($name, "/", 0, 6)) . ".php";
+	$file = USEBB_ROOT_PATH . str_replace("\\", "/", 
+		substr_replace($name, "/", 0, 6)) . ".php";
 	
 	if (!file_exists($file)) {
 		return;

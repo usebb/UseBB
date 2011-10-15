@@ -29,6 +29,7 @@ namespace UseBB\Utils\Translation\Tests {
 use UseBB\System\ServiceAccessor;
 use UseBB\System\ServiceRegistry;
 use UseBB\Modules\FooBar\ModuleTestClass;
+use UseBB\Utils\Translation\TranslationFile;
 
 class SystemTestClass extends ServiceAccessor {
 	public function testT($string, $lang = NULL, $args = array(), 
@@ -69,6 +70,21 @@ class TranslationTest extends \PHPUnit_Extensions_OutputTestCase {
 		$this->assertTrue(count($all) >= 2);
 		$this->assertEquals(array("English", "English"), $all["en"]);
 		$this->assertEquals(array("Dutch", "Nederlands"), $all["nl"]);
+	}
+	
+	public function testTranslationFile() {
+		$f = new TranslationFile("system", "test", "nl");
+		$l = $f->getTranslations();
+		
+		$this->assertInternalType("array", $l);
+		$this->assertArrayHasKey("This is a test.", $l);
+		$this->assertEquals("Dit is een test.", $l["This is a test."]);
+		
+		$f = new TranslationFile("system", "foobar", "zz");
+		$l = $f->getTranslations();
+		
+		$this->assertInternalType("array", $l);
+		$this->assertEquals(0, count($l));
 	}
 	
 	// TODO use input value functions for some of these with copy-pasted code.

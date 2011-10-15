@@ -165,13 +165,8 @@ class Service extends ServiceAccessor {
 			return;
 		}
 		
-		$dir = $module == "system"
-			? USEBB_ROOT_PATH . "/includes/translations/"
-			: USEBB_ROOT_PATH . "/Modules/" . $module . "/translations/";
-		$file = new InfoFile($dir . $language . "/" . $section . ".php", 
-			"translations");
-		
-		$this->cache[$module][$section][$language] = $file->getInfo();
+		$file = new TranslationFile($module, $section, $language);
+		$this->cache[$module][$section][$language] = $file->getTranslations();
 	}
 	
 	/**

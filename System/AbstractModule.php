@@ -46,4 +46,14 @@ abstract class AbstractModule extends ServiceAccessor {
 	 * \param $oldVersion Old version
 	 */
 	public function update($oldVersion) {}
+	
+	/**
+	 * Get the value for an auto-configured setting.
+	 * 
+	 * \param $key Key
+	 * \returns Value
+	 */
+	public function getAutoConfigured($key) {
+		return NULL;
+	}
 }

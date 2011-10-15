@@ -46,7 +46,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * @expectedException UseBB\Utils\Config\NotFoundException
-	 * @expectedExceptionMessage Config value for bar at module foo not found.
+	 * @expectedExceptionMessage Config value for 'bar' at module 'foo' not found.
 	 */
 	public function testUnexisting() {
 		$this->conf->get("foo", "bar");

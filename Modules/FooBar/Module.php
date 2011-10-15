@@ -35,4 +35,12 @@ class Module extends AbstractModule {
 	public function update($oldVersion) {
 		echo "Updated FooBar from " . $oldVersion . ".\n";
 	}
+	
+	public function getAutoConfigured($key) {
+		if ($key == "some") {
+			return "thing";
+		}
+		
+		return NULL;
+	}
 }

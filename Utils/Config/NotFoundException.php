@@ -20,8 +20,8 @@ class NotFoundException extends UseBBException {
 	 * \param $key Key
 	 */
 	public function __construct($module, $key) {
-		parent::__construct(sprintf("Config value for %s at module %s not found.", 
-			$key, $module));
+		parent::__construct(sprintf("Config value for '%s' at module '%s' " . 
+			"not found.", $key, $module));
 
 		$this->module = $module;
 		$this->key = $key;

@@ -103,8 +103,13 @@ class ModulesTest extends \PHPUnit_Extensions_OutputTestCase {
 		$conf = $this->services->get("config");
 		
 		$foobar->enable();
+		
+		// Set in module.
 		$this->assertEquals(7, $conf->get("FooBar", "testing"));
+		// Set in defaults.
 		$this->assertEquals("baz", $conf->get("FooBar", "foo"));
+		// Set in auto config.
+		$this->assertEquals("thing", $conf->get("FooBar", "some"));
 		
 		$foobar->disable();
 		

@@ -12,45 +12,49 @@ class ServiceTestClass extends ServiceAccessor {
 }
 
 class ServiceTest extends \PHPUnit_Framework_TestCase {
-	protected static $services;
-	protected static $testClass;
+	protected $services;
 
-	public static function setUpBeforeClass() {
-		self::$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		self::$testClass = new ServiceTestClass(self::$services);
+	public function setUp() {
+		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
 	}
 
 	public function testInstances() {
 		$this->assertInstanceOf("UseBB\System\Database\\Connection", 
-			self::$services->get("database"));
+			$this->services->get("database"));
 		$this->assertInstanceOf("UseBB\System\Plugins\Registry", 
-			self::$services->get("plugins"));
+			$this->services->get("plugins"));
 		$this->assertInstanceOf("UseBB\Utils\Input\Service", 
-			self::$services->get("input"));
+			$this->services->get("input"));
 		$this->assertInstanceOf("UseBB\Utils\Text\StringOperations", 
-			self::$services->get("string"));
+			$this->services->get("string"));
 		$this->assertInstanceOf("UseBB\System\Navigation\\Registry", 
-			self::$services->get("navigation"));
+			$this->services->get("navigation"));
 		$this->assertInstanceOf("UseBB\Utils\Config\Registry", 
-			self::$services->get("config"));
+			$this->services->get("config"));
 		$this->assertInstanceOf("UseBB\System\Context\AbstractContext", 
-			self::$services->get("context"));
+			$this->services->get("context"));
 		$this->assertInstanceOf("UseBB\System\Info", 
-			self::$services->get("info"));
+			$this->services->get("info"));
 		$this->assertInstanceOf("UseBB\System\ModuleManagement\Registry", 
-			self::$services->get("modules"));
+			$this->services->get("modules"));
 		$this->assertInstanceOf("UseBB\Utils\Translation\Service", 
-			self::$services->get("translation"));
+			$this->services->get("translation"));
 		$this->assertInstanceOf("UseBB\System\Session\Session", 
-			self::$services->get("session"));
+			$this->services->get("session"));
 		$this->assertInstanceOf("UseBB\Utils\Events\Log", 
-			self::$services->get("log"));
+			$this->services->get("log"));
 		$this->assertInstanceOf("UseBB\Utils\Mail\Sender", 
-			self::$services->get("mail"));
+			$this->services->get("mail"));
 	}
 
 	public function testTheClass() {
+		$testClass = new ServiceTestClass($this->services);
 		$this->assertInstanceOf("UseBB\System\Plugins\\Registry", 
-			self::$testClass->test("plugins"));
+			$testClass->test("plugins"));
+	}
+	
+	public function testSetInstances() {
+		$this->services->setServiceInstance("foo", $this);
+		$this->assertEquals($this, $this->services->get("foo"));
 	}
 }

@@ -91,7 +91,7 @@ class HTTP extends AbstractContext {
 	
 	public function applyArgumentsToString($string, array $args) {
 		foreach ($args as $k => $v) {
-			$type = substr($k, 0, 1);
+			$type = $k[0];
 			switch ($type) {
 				case '%':
 					$args[$k] = "<em>" . $this->escapeString($v) . "</em>";

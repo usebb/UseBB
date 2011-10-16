@@ -110,7 +110,7 @@ class Registry extends PluginRunningClass {
 			}
 			
 			// No parameter = wrong value.
-			if (substr($v, 0, 1) !== "@") {
+			if ($v[0] !== "@") {
 				return FALSE;
 			}
 		}

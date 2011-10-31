@@ -101,6 +101,17 @@ class NavigationTest extends \PHPUnit_Extensions_OutputTestCase {
 		$this->navigation->register(array("bar", "foo"), 
 			"second");
 	}
+
+	/**
+	 * FIXME
+	 * @ expectedException UseBB\System\Navigation\DuplicateRequestException
+	 */
+	public function testDuplicateWithParams() {
+		$this->navigation->register(array("foo" => "@foo", "bar"), 
+			"unexisting");
+		$this->navigation->register(array("foo" => "@baz", "bar"), 
+			"same");
+	}
 	
 	public function testNamed() {
 		$this->expectOutputString("Handling named request.");

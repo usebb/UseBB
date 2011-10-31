@@ -255,7 +255,7 @@ class Session extends ServiceAccessor {
 	public function hasValue($key) {
 		try {
 			$this->getValue($key);
-		} catch (NotFoundException $e) {
+		} catch (ValueNotFoundException $e) {
 			return FALSE;
 		}
 		

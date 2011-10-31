@@ -94,7 +94,7 @@ class Schema {
 	 * \returns Doctrine DBAL Table instance
 	 */
 	public function createTable($name) {
-		$table = $this->to->createTable($this->prefix . $name);;
+		$table = $this->to->createTable($this->prefix . $name);
 		
 		foreach ($this->tableOptions as $k => $v) {
 			$table->addOption($k, $v);

@@ -8,12 +8,6 @@ fi
 
 release=$1
 
-if [ -n "$(git status -s)" ];
-then
-	echo "There are modified files."
-	exit 1
-fi
-
 if [ -n "$(grep "installer_run" config.php)" ];
 then
 	echo "installer_run in config.php."
@@ -29,6 +23,12 @@ fi
 if [ -z "$(grep -e "USEBB_IS_PROD_ENV.*TRUE" sources/common.php)" ];
 then
 	echo "USEBB_IS_PROD_ENV not TRUE."
+	exit 1
+fi
+
+if [ -n "$(git status -s)" ];
+then
+	echo "There are modified files."
 	exit 1
 fi
 

@@ -21,9 +21,11 @@ git archive "v$oldrelease" | tar -x -C $tmpdir/UseBB-old
 
 cd $tmpdir
 
+rm -rf UseBB/scripts
+rm -rf UseBB-old/scripts
+
 echo "docs
 install
-scripts
 Changelog.txt
 config.php
 AUTHORS
@@ -60,5 +62,7 @@ zip -qr ../$outputdir/usebb-$newrelease-changedfiles.zip \
 
 cd ..
 rm -rf $tmpdir
+
+ls $outputdir/usebb-$newrelease[-.]*
 
 exit 0

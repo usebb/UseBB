@@ -8,4 +8,4 @@ else
 	do=$1
 fi
 
-phpunit --bootstrap $bootstrap $do
+phpunit --verbose --bootstrap $bootstrap $do

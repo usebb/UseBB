@@ -49,7 +49,7 @@ class SystemTestClass extends ServiceAccessor {
 	}
 }
 
-class TranslationTest extends \PHPUnit_Extensions_OutputTestCase {
+class TranslationTest extends \PHPUnit_Framework_TestCase {
 	protected static $services;
 	protected static $translation;
 	protected static $systemTestClass;

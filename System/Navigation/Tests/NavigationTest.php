@@ -17,7 +17,7 @@ class TestController2 extends AbstractController {
 	}
 }
 
-class NavigationTest extends \PHPUnit_Extensions_OutputTestCase {
+class NavigationTest extends \PHPUnit_Framework_TestCase {
 	protected $navigation;
 	
 	protected function setUp() {

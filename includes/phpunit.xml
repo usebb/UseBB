@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<phpunit
+	bootstrap="./init.php"
+	colors="true"
+	stopOnError="true"
+	stopOnFailure="true"
+	verbose="true"
+	strict="true">
+
+</phpunit>

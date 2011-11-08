@@ -18,17 +18,18 @@ class Core extends PluginRunningClass {
 	 * Constructor.
 	 *
 	 * \param $dbConfig Database configuration array
-	 * \param $handleRequest Whether to handle the request
 	 */
-	public function __construct(array $dbConfig, $handleRequest = TRUE) {
+	public function __construct(array $dbConfig) {
 		parent::__construct(new ServiceRegistry($dbConfig));
 
-		$this->setHandlers();
-		
-		if (!$handleRequest) {
-			return;
-		}
-		
+		set_error_handler    (array($this, "handleError"));
+		set_exception_handler(array($this, "handleException"));
+	}
+
+	/**
+	 * Handle the current request.
+	 */
+	public function handleRequest() {
 		$this->getService("modules")->runModules();
 		$this->getService("context")->handleRequest();
 		$this->getService("config")->save();
@@ -59,13 +60,5 @@ class Core extends PluginRunningClass {
 	 */
 	public function handleException(\Exception $e) {
 		$this->getService("context")->handleException($e);
-	}
-
-	/**
-	 * Set error and exception handlers.
-	 */
-	private function setHandlers() {
-		set_error_handler    (array($this, "handleError"));
-		set_exception_handler(array($this, "handleException"));
 	}
 }

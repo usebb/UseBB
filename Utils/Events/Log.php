@@ -29,6 +29,10 @@ class Log extends ServiceAccessor {
 	 */
 	public function logEvent($level, $module, $className, $message, 
 		array $args = array(), $objectType = "", $objectId = 0) {
+		if (!$this->systemIsInstalled()) {
+			return;
+		}
+
 		$config = $this->getService("config")->forModule("system");
 		$mode = $config->get("logMode");
 		$doLog = FALSE;

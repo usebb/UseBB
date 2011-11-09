@@ -2,17 +2,15 @@
 
 namespace UseBB\System\Context\Tests;
 
-use UseBB\System\ServiceRegistry;
+use UseBB\System\Context\HTTP;
 
 class ContextTest extends \PHPUnit_Framework_TestCase {
-	protected $services;
 	protected $context;
 	
 	protected function setUp() {
-		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->services->setServiceInstance("context", 
-			new \UseBB\System\Context\HTTP($this->services));
-		$this->context = $this->services->get("context");
+		$services = $this->getMockBuilder("UseBB\System\ServiceRegistry")
+			->disableOriginalConstructor()->getMock();
+		$this->context = new HTTP($services);
 	}
 	
 	public function testEscape() {
@@ -42,7 +40,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase {
 			)));
 	}
 	
-	public function testAcceptLanguageProvider() {
+	public function acceptLanguageProvider() {
 		return array(
 			array("nl", "nl-be,en-gb;q=0.7,en-us;q=0.3", array("en", "nl")),
 			array("en", "en-gb,nl-be;q=0.7,en-us;q=0.3", array("en", "nl")),
@@ -53,7 +51,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * @dataProvider testAcceptLanguageProvider
+	 * @dataProvider acceptLanguageProvider
 	 */
 	public function testAcceptLanguage($lang, $list, $available) {
 		$_SERVER["HTTP_ACCEPT_LANGUAGE"] = $lang;

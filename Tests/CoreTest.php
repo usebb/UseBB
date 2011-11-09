@@ -16,7 +16,8 @@ class CoreTest extends \PHPUnit_Framework_TestCase {
 		$context = $this->getMockBuilder("UseBB\System\Context\AbstractContext")
 			->disableOriginalConstructor()->getMock();
 		$context->expects($this->once())->method("handleError");
-		$this->core->getServiceRegistry()->setServiceInstance("context", $context);
+		$this->core->getServiceRegistry()
+			->setServiceInstance("context", $context);
 
 		$foo += 1;
 	}

@@ -134,7 +134,7 @@ class HTTP extends AbstractContext {
 	 * \returns Boolean
 	 */
 	public function isSecureHTTP() {
-		return !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off";
+		return !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
 	}
 	
 	/**

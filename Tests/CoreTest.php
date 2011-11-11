@@ -18,27 +18,32 @@ class CoreTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	public function testHandleRequest() {
-		$this->context->expects($this->once())->method("handleRequest");
-		
 		$modules = $this->getMockBuilder(
 			"UseBB\System\ModuleManagement\Registry")
 			->disableOriginalConstructor()->getMock();
-		$modules->expects($this->once())->method("runModules");
 		$this->core->getServiceRegistry()
 			->setServiceInstance("modules", $modules);
 		
 		$config = $this->getMockBuilder(
 			"UseBB\Utils\Config\Registry")
 			->disableOriginalConstructor()->getMock();
-		$config->expects($this->once())->method("save");
 		$this->core->getServiceRegistry()
 			->setServiceInstance("config", $config);
+		
+		$modules->expects($this->once())->method("runModules");
+		$this->context->expects($this->once())->method("handleRequest");
+		$config->expects($this->once())->method("save");
 		
 		$this->core->handleRequest();
 	}
 
 	public function testErrors() {
-		$this->context->expects($this->once())->method("handleError");
+		$this->context->expects($this->once())->method("handleError")->with(
+			$this->equalTo(E_NOTICE),
+			$this->matchesRegularExpression("#undefined.*foo#i"),
+			$this->equalTo(__FILE__),
+			$this->greaterThan(__LINE__),
+			$this->anything());
 
 		$foo += 1;
 	}

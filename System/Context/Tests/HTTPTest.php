@@ -50,31 +50,42 @@ class ContextTest extends TestCase {
 		$this->assertEquals($lang, $this->context->getLanguage($available));
 	}
 	
-	public function testEscape() {
-		$this->assertEquals("&lt;a&gt;", 
-			$this->context->escapeString("<a>"));
-		$this->assertEquals("&quot;b&quot;", 
-			$this->context->escapeString('"b"'));
-		$this->assertEquals("a^üPÑç&amp;", 
-			$this->context->escapeString("a^üPÑç&"));
+	public function escapeProvider() {
+		return array(
+			array("<a>", "&lt;a&gt;"),
+			array('"b"', "&quot;b&quot;"),
+			array("a^üPÑç&", "a^üPÑç&amp;")
+		);
 	}
 	
-	public function testStringArgs() {
-		$this->assertEquals("Hello <em>you&gt;</em>.",
-			$this->context->applyArgumentsToString(
-			"Hello %name.", array(
+	/**
+	 * @dataProvider escapeProvider
+	 */
+	public function testEscape($string, $expected) {
+		$this->assertEquals($expected, 
+			$this->context->escapeString($string));
+	}
+	
+	public function stringArgsProvider() {
+		return array(
+			array("Hello %name.", array(
 				"%name" => "you>"
-			)));
-		$this->assertEquals("Hello you&gt;.",
-			$this->context->applyArgumentsToString(
-			"Hello @name.", array(
+			), "Hello <em>you&gt;</em>."),
+			array("Hello @name.", array(
 				"@name" => "you>"
-			)));
-		$this->assertEquals("Hello you>.",
-			$this->context->applyArgumentsToString(
-			"Hello !name.", array(
+			), "Hello you&gt;."),
+			array("Hello !name.", array(
 				"!name" => "you>"
-			)));
+			), "Hello you>."),
+		);
+	}
+	
+	/**
+	 * @dataProvider stringArgsProvider
+	 */
+	public function testStringArgs($string, $args, $expected) {
+		$this->assertEquals($expected,
+			$this->context->applyArgumentsToString($string, $args));
 	}
 	
 	public function testIP() {

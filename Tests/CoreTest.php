@@ -4,12 +4,12 @@ namespace UseBB\Tests;
 
 use UseBB\Core;
 
-class CoreTest extends \PHPUnit_Framework_TestCase {
+class CoreTest extends TestCase {
 	protected $core;
 	protected $context;
 
 	protected function setUp() {
-		$this->core = new Core($GLOBALS["dbConfig"]);
+		$this->core = new Core($this->getDatabaseConfig());
 		$this->context = $this->getMockBuilder(
 			"UseBB\System\Context\AbstractContext")
 			->disableOriginalConstructor()->getMock();

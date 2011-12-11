@@ -5,7 +5,7 @@ UseBB 2.0.0 pre-alpha installation
 
 	* PHP >= 5.3.0
 	* Doctrine DBAL 2.1
-	* PHPUnit 3.5 (tests only)
+	* PHPUnit 3.6 (tests only)
 
 Doctrine DBAL and PHPUnit can be installed through PEAR. They are not 
 included in the source tree.

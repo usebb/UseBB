@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Copyright (C) 2003-2011 UseBB Team
+	Copyright (C) 2003-2012 UseBB Team
 	http://www.usebb.net
 	
 	This file is part of UseBB.
@@ -27,7 +27,7 @@
  * @author	UseBB Team
  * @link	http://www.usebb.net
  * @license	GPL-2
- * @copyright	Copyright (C) 2003-2011 UseBB Team
+ * @copyright	Copyright (C) 2003-2012 UseBB Team
  * @package	UseBB
  */
 

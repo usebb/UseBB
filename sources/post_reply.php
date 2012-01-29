@@ -304,13 +304,19 @@ if ( !$topicdata['id'] ) {
 				$options_input[] = '<label><input type="checkbox" name="subscribe_topic" value="1"'.$subscribe_topic_checked.' /> '.$lang['SubscribeToThisTopic'].'</label>';
 			$options_input = '<div>'.join('</div><div>', $options_input).'</div>';
 			
+			$potential_spammer_notice = array();
+			if ( !$can_post_links )
+				$potential_spammer_notice[] = $lang['PotentialSpammerNoPostLinks'];
+			if ( !$functions->antispam_can_post_published($session->sess_info['user_info'], TRUE) )
+				$potential_spammer_notice[] = $lang['PotentialSpammerNoPublish'];
+			
 			$template->parse('post_form', 'various', array(
 				'form_begin' => '<form action="'.$functions->make_url('post.php', array('topic' => $_GET['topic'])).'" method="post">',
 				'post_title' => $lang['PostReply'],
 				'username_input' => ( $session->sess_info['user_id'] ) ? '<a href="'.$functions->make_url('profile.php', array('id' => $session->sess_info['user_info']['id'])).'">'.unhtml(stripslashes($session->sess_info['user_info']['displayed_name'])).'</a>' : '<input type="text" size="25" maxlength="'.$functions->get_config('username_max_length').'" name="user" id="user" value="'.unhtml(stripslashes($_POST['user'])).'" tabindex="1" />',
 				'subject_input' => '<a href="'.$functions->make_url('topic.php', array('id' => $_GET['topic'])).'">'.$topic_title.'</a>',
 				'content_input' => '<textarea rows="'.$template->get_config('textarea_rows').'" cols="'.$template->get_config('textarea_cols').'" name="content" id="tags-txtarea" tabindex="2">'.unhtml(stripslashes($_POST['content'])).'</textarea>',
-				'potential_spammer_notice' => $can_post_links ? '' : '<div class="potential-spammer-notice">'.$lang['PotentialSpammerNoPostLinks'].'</div>',
+				'potential_spammer_notice' => ( count($potential_spammer_notice) ) ? '<div class="potential-spammer-notice">'.join('<br />', $potential_spammer_notice).'</div>' : '',
 				'bbcode_controls' => $functions->get_bbcode_controls($can_post_links),
 				'smiley_controls' => $functions->get_smiley_controls(),
 				'options_input' => $options_input,

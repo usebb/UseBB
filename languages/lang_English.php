@@ -532,5 +532,6 @@ $lang['PotentialSpammerNoProfileLinks'] = 'You have the (temporary) status of po
 $lang['PotentialSpammerNoPostLinks'] = 'You have the (temporary) status of potential spammer, which means no links in your posts will be rendered. Thank you for your understanding.';
 $lang['InvisibleToGuests'] = 'Profiles are currently invisible to anonymous users (guests).';
 $lang['SearchResults'] = 'Search results';
+$lang['PotentialSpammerNoPublish'] = 'You have the (temporary) status of potential spammer, which means your posts will remain unpublished and will be approved or removed manually. Thank you for your understanding.';
 
 ?>

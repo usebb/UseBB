@@ -3641,6 +3641,20 @@ class functions {
 	}
 
 	/**
+	 * Can post published posts
+	 *
+	 * @param array $user User array with active, level and posts.
+	 * @param bool $new_post Whether this is for a request increasing the post count.
+	 * @returns bool Whether can post published posts
+	 */
+	function antispam_can_post_published($user, $new_post=FALSE) {
+
+		return ( !$this->antispam_is_potential_spammer($user, $new_post) 
+			|| !$this->get_config('antispam_unpublish_posts') );
+
+	}
+
+	/**
 	 * Can post links
 	 *
 	 * @param array $user User array with active, level and posts.

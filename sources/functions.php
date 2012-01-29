@@ -572,6 +572,7 @@ class functions {
 	var $db_tables = array();
 	var $server_load;
 	var $is_mbstring;
+	var $date_format_from_db = FALSE;
 	/**#@-*/
 	
 	/**
@@ -900,6 +901,10 @@ class functions {
 			}
 			
 			$this->board_config[$setting] = ( $keep_default ) ? $this->board_config_original[$setting] : $session->sess_info['user_info'][$setting];
+			
+			if ( !$keep_default && $setting == 'date_format' )
+				$this->date_format_from_db = TRUE;
+			
 			return $this->board_config[$setting];
 			
 		}
@@ -1315,6 +1320,9 @@ class functions {
 		global $lang;
 		
 		$format = ( !empty($format) ) ? $format : strip_tags($this->get_config('date_format'));
+		
+		if ( $this->date_format_from_db )
+			$format = stripslashes($format);
 		
 		if ( $keep_gmt )
 			$date = gmdate($format, $stamp);

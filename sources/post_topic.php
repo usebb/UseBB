@@ -107,8 +107,9 @@ if ( !$forumdata['id'] ) {
 			$_POST['enable_smilies'] = ( !empty($_POST['enable_smilies']) ) ? 1 : 0;
 			$_POST['enable_sig'] = ( $session->sess_info['user_id'] && !empty($session->sess_info['user_info']['signature']) && !empty($_POST['enable_sig']) ) ? 1 : 0;
 			$_POST['enable_html'] = ( $functions->auth($forumdata['auth'], 'html', $_GET['forum']) && !empty($_POST['enable_html']) ) ? 1 : 0;
+			$published = $functions->antispam_can_post_published($session->sess_info['user_info'], TRUE);
 			
-			$result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, 0, ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".time().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].")");
+			$result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, 0, ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".time().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].", ".intval($published).")");
 			
 			$inserted_post_id = $db->last_id();
 			$status_locked = ( $functions->auth($forumdata['auth'], 'lock', $_GET['forum']) && !empty($_POST['lock_topic']) ) ? 1 : 0;

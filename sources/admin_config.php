@@ -457,7 +457,7 @@ if (
 		foreach ( $parts as $key ) {
 			
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
-				$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? $_POST['conf-'.$key] : '';
+				$_POST['conf-'.$key] = ( isset($_POST['conf-'.$key]) ) ? stripslashes($_POST['conf-'.$key]) : '';
 			else
 				$_POST['conf-'.$key] = $functions->get_config($key, true);
 			
@@ -485,7 +485,7 @@ if (
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="30" name="conf-'.$key.'" value="'.unhtml($_POST['conf-'.$key]).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -498,7 +498,7 @@ if (
 			continue;
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].' <small>*</small></td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml($_POST['conf-'.$key]).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	
@@ -531,7 +531,7 @@ if (
 			$moreinfo = '';
 		$moreinfo = ( !empty($moreinfo) ) ? '<div class="moreinfo">'.$moreinfo.'</div>' : '';
 
-		$input[$key] .= ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<textarea name="conf-'.$key.'" rows="10" cols="50">'.unhtml(stripslashes($_POST['conf-'.$key])).'</textarea>' : '<input type="text" size="30" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />';
+		$input[$key] .= ( in_array($key, array('board_closed_reason', 'disable_registrations_reason', 'antispam_question_questions')) ) ? '<textarea name="conf-'.$key.'" rows="10" cols="50">'.unhtml($_POST['conf-'.$key]).'</textarea>' : '<input type="text" size="30" name="conf-'.$key.'" value="'.unhtml($_POST['conf-'.$key]).'" />';
 
 		$input[$key] .= $moreinfo.'</td></tr>';
 		
@@ -690,7 +690,7 @@ if (
 	foreach ( array('avatars_force_width', 'avatars_force_height') as $key ) {
 		
 		$moreinfo = ( !empty($lang['ConfigBoard-'.$key.'-info']) ) ? '<div class="moreinfo">'.$lang['ConfigBoard-'.$key.'-info'].'</div>' : '';
-		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml(stripslashes($_POST['conf-'.$key])).'" />'.$moreinfo.'</td></tr>';
+		$input[$key] = '<tr><td class="fieldtitle">'.$lang['ConfigBoard-'.$key].'</td><td><input type="text" size="5" name="conf-'.$key.'" value="'.unhtml($_POST['conf-'.$key]).'" />'.$moreinfo.'</td></tr>';
 		
 	}
 	

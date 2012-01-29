@@ -80,6 +80,7 @@ $conf['antispam_status_max_posts'] = 0;
 $conf['antispam_status_for_guests'] = 0;
 $conf['antispam_question_mode'] = 0;
 $conf['antispam_question_questions'] = array ();
+$conf['antispam_unpublish_posts'] = 1;
 $conf['avatars_force_width'] = 0;
 $conf['avatars_force_height'] = 0;
 $conf['board_closed'] = 0;

@@ -147,6 +147,7 @@ CREATE TABLE usebb_posts (
   enable_smilies int(1) NOT NULL default '1',
   enable_sig int(1) NOT NULL default '1',
   enable_html int(1) NOT NULL default '0',
+  published int(1) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM;
 

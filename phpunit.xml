@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpunit
-	bootstrap="./init.php"
+	bootstrap="includes/init.php"
 	colors="true"
 	stopOnError="true"
 	stopOnFailure="true"

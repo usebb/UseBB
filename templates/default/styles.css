@@ -16,22 +16,13 @@ html, body {
 	color: #000;
 }
 #pagebox-bg {
-	width: 785px;
+	width: 725px;
 	background-image: url(gfx/pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFF;
 	margin: 0 auto 0 auto;
-}
-#shadow-left {
-	background-image: url(gfx/pageshadow_left.png);
-	background-repeat: repeat-y;
-	background-position: left;
-}
-#shadow-right {
-	padding: 20px 30px 15px 30px;
-	background-image: url(gfx/pageshadow_right.png);
-	background-repeat: repeat-y;
-	background-position: right;
+	padding: 20px 15px 15px 15px;
+	box-shadow: 0 0 4px 3px #777777;
 }
 a img {
 	border: 0;
@@ -154,7 +145,8 @@ h2#boarddescr {
 	background-color: #E8E8E8;
 	border: 1px solid #369;
 	padding: 3px 0 3px 0;
-	margin: 5px 0 0 0;
+	margin: 5px 0 10px 0;
+	box-shadow: 0 2px 2px 0 #888888;
 }
 #topmenu ul {
 	list-style: none;
@@ -179,17 +171,6 @@ h2#boarddescr {
 	background-image: url(gfx/topmenu_bg_reverse.png);
 	background-repeat: repeat-x;
 	background-color: #FFF;
-}
-#topmenu-shadow {
-	clear: both;
-	height: 5px;
-	background-image: url(gfx/topmenu_shadow.png);
-	background-repeat: repeat-x;
-	background-color: #FFF;
-	line-height: 100%;
-	overflow: hidden;
-	margin: 0 0 15px 0;
-	width: 100%; /* Be nice to Safari */
 }
 p.breadcrumbs {
 	clear: both;
@@ -738,7 +719,6 @@ table.termsofuse {
 
 #bottom {
 	clear: both;
-	float: left;
 	width: 705px;
 	padding: 3px 9px 3px 9px;
 	background-image: url(gfx/topmenu_bg.png);
@@ -748,22 +728,10 @@ table.termsofuse {
 	font-style: normal;
 	text-align: right;
 	color: #333;
+	box-shadow: 0 2px 2px 0 #888888;
 }
 #bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
 	text-decoration: none;
-}
-#bottom-shadow {
-	float: left;
-	height: 5px;
-	background-image: url(gfx/topmenu_shadow.png);
-	background-repeat: repeat-x;
-	background-color: #FFF;
-	line-height: 100%;
-	overflow: hidden;
-	width: 100%; /* Be nice to Safari */
-}
-#shadow-left>#shadow-right {
-	padding-bottom: 40px;
 }
 
 a#usebb_acp_link {

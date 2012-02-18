@@ -104,8 +104,6 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 </head>
 <body{js_onload}>
 	<div id="pagebox-bg">
-	<div id="shadow-left">
-	<div id="shadow-right">
 	
 	<p id="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{l_Home}" /></a></p>
 	<h1 id="boardname"><span id="line">{board_name}</span></h1>
@@ -114,7 +112,6 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<div id="topmenu"><ul>
 		<li><a href="{link_home}">{l_Home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{l_FAQ}</a></li><li><a href="{link_search}">{l_Search}</a></li><li><a href="{link_active}">{l_ActiveTopics}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
 	</ul></div>
-	<div id="topmenu-shadow"></div>
 	
 	<p class="breadcrumbs">
 		&bull; {breadcrumbs_all}
@@ -136,10 +133,7 @@ $templates['normal_footer'] = '
 	<p id="bottom">
 		{usebb_copyright}
 	</p>
-	<div id="bottom-shadow"></div>
 	
-	</div>
-	</div>
 	</div>
 </body>
 </html>

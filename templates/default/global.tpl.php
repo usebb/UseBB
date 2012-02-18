@@ -62,7 +62,6 @@ $templates['config'] = array(
 	'debug_info_small'			=> '<div id="debug-info-small">%s</div>',
 	'debug_info_large'			=> '<div id="debug-info-large">%s</div>',
 	'forumlist_topic_rtrim_length'		=> 20,
-	'rss_feed_icon'				=> 'rss.png',
 	'smilies' => array(
 		':)' => 'smile.gif',
 		';)' => 'wink.gif',

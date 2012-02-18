@@ -117,17 +117,8 @@ if ( ( !$session->sess_info['ip_banned'] && !$functions->get_config('board_close
 	//
 	// RSS feed
 	//	
-	if ( $rss_enabled ) {
-		
-		$html_rss_link = '<a href="'.$rss_link.'">'.$lang['RSSFeed'].'</a>';
-		$rss_feed_icon = $template->get_config('rss_feed_icon');
-		
-		if ( !empty($rss_feed_icon) )
-			$html_rss_link = '<a href="'.$rss_link.'" id="rss-feed-icon"><img src="templates/'.$functions->get_config('template').'/gfx/'.$rss_feed_icon.'" alt="'.$lang['RSSFeed'].'" /></a>'.$html_rss_link;
-		
-		$link_bar[] = $html_rss_link;
-		
-	}
+	if ( $rss_enabled )
+		$link_bar[] = '<a href="'.$rss_link.'" id="rss-feed-link">'.$lang['RSSFeed'].'</a>';
 	
 }
 	

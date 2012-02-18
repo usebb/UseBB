@@ -613,11 +613,11 @@ p#linkbar {
 p#linkbar a {
 	margin: 0 2px 0 2px;
 }
-p#linkbar #rss-feed-icon {
-	margin: 0 1px 0 3px;
-}
-p#linkbar #rss-feed-icon img {
-	vertical-align: middle;
+p#linkbar #rss-feed-link {
+	background-image: url(gfx/rss.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left: 17px;
 }
 .jump-in-data {
 	color: #666;

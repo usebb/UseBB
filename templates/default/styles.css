@@ -16,7 +16,7 @@ html, body {
 	color: #000;
 }
 #pagebox-bg {
-	width: 725px;
+	width: 650px;
 	background-image: url(gfx/pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFF;
@@ -133,13 +133,8 @@ h2#boarddescr {
 	color: #7F7F7F;
 	line-height: 30px !important;
 }
-#topmenu * {
-	text-align: left;
-}
-#topmenu {
+ul#topmenu {
 	clear: both;
-	float: left;
-	width: 723px;
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;
 	background-color: #E8E8E8;
@@ -147,26 +142,25 @@ h2#boarddescr {
 	padding: 3px 0 3px 0;
 	margin: 5px 0 10px 0;
 	box-shadow: 0 2px 2px 0 #888888;
-}
-#topmenu ul {
 	list-style: none;
+	text-align: left;
 }
-#topmenu ul li {
+ul#topmenu li {
 	display: inline;
 }
-#topmenu ul li a:link, #topmenu ul li a:visited, #topmenu ul li a:hover {
+ul#topmenu li a:link, ul#topmenu li a:visited, ul#topmenu li a:hover {
 	text-decoration: none;
 	padding: 3px 7px 3px 7px;
 	border-right: 1px solid #369;
 }
-#topmenu ul li#logout a:link, #topmenu ul li#logout a:visited, #topmenu ul li#logout a:hover {
+ul#topmenu li#logout a:link, ul#topmenu li#logout a:visited, ul#topmenu li#logout a:hover {
 	border-right: 0;
 	border-left: 1px solid #369;
 }
-#topmenu ul li a:link, #topmenu ul li a:visited {
+ul#topmenu li a:link, ul#topmenu li a:visited {
 	color: #369;
 }
-#topmenu ul li a:active, #topmenu ul li a:hover {
+ul#topmenu li a:active, ul#topmenu li a:hover {
 	color: #7F0000;
 	background-image: url(gfx/topmenu_bg_reverse.png);
 	background-repeat: repeat-x;
@@ -177,11 +171,14 @@ p.breadcrumbs {
 	text-align: left;
 	font-style: italic;
 	color: #333;
-	margin: -10px 0 10px 0;
+	margin: 0 0 10px 0;
 	padding: 3px;
 }
 p.breadcrumbs a {
 	font-style: normal;
+}
+p.breadcrumbs.below {
+	margin-top: -10px;
 }
 
 /* Global styles */
@@ -719,7 +716,6 @@ table.termsofuse {
 
 #bottom {
 	clear: both;
-	width: 705px;
 	padding: 3px 9px 3px 9px;
 	background-image: url(gfx/topmenu_bg.png);
 	background-repeat: repeat-x;

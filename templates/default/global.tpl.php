@@ -109,9 +109,14 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 	<h1 id="boardname"><span id="line">{board_name}</span></h1>
 	<h2 id="boarddescr">{board_descr}</h2>
 	
-	<div id="topmenu"><ul>
-		<li><a href="{link_home}">{l_Home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{l_FAQ}</a></li><li><a href="{link_search}">{l_Search}</a></li><li><a href="{link_active}">{l_ActiveTopics}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
-	</ul></div>
+	<ul id="topmenu">
+		<li><a href="{link_home}">{l_Home}</a></li
+		><li><a href="{link_reg_panel}">{reg_panel}</a></li
+		><li><a href="{link_faq}">{l_FAQ}</a></li
+		><li><a href="{link_search}">{l_Search}</a></li
+		><li><a href="{link_active}">{l_ActiveTopics}</a></li
+		><li><a href="{link_log_inout}">{log_inout}</a></li>
+	</ul>
 	
 	<p class="breadcrumbs">
 		&bull; {breadcrumbs_all}
@@ -119,7 +124,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 ';
 
 $templates['normal_footer'] = '
-	<p class="breadcrumbs">
+	<p class="breadcrumbs below">
 		&bull; {breadcrumbs_all}
 	</p>
 	

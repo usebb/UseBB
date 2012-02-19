@@ -264,36 +264,30 @@ table.maintable td.count {
 table.maintable th.lastpostinfo, table.maintable td.lastpostinfo {
 	width: 200px;
 }
-.msgbox h3, .preview h3 {
-	color: #EBD6AD;
-	font-weight: bold;
-	font-size: 8pt;
-	background-color: #369;
-	background-image: url(gfx/tableheadbg.gif);
-	background-position: top;
-	background-repeat: repeat-x;
+.msgbox, .preview {
+	background-color: #EBECEC;
 	text-align: left;
-	padding: 4px 6px 4px 6px;
-	border: 1px solid silver;
-	text-shadow: #4F4F4F 1px 1px 1px;
-}
-.msgbox p, .preview div.preview {
-	background-color: #EFEFEF;
-	padding: 15px 20px;
-	margin: 0 0 20px 0;
-	text-align: left;
-	border: 1px solid silver;
-	border-top: 0;
-	line-height: 150%;
+	padding: 15px;
 	font-size: 10pt;
+	border-radius: 10px;
+	margin: 0 0 20px 0;
 }
-.msgbox p p {
+.msgbox h3, .preview h3 {
+	color: #369;
+	font-weight: bold;
+	font-size: 11pt;
+	margin-bottom: 8px;
+}
+.msgbox p {
+	line-height: 150%;
+}
+.msgbox p p, .preview div.preview {
 	padding: 0;
-	border: 0;
+	margin: 0;
 }
 .preview div.preview {
 	line-height: 125%;
-	padding: 18px;
+	margin-top: 15px;
 }
 
 /* Forumlist styles */

@@ -16,13 +16,13 @@ html, body {
 	color: #000;
 }
 #pagebox-bg {
-	width: 650px;
+	width: 725px;
 	background-image: url(gfx/pagebox_bg.png);
 	background-repeat: repeat-x;
 	background-color: #FFF;
 	margin: 0 auto 0 auto;
 	padding: 20px 15px 15px 15px;
-	box-shadow: 0 0 4px 3px #777777;
+	box-shadow: 0 0 5px 5px #888888;
 }
 a img {
 	border: 0;

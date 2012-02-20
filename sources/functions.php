@@ -2698,7 +2698,7 @@ class functions {
 				
 				if ( !$retval ) {
 					
-					if ( preg_match('#([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2}), ([0-9]+\.[0-9]{2})#', $out, $match) ) {
+					if ( preg_match('#([0-9]+\.[0-9]{2}),? ([0-9]+\.[0-9]{2}),? ([0-9]+\.[0-9]{2})#', $out, $match) ) {
 						
 						$this->server_load = array(
 							(float)$match[1],

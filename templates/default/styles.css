@@ -636,7 +636,8 @@ p#linkbar #rss-feed-link {
 	line-height: 150%;
 	color: #333;
 	height: 48px;
-	overflow: hidden;
+	overflow: auto;
+	width: 712px;
 }
 
 #bbcode-controls, #smiley-controls {

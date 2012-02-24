@@ -27,6 +27,9 @@ Developers (with GitHub username)
 
 	* stefanor at Drupal.org
 		HTML named entities to code table (GNU GPL v2)
+	
+	* CSS3 PIE developers
+		IE 8 CSS3 styling attributes support (GNU GPL v2)
 
 	Any changes to 3rd party code can be tracked at
 	https://github.com/usebb/UseBB/tree/v1.0.

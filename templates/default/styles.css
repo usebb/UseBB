@@ -1,7 +1,3 @@
-/*
-	$Id$
-*/
-
 * {
 	margin: 0;
 	padding: 0;
@@ -23,6 +19,8 @@ html, body {
 	margin: 0 auto 0 auto;
 	padding: 20px 15px 15px 15px;
 	box-shadow: 0 0 5px 5px #888888;
+	position: relative;
+	behavior: url(./templates/default/PIE.htc);
 }
 a img {
 	border: 0;
@@ -144,6 +142,8 @@ ul#topmenu {
 	box-shadow: 0 2px 2px 0 #888888;
 	list-style: none;
 	text-align: left;
+	position: relative;
+	behavior: url(./templates/default/PIE.htc);
 }
 ul#topmenu li {
 	display: inline;
@@ -271,6 +271,8 @@ table.maintable th.lastpostinfo, table.maintable td.lastpostinfo {
 	font-size: 10pt;
 	border-radius: 10px;
 	margin: 0 0 20px 0;
+	position: relative;
+	behavior: url(./templates/default/PIE.htc);
 }
 .msgbox h3, .preview h3 {
 	color: #369;
@@ -721,6 +723,8 @@ table.termsofuse {
 	text-align: right;
 	color: #333;
 	box-shadow: 0 2px 2px 0 #888888;
+	position: relative;
+	behavior: url(./templates/default/PIE.htc);
 }
 #bottom a:link, #bottom a:hover, #bottom a:active, #bottom a:visited {
 	text-decoration: none;

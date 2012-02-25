@@ -7,6 +7,7 @@ UseBB 1.0.15 Changelog
 
 - Fixed bug 'Configuration settings from config.php might miss backslashes in ACP' (#106).
 - Fixed bug 'Date format from user settings is not cleared from extra backslashes' (#107).
+- Fixed bug 'Server load values not read on OS X' (#111).
 
 UseBB 1.0.14 Changelog
 ------------------------------

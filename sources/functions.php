@@ -3655,6 +3655,17 @@ class functions {
 	}
 
 	/**
+	 * Can see unpublished posts
+	 *
+	 * @returns bool Whether can see unpublished posts
+	 */
+	function antispam_can_see_unpublished() {
+
+		return ( $this->get_user_level() > LEVEL_MEMBER );
+
+	}
+
+	/**
 	 * Can post links
 	 *
 	 * @param array $user User array with active, level and posts.

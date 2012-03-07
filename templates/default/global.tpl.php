@@ -38,31 +38,30 @@ $templates = array();
 // Define configuration variables of this template set
 //
 $templates['config'] = array(
-	'content_type'				=> 'application/xhtml+xml',
-	'item_delimiter'			=> ' &middot; ',
-	'breadcrumbs_item_delimiter'		=> ' &raquo; ',
-	'postlinks_item_delimiter'		=> ' | ',
-	'open_nonewposts_icon'			=> 'open_nonewposts.gif',
-	'open_newposts_icon'			=> 'open_newposts.gif',
-	'closed_nonewposts_icon'		=> 'closed_nonewposts.gif',
-	'closed_newposts_icon'			=> 'closed_newposts.gif',
-	'newpost_link_format'			=> '<a href="%s"><img src="%s" alt="%s" /></a> ',
-	'newpost_link_icon'			=> 'new.gif',
-	'sig_format'				=> '<div class="signature">_______________<div>%s</div></div>',
-	'quote_format'				=> '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
-	'code_format'				=> '<pre class="code">%s</pre>',
-	'post_editinfo_format'			=> '<div class="editinfo">&laquo; %s &raquo;</div>',
-	'poster_ip_addr_format' 		=> '<div class="poster-ip-addr">%s</div>',
-	'textarea_rows'				=> 15,
-	'textarea_cols'				=> 60,
-	'quick_reply_textarea_rows'		=> 5,
-	'quick_reply_textarea_cols'		=> 60,
-	'post_form_bbcode_seperator'		=> '</li><li>',
-	'post_form_smiley_seperator'		=> '</li><li>',
-	'debug_info_small'			=> '<div id="debug-info-small">%s</div>',
-	'debug_info_large'			=> '<div id="debug-info-large">%s</div>',
-	'forumlist_topic_rtrim_length'		=> 20,
-	'rss_feed_icon'				=> 'rss.png',
+	'content_type'                 => 'application/xhtml+xml',
+	'item_delimiter'               => ' &middot; ',
+	'breadcrumbs_item_delimiter'   => ' &raquo; ',
+	'postlinks_item_delimiter'     => ' | ',
+	'open_nonewposts_icon'         => 'open_nonewposts.gif',
+	'open_newposts_icon'           => 'open_newposts.gif',
+	'closed_nonewposts_icon'       => 'closed_nonewposts.gif',
+	'closed_newposts_icon'         => 'closed_newposts.gif',
+	'newpost_link_format'          => '<a href="%s"><img src="%s" alt="%s" /></a> ',
+	'newpost_link_icon'            => 'new.gif',
+	'sig_format'                   => '<div class="signature">_______________<div>%s</div></div>',
+	'quote_format'                 => '<blockquote class="quote"><div class="title">%s</div><div class="content">%s</div></blockquote>',
+	'code_format'                  => '<pre class="code">%s</pre>',
+	'post_editinfo_format'         => '<div class="editinfo">&laquo; %s &raquo;</div>',
+	'poster_ip_addr_format'        => '<div class="poster-ip-addr">%s</div>',
+	'textarea_rows'                => 15,
+	'textarea_cols'                => 60,
+	'quick_reply_textarea_rows'    => 5,
+	'quick_reply_textarea_cols'    => 60,
+	'post_form_bbcode_seperator'   => '</li><li>',
+	'post_form_smiley_seperator'   => '</li><li>',
+	'debug_info_small'             => '<div id="debug-info-small">%s</div>',
+	'debug_info_large'             => '<div id="debug-info-large">%s</div>',
+	'forumlist_topic_rtrim_length' => 20,
 	'smilies' => array(
 		':)' => 'smile.gif',
 		';)' => 'wink.gif',
@@ -104,17 +103,19 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 </head>
 <body{js_onload}>
 	<div id="pagebox-bg">
-	<div id="shadow-left">
-	<div id="shadow-right">
 	
 	<p id="logo"><a href="{link_home}"><img src="{img_dir}usebb.png" alt="UseBB" title="{l_Home}" /></a></p>
 	<h1 id="boardname"><span id="line">{board_name}</span></h1>
 	<h2 id="boarddescr">{board_descr}</h2>
 	
-	<div id="topmenu"><ul>
-		<li><a href="{link_home}">{l_Home}</a></li><li><a href="{link_reg_panel}">{reg_panel}</a></li><li><a href="{link_faq}">{l_FAQ}</a></li><li><a href="{link_search}">{l_Search}</a></li><li><a href="{link_active}">{l_ActiveTopics}</a></li><li><a href="{link_log_inout}">{log_inout}</a></li>
-	</ul></div>
-	<div id="topmenu-shadow"></div>
+	<ul id="topmenu">
+		<li><a href="{link_home}">{l_Home}</a></li
+		><li><a href="{link_reg_panel}">{reg_panel}</a></li
+		><li><a href="{link_faq}">{l_FAQ}</a></li
+		><li><a href="{link_search}">{l_Search}</a></li
+		><li><a href="{link_active}">{l_ActiveTopics}</a></li
+		><li><a href="{link_log_inout}">{log_inout}</a></li>
+	</ul>
 	
 	<p class="breadcrumbs">
 		&bull; {breadcrumbs_all}
@@ -122,7 +123,7 @@ $templates['normal_header'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Stri
 ';
 
 $templates['normal_footer'] = '
-	<p class="breadcrumbs">
+	<p class="breadcrumbs below">
 		&bull; {breadcrumbs_all}
 	</p>
 	
@@ -136,10 +137,7 @@ $templates['normal_footer'] = '
 	<p id="bottom">
 		{usebb_copyright}
 	</p>
-	<div id="bottom-shadow"></div>
 	
-	</div>
-	</div>
 	</div>
 </body>
 </html>

@@ -131,13 +131,14 @@ if ( !$topicdata['id'] ) {
 			$published = $functions->antispam_can_post_published($session->sess_info['user_info'], TRUE);
 			
 			$result = $db->query("INSERT INTO ".TABLE_PREFIX."posts VALUES(NULL, ".$_GET['topic'].", ".$poster_id.", '".$poster_guest."', '".$session->sess_info['ip_addr']."', '".$_POST['content']."', ".time().", 0, 0, ".$_POST['enable_bbcode'].", ".$_POST['enable_smilies'].", ".$_POST['enable_sig'].", ".$_POST['enable_html'].", ".intval($published).")");
-			
 			$inserted_post_id = $db->last_id();
+			
+			$update_last_post = ( $published ) ? "last_post_id = ".$inserted_post_id.", " : "";
 			$update_topic_status = ( ( $functions->auth($topicdata['auth'], 'lock', $topicdata['forum_id']) && !empty($_POST['lock_topic']) ) || ( $topicdata['auto_lock'] && $topicdata['count_replies']+1 >= $topicdata['auto_lock'] ) ) ? ', status_locked = 1' : '';
+			$update_last_topic = ( $published ) ? ", last_topic_id = ".$_GET['topic'] : "";
 			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET last_post_id = ".$inserted_post_id.", count_replies = count_replies+1".$update_topic_status." WHERE id = ".$_GET['topic']);
-			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts+1, last_topic_id = ".$_GET['topic']." WHERE id = ".$topicdata['forum_id']);
+			$result = $db->query("UPDATE ".TABLE_PREFIX."topics SET ".$update_last_post."count_replies = count_replies+1".$update_topic_status." WHERE id = ".$_GET['topic']);
+			$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET posts = posts+1".$update_last_topic." WHERE id = ".$topicdata['forum_id']);
 			
 			if ( $session->sess_info['user_id'] && $topicdata['increase_post_count'] ) {
 				

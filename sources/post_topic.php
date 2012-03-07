@@ -118,10 +118,10 @@ if ( !$forumdata['id'] ) {
 			$result = $db->query("INSERT INTO ".TABLE_PREFIX."topics VALUES(NULL, ".$_GET['forum'].", '".$_POST['subject']."', ".$inserted_post_id.", ".$inserted_post_id.", 0, 0, ".$status_locked.", ".$status_sticky.")");
 			
 			$inserted_topic_id = $db->last_id();
+			$update_last_topic = ( $published ) ? ", last_topic_id = ".$inserted_topic_id : "";
 			
 			$result = $db->query("UPDATE ".TABLE_PREFIX."posts SET topic_id = ".$inserted_topic_id." WHERE id = ".$inserted_post_id);
-			
-			$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+1, last_topic_id = ".$inserted_topic_id." WHERE id = ".$_GET['forum']);
+			$result = $db->query("UPDATE ".TABLE_PREFIX."forums SET topics = topics+1, posts = posts+1".$update_last_topic." WHERE id = ".$_GET['forum']);
 			
 			if ( $session->sess_info['user_id'] && $forumdata['increase_post_count'] ) {
 				

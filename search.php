@@ -54,8 +54,14 @@ $session->update('search');
 //
 require(ROOT_PATH.'sources/page_head.php');
 
-function search_query_order_part($sort_items, $sort_by, $order) {
+function search_query_order_part($sort_items, $sort_by, $order, $show_mode) {
 	
+	//
+	// For posts, use a different field
+	//
+	if ( $show_mode == 'posts' )
+		$sort_items['latest_post'] = 'p.post_time';
+		
 	//
 	// Build the sort part
 	// Additional sorting on topic title
@@ -238,7 +244,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 		else
 			$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 		
-		$query_sort_part = search_query_order_part($sort_items, $_REQUEST['sort_by'], $_REQUEST['order']);
+		$query_sort_part = search_query_order_part($sort_items, $_REQUEST['sort_by'], $_REQUEST['order'], $_REQUEST['show_mode']);
 		
 		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." ORDER BY ".$query_sort_part." LIMIT ".$functions->get_config('search_limit_results'));
 		$result_ids = array();
@@ -297,14 +303,8 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 				$limit_start = ( $page - 1 ) * $per_page;
 				$limit_end = $per_page;
 				$page_links = $functions->make_page_links($numpages, $page, count($search_results['results']), $per_page, 'search.php', NULL, true, array('act' => 'results'));
-
-				//
-				// For posts, use a different field
-				//
-				if ( $search_results['show_mode'] == 'posts' )
-					$sort_items['latest_post'] = 'p.post_time';
 				
-				$query_sort_part = search_query_order_part($sort_items, $search_results['sort_by'], $search_results['order']);
+				$query_sort_part = search_query_order_part($sort_items, $search_results['sort_by'], $search_results['order'], $search_results['show_mode']);
 				
 				if ( $search_results['show_mode'] == 'topics' ) {
 					

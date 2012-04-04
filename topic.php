@@ -121,7 +121,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 	//
 	require(ROOT_PATH.'sources/page_head.php');
 	
-	$result = $db->query("SELECT t.id, t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE t.id = ".$requested_topic." AND f.id = t.forum_id");
+	$result = $db->query("SELECT t.id, t.topic_title, t.status_locked, t.status_sticky, t.count_replies, t.forum_id, t.last_post_id, f.id AS forum_id, f.name AS forum_name, f.status AS forum_status, f.auth, f.hide_mods_list, p.published FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p WHERE t.id = ".$requested_topic." AND f.id = t.forum_id AND p.id = t.first_post_id");
 	$topicdata = $db->fetch_result($result);
 	
 	if ( !$topicdata['id'] ) {
@@ -138,7 +138,7 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 		
 	} else {
 		
-		if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) ) {
+		if ( $functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) && ( $functions->antispam_can_see_unpublished() || $topicdata['published'] ) ) {
 			
 			//
 			// The user may view this topic
@@ -264,8 +264,9 @@ if ( ( !empty($_GET['id']) && valid_int($_GET['id']) ) || ( !empty($_GET['post']
 			$userinfo_query_part = ( !$functions->get_config('hide_userinfo') ) ? ', u.posts, u.regdate, u.location' : '';
 			$signatures_query_part1 = ( !$functions->get_config('hide_signatures') ) ? ', p.enable_sig' : '';
 			$signatures_query_part2 = ( !$functions->get_config('hide_signatures') ) ? ', u.signature' : '';
+			$published_part = ( $functions->antispam_can_see_unpublished() ) ? "" : " AND p.published = 1";
 			
-			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank, u.active".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
+			$result = $db->query("SELECT p.id, p.poster_id, p.poster_guest, p.poster_ip_addr, p.content, p.post_time, p.enable_bbcode, p.enable_smilies".$signatures_query_part1.", p.enable_html, p.post_edit_time, p.post_edit_by, u.displayed_name AS poster_name, u.level AS poster_level, u.rank, u.active".$avatars_query_part.$userinfo_query_part.$signatures_query_part2." FROM ( ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id ) WHERE p.topic_id = ".$requested_topic.$published_part." ORDER BY p.post_time ASC LIMIT ".$limit_start.", ".$limit_end);
 			
 			$i = (( $page - 1 ) * $functions->get_config('posts_per_page'));
 			$new_post_anchor_set = false;

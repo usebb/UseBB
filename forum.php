@@ -122,7 +122,7 @@ if ( !empty($_GET['id']) && valid_int($_GET['id']) ) {
 				//
 				// Get the topic list information in one query
 				//
-				$published_part = ( $functions->antispam_can_see_unpublished() ) ? "" : " AND p.published = 1";
+				$published_part = $functions->antispam_published_query_part('p');
 				$result = $db->query("SELECT t.id, t.topic_title, t.last_post_id, t.count_replies, t.count_views, t.status_locked, t.status_sticky, p.poster_guest, p2.poster_guest AS last_poster_guest, p2.post_time AS last_post_time, u.id AS poster_id, u.displayed_name AS poster_name, u.level AS poster_level, u2.id AS last_poster_id, u2.displayed_name AS last_poster_name, u2.level AS last_poster_level FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2 LEFT JOIN ".TABLE_PREFIX."members u2 ON p2.poster_id = u2.id WHERE t.forum_id = ".$_GET['id']." AND p.id = t.first_post_id".$published_part." AND p2.id = t.last_post_id ORDER BY t.status_sticky DESC, p2.post_time DESC LIMIT ".$limit_start.", ".$limit_end);
 				
 				while ( $topicdata = $db->fetch_result($result) ) {

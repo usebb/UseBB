@@ -164,7 +164,8 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 
 	$add_to_query = count($add_to_query) ? ', '.implode(', ', $add_to_query) : '';
 	
-	$result = $db->query("SELECT t.id, t.topic_title, p.poster_id, p.poster_guest, p.post_time, m.displayed_name".$add_to_query." FROM ".TABLE_PREFIX."topics t LEFT JOIN ".TABLE_PREFIX."posts p ON t.first_post_id = p.id LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE t.forum_id = ".$_GET['forum']." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	$published_part = $functions->antispam_published_query_part('p');
+	$result = $db->query("SELECT t.id, t.topic_title, p.poster_id, p.poster_guest, p.post_time, m.displayed_name".$add_to_query." FROM ".TABLE_PREFIX."topics t LEFT JOIN ".TABLE_PREFIX."posts p ON t.first_post_id = p.id LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id WHERE t.forum_id = ".$_GET['forum'].$published_part." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 	
 	while ( $topicdata = $db->fetch_result($result) ) {
 		
@@ -204,7 +205,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Get information about the topic and forum
 	//
-	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.first_post_id, f.name AS forum_name, f.auth FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t WHERE f.id = t.forum_id AND t.id = ".$_GET['topic']);
+	$result = $db->query("SELECT t.id, t.forum_id, t.topic_title, t.first_post_id, f.name AS forum_name, f.auth, p.published, p.poster_id FROM ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p WHERE f.id = t.forum_id AND t.id = ".$_GET['topic']." AND p.id = t.first_post_id");
 	$topicdata = $db->fetch_result($result);
 	
 	//
@@ -216,7 +217,7 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	//
 	// Topic is not accessible
 	//
-	if ( !$functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) )
+	if ( !$functions->auth($topicdata['auth'], 'read', $topicdata['forum_id']) || !$functions->antispam_check_published_viewable($topicdata) )
 		usebb_rss_error(403);
 	
 	$topic_name = unhtml(stripslashes($topicdata['topic_title']), true);
@@ -322,7 +323,8 @@ if ( !empty($_GET['forum']) && valid_int($_GET['forum']) ) {
 	
 	$template->parse('header', 'rss', $header_vars, true);
 	
-	$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, m.level AS poster_level, m.active, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
+	$published_part = $functions->antispam_published_query_part('p');
+	$result = $db->query("SELECT p.id AS post_id, p.topic_id, t.forum_id, t.topic_title, t.count_replies, p.content, p.enable_bbcode, p.enable_smilies, p.enable_html, p.poster_id, m.displayed_name AS last_poster_name, m.level AS poster_level, m.active, p.poster_guest AS last_poster_guest, p.post_time FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members m ON p.poster_id = m.id, ".TABLE_PREFIX."topics t WHERE t.forum_id IN(".join(', ', $forum_ids).") AND t.id = p.topic_id".$published_part." ORDER BY p.post_time DESC LIMIT ".$functions->get_config('rss_items_count'));
 			
 	$reply_counts = array();
 	

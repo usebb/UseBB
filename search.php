@@ -245,6 +245,7 @@ if ( $functions->get_user_level() < $functions->get_config('view_search_min_leve
 			$query_where_parts[] = "f.id IN(".join(', ', $_REQUEST['forums']).")";
 		
 		$query_sort_part = search_query_order_part($sort_items, $_REQUEST['sort_by'], $_REQUEST['order'], $_REQUEST['show_mode']);
+		$published_part = $functions->antispam_published_query_part('p'); // TODO first post
 		
 		$result = $db->query("SELECT ".$query_select." FROM ".TABLE_PREFIX."posts p LEFT JOIN ".TABLE_PREFIX."members u ON p.poster_id = u.id, ".TABLE_PREFIX."posts p2, ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f WHERE p2.id = t.last_post_id AND t.id = p.topic_id AND f.id = t.forum_id AND ".join(' AND ', $query_where_parts)." ORDER BY ".$query_sort_part." LIMIT ".$functions->get_config('search_limit_results'));
 		$result_ids = array();

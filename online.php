@@ -140,8 +140,6 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 	}
 	
-	$published_part = ( $functions->antispam_can_see_unpublished() ) ? "" : " AND p.published = 1";
-	
 	if ( count($ids['forums']) ) {
 		
 		$result = $db->query("SELECT id, name, auth FROM ".TABLE_PREFIX."forums WHERE id IN(".join(', ', $ids['forums']).")");
@@ -156,6 +154,7 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 	
 	if ( count($ids['topics']) ) {
 		
+		$published_part = $functions->antispam_published_query_part('p');
 		$result = $db->query("SELECT t.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."forums f, ".TABLE_PREFIX."posts p WHERE t.id IN(".join(', ', $ids['topics']).") AND f.id = t.forum_id AND p.id = t.first_post_id".$published_part);
 		while ( $topicdata = $db->fetch_result($result) ) {
 			
@@ -168,7 +167,8 @@ if ( !$functions->get_config('enable_detailed_online_list') ) {
 		
 	if ( count($ids['posts']) ) {
 		
-		$result = $db->query("SELECT p.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."forums f WHERE p.id IN(".join(', ', $ids['posts']).") AND t.id = p.topic_id AND f.id = t.forum_id".$published_part);
+		$published_part = $functions->antispam_published_query_part(array('p', 'p1'));
+		$result = $db->query("SELECT p.id, t.topic_title, t.forum_id, f.auth FROM ".TABLE_PREFIX."topics t, ".TABLE_PREFIX."posts p, ".TABLE_PREFIX."posts p1, ".TABLE_PREFIX."forums f WHERE p.id IN(".join(', ', $ids['posts']).") AND t.id = p.topic_id AND p1.id = t.first_post_id AND f.id = t.forum_id".$published_part);
 		while ( $topicdata = $db->fetch_result($result) ) {
 			
 			if ( $functions->auth($topicdata['auth'], 'view', $topicdata['forum_id']) )

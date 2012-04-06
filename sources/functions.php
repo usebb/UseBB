@@ -3664,6 +3664,67 @@ class functions {
 		return ( $this->get_user_level() > LEVEL_MEMBER );
 
 	}
+	
+	/**
+	 * SQL part to filter unpublished posts
+	 * 
+	 * @param array $tables Table name(s)
+	 * @param bool $and Prepend AND
+	 * @returns string SQL part for WHERE
+	 */
+	function antispam_published_query_part($tables, $and = TRUE) {
+		
+		global $session;
+		
+		$tables = (array) $tables;
+		
+		// Can see unpublished, so do not filter
+		if ( $this->antispam_can_see_unpublished() || count($tables) == 0 )
+			return '';
+		
+		$query = array();
+		$guest = ( $this->get_user_level() == LEVEL_GUEST );
+		
+		foreach ($tables as $table) {
+			
+			// Must be published...
+			$part = $table.'.published = 1';
+			
+			// ...or own post
+			if ( !$guest )
+				$part .= ' OR '.$table.'.poster_id = '.$session->sess_info['user_id'];
+			
+			$query[] = '( '.$part.' )';
+			
+		}
+		
+		$query = join(' AND ', $query);
+		
+		if ( $and )
+			$query = ' AND ' . $query;
+		
+		return $query;
+		
+	}
+	
+	/**
+	 * Check whether a post with (un)published status can be seen
+	 * 
+	 * @param array $data Data with published and poster_id
+	 * @returns bool Whether can see post
+	 */
+	function antispam_check_published_viewable($data) {
+		
+		return ( 
+			$data['published'] || 
+			$this->antispam_can_see_unpublished() || 
+			( 
+				$this->get_user_level() >= LEVEL_MEMBER && 
+				$data['poster_id'] == $session->sess_info['user_id'] 
+			)
+		);
+		
+	}
 
 	/**
 	 * Can post links

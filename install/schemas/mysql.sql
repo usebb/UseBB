@@ -216,6 +216,7 @@ CREATE TABLE usebb_topics (
   topic_title varchar(255) NOT NULL default '',
   first_post_id int(11) NOT NULL default '0',
   last_post_id int(11) NOT NULL default '0',
+  last_published_post_id int(11) NOT NULL default '0',
   count_replies int(11) NOT NULL default '0',
   count_views int(11) NOT NULL default '0',
   status_locked int(1) NOT NULL default '0',

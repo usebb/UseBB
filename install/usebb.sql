@@ -9,4 +9,4 @@ INSERT INTO usebb_stats VALUES ('posts', '1');
 INSERT INTO usebb_stats VALUES ('members', '0');
 INSERT INTO usebb_stats VALUES ('started', UNIX_TIMESTAMP());
 
-INSERT INTO usebb_topics VALUES (1, 1, 'Test Topic', 1, 1, 0, 0, 0, 0);
+INSERT INTO usebb_topics VALUES (1, 1, 'Test Topic', 1, 1, 1, 0, 0, 0, 0);

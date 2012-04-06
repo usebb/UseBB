@@ -115,7 +115,7 @@ if ( !$forumdata['id'] ) {
 			$status_locked = ( $functions->auth($forumdata['auth'], 'lock', $_GET['forum']) && !empty($_POST['lock_topic']) ) ? 1 : 0;
 			$status_sticky = ( $functions->auth($forumdata['auth'], 'sticky', $_GET['forum']) && !empty($_POST['sticky_topic']) ) ? 1 : 0;
 			
-			$result = $db->query("INSERT INTO ".TABLE_PREFIX."topics VALUES(NULL, ".$_GET['forum'].", '".$_POST['subject']."', ".$inserted_post_id.", ".$inserted_post_id.", 0, 0, ".$status_locked.", ".$status_sticky.")");
+			$result = $db->query("INSERT INTO ".TABLE_PREFIX."topics VALUES(NULL, ".$_GET['forum'].", '".$_POST['subject']."', ".$inserted_post_id.", ".$inserted_post_id.", ".$inserted_post_id.", 0, 0, ".$status_locked.", ".$status_sticky.")");
 			
 			$inserted_topic_id = $db->last_id();
 			$update_last_topic = ( $published ) ? ", last_topic_id = ".$inserted_topic_id : "";

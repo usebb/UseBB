@@ -53,7 +53,7 @@ define('TIMER_BEGIN', (float)$timer_begin[1] + (float)$timer_begin[0]);
 // Check PHP version
 //
 if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0', '<') )
-	die('<h1>Unsupported PHP version</h1><p>UseBB 1 does not work on PHP '.PHP_VERSION.'. You need at least PHP <strong>4.3.0</strong>. Please install a recent PHP 4 or 5 release or contact your hosting provider.</p>');
+	die('<h1>Unsupported PHP version</h1><p>UseBB 1 does not work on PHP '.PHP_VERSION.'. You need at least PHP <strong>4.3.0</strong>. Please install a recent PHP 5 release or contact your hosting provider.</p>');
 
 //
 // Production environment switch

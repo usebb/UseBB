@@ -68,7 +68,7 @@ if ( !function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0'
 // Set to FALSE only if you are testing the package, developing it or performing modifications.
 // In most other cases, such as live forums, this should be set to TRUE.
 //
-define('USEBB_IS_PROD_ENV', TRUE);
+define('USEBB_IS_PROD_ENV', FALSE);
 
 //
 // Error reporting levels
@@ -203,7 +203,7 @@ else
 /**
  * Current UseBB version.
  */
-define('USEBB_VERSION', '1.0.15');
+define('USEBB_VERSION', '1.0.16');
 /**
  * Regular expression for matching usernames.
  */

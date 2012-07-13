@@ -3617,12 +3617,14 @@ class functions {
 			trigger_error('Missing data for calculating active value.', E_USER_ERROR);
 
 		$max_posts = (int) $this->get_config('antispam_status_max_posts');
+		if ( $new_post )
+			$user['posts'] += 1;
 
 		//
 		// When max posts is set and user has more posts,
 		// user gets active status, otherwise still potential spammer.
 		//
-		return ( $max_posts > 0 && ($user['posts'] + 1) > $max_posts ) 
+		return ( $max_posts > 0 && $user['posts'] > $max_posts ) 
 			? USER_ACTIVE : USER_POTENTIAL_SPAMMER;
 
 	}

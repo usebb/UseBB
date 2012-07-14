@@ -3637,7 +3637,20 @@ class functions {
 	 * @returns bool Is potential spammer
 	 */
 	function antispam_is_potential_spammer($user, $new_post=FALSE) {
-
+		
+		//
+		// poster_level is sometimes used
+		//
+		if ( !isset($user['level']) && isset($user['poster_level']) )
+			$user['level'] = $user['poster_level'];
+		
+		//
+		// Inactive members are potential spammers whenever the status is enabled
+		//
+		if ( ($this->get_config('antispam_disable_post_links') || $this->get_config('antispam_disable_profile_links')) 
+			&& $user['level'] == LEVEL_MEMBER && $user['active'] == USER_INACTIVE )
+			return TRUE;
+		
 		return ( $this->user_active_value($user, $new_post) == USER_POTENTIAL_SPAMMER );
 
 	}

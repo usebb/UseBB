@@ -5,6 +5,7 @@ Issue numbers (#x):
 UseBB 1.0.16 Changelog
 ------------------------------
 
+- Fixed bug 'Potential spammer status can be bypassed by inactivating account' (#117).
 - Fixed bug with counting posts for activating users with potential spam status enabled.
 
 UseBB 1.0.15 Changelog

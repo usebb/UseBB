@@ -201,6 +201,7 @@ class HTTP extends AbstractContext {
 			return;
 		}
 		
+		$file = $this->cleanPath($file);
 		printf("<p><strong>Error</strong> \"<em>%s</em>\" "
 			."at <code>%s:%d</code>.</p>", 
 			$string, $file, $line);
@@ -223,11 +224,24 @@ class HTTP extends AbstractContext {
 		$names = explode("\\", get_class($e));
 		$name = end($names);
 		
-		$trace = $this->escapeString($e->getTraceAsString());
+		$file = $this->cleanPath($e->getFile());
+		$trace = $this->escapeString($this->cleanPath($e->getTraceAsString()));
 		
 		printf("<p><strong>%s</strong> \"<em>%s</em>\" "
-			."at <code>%s:%d</code>.</p>"
+			."at <code>%s(%d)</code>.</p>"
 			."<blockquote><pre>%s</pre></blockquote>", 
-			$name, $e->getMessage(), $e->getFile(), $e->getLine(), $trace);
+			$name, $e->getMessage(), $file, $e->getLine(), $trace);
+	}
+	
+	/**
+	 * Clean file path.
+	 * 
+	 * Strip off the path to the UseBB set-up for public error messages.
+	 * 
+	 * \param $string String
+	 * \returns Clean string
+	 */
+	private function cleanPath($string) {
+		return str_replace(USEBB_ROOT_PATH . DIRECTORY_SEPARATOR, "", $string);
 	}
 }

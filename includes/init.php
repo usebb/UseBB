@@ -32,7 +32,7 @@ spl_autoload_register(function($name) {
 
 // Doctrine
 
-require "Doctrine/Common/ClassLoader.php";
+require_once "Doctrine/Common/ClassLoader.php";
 
 $doctrine = new Doctrine\Common\ClassLoader("Doctrine");
 $doctrine->register();

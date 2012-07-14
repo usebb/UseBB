@@ -13,12 +13,19 @@
 			charset="UTF-8"
 			yui="true"
 			highlight="true"
-			lowUpperBound="50"
+			lowUpperBound="70"
 			highLowerBound="90" />
 	</logging>
 	<filter>
 		<blacklist>
 			<directory>/opt/local/share/pear</directory>
 		</blacklist>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">.</directory>
+			<exclude>
+				<directory suffix="Test.php">.</directory>
+				<directory>Tests</directory>
+			</exclude>
+		</whitelist>
 	</filter>
 </phpunit>

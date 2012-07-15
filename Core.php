@@ -30,6 +30,10 @@ class Core extends PluginRunningClass {
 	 * Handle the current request.
 	 */
 	public function handleRequest() {
+		if (defined("USEBB_UNIT_TESTS")) {
+			return;
+		}
+		
 		$this->getService("modules")->runModules();
 		$this->getService("context")->handleRequest();
 		$this->getService("config")->save();

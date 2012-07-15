@@ -27,15 +27,37 @@ use UseBB\Utils\Mail\Sender as Mail;
  */
 class ServiceRegistry {
 	private $services = array();
+	private $envName;
 	private $dbConfig;
 
 	/**
 	 * Constructor.
 	 *
+	 * \param $envName Environment name
 	 * \param $dbConfig Database configuration array
 	 */
-	public function __construct(array $dbConfig) {
-		$this->dbConfig = $dbConfig;
+	public function __construct($envName, array $dbConfig) {
+		if (defined("USEBB_UNIT_TESTS")) {
+			$envName = "testing";
+		} elseif (!in_array($envName, array("production", "development"))) {
+			throw new \InvalidArgumentException("Unknown environment name.");
+		}
+		
+		if (!isset($dbConfig[$envName]) || !is_array($dbConfig[$envName])) {
+			throw new UseBBException("Missing database configuration.");
+		}
+		
+		$this->envName = $envName;
+		$this->dbConfig = $dbConfig[$envName];
+	}
+	
+	/**
+	 * Get the environment name.
+	 * 
+	 * \returns Environment name
+	 */
+	public function getEnvironmentName() {
+		return $this->envName;
 	}
 	
 	/**

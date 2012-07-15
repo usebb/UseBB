@@ -17,10 +17,11 @@ class Core extends PluginRunningClass {
 	/**
 	 * Constructor.
 	 *
+	 * \param $envName Environment name
 	 * \param $dbConfig Database configuration array
 	 */
-	public function __construct(array $dbConfig) {
-		parent::__construct(new ServiceRegistry($dbConfig));
+	public function __construct($envName, array $dbConfig) {
+		parent::__construct(new ServiceRegistry($envName, $dbConfig));
 
 		set_error_handler    (array($this, "handleError"));
 		set_exception_handler(array($this, "handleException"));
@@ -30,7 +31,7 @@ class Core extends PluginRunningClass {
 	 * Handle the current request.
 	 */
 	public function handleRequest() {
-		if (defined("USEBB_UNIT_TESTS")) {
+		if ($this->getServiceRegistry()->getEnvironmentName() == "testing") {
 			return;
 		}
 		

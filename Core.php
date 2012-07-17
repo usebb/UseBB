@@ -31,7 +31,7 @@ class Core extends PluginRunningClass {
 	 * Handle the current request.
 	 */
 	public function handleRequest() {
-		if ($this->getServiceRegistry()->getEnvironmentName() == "testing") {
+		if ($this->getEnvironmentName() == "testing") {
 			return;
 		}
 		

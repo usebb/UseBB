@@ -135,6 +135,15 @@ abstract class ServiceAccessor {
 	}
 	
 	/**
+	 * Get the environment name.
+	 * 
+	 * \returns Environment name
+	 */
+	public function getEnvironmentName() {
+		return $this->services->getEnvironmentName();
+	}
+	
+	/**
 	 * Clean array serialize.
 	 * 
 	 * \param $a Array

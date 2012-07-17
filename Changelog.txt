@@ -8,6 +8,7 @@ UseBB 1.0.16 Changelog
 - Fixed bug 'Fetching DB results returns array with pointer at end' (#118).
 - Fixed bug 'Potential spammer status can be bypassed by inactivating account' (#117).
 - Fixed bug with counting posts for activating users with potential spam status enabled.
+- For usability/safety, put every user posted image in a white and bordered box.
 
 UseBB 1.0.15 Changelog
 ------------------------------

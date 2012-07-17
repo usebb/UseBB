@@ -2288,7 +2288,7 @@ class functions {
 				// [s]text[/s]
 					"#\[s\](.*?)\[/s\]#is" => '<del>\\1</del>',
 				// [img]image[/img]
-					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/img\]#is" => ( $links ) ? '<img src="\\1" alt="'.$lang['UserPostedImage'].'" />' : '\\1',
+					"#\[img\]([\w]+?://[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)\[/img\]#is" => ( $links ) ? '<img src="\\1" alt="'.$lang['UserPostedImage'].'" class="user-posted-image" />' : '\\1',
 				// www.usebb.net
 					"#([\s])(www\.[\w\#\$%&~/\.\-;:=,\?@\[\]\+\\\\\'!\(\)\*]*?)#is" => ( $links ) ? '\\1<a href="http://\\2" title="http://\\2"'.$rel.'>\\2</a>\\3' : '\\1\\2\\3',
 				// ftp.usebb.net

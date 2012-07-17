@@ -712,6 +712,16 @@ table.termsofuse {
 	padding-bottom: 5px;
 }
 
+.user-posted-image {
+	padding: 4px;
+	background-color: #FFF;
+	border: 1px solid #BFBFBF;
+}
+
+a .user-posted-image {
+	border: 1px solid #369;
+}
+
 #bottom {
 	clear: both;
 	padding: 3px 9px 3px 9px;

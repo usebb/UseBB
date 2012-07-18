@@ -3,40 +3,54 @@
 namespace UseBB\Tests;
 
 use UseBB\Core;
+use UseBB\System\UseBBException;
 
 class CoreTest extends TestCase {
 	protected $core;
 	protected $context;
+	protected $modules;
+	protected $config;
 
 	protected function setUp() {
-		$this->core = new Core($this->getDatabaseConfig());
-		$this->context = $this->getMockBuilder(
-			"UseBB\System\Context\AbstractContext")
-			->disableOriginalConstructor()->getMock();
+		$this->core = new Core("development", $this->getDatabaseConfig());
+		$this->context = $this->getMockWithoutConstructor(
+			"UseBB\System\Context\AbstractContext");
 		$this->core->getServiceRegistry()
 			->setServiceInstance("context", $this->context);
 	}
 	
-	public function testHandleRequest() {
-		$modules = $this->getMockBuilder(
-			"UseBB\System\ModuleManagement\Registry")
-			->disableOriginalConstructor()->getMock();
+	private function setUpForRequest() {
+		$this->modules = $this->getMockWithoutConstructor(
+			"UseBB\System\ModuleManagement\Registry");
 		$this->core->getServiceRegistry()
-			->setServiceInstance("modules", $modules);
+			->setServiceInstance("modules", $this->modules);
 		
-		$config = $this->getMockBuilder(
-			"UseBB\Utils\Config\Registry")
-			->disableOriginalConstructor()->getMock();
+		$this->config = $this->getMockWithoutConstructor(
+			"UseBB\Utils\Config\Registry");
 		$this->core->getServiceRegistry()
-			->setServiceInstance("config", $config);
+			->setServiceInstance("config", $this->config);
+	}
+	
+	public function testHandleRequestTesting() {
+		$this->setUpForRequest();
 		
-		$modules->expects($this->once())->method("runModules");
-		$this->context->expects($this->once())->method("handleRequest");
-		$config->expects($this->once())->method("save");
-		
+		// Call without skipping env check - testing env prohibits handling requests
+		$this->modules->expects($this->never())->method("runModules");
+		$this->context->expects($this->never())->method("handleRequest");
+		$this->config->expects($this->never())->method("save");
 		$this->core->handleRequest();
 	}
-
+	
+	public function testHandleRequestOther() {
+		$this->setUpForRequest();
+		
+		// Call with skipping env check
+		$this->modules->expects($this->once())->method("runModules");
+		$this->context->expects($this->once())->method("handleRequest");
+		$this->config->expects($this->once())->method("save");
+		$this->core->handleRequest(FALSE);
+	}
+	
 	public function testErrors() {
 		$this->context->expects($this->once())->method("handleError")->with(
 			$this->equalTo(E_NOTICE),
@@ -44,7 +58,14 @@ class CoreTest extends TestCase {
 			$this->equalTo(__FILE__),
 			$this->greaterThan(__LINE__),
 			$this->anything());
-
 		$foo += 1;
+	}
+	
+	public function testExceptions() {
+		// Cannot throw an exception here myself, so doing manual call.
+		$e = new UseBBException("bar");
+		$this->context->expects($this->once())->method("handleException")->with(
+			$this->equalTo($e));
+		$this->core->handleException($e);
 	}
 }

@@ -22,4 +22,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	protected function getDatabaseConfig() {
 		return $GLOBALS["dbConfig"];
 	}
+	
+	protected function getMockWithoutConstructor($class) {
+		return $this->getMockBuilder($class)
+			->disableOriginalConstructor()->getMock();
+	}
 }

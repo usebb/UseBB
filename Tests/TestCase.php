@@ -8,7 +8,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	protected $services;
 	
 	protected function newServices() {
-		$this->services = new ServiceRegistry($this->getDatabaseConfig());
+		$this->services = new ServiceRegistry("testing", $this->getDatabaseConfig());
 	}
 	
 	protected function getServices() {
@@ -23,8 +23,22 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $GLOBALS["dbConfig"];
 	}
 	
-	protected function getMockWithoutConstructor($class) {
-		return $this->getMockBuilder($class)
-			->disableOriginalConstructor()->getMock();
+	protected function getMockWithoutConstructor($class, array $methods = array()) {
+		$mock = $this->getMockBuilder($class)->disableOriginalConstructor();
+		
+		if (count($methods) > 0) {
+			$mock->setMethods($methods);
+		}
+		
+		return $mock->getMock();
+	}
+	
+	protected function getOutput($closure) {
+		ob_start();
+		$closure();
+		$output = ob_get_contents();
+		ob_end_clean();
+		
+		return $output;
 	}
 }

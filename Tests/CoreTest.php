@@ -34,7 +34,7 @@ class CoreTest extends TestCase {
 	public function testHandleRequestTesting() {
 		$this->setUpForRequest();
 		
-		// Call without skipping env check - testing env prohibits handling requests
+		// Call without forcing - unit testing prohibits handling requests
 		$this->modules->expects($this->never())->method("runModules");
 		$this->context->expects($this->never())->method("handleRequest");
 		$this->config->expects($this->never())->method("save");
@@ -44,11 +44,11 @@ class CoreTest extends TestCase {
 	public function testHandleRequestOther() {
 		$this->setUpForRequest();
 		
-		// Call with skipping env check
+		// Call with forcing
 		$this->modules->expects($this->once())->method("runModules");
 		$this->context->expects($this->once())->method("handleRequest");
 		$this->config->expects($this->once())->method("save");
-		$this->core->handleRequest(FALSE);
+		$this->core->handleRequest(TRUE);
 	}
 	
 	public function testErrors() {

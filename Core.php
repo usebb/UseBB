@@ -30,8 +30,8 @@ class Core extends PluginRunningClass {
 	/**
 	 * Handle the current request.
 	 */
-	public function handleRequest() {
-		if (defined("USEBB_UNIT_TESTS")) {
+	public function handleRequest($force = FALSE) {
+		if (!$force && defined("USEBB_UNIT_TESTS")) {
 			return;
 		}
 		

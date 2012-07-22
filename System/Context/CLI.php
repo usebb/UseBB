@@ -29,6 +29,7 @@ class CLI extends AbstractContext {
 						break;
 				}
 			}
+			echo "Done.\n";
 		}
 	}
 	
@@ -94,5 +95,22 @@ class CLI extends AbstractContext {
 		
 		printf("Exception '%s' at %s:%d.\n%s\n", 
 			$name, $e->getFile(), $e->getLine(), $e->getMessage());
+	}
+	
+	/**
+	 * Get the forced environment name.
+	 * 
+	 * Any environment name returned here will override the one passed to
+	 * UseBB\Core::__construct.
+	 * 
+	 * \returns Environment name
+	 */
+	public function getForcedEnvironmentName() {
+		$opts = getopt("", array("env::"));
+		if (is_array($opts) && isset($opts["env"])) {
+			return $opts["env"];
+		}
+		
+		return NULL;
 	}
 }

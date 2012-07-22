@@ -136,4 +136,16 @@ abstract class AbstractContext extends PluginRunningClass {
 			"exception" => $e
 		));
 	}
+	
+	/**
+	 * Get the forced environment name.
+	 * 
+	 * Any environment name returned here will override the one passed to
+	 * UseBB\Core::__construct.
+	 * 
+	 * \returns Environment name
+	 */
+	public function getForcedEnvironmentName() {
+		return NULL;
+	}
 }

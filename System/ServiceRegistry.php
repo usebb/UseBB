@@ -40,8 +40,13 @@ class ServiceRegistry {
 	public function __construct($envName, array $dbConfig) {
 		if (defined("USEBB_UNIT_TESTS")) {
 			$envName = "testing";
-		} elseif (!in_array($envName, array("production", "development"))) {
-			throw new \InvalidArgumentException("Unknown environment name.");
+		} elseif (($forced = $this->getForcedEnvironmentName()) !== NULL) {
+			$envName = $forced;
+		}
+		
+		if (!in_array($envName, array("production", "development", "testing"))) {
+			throw new \InvalidArgumentException(
+				"Unknown environment name '" . $envName . "'.");
 		}
 		
 		if (!isset($dbConfig[$envName]) || !is_array($dbConfig[$envName])) {
@@ -59,6 +64,10 @@ class ServiceRegistry {
 	 */
 	public function getEnvironmentName() {
 		return $this->envName;
+	}
+	
+	private function getForcedEnvironmentName() {
+		return $this->get("context")->getForcedEnvironmentName();
 	}
 	
 	/**

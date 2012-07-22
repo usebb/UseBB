@@ -30,8 +30,8 @@ class Core extends PluginRunningClass {
 	/**
 	 * Handle the current request.
 	 */
-	public function handleRequest($doEnvCheck = TRUE) {
-		if ($doEnvCheck && $this->getEnvironmentName() == "testing") {
+	public function handleRequest() {
+		if (defined("USEBB_UNIT_TESTS")) {
 			return;
 		}
 		

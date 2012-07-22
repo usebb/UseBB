@@ -3,7 +3,7 @@
 	bootstrap="includes/init.php"
 	colors="true"
 	stopOnError="true"
-	stopOnFailure="true"
+	stopOnFailure="false"
 	verbose="true"
 	strict="true">
 	<logging>

@@ -17,6 +17,7 @@ use UseBB\Utils\Translation\Service as Translation;
 use UseBB\System\Session\Session;
 use UseBB\Utils\Events\Log;
 use UseBB\Utils\Mail\Sender as Mail;
+use UseBB\Utils\PrimitiveFunctions\Service as PrimitiveFunctions;
 
 /**
  * Services registry.
@@ -124,6 +125,9 @@ class ServiceRegistry {
 					break;
 				case "mail":
 					$service = new Mail($this);
+					break;
+				case "primitives":
+					$service = new PrimitiveFunctions();
 					break;
 				default:
 					throw new ServiceNotFoundException($name);

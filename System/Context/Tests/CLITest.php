@@ -45,19 +45,48 @@ class CLITest extends TestCase {
 	}
 	
 	public function testHandleError() {
-		$this->expectOutputRegex("#Some error\..*foo\.php.*5#");
+		$this->expectOutputRegex("#Some error\..*foo\.php\(5\)#");
+		// TODO test logging
 		
 		$this->context->handleError(E_NOTICE, "Some error.", 
 			"foo.php", 5, array());
 	}
 	
+	public function testHandleErrorPlugin() {
+		$this->getService("plugins")->register("System\Context\CLI", 
+			"error", function() {
+				return FALSE;
+			});
+		$this->assertNull($this->context->handleError(E_NOTICE, "Some error.", 
+			"foo.php", 5, array()));
+	}
+	
 	public function testHandleException() {
 		$this->expectOutputRegex("#Exception.*foo#s");
+		// TODO test logging
 		
 		$this->context->handleException(new \Exception("foo"));
 	}
 	
+	public function testHandleExceptionPlugin() {
+		$this->getService("plugins")->register("System\Context\CLI", 
+			"exception", function() {
+				return FALSE;
+			});
+		$this->assertNull($this->context->handleException(new \Exception("foo")));
+	}
+	
 	public function testForcedEnvironment() {
 		$this->assertNull($this->context->getForcedEnvironmentName());
+		
+		$prim = $this->getMock(
+			"UseBB\Utils\PrimitiveFunctions\Service", array("getopt"));
+		$this->setService("primitives", $prim);
+		$prim->expects($this->once())->method("getopt")->with(
+				$this->equalTo(""),
+				$this->equalTo(array("env::")))
+			->will($this->returnValue(array("env" => "production")));
+		$this->assertEquals("production", 
+			$this->context->getForcedEnvironmentName());
 	}
 }

@@ -210,6 +210,16 @@ class ContextTest extends TestCase {
 		$this->assertRegExp("#Some error.*foo\.php\(5\)#", $msg);
 		$this->assertTrue(strpos($msg, USEBB_ROOT_PATH) === FALSE, 
 			"Not contain full path.");
+		// TODO test logging
+	}
+	
+	public function testHandleErrorPlugin() {
+		$this->getService("plugins")->register("System\Context\HTTP", 
+			"error", function() {
+				return FALSE;
+			});
+		$this->assertNull($this->context->handleError(E_NOTICE, "Some error.", 
+			USEBB_ROOT_PATH . "/foo.php", 5, array()));
 	}
 	
 	/**
@@ -224,6 +234,15 @@ class ContextTest extends TestCase {
 		$this->assertRegExp("#Exception.*foo#", $msg);
 		$this->assertTrue(strpos($msg, USEBB_ROOT_PATH) === FALSE, 
 			"Not contain full path.");
+		// TODO test logging
+	}
+	
+	public function testHandleExceptionPlugin() {
+		$this->getService("plugins")->register("System\Context\HTTP", 
+			"exception", function() {
+				return FALSE;
+			});
+		$this->assertNull($this->context->handleException(new \Exception("foo")));
 	}
 	
 	public function testForcedEnvironment() {

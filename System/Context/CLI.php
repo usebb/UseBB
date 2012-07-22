@@ -14,7 +14,8 @@ class CLI extends AbstractContext {
 	 	echo "UseBB version " . $this->getService("info")->getUseBBVersion() . 
 	 		" (" . $this->getEnvironmentName() . ")\n\n";
 		
-		// TODO clean-up
+		// TODO refactor
+		// @codeCoverageIgnoreStart
 		$all_opts = array("install-db");
 		$opts = array_keys(getopt("", $all_opts));
 		if (count($opts) === 0) {
@@ -31,6 +32,7 @@ class CLI extends AbstractContext {
 			}
 			echo "Done.\n";
 		}
+		// @codeCoverageIgnoreEnd
 	}
 	
 	public function getLanguage(array $available) {
@@ -73,7 +75,7 @@ class CLI extends AbstractContext {
 			return;
 		}
 		
-		printf("Error '%s' at %s:%d.\n", $string, $file, $line);
+		printf("Error '%s' at %s(%d).\n", $string, $file, $line);
 	}
 
 	/**
@@ -93,7 +95,7 @@ class CLI extends AbstractContext {
 		$names = explode("\\", get_class($e));
 		$name = end($names);
 		
-		printf("Exception '%s' at %s:%d.\n%s\n", 
+		printf("Exception '%s' at %s(%d).\n%s\n", 
 			$name, $e->getFile(), $e->getLine(), $e->getMessage());
 	}
 	
@@ -106,7 +108,7 @@ class CLI extends AbstractContext {
 	 * \returns Environment name
 	 */
 	public function getForcedEnvironmentName() {
-		$opts = getopt("", array("env::"));
+		$opts = $this->getService("primitives")->getopt("", array("env::"));
 		if (is_array($opts) && isset($opts["env"])) {
 			return $opts["env"];
 		}

@@ -10,11 +10,7 @@
  */
 
 $configDefaults = array(
-	"installed"                 => array(
-		"production"  => FALSE,
-		"development" => FALSE,
-		"testing"     => TRUE
-	),
+	"installed"                 => FALSE,
 	"enabled"                   => TRUE,
 	"cookiePath"                => "",
 	"cookieDomain"              => "",

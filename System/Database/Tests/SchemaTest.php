@@ -17,7 +17,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 	private static $schema;
 	
 	public static function setUpBeforeClass() {
-		self::$db = new Connection($GLOBALS["dbConfig"]);
+		self::$db = new Connection($GLOBALS["dbConfig"]["testing"]);
 		self::$schema = self::$db->getSchema();
 	}
 	
@@ -84,6 +84,18 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 		
 		self::$schema->dropTable("foobar");
 		self::$schema->commitChanges();
+	}
+	
+	/**
+	 * @expectedException Doctrine\DBAL\Schema\SchemaException
+	 * @expectedExceptionMessage There is no table
+	 */
+	public function testRefresh() {
+		$this->installTestTable();
+		
+		self::$schema->renameTable("test", "foobar");
+		self::$schema->refresh();
+		self::$schema->getTable("foobar");		
 	}
 	
 	/**

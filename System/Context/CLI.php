@@ -2,6 +2,8 @@
 
 namespace UseBB\System\Context;
 
+use UseBB\Utils\SchemaManagement\SystemSchema;
+
 /**
  * Command Line Interface context.
  * 
@@ -9,10 +11,25 @@ namespace UseBB\System\Context;
  */
 class CLI extends AbstractContext {
 	public function handleRequest() {
-	 	echo "UseBB version " . 
-	 		$this->getService("info")->getUseBBVersion() . "\n";
-		echo str_repeat("=", 29) . "\n\n";
-		echo "The CLI interface is not available in this version.\n";
+	 	echo "UseBB version " . $this->getService("info")->getUseBBVersion() . 
+	 		" (" . $this->getEnvironmentName() . ")\n\n";
+		
+		// TODO clean-up
+		$all_opts = array("install-db");
+		$opts = array_keys(getopt("", $all_opts));
+		if (count($opts) === 0) {
+			echo "Available options: " . join(", ", $all_opts) . "\n";
+		} else {
+			foreach ($opts as $opt) {
+				switch ($opt) {
+					case "install-db":
+						$this->systemSchema = new SystemSchema(
+							$this->getServiceRegistry());
+						$this->systemSchema->install();
+						break;
+				}
+			}
+		}
 	}
 	
 	public function getLanguage(array $available) {

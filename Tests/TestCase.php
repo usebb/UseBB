@@ -7,12 +7,16 @@ use UseBB\System\ServiceRegistry;
 class TestCase extends \PHPUnit_Framework_TestCase {
 	protected $services;
 	
-	protected function newServices() {
-		$this->services = new ServiceRegistry("testing", $this->getDatabaseConfig());
+	protected function newServices($envName = "testing") {
+		$this->services = new ServiceRegistry($envName, $this->getDatabaseConfig());
 	}
 	
 	protected function getServices() {
 		return $this->services;
+	}
+	
+	protected function getService($name) {
+		return $this->services->get($name);
 	}
 	
 	protected function setService($name, $object) {
@@ -40,5 +44,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		ob_end_clean();
 		
 		return $output;
+	}
+	
+	protected function expectOutputSubstring($string) {
+		$this->expectOutputRegex("#" . preg_quote($string, "#") . "#");
 	}
 }

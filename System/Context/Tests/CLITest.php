@@ -13,9 +13,13 @@ class CLITest extends TestCase {
 		$this->context = new CLI($this->getServices());
 	}
 	
+	public function testName() {
+		$this->assertEquals("CLI", $this->context->getName());
+	}
+	
 	public function testHandleRequest() {
-		$this->expectOutputRegex(
-			"#The CLI interface is not available in this version\.#");
+		$this->expectOutputSubstring(
+			"UseBB version " . $this->getService("info")->getUseBBVersion());
 		
 		$this->context->handleRequest();
 	}
@@ -51,5 +55,9 @@ class CLITest extends TestCase {
 		$this->expectOutputRegex("#Exception.*foo#s");
 		
 		$this->context->handleException(new \Exception("foo"));
+	}
+	
+	public function testForcedEnvironment() {
+		$this->assertNull($this->context->getForcedEnvironmentName());
 	}
 }

@@ -7,19 +7,27 @@ use UseBB\System\Context\HTTP;
 
 class ContextTest extends TestCase {
 	protected $context;
+	protected $prim;
 	
 	protected function setUp() {
 		$this->newServices();
+		$this->prim = $this->getMock(
+			"UseBB\Utils\PrimitiveFunctions\Service", array("setcookie"));
+		$this->setService("primitives", $this->prim);
 		$this->context = new HTTP($this->getServices());
 	}
 	
+	public function testName() {
+		$this->assertEquals("HTTP", $this->context->getName());
+	}
+	
 	public function testHandleRequest() {
-		$session = $this->getMockBuilder("UseBB\System\Session\Session")
-			->disableOriginalConstructor()->getMock();
+		$session = $this->getMockWithoutConstructor(
+			"UseBB\System\Session\Session");
 		$this->setService("session", $session);
 		
-		$navigation = $this->getMockBuilder("UseBB\System\Navigation\Registry")
-			->disableOriginalConstructor()->getMock();
+		$navigation = $this->getMockWithoutConstructor(
+			"UseBB\System\Navigation\Registry");
 		$this->setService("navigation", $navigation);
 		
 		$session->expects($this->once())->method("startOrContinue");
@@ -37,15 +45,22 @@ class ContextTest extends TestCase {
 			array("en", "en-gb,nl-be;q=0.7,en-us;q=0.3", array("en", "nl")),
 			array("en", "nl-be,en-gb;q=0.7,en-us;q=0.3", array("en")),
 			array("fr", "nl-be,fr-fr;q=0.7", array("en", "fr")),
+			array("en", "nl-be,fr-fr;q=0.7", array()),
 			array("en", "nl-be,fr-fr;q=0.7", array("en")),
+			array("fr", "nl-be,fr;q=0.7", array("en", "fr")),
+			array("en", "", array("fr", "en")),
+			array("en", "", array()),
 		);
 	}
 	
 	/**
 	 * @dataProvider acceptLanguageProvider
+	 * @covers UseBB\System\Context\HTTP::getLanguage
+	 * @covers UseBB\System\Context\HTTP::getLanguagePriorities
+	 * @covers UseBB\System\Context\HTTP::getLanguageMoreShortCodes
 	 */
 	public function testAcceptLanguage($lang, $list, $available) {
-		$_SERVER["HTTP_ACCEPT_LANGUAGE"] = $lang;
+		$_SERVER["HTTP_ACCEPT_LANGUAGE"] = $list;
 		
 		$this->assertEquals($lang, $this->context->getLanguage($available));
 	}
@@ -125,6 +140,46 @@ class ContextTest extends TestCase {
 		$this->assertEquals($expected, $this->context->isSecureHTTP());
 	}
 	
+	public function cookieTestProvider() {
+		return array(
+			array("foo", "bar", NULL, NULL, 0, TRUE),
+		);
+	}
+	
+	/**
+	 * @dataProvider cookieTestProvider
+	 */
+	public function testCookieSetting($name, $value, $days, $httpOnly, $expectExpire, $expectHttpOnly) {
+		$config = $this->getService("config")->forModule("system");
+		$this->prim->expects($this->once())->method("setcookie")->with(
+			$this->equalTo($name),
+			$this->equalTo($value),
+			$this->equalTo($expectExpire),
+			$this->equalTo($config->get("cookiePath")),
+			$this->equalTo($config->get("cookieDomain")),
+			$this->equalTo($this->context->isSecureHTTP()),
+			$this->equalTo($expectHttpOnly));
+		
+		$this->context->setCookie($name, $value, $days, $httpOnly);
+	}
+	
+	/**
+	 * @dataProvider cookieTestProvider
+	 */
+	public function testCookieDeleting($name, $value, $days, $httpOnly, $expectExpire, $expectHttpOnly) {
+		$config = $this->getService("config")->forModule("system");
+		$this->prim->expects($this->once())->method("setcookie")->with(
+			$this->equalTo($name),
+			$this->equalTo(""),
+			$this->lessThan(0),
+			$this->equalTo($config->get("cookiePath")),
+			$this->equalTo($config->get("cookieDomain")),
+			$this->equalTo($this->context->isSecureHTTP()),
+			$this->equalTo(FALSE));
+		
+		$this->context->deleteCookie($name);
+	}
+	
 	public function generateLinkProvider() {
 		return array(
 			array(array(), "./"),
@@ -142,16 +197,36 @@ class ContextTest extends TestCase {
 		$this->assertEquals($expected, $this->context->generateLink($params));
 	}
 	
+	/**
+	 * @covers UseBB\System\Context\HTTP::handleError
+	 * @covers UseBB\System\Context\HTTP::cleanPath
+	 */
 	public function testHandleError() {
-		$this->expectOutputRegex("#Some error\..*foo\.php.*5#");
-		
-		$this->context->handleError(E_NOTICE, "Some error.", 
-			"foo.php", 5, array());
+		$context = $this->context;
+		$msg = $this->getOutput(function() use ($context) {
+			$context->handleError(E_NOTICE, "Some error.", 
+				USEBB_ROOT_PATH . "/foo.php", 5, array());
+		});
+		$this->assertRegExp("#Some error.*foo\.php\(5\)#", $msg);
+		$this->assertTrue(strpos($msg, USEBB_ROOT_PATH) === FALSE, 
+			"Not contain full path.");
 	}
 	
+	/**
+	 * @covers UseBB\System\Context\HTTP::handleException
+	 * @covers UseBB\System\Context\HTTP::cleanPath
+	 */
 	public function testHandleException() {
-		$this->expectOutputRegex("#Exception.*foo#");
-		
-		$this->context->handleException(new \Exception("foo"));
+		$context = $this->context;
+		$msg = $this->getOutput(function() use ($context) {
+			$context->handleException(new \Exception("foo"));
+		});
+		$this->assertRegExp("#Exception.*foo#", $msg);
+		$this->assertTrue(strpos($msg, USEBB_ROOT_PATH) === FALSE, 
+			"Not contain full path.");
+	}
+	
+	public function testForcedEnvironment() {
+		$this->assertNull($this->context->getForcedEnvironmentName());
 	}
 }

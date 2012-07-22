@@ -150,9 +150,11 @@ class HTTP extends AbstractContext {
 		$expire = $days > 0
 			? time() + 60*60*24 * $days
 			: 0;
+		$httpOnly = $httpOnly === NULL ? TRUE : (bool) $httpOnly;
 		
-		setcookie($name, $value, $expire, $config->get("cookiePath"), 
-			$config->get("cookieDomain"), $this->isSecureHTTP(), $httpOnly);
+		$this->getService("primitives")->setcookie($name, $value, $expire, 
+			$config->get("cookiePath"), $config->get("cookieDomain"), 
+			$this->isSecureHTTP(), $httpOnly);
 	}
 	
 	/**
@@ -163,8 +165,9 @@ class HTTP extends AbstractContext {
 	public function deleteCookie($name) {
 		$config = $this->getService("config")->forModule("system");
 		
-		setcookie($name, "", -86400, $config->get("cookiePath"), 
-			$config->get("cookieDomain"), $this->isSecureHTTP(), FALSE);
+		$this->getService("primitives")->setcookie($name, "", -86400, 
+			$config->get("cookiePath"), $config->get("cookieDomain"), 
+			$this->isSecureHTTP(), FALSE);
 	}
 	
 	public function generateLink(array $params) {
@@ -203,7 +206,7 @@ class HTTP extends AbstractContext {
 		
 		$file = $this->cleanPath($file);
 		printf("<p><strong>Error</strong> \"<em>%s</em>\" "
-			."at <code>%s:%d</code>.</p>", 
+			."at <code>%s(%d)</code>.</p>", 
 			$string, $file, $line);
 	}
 

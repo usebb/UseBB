@@ -46,6 +46,13 @@ class Defaults extends AbstractRegistry {
 			throw new NotFoundException($module, $key);
 		}
 		
-		return $this->cache[$module][$key];
+		$value = $this->cache[$module][$key];
+		$envName = $this->getEnvironmentName();
+		
+		if (is_array($value) && isset($value[$envName])) {
+			$value = $value[$envName];
+		}
+		
+		return $value;
 	}
 }

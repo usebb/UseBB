@@ -2,8 +2,10 @@
 
 namespace UseBB\System\Navigation\Tests;
 
+use UseBB\Tests\TestCase;
 use UseBB\System\AbstractController;
-use UseBB\System\ServiceRegistry;
+use UseBB\System\Navigation\DuplicateRequestException;
+use UseBB\System\Navigation\NoRegisteredRequestException;
 
 class TestController extends AbstractController {
 	public function doIt() {
@@ -17,14 +19,16 @@ class TestController2 extends AbstractController {
 	}
 }
 
-class NavigationTest extends \PHPUnit_Framework_TestCase {
+class NavigationTest extends TestCase {
+	protected $context;
 	protected $navigation;
 	
 	protected function setUp() {
-		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$services->setServiceInstance("context", 
-			new \UseBB\System\Context\HTTP($services));
-		$this->navigation = $services->get("navigation");
+		$this->newServices();
+		$this->context = $this->getMockWithoutConstructor(
+			"UseBB\System\Context\AbstractContext");
+		$this->setService("context", $this->context);
+		$this->navigation = $this->getService("navigation");
 	}
 	
 	public function testRegistry() {
@@ -36,6 +40,21 @@ class NavigationTest extends \PHPUnit_Framework_TestCase {
 		
 		// Keep the "." - it is just a value in the current request.
 		$this->navigation->handleRequest(array("test" => ".", "foo" => "bar"));
+	}
+	
+	/**
+	 * @expectedException UseBB\System\Navigation\NoControllerFoundException
+	 */
+	public function testRegistry2() {
+		$this->expectOutputString("Handling request.");
+		
+		$this->navigation->register(array("first" => 1, "second" => 2), 
+			"UseBB\System\Navigation\Tests\TestController");
+		$this->navigation->handleRequest(array("first" => 1, "second" => 2));
+		
+		$this->navigation->register(array("foo" => "a", "bar" => "b"), 
+			"UseBB\System\Navigation\Tests\TestController");
+		$this->navigation->handleRequest(array("foo" => "d", "bar" => "b"));
 	}
 	
 	public function testSubRequestMatch() {
@@ -104,9 +123,9 @@ class NavigationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * FIXME
-	 * @ expectedException UseBB\System\Navigation\DuplicateRequestException
+	 * @expectedException UseBB\System\Navigation\DuplicateRequestException
 	 */
-	public function testDuplicateWithParams() {
+	public function __testDuplicateWithParams() {
 		$this->navigation->register(array("foo" => "@foo", "bar"), 
 			"unexisting");
 		$this->navigation->register(array("foo" => "@baz", "bar"), 
@@ -146,9 +165,14 @@ class NavigationTest extends \PHPUnit_Framework_TestCase {
 			"foo" => "barù"
 		), "SomeController");
 		
-		$this->assertEquals("./?do=some&id=5&foo=bar%C3%B9", 
-			$this->navigation->getLink("SomeController", NULL, 
-			array("id" => 5)));
+		$expectedArgs = array(
+			"do" => "some",
+			"id" => 5,
+			"foo" => "barù"
+		);
+		$this->context->expects($this->once())->method("generateLink")->with(
+			$this->equalTo($expectedArgs));
+		$this->navigation->getLink("SomeController", NULL, array("id" => 5));
 	}
 	
 	public function testLinkWithCName() {
@@ -162,8 +186,33 @@ class NavigationTest extends \PHPUnit_Framework_TestCase {
 			"id" => "@id"
 		), "SomeController", "edit");
 		
-		$this->assertEquals("./?do=some&act=edit&id=5", 
-			$this->navigation->getLink("SomeController", "edit", 
-			array("id" => 5)));
+		$expectedArgs = array(
+			"do" => "some",
+			"act" => "edit",
+			"id" => 5
+		);
+		$this->context->expects($this->once())->method("generateLink")->with(
+			$this->equalTo($expectedArgs));
+		$this->navigation->getLink("SomeController", "edit", array("id" => 5));
+	}
+	
+	/**
+	 * @expectedException UseBB\System\Navigation\NoRegisteredRequestException
+	 */
+	public function testLinkUnexisting() {
+		$this->navigation->getLink("SomeController", NULL, array("id" => 5));
+	}
+	
+	public function testExceptions() {
+		$r = array("foo" => "bar", "bar", "baz" => 1);
+		$e = new DuplicateRequestException($r);
+		
+		$this->assertEquals("More than one handler is being set for request " .
+			"'(foo => bar, bar, baz => 1)'.", $e->getMessage());
+		$this->assertEquals($r, $e->getRequest());
+		
+		$e = new NoRegisteredRequestException("Foo", "bar");
+		$this->assertEquals("Foo", $e->getController());
+		$this->assertEquals("bar", $e->getName());
 	}
 }

@@ -47,8 +47,6 @@ class Schema {
 	
 	/**
 	 * Create table creation options.
-	 * 
-	 * \TODO Choose between MyISAM and InnoDB
 	 */
 	private function makeTableOptions() {
 		$opts = array();
@@ -56,7 +54,7 @@ class Schema {
 		if ($this->type == "mysql") {
 			$opts["charset"] = "utf8";
 			$opts["collate"] = "utf8_unicode_ci";
-			$opts["engine"] = "myisam";
+			$opts["engine"] = "InnoDB";
 		}
 		
 		$this->tableOptions = $opts;

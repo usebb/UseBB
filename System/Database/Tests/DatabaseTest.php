@@ -6,53 +6,69 @@ use UseBB\System\Database\Connection;
 use Doctrine\DBAL\Schema\SchemaException;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase {
-	private static $db;
-	private static $schema;
+	private $db;
+	private $schema;
 	
-	public static function setUpBeforeClass() {
-		self::$db = new Connection($GLOBALS["dbConfig"]);
-		self::$schema = self::$db->getSchema();
+	protected function setUp() {
+		$this->db = new Connection($GLOBALS["dbConfig"]["testing"]);
+		$this->schema = $this->db->getSchema();
 	}
 	
 	protected function tearDown() {
 		try {
-			self::$schema->dropTable("test");
-			self::$schema->commitChanges();
+			$this->schema->dropTable("test");
+			$this->schema->commitChanges();
 		} catch (SchemaException $e) {}
+		$this->db->close();
 	}
 	
-	public static function tearDownAfterClass() {
-		self::$db->close();
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Missing database connection info.
+	 */
+	public function testWrongDbConfig() {
+		new Connection(array("foo" => "bar"));
+	}
+	
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Unknown database type.
+	 */
+	public function testWrongDbConfig2() {
+		new Connection(array("type" => "unexisting_driver"));
 	}
 	
 	protected function installTestTable() {
-		$table = self::$schema->createTable("test");
+		$table = $this->schema->createTable("test");
 		$table->addColumn("id", "integer", array(
 			"unsigned" => TRUE,
 			"autoincrement" => TRUE
 		));
 		$table->addColumn("foo", "text");
+		$table->addColumn("date", "datetime", array(
+			"notnull" => FALSE
+		));
 		$table->setPrimaryKey(array("id"));
-		self::$schema->commitChanges();
+		$this->schema->commitChanges();
 	}
 
 	public function testVarious() {
-		if (!empty($GLOBALS["dbConfig"]["prefix"])) {
-			$this->assertEquals($GLOBALS["dbConfig"]["prefix"], 
-				self::$db->getPrefix());
+		if (!empty($GLOBALS["dbConfig"]["testing"]["prefix"])) {
+			$this->assertEquals($GLOBALS["dbConfig"]["testing"]["prefix"], 
+				$this->db->getPrefix());
 		}
 		$this->assertInstanceOf("UseBB\System\Database\Schema",
-			self::$db->getSchema());
+			$this->db->getSchema());
 	}
 	
 	public function testInsertAndSelect() {
 		$this->installTestTable();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "bar"
 		));
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$this->assertInstanceOf("UseBB\System\Database\Query", $query);
 		
 		$stmt = $query->select("*")->from("test", "t")->execute();
@@ -67,14 +83,14 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 	public function testSelectWhere() {
 		$this->installTestTable();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "bar"
 		));
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "foobar"
 		));
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$stmt = $query->select("t.id")->from("test", "t")
 			->where("t.foo = :value")->setParameter(":value", "bar")
 			->execute();
@@ -88,21 +104,21 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 	public function testUpdate() {
 		$this->installTestTable();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "bar"
 		));
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "foobar"
 		));
 		
-		$num = self::$db->update("test", array(
+		$num = $this->db->update("test", array(
 			"foo" => "baz"
 		), array(
 			"foo" => "bar"
 		));
 		$this->assertEquals(1, $num);
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$stmt = $query->select("*")->from("test", "t")->execute();
 		$this->assertEquals(2, $stmt->rowCount());
 		
@@ -118,19 +134,19 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 	public function testDelete() {
 		$this->installTestTable();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "bar"
 		));
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "foobar"
 		));
 		
-		$num = self::$db->delete("test", array(
+		$num = $this->db->delete("test", array(
 			"foo" => "bar"
 		));
 		$this->assertEquals(1, $num);
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$stmt = $query->select("*")->from("test", "t")->execute();
 		$this->assertEquals(1, $stmt->rowCount());
 		
@@ -142,11 +158,11 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 	public function testUTF8() {
 		$this->installTestTable();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "a^üPÑç&"
 		));
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$result = $query->select("*")->from("test", "t")->execute()->fetch();
 		
 		$this->assertEquals("a^üPÑç&", $result["foo"]);
@@ -155,38 +171,73 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 	public function testUTF8WithNewColumn() {
 		$this->installTestTable();
 		
-		self::$schema->getTable("test")->addColumn("bar", "string");
-		self::$schema->commitChanges();
+		$this->schema->getTable("test")->addColumn("bar", "string");
+		$this->schema->commitChanges();
 		
-		self::$db->insert("test", array(
+		$this->db->insert("test", array(
 			"foo" => "foo",
 			"bar" => "a^üPÑç&"
 		));
 		
-		$query = self::$db->newQuery();
+		$query = $this->db->newQuery();
 		$result = $query->select("*")->from("test", "t")->execute()->fetch();
 		
 		$this->assertEquals("a^üPÑç&", $result["bar"]);
 	}
 	
 	public function testDateField() {
-		$table = self::$schema->createTable("test");
-		$table->addColumn("id", "integer", array(
-			"unsigned" => TRUE,
-			"autoincrement" => TRUE
-		));
-		$table->addColumn("foo", "datetime");
-		$table->setPrimaryKey(array("id"));
-		self::$schema->commitChanges();
+		$this->installTestTable();
 		
 		$date = new \DateTime();
-		self::$db->insert("test", array(
-			"foo" => $date
+		$this->db->insert("test", array(
+			"foo" => "bar",
+			"date" => $date
 		), TRUE);
 		
-		$result = self::$db->newQuery()->select("*")
+		$result = $this->db->newQuery()->select("*")
 			->from("test", "t")->execute()->fetch();
-		$date2 = new \DateTime($result["foo"]);
+		$date2 = new \DateTime($result["date"]);
 		$this->assertEquals($date, $date2);
+		
+		$date3 = new \DateTime("2010-01-01");		
+		$this->db->update("test", array(
+			"date" => $date3
+		), array(
+			"id" => $result["id"]
+		), TRUE);
+		
+		$result = $this->db->newQuery()->select("*")
+			->from("test", "t")->execute()->fetch();
+		$date4 = new \DateTime($result["date"]);
+		$this->assertEquals($date3, $date4);
+	}
+	
+	public function testTransactionCommit() {
+		$this->installTestTable();
+		
+		$this->db->beginTransaction();
+		$this->db->insert("test", array(
+			"foo" => "bar"
+		));
+		$this->db->commit();
+		
+		$query = $this->db->newQuery();		
+		$stmt = $query->select("*")->from("test", "t")->execute();
+		$this->assertEquals(1, $stmt->rowCount());
+	}
+	
+	// TODO not working
+	public function testTransactionRollback() {
+		$this->installTestTable();
+		
+		$this->db->beginTransaction();
+		$this->db->insert("test", array(
+			"foo" => "bar"
+		));
+		$this->db->rollback();
+		
+		$query = $this->db->newQuery();		
+		$stmt = $query->select("*")->from("test", "t")->execute();
+		$this->assertEquals(0, $stmt->rowCount());
 	}
 }

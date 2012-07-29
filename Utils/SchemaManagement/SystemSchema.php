@@ -18,17 +18,11 @@ class SystemSchema extends AbstractSchemaManager {
 	public function install() {
 		$schema = $this->getService("database")->getSchema();
 		
-		$moduleNameLength = 100;
-		
 		// config
 		
 		$config = $schema->createTable("config");
-		$config->addColumn("module", "string", array(
-			"length" => $moduleNameLength
-		));
-		$config->addColumn("ckey", "string", array(
-			"length" => 200
-		));
+		$config->addColumn("module", "string");
+		$config->addColumn("ckey", "string");
 		$config->addColumn("ctype", "string", array(
 			"length" => 20
 		));
@@ -39,13 +33,9 @@ class SystemSchema extends AbstractSchemaManager {
 		// modules
 		
 		$modules = $schema->createTable("modules");
-		$modules->addColumn("name", "string", array(
-			"length" => $moduleNameLength
-		));
+		$modules->addColumn("name", "string");
 		$modules->addColumn("enabled", "boolean");
-		$modules->addColumn("version", "string", array(
-			"length" => 100
-		));
+		$modules->addColumn("version", "string");
 		$modules->setPrimaryKey(array("name"));
 		
 		// sessions
@@ -83,9 +73,7 @@ class SystemSchema extends AbstractSchemaManager {
 		$events->addColumn("level", "smallint", array(
 			"unsigned" => TRUE,
 		));
-		$events->addColumn("module", "string", array(
-			"length" => $moduleNameLength
-		));
+		$events->addColumn("module", "string");
 		$events->addColumn("class", "string");
 		$events->addColumn("user_id", "integer", array(
 			"unsigned" => TRUE

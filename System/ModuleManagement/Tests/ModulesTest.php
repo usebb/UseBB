@@ -2,29 +2,22 @@
 
 namespace UseBB\System\ModuleManagement\Tests;
 
-use UseBB\System\ServiceRegistry;
-use UseBB\Utils\SchemaManagement\SystemSchema;
-use UseBB\Utils\Config\NotFoundException;
+use UseBB\Tests\TestCase;
 use UseBB\System\ModuleManagement\EnableOutdatedModuleException;
 
 require USEBB_ROOT_PATH . "/Modules/FooBar/moduleInfo.php";
 
-class ModulesTest extends \PHPUnit_Framework_TestCase {
-	protected $services;
-	protected $systemSchema;
+class ModulesTest extends TestCase {
 	protected $modules;
 	
 	protected function setUp() {
-		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->services->setServiceInstance("context", 
-			new \UseBB\System\Context\HTTP($this->services));
-		$this->systemSchema = new SystemSchema($this->services);
-		$this->systemSchema->install();
-		$this->modules = $this->services->get("modules");
+		$this->newServices();
+		$this->modules = $this->getService("modules");
+		$this->beginTransaction();
 	}
 	
 	protected function tearDown() {
-		$this->systemSchema->uninstall();
+		$this->rollback();
 	}
 	
 	public function testReading() {
@@ -59,10 +52,10 @@ class ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	public function testInstall() {
-		$foobar = $this->modules->getModuleInfo("FooBar");
-		
 		$this->expectOutputString("Installed FooBar.\nEnabled FooBar.\n" . 
 			"Disabled FooBar.\nUninstalled FooBar.\n");
+		
+		$foobar = $this->modules->getModuleInfo("FooBar");
 		
 		$foobar->install();
 		$this->assertTrue($foobar->isInstalled());
@@ -82,11 +75,11 @@ class ModulesTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($foobar->isEnabled());
 	}
 	
-	public function testInstallImplicit() {
-		$foobar = $this->modules->getModuleInfo("FooBar");
-		
+	public function testInstallImplicit() {		
 		$this->expectOutputString("Installed FooBar.\nEnabled FooBar.\n" . 
 			"Disabled FooBar.\nUninstalled FooBar.\n");
+		
+		$foobar = $this->modules->getModuleInfo("FooBar");
 		
 		$foobar->enable();
 		$this->assertTrue($foobar->isInstalled());
@@ -98,7 +91,13 @@ class ModulesTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($foobar->isEnabled());
 	}
 	
+	/**
+	 * @expectedException UseBB\Utils\Config\NotFoundException
+	 */
 	public function testConfig() {
+		$this->expectOutputString("Installed FooBar.\nEnabled FooBar.\n" . 
+			"Disabled FooBar.\n");
+		
 		$foobar = $this->modules->getModuleInfo("FooBar");
 		$conf = $this->services->get("config");
 		
@@ -112,18 +111,10 @@ class ModulesTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("thing", $conf->get("FooBar", "some"));
 		
 		$foobar->disable();
-		
-		$good = FALSE;
-		try {
-			$conf->get("FooBar", "testing");
-		} catch (NotFoundException $e) {
-			$good = TRUE;
-		}
-		$this->assertTrue($good);
+		$conf->get("FooBar", "testing");
 	}
 	
 	public function testRun() {
-		$_GET["testing"] = 1;
 		$this->expectOutputString("Installed FooBar.\nEnabled FooBar.\n" .
 			"Running FooBar.\n");
 		
@@ -176,6 +167,9 @@ class ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException UseBB\System\ModuleManagement\UpdateToOlderVersionException
 	 */
 	public function testVersionChangeOlder() {
+		$this->expectOutputString("Installed FooBar.\nEnabled FooBar.\n" . 
+			"Disabled FooBar.\n");
+		
 		$foobar = $this->modules->getModuleInfo("FooBar");
 		$foobar->enable();
 		

@@ -12,10 +12,8 @@ use UseBB\System\AbstractModule;
  * \author Dietrich Moerman
  */
 class Module extends AbstractModule {
-	public function runForHTTP() {
-		if ($this->getService("input")->key("testing")->hasValue()) {
-			echo "Running FooBar.\n";
-		}
+	public function runForCLI() {
+		echo "Running FooBar.\n";
 	}
 	
 	public function getSchemaManager() {

@@ -27,6 +27,14 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return $GLOBALS["dbConfig"];
 	}
 	
+	protected function beginTransaction() {
+		$this->services->get("database")->beginTransaction();
+	}
+	
+	protected function rollback() {
+		$this->services->get("database")->rollback();
+	}
+	
 	protected function getMockWithoutConstructor($class, array $methods = array()) {
 		$mock = $this->getMockBuilder($class)->disableOriginalConstructor();
 		

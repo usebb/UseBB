@@ -15,6 +15,11 @@ class ContextTest extends TestCase {
 			"UseBB\Utils\PrimitiveFunctions\Service", array("setcookie"));
 		$this->setService("primitives", $this->prim);
 		$this->context = new HTTP($this->getServices());
+		$this->beginTransaction();
+	}
+	
+	protected function tearDown() {
+		$this->rollback();
 	}
 	
 	public function testName() {

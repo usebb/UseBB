@@ -11,6 +11,11 @@ class CLITest extends TestCase {
 	protected function setUp() {
 		$this->newServices();
 		$this->context = new CLI($this->getServices());
+		$this->beginTransaction();
+	}
+	
+	protected function tearDown() {
+		$this->rollback();
 	}
 	
 	public function testName() {

@@ -73,10 +73,8 @@ class Registry extends ServiceAccessor {
 			$info["category"] = "uncategorized";
 		}
 		
-		if (!isset($info["authors"])) {
+		if (!isset($info["authors"]) || !is_array($info["authors"]) ) {
 			$info["authors"] = array("unknown");
-		} elseif (!is_array($info["authors"])) {
-			$info["authors"] = (array) $info["authors"];
 		}
 		
 		// Always overwrite

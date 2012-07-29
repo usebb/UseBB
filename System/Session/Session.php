@@ -60,9 +60,8 @@ class Session extends ServiceAccessor {
 	 * 
 	 * \param $sessId Session ID
 	 * \param $ipAddr IP address
-	 * \param $disableCookies Disable cookies
 	 */
-	private function newSession($sessId, $ipAddr, $disableCookies) {
+	private function newSession($sessId, $ipAddr) {
 		$now = new \DateTime();
 		$context = $this->getService("context");
 		
@@ -78,10 +77,7 @@ class Session extends ServiceAccessor {
 			"data"     => array(),
 		);
 		
-		if (!$disableCookies) {
-			$context->setCookie("sessId", $sessId);
-		}
-		
+		$context->setCookie("sessId", $sessId);
 		$this->new = TRUE;
 	}
 	
@@ -119,10 +115,8 @@ class Session extends ServiceAccessor {
 	 * This will either start a new or continue an existing session. The IP
 	 * address of the session must match the current one, and too old sessions
 	 * are not continued.
-	 * 
-	 * \param $disableCookies Disable cookies (unit tests)
 	 */
-	public function startOrContinue($disableCookies = FALSE) {
+	public function startOrContinue() {
 		if (!$this->systemIsInstalled()) {
 			return;
 		}
@@ -157,7 +151,7 @@ class Session extends ServiceAccessor {
 		}
 		
 		if (!$continue) {
-			return $this->newSession($sessId, $ipAddr, $disableCookies);
+			return $this->newSession($sessId, $ipAddr);
 		}
 		
 		return $this->continueSession($currentInfo);

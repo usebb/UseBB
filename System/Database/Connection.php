@@ -95,6 +95,15 @@ class Connection {
 	public function rollback() {
 		$this->connection->rollback();
 	}
+	
+	/**
+	 * Transactional run of a code block.
+	 * 
+	 * \param $closure Closure or callback
+	 */
+	public function transactional($closure) {
+		$this->connection->transactional($closure);
+	}
 
 	/**
 	 * Create a new query.

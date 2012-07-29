@@ -226,7 +226,6 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $stmt->rowCount());
 	}
 	
-	// TODO not working
 	public function testTransactionRollback() {
 		$this->installTestTable();
 		
@@ -235,6 +234,37 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
 			"foo" => "bar"
 		));
 		$this->db->rollback();
+		
+		$query = $this->db->newQuery();		
+		$stmt = $query->select("*")->from("test", "t")->execute();
+		$this->assertEquals(0, $stmt->rowCount());
+	}
+	
+	public function testTransactionalCommit() {
+		$this->installTestTable();
+		
+		$this->db->transactional(function() {
+			$this->db->insert("test", array(
+				"foo" => "bar"
+			));
+		});
+		
+		$query = $this->db->newQuery();		
+		$stmt = $query->select("*")->from("test", "t")->execute();
+		$this->assertEquals(1, $stmt->rowCount());
+	}
+	
+	public function testTransactionalRollback() {
+		$this->installTestTable();
+		
+		try {
+			$this->db->transactional(function() {
+				$this->db->insert("test", array(
+					"foo" => "bar"
+				));
+				throw new \Exception("foo");
+			});
+		} catch (\Exception $e) {}
 		
 		$query = $this->db->newQuery();		
 		$stmt = $query->select("*")->from("test", "t")->execute();

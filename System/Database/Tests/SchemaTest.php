@@ -2,6 +2,7 @@
 
 namespace UseBB\System\Database\Tests;
 
+use UseBB\Tests\TestCase;
 use UseBB\System\Database\Connection;
 use Doctrine\DBAL\Schema\SchemaException;
 
@@ -12,39 +13,36 @@ use Doctrine\DBAL\Schema\SchemaException;
  * Since changes are applied with Doctrine DBAL, their tests should be run to
  * assert the correct working.
  */
-class SchemaTest extends \PHPUnit_Framework_TestCase {
-	private static $db;
-	private static $schema;
+class SchemaTest extends TestCase {
+	private $db;
+	private $schema;
 	
-	public static function setUpBeforeClass() {
-		self::$db = new Connection($GLOBALS["dbConfig"]["testing"]);
-		self::$schema = self::$db->getSchema();
+	public function setUp() {
+		$this->db = new Connection($GLOBALS["dbConfig"]["testing"]);
+		$this->schema = $this->db->getSchema();
 	}
 	
 	protected function tearDown() {
 		try {
-			self::$schema->dropTable("test");
-			self::$schema->commitChanges();
+			$this->schema->dropTable("test");
+			$this->schema->commitChanges();
 		} catch (SchemaException $e) {}
-	}
-	
-	public static function tearDownAfterClass() {
-		self::$db->close();
+		$this->db->close();
 	}
 	
 	protected function installTestTable() {
-		$table = self::$schema->createTable("test");
+		$table = $this->schema->createTable("test");
 		$table->addColumn("id", "integer", array(
 			"unsigned" => TRUE,
 			"autoincrement" => TRUE
 		));
 		$table->addColumn("foo", "text");
 		$table->setPrimaryKey(array("id"));
-		self::$schema->commitChanges();
+		$this->schema->commitChanges();
 	}
 
 	public function testCreate() {
-		$table = self::$schema->createTable("test");
+		$table = $this->schema->createTable("test");
 		$this->assertInstanceOf("Doctrine\DBAL\Schema\Table", $table);
 		
 		$table->addColumn("id", "integer", array(
@@ -54,11 +52,11 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 		$table->addColumn("foo", "text");
 		$table->setPrimaryKey(array("id"));
 		
-		self::$schema->commitChanges();
+		$this->schema->commitChanges();
 		
-		$table = self::$schema->getTable("test");
+		$table = $this->schema->getTable("test");
 		$this->assertInstanceOf("Doctrine\DBAL\Schema\Table", $table);
-		$this->assertEquals(self::$db->getPrefix() . "test", $table->getName());
+		$this->assertEquals($this->db->getPrefix() . "test", $table->getName());
 		
 		$id = $table->getColumn("id");
 		$this->assertInstanceOf("Doctrine\DBAL\Schema\Column", $id);
@@ -75,15 +73,15 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 	public function testRename() {
 		$this->installTestTable();
 		
-		self::$schema->renameTable("test", "foobar");
-		self::$schema->commitChanges();
+		$this->schema->renameTable("test", "foobar");
+		$this->schema->commitChanges();
 		
-		$table = self::$schema->getTable("foobar");
+		$table = $this->schema->getTable("foobar");
 		$this->assertInstanceOf("Doctrine\DBAL\Schema\Table", $table);
-		$this->assertEquals(self::$db->getPrefix() . "foobar", $table->getName());
+		$this->assertEquals($this->db->getPrefix() . "foobar", $table->getName());
 		
-		self::$schema->dropTable("foobar");
-		self::$schema->commitChanges();
+		$this->schema->dropTable("foobar");
+		$this->schema->commitChanges();
 	}
 	
 	/**
@@ -93,9 +91,9 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 	public function testRefresh() {
 		$this->installTestTable();
 		
-		self::$schema->renameTable("test", "foobar");
-		self::$schema->refresh();
-		self::$schema->getTable("foobar");		
+		$this->schema->renameTable("test", "foobar");
+		$this->schema->refresh();
+		$this->schema->getTable("foobar");		
 	}
 	
 	/**
@@ -105,20 +103,20 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 	public function testDrop() {
 		$this->installTestTable();
 		
-		self::$schema->dropTable("test");
-		self::$schema->commitChanges();
+		$this->schema->dropTable("test");
+		$this->schema->commitChanges();
 		
-		self::$schema->getTable("test");
+		$this->schema->getTable("test");
 	}
 	
 	public function testRollback() {
 		$this->installTestTable();
 		
-		self::$schema->renameTable("test", "foobar");
-		self::$schema->rollback();
-		self::$schema->commitChanges();
+		$this->schema->renameTable("test", "foobar");
+		$this->schema->rollback();
+		$this->schema->commitChanges();
 		
-		$table = self::$schema->getTable("test");
+		$table = $this->schema->getTable("test");
 		$this->assertInstanceOf("Doctrine\DBAL\Schema\Table", $table);
 	}
 }

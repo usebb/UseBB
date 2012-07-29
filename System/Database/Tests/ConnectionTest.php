@@ -2,10 +2,11 @@
 
 namespace UseBB\System\Database\Tests;
 
+use UseBB\Tests\TestCase;
 use UseBB\System\Database\Connection;
 use Doctrine\DBAL\Schema\SchemaException;
 
-class DatabaseTest extends \PHPUnit_Framework_TestCase {
+class ConnectionTest extends TestCase {
 	private $db;
 	private $schema;
 	

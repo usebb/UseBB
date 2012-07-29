@@ -2,8 +2,9 @@
 
 namespace UseBB\System\Plugins\Tests;
 
+use UseBB\Tests\TestCase;
 use UseBB\System\Plugins\PluginRunningClass;
-use UseBB\System\ServiceRegistry;
+use UseBB\System\Plugins\Context;
 
 class PluginTestClass extends PluginRunningClass {
 	public function test() {
@@ -30,14 +31,22 @@ class PluginTestClass extends PluginRunningClass {
 	}
 }
 
-class PluginTest extends \PHPUnit_Framework_TestCase {
+class PluginTest extends TestCase {
 	protected $plugins;
 	protected $testClass;
 
 	protected function setUp() {
-		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->plugins = $services->get("plugins");
-		$this->testClass = new PluginTestClass($services);
+		$this->newServices();
+		$this->plugins = $this->getService("plugins");
+		$this->testClass = new PluginTestClass($this->getServices());
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage No callback passed.
+	 */
+	public function testRegisterNoCallback() {
+		$this->plugins->register("Foo", "bar", "baz");
 	}
 
 	public function testSimplePlugin() {
@@ -135,10 +144,30 @@ class PluginTest extends \PHPUnit_Framework_TestCase {
 	public function testResultSingleReducer() {
 		$registry = $this->plugins->getRegistry("Q");
 
-		$this->assertEquals(2, $registry->run("single", array(), 2, TRUE, 
+		$this->plugins->register("Q", "single",
+			function() {
+				return 2;
+			});
+		
+		$this->assertEquals(2, $registry->run("single", array(), NULL, TRUE, 
 			function($xs, $x) { 
 				return 5; 
 			}));
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage No callable reducer passed.
+	 */
+	public function testInvalidReducer() {
+		$registry = $this->plugins->getRegistry("Q");
+		
+		$this->plugins->register("Q", "foo",
+			function() {
+				return 1;
+			});
+		
+		$registry->run("foo", array(), 1, TRUE, "bar");
 	}
 
 	public function testTheClass() {
@@ -175,6 +204,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(array(1, 2, 2), 
 			$registry->run("test", array(), NULL, TRUE, NULL));
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage Given priority not understood.
+	 */
+	public function testWrongPriority() {
+		$this->plugins->register("Foo", "bar", function() {}, 99);
 	}
 
 	public function testMissingArg() {
@@ -224,5 +261,13 @@ class PluginTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("foo", $registry->run("test3", array(), 
 			NULL, FALSE, NULL));
 	}
+	
+	public function testContextSpecials() {
+		$args = array("foo" => 1, "bar" => 2);
+		$c = new Context($args, array(3), TRUE);
+		
+		$this->assertEquals($args, $c->getAll());
+		$this->assertEquals(array(3), $c->getResults());
+		$this->assertNull($c->saveMultipleResults(array()));
+	}
 }
-

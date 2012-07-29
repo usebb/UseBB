@@ -2,14 +2,14 @@
 
 namespace UseBB\System\Tests;
 
-use UseBB\System\ServiceRegistry;
+use UseBB\Tests\TestCase;
 
-class InfoTest extends \PHPUnit_Framework_TestCase {
+class InfoTest extends TestCase {
 	protected $info;
 	
 	protected function setUp() {
-		$services = new ServiceRegistry($GLOBALS["dbConfig"]);
-		$this->info = $services->get("info");
+		$this->newServices();
+		$this->info = $this->getService("info");
 	}
 	
 	public function testInfo() {

@@ -2,8 +2,8 @@
 
 namespace UseBB\System\Tests;
 
+use UseBB\Tests\TestCase;
 use UseBB\System\ServiceAccessor;
-use UseBB\System\ServiceRegistry;
 
 class ServiceTestClass extends ServiceAccessor {
 	public function test($name) {
@@ -11,11 +11,9 @@ class ServiceTestClass extends ServiceAccessor {
 	}
 }
 
-class ServiceTest extends \PHPUnit_Framework_TestCase {
-	protected $services;
-
+class ServiceTest extends TestCase {
 	public function setUp() {
-		$this->services = new ServiceRegistry($GLOBALS["dbConfig"]);
+		$this->newServices();
 	}
 
 	public function testInstances() {

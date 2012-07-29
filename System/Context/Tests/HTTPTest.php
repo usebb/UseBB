@@ -60,9 +60,6 @@ class ContextTest extends TestCase {
 	
 	/**
 	 * @dataProvider acceptLanguageProvider
-	 * @covers UseBB\System\Context\HTTP::getLanguage
-	 * @covers UseBB\System\Context\HTTP::getLanguagePriorities
-	 * @covers UseBB\System\Context\HTTP::getLanguageMoreShortCodes
 	 */
 	public function testAcceptLanguage($lang, $list, $available) {
 		$_SERVER["HTTP_ACCEPT_LANGUAGE"] = $list;
@@ -202,10 +199,6 @@ class ContextTest extends TestCase {
 		$this->assertEquals($expected, $this->context->generateLink($params));
 	}
 	
-	/**
-	 * @covers UseBB\System\Context\HTTP::handleError
-	 * @covers UseBB\System\Context\HTTP::cleanPath
-	 */
 	public function testHandleError() {
 		$context = $this->context;
 		$msg = $this->getOutput(function() use ($context) {
@@ -227,10 +220,6 @@ class ContextTest extends TestCase {
 			USEBB_ROOT_PATH . "/foo.php", 5, array()));
 	}
 	
-	/**
-	 * @covers UseBB\System\Context\HTTP::handleException
-	 * @covers UseBB\System\Context\HTTP::cleanPath
-	 */
 	public function testHandleException() {
 		$context = $this->context;
 		$msg = $this->getOutput(function() use ($context) {

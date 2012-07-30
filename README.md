@@ -10,8 +10,8 @@
 Doctrine DBAL and PHPUnit can be installed through PEAR. They are not 
 included in the source tree.
 
-When using MySQL, only InnoDB is supported. MyISAM support - as used for years
-with legacy PHP software such as UseBB 1 - is not supported due to the absence
+When using MySQL, only InnoDB is supported. MyISAM - as used for years with
+legacy PHP software such as UseBB 1 - is not supported due to the absence
 of transactions and more.
 
 ## Installation

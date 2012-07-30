@@ -38,22 +38,12 @@ class ServiceRegistry {
 	 * \param $dbConfig Database configuration array
 	 */
 	public function __construct($envName, array $dbConfig) {
-		if (defined("USEBB_UNIT_TESTS")) {
-			$envName = "testing";
-		} elseif (($forced = $this->getForcedEnvironmentName()) !== NULL) {
-			$envName = $forced;
-		}
-		
-		if (!in_array($envName, array("production", "development", "testing"))) {
-			throw new \InvalidArgumentException(
-				"Unknown environment name '" . $envName . "'.");
-		}
+		$envName = $this->setEnvironmentName($envName);
 		
 		if (!isset($dbConfig[$envName]) || !is_array($dbConfig[$envName])) {
 			throw new UseBBException("Missing database configuration.");
 		}
 		
-		$this->envName = $envName;
 		$this->dbConfig = $dbConfig[$envName];
 	}
 	
@@ -66,8 +56,25 @@ class ServiceRegistry {
 		return $this->envName;
 	}
 	
-	private function getForcedEnvironmentName() {
+	public function getForcedEnvironmentName() {
 		return $this->get("context")->getForcedEnvironmentName();
+	}
+	
+	public function setEnvironmentName($envName, $doTestsCheck = TRUE) {
+		if ($doTestsCheck && defined("USEBB_UNIT_TESTS")) {
+			$envName = "testing";
+		} elseif (($forced = $this->getForcedEnvironmentName()) !== NULL) {
+			$envName = $forced;
+		}
+		
+		if (!in_array($envName, array("production", "development", "testing"))) {
+			throw new \InvalidArgumentException(
+				"Unknown environment name '" . $envName . "'.");
+		}
+		
+		$this->envName = $envName;
+		
+		return $envName;
 	}
 	
 	/**

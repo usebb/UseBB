@@ -27,5 +27,8 @@ class InfoTest extends TestCase {
 		
 		$this->assertInternalType("array", $versions);
 		$this->assertTrue(count($versions) > 0);
+		
+		$this->assertTrue($this->info->compareVersion("1.0.0"));
+		$this->assertFalse($this->info->compareVersion("1.0.0", ">"));
 	}
 }

@@ -1,3 +1,5 @@
+**IMPORTANT: UseBB 2 got cancelled in October 2012. No further major versions are currently developed or planned. The information below may largely be out of date.**
+
 # UseBB 2.0.0 pre-alpha installation
 
 ## Requirements

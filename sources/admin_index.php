@@ -85,8 +85,7 @@ $content .= '<h2>'.$lang['IndexSystemInfo'].'</h2>
 <h2>'.$lang['IndexLinks'].'</h2>
 <ul>
 	<li><a href="http://www.usebb.net/">UseBB.net</a></li>
-	<li><a href="http://www.usebb.net/community/">Support &amp; Community</a></li>
-	<li><a href="https://github.com/usebb">UseBB Development</a></li>
+	<li><a href="http://www.usebb.net/community/">Support Forum</a></li>
 </ul>
 <p id="admincopyright">By the UseBB Project and contributors &mdash; Released under the GNU GPLv2</p>';
 

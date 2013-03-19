@@ -1656,10 +1656,14 @@ class functions {
 	 */
 	function isset_al() {
 		
-		if ( !empty($_COOKIE[$this->get_config('session_name').'_al']) )
-			return true;
-		else
-			return false;
+		$cookie_name = $this->get_config('session_name').'_al';
+
+		if ( empty($_COOKIE[$cookie_name]) )
+			return FALSE;
+
+		$value = stripslashes($_COOKIE[$cookie_name]);
+
+		return ( preg_match('/^a:2:\{i:0;i:[0-9]+;i:1;s:32:"[a-z0-9]{32}";\}$/', $value) === 1 );
 		
 	}
 	
@@ -1670,19 +1674,10 @@ class functions {
 	 */
 	function get_al() {
 		
-		if ( $this->isset_al() ) {
+		if ( !$this->isset_al() )
+			return FALSE;
 			
-			$content = stripslashes($_COOKIE[$this->get_config('session_name').'_al']);
-			if ( substr($content, 0, 1) == 'a' )
-				return unserialize($content);
-			else
-				return explode(':', $content, 2);
-			
-		} else {
-			
-			return false;
-			
-		}
+		return unserialize(stripslashes($_COOKIE[$this->get_config('session_name').'_al']));
 		
 	}
 	

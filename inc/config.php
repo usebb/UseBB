@@ -39,8 +39,8 @@
 //
 // Die when called directly in browser
 //
-if ( !defined('INCLUDED') )
-	exit();
+if ( !defined('IN_USEBB') )
+	die('Hacking Attempt');
 
 //
 // Initialize a new database configuration holder array
